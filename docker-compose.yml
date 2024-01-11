@@ -1,9 +1,0 @@
-version: '3.8'
-services:
-  dashboard:
-    build: .
-    restart: always
-    ports:
-      - "80:3000"
-    command: >
-      sh -c "flutter pub get && flutter run -d web-server --web-renderer=auto --web-port 3000 --web-hostname 0.0.0.0"
