@@ -2,7 +2,7 @@ name: deploy-frontend
 on:
   push:
     branches:
-      - frontend-main
+      - 'frontend-main'
   workflow_dispatch:
 jobs:
   docker_build_push_acr:
