@@ -19,6 +19,8 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        ref: backend-main
   
     - name: 'Docker Login'
       uses: azure/docker-login@v1
@@ -31,6 +33,6 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/backend:${{ github.sha }}
-        file: ./Dockerfile
+        context: .
+        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-backend:${{ github.sha }}
       
