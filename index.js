@@ -3,7 +3,7 @@ import rou from './routes/something.js';
 import login from './routes/login.js';
 const app = express();
 const port = 3000;
-app.use("/something", rou);
+app.use("/something ", rou);
 app.use(express.json());
 app.use("/login", login);
 
