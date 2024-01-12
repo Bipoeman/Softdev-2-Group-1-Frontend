@@ -10,4 +10,4 @@ RUN flutter config --enable-web
 
 RUN flutter build web --release --web-renderer=auto
 
-ENTRYPOINT [ "sh", "-c", "flutter pub get && flutter run -d web-server --web-renderer=auto --web-port 3000 --web-hostname 0.0.0.0" ]
+CMD [ "sh", "-c", "flutter pub get && flutter run -d web-server --web-renderer=auto --web-port 3000 --web-hostname 0.0.0.0" ]
