@@ -29,7 +29,17 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
  
-    - name: Build the frontend image and push it to ACR
+    - name: Build for Test
+      uses: docker/build-push-action@v5
+      with:
+        load: true
+        context: .
+        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-backend:test
+
+    - name: Unit Test
+      run: docker run --rm ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-backend:test npm test
+
+    - name: Build and push
       uses: docker/build-push-action@v5
       with:
         push: true
