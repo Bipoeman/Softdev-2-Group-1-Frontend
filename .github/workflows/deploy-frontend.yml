@@ -2,7 +2,7 @@ name: deploy-frontend
 on:
   push:
     branches:
-      - 'frontend-main'
+      - 'main'
   workflow_dispatch:
 jobs:
   docker_build_push_acr:
@@ -19,8 +19,6 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
-      with:
-        ref: frontend-main
   
     - name: 'Docker Login'
       uses: azure/docker-login@v1
@@ -33,7 +31,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         load: true
-        context: .
+        context: ./frontend
         tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-frontend:test
 
     - name: Unit Test
@@ -43,6 +41,6 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        context: .
-        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-frontend:${{ github.sha }}
+        context: ./frontend
+        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-frontend:latest
       
