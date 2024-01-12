@@ -2,14 +2,13 @@ import express from "express";
 
 const router = express.Router();
 
-//  req   username password passwordagain
 
-router.get("/", (req, res) => {
+router.get("", (req, res) => {
     res.send("register");
 })
 
 
-router.post("/", (req, res) => {
+router.post("", (req, res) => {
 
     const username = req.body.username;
     const password = req.body.password;
