@@ -13,19 +13,9 @@ router.get("/text",(req, res)=>{
     res.send("sdjhufhs")
 })
 
-router.post("", (req, res) => {
-        const username = req.body.username;
-        const password = req.body.password;
-        if (username === "admin" && password === "admin") {
-            res.send(signToken(2,"allah"));
-        }
-        else {
-            res.send("login fail");
-        }
-    }
-);
 
-router.post("/", loginController);
+
+router.post("", loginController);
 
 
 
