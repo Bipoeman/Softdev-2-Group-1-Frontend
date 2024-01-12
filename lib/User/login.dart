@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 
-Color backgroundColor = Color(0xffe8e8e8);
-Color mainColor = Color(0xffd33333);
+const Color backgroundColor = Color(0xffe8e8e8);
+const Color mainColor = Color(0xffd33333);
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
                       margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                       height: size.height * 0.2,
                       width: size.width * 0.5,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: mainColor,
                       ),
                       child: const Text(
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    Column(
+                    const Column(
                       children: [
                         Text(
                           "NAME",
@@ -62,10 +62,10 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                     Container(
-                      padding: const EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(20),
                       margin: const EdgeInsets.fromLTRB(30, 0, 30, 30),
                       width: double.infinity,
-                      height: size.height * 0.5,
+                      height: size.height * 0.4,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(28),
                         color: Colors.white,
@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: InputDecoration(
                               fillColor: backgroundColor,
                               filled: true,
-                              labelStyle: TextStyle(color: Colors.grey[800]),
+                              labelStyle: TextStyle(color: Colors.grey[400]),
                               contentPadding:
                                   const EdgeInsets.fromLTRB(30, 0, 5, 0),
                               labelText: "Email",
@@ -96,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: InputDecoration(
                               fillColor: backgroundColor,
                               filled: true,
+                              labelStyle: TextStyle(color: Colors.grey[400]),
                               contentPadding:
                                   const EdgeInsets.fromLTRB(30, 0, 5, 0),
                               labelText: "Password",
@@ -117,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: () {},
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
@@ -138,7 +139,9 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               const Text("Don't have an account?"),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/register');
+                                },
                                 child: const Text(
                                   "Create an account",
                                   style: TextStyle(
