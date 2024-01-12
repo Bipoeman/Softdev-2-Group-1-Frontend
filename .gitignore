@@ -1,3 +1,8 @@
+# Backend
+.idea
+node_modules/
+.env
+
 # Miscellaneous
 *.class
 *.log
@@ -9,7 +14,6 @@
 .history
 .svn/
 migrate_working_dir/
-node_modules/
 
 # IntelliJ related
 *.iml
