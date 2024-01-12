@@ -2,7 +2,7 @@ name: deploy-backend
 on:
   push:
     branches:
-      - 'backend-main'
+      - 'main'
   workflow_dispatch:
 jobs:
   docker_build_push_acr:
@@ -19,8 +19,6 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
-      with:
-        ref: backend-main
   
     - name: 'Docker Login'
       uses: azure/docker-login@v1
@@ -33,7 +31,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         load: true
-        context: .
+        context: ./backend
         tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-backend:test
 
     - name: Unit Test
@@ -43,6 +41,6 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        context: .
-        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-backend:${{ github.sha }}
+        context: ./backend
+        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-backend:latest
       
