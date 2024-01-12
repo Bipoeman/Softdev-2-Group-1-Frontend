@@ -1,6 +1,5 @@
 import express from "express";
-import {signToken} from "./token/token.js";
-import { loginController } from "../controllers/login";
+import { loginController } from "../controllers/login.js";
 
 const router = express.Router();
 
@@ -14,7 +13,7 @@ router.get("/text",(req, res)=>{
 })
 
 
-router.post("", loginController);
+router.post("",loginController);
 
 
 

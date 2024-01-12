@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 
 config();
-const secretKey = process.env.SECRET_KEY;
+const secretKey = "thisistopsecert";
 
 export const verifyToken = (rawtoken) => {
     if (!rawtoken) {

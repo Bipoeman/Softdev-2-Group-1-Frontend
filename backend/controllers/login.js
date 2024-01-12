@@ -1,4 +1,7 @@
-const loginController = (req, res) => {
+// import { signToken } from "./token/token";
+
+
+export const loginController = (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     if (username === "admin" && password === "admin") {
@@ -9,5 +12,3 @@ const loginController = (req, res) => {
         res.send("login fail");
     }
 }
-
-module.exports = { loginController };
