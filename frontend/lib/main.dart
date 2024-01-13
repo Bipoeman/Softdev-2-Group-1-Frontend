@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:super_app_group_1/User/login.dart';
-import 'package:super_app_group_1/User/register.dart';
 
 ThemeData mainTheme = ThemeData(
   colorScheme:
@@ -30,7 +29,6 @@ class _SuperAppState extends State<SuperApp> {
       initialRoute: "/login",
       routes: {
         "/login": (context) => const LoginPage(),
-        "/register" : (context) => const RegisterPage()
       },
       title: "Super App Group 1",
       theme: mainTheme,
