@@ -6,6 +6,7 @@ name: Node.js CI
 on:
   pull_request:
     branches: [ "main" ]
+    paths: [ "backend/**" ]
 
 defaults:
   run:

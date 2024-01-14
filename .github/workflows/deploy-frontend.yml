@@ -1,8 +1,8 @@
 name: deploy-frontend
 on:
   push:
-    branches:
-      - 'main'
+    branches: [ "main" ]
+    paths: [ "frontend/**" ]
   workflow_dispatch:
 jobs:
   docker_build_push_acr:
