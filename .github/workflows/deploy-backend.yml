@@ -5,7 +5,7 @@ on:
     paths: [ "backend/**" ]
   workflow_dispatch:
 jobs:
-  docker_build_push_acr:
+  docker_build_push_acr_backend:
     name: 'Docker Build and Push to ACR'
     runs-on: ubuntu-latest
     environment: production

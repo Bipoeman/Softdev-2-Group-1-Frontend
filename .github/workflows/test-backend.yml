@@ -13,7 +13,7 @@ defaults:
     working-directory: backend
 
 jobs:
-  build:
+  build_node:
 
     runs-on: ubuntu-latest
 

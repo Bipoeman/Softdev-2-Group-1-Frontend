@@ -10,7 +10,7 @@ defaults:
     working-directory: frontend
 
 jobs:
-  build:
+  build_flutter:
 
     runs-on: ubuntu-latest
 
