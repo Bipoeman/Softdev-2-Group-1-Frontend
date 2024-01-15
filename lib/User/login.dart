@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Container(
                     padding: const EdgeInsets.all(20),
-                    margin: const EdgeInsets.fromLTRB(30, 30, 30, 30),
+                    margin: const EdgeInsets.all(30),
                     width: [512.0, size.width * 0.8].reduce(min),
                     height: 360,
                     decoration: BoxDecoration(
@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                               labelStyle: TextStyle(color: Colors.grey[400]),
                               contentPadding:
                                   const EdgeInsets.fromLTRB(30, 0, 5, 0),
-                              labelText: "Email",
+                              labelText: "Email or Username",
                               prefixIconColor: Colors.white,
                               prefixIcon: const Icon(Icons.person),
                               border: OutlineInputBorder(
