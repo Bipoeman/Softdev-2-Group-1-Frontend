@@ -1,3 +1,8 @@
+# Backend
+.idea
+node_modules/
+.env
+
 # Miscellaneous
 *.class
 *.log
@@ -9,7 +14,6 @@
 .history
 .svn/
 migrate_working_dir/
-node_modules/
 
 frontend/migrate_working_dir/
 frontend/node_modules/
@@ -33,6 +37,7 @@ frontend/node_modules/
 .pub-cache/
 .pub/
 /build/
+frontend/build/
 
 # Symbolication related
 app.*.symbols
