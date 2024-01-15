@@ -1,6 +1,10 @@
+/**
+ * Goodbye
+ */
 import 'package:flutter/material.dart';
 import 'package:super_app_group_1/User/login.dart';
 import 'package:super_app_group_1/User/register.dart';
+
 
 ThemeData mainTheme = ThemeData(
   colorScheme:
