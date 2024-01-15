@@ -1,11 +1,11 @@
 name: deploy-backend
 on:
   push:
-    branches:
-      - 'main'
+    branches: [ "main" ]
+    paths: [ "backend/**" ]
   workflow_dispatch:
 jobs:
-  docker_build_push_acr:
+  docker_build_push_acr_backend:
     name: 'Docker Build and Push to ACR'
     runs-on: ubuntu-latest
     environment: production

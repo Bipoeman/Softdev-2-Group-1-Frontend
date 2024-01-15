@@ -1,11 +1,11 @@
 name: deploy-frontend
 on:
   push:
-    branches:
-      - 'main'
+    branches: [ "main" ]
+    paths: [ "frontend/**" ]
   workflow_dispatch:
 jobs:
-  docker_build_push_acr:
+  docker_build_push_acr_frontend:
     name: 'Docker Build and Push to ACR'
     runs-on: ubuntu-latest
     environment: production

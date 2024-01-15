@@ -6,13 +6,14 @@ name: Node.js CI
 on:
   pull_request:
     branches: [ "main" ]
+    paths: [ "backend/**" ]
 
 defaults:
   run:
     working-directory: backend
 
 jobs:
-  build:
+  build_node:
 
     runs-on: ubuntu-latest
 
