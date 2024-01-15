@@ -1,9 +1,10 @@
 name: deploy-frontend
+
 on:
   push:
     branches: [ "main" ]
-    paths: [ "frontend/**" ]
   workflow_dispatch:
+    
 jobs:
   docker_build_push_acr_frontend:
     name: 'Docker Build and Push to ACR'
@@ -31,7 +32,6 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         load: true
-        context: ./frontend
         tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-frontend:test
 
     - name: Unit Test
@@ -41,6 +41,5 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        context: ./frontend
         tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-frontend:latest
       
