@@ -12,7 +12,7 @@ TextFormField textField({
 }) {
   return TextFormField(
     keyboardType: inputType,
-    obscureText: obscureText??false,
+    obscureText: obscureText ?? false,
     decoration: InputDecoration(
       fillColor: fillColor,
       filled: true,
@@ -62,24 +62,55 @@ class _RegisterPageState extends State<RegisterPage> {
             },
           ),
         ),
-        body: Padding(
-          padding: EdgeInsets.all(30),
-          child: CustomScrollView(
-            slivers: [
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    textField(labelText: "Fullname", fillColor: backgroundColor),
-                    textField(labelText: "Email", fillColor: backgroundColor,inputType: TextInputType.emailAddress),
-                    textField(labelText: "Username", fillColor: backgroundColor),
-                    textField(labelText: "Password", fillColor: backgroundColor,obscureText: true),
-                    textField(labelText: "Repeat Password", fillColor: backgroundColor,obscureText: true),
-                  ],
-                ),
-              )
-            ],
+        body: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: size.height * 0.7),
+            child: Padding(
+              padding: const EdgeInsets.all(30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  textField(
+                    labelText: "Fullname",
+                    fillColor: backgroundColor,
+                  ),
+                  textField(
+                      labelText: "Email",
+                      fillColor: backgroundColor,
+                      inputType: TextInputType.emailAddress),
+                  textField(
+                    labelText: "Username",
+                    fillColor: backgroundColor,
+                  ),
+                  textField(
+                    labelText: "Password",
+                    fillColor: backgroundColor,
+                    obscureText: true,
+                  ),
+                  textField(
+                    labelText: "Repeat Password",
+                    fillColor: backgroundColor,
+                    obscureText: true,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: mainColor,
+                        textStyle: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text("Create Account"),
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
