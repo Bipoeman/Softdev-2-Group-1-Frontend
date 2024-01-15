@@ -11,6 +11,8 @@
 migrate_working_dir/
 node_modules/
 
+frontend/migrate_working_dir/
+frontend/node_modules/
 # IntelliJ related
 *.iml
 *.ipr
@@ -42,3 +44,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+frontend/android/app/debug
+frontend/android/app/profile
+frontend/android/app/release
