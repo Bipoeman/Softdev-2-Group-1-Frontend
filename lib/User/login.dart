@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "dart:math";
 
 const Color backgroundColor = Color(0xffe8e8e8);
 const Color mainColor = Color(0xffd33333);
@@ -28,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       alignment: Alignment.center,
                       margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-                      height: size.height * 0.2,
-                      width: size.width * 0.5,
+                      height: [size.width * 0.5, size.height * 0.3].reduce(min),
+                      width: [size.width * 0.5, size.height * 0.3].reduce(min),
                       decoration: const BoxDecoration(
                         color: mainColor,
                       ),
@@ -63,9 +64,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Container(
                       padding: const EdgeInsets.all(20),
-                      margin: const EdgeInsets.fromLTRB(30, 0, 30, 30),
-                      width: double.infinity,
-                      height: size.height * 0.4,
+                      margin: const EdgeInsets.fromLTRB(30, 30, 30, 30),
+                      width: [512.0, size.width * 0.8].reduce(min),
+                      height: 360,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(28),
                         color: Colors.white,
@@ -134,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: () {},
                             ),
                           ),
-                          Row(
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text("Don't have an account?"),
