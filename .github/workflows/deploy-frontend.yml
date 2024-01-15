@@ -1,0 +1,46 @@
+name: deploy-frontend
+on:
+  push:
+    branches: [ "main" ]
+    paths: [ "frontend/**" ]
+  workflow_dispatch:
+jobs:
+  docker_build_push_acr_frontend:
+    name: 'Docker Build and Push to ACR'
+    runs-on: ubuntu-latest
+    environment: production
+  
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+  
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v4
+  
+    - name: 'Docker Login'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+ 
+    - name: Build for Test
+      uses: docker/build-push-action@v5
+      with:
+        load: true
+        context: ./frontend
+        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-frontend:test
+
+    - name: Unit Test
+      run: docker run --rm ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-frontend:test flutter test
+      
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        context: ./frontend
+        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-frontend:latest
+      
