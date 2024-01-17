@@ -45,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Scaffold(
         backgroundColor: backgroundColor,
         appBar: AppBar(
-          toolbarHeight: [256.0, size.height * 0.2].reduce(min),
+          toolbarHeight: 75.0,
           title: const Text(
             "Create your account",
             style: TextStyle(
@@ -66,72 +66,113 @@ class _RegisterPageState extends State<RegisterPage> {
           elevation: 0,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(30),
+              bottom: Radius.circular(15),
             ),
           ),
         ),
         body: SingleChildScrollView(
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              minHeight: size.height - MediaQuery.of(context).padding.top,
+              minHeight: size.height - MediaQuery.of(context).padding.top - 75,
             ),
             child: Center(
               child: Container(
-                margin: const EdgeInsets.all(30),
-                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                margin: const EdgeInsets.fromLTRB(0, 30, 0, 30),
+                padding: const EdgeInsets.all(30),
                 width: [512.0, size.width * 0.9].reduce(min),
                 height: 512,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(28),
                   color: Colors.white,
                 ),
-                child: Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment
-                        .spaceAround, // Adjust the spacing here
-                    children: [
-                      textField(
-                        labelText: "Fullname",
-                        fillColor: backgroundColor,
-                      ),
-                      textField(
-                        labelText: "Email",
-                        fillColor: backgroundColor,
-                        inputType: TextInputType.emailAddress,
-                      ),
-                      textField(
-                        labelText: "Username",
-                        fillColor: backgroundColor,
-                      ),
-                      textField(
-                        labelText: "Password",
-                        fillColor: backgroundColor,
-                        obscureText: true,
-                      ),
-                      textField(
-                        labelText: "Repeat Password",
-                        fillColor: backgroundColor,
-                        obscureText: true,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 64, // Updated height
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: mainColor,
-                            textStyle: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                            foregroundColor: Colors.white,
+                child: Column(
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceAround, // Adjust the spacing here
+                  children: [
+                    textField(
+                      labelText: "Fullname",
+                      fillColor: backgroundColor,
+                      icon: const Icon(Icons.person),
+                    ),
+                    textField(
+                      labelText: "Email",
+                      fillColor: backgroundColor,
+                      inputType: TextInputType.emailAddress,
+                      icon: const Icon(Icons.email_outlined),
+                    ),
+                    textField(
+                      labelText: "Username",
+                      fillColor: backgroundColor,
+                      icon: const Icon(Icons.account_box_outlined),
+                    ),
+                    textField(
+                      labelText: "Password",
+                      fillColor: backgroundColor,
+                      obscureText: true,
+                      icon: const Icon(Icons.lock_outline),
+                    ),
+                    textField(
+                      labelText: "Repeat Password",
+                      fillColor: backgroundColor,
+                      obscureText: true,
+                      icon: const Icon(Icons.lock_outline),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50, // Updated height
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: mainColor,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
                           ),
-                          child: const Text("Create Account"),
-                          onPressed: () {},
+                          foregroundColor: Colors.white,
                         ),
+                        child: const Text("Create Account"),
+                        onPressed: () {},
                       ),
-                    ],
-                  ),
+                    ),
+                    Column(
+                      children: [
+                        const Text(
+                            "By creating an account, you have accepted our"),
+                        TextButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Dialog(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20),
+                                      ),
+                                    ),
+                                    insetPadding: EdgeInsets.all(8.0),
+                                    child: Container(
+                                      padding: EdgeInsets.all(20.0),
+                                      child: Text(
+                                        "Term and Condition",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
+                          },
+                          child: const Text(
+                            "Term and Condition",
+                            style: TextStyle(
+                              color: Color(0xff7eb0de),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
             ),

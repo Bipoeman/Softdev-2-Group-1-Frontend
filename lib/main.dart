@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ruam_mitt/User/login.dart';
 import 'package:ruam_mitt/User/register.dart';
 
-
 ThemeData mainTheme = ThemeData(
   colorScheme:
       ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 203, 46, 35)),

@@ -72,91 +72,89 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(28),
                       color: Colors.white,
                     ),
-                    child: Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                              fillColor: backgroundColor,
-                              filled: true,
-                              labelStyle: TextStyle(color: Colors.grey[400]),
-                              contentPadding:
-                                  const EdgeInsets.fromLTRB(30, 0, 5, 0),
-                              labelText: "Email or Username",
-                              prefixIconColor: Colors.white,
-                              prefixIcon: const Icon(Icons.person),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40),
-                                borderSide: BorderSide.none,
-                              ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            fillColor: backgroundColor,
+                            filled: true,
+                            labelStyle: TextStyle(color: Colors.grey[400]),
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                            labelText: "Email or Username",
+                            prefixIconColor: Colors.white,
+                            prefixIcon: const Icon(Icons.person),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40),
+                              borderSide: BorderSide.none,
                             ),
                           ),
-                          TextFormField(
-                            keyboardType: TextInputType.visiblePassword,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              fillColor: backgroundColor,
-                              filled: true,
-                              labelStyle: TextStyle(color: Colors.grey[400]),
-                              contentPadding:
-                                  const EdgeInsets.fromLTRB(30, 0, 5, 0),
-                              labelText: "Password",
-                              prefixIconColor: Colors.white,
-                              prefixIcon: const Icon(Icons.lock_outline),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40),
-                                borderSide: BorderSide.none,
-                              ),
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            fillColor: backgroundColor,
+                            filled: true,
+                            labelStyle: TextStyle(color: Colors.grey[400]),
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                            labelText: "Password",
+                            prefixIconColor: Colors.white,
+                            prefixIcon: const Icon(Icons.lock_outline),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40),
+                              borderSide: BorderSide.none,
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            child: const Text(
+                              "Forgot password?",
+                              style: TextStyle(color: Color(0xff7eb0de)),
+                            ),
+                            onPressed: () {},
+                          ),
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: mainColor,
+                              textStyle: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                              foregroundColor: Colors.white,
+                            ),
+                            child: const Text("Login"),
+                            onPressed: () {},
+                          ),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text("Don't have an account?"),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/register');
+                              },
                               child: const Text(
-                                "Forgot password?",
-                                style: TextStyle(color: Color(0xff7eb0de)),
-                              ),
-                              onPressed: () {},
-                            ),
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 42,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: mainColor,
-                                textStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                                foregroundColor: Colors.white,
-                              ),
-                              child: const Text("Login"),
-                              onPressed: () {},
-                            ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Don't have an account?"),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/register');
-                                },
-                                child: const Text(
-                                  "Create an account",
-                                  style: TextStyle(
-                                    color: Color(0xff7eb0de),
-                                  ),
+                                "Create an account",
+                                style: TextStyle(
+                                  color: Color(0xff7eb0de),
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
