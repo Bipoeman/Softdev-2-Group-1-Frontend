@@ -144,16 +144,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                 context: context,
                                 builder: (context) {
                                   return Dialog(
-                                    shape: RoundedRectangleBorder(
+                                    shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(20),
                                       ),
                                     ),
-                                    insetPadding: EdgeInsets.all(8.0),
+                                    insetPadding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                      padding: EdgeInsets.all(20.0),
-                                      child: Text(
-                                        "Term and Condition",
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: const Text(
+                                        "Terms and Conditions",
                                         style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -164,7 +164,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 });
                           },
                           child: const Text(
-                            "Term and Condition",
+                            "Terms and Conditions.",
                             style: TextStyle(
                               color: Color(0xff7eb0de),
                             ),
