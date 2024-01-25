@@ -6,6 +6,7 @@ class ThemeProvider extends ChangeNotifier {
       seedColor: const Color(0xffcb2e23),
       brightness: Brightness.light,
     ),
+    useMaterial3: true,
   );
 
   final ThemeData _darkTheme = ThemeData(
@@ -13,6 +14,7 @@ class ThemeProvider extends ChangeNotifier {
       seedColor: const Color(0xffcb2e23),
       brightness: Brightness.dark,
     ),
+    useMaterial3: true,
   );
 
   ThemeData get themeData => _isDarkMode ? _darkTheme : _lightTheme;

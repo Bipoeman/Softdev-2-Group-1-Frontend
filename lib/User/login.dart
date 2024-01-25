@@ -135,7 +135,9 @@ class _LoginPageState extends State<LoginPage> {
                               foregroundColor: Colors.white,
                             ),
                             child: const Text("Login"),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/home');
+                            },
                           ),
                         ),
                         Column(
