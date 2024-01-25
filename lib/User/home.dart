@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
-import "package:ruam_mitt/Component/theme.dart";
 
-var currentTheme = Themes(LightMode());
-Color backgroundColor = currentTheme.backgroundColor;
+Color backgroundColor = const Color(0xffe8e8e8);
+Color mainColor = const Color(0xffd33333);
+Color textColor = const Color(0xff000000);
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

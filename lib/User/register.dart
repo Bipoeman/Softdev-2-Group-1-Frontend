@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-const Color backgroundColor = Color(0xffe8e8e8);
-const Color mainColor = Color(0xffd33333);
+Color backgroundColor = const Color(0xffe8e8e8);
+Color mainColor = const Color(0xffd33333);
+Color textColor = const Color(0xff000000);
 
 TextFormField textField({
   required String labelText,

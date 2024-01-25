@@ -1,8 +1,9 @@
 import "package:flutter/material.dart";
 import "dart:math";
 
-const Color backgroundColor = Color(0xffe8e8e8);
-const Color mainColor = Color(0xffd33333);
+Color backgroundColor = const Color(0xffe8e8e8);
+Color mainColor = const Color(0xffd33333);
+Color textColor = const Color(0xff000000);
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
                     margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                     height: [150.0, size.width * 0.4].reduce(min),
                     width: [150.0, size.width * 0.4].reduce(min),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: mainColor,
                     ),
                     child: const Text(
@@ -43,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  const Column(
+                  Column(
                     children: [
                       Text(
                         "NAME",
