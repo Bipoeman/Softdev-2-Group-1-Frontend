@@ -1,9 +1,23 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  bool _isDarkMode = false;
+  final ThemeData _lightTheme = ThemeData(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: const Color(0xffcb2e23),
+      brightness: Brightness.light,
+    ),
+  );
 
-  ThemeData get themeData => _isDarkMode ? ThemeData.dark() : ThemeData.light();
+  final ThemeData _darkTheme = ThemeData(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: const Color(0xffcb2e23),
+      brightness: Brightness.dark,
+    ),
+  );
+
+  ThemeData get themeData => _isDarkMode ? _darkTheme : _lightTheme;
+
+  bool _isDarkMode = false;
 
   bool get isDarkMode => _isDarkMode;
 

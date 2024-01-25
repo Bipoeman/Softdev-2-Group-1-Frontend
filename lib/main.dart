@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ruam_mitt/Component/theme.dart';
 import 'package:ruam_mitt/User/login.dart';
 import 'package:ruam_mitt/User/register.dart';
 import 'package:ruam_mitt/User/settings.dart';
@@ -16,7 +18,10 @@ ThemeData mainTheme = ThemeData(
 // );
 
 void main() {
-  runApp(const SuperApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => ThemeProvider(),
+    child: const SuperApp(),
+  ));
 }
 
 class SuperApp extends StatefulWidget {
@@ -33,13 +38,13 @@ class _SuperAppState extends State<SuperApp> {
       initialRoute: "/login",
       routes: {
         "/login": (context) => const LoginPage(),
-        "/register" : (context) => const RegisterPage(),
+        "/register": (context) => const RegisterPage(),
         "/settings": (context) => const SettingsPage(),
         "/profile": (context) => const ProfilePage(),
         "/home": (context) => const HomePage(),
       },
-      title: "Super App Group 1",
-      theme: mainTheme,
+      title: "RuamMitr - App for Uni Students",
+      theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }
 }
