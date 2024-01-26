@@ -1,35 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/Component/text_field.dart';
 import 'dart:math';
 
 Color backgroundColor = const Color(0xffe8e8e8);
 Color mainColor = const Color(0xffd33333);
 Color textColor = const Color(0xff000000);
-
-TextFormField textField({
-  required String labelText,
-  required Color fillColor,
-  Icon? icon,
-  bool? obscureText,
-  TextInputType? inputType,
-}) {
-  return TextFormField(
-    keyboardType: inputType,
-    obscureText: obscureText ?? false,
-    decoration: InputDecoration(
-      fillColor: fillColor,
-      filled: true,
-      labelStyle: TextStyle(color: Colors.grey[400]),
-      contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
-      labelText: labelText,
-      prefixIconColor: Colors.white,
-      prefixIcon: icon,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(40),
-        borderSide: BorderSide.none,
-      ),
-    ),
-  );
-}
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -134,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         onPressed: () {
                           Navigator.of(context).pushNamedAndRemoveUntil(
                             "/home",
-                            (Route<dynamic> route) => false,
+                            (route) => false,
                           );
                         },
                       ),

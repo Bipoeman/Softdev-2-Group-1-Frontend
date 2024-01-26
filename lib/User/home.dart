@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import "package:ruam_mitt/Component/main_navigator.dart";
 import "package:ruam_mitt/Component/avatar.dart";
+import "package:ruam_mitt/Component/search_box.dart";
+import "dart:math";
 
 Color backgroundColor = const Color(0xffe8e8e8);
 Color mainColor = const Color(0xffd33333);
@@ -19,13 +21,32 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: SafeArea(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: size.height - MediaQuery.of(context).padding.top,
-          ),
-          child: const BoxWithMainNavigator(
-            child: BoxWithAvatar(),
+      body: BoxWithMainNavigator(
+        child: BoxWithAvatar(
+          child: IntrinsicHeight(
+            child: Stack(
+              alignment: AlignmentDirectional.topCenter,
+              children: [
+                Positioned(
+                  top: 40,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    width: size.width - 100,
+                    height: 1000,
+                  ),
+                ),
+                Positioned(
+                  width: [300.0, size.width * 0.6].reduce(min),
+                  child: Container(
+                    margin: const EdgeInsets.all(15),
+                    child: const SearchBox(),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

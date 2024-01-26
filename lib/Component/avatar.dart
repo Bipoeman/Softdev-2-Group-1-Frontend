@@ -28,7 +28,6 @@ class AvatarViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return IntrinsicHeight(
       child: IntrinsicWidth(
         child: RawMaterialButton(
@@ -77,15 +76,17 @@ class BoxWithAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) => SingleChildScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            minHeight: constraints.maxHeight - MediaQuery.of(context).padding.top,
+            minHeight: constraints.maxHeight,
           ),
           child: IntrinsicHeight(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(10),
@@ -100,7 +101,7 @@ class BoxWithAvatar extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: child ?? Container(),
+                  child: child ?? const Column(),
                 ),
               ],
             ),

@@ -28,7 +28,7 @@ class _SettingsPageState extends State<SettingsPage> {
           child: BoxWithMainNavigator(
             child: SizedBox.expand(
               child: Padding(
-                padding: const EdgeInsets.all(64),
+                padding: const EdgeInsets.all(10),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -40,7 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             children: [
                               Text(
                                 "Toggle Theme",
-                                style: theme.textTheme.headline6,
+                                style: theme.textTheme.titleLarge,
                               ),
                               Switch(
                                 value: themeProvider.isDarkMode,
@@ -61,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             textStyle: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: 18,
                             ),
                             foregroundColor: Colors.white,
                           ),

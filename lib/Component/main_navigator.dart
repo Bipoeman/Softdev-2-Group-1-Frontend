@@ -19,9 +19,12 @@ class MainNavigator extends StatelessWidget {
           Flexible(
             child: RawMaterialButton(
               shape: const CircleBorder(),
-              constraints: BoxConstraints.tight(Size(
+              constraints: BoxConstraints.tight(
+                Size(
                   [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
-                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min))),
+                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
+                ),
+              ),
               onPressed: () {
                 if (ModalRoute.of(context)!.settings.name != "/profile") {
                   Navigator.pushNamed(context, "/profile");
@@ -49,14 +52,17 @@ class MainNavigator extends StatelessWidget {
             child: RawMaterialButton(
               shape: CircleBorder(
                 side: BorderSide(
-                  color: Colors.red[700] ?? Colors.red,
+                  color: Colors.red[700] ?? const Color.fromRGBO(211, 47, 47, 1),
                   width: 5,
                 ),
               ),
               fillColor: Colors.red,
-              constraints: BoxConstraints.tight(Size(
+              constraints: BoxConstraints.tight(
+                Size(
                   [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
-                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min))),
+                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
+                ),
+              ),
               onPressed: () {
                 if (ModalRoute.of(context)!.settings.name != "/home") {
                   Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
@@ -85,9 +91,12 @@ class MainNavigator extends StatelessWidget {
           Flexible(
             child: RawMaterialButton(
               shape: const CircleBorder(),
-              constraints: BoxConstraints.tight(Size(
+              constraints: BoxConstraints.tight(
+                Size(
                   [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
-                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min))),
+                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
+                ),
+              ),
               onPressed: () {
                 if (ModalRoute.of(context)!.settings.name != "/settings") {
                   Navigator.pushNamed(context, "/settings");
