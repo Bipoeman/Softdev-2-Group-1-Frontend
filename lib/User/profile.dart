@@ -21,11 +21,11 @@ class _ProfilePageState extends State<ProfilePage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: size.height - MediaQuery.of(context).padding.top,
-              ),
-              child: BoxWithMainNavigator(
-                  child: Center(
+            constraints: BoxConstraints(
+              minHeight: size.height - MediaQuery.of(context).padding.top,
+            ),
+            child: BoxWithMainNavigator(
+              child: Center(
                 child: Text(
                   "There is nothing in \"Profile\" page yet.",
                   style: TextStyle(
@@ -33,7 +33,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontSize: 20,
                   ),
                 ),
-              ))),
+              ),
+            ),
+          ),
         ),
       ),
     );

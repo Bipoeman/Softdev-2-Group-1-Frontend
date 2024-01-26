@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import "package:ruam_mitt/Component/main_navigator.dart";
 
-
 Color backgroundColor = const Color(0xffe8e8e8);
 Color mainColor = const Color(0xffd33333);
 Color textColor = const Color(0xff000000);
@@ -17,24 +16,27 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: theme.colorScheme.background,
       body: SafeArea(
         child: SingleChildScrollView(
           child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: size.height - MediaQuery.of(context).padding.top,
-              ),
-              child: BoxWithMainNavigator(
-                  child: Center(
+            constraints: BoxConstraints(
+              minHeight: size.height - MediaQuery.of(context).padding.top,
+            ),
+            child: BoxWithMainNavigator(
+              child: Center(
                 child: Text(
                   "There is nothing in \"Settings\" page yet.",
                   style: TextStyle(
-                    color: textColor,
+                    color: theme.colorScheme.onSurface,
                     fontSize: 20,
                   ),
                 ),
-              ))),
+              ),
+            ),
+          ),
         ),
       ),
     );

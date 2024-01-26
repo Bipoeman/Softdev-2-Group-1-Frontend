@@ -7,16 +7,6 @@ import 'package:ruam_mitt/User/settings.dart';
 import 'package:ruam_mitt/User/profile.dart';
 import 'package:ruam_mitt/User/home.dart';
 
-ThemeData mainTheme = ThemeData(
-  colorScheme:
-      ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 203, 46, 35)),
-  useMaterial3: true,
-);
-
-// ThemeData customTheme = ThemeData(
-//   primaryTextTheme:
-// );
-
 void main() {
   runApp(ChangeNotifierProvider(
     create: (context) => ThemeProvider(),
@@ -57,7 +47,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: mainTheme,
+      theme: Provider.of<ThemeProvider>(context).themeData,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }

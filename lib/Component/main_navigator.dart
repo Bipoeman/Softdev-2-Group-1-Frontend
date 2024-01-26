@@ -15,65 +15,78 @@ class MainNavigator extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          RawMaterialButton(
-            shape: const CircleBorder(),
-            constraints: BoxConstraints.tight(Size(
-                [size.height * 0.15, size.width * 0.3, 90.0].reduce(min),
-                [size.height * 0.15, size.width * 0.3, 90.0].reduce(min))),
-            onPressed: () {
-              if (ModalRoute.of(context)!.settings.name != "/profile") {
-                Navigator.pushNamed(context, "/profile");
-              }
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.person,
-                  size: 30,
-                ),
-                Text(
-                  "Profile",
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          RawMaterialButton(
-            shape: const CircleBorder(),
-            constraints: BoxConstraints.tight(Size(
-                [size.height * 0.15, size.width * 0.3, 90.0].reduce(min),
-                [size.height * 0.15, size.width * 0.3, 90.0].reduce(min))),
-            onPressed: () {
-              if (ModalRoute.of(context)!.settings.name != "/home") {
-                Navigator.pushNamed(context, "/home");
-              }
-            },
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.home,
-                  size: 30,
-                ),
-                Text(
-                  "Home",
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          RawMaterialButton(
+          Flexible(
+            child: RawMaterialButton(
               shape: const CircleBorder(),
               constraints: BoxConstraints.tight(Size(
-                  [size.height * 0.15, size.width * 0.3, 90.0].reduce(min),
-                  [size.height * 0.15, size.width * 0.3, 90.0].reduce(min))),
+                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
+                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min))),
+              onPressed: () {
+                if (ModalRoute.of(context)!.settings.name != "/profile") {
+                  Navigator.pushNamed(context, "/profile");
+                }
+              },
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.person,
+                    size: 30,
+                  ),
+                  Text(
+                    "Profile",
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Flexible(
+            child: RawMaterialButton(
+              shape: CircleBorder(
+                side: BorderSide(
+                  color: Colors.red[700] ?? Colors.red,
+                  width: 5,
+                ),
+              ),
+              fillColor: Colors.red,
+              constraints: BoxConstraints.tight(Size(
+                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
+                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min))),
+              onPressed: () {
+                if (ModalRoute.of(context)!.settings.name != "/home") {
+                  Navigator.pushNamed(context, "/home");
+                }
+              },
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.home,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    "Home",
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Flexible(
+            child: RawMaterialButton(
+              shape: const CircleBorder(),
+              constraints: BoxConstraints.tight(Size(
+                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
+                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min))),
               onPressed: () {
                 if (ModalRoute.of(context)!.settings.name != "/settings") {
                   Navigator.pushNamed(context, "/settings");
@@ -94,7 +107,9 @@ class MainNavigator extends StatelessWidget {
                     ),
                   ),
                 ],
-              )),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -110,16 +125,17 @@ class BoxWithMainNavigator extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return SizedBox(
-        width: size.width,
-        height: size.height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Expanded(
-              child: child ?? Container(),
-            ),
-            const MainNavigator(),
-          ],
-        ));
+      width: size.width,
+      height: size.height,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(
+            child: child ?? const Column(),
+          ),
+          const MainNavigator(),
+        ],
+      ),
+    );
   }
 }
