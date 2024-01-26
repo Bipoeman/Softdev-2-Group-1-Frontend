@@ -7,11 +7,12 @@ class MainNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
 
     return Container(
       height: [size.height * 0.4, size.width * 0.4, 100.0].reduce(min),
       width: size.width,
-      color: Colors.grey[200],
+      color: theme.hoverColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -58,7 +59,7 @@ class MainNavigator extends StatelessWidget {
                   [size.height * 0.5, size.width * 0.3, 90.0].reduce(min))),
               onPressed: () {
                 if (ModalRoute.of(context)!.settings.name != "/home") {
-                  Navigator.pushNamed(context, "/home");
+                  Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
                 }
               },
               child: const Column(

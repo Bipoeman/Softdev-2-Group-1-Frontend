@@ -1,9 +1,8 @@
 import "package:flutter/material.dart";
 import "package:ruam_mitt/Component/main_navigator.dart";
-
-Color backgroundColor = const Color(0xffe8e8e8);
-Color mainColor = const Color(0xffd33333);
-Color textColor = const Color(0xff000000);
+import "package:ruam_mitt/Component/theme.dart";
+import "package:provider/provider.dart";
+import "dart:math";
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -17,21 +16,66 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: size.height - MediaQuery.of(context).padding.top,
-            ),
-            child: BoxWithMainNavigator(
-              child: Center(
-                child: Text(
-                  "There is nothing in \"Settings\" page yet.",
-                  style: TextStyle(
-                    color: theme.colorScheme.onSurface,
-                    fontSize: 20,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: size.height - MediaQuery.of(context).padding.top,
+          ),
+          child: BoxWithMainNavigator(
+            child: SizedBox.expand(
+              child: Padding(
+                padding: const EdgeInsets.all(64),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Toggle Theme",
+                                style: theme.textTheme.headline6,
+                              ),
+                              Switch(
+                                value: themeProvider.isDarkMode,
+                                onChanged: (value) {
+                                  themeProvider.toggleTheme();
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: [size.width * 0.6, 300.0].reduce(min),
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xffcb2e23),
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                            foregroundColor: Colors.white,
+                          ),
+                          child: const Text("Logout"),
+                          onPressed: () {
+                            // clear all routes and push to home
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/login',
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

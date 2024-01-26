@@ -87,8 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   color: Colors.white,
                 ),
                 child: Column(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceAround, // Adjust the spacing here
+                  mainAxisAlignment: MainAxisAlignment.spaceAround, // Adjust the spacing here
                   children: [
                     textField(
                       labelText: "Fullname",
@@ -133,14 +132,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         child: const Text("Create Account"),
                         onPressed: () {
-                          Navigator.pushNamed(context, "/home");
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            "/home",
+                            (Route<dynamic> route) => false,
+                          );
                         },
                       ),
                     ),
                     Column(
                       children: [
-                        const Text(
-                            "By creating an account, you have accepted our"),
+                        const Text("By creating an account, you have accepted our"),
                         TextButton(
                           onPressed: () {
                             showDialog(

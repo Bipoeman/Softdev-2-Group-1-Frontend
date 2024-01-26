@@ -21,6 +21,7 @@ class ThemeProvider extends ChangeNotifier {
 
   bool _isDarkMode = false;
   bool get isDarkMode => _isDarkMode;
+  Color get mainColor => const Color(0xffcb2e23);
 
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
