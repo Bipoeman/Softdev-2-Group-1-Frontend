@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class AvatarViewer extends StatelessWidget {
   const AvatarViewer({super.key, this.username, this.avatarUrl});
@@ -58,50 +59,6 @@ class AvatarViewer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: getAvatar(),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class BoxWithAvatar extends StatelessWidget {
-  const BoxWithAvatar({super.key, this.child, this.username, this.avatarUrl});
-  final Widget? child;
-  final String? username;
-  final String? avatarUrl;
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) => SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: constraints.maxHeight,
-          ),
-          child: IntrinsicHeight(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      AvatarViewer(
-                        username: username,
-                        avatarUrl: avatarUrl,
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: child ?? const Column(),
                 ),
               ],
             ),

@@ -21,33 +21,20 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: BoxWithMainNavigator(
-        child: BoxWithAvatar(
-          child: IntrinsicHeight(
-            child: Stack(
-              alignment: AlignmentDirectional.topCenter,
-              children: [
-                Positioned(
-                  top: 40,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    width: size.width - 100,
-                    height: 1000,
-                  ),
-                ),
-                Positioned(
-                  width: [300.0, size.width * 0.6].reduce(min),
-                  child: Container(
-                    margin: const EdgeInsets.all(15),
-                    child: const SearchBox(),
-                  ),
-                ),
-              ],
+      body: const BoxWithMainNavigator(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  AvatarViewer(),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

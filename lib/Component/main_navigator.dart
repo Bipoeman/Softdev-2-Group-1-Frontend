@@ -10,7 +10,7 @@ class MainNavigator extends StatelessWidget {
     ThemeData theme = Theme.of(context);
 
     return Container(
-      height: [size.height * 0.4, size.width * 0.4, 100.0].reduce(min),
+      height: [size.width * 0.4, 100.0].reduce(min),
       width: size.width,
       color: theme.hoverColor,
       child: Row(
@@ -21,8 +21,8 @@ class MainNavigator extends StatelessWidget {
               shape: const CircleBorder(),
               constraints: BoxConstraints.tight(
                 Size(
-                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
-                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
+                  [size.width * 0.3, 90.0].reduce(min),
+                  [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
               onPressed: () {
@@ -59,8 +59,8 @@ class MainNavigator extends StatelessWidget {
               fillColor: Colors.red,
               constraints: BoxConstraints.tight(
                 Size(
-                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
-                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
+                  [size.width * 0.3, 90.0].reduce(min),
+                  [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
               onPressed: () {
@@ -93,8 +93,8 @@ class MainNavigator extends StatelessWidget {
               shape: const CircleBorder(),
               constraints: BoxConstraints.tight(
                 Size(
-                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
-                  [size.height * 0.5, size.width * 0.3, 90.0].reduce(min),
+                  [size.width * 0.3, 90.0].reduce(min),
+                  [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
               onPressed: () {
@@ -141,7 +141,16 @@ class BoxWithMainNavigator extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            child: child ?? const Column(),
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: size.height - [size.width * 0.4, 100.0].reduce(min),
+                ),
+                child: IntrinsicHeight(
+                  child: child ?? Container(),
+                ),
+              ),
+            ),
           ),
           const MainNavigator(),
         ],
