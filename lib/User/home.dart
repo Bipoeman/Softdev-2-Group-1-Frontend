@@ -21,11 +21,11 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: const BoxWithMainNavigator(
+      body: BoxWithMainNavigator(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -34,6 +34,53 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
+            Container(
+              margin: const EdgeInsets.all(32),
+              child: IntrinsicHeight(
+                child: Stack(
+                  alignment: AlignmentDirectional.topCenter,
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned(
+                      top: 25,
+                      width: [size.width * 0.8, 800.0].reduce(min),
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Welcome to RuamMitr Portal App",
+                              style: TextStyle(
+                                color: mainColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                            Text(
+                              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisl.",
+                              style: TextStyle(
+                                color: textColor,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      width: [300.0, size.width * 0.5].reduce(min),
+                      child: const SearchBox(),
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
