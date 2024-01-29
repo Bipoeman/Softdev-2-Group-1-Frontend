@@ -13,6 +13,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final usernameTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -77,7 +79,8 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         TextFormField(
-                          keyboardType: TextInputType.emailAddress,
+                          controller: usernameTextController,
+                          keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             fillColor: backgroundColor,
                             filled: true,
@@ -93,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         TextFormField(
+                          controller: passwordTextController,
                           keyboardType: TextInputType.visiblePassword,
                           obscureText: true,
                           decoration: InputDecoration(
@@ -134,10 +138,12 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             child: const Text("Login"),
                             onPressed: () {
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                "/home",
-                                (route) => false,
-                              );
+                              // Navigator.of(context).pushNamedAndRemoveUntil(
+                              //   "/home",
+                              //   (route) => false,
+                              // );
+                              print(usernameTextController.text);
+                              print(passwordTextController.text);
                             },
                           ),
                         ),
