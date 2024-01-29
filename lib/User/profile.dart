@@ -19,20 +19,13 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: size.height - MediaQuery.of(context).padding.top,
-            ),
-            child: BoxWithMainNavigator(
-              child: Center(
-                child: Text(
-                  "There is nothing in \"Profile\" page yet.",
-                  style: TextStyle(
-                    color: textColor,
-                    fontSize: 20,
-                  ),
-                ),
+        child: BoxWithMainNavigator(
+          child: Center(
+            child: Text(
+              "There is nothing in \"Profile\" page yet.",
+              style: TextStyle(
+                color: textColor,
+                fontSize: 20,
               ),
             ),
           ),

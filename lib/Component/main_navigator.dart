@@ -12,7 +12,7 @@ class MainNavigator extends StatelessWidget {
     return Container(
       height: [size.width * 0.4, 100.0].reduce(min),
       width: size.width,
-      color: theme.hoverColor,
+      color: Colors.grey[200],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -127,34 +127,25 @@ class MainNavigator extends StatelessWidget {
 }
 
 class BoxWithMainNavigator extends StatelessWidget {
-  const BoxWithMainNavigator({super.key, this.child});
-  final Widget? child;
+  const BoxWithMainNavigator({super.key, required this.child});
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return SizedBox(
-      width: size.width,
-      height: size.height,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: size.height - [size.width * 0.4, 100.0].reduce(min),
-                ),
-                child: IntrinsicHeight(
-                  child: child ?? Container(),
-                ),
-              ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: IntrinsicHeight(
+              child: child,
             ),
           ),
-          const MainNavigator(),
-        ],
-      ),
+        ),
+        const MainNavigator(),
+      ],
     );
   }
 }
