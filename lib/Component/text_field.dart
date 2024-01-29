@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 TextFormField textField({
   required String labelText,
   required Color fillColor,
+  TextEditingController? controller,
   Icon? icon,
   bool? obscureText,
   TextInputType? inputType,
@@ -14,6 +15,7 @@ TextFormField textField({
   void Function(String?)? onSaved,
 }) {
   return TextFormField(
+    controller: controller,
     keyboardType: inputType,
     obscureText: obscureText ?? false,
     decoration: InputDecoration(

@@ -14,6 +14,22 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final fullnameTextController = TextEditingController();
+  final emailTextController = TextEditingController();
+  final usernameTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
+  final confirmpasswordTextController = TextEditingController();
+
+  @override
+  void dispose() {
+    fullnameTextController.dispose();
+    emailTextController.dispose();
+    usernameTextController.dispose();
+    passwordTextController.dispose();
+    confirmpasswordTextController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -62,31 +78,37 @@ class _RegisterPageState extends State<RegisterPage> {
                   color: Colors.white,
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround, // Adjust the spacing here
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceAround, // Adjust the spacing here
                   children: [
                     textField(
+                      controller: fullnameTextController,
                       labelText: "Fullname",
                       fillColor: backgroundColor,
                       icon: const Icon(Icons.person),
                     ),
                     textField(
+                      controller: emailTextController,
                       labelText: "Email",
                       fillColor: backgroundColor,
                       inputType: TextInputType.emailAddress,
                       icon: const Icon(Icons.email_outlined),
                     ),
                     textField(
+                      controller: usernameTextController,
                       labelText: "Username",
                       fillColor: backgroundColor,
                       icon: const Icon(Icons.account_box_outlined),
                     ),
                     textField(
+                      controller: passwordTextController,
                       labelText: "Password",
                       fillColor: backgroundColor,
                       obscureText: true,
                       icon: const Icon(Icons.lock_outline),
                     ),
                     textField(
+                      controller: confirmpasswordTextController,
                       labelText: "Repeat Password",
                       fillColor: backgroundColor,
                       obscureText: true,
@@ -107,16 +129,18 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         child: const Text("Create Account"),
                         onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                            "/home",
-                            (route) => false,
-                          );
+                          // Navigator.of(context).pushNamedAndRemoveUntil(
+                          //   "/home",
+                          //   (route) => false,
+                          // );
+                          print(usernameTextController.text);
                         },
                       ),
                     ),
                     Column(
                       children: [
-                        const Text("By creating an account, you have accepted our"),
+                        const Text(
+                            "By creating an account, you have accepted our"),
                         TextButton(
                           onPressed: () {
                             showDialog(

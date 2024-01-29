@@ -82,7 +82,8 @@ class _LoginPageState extends State<LoginPage> {
                             fillColor: backgroundColor,
                             filled: true,
                             labelStyle: TextStyle(color: Colors.grey[400]),
-                            contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(30, 0, 5, 0),
                             labelText: "Email or Username",
                             prefixIconColor: Colors.white,
                             prefixIcon: const Icon(Icons.person),
@@ -99,7 +100,8 @@ class _LoginPageState extends State<LoginPage> {
                             fillColor: backgroundColor,
                             filled: true,
                             labelStyle: TextStyle(color: Colors.grey[400]),
-                            contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(30, 0, 5, 0),
                             labelText: "Password",
                             prefixIconColor: Colors.white,
                             prefixIcon: const Icon(Icons.lock_outline),
