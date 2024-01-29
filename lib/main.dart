@@ -6,6 +6,7 @@ import 'package:ruam_mitt/User/register.dart';
 import 'package:ruam_mitt/User/settings.dart';
 import 'package:ruam_mitt/User/profile.dart';
 import 'package:ruam_mitt/User/home.dart';
+import 'package:ruam_mitt/navigation.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
@@ -32,6 +33,7 @@ class _SuperAppState extends State<SuperApp> {
         "/settings": (context) => const SettingsPage(),
         "/profile": (context) => const ProfilePage(),
         "/home": (context) => const HomePage(),
+        "/game": (context) => const MyGame(),
       },
       title: "RuamMitr - App for Uni Students",
       theme: Provider.of<ThemeProvider>(context).themeData,
