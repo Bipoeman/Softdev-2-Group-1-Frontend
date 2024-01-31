@@ -4,7 +4,7 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:ruam_mitt/dinodengzz.dart';
+import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 
 class Saw extends SpriteAnimationComponent
     with HasGameRef<DinoDengzz>, CollisionCallbacks {

@@ -6,7 +6,7 @@ import 'package:ruam_mitt/User/register.dart';
 import 'package:ruam_mitt/User/settings.dart';
 import 'package:ruam_mitt/User/profile.dart';
 import 'package:ruam_mitt/User/home.dart';
-import 'package:ruam_mitt/navigation.dart';
+import 'package:ruam_mitt/Screens/navigation.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(

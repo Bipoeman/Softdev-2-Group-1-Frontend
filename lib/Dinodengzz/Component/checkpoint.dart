@@ -4,8 +4,8 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:ruam_mitt/Components/player.dart';
-import 'package:ruam_mitt/dinodengzz.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
+import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 
 class Checkpoint extends SpriteAnimationComponent
     with HasGameRef<DinoDengzz>, CollisionCallbacks {
