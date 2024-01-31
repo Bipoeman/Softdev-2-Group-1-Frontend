@@ -1,0 +1,134 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "Level-03.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "ไฟล์ทั้งหมด (*)",
+    "fileStates": {
+        "Big_Deco.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Dino Dengzz.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Dungeon.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "Large_Brick.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Level-01.tmx": {
+            "expandedObjectLayers": [
+                5,
+                4
+            ],
+            "scale": 1.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 320,
+                "y": 184
+            }
+        },
+        "Level-02.tmx": {
+            "expandedObjectLayers": [
+                2,
+                3
+            ],
+            "scale": 5.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 320,
+                "y": 184
+            }
+        },
+        "Level-03.tmx": {
+            "expandedObjectLayers": [
+                2,
+                3
+            ],
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 380.66666666666663,
+                "y": 92.66666666666663
+            }
+        },
+        "Noodles.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 520,
+                "y": 532
+            }
+        },
+        "Pirate.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Pirate_plat.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Tlevel.tmx": {
+            "scale": 1.7738281249999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 317.956397269324,
+                "y": 168.56199075093593
+            }
+        },
+        "island.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "pirate_ship.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.externalTilesetPath": "X:/dinodengzz/assets/tiles",
+    "last.imagePath": "X:/dinodengzz/assets/Terrain",
+    "map.fixedSize": true,
+    "map.height": 23,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 40,
+    "openFiles": [
+        "Dino Dengzz.tsx",
+        "Level-02.tmx",
+        "Level-01.tmx",
+        "Level-03.tmx",
+        "Dungeon.tsx"
+    ],
+    "project": "Dino Dengzz.tiled-project",
+    "property.type": "float",
+    "recentFiles": [
+        "Dino Dengzz.tsx",
+        "Level-02.tmx",
+        "Level-01.tmx",
+        "Dungeon.tsx",
+        "Level-03.tmx",
+        "island.tsx",
+        "Pirate_plat.tsx",
+        "pirate_ship.tsx",
+        "Large_Brick.tsx",
+        "Big_Deco.tsx",
+        "Pirate.tsx",
+        "Tlevel.tmx"
+    ],
+    "tileset.lastUsedFilter": "ไฟล์ไทล์เซต Tiled (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
