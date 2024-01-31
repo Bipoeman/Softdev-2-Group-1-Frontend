@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:ruam_mitt/Screens/levelselect.dart';
-import 'package:ruam_mitt/Screens/start.dart';
-import 'package:ruam_mitt/dinodengzz.dart';
+import 'package:ruam_mitt/Dinodengzz/levelselect.dart';
+import 'package:ruam_mitt/Dinodengzz/start.dart';
+import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 
 class MyGame extends StatefulWidget {
   const MyGame({super.key});
