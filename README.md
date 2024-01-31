@@ -16,4 +16,4 @@ Feature For iteration 1 ส่งวันที่ 5 ก.พ.
 |Sirapob|Game Asset and Level Design|
 |Krittithad||
 |Nicharee|Backend File and Image Storage|
-|Nuttawon|Frontend Register Function|
+|Kasidit|Frontend Login Function|
