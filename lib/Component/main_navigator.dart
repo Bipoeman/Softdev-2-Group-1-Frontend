@@ -139,6 +139,7 @@ class BoxWithMainNavigator extends StatelessWidget {
       children: [
         Expanded(
           child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: IntrinsicHeight(
               child: child,
             ),
