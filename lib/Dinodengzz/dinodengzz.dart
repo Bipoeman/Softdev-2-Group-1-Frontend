@@ -5,9 +5,9 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
-import 'package:ruam_mitt/Components/jump_button.dart';
-import 'package:ruam_mitt/Components/level.dart';
-import 'package:ruam_mitt/Components/player.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/level.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
 
 class DinoDengzz extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
