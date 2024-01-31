@@ -5,7 +5,7 @@ class StartScreen extends StatelessWidget {
   final VoidCallback onLevelSelectionPressed;
   final VoidCallback onExitPressed;
 
-  StartScreen({
+  const StartScreen({super.key, 
     required this.onStartPressed,
     required this.onLevelSelectionPressed,
     required this.onExitPressed,
