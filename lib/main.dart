@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ruam_mitt/Component/theme.dart';
-import 'package:ruam_mitt/User/login.dart';
-import 'package:ruam_mitt/User/register.dart';
-import 'package:ruam_mitt/User/settings.dart';
-import 'package:ruam_mitt/User/profile.dart';
-import 'package:ruam_mitt/User/home.dart';
-import 'package:ruam_mitt/Screens/navigation.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:ruam_mitt/RuamMitr/login.dart';
+import 'package:ruam_mitt/RuamMitr/register.dart';
+import 'package:ruam_mitt/RuamMitr/settings.dart';
+import 'package:ruam_mitt/RuamMitr/profile.dart';
+import 'package:ruam_mitt/RuamMitr/home.dart';
+import 'package:ruam_mitt/Dinodengzz/navigation.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
