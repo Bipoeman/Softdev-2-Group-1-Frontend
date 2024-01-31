@@ -1,4 +1,3 @@
-# ruam_mitt
+# RuamMitr
 
-This Project will combine all the previous app into one app
-All project 
+This project combines all the previous project apps into one app by our new portal app "RuamMitr"
