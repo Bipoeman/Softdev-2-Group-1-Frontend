@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:ruam_mitt/Component/main_navigator.dart";
-import "package:ruam_mitt/Component/theme.dart";
+import 'package:ruam_mitt/RuamMitr/Component/main_navigator.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import "package:provider/provider.dart";
 import "dart:math";
 

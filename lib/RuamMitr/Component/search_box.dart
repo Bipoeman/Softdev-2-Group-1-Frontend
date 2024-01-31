@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ruam_mitt/Component/text_field.dart';
+import 'package:ruam_mitt/RuamMitr/Component/text_field.dart';
 
 class SearchBox extends StatefulWidget {
   const SearchBox({super.key});
