@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:ruam_mitt/Components/background_tile.dart';
-import 'package:ruam_mitt/Components/checkpoint.dart';
-import 'package:ruam_mitt/Components/collision_block.dart';
-import 'package:ruam_mitt/Components/fruit.dart';
-import 'package:ruam_mitt/Components/player.dart';
-import 'package:ruam_mitt/Components/saw.dart';
-import 'package:ruam_mitt/dinodengzz.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/background_tile.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/checkpoint.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/collision_block.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/fruit.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/saw.dart';
+import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
 class Level extends World with HasGameRef<DinoDengzz> {
