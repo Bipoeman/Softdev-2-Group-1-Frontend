@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 class AvatarViewer extends StatelessWidget {
   const AvatarViewer({super.key, this.username, this.avatarUrl});
