@@ -3,7 +3,7 @@
 This project combines all the previous project apps into one app by our new portal app "RuamMitr"
 
 Feature For iteration 1 ส่งวันที่ 5 ก.พ.
-|สมาชิก|Feature| 
+|สมาชิก|Feature|
 |---|---|
 |Nutcha|Frontend Profile Page|
 |Nuttawon|Frontend Register Function|
@@ -16,4 +16,4 @@ Feature For iteration 1 ส่งวันที่ 5 ก.พ.
 |Sirapob|Game Asset and Level Design|
 |Krittithad||
 |Nicharee|Backend File and Image Storage|
-|Kasidit|Frontend Login Function|
+|Nuttawon|Frontend Register Function|
