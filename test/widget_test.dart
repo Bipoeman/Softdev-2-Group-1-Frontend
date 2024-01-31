@@ -8,14 +8,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:ruam_mitt/Component/theme.dart';
-import 'package:ruam_mitt/User/login.dart';
-
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/main.dart';
 
 // class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 
 class FakeRoute extends Fake implements Route {}
+
 void main() {
   // WidgetController.hitTestWarningShouldBeFatal =
   testWidgets('Main Route Test', (WidgetTester tester) async {
@@ -39,7 +39,6 @@ void main() {
     //   expect(find.text('1'), findsOneWidget);
   });
   testWidgets("Login Page Test", (tester) async {
-
     await tester.pumpWidget(const MaterialApp(
       home: LoginPage(),
     ));
@@ -48,7 +47,7 @@ void main() {
       matching: find.byType(TextFormField),
     );
     await tester.enterText(emailField, "admin");
-    expect(find.text('admin') , findsOneWidget);
+    expect(find.text('admin'), findsOneWidget);
     await tester.enterText(emailField, "");
 
     final passwordField = find.ancestor(
@@ -56,11 +55,10 @@ void main() {
       matching: find.byType(TextFormField),
     );
     await tester.enterText(passwordField, "admin");
-    expect(find.text('admin') , findsOneWidget);
+    expect(find.text('admin'), findsOneWidget);
     // NavigatorObserver navigatorObserver = NavigatorObserver();
-    // tester.tap(find.text("Login")); 
+    // tester.tap(find.text("Login"));
     // navigatorObserver.didPop();
-
   });
   // test("login", () => {
 
