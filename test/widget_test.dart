@@ -8,8 +8,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:ruam_mitt/Component/theme.dart';
-import 'package:ruam_mitt/User/login.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:ruam_mitt/RuamMitr/login.dart';
 
 import 'package:ruam_mitt/main.dart';
 
