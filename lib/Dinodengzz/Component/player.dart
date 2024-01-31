@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
-import 'package:ruam_mitt/Components/checkpoint.dart';
-import 'package:ruam_mitt/Components/collision_block.dart';
-import 'package:ruam_mitt/Components/custom_hitbox.dart';
-import 'package:ruam_mitt/Components/saw.dart';
-import 'package:ruam_mitt/Components/utils.dart';
-import 'package:ruam_mitt/dinodengzz.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/checkpoint.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/collision_block.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/saw.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/utils.dart';
+import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 
 enum PlayerState {
   idle,

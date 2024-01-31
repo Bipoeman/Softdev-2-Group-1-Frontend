@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:ruam_mitt/dinodengzz.dart';
+import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 
 class JumpButton extends SpriteComponent
     with HasGameRef<DinoDengzz>, TapCallbacks {
