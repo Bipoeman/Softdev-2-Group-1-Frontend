@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
-import "package:ruam_mitt/Component/main_navigator.dart";
-import "package:ruam_mitt/Component/avatar.dart";
-import "package:ruam_mitt/Component/search_box.dart";
+import 'package:ruam_mitt/RuamMitr/Component/main_navigator.dart';
+import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
+import 'package:ruam_mitt/RuamMitr/Component/search_box.dart';
 import "dart:math";
 
 Color backgroundColor = const Color(0xffe8e8e8);

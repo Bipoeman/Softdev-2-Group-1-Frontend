@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:ruam_mitt/Component/main_navigator.dart";
+import 'package:ruam_mitt/RuamMitr/Component/main_navigator.dart';
 
 Color backgroundColor = const Color(0xffe8e8e8);
 Color mainColor = const Color(0xffd33333);

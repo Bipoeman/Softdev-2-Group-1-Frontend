@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ruam_mitt/Component/text_field.dart';
+import 'package:ruam_mitt/RuamMitr/Component/text_field.dart';
 import 'dart:math';
 
 Color backgroundColor = const Color(0xffe8e8e8);
