@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ruam_mitt/Component/theme.dart';
-import 'package:ruam_mitt/User/login.dart';
-import 'package:ruam_mitt/User/register.dart';
-import 'package:ruam_mitt/User/settings.dart';
-import 'package:ruam_mitt/User/profile.dart';
-import 'package:ruam_mitt/User/home.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:ruam_mitt/RuamMitr/login.dart';
+import 'package:ruam_mitt/RuamMitr/register.dart';
+import 'package:ruam_mitt/RuamMitr/settings.dart';
+import 'package:ruam_mitt/RuamMitr/profile.dart';
+import 'package:ruam_mitt/RuamMitr/home.dart';
+import 'package:ruam_mitt/Dinodengzz/navigation.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
@@ -32,6 +33,7 @@ class _SuperAppState extends State<SuperApp> {
         "/settings": (context) => const SettingsPage(),
         "/profile": (context) => const ProfilePage(),
         "/home": (context) => const HomePage(),
+        "/game": (context) => const MyGame(),
       },
       title: "RuamMitr - App for Uni Students",
       theme: Provider.of<ThemeProvider>(context).themeData,
