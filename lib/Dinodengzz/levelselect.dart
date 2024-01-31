@@ -4,8 +4,8 @@ class LevelSelectionScreen extends StatelessWidget {
   final List<String> levelNames;
   final ValueChanged<int> onLevelSelected;
 
-  LevelSelectionScreen(
-      {required this.levelNames, required this.onLevelSelected});
+  const LevelSelectionScreen(
+      {super.key, required this.levelNames, required this.onLevelSelected});
 
   @override
   Widget build(BuildContext context) {

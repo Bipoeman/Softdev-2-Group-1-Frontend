@@ -6,7 +6,7 @@ import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/RuamMitr/settings.dart';
 import 'package:ruam_mitt/RuamMitr/profile.dart';
 import 'package:ruam_mitt/RuamMitr/home.dart';
-import 'package:ruam_mitt/navigation.dart';
+import 'package:ruam_mitt/Dinodengzz/navigation.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(

@@ -71,29 +71,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         },
                       ),
                     ),
-                    SizedBox(
-                      width: [size.width * 0.6, 300.0].reduce(min),
-                      height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xffcb2e23),
-                          textStyle: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                          foregroundColor: Colors.white,
-                        ),
-                        child: const Text("Wanna Dengzz"),
-                        onPressed: () {
-                          // clear all routes and push to home
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                            '/game',
-                            (Route<dynamic> route) => false,
-                          );
-                        },
-                      ),
-                    ),
                   ],
                 ),
               ),
