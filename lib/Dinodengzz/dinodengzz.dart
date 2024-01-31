@@ -50,8 +50,7 @@ class DinoDengzz extends FlameGame
     joystick = JoystickComponent(
         priority: 10,
         knob: SpriteComponent(sprite: Sprite(images.fromCache('HUD/Knob.png'))),
-        background: SpriteComponent(
-            sprite: Sprite(images.fromCache('HUD/Joystick.png'))),
+        background: SpriteComponent(sprite: Sprite(images.fromCache('HUD/Joystick.png'))),
         margin: const EdgeInsets.only(left: 32, bottom: 32));
 
     add(joystick);
