@@ -1,10 +1,6 @@
 import "package:flutter/material.dart";
 import "dart:math";
 
-Color backgroundColor = const Color(0xffe8e8e8);
-Color mainColor = const Color(0xffd33333);
-Color textColor = const Color(0xff000000);
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -16,8 +12,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: theme.canvasColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: ConstrainedBox(
@@ -37,12 +34,12 @@ class _LoginPageState extends State<LoginPage> {
                         height: [150.0, size.width * 0.4].reduce(min),
                         width: [150.0, size.width * 0.4].reduce(min),
                         decoration: BoxDecoration(
-                          color: mainColor,
+                          color: theme.colorScheme.primary,
                         ),
-                        child: const Text(
+                        child: Text(
                           "Logo Here",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: theme.colorScheme.onPrimary,
                             fontSize: 20,
                           ),
                         ),
@@ -52,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                           Text(
                             "NAME",
                             style: TextStyle(
-                              color: mainColor,
+                              color: theme.colorScheme.primary,
                               fontWeight: FontWeight.bold,
                               fontSize: 35,
                             ),
@@ -60,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                           Text(
                             "PORTAL APP",
                             style: TextStyle(
-                              color: mainColor,
+                              color: theme.colorScheme.primary,
                               fontWeight: FontWeight.w300,
                               fontSize: 30,
                             ),
@@ -74,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 360,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(28),
-                          color: Colors.white,
+                          color: theme.colorScheme.primaryContainer.withOpacity(0.8),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -82,13 +79,13 @@ class _LoginPageState extends State<LoginPage> {
                             TextFormField(
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
-                                fillColor: backgroundColor,
+                                fillColor: theme.colorScheme.background,
                                 filled: true,
-                                labelStyle: TextStyle(color: Colors.grey[400]),
-                                contentPadding:
-                                    const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                labelStyle: TextStyle(
+                                    color: theme.colorScheme.onBackground.withOpacity(0.5)),
+                                contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                 labelText: "Email or Username",
-                                prefixIconColor: Colors.white,
+                                prefixIconColor: theme.colorScheme.onBackground,
                                 prefixIcon: const Icon(Icons.person),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(40),
@@ -100,13 +97,13 @@ class _LoginPageState extends State<LoginPage> {
                               keyboardType: TextInputType.visiblePassword,
                               obscureText: true,
                               decoration: InputDecoration(
-                                fillColor: backgroundColor,
+                                fillColor: theme.colorScheme.background,
                                 filled: true,
-                                labelStyle: TextStyle(color: Colors.grey[400]),
-                                contentPadding:
-                                    const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                labelStyle: TextStyle(
+                                    color: theme.colorScheme.onBackground.withOpacity(0.5)),
+                                contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                 labelText: "Password",
-                                prefixIconColor: Colors.white,
+                                prefixIconColor: theme.colorScheme.onBackground,
                                 prefixIcon: const Icon(Icons.lock_outline),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(40),
@@ -117,9 +114,9 @@ class _LoginPageState extends State<LoginPage> {
                             Align(
                               alignment: Alignment.centerRight,
                               child: TextButton(
-                                child: const Text(
+                                child: Text(
                                   "Forgot password?",
-                                  style: TextStyle(color: Color(0xff7eb0de)),
+                                  style: TextStyle(color: theme.colorScheme.secondary),
                                 ),
                                 onPressed: () {},
                               ),
@@ -129,13 +126,13 @@ class _LoginPageState extends State<LoginPage> {
                               height: 50,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: mainColor,
-                                  textStyle: const TextStyle(
-                                    color: Colors.white,
+                                  backgroundColor: theme.colorScheme.primary,
+                                  textStyle: TextStyle(
+                                    color: theme.colorScheme.onPrimary,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),
-                                  foregroundColor: Colors.white,
+                                  foregroundColor: theme.colorScheme.onPrimary,
                                 ),
                                 child: const Text("Login"),
                                 onPressed: () {
@@ -154,10 +151,10 @@ class _LoginPageState extends State<LoginPage> {
                                   onPressed: () {
                                     Navigator.pushNamed(context, '/register');
                                   },
-                                  child: const Text(
+                                  child: Text(
                                     "Create an account",
                                     style: TextStyle(
-                                      color: Color(0xff7eb0de),
+                                      color: theme.colorScheme.secondary,
                                     ),
                                   ),
                                 ),

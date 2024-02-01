@@ -5,7 +5,8 @@ class AvatarViewer extends StatelessWidget {
   final String? username;
   final String? avatarUrl;
 
-  Widget getAvatar() {
+  Widget getAvatar(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     if (avatarUrl != null) {
       try {
         return CircleAvatar(
@@ -16,10 +17,10 @@ class AvatarViewer extends StatelessWidget {
         debugPrint(e.toString());
       }
     }
-    return const CircleAvatar(
+    return CircleAvatar(
       radius: 30,
-      backgroundColor: Colors.grey,
-      child: Icon(
+      backgroundColor: theme.colorScheme.primaryContainer.withOpacity(0.5),
+      child: const Icon(
         Icons.person,
         size: 25,
       ),
@@ -57,7 +58,7 @@ class AvatarViewer extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: getAvatar(),
+                  child: getAvatar(context),
                 ),
               ],
             ),

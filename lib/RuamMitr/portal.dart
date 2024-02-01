@@ -92,7 +92,7 @@ class MainNavigator extends StatelessWidget {
     return Container(
       height: [size.width * 0.4, 100.0].reduce(min),
       width: size.width,
-      color: Colors.grey[200],
+      color: theme.colorScheme.primaryContainer,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -128,11 +128,11 @@ class MainNavigator extends StatelessWidget {
             child: RawMaterialButton(
               shape: CircleBorder(
                 side: BorderSide(
-                  color: Colors.red[700] ?? const Color.fromRGBO(211, 47, 47, 1),
+                  color: theme.colorScheme.primary,
                   width: 5,
                 ),
               ),
-              fillColor: Colors.red,
+              fillColor: theme.colorScheme.primary.withBlue(66).withGreen(66),
               constraints: BoxConstraints.tight(
                 Size(
                   [size.width * 0.3, 90.0].reduce(min),
@@ -140,20 +140,20 @@ class MainNavigator extends StatelessWidget {
                 ),
               ),
               onPressed: onHome,
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.home,
                     size: 30,
-                    color: Colors.white,
+                    color: theme.colorScheme.onPrimary,
                   ),
                   Text(
                     "Home",
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: theme.colorScheme.onPrimary,
                     ),
                   ),
                 ],

@@ -3,10 +3,6 @@ import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/search_box.dart';
 import "dart:math";
 
-Color backgroundColor = const Color(0xffe8e8e8);
-Color mainColor = const Color(0xffd33333);
-Color textColor = const Color(0xff000000);
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -18,6 +14,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Column(
@@ -40,12 +37,12 @@ class _HomePageState extends State<HomePage> {
                 clipBehavior: Clip.none,
                 children: [
                   Positioned(
-                    top: 25,
+                    top: 35,
                     width: [size.width * 0.8, 800.0].reduce(min),
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200],
+                        color: theme.colorScheme.primaryContainer.withOpacity(0.8),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -54,7 +51,7 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "Welcome to RuamMitr Portal App",
                             style: TextStyle(
-                              color: mainColor,
+                              color: theme.colorScheme.primary,
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                             ),
@@ -62,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisl.",
                             style: TextStyle(
-                              color: textColor,
+                              color: theme.colorScheme.onBackground,
                               fontSize: 15,
                             ),
                           ),
