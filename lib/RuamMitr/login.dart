@@ -138,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                                   children: [
                                     Checkbox(
                                       value: isChecked,
-                                      tristate: true,
+                                      // tristate: true,
                                       onChanged: (bool? value) {
                                         setState(() {
                                         if (value != null) {
