@@ -1,9 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/RuamMitr/home.dart';
+import 'package:ruam_mitt/RuamMitr/profile.dart';
+import 'package:ruam_mitt/RuamMitr/settings.dart';
 import 'dart:math';
 
-class MainNavigator extends StatelessWidget {
-  MainNavigator({super.key});
+class PortalPage extends StatefulWidget {
+  const PortalPage({super.key});
+
+  @override
+  State<PortalPage> createState() => _PortalPageState();
+}
+
+class _PortalPageState extends State<PortalPage> {
+  late Widget navController;
   String _selectedPage = "home";
+  Widget _selectedWidget() {
+    switch (_selectedPage) {
+      case "home":
+        return const HomePage();
+      case "profile":
+        return const ProfilePage();
+      case "settings":
+        return const SettingsPage();
+      default:
+        return const HomePage();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    navController = MainNavigator(
+      onHome: () {
+        setPage("home");
+      },
+      onProfile: () {
+        setPage("profile");
+      },
+      onSettings: () {
+        setPage("settings");
+      },
+    );
+  }
+
+  void setPage(String page) {
+    _selectedPage = page;
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+    Size size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      backgroundColor: theme.colorScheme.background,
+      bottomNavigationBar: navController,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: size.height -
+                  [size.width * 0.4, 100.0].reduce(min) -
+                  MediaQuery.of(context).padding.top,
+            ),
+            child: _selectedWidget(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MainNavigator extends StatelessWidget {
+  const MainNavigator({
+    super.key,
+    required this.onProfile,
+    required this.onHome,
+    required this.onSettings,
+  });
+
+  final VoidCallback onProfile;
+  final VoidCallback onHome;
+  final VoidCallback onSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +105,7 @@ class MainNavigator extends StatelessWidget {
                   [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
-              onPressed: () {
-                _selectedPage = "profile";
-              },
+              onPressed: onProfile,
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -62,9 +139,7 @@ class MainNavigator extends StatelessWidget {
                   [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
-              onPressed: () {
-                _selectedPage = "home";
-              },
+              onPressed: onHome,
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -94,9 +169,7 @@ class MainNavigator extends StatelessWidget {
                   [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
-              onPressed: () {
-                _selectedPage = "settings";
-              },
+              onPressed: onSettings,
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
