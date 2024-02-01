@@ -1,5 +1,8 @@
 import "package:flutter/material.dart";
 import "dart:math";
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,8 +12,25 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool? isChecked = false;
+  @override
+  void initState() {
+    loadData();
+    super.initState();
+  }
+  loadData() async {
+     SharedPreferences prefs =await SharedPreferences.getInstance();
+     setState(() {
+      isChecked = prefs.getBool("isChecked");
+     });
+  } 
   @override
   Widget build(BuildContext context) {
+    @override
+    savebool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("isChecked", isChecked!);
+    }
     Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
     return Scaffold(
@@ -112,14 +132,37 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                                child: Text(
-                                  "Forgot password?",
-                                  style: TextStyle(color: theme.colorScheme.secondary),
+                              alignment: Alignment.center,
+                              child: 
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                      value: isChecked,
+                                      tristate: true,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                        if (value != null) {
+                                            isChecked = value;
+                                            savebool();
+                                          }
+                                        });
+                                      },
+                                      activeColor: Colors.white,
+                                      checkColor: Color.fromARGB(255, 44, 164, 224),
+                                    ),
+                                    Text(
+                                      "Remember me",
+                                      style: TextStyle(fontSize: 13 ),
+                                    ),
+                                    TextButton(
+                                    child: Text(
+                                      "Forgot password?",
+                                      style: TextStyle(fontSize: 13 , color: theme.colorScheme.secondary),
+                                    ),
+                                    onPressed: () {},
+                                  ),
+                                  ],
                                 ),
-                                onPressed: () {},
-                              ),
                             ),
                             SizedBox(
                               width: double.infinity,
