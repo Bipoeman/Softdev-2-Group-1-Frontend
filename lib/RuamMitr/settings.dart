@@ -18,28 +18,26 @@ class _SettingsPageState extends State<SettingsPage> {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        IntrinsicHeight(
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Toggle Theme",
-                  style: theme.textTheme.titleLarge,
-                ),
-                Switch(
-                  value: themeProvider.isDarkMode,
-                  onChanged: (value) {
-                    themeProvider.toggleTheme();
-                  },
-                ),
-              ],
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              "Toggle Theme",
+              style: theme.textTheme.titleLarge,
             ),
-          ),
+            Switch(
+              value: themeProvider.isDarkMode,
+              onChanged: (value) {
+                themeProvider.toggleTheme();
+              },
+            ),
+          ],
         ),
-        SizedBox(
+        Container(
           width: [size.width * 0.6, 300.0].reduce(min),
+          margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
           height: 50,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
