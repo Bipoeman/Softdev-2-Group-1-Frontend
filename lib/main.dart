@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ruam_mitt/Component/theme.dart';
-import 'package:ruam_mitt/User/login.dart';
-import 'package:ruam_mitt/User/register.dart';
-import 'package:ruam_mitt/User/settings.dart';
-import 'package:ruam_mitt/User/profile.dart';
-import 'package:ruam_mitt/User/home.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:ruam_mitt/RuamMitr/login.dart';
+import 'package:ruam_mitt/RuamMitr/register.dart';
+import 'package:ruam_mitt/RuamMitr/portal.dart';
+import 'package:ruam_mitt/Dinodengzz/navigation.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
@@ -29,9 +28,8 @@ class _SuperAppState extends State<SuperApp> {
       routes: {
         "/login": (context) => const LoginPage(),
         "/register": (context) => const RegisterPage(),
-        "/settings": (context) => const SettingsPage(),
-        "/profile": (context) => const ProfilePage(),
-        "/home": (context) => const HomePage(),
+        "/home": (context) => const PortalPage(),
+        "/game": (context) => const MyGame(),
       },
       title: "RuamMitr - App for Uni Students",
       theme: Provider.of<ThemeProvider>(context).themeData,
@@ -62,7 +60,7 @@ class MyHomePage extends StatefulWidget {
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
 
-  // This class is the configuration for the state. It holds the values (in this
+  // This class is the configuration for the ste. It holds the values (in this
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
