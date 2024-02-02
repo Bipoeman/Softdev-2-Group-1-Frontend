@@ -4,7 +4,8 @@ import 'package:ruam_mitt/RuamMitr/Component/search_box.dart';
 import "dart:math";
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.onProfilePressed});
+  final VoidCallback onProfilePressed;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -20,12 +21,14 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(10),
+          Padding(
+            padding: const EdgeInsets.all(10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                AvatarViewer(),
+                AvatarViewer(
+                  onPressed: widget.onProfilePressed,
+                ),
               ],
             ),
           ),

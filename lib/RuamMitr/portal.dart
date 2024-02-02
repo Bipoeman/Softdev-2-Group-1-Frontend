@@ -14,16 +14,24 @@ class PortalPage extends StatefulWidget {
 class _PortalPageState extends State<PortalPage> {
   late Widget navController;
   String _selectedPage = "home";
+
   Widget _selectedWidget() {
+    Widget home = HomePage(
+      onProfilePressed: () {
+        setPage("profile");
+      },
+    );
+    Widget profile = const ProfilePage();
+    Widget settings = const SettingsPage();
     switch (_selectedPage) {
       case "home":
-        return const HomePage();
+        return home;
       case "profile":
-        return const ProfilePage();
+        return profile;
       case "settings":
-        return const SettingsPage();
+        return settings;
       default:
-        return const HomePage();
+        return home;
     }
   }
 
