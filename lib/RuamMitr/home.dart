@@ -4,8 +4,7 @@ import 'package:ruam_mitt/RuamMitr/Component/search_box.dart';
 import "dart:math";
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.onProfilePressed});
-  final VoidCallback onProfilePressed;
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -21,14 +20,12 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
+          const Padding(
+            padding: EdgeInsets.all(10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                AvatarViewer(
-                  onPressed: widget.onProfilePressed,
-                ),
+                AvatarViewer(),
               ],
             ),
           ),
@@ -51,20 +48,36 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
-                            "Welcome to RuamMitr Portal App",
-                            style: TextStyle(
-                              color: theme.colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                          Text(
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisl.",
-                            style: TextStyle(
-                              color: theme.colorScheme.onBackground,
-                              fontSize: 15,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  debugPrint("Contents");
+                                },
+                                child: Text(
+                                  "Contents",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: theme.colorScheme.onBackground,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  debugPrint("Services");
+                                },
+                                child: Text(
+                                  "Services",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: theme.colorScheme.onBackground,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
