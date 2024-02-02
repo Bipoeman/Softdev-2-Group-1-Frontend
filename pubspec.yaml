@@ -38,6 +38,7 @@ dependencies:
   provider: 6.1.1
   flame: ^1.14.0
   flame_tiled: ^1.18.3
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "dart:math";
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,6 +10,22 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final url = Uri.parse("https://softdev2-backend.azurewebsites.net/login");
+  final usernameTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
+
+  Future<bool> sendPostRequest() async {
+    var response = await http.post(url, body: {
+      "emailoruser": usernameTextController.text,
+      "password": passwordTextController.text,
+    });
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -71,19 +88,23 @@ class _LoginPageState extends State<LoginPage> {
                         height: 360,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(28),
-                          color: theme.colorScheme.primaryContainer.withOpacity(0.8),
+                          color: theme.colorScheme.primaryContainer
+                              .withOpacity(0.8),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             TextFormField(
+                              controller: usernameTextController,
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                 fillColor: theme.colorScheme.background,
                                 filled: true,
                                 labelStyle: TextStyle(
-                                    color: theme.colorScheme.onBackground.withOpacity(0.5)),
-                                contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                    color: theme.colorScheme.onBackground
+                                        .withOpacity(0.5)),
+                                contentPadding:
+                                    const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                 labelText: "Email or Username",
                                 prefixIconColor: theme.colorScheme.onBackground,
                                 prefixIcon: const Icon(Icons.person),
@@ -94,14 +115,17 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             TextFormField(
+                              controller: passwordTextController,
                               keyboardType: TextInputType.visiblePassword,
                               obscureText: true,
                               decoration: InputDecoration(
                                 fillColor: theme.colorScheme.background,
                                 filled: true,
                                 labelStyle: TextStyle(
-                                    color: theme.colorScheme.onBackground.withOpacity(0.5)),
-                                contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                    color: theme.colorScheme.onBackground
+                                        .withOpacity(0.5)),
+                                contentPadding:
+                                    const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                 labelText: "Password",
                                 prefixIconColor: theme.colorScheme.onBackground,
                                 prefixIcon: const Icon(Icons.lock_outline),
@@ -116,7 +140,8 @@ class _LoginPageState extends State<LoginPage> {
                               child: TextButton(
                                 child: Text(
                                   "Forgot password?",
-                                  style: TextStyle(color: theme.colorScheme.secondary),
+                                  style: TextStyle(
+                                      color: theme.colorScheme.secondary),
                                 ),
                                 onPressed: () {},
                               ),
@@ -135,11 +160,27 @@ class _LoginPageState extends State<LoginPage> {
                                   foregroundColor: theme.colorScheme.onPrimary,
                                 ),
                                 child: const Text("Login"),
-                                onPressed: () {
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                    "/home",
-                                    (route) => false,
-                                  );
+                                onPressed: () async {
+                                  if (await sendPostRequest() == true) {
+                                    if (context.mounted) {
+                                      Navigator.of(context)
+                                          .pushNamedAndRemoveUntil(
+                                        "/home",
+                                        (route) => false,
+                                      );
+                                    }
+                                  } else {
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Login failed. Please check your credentials."),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                    }
+                                  }
                                 },
                               ),
                             ),
