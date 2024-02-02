@@ -53,6 +53,7 @@ class _PortalPageState extends State<PortalPage> {
 
   void setPage(String page) {
     _selectedPage = page;
+
     setState(() {});
   }
 
