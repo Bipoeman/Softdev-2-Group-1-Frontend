@@ -8,7 +8,7 @@ class ServicesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(20.0),
       child: Wrap(
         spacing: 20,
         runSpacing: 20,
@@ -34,9 +34,12 @@ class ServicesWidget extends StatelessWidget {
             height: size,
           ),
           AppBox(
-            appName: "Dinodengzz",
+            appName: "DinoDengzz",
             width: size,
             height: size,
+            appRoute: () {
+              Navigator.pushNamed(context, "/game");
+            },
           ),
         ],
       ),

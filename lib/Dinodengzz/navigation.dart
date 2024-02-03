@@ -31,8 +31,7 @@ class _GameHomePageState extends State<MyGame> {
           _navigateToLevelSelection(context, game);
         },
         onExitPressed: () {
-          Navigator.popUntil(context, (route) => false);
-          Navigator.pushNamed(context, '/login');
+          Navigator.pop(context);
         },
       ),
     );

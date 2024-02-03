@@ -13,7 +13,7 @@ class AppBox extends StatelessWidget {
   final String? appIconPath;
   final String? appName;
   final String? appDescription;
-  final String? appRoute;
+  final VoidCallback? appRoute;
   final double width;
   final double height;
 
@@ -43,9 +43,17 @@ class AppBox extends StatelessWidget {
   Widget build(context) {
     ThemeData theme = Theme.of(context);
     return TextButton(
-      onPressed: () {
-        // Add your button logic here
-      },
+      onPressed: appRoute ?? () {},
+      style: ButtonStyle(
+        padding: MaterialStateProperty.all(
+          EdgeInsets.zero,
+        ),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
       child: Container(
         width: width,
         height: height,
