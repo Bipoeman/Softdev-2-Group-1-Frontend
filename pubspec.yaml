@@ -39,6 +39,7 @@ dependencies:
   flame: ^1.14.0
   flame_tiled: ^1.18.3
   shared_preferences: ^2.2.2
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:
