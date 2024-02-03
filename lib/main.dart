@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:ruam_mitt/RuamMitr/InternetControl/Injection.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/RuamMitr/portal.dart';
@@ -11,6 +13,7 @@ void main() {
     create: (context) => ThemeProvider(),
     child: const SuperApp(),
   ));
+  DependencyInjection.init();
 }
 
 class SuperApp extends StatefulWidget {
@@ -23,7 +26,7 @@ class SuperApp extends StatefulWidget {
 class _SuperAppState extends State<SuperApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       initialRoute: "/login",
       routes: {
         "/login": (context) => const LoginPage(),
