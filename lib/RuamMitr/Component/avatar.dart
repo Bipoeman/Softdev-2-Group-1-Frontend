@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/RuamMitr/profile.dart';
+import 'package:ruam_mitt/RuamMitr/portal.dart';
+import 'package:ruam_mitt/RuamMitr/Component/page_route_animation.dart';
 
 class AvatarViewer extends StatelessWidget {
   const AvatarViewer({
     super.key,
     this.username,
     this.avatarUrl,
-    required this.onPressed,
   });
   final String? username;
   final String? avatarUrl;
-  final VoidCallback onPressed;
 
   Widget getAvatar(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -42,7 +43,16 @@ class AvatarViewer extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           constraints: const BoxConstraints(),
-          onPressed: onPressed,
+          onPressed: () {
+            Navigator.push(
+              context,
+              NoAnimationMaterialPageRoute(
+                builder: (context) {
+                  return const PortalPage(page: ProfilePage());
+                },
+              ),
+            );
+          },
           child: Container(
             margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
             child: Row(
