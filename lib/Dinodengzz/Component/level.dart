@@ -20,7 +20,6 @@ class Level extends World with HasGameRef<DinoDengzz> {
   @override
   FutureOr<void> onLoad() async {
     level = await TiledComponent.load('$levelName.tmx', Vector2.all(16));
-    level.priority = -5;
     add(level);
 
     _scrollingBackground();

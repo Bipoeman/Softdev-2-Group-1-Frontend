@@ -18,7 +18,7 @@ class DinoDengzz extends FlameGame
   Player player = Player(character: 'Ninja Frog');
 
   late JoystickComponent joystick;
-  bool showControls = false;
+  bool showControls = true;
 
   bool playSounds = false;
   double soundVolume = 1.0;
@@ -52,7 +52,7 @@ class DinoDengzz extends FlameGame
         knob: SpriteComponent(sprite: Sprite(images.fromCache('HUD/Knob.png'))),
         background: SpriteComponent(
             sprite: Sprite(images.fromCache('HUD/Joystick.png'))),
-        margin: const EdgeInsets.only(left: 32, bottom: 32));
+        margin: const EdgeInsets.only(left: 28, bottom: 32));
 
     add(joystick);
   }
@@ -76,6 +76,7 @@ class DinoDengzz extends FlameGame
   }
 
   void loadNextLevel() {
+    priority = -5;
     removeWhere((component) => component is Level);
     if (currentLevelIndex < levelNames.length - 1) {
       currentLevelIndex++;
