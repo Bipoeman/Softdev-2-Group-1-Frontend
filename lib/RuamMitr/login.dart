@@ -3,7 +3,6 @@ import "dart:math";
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -30,9 +29,32 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void dispose() {
+    usernameTextController.dispose();
+    passwordTextController.dispose();
+    super.dispose();
+  }
+
+  bool isLoggedIn() {
+    return usernameTextController.text.isNotEmpty &&
+        passwordTextController.text.isNotEmpty &&
+        isChecked!;
+  }
+
+  void navigateToHome() async {
+    if (isLoggedIn()) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        "/home",
+        (route) => false,
+      );
+    }
+  }
+
+  @override
   void initState() {
-    loadData();
     super.initState();
+    loadData();
+    // checkAuth(context);
   }
 
   clearPreferences() async {
@@ -46,22 +68,23 @@ class _LoginPageState extends State<LoginPage> {
       isChecked = prefs.getBool("isChecked");
       usernameTextController.text = prefs.getString("emailoruser") ?? "";
       passwordTextController.text = prefs.getString("password") ?? "";
+      navigateToHome();
     });
+  }
+
+  savebool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("isChecked", isChecked!);
+  }
+
+  saveuser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("emailoruser", usernameTextController.text);
+    await prefs.setString("password", passwordTextController.text);
   }
 
   @override
   Widget build(BuildContext context) {
-    @override
-    savebool() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setBool("isChecked", isChecked!);
-    }
-    @override
-    saveuser() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString("emailoruser", usernameTextController.text);
-      await prefs.setString("password", passwordTextController.text);
-    }
     Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
     return Scaffold(
@@ -184,10 +207,10 @@ class _LoginPageState extends State<LoginPage> {
                                           setState(() {
                                             if (value != null) {
                                               isChecked = value;
-                                              if (isChecked == true){
-                                                  savebool();
-                                                  saveuser();
-                                              }else{
+                                              if (isChecked == true) {
+                                                savebool();
+                                                saveuser();
+                                              } else {
                                                 clearPreferences();
                                               }
                                             }
@@ -231,10 +254,10 @@ class _LoginPageState extends State<LoginPage> {
                                 child: const Text("Login"),
                                 onPressed: () async {
                                   if (await sendPostRequest() == true) {
-                                    if (isChecked == true){
-                                        savebool();
-                                        saveuser();
-                                    }else{
+                                    if (isChecked == true) {
+                                      savebool();
+                                      saveuser();
+                                    } else {
                                       clearPreferences();
                                     }
                                     if (context.mounted) {
@@ -245,9 +268,9 @@ class _LoginPageState extends State<LoginPage> {
                                       );
                                     }
                                   } else {
-                                    if (isChecked == true){
+                                    if (isChecked == true) {
                                       savebool();
-                                    }else{
+                                    } else {
                                       clearPreferences();
                                     }
                                     if (context.mounted) {
