@@ -3,6 +3,7 @@ import "dart:math";
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -12,19 +13,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool? isChecked = false;
-  @override
-  void initState() {
-    loadData();
-    super.initState();
-  }
-
-  loadData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      isChecked = prefs.getBool("isChecked");
-    });
-  }
-
   final url = Uri.parse("https://softdev2-backend.azurewebsites.net/login");
   final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
@@ -42,13 +30,38 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void initState() {
+    loadData();
+    super.initState();
+  }
+
+  clearPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+
+  loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isChecked = prefs.getBool("isChecked");
+      usernameTextController.text = prefs.getString("emailoruser") ?? "";
+      passwordTextController.text = prefs.getString("password") ?? "";
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     @override
     savebool() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool("isChecked", isChecked!);
     }
-
+    @override
+    saveuser() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString("emailoruser", usernameTextController.text);
+      await prefs.setString("password", passwordTextController.text);
+    }
     Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
     return Scaffold(
@@ -159,23 +172,30 @@ class _LoginPageState extends State<LoginPage> {
                             Align(
                               alignment: Alignment.center,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
                                       Checkbox(
-                                        value: isChecked,
+                                        value: isChecked ?? false,
                                         tristate: false,
                                         onChanged: (bool? value) {
                                           setState(() {
                                             if (value != null) {
                                               isChecked = value;
-                                              savebool();
+                                              if (isChecked == true){
+                                                  savebool();
+                                                  saveuser();
+                                              }else{
+                                                clearPreferences();
+                                              }
                                             }
                                           });
                                         },
                                         activeColor: Colors.white,
-                                        checkColor: const Color.fromARGB(255, 44, 164, 224),
+                                        checkColor: const Color.fromARGB(
+                                            255, 44, 164, 224),
                                       ),
                                       const Text(
                                         "Remember me",
@@ -187,7 +207,8 @@ class _LoginPageState extends State<LoginPage> {
                                     child: Text(
                                       "Forgot password?",
                                       style: TextStyle(
-                                          fontSize: 13, color: theme.colorScheme.secondary),
+                                          fontSize: 13,
+                                          color: theme.colorScheme.secondary),
                                     ),
                                     onPressed: () {},
                                   ),
@@ -210,6 +231,12 @@ class _LoginPageState extends State<LoginPage> {
                                 child: const Text("Login"),
                                 onPressed: () async {
                                   if (await sendPostRequest() == true) {
+                                    if (isChecked == true){
+                                        savebool();
+                                        saveuser();
+                                    }else{
+                                      clearPreferences();
+                                    }
                                     if (context.mounted) {
                                       Navigator.of(context)
                                           .pushNamedAndRemoveUntil(
@@ -218,7 +245,14 @@ class _LoginPageState extends State<LoginPage> {
                                       );
                                     }
                                   } else {
+                                    if (isChecked == true){
+                                      savebool();
+                                    }else{
+                                      clearPreferences();
+                                    }
                                     if (context.mounted) {
+                                      clearPreferences();
+                                      savebool();
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
