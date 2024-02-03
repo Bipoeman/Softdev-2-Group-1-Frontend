@@ -15,7 +15,7 @@ class DinoDengzz extends FlameGame
   Color backgroundColor() => const Color(0xFF211F30);
 
   late CameraComponent cam;
-  Player player = Player(character: 'Ninja Frog');
+  Player player = Player(character: 'Relaxaurus');
 
   late JoystickComponent joystick;
   bool showControls = true;
