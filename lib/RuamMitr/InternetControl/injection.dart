@@ -1,7 +1,5 @@
-// ignore_for_file: file_names
-
 import 'package:get/get.dart';
-import 'package:ruam_mitt/RuamMitr/InternetControl/Network_controller.dart';
+import 'package:ruam_mitt/RuamMitr/InternetControl/network_controller.dart';
 
 class DependencyInjection {
   static void init() {
