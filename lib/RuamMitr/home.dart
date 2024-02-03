@@ -5,15 +5,15 @@ import 'package:ruam_mitt/RuamMitr/Component/home/services.dart';
 import "dart:math";
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isServicesSelected = false;
-  bool isContentsSelected = true;
+  bool isServicesSelected = true;
+  bool isContentsSelected = false;
 
   Widget selectionText(BuildContext context, String text, bool isSelected) {
     ThemeData theme = Theme.of(context);
@@ -82,21 +82,6 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 setState(
                                   () {
-                                    isServicesSelected = true;
-                                    isContentsSelected = false;
-                                  },
-                                );
-                              },
-                              child: selectionText(
-                                context,
-                                "Services",
-                                isServicesSelected,
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                setState(
-                                  () {
                                     isServicesSelected = false;
                                     isContentsSelected = true;
                                   },
@@ -106,6 +91,21 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 "Contents",
                                 isContentsSelected,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    isServicesSelected = true;
+                                    isContentsSelected = false;
+                                  },
+                                );
+                              },
+                              child: selectionText(
+                                context,
+                                "Services",
+                                isServicesSelected,
                               ),
                             ),
                           ],
