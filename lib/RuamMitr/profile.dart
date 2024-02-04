@@ -11,126 +11,9 @@ class ProfilePage extends StatefulWidget {
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
-
-class _ProfilePageState extends State<ProfilePage> {
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    ThemeData theme = Theme.of(context);
-    return Column(
-      children: [
-        Container(
-          width: double.infinity,
-          height: size.height * 0.32,
-          decoration: BoxDecoration(
-              color: mainColor,
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(size.height * 0.2),
-                bottomLeft: Radius.circular(size.height * 0.2),
-              )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Divider(
-                height: 20,
-                thickness: 5,
-                indent: 20,
-                endIndent: 0,
-                color: const Color(0xffd33333),
-              ),
-              Text(
-                "John Doee",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 30,
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(
-                    size.height * 0.15 / 2,
-                  ),
-                ),
-                height: size.height * 0.15,
-                width: size.height * 0.15,
-              ),
-            ],
-          ),
-        ),
-        Divider(
-          height: 20,
-          thickness: 0.1,
-          indent: 20,
-          endIndent: 0,
-          color: const Color(0xffe8e8e8),
-        ),
-        Column(
-          children: [
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text("John Doe"),
-              trailing: Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                print("You might want to edit username");
-              },
-            ),
-            Divider(
-              height: 4,
-              thickness: 1,
-              indent: 20,
-              endIndent: 0,
-              color: Color.fromARGB(44, 109, 108, 108),
-            ),
-            ListTile(
-              leading: Icon(Icons.email_outlined),
-              title: Text("123@12mail.com"),
-              trailing: Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                print("You might want to edit email");
-              },
-            ),
-            Divider(
-              height: 4,
-              thickness: 1,
-              indent: 20,
-              endIndent: 0,
-              color: Color.fromARGB(44, 109, 108, 108),
-            ),
-            ListTile(
-              leading: Icon(Icons.calendar_month_outlined),
-              title: Text("30/2/2069"),
-              trailing: Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                print("You might want to edit birthday");
-              },
-            ),
-            Divider(
-              height: 4,
-              thickness: 1,
-              indent: 20,
-              endIndent: 0,
-              color: Color.fromARGB(44, 109, 108, 108),
-            ),
-            ListTile(
-              leading: Icon(Icons.phone_outlined),
-              title: Text("082816888888"),
-              trailing: Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                print("You might want to edit phone number");
-              },
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
 // waiting to be replaced in the future
 
-class _ProfilePageState2 extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -188,99 +71,59 @@ class _ProfilePageState2 extends State<ProfilePage> {
           ],
         ),
         Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Username:",
-                    style: TextStyle(
-                      color: theme.colorScheme.onBackground,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    "John_Doe",
-                    style: TextStyle(
-                      color: theme.colorScheme.onBackground,
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text("John Doe"),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                debugPrint("You might want to edit username");
+              },
             ),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Email:",
-                    style: TextStyle(
-                      color: theme.colorScheme.onBackground,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    "John_Doe@example.com",
-                    style: TextStyle(
-                      color: theme.colorScheme.onBackground,
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
+            const Divider(
+              height: 4,
+              thickness: 1,
+              indent: 20,
+              endIndent: 0,
+              color: Color.fromARGB(44, 109, 108, 108),
             ),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Birth Date:",
-                    style: TextStyle(
-                      color: theme.colorScheme.onBackground,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    "02/02/1992",
-                    style: TextStyle(
-                      color: theme.colorScheme.onBackground,
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
+            ListTile(
+              leading: const Icon(Icons.email_outlined),
+              title: const Text("123@12mail.com"),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                debugPrint("You might want to edit email");
+              },
             ),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Contact:",
-                    style: TextStyle(
-                      color: theme.colorScheme.onBackground,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    "None",
-                    style: TextStyle(
-                      color: theme.colorScheme.onBackground,
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
+            const Divider(
+              height: 4,
+              thickness: 1,
+              indent: 20,
+              endIndent: 0,
+              color: Color.fromARGB(44, 109, 108, 108),
+            ),
+            ListTile(
+              leading: const Icon(Icons.calendar_month_outlined),
+              title: const Text("30/2/2069"),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                debugPrint("You might want to edit birthday");
+              },
+            ),
+            const Divider(
+              height: 4,
+              thickness: 1,
+              indent: 20,
+              endIndent: 0,
+              color: Color.fromARGB(44, 109, 108, 108),
+            ),
+            ListTile(
+              leading: const Icon(Icons.phone_outlined),
+              title: const Text("082816888888"),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                debugPrint("You might want to edit phone number");
+              },
             ),
           ],
         ),
@@ -320,4 +163,3 @@ class HalfCirclePainter extends CustomPainter {
     return oldDelegate.color != color;
   }
 }
-
