@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "dart:math";
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
@@ -10,6 +11,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool? isChecked = false;
   final url = Uri.parse("https://softdev2-backend.azurewebsites.net/login");
   final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
@@ -21,11 +23,14 @@ class _LoginPageState extends State<LoginPage> {
     });
     if (context.mounted) {
       if (response.statusCode == 200) {
+        user();
         Navigator.of(context).pushNamedAndRemoveUntil(
           "/home",
           (route) => false,
         );
       } else {
+        clearPreferences();
+        savebool();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Login failed. Please check your credentials."),
@@ -34,6 +39,69 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     }
+  }
+
+  @override
+  void dispose() {
+    usernameTextController.dispose();
+    passwordTextController.dispose();
+    super.dispose();
+  }
+
+  bool isLoggedIn() {
+    return usernameTextController.text.isNotEmpty &&
+        passwordTextController.text.isNotEmpty &&
+        isChecked!;
+  }
+
+  void navigateToHome() async {
+    if (isLoggedIn()) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        "/home",
+        (route) => false,
+      );
+    }
+  }
+
+  void user() async {
+    if (isChecked == true) {
+      savebool();
+      saveuser();
+    } else {
+      clearPreferences();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  clearPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+
+  loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isChecked = prefs.getBool("isChecked");
+      usernameTextController.text = prefs.getString("emailoruser") ?? "";
+      passwordTextController.text = prefs.getString("password") ?? "";
+      navigateToHome();
+    });
+  }
+
+  savebool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("isChecked", isChecked ?? false);
+  }
+
+  saveuser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("emailoruser", usernameTextController.text);
+    await prefs.setString("password", passwordTextController.text);
   }
 
   @override
@@ -146,14 +214,44 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                                child: Text(
-                                  "Forgot password?",
-                                  style: TextStyle(
-                                      color: theme.colorScheme.secondary),
-                                ),
-                                onPressed: () {},
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Checkbox(
+                                        value: isChecked ?? false,
+                                        // tristate: false,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            if (value != null) {
+                                              isChecked = value;
+                                              user();
+                                            }
+                                          });
+                                        },
+                                        activeColor: Colors.white,
+                                        checkColor: const Color.fromARGB(
+                                            255, 44, 164, 224),
+                                      ),
+                                      const Text(
+                                        "Remember me",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ],
+                                  ),
+                                  TextButton(
+                                    child: Text(
+                                      "Forgot password?",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: theme.colorScheme.secondary),
+                                    ),
+                                    onPressed: () {},
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(
