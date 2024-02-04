@@ -16,15 +16,28 @@ class _LoginPageState extends State<LoginPage> {
   final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
 
-  Future<bool> sendPostRequest() async {
+  Future<void> sendPostRequest() async {
     var response = await http.post(url, body: {
       "emailoruser": usernameTextController.text,
       "password": passwordTextController.text,
     });
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
+    if (context.mounted) {
+      if (response.statusCode == 200) {
+        user();
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          "/home",
+          (route) => false,
+        );
+      } else {
+        clearPreferences();
+        savebool();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Login failed. Please check your credentials."),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -256,34 +269,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 child: const Text("Login"),
                                 onPressed: () async {
-                                  if (await sendPostRequest() == true) {
-                                    user();
-                                    if (context.mounted) {
-                                      Navigator.of(context)
-                                          .pushNamedAndRemoveUntil(
-                                        "/home",
-                                        (route) => false,
-                                      );
-                                    }
-                                  } else {
-                                    if (isChecked == true) {
-                                      savebool();
-                                    } else {
-                                      clearPreferences();
-                                    }
-                                    if (context.mounted) {
-                                      clearPreferences();
-                                      savebool();
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                              "Login failed. Please check your credentials."),
-                                          backgroundColor: Colors.red,
-                                        ),
-                                      );
-                                    }
-                                  }
+                                  await sendPostRequest();
                                 },
                               ),
                             ),
