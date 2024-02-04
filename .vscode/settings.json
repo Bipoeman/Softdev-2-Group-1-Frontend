@@ -1,8 +1,0 @@
-{
-    "editor.tabSize": 4,
-    "[dart]": {
-        "editor.tabSize": 4,
-        "editor.detectIndentation": true
-    },
-    "editor.detectIndentation": true
-}
