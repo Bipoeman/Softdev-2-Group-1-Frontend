@@ -59,9 +59,12 @@ class _RegisterPageState extends State<RegisterPage> {
     passwordTextController.dispose();
     confirmpasswordTextController.dispose();
     super.dispose();
+  }
+
   TextFormField textField({
     required String labelText,
     required BuildContext context,
+    TextEditingController? controller,
     Icon? icon,
     bool? obscureText,
     TextInputType? inputType,
@@ -74,12 +77,14 @@ class _RegisterPageState extends State<RegisterPage> {
   }) {
     ThemeData theme = Theme.of(context);
     return TextFormField(
+      controller: controller,
       keyboardType: inputType,
       obscureText: obscureText ?? false,
       decoration: InputDecoration(
         fillColor: theme.colorScheme.background.withOpacity(0.8),
         filled: true,
-        labelStyle: TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
+        labelStyle:
+            TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
         contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
         labelText: labelText,
         prefixIconColor: theme.colorScheme.onBackground,
