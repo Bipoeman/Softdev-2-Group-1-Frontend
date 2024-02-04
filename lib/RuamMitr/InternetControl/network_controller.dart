@@ -14,18 +14,21 @@ class NetworkController extends GetxController {
   void _updateConnectionStatus(ConnectivityResult connectivityResult) {
     if (connectivityResult == ConnectivityResult.none) {
       Get.rawSnackbar(
-          messageText: const Text('NO INTERNET CONNECTED',
-              style: TextStyle(color: Colors.white, fontSize: 18)),
-          isDismissible: false,
-          duration: const Duration(days: 1),
-          backgroundColor: Colors.red[400]!,
-          icon: const Icon(
-            Icons.wifi_off,
-            color: Colors.white,
-            size: 35,
-          ),
-          margin: EdgeInsets.zero,
-          snackStyle: SnackStyle.GROUNDED);
+        messageText: const Text(
+          'NO INTERNET CONNECTED',
+          style: TextStyle(color: Colors.white, fontSize: 18),
+        ),
+        isDismissible: false,
+        duration: const Duration(days: 1),
+        backgroundColor: Colors.red[400]!,
+        icon: const Icon(
+          Icons.wifi_off,
+          color: Colors.white,
+          size: 35,
+        ),
+        margin: EdgeInsets.zero,
+        snackStyle: SnackStyle.GROUNDED,
+      );
     } else {
       if (Get.isSnackbarOpen) {
         Get.closeCurrentSnackbar();
