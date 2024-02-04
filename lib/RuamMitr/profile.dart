@@ -57,14 +57,24 @@ class _ProfilePageState extends State<ProfilePage> {
                 color: theme.colorScheme.onPrimaryContainer,
               ),
             ),
-            Center(
-              heightFactor: 5,
-              child: Text(
-                "John Doe",
-                style: TextStyle(
-                  color: theme.colorScheme.onPrimary,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+            Container(
+              margin: EdgeInsets.fromLTRB(
+                0,
+                [
+                  ([size.width * 0.6, 300.0].reduce(min) - 175) * 0.5,
+                  0.0,
+                ].reduce(max),
+                0,
+                0,
+              ),
+              child: Center(
+                child: Text(
+                  "John Doe",
+                  style: TextStyle(
+                    color: theme.colorScheme.onPrimary,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
