@@ -21,6 +21,37 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordTextController = TextEditingController();
   final confirmpasswordTextController = TextEditingController();
 
+  void _registerAccount() async {
+    var response = await http.post(
+        Uri.parse("https://softdev2-backend.azurewebsites.net/register"),
+        body: {
+          'fullname': fullnameTextController.text,
+          'email': emailTextController.text,
+          'username': usernameTextController.text,
+          'password': passwordTextController.text,
+        });
+
+    if (response.statusCode == 201) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Registration successful."),
+          backgroundColor: Colors.red,
+        ),
+      );
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        "/login",
+        (route) => false,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Registration failed."),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   void dispose() {
     fullnameTextController.dispose();
@@ -191,36 +222,5 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
-  }
-
-  void _registerAccount() async {
-    var response = await http.post(
-        Uri.parse("https://softdev2-backend.azurewebsites.net/register"),
-        body: {
-          'fullname': fullnameTextController.text,
-          'email': emailTextController.text,
-          'username': usernameTextController.text,
-          'password': passwordTextController.text,
-        });
-
-    if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Registration successful."),
-          backgroundColor: Colors.red,
-        ),
-      );
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        "/login",
-        (route) => false,
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Registration failed."),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
   }
 }
