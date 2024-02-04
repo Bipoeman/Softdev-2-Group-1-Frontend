@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'dart:math';
 
 Color backgroundColor = const Color(0xffe8e8e8);
@@ -13,9 +14,57 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final fullnameTextController = TextEditingController();
+  final emailTextController = TextEditingController();
+  final usernameTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
+  final confirmpasswordTextController = TextEditingController();
+
+  void _registerAccount() async {
+    var response = await http.post(
+        Uri.parse("https://softdev2-backend.azurewebsites.net/register"),
+        body: {
+          'fullname': fullnameTextController.text,
+          'email': emailTextController.text,
+          'username': usernameTextController.text,
+          'password': passwordTextController.text,
+        });
+
+    if (response.statusCode == 201) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Registration successful."),
+          backgroundColor: Colors.red,
+        ),
+      );
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        "/login",
+        (route) => false,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Registration failed."),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    fullnameTextController.dispose();
+    emailTextController.dispose();
+    usernameTextController.dispose();
+    passwordTextController.dispose();
+    confirmpasswordTextController.dispose();
+    super.dispose();
+  }
+
   TextFormField textField({
     required String labelText,
     required BuildContext context,
+    TextEditingController? controller,
     Icon? icon,
     bool? obscureText,
     TextInputType? inputType,
@@ -28,12 +77,14 @@ class _RegisterPageState extends State<RegisterPage> {
   }) {
     ThemeData theme = Theme.of(context);
     return TextFormField(
+      controller: controller,
       keyboardType: inputType,
       obscureText: obscureText ?? false,
       decoration: InputDecoration(
         fillColor: theme.colorScheme.background.withOpacity(0.8),
         filled: true,
-        labelStyle: TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
+        labelStyle:
+            TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
         contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
         labelText: labelText,
         prefixIconColor: theme.colorScheme.onBackground,
@@ -101,31 +152,37 @@ class _RegisterPageState extends State<RegisterPage> {
                   color: theme.colorScheme.primaryContainer.withOpacity(0.8),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround, // Adjust the spacing here
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceAround, // Adjust the spacing here
                   children: [
                     textField(
+                      controller: fullnameTextController,
                       labelText: "Fullname",
                       context: context,
                       icon: const Icon(Icons.person),
                     ),
                     textField(
+                      controller: emailTextController,
                       labelText: "Email",
                       context: context,
                       inputType: TextInputType.emailAddress,
                       icon: const Icon(Icons.email_outlined),
                     ),
                     textField(
+                      controller: usernameTextController,
                       labelText: "Username",
                       context: context,
                       icon: const Icon(Icons.account_box_outlined),
                     ),
                     textField(
+                      controller: passwordTextController,
                       labelText: "Password",
                       context: context,
                       obscureText: true,
                       icon: const Icon(Icons.lock_outline),
                     ),
                     textField(
+                      controller: confirmpasswordTextController,
                       labelText: "Repeat Password",
                       context: context,
                       obscureText: true,
@@ -146,16 +203,25 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         child: const Text("Create Account"),
                         onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                            "/home",
-                            (route) => false,
-                          );
+                          if (passwordTextController.text ==
+                              confirmpasswordTextController.text) {
+                            _registerAccount();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    "Password and Comfrim Password does not match."),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
                         },
                       ),
                     ),
                     Column(
                       children: [
-                        const Text("By creating an account, you have accepted our"),
+                        const Text(
+                            "By creating an account, you have accepted our"),
                         TextButton(
                           onPressed: () {
                             showDialog(
