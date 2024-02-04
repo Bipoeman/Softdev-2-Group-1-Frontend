@@ -27,7 +27,7 @@ class _SuperAppState extends State<SuperApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: "/login",
+      initialRoute: "/home",
       routes: {
         "/login": (context) => const LoginPage(),
         "/register": (context) => const RegisterPage(),
