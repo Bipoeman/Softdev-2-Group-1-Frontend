@@ -21,16 +21,23 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         Container(
           width: double.infinity,
-          height: size.height * 0.3,
+          height: size.height * 0.32,
           decoration: BoxDecoration(
               color: mainColor,
               borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(size.height * 0.09),
-                bottomLeft: Radius.circular(size.height * 0.09),
+                bottomRight: Radius.circular(size.height * 0.2),
+                bottomLeft: Radius.circular(size.height * 0.2),
               )),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              Divider(
+                height: 20,
+                thickness: 5,
+                indent: 20,
+                endIndent: 0,
+                color: const Color(0xffd33333),
+              ),
               Text(
                 "John Doee",
                 style: TextStyle(
@@ -52,6 +59,13 @@ class _ProfilePageState extends State<ProfilePage> {
             ],
           ),
         ),
+        Divider(
+          height: 20,
+          thickness: 0.1,
+          indent: 20,
+          endIndent: 0,
+          color: const Color(0xffe8e8e8),
+        ),
         Column(
           children: [
             ListTile(
@@ -62,6 +76,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 print("You might want to edit username");
               },
             ),
+            Divider(
+              height: 4,
+              thickness: 1,
+              indent: 20,
+              endIndent: 0,
+              color: Color.fromARGB(44, 109, 108, 108),
+            ),
             ListTile(
               leading: Icon(Icons.email_outlined),
               title: Text("123@12mail.com"),
@@ -70,6 +91,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 print("You might want to edit email");
               },
             ),
+            Divider(
+              height: 4,
+              thickness: 1,
+              indent: 20,
+              endIndent: 0,
+              color: Color.fromARGB(44, 109, 108, 108),
+            ),
             ListTile(
               leading: Icon(Icons.calendar_month_outlined),
               title: Text("30/2/2069"),
@@ -77,6 +105,13 @@ class _ProfilePageState extends State<ProfilePage> {
               onTap: () {
                 print("You might want to edit birthday");
               },
+            ),
+            Divider(
+              height: 4,
+              thickness: 1,
+              indent: 20,
+              endIndent: 0,
+              color: Color.fromARGB(44, 109, 108, 108),
             ),
             ListTile(
               leading: Icon(Icons.phone_outlined),
