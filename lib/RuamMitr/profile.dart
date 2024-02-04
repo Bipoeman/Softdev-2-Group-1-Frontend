@@ -6,7 +6,6 @@ Color mainColor = const Color(0xffd33333);
 Color textColor = const Color(0xff000000);
 
 class ProfilePage extends StatefulWidget {
-
   const ProfilePage({super.key});
 
   @override
@@ -16,151 +15,80 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    TextFormField TextField()
     Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
-      return SafeArea(
-      child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
-        appBar: AppBar(
-          toolbarHeight: 75.0,
-          title: Text(
-            "Create your account",
-            style: TextStyle(
-              color: theme.colorScheme.onPrimary,
-            ),
-          ),
-          backgroundColor: theme.colorScheme.primary,
-          leading: GestureDetector(
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: theme.colorScheme.onPrimary,
-            ),
-            onTap: () {
-              Navigator.popUntil(context, (route) => false);
-              Navigator.pushNamed(context, "/login");
-            },
-          ),
-          elevation: 0,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(15),
-            ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: size.height - MediaQuery.of(context).padding.top - 75,
-            ),
-            child: Center(
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(0, 30, 0, 30),
-                padding: const EdgeInsets.all(30),
-                width: [512.0, size.width * 0.9].reduce(min),
-                height: 512,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(28),
-                  color: theme.colorScheme.primaryContainer.withOpacity(0.8),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround, // Adjust the spacing here
-                  children: [
-                    TextField(
-                      labelText: "Fullname",
-                      context: context,
-                      icon: const Icon(Icons.person),
-                    ),
-                    TextField(
-                      labelText: "Email",
-                      context: context,
-                      inputType: TextInputType.emailAddress,
-                      icon: const Icon(Icons.email_outlined),
-                    ),
-                    TextField(
-                      labelText: "Username",
-                      context: context,
-                      icon: const Icon(Icons.account_box_outlined),
-                    ),
-                    TextField(
-                      labelText: "Password",
-                      context: context,
-                      obscureText: true,
-                      icon: const Icon(Icons.lock_outline),
-                    ),
-                    TextField(
-                      labelText: "Repeat Password",
-                      context: context,
-                      obscureText: true,
-                      icon: const Icon(Icons.lock_outline),
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50, // Updated height
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: theme.colorScheme.primary,
-                          textStyle: TextStyle(
-                            color: theme.colorScheme.onPrimary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                          foregroundColor: theme.colorScheme.onPrimary,
-                        ),
-                        child: const Text("Create Account"),
-                        onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                            "/home",
-                            (route) => false,
-                          );
-                        },
-                      ),
-                    ),
-                    Column(
-                      children: [
-                        const Text("By creating an account, you have accepted our"),
-                        TextButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return Dialog(
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(20),
-                                    ),
-                                  ),
-                                  insetPadding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: const Text(
-                                      "Terms and Conditions",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          child: Text(
-                            "Terms and Conditions.",
-                            style: TextStyle(
-                              color: theme.colorScheme.secondary,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          height: size.height * 0.3,
+          decoration: BoxDecoration(
+              color: mainColor,
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(size.height * 0.09),
+                bottomLeft: Radius.circular(size.height * 0.09),
+              )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                "John Doee",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 30,
                 ),
               ),
-            ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(
+                    size.height * 0.15 / 2,
+                  ),
+                ),
+                height: size.height * 0.15,
+                width: size.height * 0.15,
+              ),
+            ],
           ),
         ),
-      ),
+        Column(
+          children: [
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text("John Doe"),
+              trailing: Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                print("You might want to edit username");
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.email_outlined),
+              title: Text("123@12mail.com"),
+              trailing: Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                print("You might want to edit email");
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.calendar_month_outlined),
+              title: Text("30/2/2069"),
+              trailing: Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                print("You might want to edit birthday");
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.phone_outlined),
+              title: Text("082816888888"),
+              trailing: Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                print("You might want to edit phone number");
+              },
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
