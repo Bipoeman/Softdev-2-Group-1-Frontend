@@ -57,20 +57,17 @@ class _HomePageState extends State<HomePage> {
           ),
           Container(
             margin: const EdgeInsets.all(32),
-            child: Column(
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: AlignmentDirectional.topCenter,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
-                  width: [300.0, size.width * 0.7].reduce(min),
-                  child: const SearchBox(),
-                ),
-                SizedBox(
+                  margin: const EdgeInsets.only(top: 35),
                   width: [size.width * 0.8, 800.0].reduce(min),
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
                     decoration: BoxDecoration(
-                      color:
-                          theme.colorScheme.primaryContainer.withOpacity(0.8),
+                      color: theme.colorScheme.primaryContainer.withOpacity(0.5),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
@@ -115,6 +112,11 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  width: [300.0, size.width * 0.7].reduce(min),
+                  child: const SearchBox(),
                 ),
               ],
             ),
