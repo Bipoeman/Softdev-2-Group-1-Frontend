@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Component/text_field.dart';
+import 'package:http/http.dart' as http;
 import 'dart:math';
 
 Color backgroundColor = const Color(0xffe8e8e8);
@@ -129,11 +130,18 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         child: const Text("Create Account"),
                         onPressed: () {
-                          // Navigator.of(context).pushNamedAndRemoveUntil(
-                          //   "/home",
-                          //   (route) => false,
-                          // );
-                          print(usernameTextController.text);
+                          if (passwordTextController.text ==
+                              confirmpasswordTextController.text) {
+                            _registerAccount();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    "Password and Comfrim Password does not match."),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
                         },
                       ),
                     ),
@@ -183,5 +191,36 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
+  }
+
+  void _registerAccount() async {
+    var response = await http.post(
+        Uri.parse("https://softdev2-backend.azurewebsites.net/register"),
+        body: {
+          'fullname': fullnameTextController.text,
+          'email': emailTextController.text,
+          'username': usernameTextController.text,
+          'password': passwordTextController.text,
+        });
+
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Registration successful."),
+          backgroundColor: Colors.red,
+        ),
+      );
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        "/login",
+        (route) => false,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Registration failed."),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }
