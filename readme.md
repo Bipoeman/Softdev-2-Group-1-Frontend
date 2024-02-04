@@ -1,16 +1,19 @@
-# ruam_mitt
+# RuamMitr
 
-A new Flutter project.
+This project combines all the previous project apps into one app by our new portal app "RuamMitr"
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Feature For iteration 1 ส่งวันที่ 5 ก.พ.
+|สมาชิก|Feature|
+|---|---|
+|Nutcha|Frontend Profile Page|
+|Nuttawon|Frontend Register Function|
+|Nattakarn|Frontend Portal Page|
+|Chanathip|Frontend Test|
+|Nutpapop|Backend Test|
+|Tapanawat|Backend Login and Register|
+|Sahiran|Backend Documents|
+|Pumin|Game|
+|Sirapob|Game Asset and Level Design|
+|Krittithad||
+|Nicharee|Backend File and Image Storage|
+|Nuttawon|Frontend Register Function|

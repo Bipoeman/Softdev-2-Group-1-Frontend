@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 class MainNavigator extends StatelessWidget {
-  const MainNavigator({super.key});
+  const MainNavigator({
+    super.key,
+    required this.onProfile,
+    required this.onHome,
+    required this.onSettings,
+  });
+
+  final VoidCallback onProfile;
+  final VoidCallback onHome;
+  final VoidCallback onSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +21,7 @@ class MainNavigator extends StatelessWidget {
     return Container(
       height: [size.width * 0.4, 100.0].reduce(min),
       width: size.width,
-      color: Colors.grey[200],
+      color: theme.colorScheme.primaryContainer,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -25,11 +34,7 @@ class MainNavigator extends StatelessWidget {
                   [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
-              onPressed: () {
-                if (ModalRoute.of(context)!.settings.name != "/profile") {
-                  Navigator.pushNamed(context, "/profile");
-                }
-              },
+              onPressed: onProfile,
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -52,36 +57,32 @@ class MainNavigator extends StatelessWidget {
             child: RawMaterialButton(
               shape: CircleBorder(
                 side: BorderSide(
-                  color: Colors.red[700] ?? const Color.fromRGBO(211, 47, 47, 1),
+                  color: theme.colorScheme.primary,
                   width: 5,
                 ),
               ),
-              fillColor: Colors.red,
+              fillColor: theme.colorScheme.primary.withBlue(66).withGreen(66),
               constraints: BoxConstraints.tight(
                 Size(
                   [size.width * 0.3, 90.0].reduce(min),
                   [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
-              onPressed: () {
-                if (ModalRoute.of(context)!.settings.name != "/home") {
-                  Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
-                }
-              },
-              child: const Column(
+              onPressed: onHome,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.home,
                     size: 30,
-                    color: Colors.white,
+                    color: theme.colorScheme.onPrimary,
                   ),
                   Text(
                     "Home",
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: theme.colorScheme.onPrimary,
                     ),
                   ),
                 ],
@@ -97,11 +98,7 @@ class MainNavigator extends StatelessWidget {
                   [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
-              onPressed: () {
-                if (ModalRoute.of(context)!.settings.name != "/settings") {
-                  Navigator.pushNamed(context, "/settings");
-                }
-              },
+              onPressed: onSettings,
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -122,31 +119,6 @@ class MainNavigator extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class BoxWithMainNavigator extends StatelessWidget {
-  const BoxWithMainNavigator({super.key, required this.child});
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: IntrinsicHeight(
-              child: child,
-            ),
-          ),
-        ),
-        const MainNavigator(),
-      ],
     );
   }
 }
