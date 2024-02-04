@@ -127,3 +127,197 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
+
+// waiting to be replaced in the future
+
+class _ProfilePageState2 extends State<ProfilePage> {
+  @override
+  Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+    Size size = MediaQuery.of(context).size;
+    return Column(
+      children: [
+        Stack(
+          alignment: AlignmentDirectional.topCenter,
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              top: -[size.width * 0.6, 300.0].reduce(min),
+              left: size.width * 0.5 - [size.width * 0.6, 300.0].reduce(min),
+              child: CustomPaint(
+                painter: HalfCirclePainter(
+                  color: theme.colorScheme.primary,
+                ),
+                size: Size(
+                  [size.width * 1.2, 600.0].reduce(min),
+                  [size.width * 0.6, 300.0].reduce(min),
+                ),
+              ),
+            ),
+            Container(
+              width: 175,
+              height: 175,
+              margin: EdgeInsets.fromLTRB(
+                0,
+                [size.width * 0.6, 300.0].reduce(min) - 175 * 0.6,
+                0,
+                0,
+              ),
+              padding: const EdgeInsets.all(30),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: theme.colorScheme.primaryContainer,
+              ),
+              child: Icon(
+                Icons.person,
+                size: 100,
+                color: theme.colorScheme.onPrimaryContainer,
+              ),
+            ),
+            Center(
+              heightFactor: 5,
+              child: Text(
+                "John Doe",
+                style: TextStyle(
+                  color: theme.colorScheme.onPrimary,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Username:",
+                    style: TextStyle(
+                      color: theme.colorScheme.onBackground,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "John_Doe",
+                    style: TextStyle(
+                      color: theme.colorScheme.onBackground,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Email:",
+                    style: TextStyle(
+                      color: theme.colorScheme.onBackground,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "John_Doe@example.com",
+                    style: TextStyle(
+                      color: theme.colorScheme.onBackground,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Birth Date:",
+                    style: TextStyle(
+                      color: theme.colorScheme.onBackground,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "02/02/1992",
+                    style: TextStyle(
+                      color: theme.colorScheme.onBackground,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Contact:",
+                    style: TextStyle(
+                      color: theme.colorScheme.onBackground,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "None",
+                    style: TextStyle(
+                      color: theme.colorScheme.onBackground,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class HalfCirclePainter extends CustomPainter {
+  final Color color;
+
+  HalfCirclePainter({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    final radius = size.width / 2;
+    final center = Offset(size.width / 2, size.height);
+
+    final path = Path()
+      ..moveTo(center.dx, center.dy)
+      ..arcTo(
+        Rect.fromCircle(center: center, radius: radius),
+        0,
+        pi,
+        false,
+      );
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(HalfCirclePainter oldDelegate) {
+    return oldDelegate.color != color;
+  }
+}
+
