@@ -50,11 +50,19 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  void user() async {
+    if (isChecked == true) {
+      savebool();
+      saveuser();
+    } else {
+      clearPreferences();
+    }
+}
+
   @override
   void initState() {
     super.initState();
     loadData();
-    // checkAuth(context);
   }
 
   clearPreferences() async {
@@ -75,13 +83,13 @@ class _LoginPageState extends State<LoginPage> {
   savebool() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool("isChecked", isChecked!);
-  }
+  }//remembercheckbox
 
   saveuser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("emailoruser", usernameTextController.text);
     await prefs.setString("password", passwordTextController.text);
-  }
+  }//rememberuserandpassword
 
   @override
   Widget build(BuildContext context) {
@@ -207,12 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                                           setState(() {
                                             if (value != null) {
                                               isChecked = value;
-                                              if (isChecked == true) {
-                                                savebool();
-                                                saveuser();
-                                              } else {
-                                                clearPreferences();
-                                              }
+                                              user();
                                             }
                                           });
                                         },
@@ -254,12 +257,7 @@ class _LoginPageState extends State<LoginPage> {
                                 child: const Text("Login"),
                                 onPressed: () async {
                                   if (await sendPostRequest() == true) {
-                                    if (isChecked == true) {
-                                      savebool();
-                                      saveuser();
-                                    } else {
-                                      clearPreferences();
-                                    }
+                                    user();
                                     if (context.mounted) {
                                       Navigator.of(context)
                                           .pushNamedAndRemoveUntil(
@@ -268,11 +266,6 @@ class _LoginPageState extends State<LoginPage> {
                                       );
                                     }
                                   } else {
-                                    if (isChecked == true) {
-                                      savebool();
-                                    } else {
-                                      clearPreferences();
-                                    }
                                     if (context.mounted) {
                                       clearPreferences();
                                       savebool();
