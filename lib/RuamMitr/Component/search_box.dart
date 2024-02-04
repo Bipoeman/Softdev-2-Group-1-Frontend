@@ -19,9 +19,11 @@ class _SearchBoxState extends State<SearchBox> {
       decoration: InputDecoration(
         fillColor: theme.colorScheme.primaryContainer,
         filled: true,
-        labelStyle: TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
+        labelStyle: TextStyle(
+          color: theme.colorScheme.onBackground.withOpacity(0.5),
+        ),
         contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
-        labelText: "Seach for...",
+        labelText: "Search for...",
         prefixIconColor: Colors.white,
         prefixIcon: Icon(
           Icons.search,

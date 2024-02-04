@@ -299,7 +299,6 @@ class _LoginPageState extends State<LoginPage> {
                     child: IconButton(
                       icon: Image.asset("assets/Menu/Buttons/Play.png"),
                       onPressed: () {
-                        Navigator.popUntil(context, (route) => false);
                         Navigator.pushNamed(context, '/game');
                       },
                     ),

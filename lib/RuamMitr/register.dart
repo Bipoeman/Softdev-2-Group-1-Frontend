@@ -159,27 +159,28 @@ class _RegisterPageState extends State<RegisterPage> {
                         TextButton(
                           onPressed: () {
                             showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return Dialog(
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20),
+                              context: context,
+                              builder: (context) {
+                                return Dialog(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(20),
+                                    ),
+                                  ),
+                                  insetPadding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: const Text(
+                                      "Terms and Conditions",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    insetPadding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(20.0),
-                                      child: const Text(
-                                        "Terms and Conditions",
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                });
+                                  ),
+                                );
+                              },
+                            );
                           },
                           child: Text(
                             "Terms and Conditions.",

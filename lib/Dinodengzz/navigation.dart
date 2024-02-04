@@ -1,5 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ruam_mitt/Dinodengzz/levelselect.dart';
 import 'package:ruam_mitt/Dinodengzz/start.dart';
 import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
@@ -18,6 +19,19 @@ class _GameHomePageState extends State<MyGame> {
   void initState() {
     super.initState();
     game = DinoDengzz(); // Pass context here
+
+    // Lock the device orientation to landscape
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    // Allow other orientations when disposing of the game
+    SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+    super.dispose();
   }
 
   @override
@@ -31,8 +45,7 @@ class _GameHomePageState extends State<MyGame> {
           _navigateToLevelSelection(context, game);
         },
         onExitPressed: () {
-          Navigator.popUntil(context, (route) => false);
-          Navigator.pushNamed(context, '/login');
+          Navigator.pop(context);
         },
       ),
     );

@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/search_box.dart';
+import 'package:ruam_mitt/RuamMitr/Component/home/services.dart';
 import "dart:math";
 
 class HomePage extends StatefulWidget {
@@ -11,6 +12,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool isServicesSelected = true;
+  bool isContentsSelected = false;
+
+  Widget selectionText(BuildContext context, String text, bool isSelected) {
+    ThemeData theme = Theme.of(context);
+    return Container(
+      decoration: isSelected
+          ? UnderlineTabIndicator(
+              borderSide: BorderSide(
+                color: theme.colorScheme.primary,
+                width: 3,
+              ),
+            )
+          : null,
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: theme.colorScheme.onBackground,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -31,49 +57,68 @@ class _HomePageState extends State<HomePage> {
           ),
           Container(
             margin: const EdgeInsets.all(32),
-            child: IntrinsicHeight(
-              child: Stack(
-                alignment: AlignmentDirectional.topCenter,
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned(
-                    top: 35,
-                    width: [size.width * 0.8, 800.0].reduce(min),
-                    child: Container(
-                      padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primaryContainer.withOpacity(0.8),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Welcome to RuamMitr Portal App",
-                            style: TextStyle(
-                              color: theme.colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: AlignmentDirectional.topCenter,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 35),
+                  width: [size.width * 0.8, 800.0].reduce(min),
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primaryContainer.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Wrap(
+                          spacing: 20,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    isServicesSelected = false;
+                                    isContentsSelected = true;
+                                  },
+                                );
+                              },
+                              child: selectionText(
+                                context,
+                                "Contents",
+                                isContentsSelected,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl ultricies nunc, vitae aliquam nisl nisl vitae nisl.",
-                            style: TextStyle(
-                              color: theme.colorScheme.onBackground,
-                              fontSize: 15,
+                            TextButton(
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    isServicesSelected = true;
+                                    isContentsSelected = false;
+                                  },
+                                );
+                              },
+                              child: selectionText(
+                                context,
+                                "Services",
+                                isServicesSelected,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                        const ServicesWidget(),
+                      ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    width: [300.0, size.width * 0.7].reduce(min),
-                    child: const SearchBox(),
-                  ),
-                ],
-              ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  width: [300.0, size.width * 0.7].reduce(min),
+                  child: const SearchBox(),
+                ),
+              ],
             ),
           ),
         ],

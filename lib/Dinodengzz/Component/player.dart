@@ -27,7 +27,7 @@ class Player extends SpriteAnimationGroupComponent
   String character;
   BuildContext? context; // Declare context as a late variable
   Player({
-    this.character = 'Ninja Frog',
+    this.character = 'Relaxaurus',
     position, // Add context to the constructor parameters
   }) : super(position: position);
 
@@ -57,9 +57,9 @@ class Player extends SpriteAnimationGroupComponent
 
   List<CollisionBlock> collisionBlocks = [];
   CustomHitBox hitbox = CustomHitBox(
-    offsetX: 10,
+    offsetX: 12,
     offsetY: 4,
-    width: 14,
+    width: 16,
     height: 28,
   );
   double fixedDeltaTime = 1 / 60;
@@ -127,7 +127,7 @@ class Player extends SpriteAnimationGroupComponent
     idleAnimation = _spriteAnimation('Idle', 11);
     runningAnimation = _spriteAnimation('Run', 12);
     jumpingAnimation = _spriteAnimation('Jump', 1);
-    fallingAnimation = _spriteAnimation('Fall', 1);
+    fallingAnimation = _spriteAnimation('Fall', 2);
     hitAnimation = _spriteAnimation('Hit', 7)..loop = false;
     appearingAnimation = _speacialspriteAnimation('Appearing', 7);
     dissappearingAnimation = _speacialspriteAnimation('Desappearing', 7);
