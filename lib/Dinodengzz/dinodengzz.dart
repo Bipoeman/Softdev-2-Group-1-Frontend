@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,8 @@ class DinoDengzz extends FlameGame
 
   @override
   FutureOr<void> onLoad() async {
-    //load all images in to cache
+    await Flame.device.fullScreen();
+    await Flame.device.setLandscape();
     await images.loadAllImages();
     _loadLevel();
     if (showControls) {

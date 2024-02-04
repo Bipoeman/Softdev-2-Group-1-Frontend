@@ -166,8 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 360,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(28),
-                          color: theme.colorScheme.primaryContainer
-                              .withOpacity(0.8),
+                          color: theme.colorScheme.primaryContainer.withOpacity(0.8),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -179,10 +178,8 @@ class _LoginPageState extends State<LoginPage> {
                                 fillColor: theme.colorScheme.background,
                                 filled: true,
                                 labelStyle: TextStyle(
-                                    color: theme.colorScheme.onBackground
-                                        .withOpacity(0.5)),
-                                contentPadding:
-                                    const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                    color: theme.colorScheme.onBackground.withOpacity(0.5)),
+                                contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                 labelText: "Email or Username",
                                 prefixIconColor: theme.colorScheme.onBackground,
                                 prefixIcon: const Icon(Icons.person),
@@ -200,10 +197,8 @@ class _LoginPageState extends State<LoginPage> {
                                 fillColor: theme.colorScheme.background,
                                 filled: true,
                                 labelStyle: TextStyle(
-                                    color: theme.colorScheme.onBackground
-                                        .withOpacity(0.5)),
-                                contentPadding:
-                                    const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                    color: theme.colorScheme.onBackground.withOpacity(0.5)),
+                                contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                 labelText: "Password",
                                 prefixIconColor: theme.colorScheme.onBackground,
                                 prefixIcon: const Icon(Icons.lock_outline),
@@ -216,8 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                             Align(
                               alignment: Alignment.center,
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
@@ -233,8 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                                           });
                                         },
                                         activeColor: Colors.white,
-                                        checkColor: const Color.fromARGB(
-                                            255, 44, 164, 224),
+                                        checkColor: const Color.fromARGB(255, 44, 164, 224),
                                       ),
                                       const Text(
                                         "Remember me",
@@ -246,8 +239,7 @@ class _LoginPageState extends State<LoginPage> {
                                     child: Text(
                                       "Forgot password?",
                                       style: TextStyle(
-                                          fontSize: 13,
-                                          color: theme.colorScheme.secondary),
+                                          fontSize: 13, color: theme.colorScheme.secondary),
                                     ),
                                     onPressed: () {},
                                   ),
