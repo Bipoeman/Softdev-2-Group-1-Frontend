@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       clearPreferences();
     }
-}
+  }
 
   @override
   void initState() {
@@ -82,14 +82,14 @@ class _LoginPageState extends State<LoginPage> {
 
   savebool() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool("isChecked", isChecked!);
-  }//remembercheckbox
+    await prefs.setBool("isChecked", isChecked ?? false);
+  }
 
   saveuser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("emailoruser", usernameTextController.text);
     await prefs.setString("password", passwordTextController.text);
-  }//rememberuserandpassword
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                                     children: [
                                       Checkbox(
                                         value: isChecked ?? false,
-                                        tristate: false,
+                                        // tristate: false,
                                         onChanged: (bool? value) {
                                           setState(() {
                                             if (value != null) {
@@ -266,6 +266,11 @@ class _LoginPageState extends State<LoginPage> {
                                       );
                                     }
                                   } else {
+                                    if (isChecked == true) {
+                                      savebool();
+                                    } else {
+                                      clearPreferences();
+                                    }
                                     if (context.mounted) {
                                       clearPreferences();
                                       savebool();
