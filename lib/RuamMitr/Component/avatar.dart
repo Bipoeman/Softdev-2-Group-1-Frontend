@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'package:ruam_mitt/RuamMitr/profile.dart';
+import 'package:ruam_mitt/RuamMitr/portal.dart';
+import 'package:ruam_mitt/RuamMitr/Component/page_route_animation.dart';
 
 class AvatarViewer extends StatelessWidget {
-  const AvatarViewer({super.key, this.username, this.avatarUrl});
+  const AvatarViewer({
+    super.key,
+    this.username,
+    this.avatarUrl,
+  });
   final String? username;
   final String? avatarUrl;
 
-  Widget getAvatar() {
+  Widget getAvatar(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     if (avatarUrl != null) {
       try {
         return CircleAvatar(
@@ -17,10 +24,10 @@ class AvatarViewer extends StatelessWidget {
         debugPrint(e.toString());
       }
     }
-    return const CircleAvatar(
+    return CircleAvatar(
       radius: 30,
-      backgroundColor: Colors.grey,
-      child: Icon(
+      backgroundColor: theme.colorScheme.primaryContainer.withOpacity(0.5),
+      child: const Icon(
         Icons.person,
         size: 25,
       ),
@@ -37,9 +44,14 @@ class AvatarViewer extends StatelessWidget {
           ),
           constraints: const BoxConstraints(),
           onPressed: () {
-            if (ModalRoute.of(context)!.settings.name != "/profile") {
-              Navigator.pushNamed(context, "/profile");
-            }
+            Navigator.push(
+              context,
+              NoAnimationMaterialPageRoute(
+                builder: (context) {
+                  return const PortalPage(page: ProfilePage());
+                },
+              ),
+            );
           },
           child: Container(
             margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -58,7 +70,7 @@ class AvatarViewer extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: getAvatar(),
+                  child: getAvatar(context),
                 ),
               ],
             ),
