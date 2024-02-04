@@ -80,62 +80,65 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ],
         ),
-        Column(
-          children: [
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text("John Doe"),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                debugPrint("You might want to edit username");
-              },
-            ),
-            const Divider(
-              height: 4,
-              thickness: 1,
-              indent: 20,
-              endIndent: 0,
-              color: Color.fromARGB(44, 109, 108, 108),
-            ),
-            ListTile(
-              leading: const Icon(Icons.email_outlined),
-              title: const Text("123@12mail.com"),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                debugPrint("You might want to edit email");
-              },
-            ),
-            const Divider(
-              height: 4,
-              thickness: 1,
-              indent: 20,
-              endIndent: 0,
-              color: Color.fromARGB(44, 109, 108, 108),
-            ),
-            ListTile(
-              leading: const Icon(Icons.calendar_month_outlined),
-              title: const Text("30/2/2069"),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                debugPrint("You might want to edit birthday");
-              },
-            ),
-            const Divider(
-              height: 4,
-              thickness: 1,
-              indent: 20,
-              endIndent: 0,
-              color: Color.fromARGB(44, 109, 108, 108),
-            ),
-            ListTile(
-              leading: const Icon(Icons.phone_outlined),
-              title: const Text("082816888888"),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                debugPrint("You might want to edit phone number");
-              },
-            ),
-          ],
+        Container(
+          margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+          child: Column(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.person),
+                title: const Text("John Doe"),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  debugPrint("You might want to edit username");
+                },
+              ),
+              const Divider(
+                height: 4,
+                thickness: 1,
+                indent: 20,
+                endIndent: 0,
+                color: Color.fromARGB(44, 109, 108, 108),
+              ),
+              ListTile(
+                leading: const Icon(Icons.email_outlined),
+                title: const Text("123@12mail.com"),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  debugPrint("You might want to edit email");
+                },
+              ),
+              const Divider(
+                height: 4,
+                thickness: 1,
+                indent: 20,
+                endIndent: 0,
+                color: Color.fromARGB(44, 109, 108, 108),
+              ),
+              ListTile(
+                leading: const Icon(Icons.calendar_month_outlined),
+                title: const Text("30/2/2069"),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  debugPrint("You might want to edit birthday");
+                },
+              ),
+              const Divider(
+                height: 4,
+                thickness: 1,
+                indent: 20,
+                endIndent: 0,
+                color: Color.fromARGB(44, 109, 108, 108),
+              ),
+              ListTile(
+                leading: const Icon(Icons.phone_outlined),
+                title: const Text("082816888888"),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  debugPrint("You might want to edit phone number");
+                },
+              ),
+            ],
+          ),
         ),
       ],
     );
