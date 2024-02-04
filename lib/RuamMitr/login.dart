@@ -142,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                       Column(
                         children: [
                           Text(
-                            "NAME",
+                            "RuamMitr",
                             style: TextStyle(
                               color: theme.colorScheme.primary,
                               fontWeight: FontWeight.bold,
