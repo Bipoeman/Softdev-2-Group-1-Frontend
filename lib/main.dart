@@ -9,10 +9,12 @@ import 'package:ruam_mitt/RuamMitr/portal.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => ThemeProvider(),
-    child: const SuperApp(),
-  ));
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: const SuperApp(),
+    ),
+  );
   DependencyInjection.init();
 }
 
