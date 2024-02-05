@@ -21,20 +21,25 @@ class _RegisterPageState extends State<RegisterPage> {
   final confirmpasswordTextController = TextEditingController();
 
   void _registerAccount() async {
-    var response = await http.post(
-        Uri.parse("https://softdev2-backend.azurewebsites.net/register"),
-        body: {
-          'fullname': fullnameTextController.text,
-          'email': emailTextController.text,
-          'username': usernameTextController.text,
-          'password': passwordTextController.text,
-        });
+    ThemeData theme = Theme.of(context);
+    var response =
+        await http.post(Uri.parse("https://softdev2-backend.azurewebsites.net/register"), body: {
+      'fullname': fullnameTextController.text,
+      'email': emailTextController.text,
+      'username': usernameTextController.text,
+      'password': passwordTextController.text,
+    });
 
     if (response.statusCode == 201) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Registration successful."),
-          backgroundColor: Colors.red,
+        SnackBar(
+          content: Text(
+            "Registration successful.",
+            style: TextStyle(
+              color: theme.colorScheme.onPrimary,
+            ),
+          ),
+          backgroundColor: theme.colorScheme.onPrimary,
         ),
       );
       Navigator.of(context).pushNamedAndRemoveUntil(
@@ -43,9 +48,14 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Registration failed."),
-          backgroundColor: Colors.red,
+        SnackBar(
+          content: Text(
+            "Registration failed.",
+            style: TextStyle(
+              color: theme.colorScheme.onPrimary,
+            ),
+          ),
+          backgroundColor: theme.colorScheme.onPrimary,
         ),
       );
     }
@@ -83,8 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
       decoration: InputDecoration(
         fillColor: theme.colorScheme.background.withOpacity(0.8),
         filled: true,
-        labelStyle:
-            TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
+        labelStyle: TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
         contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
         labelText: labelText,
         prefixIconColor: theme.colorScheme.onBackground,
@@ -152,8 +161,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   color: theme.colorScheme.primaryContainer.withOpacity(0.8),
                 ),
                 child: Column(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceAround, // Adjust the spacing here
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     textField(
                       controller: fullnameTextController,
@@ -190,7 +198,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(
                       width: double.infinity,
-                      height: 50, // Updated height
+                      height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: theme.colorScheme.primary,
@@ -203,14 +211,12 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         child: const Text("Create Account"),
                         onPressed: () {
-                          if (passwordTextController.text ==
-                              confirmpasswordTextController.text) {
+                          if (passwordTextController.text == confirmpasswordTextController.text) {
                             _registerAccount();
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text(
-                                    "Password and Comfrim Password does not match."),
+                                content: Text("Password and Comfrim Password does not match."),
                                 backgroundColor: Colors.red,
                               ),
                             );
@@ -220,8 +226,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     Column(
                       children: [
-                        const Text(
-                            "By creating an account, you have accepted our"),
+                        const Text("By creating an account, you have accepted our"),
                         TextButton(
                           onPressed: () {
                             showDialog(

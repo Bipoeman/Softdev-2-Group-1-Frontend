@@ -62,13 +62,13 @@ class _SettingsPageState extends State<SettingsPage> {
           height: 50,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xffcb2e23),
-              textStyle: const TextStyle(
-                color: Colors.white,
+              backgroundColor: theme.colorScheme.primary,
+              textStyle: TextStyle(
+                color: theme.colorScheme.onPrimary,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
-              foregroundColor: Colors.white,
+              foregroundColor: theme.colorScheme.onPrimary,
             ),
             child: const Text("Logout"),
             onPressed: () {

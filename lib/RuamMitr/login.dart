@@ -21,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
       "emailoruser": usernameTextController.text,
       "password": passwordTextController.text,
     });
+    ThemeData theme = Theme.of(context);
     if (context.mounted) {
       if (response.statusCode == 200) {
         user();
@@ -32,9 +33,14 @@ class _LoginPageState extends State<LoginPage> {
         clearPreferences();
         savebool();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Login failed. Please check your credentials."),
-            backgroundColor: Colors.red,
+          SnackBar(
+            content: Text(
+              "Login failed. Please check your credentials.",
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary,
+              ),
+            ),
+            backgroundColor: theme.colorScheme.primary,
           ),
         );
       }
