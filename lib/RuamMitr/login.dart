@@ -12,7 +12,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool? isChecked = false;
-  final url = Uri.parse("https://softdev2-backend.azurewebsites.net/login");
+  final url = Uri.parse("https://ruammitr.azurewebsites.net/api/login");
   final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
 
@@ -20,10 +20,24 @@ class _LoginPageState extends State<LoginPage> {
     var response = await http.post(url, body: {
       "emailoruser": usernameTextController.text,
       "password": passwordTextController.text,
+    }).timeout(const Duration(seconds: 5), onTimeout: () {
+      return http.Response("Connection timeout", 408);
     });
-    ThemeData theme = Theme.of(context);
     if (context.mounted) {
-      if (response.statusCode == 200) {
+      ThemeData theme = Theme.of(context);
+      if (response.statusCode == 408) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Connection timeout. Please check your internet connection.",
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary,
+              ),
+            ),
+            backgroundColor: theme.colorScheme.primary,
+          ),
+        );
+      } else if (response.statusCode == 200) {
         user();
         Navigator.of(context).pushNamedAndRemoveUntil(
           "/home",
@@ -45,13 +59,6 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     }
-  }
-
-  @override
-  void dispose() {
-    usernameTextController.dispose();
-    passwordTextController.dispose();
-    super.dispose();
   }
 
   bool isLoggedIn() {
@@ -78,12 +85,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
-
   clearPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
@@ -108,6 +109,19 @@ class _LoginPageState extends State<LoginPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("emailoruser", usernameTextController.text);
     await prefs.setString("password", passwordTextController.text);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  @override
+  void dispose() {
+    usernameTextController.dispose();
+    passwordTextController.dispose();
+    super.dispose();
   }
 
   @override
@@ -172,7 +186,8 @@ class _LoginPageState extends State<LoginPage> {
                         height: 360,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(28),
-                          color: theme.colorScheme.primaryContainer.withOpacity(0.8),
+                          color: theme.colorScheme.primaryContainer
+                              .withOpacity(0.8),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -184,8 +199,10 @@ class _LoginPageState extends State<LoginPage> {
                                 fillColor: theme.colorScheme.background,
                                 filled: true,
                                 labelStyle: TextStyle(
-                                    color: theme.colorScheme.onBackground.withOpacity(0.5)),
-                                contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                    color: theme.colorScheme.onBackground
+                                        .withOpacity(0.5)),
+                                contentPadding:
+                                    const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                 labelText: "Email or Username",
                                 prefixIconColor: theme.colorScheme.onBackground,
                                 prefixIcon: const Icon(Icons.person),
@@ -203,8 +220,10 @@ class _LoginPageState extends State<LoginPage> {
                                 fillColor: theme.colorScheme.background,
                                 filled: true,
                                 labelStyle: TextStyle(
-                                    color: theme.colorScheme.onBackground.withOpacity(0.5)),
-                                contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                    color: theme.colorScheme.onBackground
+                                        .withOpacity(0.5)),
+                                contentPadding:
+                                    const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                 labelText: "Password",
                                 prefixIconColor: theme.colorScheme.onBackground,
                                 prefixIcon: const Icon(Icons.lock_outline),
@@ -217,7 +236,8 @@ class _LoginPageState extends State<LoginPage> {
                             Align(
                               alignment: Alignment.center,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
@@ -233,7 +253,8 @@ class _LoginPageState extends State<LoginPage> {
                                           });
                                         },
                                         activeColor: Colors.white,
-                                        checkColor: const Color.fromARGB(255, 44, 164, 224),
+                                        checkColor: const Color.fromARGB(
+                                            255, 44, 164, 224),
                                       ),
                                       const Text(
                                         "Remember me",
@@ -245,7 +266,8 @@ class _LoginPageState extends State<LoginPage> {
                                     child: Text(
                                       "Forgot password?",
                                       style: TextStyle(
-                                          fontSize: 13, color: theme.colorScheme.secondary),
+                                          fontSize: 13,
+                                          color: theme.colorScheme.secondary),
                                     ),
                                     onPressed: () {},
                                   ),
@@ -266,8 +288,8 @@ class _LoginPageState extends State<LoginPage> {
                                   foregroundColor: theme.colorScheme.onPrimary,
                                 ),
                                 child: const Text("Login"),
-                                onPressed: () async {
-                                  await sendPostRequest();
+                                onPressed: () {
+                                  sendPostRequest();
                                 },
                               ),
                             ),
