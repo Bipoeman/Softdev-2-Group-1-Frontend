@@ -252,9 +252,8 @@ class _LoginPageState extends State<LoginPage> {
                                             }
                                           });
                                         },
-                                        activeColor: Colors.white,
-                                        checkColor: const Color.fromARGB(
-                                            255, 44, 164, 224),
+                                        activeColor: theme.colorScheme.onPrimary,
+                                        checkColor: theme.colorScheme.primary,
                                       ),
                                       const Text(
                                         "Remember me",

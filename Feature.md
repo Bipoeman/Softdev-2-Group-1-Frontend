@@ -1,8 +1,5 @@
-# RuamMitr
-
-This project combines all the previous project apps into one app by our new portal app "RuamMitr"
-
-Feature For iteration 1 ส่งวันที่ 5 ก.พ.
+### [Go Back](README.md)
+## Feature For iteration 1
 |สมาชิก|Feature|
 |---|---|
 |Nutcha|Frontend Profile Page|
@@ -14,6 +11,8 @@ Feature For iteration 1 ส่งวันที่ 5 ก.พ.
 |Sahiran|Backend Documents|
 |Pumin|Game|
 |Sirapob|Game Asset and Level Design|
-|Krittithad||
+|Krittithad|Application Asset images & Arts|
 |Nicharee|Backend File and Image Storage|
-|Nuttawon|Frontend Register Function|
+|Kasidit|Frontend Login Function|
+
+<!-- ## Feature For iteration 2 -->

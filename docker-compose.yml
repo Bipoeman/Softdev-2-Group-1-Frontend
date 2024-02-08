@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  softdev2-frontend:
+    image: softdev2-frontend:latest
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+  softdev2-backend:
+    image: softdev2-backend:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: host
