@@ -12,7 +12,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool? isChecked = false;
-  final url = Uri.parse("https://softdev2-backend.azurewebsites.net/login");
+  final url = Uri.parse("https://ruammitr.azurewebsites.net/api/login");
   final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
 
@@ -232,8 +232,8 @@ class _LoginPageState extends State<LoginPage> {
                                             }
                                           });
                                         },
-                                        activeColor: Colors.white,
-                                        checkColor: const Color.fromARGB(255, 44, 164, 224),
+                                        activeColor: theme.colorScheme.onPrimary,
+                                        checkColor: theme.colorScheme.primary,
                                       ),
                                       const Text(
                                         "Remember me",

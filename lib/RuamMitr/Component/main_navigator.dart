@@ -4,14 +4,7 @@ import 'dart:math';
 class MainNavigator extends StatelessWidget {
   const MainNavigator({
     super.key,
-    required this.onProfile,
-    required this.onHome,
-    required this.onSettings,
   });
-
-  final VoidCallback onProfile;
-  final VoidCallback onHome;
-  final VoidCallback onSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +27,14 @@ class MainNavigator extends StatelessWidget {
                   [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
-              onPressed: onProfile,
+              onPressed: () {
+                if (ModalRoute.of(context)?.settings.name != "/RuamMitr/profile") {
+                  Navigator.pushNamed(
+                    context,
+                    "/RuamMitr/profile",
+                  );
+                }
+              },
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -68,7 +68,15 @@ class MainNavigator extends StatelessWidget {
                   [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
-              onPressed: onHome,
+              onPressed: () {
+                if (ModalRoute.of(context)?.settings.name != "/RuamMitr/home") {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    "/RuamMitr/home",
+                    (route) => false,
+                  );
+                }
+              },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -98,7 +106,14 @@ class MainNavigator extends StatelessWidget {
                   [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
-              onPressed: onSettings,
+              onPressed: () {
+                if (ModalRoute.of(context)?.settings.name != "/RuamMitr/settings") {
+                  Navigator.pushNamed(
+                    context,
+                    "/RuamMitr/settings",
+                  );
+                }
+              },
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
+import 'package:ruam_mitt/RuamMitr/home.dart';
+import 'package:ruam_mitt/RuamMitr/settings.dart';
+import 'package:ruam_mitt/RuamMitr/profile.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
-import 'package:ruam_mitt/RuamMitr/portal.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
 
 void main() {
@@ -33,7 +35,9 @@ class _SuperAppState extends State<SuperApp> {
       routes: {
         "/login": (context) => const LoginPage(),
         "/register": (context) => const RegisterPage(),
-        "/home": (context) => const PortalPage(),
+        "/RuamMitr/home": (context) => const HomePage(),
+        "/RuamMitr/settings": (context) => const SettingsPage(),
+        "/RuamMitr/profile": (context) => const ProfilePage(),
         "/game": (context) => const MyGame(),
       },
       title: "RuamMitr - App for Uni Students",
