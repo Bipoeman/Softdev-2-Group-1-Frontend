@@ -16,7 +16,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
     "light": CustomThemes(
       themeData: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xffcb2e23),
+          seedColor: const Color.fromRGBO(214, 40, 40, 1),
           brightness: Brightness.light,
           primary: const Color(0xffcb2e23),
           onPrimary: Colors.white,
@@ -28,9 +28,10 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         useMaterial3: true,
       ),
       customColors: {
-        "backgroundColor": const Color(0xffe8e8e8),
-        "mainColor": const Color(0xffd33333),
-        "textColor": const Color(0xff000000),
+        "main": const Color.fromRGBO(214, 40, 40, 1),
+        "onMain": Colors.white,
+        "oddContainer": const Color.fromRGBO(238, 238, 238, 1),
+        "onOddContainer": Colors.black,
       },
     ),
     "dark": CustomThemes(
@@ -49,7 +50,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
       ),
       customColors: {
         "backgroundColor": const Color(0xff1f1f1f),
-        "mainColor": const Color(0xffcb2e23),
+        "mainColor": const Color.fromRGBO(214, 40, 40, 1),
         "textColor": const Color(0xffe8e8e8),
       },
     ),
