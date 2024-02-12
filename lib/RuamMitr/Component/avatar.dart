@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ruam_mitt/RuamMitr/profile.dart';
-import 'package:ruam_mitt/RuamMitr/portal.dart';
-import 'package:ruam_mitt/RuamMitr/Component/page_route_animation.dart';
 
 class AvatarViewer extends StatelessWidget {
   const AvatarViewer({
@@ -44,14 +41,7 @@ class AvatarViewer extends StatelessWidget {
           ),
           constraints: const BoxConstraints(),
           onPressed: () {
-            Navigator.push(
-              context,
-              NoAnimationMaterialPageRoute(
-                builder: (context) {
-                  return const PortalPage(page: ProfilePage());
-                },
-              ),
-            );
+            Navigator.pushNamed(context, "/RuamMitr/profile");
           },
           child: Container(
             margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),

@@ -23,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   void _registerAccount() async {
     ThemeData theme = Theme.of(context);
     var response =
-        await http.post(Uri.parse("https://softdev2-backend.azurewebsites.net/register"), body: {
+        await http.post(Uri.parse("https://ruammitr.azurewebsites.net/api/register"), body: {
       'fullname': fullnameTextController.text,
       'email': emailTextController.text,
       'username': usernameTextController.text,
