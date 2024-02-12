@@ -3,6 +3,8 @@ import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/search_box.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/services.dart';
 import 'package:ruam_mitt/RuamMitr/Component/main_navigator.dart';
+import 'package:provider/provider.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import "dart:math";
 
 class HomePage extends StatefulWidget {
