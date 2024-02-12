@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/global_const.dart';
 
 class AvatarViewer extends StatelessWidget {
   const AvatarViewer({
@@ -41,7 +42,9 @@ class AvatarViewer extends StatelessWidget {
           ),
           constraints: const BoxConstraints(),
           onPressed: () {
-            Navigator.pushNamed(context, "/RuamMitr/profile");
+            Navigator.pushNamed(
+              context, ruamMitrPageRoute["profile"]!
+            );
           },
           child: Container(
             margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),

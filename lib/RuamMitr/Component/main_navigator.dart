@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/global_const.dart';
 import 'dart:math';
 
 class MainNavigator extends StatelessWidget {
@@ -28,10 +29,10 @@ class MainNavigator extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                if (ModalRoute.of(context)?.settings.name != "/RuamMitr/profile") {
+                if (ModalRoute.of(context)?.settings.name != ruamMitrPageRoute["profile"]!) {
                   Navigator.pushNamed(
                     context,
-                    "/RuamMitr/profile",
+                    ruamMitrPageRoute["profile"]!,
                   );
                 }
               },
@@ -69,10 +70,10 @@ class MainNavigator extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                if (ModalRoute.of(context)?.settings.name != "/RuamMitr/home") {
+                if (ModalRoute.of(context)?.settings.name != ruamMitrPageRoute["home"]!) {
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    "/RuamMitr/home",
+                    ruamMitrPageRoute["home"]!,
                     (route) => false,
                   );
                 }
@@ -107,10 +108,10 @@ class MainNavigator extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                if (ModalRoute.of(context)?.settings.name != "/RuamMitr/settings") {
+                if (ModalRoute.of(context)?.settings.name != ruamMitrPageRoute["settings"]!) {
                   Navigator.pushNamed(
                     context,
-                    "/RuamMitr/settings",
+                    ruamMitrPageRoute["settings"]!,
                   );
                 }
               },

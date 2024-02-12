@@ -1,4 +1,5 @@
-const String baseURL = "https://ruammitr.azurewebsites.net/";
+const String baseURL = "https://ruammitr.azurewebsites.net";
+const String api = "https://ruammitr.azurewebsites.net/api";
 
 const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
