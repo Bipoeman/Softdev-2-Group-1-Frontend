@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
-  final VoidCallback onStartPressed;
   final VoidCallback onLevelSelectionPressed;
   final VoidCallback onExitPressed;
+  final VoidCallback onSettingPressed;
 
-  const StartScreen({super.key, 
-    required this.onStartPressed,
-    required this.onLevelSelectionPressed,
-    required this.onExitPressed,
-  });
+  const StartScreen(
+      {super.key,
+      required this.onLevelSelectionPressed,
+      required this.onExitPressed,
+      required this.onSettingPressed});
+
+  static const id = 'StartScreen';
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +26,15 @@ class StartScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
-              onPressed: onStartPressed,
-              icon: const Icon(Icons.play_arrow),
-              label: const Text('Start Game'),
+              onPressed: onLevelSelectionPressed,
+              icon: Image.asset("assets/Menu/Buttons/Play.png"),
+              label: const Text('Play'),
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
-              onPressed: onLevelSelectionPressed,
-              icon: const Icon(Icons.layers),
-              label: const Text('Select Level'),
+              onPressed: onSettingPressed,
+              icon: const Icon(Icons.settings),
+              label: const Text('Setting'),
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(

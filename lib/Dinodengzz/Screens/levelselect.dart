@@ -3,9 +3,16 @@ import 'package:flutter/material.dart';
 class LevelSelectionScreen extends StatelessWidget {
   final List<String> levelNames;
   final ValueChanged<int> onLevelSelected;
+  final VoidCallback? onBackPressed;
 
-  const LevelSelectionScreen(
-      {super.key, required this.levelNames, required this.onLevelSelected});
+  const LevelSelectionScreen({
+    super.key,
+    required this.levelNames,
+    required this.onLevelSelected,
+    required this.onBackPressed,
+  });
+
+  static const id = 'LevelSelection';
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +36,11 @@ class LevelSelectionScreen extends StatelessWidget {
                 },
                 child: Text('Level ${i + 1}'),
               ),
+            const SizedBox(height: 5),
+            IconButton(
+              onPressed: onBackPressed,
+              icon: const Icon(Icons.arrow_back_rounded),
+            )
           ],
         ),
       ),

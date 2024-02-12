@@ -5,7 +5,11 @@ class GameOverScreen extends StatelessWidget {
   final VoidCallback onMainMenuPressed;
 
   const GameOverScreen(
-      {super.key, required this.onRetryPressed, required this.onMainMenuPressed});
+      {super.key,
+      required this.onRetryPressed,
+      required this.onMainMenuPressed});
+
+  static const id = 'GameOver';
 
   @override
   Widget build(BuildContext context) {

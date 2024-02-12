@@ -1,24 +1,26 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
 import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
+import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 class Checkpoint extends SpriteAnimationComponent
-    with HasGameRef<DinoDengzz>, CollisionCallbacks {
+    with HasGameRef<GameRoutes>, CollisionCallbacks {
   Checkpoint({position, size})
       : super(
           position: position,
           size: size,
         );
+  int star = 1;
 
   @override
   FutureOr<void> onLoad() {
     //debugMode = true;
-    priority = 3;
     add(RectangleHitbox(
       position: Vector2(18, 18),
       size: Vector2(12, 46),
@@ -39,6 +41,14 @@ class Checkpoint extends SpriteAnimationComponent
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Player && other.noodleCollected) {
+      if (other.fruitCount >= (other.fruitHave)) {
+        star = 3;
+      } else if (other.fruitCount > (other.fruitHave / 2)) {
+        star = 2;
+      } else {
+        star = 1;
+      }
+      print(star);
       _reachedCheckpoint();
     }
     super.onCollisionStart(intersectionPoints, other);
@@ -65,6 +75,6 @@ class Checkpoint extends SpriteAnimationComponent
           stepTime: 0.05,
           textureSize: Vector2.all(64),
         ));
-    await animationTicker?.completed;
+    gameRef.showLevelCompleteMenu(star);
   }
 }

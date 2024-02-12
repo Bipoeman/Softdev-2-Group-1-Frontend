@@ -1,39 +1,47 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
-import 'package:flame/game.dart';
-import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/level.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
+import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
-class DinoDengzz extends FlameGame
-    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
-  @override
-  Color backgroundColor() => const Color(0xFF211F30);
+class DinoDengzz extends Component with HasGameReference<GameRoutes> {
+  DinoDengzz(
+    this.currentLevel, {
+    super.key,
+    required this.onPausePressed,
+    required this.onLevelCompleted,
+    required this.onGameOver,
+  });
+
+  static const id = 'Gameplay';
+
+  final int currentLevel;
+  final VoidCallback onPausePressed;
+  final ValueChanged<int> onLevelCompleted;
+  final VoidCallback onGameOver;
 
   late CameraComponent cam;
   Player player = Player(character: 'Relaxaurus');
 
   late JoystickComponent joystick;
-  bool showControls = true;
+  late JumpButton jumpButton = JumpButton();
+  bool showControls = false;
 
-  bool playSounds = false;
-  double soundVolume = 1.0;
-  List<String> levelNames = ['Level-01', 'Level-02', 'Level-03'];
-  int currentLevelIndex = 0;
+  bool levelComplete = false;
+
+  Color backgroundColor() => const Color(0xFF211F30);
 
   @override
   FutureOr<void> onLoad() async {
     await Flame.device.fullScreen();
     await Flame.device.setLandscape();
-    await images.loadAllImages();
     _loadLevel();
     if (showControls) {
-      add(JumpButton());
+      await add(jumpButton);
       addJoystick();
     }
     return super.onLoad();
@@ -48,15 +56,16 @@ class DinoDengzz extends FlameGame
     super.update(dt);
   }
 
-  void addJoystick() {
+  Future<void> addJoystick() async {
     joystick = JoystickComponent(
         priority: 10,
-        knob: SpriteComponent(sprite: Sprite(images.fromCache('HUD/Knob.png'))),
+        knob: SpriteComponent(
+            sprite: Sprite(game.images.fromCache('HUD/Knob.png'))),
         background: SpriteComponent(
-            sprite: Sprite(images.fromCache('HUD/Joystick.png'))),
+            sprite: Sprite(game.images.fromCache('HUD/Joystick.png'))),
         margin: const EdgeInsets.only(left: 28, bottom: 32));
 
-    add(joystick);
+    await add(joystick);
   }
 
   void updateJoystick() {
@@ -75,36 +84,22 @@ class DinoDengzz extends FlameGame
         player.horizontalMovement = 0;
         break;
     }
-  }
-
-  void loadNextLevel() {
-    priority = -5;
-    removeWhere((component) => component is Level);
-    if (currentLevelIndex < levelNames.length - 1) {
-      currentLevelIndex++;
-      _loadLevel();
-    } else {
-      //menu or endgame
-      currentLevelIndex = 0;
-      _loadLevel();
-    }
+    player.hasJumped = jumpButton.hasJumped;
   }
 
   void _loadLevel() {
-    Future.delayed(const Duration(milliseconds: 400), () {
-      Level world = Level(
-        levelName: levelNames[currentLevelIndex],
-        player: player,
-      );
+    Level world = Level(
+      levelName: game.levelNames[currentLevel],
+      player: player,
+    );
 
-      cam = CameraComponent.withFixedResolution(
-        world: world,
-        width: 640,
-        height: 320,
-      );
-      cam.viewfinder.anchor = Anchor.topLeft;
+    cam = CameraComponent.withFixedResolution(
+      world: world,
+      width: 640,
+      height: 320,
+    );
+    cam.viewfinder.anchor = Anchor.topLeft;
 
-      addAll([cam, world]);
-    });
+    addAll([cam, world]);
   }
 }
