@@ -83,7 +83,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     child: const Text("Logout"),
                     onPressed: () {
-                      // clear all routes and push to home
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         '/login',
                         (Route<dynamic> route) => false,
