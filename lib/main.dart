@@ -30,7 +30,8 @@ class SuperApp extends StatefulWidget {
 class _SuperAppState extends State<SuperApp> {
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themeData = Provider.of<ThemeProvider>(context);
+    ThemeProvider themes = Provider.of<ThemeProvider>(context);
+
     return GetMaterialApp(
       initialRoute: "/login",
       routes: {
@@ -42,7 +43,7 @@ class _SuperAppState extends State<SuperApp> {
         "/game": (context) => const MyGame(),
       },
       title: "RuamMitr - App for Uni Students",
-      theme: themeData.themeFrom("RuamMitr")?.themeData,
+      theme: themes.themeFrom("RuamMitr")?.themeData,
     );
   }
 }
