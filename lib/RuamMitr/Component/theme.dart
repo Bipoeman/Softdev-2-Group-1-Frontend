@@ -75,7 +75,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "hyperlink": const Color.fromRGBO(0, 200, 212, 1),
       },
     ),
-  }
+  },
 };
 
 class CustomThemes {
