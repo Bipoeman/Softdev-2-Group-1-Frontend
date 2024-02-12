@@ -5,6 +5,8 @@ class ThemeProvider extends ChangeNotifier {
   bool get isDarkMode => _isDarkMode;
   Map<String, Map<String, CustomThemes>> appThemes = _appsThemes;
 
+  CustomThemes? themeFrom(String app) => _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
+
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
     notifyListeners();
@@ -32,6 +34,15 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "onMain": Colors.white,
         "oddContainer": const Color.fromRGBO(238, 238, 238, 1),
         "onOddContainer": Colors.black,
+        "evenContainer": Colors.white,
+        "onEvenContainer": Colors.black,
+        "textInputContainer": const Color.fromRGBO(221, 221, 221, 1),
+        "label": const Color.fromRGBO(84, 84, 84, 1),
+        "textInput": Colors.black,
+        "icon": Colors.black,
+        "backgroundStart": const Color.fromRGBO(248, 196, 196, 1),
+        "backgroundEnd": const Color.fromRGBO(224, 224, 224, 1),
+        "hyperlink": const Color.fromRGBO(0, 167, 190, 1),
       },
     ),
     "dark": CustomThemes(
@@ -49,9 +60,19 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         useMaterial3: true,
       ),
       customColors: {
-        "backgroundColor": const Color(0xff1f1f1f),
-        "mainColor": const Color.fromRGBO(214, 40, 40, 1),
-        "textColor": const Color(0xffe8e8e8),
+        "main": const Color.fromRGBO(214, 40, 40, 1),
+        "onMain": Colors.white,
+        "oddContainer": const Color.fromRGBO(77, 77, 77, 1),
+        "onOddContainer": Colors.white,
+        "evenContainer": const Color.fromRGBO(66, 66, 66, 1),
+        "onEvenContainer": Colors.white,
+        "textInputContainer": const Color.fromRGBO(84, 84, 84, 1),
+        "label": const Color.fromRGBO(221, 221, 221, 1),
+        "textInput": Colors.white,
+        "icon": Colors.white,
+        "backgroundStart": const Color.fromRGBO(67, 49, 49, 1),
+        "backgroundEnd": const Color.fromRGBO(61, 61, 61, 1),
+        "hyperlink": const Color.fromRGBO(0, 200, 212, 1),
       },
     ),
   }

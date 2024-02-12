@@ -42,9 +42,7 @@ class _SuperAppState extends State<SuperApp> {
         "/game": (context) => const MyGame(),
       },
       title: "RuamMitr - App for Uni Students",
-      theme: themeData.isDarkMode
-          ? themeData.appThemes["RuamMitr"]!["dark"]?.themeData
-          : themeData.appThemes["RuamMitr"]!["light"]?.themeData,
+      theme: themeData.themeFrom("RuamMitr")?.themeData,
     );
   }
 }
