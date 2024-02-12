@@ -1,12 +1,10 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
-import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 class Checkpoint extends SpriteAnimationComponent
@@ -48,7 +46,6 @@ class Checkpoint extends SpriteAnimationComponent
       } else {
         star = 1;
       }
-      print(star);
       _reachedCheckpoint();
     }
     super.onCollisionStart(intersectionPoints, other);

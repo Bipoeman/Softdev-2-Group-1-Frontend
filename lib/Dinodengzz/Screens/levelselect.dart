@@ -30,16 +30,17 @@ class LevelSelectionScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             for (int i = 0; i < levelNames.length; i++)
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () {
                   onLevelSelected(i);
                 },
-                child: Text('Level ${i + 1}'),
+                icon: Image.asset("assets/Menu/Levels/0${i + 1}.png"),
+                label: Text('Level ${i + 1}'),
               ),
             const SizedBox(height: 5),
             IconButton(
               onPressed: onBackPressed,
-              icon: const Icon(Icons.arrow_back_rounded),
+              icon: Image.asset("assets/Menu/Buttons/Back.png"),
             )
           ],
         ),

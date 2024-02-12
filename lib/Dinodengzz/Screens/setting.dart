@@ -23,7 +23,7 @@ class Settings extends StatelessWidget {
             const SizedBox(height: 5),
             IconButton(
               onPressed: onBackPressed,
-              icon: const Icon(Icons.arrow_back_rounded),
+              icon: Image.asset("assets/Menu/Buttons/Back.png"),
             )
           ],
         ),

@@ -73,8 +73,6 @@ class Fruit extends SpriteAnimationComponent
         other.gotNoodle();
       }
       collidedWithPlayer();
-      print(other.fruitCount);
-      print(other.fruitHave);
     }
     super.onCollisionStart(intersectionPoints, other);
   }
