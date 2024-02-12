@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:ruam_mitt/global_const.dart';
 import "dart:math";
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +13,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool? isChecked = false;
-  final url = Uri.parse("https://ruammitr.azurewebsites.net/api/login");
+  final url = Uri.parse("$api/login");
   final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
 
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
       } else if (response.statusCode == 200) {
         user();
         Navigator.of(context).pushNamedAndRemoveUntil(
-          "/home",
+          ruamMitrPageRoute["home"]!,
           (route) => false,
         );
       } else {
@@ -70,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
   void navigateToHome() async {
     if (isLoggedIn()) {
       Navigator.of(context).pushNamedAndRemoveUntil(
-        "/home",
+        ruamMitrPageRoute["home"]!,
         (route) => false,
       );
     }

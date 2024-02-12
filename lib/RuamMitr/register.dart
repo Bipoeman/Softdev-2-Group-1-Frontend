@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/global_const.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math';
 
@@ -23,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   void _registerAccount() async {
     ThemeData theme = Theme.of(context);
     var response =
-        await http.post(Uri.parse("https://ruammitr.azurewebsites.net/api/register"), body: {
+        await http.post(Uri.parse("$api/register"), body: {
       'fullname': fullnameTextController.text,
       'email': emailTextController.text,
       'username': usernameTextController.text,
@@ -43,7 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       );
       Navigator.of(context).pushNamedAndRemoveUntil(
-        "/login",
+        loginPageRoute,
         (route) => false,
       );
     } else {
@@ -135,7 +136,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             onTap: () {
               Navigator.popUntil(context, (route) => false);
-              Navigator.pushNamed(context, "/login");
+              Navigator.pushNamed(context, loginPageRoute);
             },
           ),
           elevation: 0,
