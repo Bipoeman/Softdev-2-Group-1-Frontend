@@ -15,6 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   final url = Uri.parse("https://ruammitr.azurewebsites.net/api/login");
   final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
+  late SharedPreferences removepassword;
 
   Future<void> sendPostRequest() async {
     var response = await http.post(url, body: {
@@ -38,14 +39,12 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       } else if (response.statusCode == 200) {
-        user();
         Navigator.of(context).pushNamedAndRemoveUntil(
-          "/home",
+          "/RuamMitr/home",
           (route) => false,
         );
       } else {
-        clearPreferences();
-        savebool();
+        removepassword;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -61,27 +60,15 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  bool isLoggedIn() {
-    return usernameTextController.text.isNotEmpty &&
+  void navigateToHome() async {
+    bool isLoggedIn = usernameTextController.text.isNotEmpty &&
         passwordTextController.text.isNotEmpty &&
         isChecked!;
-  }
-
-  void navigateToHome() async {
-    if (isLoggedIn()) {
+    if (isLoggedIn) {
       Navigator.of(context).pushNamedAndRemoveUntil(
-        "/home",
+        "/RuamMitr/home",
         (route) => false,
       );
-    }
-  }
-
-  void user() async {
-    if (isChecked == true) {
-      savebool();
-      saveuser();
-    } else {
-      clearPreferences();
     }
   }
 
@@ -100,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  savebool() async {
+  saveCheckbox() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool("isChecked", isChecked ?? false);
   }
@@ -111,9 +98,14 @@ class _LoginPageState extends State<LoginPage> {
     await prefs.setString("password", passwordTextController.text);
   }
 
+  void initial() async {
+    removepassword = await SharedPreferences.getInstance();
+  }
+
   @override
   void initState() {
     super.initState();
+    initial();
     loadData();
   }
 
@@ -248,11 +240,17 @@ class _LoginPageState extends State<LoginPage> {
                                           setState(() {
                                             if (value != null) {
                                               isChecked = value;
-                                              user();
+                                              if (isChecked == true) {
+                                                saveCheckbox();
+                                                saveuser();
+                                              } else {
+                                                clearPreferences();
+                                              }
                                             }
                                           });
                                         },
-                                        activeColor: theme.colorScheme.onPrimary,
+                                        activeColor:
+                                            theme.colorScheme.onPrimary,
                                         checkColor: theme.colorScheme.primary,
                                       ),
                                       const Text(
