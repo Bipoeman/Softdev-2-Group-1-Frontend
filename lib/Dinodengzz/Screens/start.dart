@@ -21,13 +21,16 @@ class StartScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               'DinoDengzz',
               style: TextStyle(
                 fontSize: 90,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 4,
-                color: Color.fromRGBO(255, 138, 101, 1),
+                foreground: Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = 5
+                  ..color = const Color.fromARGB(255, 188, 77, 44),
               ),
             ),
             const SizedBox(height: 40),

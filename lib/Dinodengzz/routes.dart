@@ -14,6 +14,8 @@ import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 class GameRoutes extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
   List<String> levelNames = ['Level-01', 'Level-02', 'Level-03'];
+  bool playSounds = true;
+  double soundVolume = 1.0;
 
   late final _routes = <String, Route>{
     StartScreen.id: OverlayRoute(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/checkpoint.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/collision_block.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
@@ -182,6 +183,9 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _playerJump(double dt) {
+    if (game.playSounds) {
+      FlameAudio.play('Deng_Suu.wav', volume: game.soundVolume);
+    }
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
     isOnGround = false;

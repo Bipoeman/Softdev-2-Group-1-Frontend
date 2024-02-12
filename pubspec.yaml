@@ -41,6 +41,7 @@ dependencies:
   connectivity_plus: ^5.0.2
   get: ^4.6.6
   http: ^1.2.0
+  flame_audio: ^2.1.8
 
 
 dev_dependencies:
