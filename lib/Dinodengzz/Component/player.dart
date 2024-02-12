@@ -289,6 +289,7 @@ class Player extends SpriteAnimationGroupComponent
     if (remainingLives <= 0) {
       isGameOver = true;
       remainingLives = 3;
+      FlameAudio.play('Over.wav', volume: game.soundVolume);
       gameRef.showRetryMenu();
     }
 

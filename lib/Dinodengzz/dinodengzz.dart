@@ -33,7 +33,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
 
   bool levelComplete = false;
 
-  Color backgroundColor() => Color.fromARGB(255, 30, 28, 45);
+  Color backgroundColor() => const Color.fromARGB(255, 30, 28, 45);
 
   @override
   FutureOr<void> onLoad() async {

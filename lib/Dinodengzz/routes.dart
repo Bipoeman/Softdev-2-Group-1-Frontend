@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:get/get.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/gameover.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/levelcomplete.dart';
@@ -15,7 +16,7 @@ class GameRoutes extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
   List<String> levelNames = ['Level-01', 'Level-02', 'Level-03'];
   bool playSounds = true;
-  double soundVolume = 1.0;
+  double soundVolume = 2.0;
 
   late final _routes = <String, Route>{
     StartScreen.id: OverlayRoute(
@@ -44,8 +45,14 @@ class GameRoutes extends FlameGame
     ),
     GameOverScreen.id: OverlayRoute(
       (context, game) => GameOverScreen(
-        onRetryPressed: _restartLevel,
-        onMainMenuPressed: () => _exitToMainMenu(),
+        onRetryPressed: () {
+          _restartLevel();
+          FlameAudio.bgm.stop();
+        },
+        onMainMenuPressed: () {
+          _exitToMainMenu();
+          FlameAudio.bgm.stop();
+        },
       ),
     ),
   };
@@ -71,6 +78,7 @@ class GameRoutes extends FlameGame
   Future<void> onLoad() async {
     await Flame.device.setLandscape();
     await Flame.device.fullScreen();
+    FlameAudio.bgm.initialize();
     await images.loadAllImages();
     await add(_router);
   }
