@@ -59,6 +59,8 @@ class Player extends SpriteAnimationGroupComponent
   int fruitCount = 0;
   int remainingLives = 3;
 
+  AudioPlayer? gameOverPlayer;
+
   List<CollisionBlock> collisionBlocks = [];
   CustomHitBox hitbox = CustomHitBox(
     offsetX: 12,
@@ -70,7 +72,7 @@ class Player extends SpriteAnimationGroupComponent
   double accumulatedTime = 0;
 
   @override
-  FutureOr<void> onLoad() {
+  FutureOr<void> onLoad() async {
     _loadAllAnimation();
     //debugMode = true;
     priority = 10;
@@ -174,6 +176,12 @@ class Player extends SpriteAnimationGroupComponent
     );
   }
 
+  @override
+  void onRemove() {
+    gameOverPlayer?.dispose();
+    super.onRemove();
+  }
+
   void _updatePlayerMovement(double dt) {
     if (hasJumped && isOnGround) _playerJump(dt);
 
@@ -184,7 +192,7 @@ class Player extends SpriteAnimationGroupComponent
 
   void _playerJump(double dt) {
     if (game.playSounds) {
-      FlameAudio.play('Deng_Suu.wav', volume: game.soundVolume);
+      FlameAudio.play(GameRoutes.jumpSfx, volume: game.soundVolume);
     }
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
@@ -288,8 +296,9 @@ class Player extends SpriteAnimationGroupComponent
 
     if (remainingLives <= 0) {
       isGameOver = true;
-      remainingLives = 3;
-      FlameAudio.play('Over.wav', volume: game.soundVolume);
+      gameOverPlayer =
+          await FlameAudio.loopLongAudio('Over.wav', volume: game.soundVolume);
+
       gameRef.showRetryMenu();
     }
 

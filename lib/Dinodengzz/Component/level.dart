@@ -20,7 +20,6 @@ class Level extends World with HasGameRef<GameRoutes> {
 
   @override
   FutureOr<void> onLoad() async {
-    priority = -5;
     level = await TiledComponent.load('$levelName.tmx', Vector2.all(16));
     add(level);
 
