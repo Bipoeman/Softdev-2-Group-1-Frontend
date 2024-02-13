@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:ruam_mitt/global_const.dart';
 import "dart:math";
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -12,12 +13,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool? isChecked = false;
-  final url = Uri.parse("https://ruammitr.azurewebsites.net/api/login");
+  final url = Uri.parse("$api/login");
   final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   late SharedPreferences removepassword;
 
-  Future<void> sendPostRequest() async {
+  Future<void> sendLoginRequest() async {
     var response = await http.post(url, body: {
       "emailoruser": usernameTextController.text,
       "password": passwordTextController.text,
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
         );
       } else if (response.statusCode == 200) {
         Navigator.of(context).pushNamedAndRemoveUntil(
-          "/RuamMitr/home",
+          ruamMitrPageRoute["home"]!,
           (route) => false,
         );
       } else {
@@ -66,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
         isChecked!;
     if (isLoggedIn) {
       Navigator.of(context).pushNamedAndRemoveUntil(
-        "/RuamMitr/home",
+        ruamMitrPageRoute["home"]!,
         (route) => false,
       );
     }
@@ -286,7 +287,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 child: const Text("Login"),
                                 onPressed: () {
-                                  sendPostRequest();
+                                  sendLoginRequest();
                                 },
                               ),
                             ),
@@ -296,7 +297,7 @@ class _LoginPageState extends State<LoginPage> {
                                 const Text("Don't have an account?"),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/register');
+                                    Navigator.pushNamed(context, registerPageRoute);
                                   },
                                   child: Text(
                                     "Create an account",
@@ -316,7 +317,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: IconButton(
                       icon: Image.asset("assets/Menu/Buttons/Play.png"),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/game');
+                        Navigator.pushNamed(context, dinodengzzPageRoute);
                       },
                     ),
                   ),

@@ -3,7 +3,9 @@ import "package:provider/provider.dart";
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/Component/main_navigator.dart';
+import 'package:ruam_mitt/global_const.dart';
 import "dart:math";
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -83,9 +85,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     child: const Text("Logout"),
                     onPressed: () {
-                      // clear all routes and push to home
                       Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/login',
+                        loginPageRoute,
                         (Route<dynamic> route) => false,
                       );
                     },

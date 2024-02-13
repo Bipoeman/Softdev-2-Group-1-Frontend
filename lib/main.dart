@@ -9,6 +9,7 @@ import 'package:ruam_mitt/RuamMitr/profile.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
+import 'package:ruam_mitt/global_const.dart';
 
 void main() {
   runApp(
@@ -30,18 +31,20 @@ class SuperApp extends StatefulWidget {
 class _SuperAppState extends State<SuperApp> {
   @override
   Widget build(BuildContext context) {
+    ThemeProvider themes = Provider.of<ThemeProvider>(context);
+
     return GetMaterialApp(
-      initialRoute: "/login",
+      initialRoute: loginPageRoute,
       routes: {
-        "/login": (context) => const LoginPage(),
-        "/register": (context) => const RegisterPage(),
-        "/RuamMitr/home": (context) => const HomePage(),
-        "/RuamMitr/settings": (context) => const SettingsPage(),
-        "/RuamMitr/profile": (context) => const ProfilePage(),
-        "/game": (context) => const MyGame(),
+        loginPageRoute: (context) => const LoginPage(),
+        registerPageRoute: (context) => const RegisterPage(),
+        ruamMitrPageRoute["home"]!: (context) => const HomePage(),
+        ruamMitrPageRoute["settings"]!: (context) => const SettingsPage(),
+        ruamMitrPageRoute["profile"]!: (context) => const ProfilePage(),
+        dinodengzzPageRoute: (context) => const MyGame(),
       },
       title: "RuamMitr - App for Uni Students",
-      theme: Provider.of<ThemeProvider>(context).themeData,
+      theme: themes.themeFrom("RuamMitr")?.themeData,
     );
   }
 }
