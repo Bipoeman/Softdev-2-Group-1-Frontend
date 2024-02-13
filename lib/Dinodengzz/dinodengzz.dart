@@ -28,8 +28,8 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
   Player player = Player(character: 'Relaxaurus');
 
   late JoystickComponent joystick;
-  late JumpButton jumpButton = JumpButton();
-  bool showControls = false;
+  late final JumpButton jumpButton = JumpButton();
+  bool showControls = true;
 
   bool levelComplete = false;
 
@@ -41,8 +41,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
     await Flame.device.setLandscape();
     _loadLevel();
     if (showControls) {
-      await add(jumpButton);
-      addJoystick();
+      add(jumpButton);
     }
     return super.onLoad();
   }
@@ -56,34 +55,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
     super.update(dt);
   }
 
-  Future<void> addJoystick() async {
-    joystick = JoystickComponent(
-        priority: 10,
-        knob: SpriteComponent(
-            sprite: Sprite(game.images.fromCache('HUD/Knob.png'))),
-        background: SpriteComponent(
-            sprite: Sprite(game.images.fromCache('HUD/Joystick.png'))),
-        margin: const EdgeInsets.only(left: 28, bottom: 32));
-
-    await add(joystick);
-  }
-
   void updateJoystick() {
-    switch (joystick.direction) {
-      case JoystickDirection.left:
-      case JoystickDirection.upLeft:
-      case JoystickDirection.downLeft:
-        player.horizontalMovement = -1;
-        break;
-      case JoystickDirection.right:
-      case JoystickDirection.upRight:
-      case JoystickDirection.downRight:
-        player.horizontalMovement = 1;
-        break;
-      default:
-        player.horizontalMovement = 0;
-        break;
-    }
     player.hasJumped = jumpButton.hasJumped;
   }
 
