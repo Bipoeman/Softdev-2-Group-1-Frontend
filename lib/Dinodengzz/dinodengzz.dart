@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/hud.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/level.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
@@ -29,8 +30,8 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
 
   late JoystickComponent joystick;
   late final JumpButton jumpButton = JumpButton();
-  bool showControls = true;
-
+  late final Hud hud = Hud();
+  bool showControls = false;
   bool levelComplete = false;
 
   Color backgroundColor() => const Color.fromARGB(255, 30, 28, 45);
@@ -40,23 +41,19 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
     await Flame.device.fullScreen();
     await Flame.device.setLandscape();
     _loadLevel();
-    if (showControls) {
-      add(jumpButton);
-    }
-    return super.onLoad();
+    add(jumpButton);
+    add(hud);
   }
 
   @override
   void update(double dt) {
-    if (showControls) {
-      updateJoystick();
-    }
-
+    updateJoystick();
+    hud.updateLifeCount(player.remainingLives);
     super.update(dt);
   }
 
   void updateJoystick() {
-    player.hasJumped = jumpButton.hasJumped;
+    if (showControls) player.hasJumped = jumpButton.hasJumped;
   }
 
   void _loadLevel() {
@@ -72,6 +69,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
     );
     cam.viewfinder.anchor = Anchor.topLeft;
 
-    addAll([cam, world]);
+    add(world);
+    add(cam);
   }
 }
