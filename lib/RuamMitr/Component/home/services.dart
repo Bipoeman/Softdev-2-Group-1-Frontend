@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/app_box.dart';
+import 'package:ruam_mitt/global_const.dart';
 
 class ServicesWidget extends StatelessWidget {
   const ServicesWidget({super.key});
@@ -17,6 +18,9 @@ class ServicesWidget extends StatelessWidget {
             appName: "Tuachuay",
             width: size,
             height: size,
+            appRoute: () {
+              Navigator.pushNamed(context, tuachuayDekhorPageRoute["home"]!);
+            },
           ),
           AppBox(
             appName: "Market",
@@ -38,7 +42,7 @@ class ServicesWidget extends StatelessWidget {
             width: size,
             height: size,
             appRoute: () {
-              Navigator.pushNamed(context, "/game");
+              Navigator.pushNamed(context, dinodengzzPageRoute);
             },
           ),
         ],

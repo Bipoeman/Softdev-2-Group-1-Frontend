@@ -9,3 +9,6 @@ const Map<String, String> ruamMitrPageRoute = {
   "settings": "/RuamMitr/settings",
 };
 const String dinodengzzPageRoute = "/game";
+const Map<String, String> tuachuayDekhorPageRoute = {
+  "home": "/TuachuayDekhor/home",
+};
