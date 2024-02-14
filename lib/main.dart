@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:ruam_mitt/Restroom/restroom.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
 import 'package:ruam_mitt/RuamMitr/home.dart';
@@ -39,6 +40,7 @@ class _SuperAppState extends State<SuperApp> {
         ruamMitrPageRoute["home"]!: (context) => const HomePage(),
         ruamMitrPageRoute["settings"]!: (context) => const SettingsPage(),
         ruamMitrPageRoute["profile"]!: (context) => const ProfilePage(),
+        restroomPageRoute["home"]!: (context) => const RestroomRover(),
         dinodengzzPageRoute: (context) => const MyGame(),
       },
       title: "RuamMitr - App for Uni Students",
