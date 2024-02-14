@@ -8,8 +8,8 @@ class NavBar extends StatelessWidget {
     return Drawer(
       backgroundColor: const Color(000000).withOpacity(0.8),
       child: ListView(
-        children: [UserAccountsDrawerHeader(accountName: accountName)],
-      ),
+          // children: [UserAccountsDrawerHeader(accountName: accountName)],
+          ),
     );
   }
 }
