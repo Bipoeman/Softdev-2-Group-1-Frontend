@@ -3,6 +3,7 @@ import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/gameover.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/levelcomplete.dart';
@@ -22,7 +23,11 @@ class GameRoutes extends FlameGame
     StartScreen.id: OverlayRoute(
       (context, game) => StartScreen(
           onLevelSelectionPressed: () => _routeById(LevelSelectionScreen.id),
-          onExitPressed: () => Get.toNamed('/login'),
+          onExitPressed: () {
+            Flame.device.setPortrait();
+            FlameAudio.audioCache.clearAll();
+            Get.toNamed('/login');
+          },
           onSettingPressed: () => _routeById(Settings.id)),
     ),
     Settings.id: OverlayRoute(
@@ -47,11 +52,9 @@ class GameRoutes extends FlameGame
       (context, game) => GameOverScreen(
         onRetryPressed: () {
           _restartLevel();
-          FlameAudio.bgm.stop();
         },
         onMainMenuPressed: () {
           _exitToMainMenu();
-          FlameAudio.bgm.stop();
         },
       ),
     ),
