@@ -39,6 +39,10 @@ class _TuachuaySearchBoxState extends State<TuachuaySearchBox> {
             ),
           ),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: const BorderSide(color: Color.fromRGBO(0, 48, 73, 1)),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(40),
           borderSide: const BorderSide(color: Color.fromRGBO(0, 48, 73, 1)),
