@@ -32,6 +32,9 @@ class ServicesWidget extends StatelessWidget {
             appName: "Bin",
             width: size,
             height: size,
+            appRoute: () {
+              Navigator.pushNamed(context, "/bin");
+            },
           ),
           AppBox(
             appName: "DinoDengzz",
