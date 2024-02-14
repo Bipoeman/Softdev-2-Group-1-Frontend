@@ -3,7 +3,6 @@ import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/gameover.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/levelcomplete.dart';
@@ -59,7 +58,6 @@ class GameRoutes extends FlameGame
         },
         onMainMenuPressed: () {
           _exitToMainMenu();
-          //FlameAudio.bgm.stop();
         },
       ),
     ),
