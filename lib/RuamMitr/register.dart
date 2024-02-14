@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/global_const.dart';
+import 'package:http/http.dart' as http;
 import 'dart:math';
 
 Color backgroundColor = const Color(0xffe8e8e8);
@@ -13,9 +15,67 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final fullnameTextController = TextEditingController();
+  final emailTextController = TextEditingController();
+  final usernameTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
+  final confirmpasswordTextController = TextEditingController();
+
+  void _registerAccount() async {
+    ThemeData theme = Theme.of(context);
+    var response =
+        await http.post(Uri.parse("$api/register"), body: {
+      'fullname': fullnameTextController.text,
+      'email': emailTextController.text,
+      'username': usernameTextController.text,
+      'password': passwordTextController.text,
+    });
+
+    if (response.statusCode == 201) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Registration successful.",
+            style: TextStyle(
+              color: theme.colorScheme.onPrimary,
+            ),
+          ),
+          backgroundColor: theme.colorScheme.onPrimary,
+        ),
+      );
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        loginPageRoute,
+        (route) => false,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Registration failed.",
+            style: TextStyle(
+              color: theme.colorScheme.onPrimary,
+            ),
+          ),
+          backgroundColor: theme.colorScheme.onPrimary,
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    fullnameTextController.dispose();
+    emailTextController.dispose();
+    usernameTextController.dispose();
+    passwordTextController.dispose();
+    confirmpasswordTextController.dispose();
+    super.dispose();
+  }
+
   TextFormField textField({
     required String labelText,
     required BuildContext context,
+    TextEditingController? controller,
     Icon? icon,
     bool? obscureText,
     TextInputType? inputType,
@@ -28,6 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }) {
     ThemeData theme = Theme.of(context);
     return TextFormField(
+      controller: controller,
       keyboardType: inputType,
       obscureText: obscureText ?? false,
       decoration: InputDecoration(
@@ -75,7 +136,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             onTap: () {
               Navigator.popUntil(context, (route) => false);
-              Navigator.pushNamed(context, "/login");
+              Navigator.pushNamed(context, loginPageRoute);
             },
           ),
           elevation: 0,
@@ -101,31 +162,36 @@ class _RegisterPageState extends State<RegisterPage> {
                   color: theme.colorScheme.primaryContainer.withOpacity(0.8),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround, // Adjust the spacing here
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     textField(
+                      controller: fullnameTextController,
                       labelText: "Fullname",
                       context: context,
                       icon: const Icon(Icons.person),
                     ),
                     textField(
+                      controller: emailTextController,
                       labelText: "Email",
                       context: context,
                       inputType: TextInputType.emailAddress,
                       icon: const Icon(Icons.email_outlined),
                     ),
                     textField(
+                      controller: usernameTextController,
                       labelText: "Username",
                       context: context,
                       icon: const Icon(Icons.account_box_outlined),
                     ),
                     textField(
+                      controller: passwordTextController,
                       labelText: "Password",
                       context: context,
                       obscureText: true,
                       icon: const Icon(Icons.lock_outline),
                     ),
                     textField(
+                      controller: confirmpasswordTextController,
                       labelText: "Repeat Password",
                       context: context,
                       obscureText: true,
@@ -133,7 +199,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(
                       width: double.infinity,
-                      height: 50, // Updated height
+                      height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: theme.colorScheme.primary,
@@ -146,10 +212,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         child: const Text("Create Account"),
                         onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                            "/home",
-                            (route) => false,
-                          );
+                          if (passwordTextController.text == confirmpasswordTextController.text) {
+                            _registerAccount();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Password and Comfrim Password does not match."),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
                         },
                       ),
                     ),

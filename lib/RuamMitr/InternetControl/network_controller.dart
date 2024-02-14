@@ -12,18 +12,19 @@ class NetworkController extends GetxController {
   }
 
   void _updateConnectionStatus(ConnectivityResult connectivityResult) {
+    ThemeData theme = Get.theme;
     if (connectivityResult == ConnectivityResult.none) {
       Get.rawSnackbar(
-        messageText: const Text(
+        messageText: Text(
           'NO INTERNET CONNECTED',
-          style: TextStyle(color: Colors.white, fontSize: 18),
+          style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 18),
         ),
         isDismissible: false,
         duration: const Duration(days: 1),
-        backgroundColor: Colors.red[400]!,
-        icon: const Icon(
+        backgroundColor: theme.colorScheme.primary,
+        icon: Icon(
           Icons.wifi_off,
-          color: Colors.white,
+          color: theme.colorScheme.onPrimary,
           size: 35,
         ),
         margin: EdgeInsets.zero,

@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
+import 'package:ruam_mitt/global_const.dart';
 import "dart:math";
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
@@ -11,30 +13,109 @@ class LoginPage extends StatefulWidget {
 
 
 class _LoginPageState extends State<LoginPage> {
-  final url = Uri.parse("https://softdev2-backend.azurewebsites.net/login");
+  bool? isChecked = false;
+  final url = Uri.parse("$api/login");
   final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
+  late SharedPreferences removepassword;
 
-  Future<void> sendPostRequest() async {
+  Future<void> sendLoginRequest() async {
     var response = await http.post(url, body: {
       "emailoruser": usernameTextController.text,
       "password": passwordTextController.text,
+    }).timeout(const Duration(seconds: 5), onTimeout: () {
+      return http.Response("Connection timeout", 408);
     });
     if (context.mounted) {
-      if (response.statusCode == 200) {
+      ThemeData theme = Theme.of(context);
+      if (response.statusCode == 408) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Connection timeout. Please check your internet connection.",
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary,
+              ),
+            ),
+            backgroundColor: theme.colorScheme.primary,
+          ),
+        );
+      } else if (response.statusCode == 200) {
         Navigator.of(context).pushNamedAndRemoveUntil(
-          "/home",
+          ruamMitrPageRoute["home"]!,
           (route) => false,
         );
       } else {
+        removepassword;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Login failed. Please check your credentials."),
-            backgroundColor: Colors.red,
+          SnackBar(
+            content: Text(
+              "Login failed. Please check your credentials.",
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary,
+              ),
+            ),
+            backgroundColor: theme.colorScheme.primary,
           ),
         );
       }
     }
+  }
+
+  void navigateToHome() async {
+    bool isLoggedIn = usernameTextController.text.isNotEmpty &&
+        passwordTextController.text.isNotEmpty &&
+        isChecked!;
+    if (isLoggedIn) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        ruamMitrPageRoute["home"]!,
+        (route) => false,
+      );
+    }
+  }
+
+  clearPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+
+  loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isChecked = prefs.getBool("isChecked");
+      usernameTextController.text = prefs.getString("emailoruser") ?? "";
+      passwordTextController.text = prefs.getString("password") ?? "";
+      navigateToHome();
+    });
+  }
+
+  saveCheckbox() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("isChecked", isChecked ?? false);
+  }
+
+  saveuser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("emailoruser", usernameTextController.text);
+    await prefs.setString("password", passwordTextController.text);
+  }
+
+  void initial() async {
+    removepassword = await SharedPreferences.getInstance();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initial();
+    loadData();
+  }
+
+  @override
+  void dispose() {
+    usernameTextController.dispose();
+    passwordTextController.dispose();
+    super.dispose();
   }
 
   @override
@@ -75,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                       Column(
                         children: [
                           Text(
-                            "NAME",
+                            "RuamMitr",
                             style: TextStyle(
                               color: theme.colorScheme.primary,
                               fontWeight: FontWeight.bold,
@@ -147,14 +228,49 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                                child: Text(
-                                  "Forgot password?",
-                                  style: TextStyle(
-                                      color: theme.colorScheme.secondary),
-                                ),
-                                onPressed: () {},
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Checkbox(
+                                        value: isChecked ?? false,
+                                        // tristate: false,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            if (value != null) {
+                                              isChecked = value;
+                                              if (isChecked == true) {
+                                                saveCheckbox();
+                                                saveuser();
+                                              } else {
+                                                clearPreferences();
+                                              }
+                                            }
+                                          });
+                                        },
+                                        activeColor:
+                                            theme.colorScheme.onPrimary,
+                                        checkColor: theme.colorScheme.primary,
+                                      ),
+                                      const Text(
+                                        "Remember me",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ],
+                                  ),
+                                  TextButton(
+                                    child: Text(
+                                      "Forgot password?",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: theme.colorScheme.secondary),
+                                    ),
+                                    onPressed: () {},
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(
@@ -171,8 +287,8 @@ class _LoginPageState extends State<LoginPage> {
                                   foregroundColor: theme.colorScheme.onPrimary,
                                 ),
                                 child: const Text("Login"),
-                                onPressed: () async {
-                                  await sendPostRequest();
+                                onPressed: () {
+                                  sendLoginRequest();
                                 },
                               ),
                             ),
@@ -182,7 +298,7 @@ class _LoginPageState extends State<LoginPage> {
                                 const Text("Don't have an account?"),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/register');
+                                    Navigator.pushNamed(context, registerPageRoute);
                                   },
                                   child: Text(
                                     "Create an account",
@@ -202,7 +318,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: IconButton(
                       icon: Image.asset("assets/Menu/Buttons/Play.png"),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/game');
+                        Navigator.pushNamed(context, dinodengzzPageRoute);
                       },
                     ),
                   ),

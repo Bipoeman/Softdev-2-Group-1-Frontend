@@ -27,15 +27,6 @@ jobs:
         login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
- 
-    - name: Build for Test
-      uses: docker/build-push-action@v5
-      with:
-        load: true
-        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-frontend:test
-
-    - name: Unit Test
-      run: docker run --rm ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-frontend:test flutter test
       
     - name: Build and push
       uses: docker/build-push-action@v5

@@ -1,108 +1,75 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
-import 'package:flame/game.dart';
-import 'package:flame/input.dart';
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/hud.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/level.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
+import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
-class DinoDengzz extends FlameGame
-    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
-  @override
-  Color backgroundColor() => const Color(0xFF211F30);
+class DinoDengzz extends Component with HasGameReference<GameRoutes> {
+  DinoDengzz(
+    this.currentLevel, {
+    super.key,
+    required this.onPausePressed,
+    required this.onLevelCompleted,
+    required this.onGameOver,
+  });
+
+  static const id = 'Gameplay';
+
+  final int currentLevel;
+  final VoidCallback onPausePressed;
+  final ValueChanged<int> onLevelCompleted;
+  final VoidCallback onGameOver;
 
   late CameraComponent cam;
   Player player = Player(character: 'Relaxaurus');
 
   late JoystickComponent joystick;
-  bool showControls = true;
+  late final JumpButton jumpButton = JumpButton();
+  late final Hud hud = Hud();
+  bool showControls = false;
+  bool levelComplete = false;
 
-  bool playSounds = false;
-  double soundVolume = 1.0;
-  List<String> levelNames = ['Level-01', 'Level-02', 'Level-03'];
-  int currentLevelIndex = 0;
+  Color backgroundColor() => const Color.fromARGB(255, 30, 28, 45);
 
   @override
   FutureOr<void> onLoad() async {
-    //load all images in to cache
-    await images.loadAllImages();
+    await Flame.device.fullScreen();
+    await Flame.device.setLandscape();
     _loadLevel();
-    if (showControls) {
-      add(JumpButton());
-      addJoystick();
-    }
-    return super.onLoad();
+    add(jumpButton);
+    add(hud);
   }
 
   @override
   void update(double dt) {
-    if (showControls) {
-      updateJoystick();
-    }
-
+    updateJoystick();
+    hud.updateLifeCount(player.remainingLives);
     super.update(dt);
   }
 
-  void addJoystick() {
-    joystick = JoystickComponent(
-        priority: 10,
-        knob: SpriteComponent(sprite: Sprite(images.fromCache('HUD/Knob.png'))),
-        background: SpriteComponent(
-            sprite: Sprite(images.fromCache('HUD/Joystick.png'))),
-        margin: const EdgeInsets.only(left: 28, bottom: 32));
-
-    add(joystick);
-  }
-
   void updateJoystick() {
-    switch (joystick.direction) {
-      case JoystickDirection.left:
-      case JoystickDirection.upLeft:
-      case JoystickDirection.downLeft:
-        player.horizontalMovement = -1;
-        break;
-      case JoystickDirection.right:
-      case JoystickDirection.upRight:
-      case JoystickDirection.downRight:
-        player.horizontalMovement = 1;
-        break;
-      default:
-        player.horizontalMovement = 0;
-        break;
-    }
-  }
-
-  void loadNextLevel() {
-    priority = -5;
-    removeWhere((component) => component is Level);
-    if (currentLevelIndex < levelNames.length - 1) {
-      currentLevelIndex++;
-      _loadLevel();
-    } else {
-      //menu or endgame
-      currentLevelIndex = 0;
-      _loadLevel();
-    }
+    if (showControls) player.hasJumped = jumpButton.hasJumped;
   }
 
   void _loadLevel() {
-    Future.delayed(const Duration(milliseconds: 400), () {
-      Level world = Level(
-        levelName: levelNames[currentLevelIndex],
-        player: player,
-      );
+    Level world = Level(
+      levelName: game.levelNames[currentLevel],
+      player: player,
+    );
 
-      cam = CameraComponent.withFixedResolution(
-        world: world,
-        width: 640,
-        height: 320,
-      );
-      cam.viewfinder.anchor = Anchor.topLeft;
+    cam = CameraComponent.withFixedResolution(
+      world: world,
+      width: 640,
+      height: 320,
+    );
+    cam.viewfinder.anchor = Anchor.topLeft;
 
-      addAll([cam, world]);
-    });
+    add(world);
+    add(cam);
   }
 }

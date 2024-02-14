@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/global_const.dart';
 import 'dart:math';
 
 class MainNavigator extends StatelessWidget {
   const MainNavigator({
     super.key,
-    required this.onProfile,
-    required this.onHome,
-    required this.onSettings,
   });
-
-  final VoidCallback onProfile;
-  final VoidCallback onHome;
-  final VoidCallback onSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +28,14 @@ class MainNavigator extends StatelessWidget {
                   [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
-              onPressed: onProfile,
+              onPressed: () {
+                if (ModalRoute.of(context)?.settings.name != ruamMitrPageRoute["profile"]!) {
+                  Navigator.pushNamed(
+                    context,
+                    ruamMitrPageRoute["profile"]!,
+                  );
+                }
+              },
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -68,7 +69,15 @@ class MainNavigator extends StatelessWidget {
                   [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
-              onPressed: onHome,
+              onPressed: () {
+                if (ModalRoute.of(context)?.settings.name != ruamMitrPageRoute["home"]!) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    ruamMitrPageRoute["home"]!,
+                    (route) => false,
+                  );
+                }
+              },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -98,7 +107,14 @@ class MainNavigator extends StatelessWidget {
                   [size.width * 0.3, 90.0].reduce(min),
                 ),
               ),
-              onPressed: onSettings,
+              onPressed: () {
+                if (ModalRoute.of(context)?.settings.name != ruamMitrPageRoute["settings"]!) {
+                  Navigator.pushNamed(
+                    context,
+                    ruamMitrPageRoute["settings"]!,
+                  );
+                }
+              },
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
