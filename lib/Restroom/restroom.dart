@@ -3,6 +3,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+
+
 class RestroomRover extends StatefulWidget {
   const RestroomRover({super.key});
 
@@ -28,6 +30,24 @@ class _RestroomRoverState extends State<RestroomRover> {
                   TileLayer(
                       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       userAgentPackageName: 'com.example.app',
+                  ),
+                  MarkerLayer(
+                      markers: [
+                          Marker(
+                            point: LatLng(13.825605, 100.514476),
+                            width: 50, 
+                            height: 50,
+                            child: Image.asset("assets/images/RestroomRover/Pinred.png"),
+                          ),
+                      ],
+                  ),
+                  RichAttributionWidget(
+                    attributions: [
+                      TextSourceAttribution(
+                        'OpenStreetMap contributors',
+                        onTap: () => launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -42,6 +42,7 @@ dependencies:
   get: ^4.6.6
   http: ^1.2.0
   flutter_map: ^6.1.0
+  # flutter_map_location_marker: any
 
 
 dev_dependencies:
@@ -80,7 +81,9 @@ flutter:
     - assets/images/Main Characters/Virtual Guy/
     - assets/images/Main Characters/Relaxaurus/
     - assets/images/Main Characters/
+    - assets/images/RestroomRover/
     - assets/Menu/Buttons/
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
