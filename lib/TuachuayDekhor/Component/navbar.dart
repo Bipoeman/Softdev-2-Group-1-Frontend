@@ -49,7 +49,7 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                     ),
                     onPressed: () {
                       Navigator.pushNamed(
-                          context, ruamMitrPageRoute["profile"]!);
+                          context, tuachuayDekhorPageRoute["profile"]!);
                     },
                   ),
                 ),
