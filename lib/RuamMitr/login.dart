@@ -41,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       } else if (response.statusCode == 200) {
+        saveuser();
         print(response.body);
         publicToken = response.body;
         Navigator.of(context).pushNamedAndRemoveUntil(
@@ -69,10 +70,11 @@ class _LoginPageState extends State<LoginPage> {
         passwordTextController.text.isNotEmpty &&
         isChecked!;
     if (isLoggedIn) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        ruamMitrPageRoute["home"]!,
-        (route) => false,
-      );
+      sendLoginRequest();
+      // Navigator.of(context).pushNamedAndRemoveUntil(
+      //   ruamMitrPageRoute["home"]!,
+      //   (route) => false,
+      // );
     }
   }
 
@@ -87,6 +89,8 @@ class _LoginPageState extends State<LoginPage> {
       isChecked = prefs.getBool("isChecked");
       usernameTextController.text = prefs.getString("emailoruser") ?? "";
       passwordTextController.text = prefs.getString("password") ?? "";
+      print(
+          "username found : ${usernameTextController.text}, password found : ${passwordTextController.text}");
       navigateToHome();
     });
   }
