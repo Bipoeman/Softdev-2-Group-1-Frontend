@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+import 'package:ruam_mitt/global_const.dart';
+
+class TuachuayDekhorAvatarViewer extends StatelessWidget {
+  const TuachuayDekhorAvatarViewer({
+    super.key,
+    this.username,
+    this.avatarUrl,
+  });
+  final String? username;
+  final String? avatarUrl;
+
+  Widget getAvatar(BuildContext context) {
+    if (avatarUrl != null) {
+      try {
+        return CircleAvatar(
+          radius: 30,
+          backgroundImage: NetworkImage(avatarUrl!),
+        );
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+    }
+    return const CircleAvatar(
+      radius: 30,
+      backgroundColor: Colors.black12,
+      child: Icon(
+        Icons.person,
+        size: 25,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IntrinsicHeight(
+      child: IntrinsicWidth(
+        child: RawMaterialButton(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          constraints: const BoxConstraints(),
+          onPressed: () {
+            Navigator.pushNamed(context, ruamMitrPageRoute["profile"]!);
+          },
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  child: getAvatar(context),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(40),
+                      color: const Color.fromRGBO(0, 48, 73, 1),
+                    ),
+                    height: 24,
+                    width: 68.5,
+                    child: Text(
+                      username ?? "John Doe",
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
