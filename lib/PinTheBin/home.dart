@@ -9,32 +9,40 @@ class BinPage extends StatefulWidget {
 }
 
 class _BinPageState extends State<BinPage> {
-  // late GoogleMapController mapController;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text('Google Map'),
-  //     ),
-  //     body: GoogleMap(
-  //       key: UniqueKey(),
-  //       initialCameraPosition: CameraPosition(
-  //         target:
-  //             LatLng(13.7563, 100.5018), // ตำแหน่งเริ่มต้นของแผนที่ (กรุงเทพฯ)
-  //         zoom: 12, // ขนาดการซูมเริ่มต้นของแผนที่
-  //       ),
-  //       onMapCreated: (GoogleMapController controller) {
-  //         mapController = controller;
-  //       },
-  //     ),
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavBar(),
-      backgroundColor: Color.fromARGB(0, 251, 250, 250),
+      key: _scaffoldKey,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Positioned(
+              top: 10,
+              left: 10,
+              child: Center(
+                child: GestureDetector(
+                  onTap: () {
+                    _scaffoldKey.currentState
+                        ?.openDrawer(); // เปิด Drawer เมื่อปุ่มถูกกด
+                  },
+                  child: Container(
+                    width: 40, // ขนาดของปุ่ม
+                    height: 40, // ขนาดของปุ่ม
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF77F00), // สี F77F00
+                      borderRadius: BorderRadius.circular(15), // มุมโค้ง 23
+                    ),
+                    child: const Icon(Icons.menu), // ใช้ไอคอน Hamburger ในปุ่ม
+                  ), // ใช้ไอคอน Hamburger ในปุ่ม
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      drawer: const NavBar(),
     );
   }
 }

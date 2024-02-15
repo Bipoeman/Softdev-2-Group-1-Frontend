@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:ruam_mitt/PinTheBin/addbin.dart';
+import 'package:ruam_mitt/PinTheBin/editbin.dart';
+import 'package:ruam_mitt/PinTheBin/report.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
 import 'package:ruam_mitt/RuamMitr/home.dart';
@@ -44,6 +47,9 @@ class _SuperAppState extends State<SuperApp> {
         ruamMitrPageRoute["profile"]!: (context) => const ProfilePage(),
         dinodengzzPageRoute: (context) => const MyGame(),
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
+        pinthebinPageRoute["addbin"]!: (context) => const AddbinPage(),
+        pinthebinPageRoute["editbin"]!: (context) => const EditbinPage(),
+        pinthebinPageRoute["report"]!: (context) => const ReportPage(),
       },
       title: "RuamMitr - App for Uni Students",
       theme: themes.themeFrom("RuamMitr")?.themeData,

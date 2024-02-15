@@ -11,4 +11,7 @@ const Map<String, String> ruamMitrPageRoute = {
 const String dinodengzzPageRoute = "/game";
 const Map<String, String> pinthebinPageRoute = {
   "home": "/PinTheBin/home",
+  "addbin": "/PinTheBin/addbin",
+  "editbin": "/PinTheBin/editbin",
+  "report": "/PinTheBin/report",
 };
