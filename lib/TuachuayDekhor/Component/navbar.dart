@@ -3,7 +3,34 @@ import 'package:ruam_mitt/TuachuayDekhor/Component/search_box.dart';
 import 'package:ruam_mitt/global_const.dart';
 
 class NavbarTuachuayDekhor extends StatelessWidget {
-  const NavbarTuachuayDekhor({super.key});
+  const NavbarTuachuayDekhor({
+    super.key,
+    this.username,
+    this.avatarUrl,
+  });
+  final String? username;
+  final String? avatarUrl;
+
+  Widget getAvatar(BuildContext context) {
+    if (avatarUrl != null) {
+      try {
+        return CircleAvatar(
+          radius: 24,
+          backgroundImage: NetworkImage(avatarUrl!),
+        );
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+    }
+    return const CircleAvatar(
+      radius: 24,
+      backgroundColor: Colors.white,
+      child: Icon(
+        Icons.person,
+        size: 23,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +40,13 @@ class NavbarTuachuayDekhor extends StatelessWidget {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                height: size.width * 0.175,
-                width: size.width * 0.175,
-                child: const Image(
+                height: 68.5,
+                width: 68.5,
+                child: Image(
                   image:
                       AssetImage("assets/images/Logo/TuachuayDekhor_Light.png"),
                 ),
@@ -27,7 +54,8 @@ class NavbarTuachuayDekhor extends StatelessWidget {
             ],
           ),
           Container(
-            padding: const EdgeInsets.only(top: 12.5),
+            padding: const EdgeInsets.only(top: 15),
+            height: 56,
             width: size.width * 0.5,
             child: const TuachuaySearchBox(),
           ),
@@ -37,21 +65,23 @@ class NavbarTuachuayDekhor extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.only(right: 10, top: 10),
                 alignment: Alignment.topCenter,
-                child: SizedBox(
-                  height: size.width * 0.125,
-                  width: size.width * 0.125,
-                  child: RawMaterialButton(
-                    shape: const CircleBorder(),
-                    fillColor: Colors.white,
-                    child: Icon(
-                      Icons.person,
-                      size: size.width * 0.075,
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      child: getAvatar(context),
                     ),
-                    onPressed: () {
-                      Navigator.pushNamed(
-                          context, ruamMitrPageRoute["profile"]!);
-                    },
-                  ),
+                    SizedBox(
+                      height: 48.5,
+                      width: 48.5,
+                      child: RawMaterialButton(
+                        shape: const CircleBorder(),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, ruamMitrPageRoute["profile"]!);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               )
             ],
