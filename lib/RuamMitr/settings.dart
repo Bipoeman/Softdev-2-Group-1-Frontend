@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
+import 'package:ruam_mitt/global_var.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/Component/main_navigator.dart';
@@ -85,6 +86,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     child: const Text("Logout"),
                     onPressed: () {
+                      publicToken = "";
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         loginPageRoute,
                         (Route<dynamic> route) => false,
