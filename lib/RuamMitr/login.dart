@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 import "dart:math";
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -13,11 +14,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool? isChecked = false;
-  final url = Uri.parse("$api/login");
+  final url = Uri.parse("$api$loginPageRoute");
   final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
+  late SharedPreferences removepassword;
 
-  Future<void> sendPostRequest() async {
+  Future<void> sendLoginRequest() async {
     var response = await http.post(url, body: {
       "emailoruser": usernameTextController.text,
       "password": passwordTextController.text,
@@ -39,14 +41,14 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       } else if (response.statusCode == 200) {
-        user();
+        print(response.body);
+        publicToken = response.body;
         Navigator.of(context).pushNamedAndRemoveUntil(
           ruamMitrPageRoute["home"]!,
           (route) => false,
         );
       } else {
-        clearPreferences();
-        savebool();
+        removepassword;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -62,27 +64,15 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  bool isLoggedIn() {
-    return usernameTextController.text.isNotEmpty &&
+  void navigateToHome() async {
+    bool isLoggedIn = usernameTextController.text.isNotEmpty &&
         passwordTextController.text.isNotEmpty &&
         isChecked!;
-  }
-
-  void navigateToHome() async {
-    if (isLoggedIn()) {
+    if (isLoggedIn) {
       Navigator.of(context).pushNamedAndRemoveUntil(
         ruamMitrPageRoute["home"]!,
         (route) => false,
       );
-    }
-  }
-
-  void user() async {
-    if (isChecked == true) {
-      savebool();
-      saveuser();
-    } else {
-      clearPreferences();
     }
   }
 
@@ -101,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  savebool() async {
+  saveCheckbox() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool("isChecked", isChecked ?? false);
   }
@@ -112,9 +102,14 @@ class _LoginPageState extends State<LoginPage> {
     await prefs.setString("password", passwordTextController.text);
   }
 
+  void initial() async {
+    removepassword = await SharedPreferences.getInstance();
+  }
+
   @override
   void initState() {
     super.initState();
+    initial();
     loadData();
   }
 
@@ -249,11 +244,17 @@ class _LoginPageState extends State<LoginPage> {
                                           setState(() {
                                             if (value != null) {
                                               isChecked = value;
-                                              user();
+                                              if (isChecked == true) {
+                                                saveCheckbox();
+                                                saveuser();
+                                              } else {
+                                                clearPreferences();
+                                              }
                                             }
                                           });
                                         },
-                                        activeColor: theme.colorScheme.onPrimary,
+                                        activeColor:
+                                            theme.colorScheme.onPrimary,
                                         checkColor: theme.colorScheme.primary,
                                       ),
                                       const Text(
@@ -289,7 +290,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 child: const Text("Login"),
                                 onPressed: () {
-                                  sendPostRequest();
+                                  sendLoginRequest();
                                 },
                               ),
                             ),
@@ -299,7 +300,8 @@ class _LoginPageState extends State<LoginPage> {
                                 const Text("Don't have an account?"),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/register');
+                                    Navigator.pushNamed(
+                                        context, registerPageRoute);
                                   },
                                   child: Text(
                                     "Create an account",
@@ -319,7 +321,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: IconButton(
                       icon: Image.asset("assets/Menu/Buttons/Play.png"),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/game');
+                        Navigator.pushNamed(context, dinodengzzPageRoute);
                       },
                     ),
                   ),

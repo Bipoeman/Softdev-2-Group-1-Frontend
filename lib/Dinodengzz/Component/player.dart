@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/checkpoint.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/collision_block.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/saw.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/utils.dart';
-import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
+import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 enum PlayerState {
   idle,
@@ -23,7 +24,7 @@ enum PlayerState {
 }
 
 class Player extends SpriteAnimationGroupComponent
-    with HasGameRef<DinoDengzz>, KeyboardHandler, CollisionCallbacks {
+    with HasGameRef<GameRoutes>, KeyboardHandler, CollisionCallbacks {
   String character;
   BuildContext? context; // Declare context as a late variable
   Player({
@@ -47,13 +48,18 @@ class Player extends SpriteAnimationGroupComponent
   double horizontalMovement = 0;
   double movespeed = 100;
   Vector2 velocity = Vector2.zero();
+  bool isPause = false;
   bool isOnGround = false;
   bool hasJumped = false;
   bool gotHit = false;
   bool isGameOver = false;
   bool reachedCheckpoint = false;
   bool noodleCollected = false;
+  int fruitHave = 0;
+  int fruitCount = 0;
   int remainingLives = 3;
+
+  AudioPlayer? gameOverPlayer;
 
   List<CollisionBlock> collisionBlocks = [];
   CustomHitBox hitbox = CustomHitBox(
@@ -66,7 +72,7 @@ class Player extends SpriteAnimationGroupComponent
   double accumulatedTime = 0;
 
   @override
-  FutureOr<void> onLoad() {
+  FutureOr<void> onLoad() async {
     _loadAllAnimation();
     //debugMode = true;
     priority = 10;
@@ -80,6 +86,9 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   void update(double dt) {
+    if (isPause) {
+      gameRef.pauseGame();
+    }
     accumulatedTime += dt;
     while (accumulatedTime >= fixedDeltaTime) {
       if (!gotHit && !reachedCheckpoint) {
@@ -102,7 +111,7 @@ class Player extends SpriteAnimationGroupComponent
         keysPressed.contains(LogicalKeyboardKey.arrowLeft);
     final isRightKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyD) ||
         keysPressed.contains(LogicalKeyboardKey.arrowRight);
-
+    isPause = keysPressed.contains(LogicalKeyboardKey.escape);
     horizontalMovement += isLeftKeyPressed ? -1 : 0;
     horizontalMovement += isRightKeyPressed ? 1 : 0;
 
@@ -167,6 +176,12 @@ class Player extends SpriteAnimationGroupComponent
     );
   }
 
+  @override
+  void onRemove() {
+    gameOverPlayer?.dispose();
+    super.onRemove();
+  }
+
   void _updatePlayerMovement(double dt) {
     if (hasJumped && isOnGround) _playerJump(dt);
 
@@ -176,6 +191,9 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _playerJump(double dt) {
+    if (game.playSounds) {
+      FlameAudio.play(GameRoutes.jumpSfx, volume: game.soundVolume);
+    }
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
     isOnGround = false;
@@ -278,7 +296,10 @@ class Player extends SpriteAnimationGroupComponent
 
     if (remainingLives <= 0) {
       isGameOver = true;
-      //_showGameOverScreen(); // Show game over screen when lives are zero
+      gameOverPlayer =
+          await FlameAudio.loopLongAudio('Over.wav', volume: game.soundVolume);
+
+      gameRef.showRetryMenu();
     }
 
     velocity = Vector2.zero();
@@ -307,11 +328,6 @@ class Player extends SpriteAnimationGroupComponent
     reachedCheckpoint = false;
     noodleCollected = false;
     position = Vector2.all(-640);
-
-    const waitToChangeDuration = Duration(seconds: 3);
-    Future.delayed(waitToChangeDuration, () {
-      game.loadNextLevel();
-    });
   }
 
   void gotNoodle() {

@@ -1,9 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ruam_mitt/Dinodengzz/levelselect.dart';
-import 'package:ruam_mitt/Dinodengzz/start.dart';
-import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
+import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 class MyGame extends StatefulWidget {
   const MyGame({super.key});
@@ -13,14 +11,12 @@ class MyGame extends StatefulWidget {
 }
 
 class _GameHomePageState extends State<MyGame> {
-  late DinoDengzz game;
+  late GameRoutes game;
 
   @override
   void initState() {
     super.initState();
-    game = DinoDengzz(); // Pass context here
-
-    // Lock the device orientation to landscape
+    game = GameRoutes();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
@@ -29,41 +25,15 @@ class _GameHomePageState extends State<MyGame> {
 
   @override
   void dispose() {
-    // Allow other orientations when disposing of the game
     SystemChrome.setPreferredOrientations(DeviceOrientation.values);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: StartScreen(
-        onStartPressed: () {
-          runApp(GameWidget(game: game));
-        },
-        onLevelSelectionPressed: () {
-          _navigateToLevelSelection(context, game);
-        },
-        onExitPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-    );
-  }
-
-  void _navigateToLevelSelection(BuildContext context, DinoDengzz game) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LevelSelectionScreen(
-          levelNames: game.levelNames,
-          onLevelSelected: (selectedLevelIndex) {
-            game.currentLevelIndex = selectedLevelIndex;
-            Navigator.pop(context); // Close the level selection screen
-            runApp(GameWidget(game: game));
-          },
-        ),
-      ),
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: GameWidget.controlled(gameFactory: GameRoutes.new),
     );
   }
 }
