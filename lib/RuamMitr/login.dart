@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
         print(response.body);
         publicToken = response.body;
         Navigator.of(context).pushNamedAndRemoveUntil(
-          ruamMitrPageRoute["home"]!,
+          ruamMitrPageRoute["homev2"]!,
           (route) => false,
         );
       } else {
