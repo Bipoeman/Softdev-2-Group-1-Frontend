@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import "package:flutter/material.dart";
+import 'package:http/http.dart';
 import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/search_box.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/services.dart';
 import 'package:ruam_mitt/RuamMitr/Component/main_navigator.dart';
 import "dart:math";
+
+import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +21,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isServicesSelected = true;
   bool isContentsSelected = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    
+  }
 
   Widget selectionText(String text, bool isSelected) {
     ThemeData theme = Theme.of(context);
@@ -81,7 +94,8 @@ class _HomePageState extends State<HomePage> {
                           child: Container(
                             padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
                             decoration: BoxDecoration(
-                              color: theme.colorScheme.primaryContainer.withOpacity(0.5),
+                              color: theme.colorScheme.primaryContainer
+                                  .withOpacity(0.5),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Column(

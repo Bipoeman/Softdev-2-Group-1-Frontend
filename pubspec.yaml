@@ -42,6 +42,7 @@ dependencies:
   get: ^4.6.6
   http: ^1.2.0
   flame_audio: ^2.1.8
+  flutter_svg: ^2.0.9
 
 
 dev_dependencies:

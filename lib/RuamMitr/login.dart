@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 import "dart:math";
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -13,7 +14,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool? isChecked = false;
-  final url = Uri.parse("$api/login");
+  final url = Uri.parse("$api$loginPageRoute");
   final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   late SharedPreferences removepassword;
@@ -40,6 +41,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       } else if (response.statusCode == 200) {
+        print(response.body);
+        publicToken = response.body;
         Navigator.of(context).pushNamedAndRemoveUntil(
           ruamMitrPageRoute["home"]!,
           (route) => false,
@@ -297,7 +300,8 @@ class _LoginPageState extends State<LoginPage> {
                                 const Text("Don't have an account?"),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, registerPageRoute);
+                                    Navigator.pushNamed(
+                                        context, registerPageRoute);
                                   },
                                   child: Text(
                                     "Create an account",
