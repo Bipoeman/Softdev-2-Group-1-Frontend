@@ -7,6 +7,7 @@ const String registerPageRoute = "/register";
 const String userDataRequestRoute = "/user/id";
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",
+  "homev2": "/RuamMitr/homev2",
   "profile": "/RuamMitr/profile",
   "settings": "/RuamMitr/settings",
 };

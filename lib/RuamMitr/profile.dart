@@ -30,8 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
     get(uri, headers: {"Authorization": "Bearer $publicToken"})
         .then((Response res) {
       profileData = jsonDecode(res.body);
-      Future.delayed(Duration(milliseconds: 500))
-          .then((value) => setState(() {}));
+      setState(() {});
       print(profileData);
     });
   }
@@ -43,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
-      bottomNavigationBar: const MainNavigator(),
+      bottomNavigationBar: MainNavigator(pageIndex: 0),
       body: SafeArea(
         child: profileData['fullname'] == null
             ? const Center(
@@ -83,25 +82,49 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 175,
-                            height: 175,
-                            margin: EdgeInsets.fromLTRB(
-                              0,
-                              [size.width * 0.6, 300.0].reduce(min) - 175 * 0.6,
-                              0,
-                              0,
-                            ),
-                            padding: const EdgeInsets.all(30),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: theme.colorScheme.primaryContainer,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(profileData['profile'] ??
-                                    "https://ui-avatars.com/api/?size=512&name=${profileData['fullname'].replaceAll(" ", "+")}"),
+                          Stack(
+                            children: [
+                              Container(
+                                width: 175,
+                                height: 175,
+                                margin: EdgeInsets.only(
+                                  top: [size.width * 0.6, 300.0].reduce(min) -
+                                      175 * 0.6,
+                                ),
+                                padding: const EdgeInsets.all(30),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: theme.colorScheme.primaryContainer,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                      profileData['profile'] ??
+                                          "https://ui-avatars.com/api/?size=512&name=${profileData['fullname'].replaceAll(" ", "+")}",
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Positioned.directional(
+                                textDirection: TextDirection.ltr,
+                                bottom: 10,
+                                end: 10,
+                                child: GestureDetector(
+                                  child: Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                    ),
+                                    child: const Icon(Icons.edit),
+                                  ),
+                                  onTap: () {
+                                    print(
+                                        "You might want to change profile image");
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                           Container(
                             margin: EdgeInsets.fromLTRB(
@@ -134,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ListTile(
                               leading: const Icon(Icons.person),
                               title: Text(profileData['fullname']),
-                              trailing: const Icon(Icons.arrow_forward_ios),
+                              trailing: const Icon(Icons.edit),
                               onTap: () {
                                 debugPrint("You might want to edit username");
                               },
@@ -149,7 +172,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ListTile(
                               leading: const Icon(Icons.email_outlined),
                               title: Text(profileData['email']),
-                              trailing: const Icon(Icons.arrow_forward_ios),
+                              trailing: const Icon(Icons.edit),
                               onTap: () {
                                 debugPrint("You might want to edit email");
                               },
@@ -166,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   const Icon(Icons.calendar_month_outlined),
                               title: Text(
                                   profileData['birthday'] ?? "Not provided"),
-                              trailing: const Icon(Icons.arrow_forward_ios),
+                              trailing: const Icon(Icons.edit),
                               onTap: () {
                                 debugPrint("You might want to edit birthday");
                               },
@@ -180,8 +203,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             ListTile(
                               leading: const Icon(Icons.phone_outlined),
-                              title: const Text("082816888888"),
-                              trailing: const Icon(Icons.arrow_forward_ios),
+                              title: Text(profileData['phonenum']),
+                              trailing: const Icon(Icons.edit),
                               onTap: () {
                                 debugPrint(
                                     "You might want to edit phone number");
