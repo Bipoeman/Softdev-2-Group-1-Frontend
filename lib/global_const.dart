@@ -14,5 +14,6 @@ const String dinodengzzPageRoute = "/game";
 const Map<String, String> tuachuayDekhorPageRoute = {
   "home": "/TuachuayDekhor/home",
   "profile": "/TuachuayDekhor/profile",
+  "blog": "/TuachuayDekhor/blog",
   "search": "/TuachuayDekhor/search",
 };

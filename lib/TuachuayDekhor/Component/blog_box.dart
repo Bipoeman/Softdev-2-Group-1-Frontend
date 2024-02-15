@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:ruam_mitt/global_const.dart';
 
 class BlogBox extends StatelessWidget {
-  const BlogBox({super.key});
-
+  const BlogBox({
+    super.key,
+    required this.title,
+    required this.name,
+    required this.like,
+    required this.image,
+    required this.onPressed,
+  });
+  final void Function()? onPressed;
+  final ImageProvider<Object> image;
+  final String title;
+  final String name;
+  final String like;
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
@@ -14,9 +24,7 @@ class BlogBox extends StatelessWidget {
           ),
           fillColor: Colors.white,
           constraints: const BoxConstraints(),
-          onPressed: () {
-            Navigator.pushNamed(context, ruamMitrPageRoute["profile"]!);
-          },
+          onPressed: onPressed,
           child: Container(
             margin: const EdgeInsets.only(
               top: 10,
@@ -35,10 +43,9 @@ class BlogBox extends StatelessWidget {
                     minWidth: 50,
                     maxWidth: 50,
                   ),
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(
-                          "assets/images/Icon/TuachuayDekhor_Catagories_1.png"),
+                      image: image,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -57,23 +64,26 @@ class BlogBox extends StatelessWidget {
                       bottomRight: Radius.circular(10),
                     ),
                   ),
-                  child: const Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Title",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        title,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Name",
-                            style: TextStyle(color: Colors.white, fontSize: 10),
+                            name,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 10),
                           ),
                           Text(
-                            "Like",
-                            style: TextStyle(color: Colors.white, fontSize: 10),
+                            like,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 10),
                           ),
                         ],
                       )

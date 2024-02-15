@@ -219,15 +219,23 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                           ),
                           Container(
                             padding: const EdgeInsets.only(top: 10),
-                            child: const Wrap(
+                            child: Wrap(
                               spacing: 20,
                               runSpacing: 20,
-                              children: [
-                                BlogBox(),
-                                BlogBox(),
-                                BlogBox(),
-                                BlogBox(),
-                              ],
+                              children: List.generate(
+                                4,
+                                (index) => BlogBox(
+                                  title: "Title",
+                                  name: "Name",
+                                  like: "Like",
+                                  image: const AssetImage(
+                                      "assets/images/Icon/TuachuayDekhor_Catagories_1.png"),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context,
+                                        tuachuayDekhorPageRoute['blog']!);
+                                  },
+                                ),
+                              ),
                             ),
                           ),
                         ],
