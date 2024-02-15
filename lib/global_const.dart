@@ -1,8 +1,10 @@
 const String baseURL = "https://ruammitr.azurewebsites.net";
-const String api = "https://ruammitr.azurewebsites.net/api";
+const String api = "http://10.0.2.2:3000"; // points to local pc
+// const String api = "https://ruammitr.azurewebsites.net/api";
 
 const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
+const String userDataRequestRoute = "/user/id";
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",
   "profile": "/RuamMitr/profile",
@@ -11,4 +13,7 @@ const Map<String, String> ruamMitrPageRoute = {
 const String dinodengzzPageRoute = "/game";
 const Map<String, String> tuachuayDekhorPageRoute = {
   "home": "/TuachuayDekhor/home",
+  "profile": "/TuachuayDekhor/profile",
+  "blog": "/TuachuayDekhor/blog",
+  "search": "/TuachuayDekhor/search",
 };

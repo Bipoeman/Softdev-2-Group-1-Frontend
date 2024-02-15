@@ -41,6 +41,10 @@ dependencies:
   connectivity_plus: ^5.0.2
   get: ^4.6.6
   http: ^1.2.0
+  flame_audio: ^2.1.8
+  flutter_svg: ^2.0.9
+  flutter_markdown: ^0.6.19
+  comment_box: ^0.0.18
 
 
 dev_dependencies:
@@ -82,6 +86,7 @@ flutter:
     - assets/images/Main Characters/Relaxaurus/
     - assets/images/Main Characters/
     - assets/Menu/Buttons/
+    - assets/Menu/Levels/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

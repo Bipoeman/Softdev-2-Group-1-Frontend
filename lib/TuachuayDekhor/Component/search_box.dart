@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/global_const.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TuachuaySearchBox extends StatefulWidget {
   const TuachuaySearchBox({super.key});
+
+  static final GlobalKey<_TuachuaySearchBoxState> searchBoxKey =
+      GlobalKey<_TuachuaySearchBoxState>();
 
   @override
   State<TuachuaySearchBox> createState() => _TuachuaySearchBoxState();
 }
 
 class _TuachuaySearchBoxState extends State<TuachuaySearchBox> {
-  String searchText = '';
+  final searchText = TextEditingController();
+
+  savesearchtext() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("searchText", searchText.text);
+  }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: searchText,
       keyboardType: TextInputType.text,
       cursorColor: const Color.fromRGBO(0, 48, 73, 1),
       decoration: InputDecoration(
@@ -31,9 +42,22 @@ class _TuachuaySearchBoxState extends State<TuachuaySearchBox> {
             shape: BoxShape.circle,
             color: Color.fromRGBO(0, 48, 73, 1),
           ),
-          child: const IconButton(
-            onPressed: null,
-            icon: Icon(
+          child: IconButton(
+            onPressed: () {
+              searchText.text.isNotEmpty
+                  ? (
+                      Navigator.pushNamed(
+                          context, tuachuayDekhorPageRoute["search"]!),
+                      savesearchtext()
+                    )
+                  : ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Please enter a search term"),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+            },
+            icon: const Icon(
               size: 14,
               Icons.search,
               color: Colors.white,

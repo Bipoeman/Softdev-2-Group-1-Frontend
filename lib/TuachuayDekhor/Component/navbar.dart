@@ -98,7 +98,7 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                                 ),
                                 onTap: () {
                                   Navigator.pushNamed(
-                                      context, ruamMitrPageRoute["profile"]!);
+                                      context, tuachuayDekhorPageRoute["profile"]!);
                                 },
                               ),
                               PopupMenuItem(
