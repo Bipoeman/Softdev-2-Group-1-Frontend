@@ -11,6 +11,7 @@ import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
 import 'package:ruam_mitt/TuachuayDekhor/home.dart';
 import 'package:ruam_mitt/TuachuayDekhor/profile.dart';
+import 'package:ruam_mitt/TuachuayDekhor/search.dart';
 import 'package:ruam_mitt/global_const.dart';
 
 void main() {
@@ -46,6 +47,7 @@ class _SuperAppState extends State<SuperApp> {
         dinodengzzPageRoute: (context) => const MyGame(),
         tuachuayDekhorPageRoute["home"]!: (context) => const TuachuayDekhorHomePage(),
         tuachuayDekhorPageRoute["profile"]!: (context) => const TuachuayDekhorProfilePage(),
+        tuachuayDekhorPageRoute["search"]!: (context) => const TuachuayDekhorSearchPage(),
       },
       title: "RuamMitr - App for Uni Students",
       theme: themes.themeFrom("RuamMitr")?.themeData,

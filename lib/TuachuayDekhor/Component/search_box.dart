@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/global_const.dart';
 
 class TuachuaySearchBox extends StatefulWidget {
   const TuachuaySearchBox({super.key});
@@ -8,7 +9,7 @@ class TuachuaySearchBox extends StatefulWidget {
 }
 
 class _TuachuaySearchBoxState extends State<TuachuaySearchBox> {
-  String searchText = '';
+  final searchText = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +31,12 @@ class _TuachuaySearchBoxState extends State<TuachuaySearchBox> {
             shape: BoxShape.circle,
             color: Color.fromRGBO(0, 48, 73, 1),
           ),
-          child: const IconButton(
-            onPressed: null,
-            icon: Icon(
+          child: IconButton(
+            onPressed: () {
+              Navigator.pushNamed(
+                          context, tuachuayDekhorPageRoute["search"]!);
+            },
+            icon: const Icon(
               size: 14,
               Icons.search,
               color: Colors.white,

@@ -26,6 +26,14 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    Uri uri = Uri.parse("$api$userDataRequestRoute");
+    setState(() {});
+    get(uri, headers: {"Authorization": "Bearer $publicToken"})
+        .then((Response res) {
+      profileData = jsonDecode(res.body);
+      setState(() {});
+      print(profileData);
+    });
     
   }
 

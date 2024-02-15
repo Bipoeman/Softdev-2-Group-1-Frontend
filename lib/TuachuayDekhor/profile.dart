@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:flutter/services.dart';
+import 'package:ruam_mitt/global_var.dart';
+
 
 class TuachuayDekhorProfilePage extends StatefulWidget {
   const TuachuayDekhorProfilePage({Key? key}) : super(key: key);
@@ -19,13 +21,20 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
   bool isPostSelected = true;
   bool isSaveSelected = false;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(profileData['fullname']);
+    print(profileData['profile']);
+  }
+
   void updateDescription(String value) {
     setState(() {
       description = value;
     });
   }
 
-  final TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -43,24 +52,31 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
               children: [
                 const NavbarTuachuayDekhor(),
                 SizedBox(
-                  width: size.width * 0.7,
+                  width: size.width * 0.85,
                   height: size.width * 0.2,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const CircleAvatar(
-                        radius: 25,
-                        backgroundColor: Colors.grey,
-                        child: Icon(
-                          Icons.person,
-                          size: 30,
+                      Container(
+                        width: size.width * 0.25,
+                        height: size.width * 0.25,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: const Color.fromRGBO(0, 48, 73, 1),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              profileData['profile'] ??
+                                  "https://ui-avatars.com/api/?size=512&name=${profileData['fullname'] ?? "John Doe".replaceAll(" ", "+")}",
+                            ),
+                          ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: size.width * 0.05),
-                        child: const Text(
-                          "John Doe",
-                          style: TextStyle(
+                        padding: EdgeInsets.only(left: size.width * 0.04),
+                        child: Text(
+                          profileData['fullname'] ?? '',
+                          style: const TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.w400,
                           ),
@@ -71,84 +87,21 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      left: size.width * 0.325,
-                      right: size.width * 0.2,
+                      left: size.width * 0.3,
+                      right: size.width * 0.1,
                       bottom: size.width * 0.05,
                       top: size.width * 0.005),
-                  child: user
-                      ? isEditing
-                          ? TextFormField(
-                              controller: _controller,
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(100),
-                              ],
-                              decoration: InputDecoration(
-                                hintText: 'describe yourself',
-                                border: const OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0)),
-                                ),
-                                suffixIcon: isEditing
-                                    ? IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            updateDescription(_controller.text);
-                                            isEditing = false;
-                                          });
-                                        },
-                                        icon: const Icon(Icons.save),
-                                      )
-                                    : null,
-                              ),
-                            )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      isEditing = true;
-                                    });
-                                  },
-                                  child: SizedBox(
-                                    width: size.width * 0.7,
-                                    child: Text(
-                                      description ?? 'click to add description',
-                                      maxLines: showMore ? null : 4,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ),
-                                if ((description ?? '').split('\n').length > 4)
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        showMore = !showMore;
-                                      });
-                                    },
-                                    child: Text(
-                                      showMore ? 'less' : 'more',
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            )
-                      : const Text('can\'t edit other\'s description'),
+                  child: const Text('can\'t edit other\'s description'),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      left: size.width * 0.1,
-                      right: size.width * 0.1,),
-                  child: Container(
-                    width: size.width * 0.8,
-                    height: size.width * 0.03,
-                    color: const Color.fromRGBO(0, 48, 73, 1)
+                    left: size.width * 0.1,
+                    right: size.width * 0.1,
                   ),
+                  child: Container(
+                      width: size.width * 0.8,
+                      height: size.width * 0.03,
+                      color: const Color.fromRGBO(0, 48, 73, 1)),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
