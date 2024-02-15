@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
       "password": passwordTextController.text,
     }).timeout(const Duration(seconds: 5), onTimeout: () {
       return http.Response("Connection timeout", 408);
-    });
+    }).onError((error, stackTrace) => http.Response("Error", 404));
     if (context.mounted) {
       ThemeData theme = Theme.of(context);
       if (response.statusCode == 408) {
@@ -47,6 +47,18 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.of(context).pushNamedAndRemoveUntil(
           ruamMitrPageRoute["home"]!,
           (route) => false,
+        );
+      } else if (response.statusCode == 404) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Error. Please try again later.",
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary,
+              ),
+            ),
+            backgroundColor: theme.colorScheme.primary,
+          ),
         );
       } else {
         removepassword;
