@@ -20,7 +20,7 @@ class HomePageV2 extends StatefulWidget {
 
 class _HomePageV2State extends State<HomePageV2> {
   int pageIndex = 1;
-  PageController pageController = PageController();
+  PageController pageController = PageController(initialPage: 1);
 
   @override
   void initState() {
@@ -51,7 +51,8 @@ class _HomePageV2State extends State<HomePageV2> {
         .replaceAll(")", "")
         .substring(4);
     profileData['imgPath'] = profileData['profile'] ??
-        "https://ui-avatars.com/api/?background=$avatarTextBackgroundColorString&color=$avatarTextColorString&size=512&name=${profileData['fullname'].replaceAll(" ", "+")}";
+        // "https://ui-avatars.com/api/?background=$avatarTextBackgroundColorString&color=$avatarTextColorString&size=512&name=${profileData['fullname'].replaceAll(" ", "+")}";
+        "https://api.multiavatar.com/${profileData['fullname'].replaceAll(" ", "+")}.png";
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
       // bottomNavigationBar: NavigationBar(
