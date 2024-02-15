@@ -25,6 +25,7 @@ class _TuachuaySearchBoxState extends State<TuachuaySearchBox> {
     return TextFormField(
       controller: searchText,
       keyboardType: TextInputType.text,
+      cursorColor: const Color.fromRGBO(0, 48, 73, 1),
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,

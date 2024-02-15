@@ -40,15 +40,21 @@ class NavbarTuachuayDekhor extends StatelessWidget {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
                 height: 68.5,
                 width: 68.5,
-                child: Image(
-                  image:
-                      AssetImage("assets/images/Logo/TuachuayDekhor_Light.png"),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () {
+                    Navigator.pushNamed(context, tuachuayDekhorPageRoute["home"]!);
+                  },
+                  child: const Image(
+                    image: AssetImage(
+                        "assets/images/Logo/TuachuayDekhor_Light.png"),
+                  ),
                 ),
               ),
             ],
@@ -76,8 +82,40 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                       child: RawMaterialButton(
                         shape: const CircleBorder(),
                         onPressed: () {
-                          Navigator.pushNamed(
-                              context, tuachuayDekhorPageRoute["profile"]!);
+                          showMenu(
+                            context: context,
+                            surfaceTintColor: Colors.white,
+                            position:
+                                RelativeRect.fromLTRB(size.width, 102, 0, 0),
+                            items: [
+                              PopupMenuItem(
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.people),
+                                    SizedBox(width: 10),
+                                    Text("Profile"),
+                                  ],
+                                ),
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, tuachuayDekhorPageRoute["profile"]!);
+                                },
+                              ),
+                              PopupMenuItem(
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.logout),
+                                    SizedBox(width: 10),
+                                    Text("RuamMitr"),
+                                  ],
+                                ),
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, ruamMitrPageRoute["home"]!);
+                                },
+                              ),
+                            ],
+                          );
                         },
                       ),
                     ),
