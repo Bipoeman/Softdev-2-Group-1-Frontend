@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:bottom_bar_matu/bottom_bar/bottom_bar_bubble.dart';
+import 'dart:math';
 import 'package:bottom_bar_matu/bottom_bar_double_bullet/bottom_bar_double_bullet.dart';
 import 'package:bottom_bar_matu/bottom_bar_item.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +20,8 @@ class HomePageV2 extends StatefulWidget {
 
 class _HomePageV2State extends State<HomePageV2> {
   int pageIndex = 1;
+  PageController pageController = PageController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -29,6 +31,7 @@ class _HomePageV2State extends State<HomePageV2> {
     http.get(uri, headers: {"Authorization": "Bearer $publicToken"}).then(
         (http.Response res) {
       profileData = jsonDecode(res.body);
+
       setState(() {});
       print(profileData);
     });
@@ -37,6 +40,18 @@ class _HomePageV2State extends State<HomePageV2> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+    String avatarTextBackgroundColorString = theme.colorScheme.primaryContainer
+        .toString()
+        .replaceAll("Color(", "")
+        .replaceAll(")", "")
+        .substring(4);
+    String avatarTextColorString = theme.colorScheme.onPrimaryContainer
+        .toString()
+        .replaceAll("Color(", "")
+        .replaceAll(")", "")
+        .substring(4);
+    profileData['imgPath'] = profileData['profile'] ??
+        "https://ui-avatars.com/api/?background=$avatarTextBackgroundColorString&color=$avatarTextColorString&size=512&name=${profileData['fullname'].replaceAll(" ", "+")}";
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
       // bottomNavigationBar: NavigationBar(
@@ -62,26 +77,52 @@ class _HomePageV2State extends State<HomePageV2> {
           BottomBarItem(iconData: Icons.settings),
         ],
         onSelect: (index) {
-          setState(() => pageIndex = index);
+          pageController.animateToPage(
+            index,
+            duration: const Duration(seconds: 1),
+            curve: Tanh(),
+          );
+          // setState(() => pageIndex = index);
         },
       ),
       body: SafeArea(
-          child: profileData['fullname'] == null
-              ? const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(),
-                      Divider(),
-                      Text("Loading user data"),
-                    ],
-                  ),
-                )
-              : [
-                  const ProfileWidgetV2(),
-                  const HomeWidgetV2(),
-                  const SettingsWidgetV2()
-                ][pageIndex]),
+        child: profileData['fullname'] == null
+            ? const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    Divider(),
+                    Text("Loading user data"),
+                  ],
+                ),
+              )
+            : PageView(
+                controller: pageController,
+                onPageChanged: (pageChanged) {
+                  setState(() => pageIndex = pageChanged);
+                },
+                children: const [
+                  ProfileWidgetV2(),
+                  HomeWidgetV2(),
+                  SettingsWidgetV2()
+                ],
+              ),
+      ),
     );
+  }
+}
+
+class Tanh extends Curve {
+  final double count;
+
+  Tanh({this.count = 3});
+
+  // t = x
+  @override
+  double transformInternal(double t) {
+    t *= 3.5;
+    var val = (exp(t) - exp(-t)) / (exp(t) + exp(-t));
+    return val; //f(x)
   }
 }

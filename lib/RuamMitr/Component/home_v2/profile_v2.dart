@@ -15,6 +15,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
+
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints: BoxConstraints(
@@ -56,10 +57,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                         color: theme.colorScheme.primaryContainer,
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(
-                            profileData['profile'] ??
-                                "https://ui-avatars.com/api/?size=512&name=${profileData['fullname'].replaceAll(" ", "+")}",
-                          ),
+                          image: NetworkImage(profileData['imgPath']),
                         ),
                       ),
                     ),
@@ -71,11 +69,14 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                         child: Container(
                           width: 30,
                           height: 30,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white,
+                            color: theme.colorScheme.onPrimaryContainer,
                           ),
-                          child: const Icon(Icons.edit),
+                          child: Icon(
+                            Icons.edit,
+                            color: theme.colorScheme.primaryContainer,
+                          ),
                         ),
                         onTap: () {
                           print("You might want to change profile image");
@@ -158,7 +159,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                   ),
                   ListTile(
                     leading: const Icon(Icons.phone_outlined),
-                    title: Text(profileData['phonenum']),
+                    title: Text(profileData['phonenum'] ?? "Not provided"),
                     trailing: const Icon(Icons.edit),
                     onTap: () {
                       debugPrint("You might want to edit phone number");

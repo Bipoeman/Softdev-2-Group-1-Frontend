@@ -26,10 +26,7 @@ class AvatarViewer extends StatelessWidget {
     return CircleAvatar(
       radius: 30,
       backgroundColor: theme.colorScheme.primaryContainer.withOpacity(0.5),
-      backgroundImage: NetworkImage(
-        profileData['profile'] ??
-            "https://ui-avatars.com/api/?size=512&name=${profileData['fullname'] ?? "John Doe".replaceAll(" ", "+")}",
-      ),
+      backgroundImage: NetworkImage(profileData['imgPath']),
     );
   }
 
@@ -43,7 +40,7 @@ class AvatarViewer extends StatelessWidget {
           ),
           constraints: const BoxConstraints(),
           onPressed: () {
-            Navigator.pushNamed(context, ruamMitrPageRoute["profile"]!);
+            // Navigator.pushNamed(context, ruamMitrPageRoute["profile"]!);
           },
           child: Container(
             margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
