@@ -46,6 +46,7 @@ class Checkpoint extends SpriteAnimationComponent
       } else {
         star = 1;
       }
+      print(other.fruitCount);
       _reachedCheckpoint();
     }
     super.onCollisionStart(intersectionPoints, other);
