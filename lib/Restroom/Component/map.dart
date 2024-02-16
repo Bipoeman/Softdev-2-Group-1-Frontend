@@ -5,6 +5,7 @@ import 'package:ruam_mitt/global_const.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:ruam_mitt/Restroom/Component/comment.dart';
 
 class MapRestroomRover extends StatelessWidget {
   
@@ -52,8 +53,6 @@ class MapRestroomRover extends StatelessWidget {
                 width: 130,
                 height: 130,
               )),
-          Cardpin()
-          
           // Positioned(
           //     child: NavbarRestroomRover(),
           //     ),
