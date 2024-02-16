@@ -37,7 +37,8 @@ class _SuperAppState extends State<SuperApp> {
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
 
     return GetMaterialApp(
-      initialRoute: loginPageRoute,
+      initialRoute: restroomPageRoute["home"]!,
+      // initialRoute: loginPageRoute, #ก่อน merge branch dev ให้ใช้อันนี้
       routes: {
         loginPageRoute: (context) => const LoginPage(),
         registerPageRoute: (context) => const RegisterPage(),
@@ -45,7 +46,7 @@ class _SuperAppState extends State<SuperApp> {
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["settings"]!: (context) => const SettingsPage(),
         ruamMitrPageRoute["profile"]!: (context) => const ProfilePage(),
-        restroomPageRoute["home"]!: (context) => const RestroomRover(),
+        restroomPageRoute["home"]!: (context) => const RestroomRov  er(),
         restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
         dinodengzzPageRoute: (context) => const MyGame(),
       },
