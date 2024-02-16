@@ -34,7 +34,7 @@ class ServicesWidget extends StatelessWidget {
             width: size,
             height: size,
             appRoute: () {
-              Navigator.pushNamed(context, pinthebinPageRoute['home']!);
+              Navigator.pushNamed(context, pinthebinPageRoute["home"]!);
             },
           ),
           AppBox(
