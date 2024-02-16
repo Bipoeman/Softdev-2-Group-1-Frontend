@@ -186,7 +186,10 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                 const TuachuayDekhorAvatarViewer(),
                                 const TuachuayDekhorAvatarViewer(),
                                 ElevatedButton(
-                                  onPressed: null,
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, tuachuayDekhorPageRoute["blogger"]!);
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     shape: const CircleBorder(),
                                   ),

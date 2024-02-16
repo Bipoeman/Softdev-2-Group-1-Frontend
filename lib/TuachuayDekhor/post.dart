@@ -2,6 +2,7 @@ import "package:comment_box/comment/comment.dart";
 import "package:flutter/material.dart";
 import "package:flutter_markdown/flutter_markdown.dart";
 import "package:ruam_mitt/TuachuayDekhor/Component/navbar.dart";
+import 'package:ruam_mitt/global_var.dart';
 
 class TuachuayDekhorBlogPage extends StatefulWidget {
   const TuachuayDekhorBlogPage({super.key});
@@ -14,6 +15,11 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
   bool isOwner = false;
   TextEditingController commentTextController = TextEditingController();
   final formkey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -25,7 +31,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
       body: SafeArea(
         child: CommentBox(
           userImage:
-              const NetworkImage("https://api.multiavatar.com/Starcrasher.png"),
+              NetworkImage(profileData['profile'] ??
+                                  "https://api.multiavatar.com/${profileData['fullname'] ?? "John Doe".replaceAll(" ", "+")}.png",),
           labelText: 'Write a comment...',
           errorText: 'Comment cannot be blank',
           withBorder: false,

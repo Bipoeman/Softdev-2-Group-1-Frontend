@@ -29,13 +29,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
       savesearch = savesearchtext.getString("searchText") ?? '';
     });
   }
-
-  // @override
-  // void dispose() {
-  //   savesearchtext.dispose(); // แก้ให้เป็น savesearchtext
-  //   super.dispose();
-  // }
-
+  
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

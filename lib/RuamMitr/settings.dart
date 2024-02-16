@@ -43,7 +43,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
-      bottomNavigationBar: const MainNavigator(),
+      bottomNavigationBar: MainNavigator(pageIndex: 2),
       body: SafeArea(
         child: SingleChildScrollView(
           child: ConstrainedBox(
