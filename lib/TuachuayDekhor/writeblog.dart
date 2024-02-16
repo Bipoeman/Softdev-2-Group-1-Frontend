@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
+import 'package:ruam_mitt/global_const.dart';
 
 class TuachuayDekhorWriteBlogPage extends StatefulWidget {
   const TuachuayDekhorWriteBlogPage({super.key});
@@ -64,7 +65,8 @@ class _TuachuayDekhorWriteBlogPageState
                               ),
                             ),
                             onTap: () {
-                              print("Drafts tapped");
+                              Navigator.pushNamed(
+                                  context, tuachuayDekhorPageRoute["draft"]!);
                             },
                           ),
                           Container(

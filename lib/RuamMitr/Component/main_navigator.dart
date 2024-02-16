@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ruam_mitt/Dinodengzz/Screens/setting.dart';
-import 'package:ruam_mitt/RuamMitr/home.dart';
-import 'package:ruam_mitt/RuamMitr/profile.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'dart:math';
 

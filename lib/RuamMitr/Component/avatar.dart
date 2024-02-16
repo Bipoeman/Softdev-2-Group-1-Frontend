@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 
 class AvatarViewer extends StatelessWidget {
