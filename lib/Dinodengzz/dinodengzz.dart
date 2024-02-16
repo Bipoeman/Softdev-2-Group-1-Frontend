@@ -4,7 +4,6 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/hud.dart';
-import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/level.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
@@ -27,9 +26,11 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
 
   late CameraComponent cam;
   Player player = Player(character: 'Relaxaurus');
+  late double cameraWidth = 640;
+  late double cameraHeight;
 
   late JoystickComponent joystick;
-  late final Hud hud = Hud();
+  late Hud hud;
   bool showControls = true;
   bool levelComplete = false;
 
@@ -57,15 +58,8 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
     double screenWidth = game.size.x;
     double screenHeight = game.size.y;
     double aspectRatio = screenWidth / screenHeight;
-    double cameraWidth = 320;
-    double cameraHeight = 180;
-    if (aspectRatio > 1.0) {
-      cameraWidth = 640;
-      cameraHeight = cameraWidth / aspectRatio;
-    } else {
-      cameraHeight = 640;
-      cameraWidth = cameraHeight * aspectRatio;
-    }
+    cameraHeight = cameraWidth / aspectRatio;
+    hud = Hud(cameraHeight);
 
     cam = CameraComponent.withFixedResolution(
       world: world,

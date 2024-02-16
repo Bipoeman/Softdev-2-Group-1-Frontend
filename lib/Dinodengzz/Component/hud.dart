@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
 
 class Hud extends PositionComponent with HasGameReference {
-  Hud();
+  Hud(this.camHeight);
 
   final JumpButton _jumpButton = JumpButton();
+  final double camHeight;
   late bool hasJumped;
 
   final _life = TextComponent(
@@ -23,7 +24,7 @@ class Hud extends PositionComponent with HasGameReference {
   @override
   Future<void> onLoad() async {
     _life.position.setValues(24, 24);
-    _jumpButton.position.setValues(566, 286);
+    _jumpButton.position.setValues(566, camHeight - 86);
     addAll([_life, _jumpButton]);
   }
 
