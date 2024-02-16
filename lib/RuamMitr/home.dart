@@ -34,7 +34,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {});
       print(profileData);
     });
-    
   }
 
   Widget selectionText(String text, bool isSelected) {
@@ -67,99 +66,111 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
-      bottomNavigationBar: const MainNavigator(),
+      bottomNavigationBar: MainNavigator(pageIndex: 1),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: size.height -
-                  [size.width * 0.4, 100.0].reduce(min) -
-                  MediaQuery.of(context).padding.top,
-            ),
-            child: Container(
-              margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        AvatarViewer(),
-                      ],
-                    ),
+        child: profileData['fullname'] == null
+            ? const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    Divider(),
+                    Text("Loading user data"),
+                  ],
+                ),
+              )
+            : SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: size.height -
+                        [size.width * 0.4, 100.0].reduce(min) -
+                        MediaQuery.of(context).padding.top,
                   ),
-                  Container(
-                    margin: const EdgeInsets.all(32),
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      alignment: AlignmentDirectional.topCenter,
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 35),
-                          width: [size.width * 0.8, 800.0].reduce(min),
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primaryContainer
-                                  .withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Wrap(
-                                  spacing: 20,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () {
-                                        setState(
-                                          () {
-                                            isServicesSelected = false;
-                                            isContentsSelected = true;
-                                          },
-                                        );
-                                      },
-                                      child: selectionText(
-                                        "Contents",
-                                        isContentsSelected,
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        setState(
-                                          () {
-                                            isServicesSelected = true;
-                                            isContentsSelected = false;
-                                          },
-                                        );
-                                      },
-                                      child: selectionText(
-                                        "Services",
-                                        isServicesSelected,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const ServicesWidget(),
-                              ],
-                            ),
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              AvatarViewer(),
+                            ],
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.all(10),
-                          width: [300.0, size.width * 0.7].reduce(min),
-                          child: const SearchBox(),
+                          margin: const EdgeInsets.all(32),
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            alignment: AlignmentDirectional.topCenter,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(top: 35),
+                                width: [size.width * 0.8, 800.0].reduce(min),
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(15, 40, 15, 15),
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.primaryContainer
+                                        .withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Wrap(
+                                        spacing: 20,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(
+                                                () {
+                                                  isServicesSelected = false;
+                                                  isContentsSelected = true;
+                                                },
+                                              );
+                                            },
+                                            child: selectionText(
+                                              "Contents",
+                                              isContentsSelected,
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(
+                                                () {
+                                                  isServicesSelected = true;
+                                                  isContentsSelected = false;
+                                                },
+                                              );
+                                            },
+                                            child: selectionText(
+                                              "Services",
+                                              isServicesSelected,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const ServicesWidget(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                width: [300.0, size.width * 0.7].reduce(min),
+                                child: const SearchBox(),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
       ),
     );
   }
