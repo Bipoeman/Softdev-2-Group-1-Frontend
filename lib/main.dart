@@ -46,7 +46,7 @@ class _SuperAppState extends State<SuperApp> {
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["settings"]!: (context) => const SettingsPage(),
         ruamMitrPageRoute["profile"]!: (context) => const ProfilePage(),
-        restroomPageRoute["home"]!: (context) => const RestroomRov  er(),
+        restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
         dinodengzzPageRoute: (context) => const MyGame(),
       },
