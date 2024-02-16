@@ -156,7 +156,10 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                               Container(
                                 margin: const EdgeInsets.only(right: 10),
                                 child: RawMaterialButton(
-                                  onPressed: null,
+                                  onPressed: () {
+                                    Navigator.pushNamed(context,
+                                        tuachuayDekhorPageRoute["writeblog"]!);
+                                  },
                                   fillColor:
                                       const Color.fromRGBO(217, 192, 41, 1),
                                   shape: RoundedRectangleBorder(

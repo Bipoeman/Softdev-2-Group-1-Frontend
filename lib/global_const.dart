@@ -16,4 +16,5 @@ const Map<String, String> tuachuayDekhorPageRoute = {
   "profile": "/TuachuayDekhor/profile",
   "blog": "/TuachuayDekhor/blog",
   "search": "/TuachuayDekhor/search",
+  "writeblog": "/TuachuayDekhor/writeblog",
 };
