@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "dart:math";
+import 'package:ruam_mitt/PinTheBin/navbar.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class BinPage extends StatefulWidget {
@@ -33,6 +34,11 @@ class _BinPageState extends State<BinPage> {
   // }
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(243, 236, 235, 235).withOpacity(0.1),
+      ),
+      drawer: NavBar(),
+    );
   }
 }
