@@ -246,7 +246,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0"
-
   flutter_rating_native:
     dependency: "direct main"
     description:
@@ -255,7 +254,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.2"
-
   flutter_svg:
     dependency: "direct main"
     description:
@@ -264,7 +262,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.9"
-
   flutter_test:
     dependency: "direct dev"
     description: flutter
