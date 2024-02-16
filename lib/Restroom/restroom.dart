@@ -10,6 +10,7 @@ import 'package:ruam_mitt/Restroom/Component/search_box.dart';
 import 'package:ruam_mitt/Restroom/Component/map.dart';
 import 'package:ruam_mitt/Restroom/Component/navbarza.dart';
 
+
 class RestroomRover extends StatefulWidget {
   const RestroomRover({super.key});
 
