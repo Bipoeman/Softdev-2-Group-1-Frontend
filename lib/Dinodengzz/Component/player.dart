@@ -191,9 +191,6 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _playerJump(double dt) {
-    if (game.playSounds) {
-      FlameAudio.play(GameRoutes.jumpSfx, volume: game.soundVolume);
-    }
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
     isOnGround = false;

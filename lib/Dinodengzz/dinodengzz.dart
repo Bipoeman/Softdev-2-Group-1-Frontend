@@ -29,7 +29,6 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
   Player player = Player(character: 'Relaxaurus');
 
   late JoystickComponent joystick;
-  late final JumpButton jumpButton = JumpButton();
   late final Hud hud = Hud();
   bool showControls = true;
   bool levelComplete = false;
@@ -41,19 +40,13 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
     await Flame.device.fullScreen();
     await Flame.device.setLandscape();
     _loadLevel();
-    add(jumpButton);
-    //add(hud);
   }
 
   @override
   void update(double dt) {
-    updateJoystick();
     hud.updateLifeCount(player.remainingLives);
+    player.hasJumped = hud.hasJumped;
     super.update(dt);
-  }
-
-  void updateJoystick() {
-    if (showControls) player.hasJumped = jumpButton.hasJumped;
   }
 
   void _loadLevel() {
