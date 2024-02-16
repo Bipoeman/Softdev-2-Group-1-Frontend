@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:ruam_mitt/Restroom/Component/NavBar.dart';
 import "package:ruam_mitt/global_const.dart";
 import 'package:ruam_mitt/Restroom/Component/search_box.dart';
+import 'package:ruam_mitt/Restroom/Component/map.dart';
 class RestroomRover extends StatefulWidget {
   const RestroomRover({super.key});
 
@@ -18,74 +19,17 @@ class _RestroomRoverState extends State<RestroomRover> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      // appBar: AppBar(
-      //    flexibleSpace: Container(
-      //         padding: const EdgeInsets.only(top: 15),
-      //         height: 56,
-      //         width: size.width * 0.5,
-      //         child: const RestroomSearchBox(),
-      //       ),
-      // ),
-      // drawer: NavbarRestroomRover() ,
-      body: Stack(
-        children: [
-          
-          FlutterMap(
-            options: MapOptions(
-              center: LatLng(13.825605, 100.514476),
-              zoom: 15,
-            ),
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.app',
-              ),
-              MarkerLayer(
-                markers: [
-                  Marker(
-                    point: LatLng(13.825605, 100.514476),
-                    width: 50,
-                    height: 50,
-                    child:
-                        Image.asset("assets/images/RestroomRover/Pinred.png"),
-                  ),
-                ],
-              ),
-              RichAttributionWidget(
-                attributions: [
-                  TextSourceAttribution(
-                    'OpenStreetMap contributors',
-                    onTap: () => launchUrl(
-                        Uri.parse('https://openstreetmap.org/copyright')),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Positioned(
-              bottom: 20,
-              right: 5,
-              child: Image.asset(
-                "assets/images/RestroomRover/type.png",
-                width: 130,
-                height: 130,
-              )),
-           NavbarRestroomRover()
-          // Positioned(
-          //     child: NavbarRestroomRover(),
-          //     ),
-         
-          // Positioned(
-          //     top: 20,
-          //     right: 5,
-          //     child: Image.asset(
-          //       "assets/images/RestroomRover/type.png",
-          //       width: 130,
-          //       height: 130,
-          //     ))
-              
-        ],
+      appBar: AppBar(
+        
+        //  flexibleSpace: Container(
+        //       padding: const EdgeInsets.only(top: 15),
+        //       height: 56,
+        //       width: size.width * 0.5,
+        //       child: const RestroomSearchBox(),
+        //     ),
       ),
+      drawer: NavbarRestroomRover() ,
+      body: MapRestroomRover()
       
     );
   }

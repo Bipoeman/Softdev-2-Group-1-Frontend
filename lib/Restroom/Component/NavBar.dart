@@ -36,7 +36,7 @@ class NavbarRestroomRover extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.transparent.withOpacity(0.0) ,
+      backgroundColor: Colors.transparent ,
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -93,12 +93,12 @@ class NavbarRestroomRover extends StatelessWidget {
                 ),
               ],
             ),
-            Container(
-              padding: const EdgeInsets.only(top: 15),
-              height: 56,
-              width: size.width * 0.5,
-              child: const RestroomSearchBox(),
-            ),
+            // Container(
+            //   padding: const EdgeInsets.only(top: 15),
+            //   height: 56,
+            //   width: size.width * 0.5,
+            //   child: const RestroomSearchBox(),
+            // ),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.end,
             //   children: [
