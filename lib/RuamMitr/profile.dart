@@ -1,11 +1,6 @@
-import 'dart:convert';
-
 import "package:flutter/material.dart";
-import 'package:http/http.dart';
 import 'package:ruam_mitt/RuamMitr/Component/main_navigator.dart';
 import 'dart:math';
-
-import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 
 Color backgroundColor = const Color(0xffe8e8e8);
