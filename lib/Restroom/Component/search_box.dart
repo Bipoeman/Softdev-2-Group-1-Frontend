@@ -30,7 +30,7 @@ class _RestroomSearchBoxState extends State<RestroomSearchBox> {
           margin: const EdgeInsets.all(2),
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
-            color: Color.fromARGB(255, 255, 0, 183),
+            color: Color.fromARGB(255, 253, 232, 0),
           ),
           child: const IconButton(
             onPressed: null,

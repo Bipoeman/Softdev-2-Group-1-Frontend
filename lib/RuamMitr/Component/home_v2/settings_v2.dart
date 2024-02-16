@@ -1,0 +1,76 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
+
+class SettingsWidgetV2 extends StatefulWidget {
+  const SettingsWidgetV2({super.key});
+
+  @override
+  State<SettingsWidgetV2> createState() => _SettingsWidgetV2State();
+}
+
+class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
+  @override
+  Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+    Size size = MediaQuery.of(context).size;
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: size.height -
+              [size.width * 0.4, 100.0].reduce(min) -
+              MediaQuery.of(context).padding.top,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  "Toggle Theme",
+                  style: theme.textTheme.titleLarge,
+                ),
+                Switch(
+                  value: themeProvider.isDarkMode,
+                  onChanged: (value) {
+                    themeProvider.toggleTheme();
+                  },
+                ),
+              ],
+            ),
+            Container(
+              width: [size.width * 0.6, 300.0].reduce(min),
+              margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.primary,
+                  textStyle: TextStyle(
+                    color: theme.colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                  foregroundColor: theme.colorScheme.onPrimary,
+                ),
+                child: const Text("Logout"),
+                onPressed: () {
+                  publicToken = "";
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    loginPageRoute,
+                    (Route<dynamic> route) => false,
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
