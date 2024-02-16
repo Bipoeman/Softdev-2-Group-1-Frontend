@@ -93,12 +93,12 @@ class NavbarRestroomRover extends StatelessWidget {
                 ),
               ],
             ),
-            // Container(
-            //   padding: const EdgeInsets.only(top: 15),
-            //   height: 56,
-            //   width: size.width * 0.5,
-            //   child: const RestroomSearchBox(),
-            // ),
+            Container(
+              padding: const EdgeInsets.only(top: 15),
+              height: 56,
+              width: size.width * 0.5,
+              child: const RestroomSearchBox(),
+            ),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.end,
             //   children: [

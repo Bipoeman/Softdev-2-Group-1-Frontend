@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -9,30 +7,21 @@ import "package:ruam_mitt/global_const.dart";
 import 'package:ruam_mitt/Restroom/Component/search_box.dart';
 import 'package:ruam_mitt/Restroom/Component/map.dart';
 import 'package:ruam_mitt/Restroom/Component/navbarza.dart';
-class RestroomRover extends StatefulWidget {
-  const RestroomRover({super.key});
+class RestroomRoverReview extends StatefulWidget {
+  const RestroomRoverReview({super.key});
 
   @override
-  State<RestroomRover> createState() => _RestroomRoverState();
+  State<RestroomRoverReview> createState() => _RestroomRoverReviewState();
 }
 
-class _RestroomRoverState extends State<RestroomRover> {
+class _RestroomRoverReviewState extends State<RestroomRoverReview> {
   
   @override
   Widget build(BuildContext context) {
     // Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        
-        //  flexibleSpace: Container(
-        //       padding: const EdgeInsets.only(top: 15),
-        //       height: 56,
-        //       width: size.width * 0.5,
-        //       child: const RestroomSearchBox(),
-        //     ),
       ),
-      drawer: Navbar2RestroomRover() ,
-      body: MapRestroomRover()
       
     );
   }
