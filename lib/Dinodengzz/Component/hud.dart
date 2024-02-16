@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
-import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
 
 class Hud extends PositionComponent with HasGameReference {
   Hud();

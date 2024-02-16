@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/hud.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/level.dart';
@@ -62,12 +61,24 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       levelName: game.levelNames[currentLevel],
       player: player,
     );
+    double screenWidth = game.size.x;
+    double screenHeight = game.size.y;
+    double aspectRatio = screenWidth / screenHeight;
+    double cameraWidth = 320;
+    double cameraHeight = 180;
+    if (aspectRatio > 1.0) {
+      cameraWidth = 640;
+      cameraHeight = cameraWidth / aspectRatio;
+    } else {
+      cameraHeight = 640;
+      cameraWidth = cameraHeight * aspectRatio;
+    }
 
     cam = CameraComponent.withFixedResolution(
       world: world,
-      width: 640,
-      height: 320,
-      hudComponents: ([hud]),
+      width: cameraWidth,
+      height: cameraHeight,
+      hudComponents: [hud],
     );
     cam.viewfinder.anchor = Anchor.topLeft;
     addAll([world, cam]);

@@ -192,7 +192,7 @@ class Player extends SpriteAnimationGroupComponent
 
   void _playerJump(double dt) {
     if (game.playSounds) {
-      //FlameAudio.play(GameRoutes.jumpSfx, volume: game.soundVolume);
+      FlameAudio.play(GameRoutes.jumpSfx, volume: game.soundVolume);
     }
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
@@ -281,13 +281,7 @@ class Player extends SpriteAnimationGroupComponent
 
     gotHit = true;
     current = PlayerState.hit;
-
-    await animationTicker?.completed;
-    animationTicker?.reset();
     remainingLives--;
-    scale.x = 1;
-    position = startingPos - Vector2.all(32);
-    current = PlayerState.appearing;
 
     await animationTicker?.completed;
     animationTicker?.reset();
@@ -299,6 +293,12 @@ class Player extends SpriteAnimationGroupComponent
 
       gameRef.showRetryMenu();
     }
+    scale.x = 1;
+    position = startingPos - Vector2.all(32);
+    current = PlayerState.appearing;
+
+    await animationTicker?.completed;
+    animationTicker?.reset();
 
     velocity = Vector2.zero();
     position = startingPos;
