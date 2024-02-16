@@ -9,31 +9,19 @@ class NavBar extends StatelessWidget {
     return Drawer(
       backgroundColor: const Color.fromRGBO(0, 0, 0, 0.8),
       child: ListView(
-        children: <Widget>[
-          // รูปภาพด้านซ้ายแถวแรก
-          Row(
-            children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CircleAvatar(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CircleAvatar(
                   backgroundImage: AssetImage(
-                      'path_to_your_image.jpg'), // เปลี่ยนเป็นที่อยู่ของรูปภาพของคุณ
+                      'path_to_your_image.jpg'), // รูปเราดึงจากbackend
                 ),
-              ),
-              const Spacer(),
-              Container(
-                width: 40, // ขนาดของปุ่ม
-                height: 40, // ขนาดของปุ่ม
-                margin: const EdgeInsets.only(right: 15),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF77F00), // สี F77F00
-                  borderRadius: BorderRadius.circular(15), // มุมโค้ง 23
-                ),
-                child: const Icon(Icons.menu), // ใช้ไอคอน Hamburger ในปุ่ม
-              ),
-            ],
+              ],
+            ),
           ),
-          // แถวของรายการอื่น ๆ
           ListTile(
             title: const Text(
               'Home',
