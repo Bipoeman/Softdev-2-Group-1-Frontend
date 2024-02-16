@@ -43,8 +43,12 @@ class Navbar2RestroomRover extends StatelessWidget {
             decoration: BoxDecoration(
               color: Color(0xFFFFB703),
             ),
-            accountName: Text('Kasidit sud smart',style: TextStyle(color: Colors.black),),
-            accountEmail: Text('lilpakinwza007_69@gmail.com',style: TextStyle(color: Colors.black)),
+            accountName: Text(
+              'Kasidit sud smart',
+              style: TextStyle(color: Colors.black),
+            ),
+            accountEmail: Text('lilpakinwza007_69@gmail.com',
+                style: TextStyle(color: Colors.black)),
             currentAccountPicture: CircleAvatar(
               radius: 30, // กำหนดรัศมีของวงกลม
               backgroundImage:
@@ -58,9 +62,9 @@ class Navbar2RestroomRover extends StatelessWidget {
           //   child: Text('Drawer Header'),
           // ),
           ListTile(
-            
-            contentPadding: EdgeInsets.only(left: 55.0,top: 20.0),
-            leading: Image.asset("assets/images/RestroomRover/Icon_pintrestroom.png"),
+            contentPadding: EdgeInsets.only(left: 50.0, top: 20.0),
+            leading: Image.asset(
+                "assets/images/RestroomRover/Icon_pintrestroom.png",width: 50,height: 50,),
             title: Text('Pin Restroom'),
             onTap: () {
               // เมื่อเลือกรายการเมนู
@@ -69,7 +73,11 @@ class Navbar2RestroomRover extends StatelessWidget {
               // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
             },
           ),
+          SizedBox(height: 20),
           ListTile(
+            contentPadding: EdgeInsets.only(left: 50.0, top: 20.0),
+            leading: Image.asset(
+                "assets/images/RestroomRover/Icon_contactsupport.png",width: 50,height: 50),
             title: Text('Contact support'),
             onTap: () {
               // เมื่อเลือกรายการเมนู
