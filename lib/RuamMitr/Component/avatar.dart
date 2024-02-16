@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 
 class AvatarViewer extends StatelessWidget {
   const AvatarViewer({
@@ -12,23 +13,20 @@ class AvatarViewer extends StatelessWidget {
 
   Widget getAvatar(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    if (avatarUrl != null) {
-      try {
-        return CircleAvatar(
-          radius: 30,
-          backgroundImage: NetworkImage(avatarUrl!),
-        );
-      } catch (e) {
-        debugPrint(e.toString());
-      }
-    }
+    // if (avatarUrl != null) {
+    //   try {
+    //     return CircleAvatar(
+    //       radius: 30,
+    //       backgroundImage: NetworkImage(avatarUrl!),
+    //     );
+    //   } catch (e) {
+    //     debugPrint(e.toString());
+    //   }
+    // }
     return CircleAvatar(
       radius: 30,
       backgroundColor: theme.colorScheme.primaryContainer.withOpacity(0.5),
-      child: const Icon(
-        Icons.person,
-        size: 25,
-      ),
+      backgroundImage: NetworkImage(profileData['imgPath']),
     );
   }
 
@@ -42,9 +40,7 @@ class AvatarViewer extends StatelessWidget {
           ),
           constraints: const BoxConstraints(),
           onPressed: () {
-            Navigator.pushNamed(
-              context, ruamMitrPageRoute["profile"]!
-            );
+            // Navigator.pushNamed(context, ruamMitrPageRoute["profile"]!);
           },
           child: Container(
             margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -54,7 +50,7 @@ class AvatarViewer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Text(
-                    username ?? "John Doe",
+                    profileData['fullname'] ?? "John Doe",
                     style: const TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
