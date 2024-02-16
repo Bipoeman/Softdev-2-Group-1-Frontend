@@ -15,6 +15,8 @@ import 'package:ruam_mitt/TuachuayDekhor/home.dart';
 import 'package:ruam_mitt/TuachuayDekhor/post.dart';
 import 'package:ruam_mitt/TuachuayDekhor/profile.dart';
 import 'package:ruam_mitt/TuachuayDekhor/search.dart';
+import 'package:ruam_mitt/TuachuayDekhor/writeblog.dart';
+import 'package:ruam_mitt/TuachuayDekhor/draft.dart';
 import 'package:ruam_mitt/global_const.dart';
 
 void main() {
@@ -59,6 +61,10 @@ class _SuperAppState extends State<SuperApp> {
             const TuachuayDekhorBlogPage(),
         tuachuayDekhorPageRoute["blogger"]!: (context) =>
             const TuachuayDekhorBloggerPage(),
+        tuachuayDekhorPageRoute["writeblog"]!: (context) =>
+            const TuachuayDekhorWriteBlogPage(),
+        tuachuayDekhorPageRoute["draft"]!: (context) =>
+            const TuachuayDekhorDraftPage(),
       },
       title: "RuamMitr - App for Uni Students",
       theme: themes.themeFrom("RuamMitr")?.themeData,
