@@ -30,7 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  # flutter_map_location_marker: ^8.0.4
+  url_launcher: ^6.0.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -42,6 +43,8 @@ dependencies:
   get: ^4.6.6
   http: ^1.2.0
   flame_audio: ^2.1.8
+  flutter_map: ^6.1.0
+  # flutter_map_location_marker: any
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +82,7 @@ flutter:
     - assets/images/Main Characters/Virtual Guy/
     - assets/images/Main Characters/Relaxaurus/
     - assets/images/Main Characters/
+    - assets/images/RestroomRover/
     - assets/Menu/Buttons/
     - assets/Menu/Levels/
 

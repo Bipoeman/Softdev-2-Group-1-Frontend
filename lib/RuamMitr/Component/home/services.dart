@@ -28,6 +28,9 @@ class ServicesWidget extends StatelessWidget {
             appName: "Restroom",
             width: size,
             height: size,
+            appRoute: () {
+              Navigator.popAndPushNamed(context, restroomPageRoute["home"]!);
+            },
           ),
           AppBox(
             appName: "Bin",
