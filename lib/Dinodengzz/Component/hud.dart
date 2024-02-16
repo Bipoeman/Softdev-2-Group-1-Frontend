@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
 
 class Hud extends PositionComponent with HasGameReference {
   Hud();
@@ -19,8 +20,7 @@ class Hud extends PositionComponent with HasGameReference {
   @override
   Future<void> onLoad() async {
     _life.position.setValues(24, 24);
-
-    add(_life);
+    addAll([_life]);
   }
 
   void updateLifeCount(int count) {

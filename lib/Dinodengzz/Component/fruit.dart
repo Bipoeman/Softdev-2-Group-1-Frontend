@@ -71,7 +71,6 @@ class Fruit extends SpriteAnimationComponent
     if (other is Player) {
       if (fruit == 'kuayteaw') {
         other.gotNoodle();
-        other.fruitHave--;
       }
       collidedWithPlayer(other);
     }
@@ -90,7 +89,7 @@ class Fruit extends SpriteAnimationComponent
           loop: false,
         ),
       );
-      other.fruitCount++;
+      if (fruit != 'kuayteaw') other.fruitCount++;
     }
 
     await animationTicker?.completed;

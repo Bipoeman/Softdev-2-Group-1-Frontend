@@ -284,7 +284,7 @@ class Player extends SpriteAnimationGroupComponent
 
     await animationTicker?.completed;
     animationTicker?.reset();
-
+    remainingLives--;
     scale.x = 1;
     position = startingPos - Vector2.all(32);
     current = PlayerState.appearing;
@@ -292,9 +292,7 @@ class Player extends SpriteAnimationGroupComponent
     await animationTicker?.completed;
     animationTicker?.reset();
 
-    remainingLives--;
-
-    if (remainingLives <= 0) {
+    if (remainingLives == 0) {
       isGameOver = true;
       gameOverPlayer =
           await FlameAudio.loopLongAudio('Over.wav', volume: game.soundVolume);

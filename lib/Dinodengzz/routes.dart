@@ -84,7 +84,9 @@ class GameRoutes extends FlameGame
   Future<void> onLoad() async {
     await Flame.device.setLandscape();
     await Flame.device.fullScreen();
-    await FlameAudio.audioCache.loadAll([bgm, jumpSfx]);
+    await FlameAudio.audioCache.loadAll([
+      bgm, /*jumpSfx*/
+    ]);
     await images.loadAllImages();
     await add(_router);
   }
