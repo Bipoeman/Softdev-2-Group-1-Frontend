@@ -20,20 +20,20 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    profileData = {};
-    Uri uri = Uri.parse("$api$userDataRequestRoute");
-    setState(() {});
-    get(uri, headers: {"Authorization": "Bearer $publicToken"})
-        .then((Response res) {
-      profileData = jsonDecode(res.body);
-      setState(() {});
-      print(profileData);
-    });
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   profileData = {};
+  //   Uri uri = Uri.parse("$api$userDataRequestRoute");
+  //   setState(() {});
+  //   get(uri, headers: {"Authorization": "Bearer $publicToken"})
+  //       .then((Response res) {
+  //     profileData = jsonDecode(res.body);
+  //     setState(() {});
+  //     print(profileData);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
-                                      profileData['profile'] ??
-                                          "https://ui-avatars.com/api/?size=512&name=${profileData['fullname'].replaceAll(" ", "+")}",
+                                     profileData['imgPath']
                                     ),
                                   ),
                                 ),

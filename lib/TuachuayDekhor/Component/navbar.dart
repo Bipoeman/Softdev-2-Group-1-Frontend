@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/search_box.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 
 class NavbarTuachuayDekhor extends StatelessWidget {
   const NavbarTuachuayDekhor({
@@ -11,24 +12,22 @@ class NavbarTuachuayDekhor extends StatelessWidget {
   final String? username;
   final String? avatarUrl;
 
+
   Widget getAvatar(BuildContext context) {
-    if (avatarUrl != null) {
-      try {
-        return CircleAvatar(
-          radius: 24,
-          backgroundImage: NetworkImage(avatarUrl!),
-        );
-      } catch (e) {
-        debugPrint(e.toString());
-      }
-    }
-    return const CircleAvatar(
-      radius: 24,
-      backgroundColor: Colors.white,
-      child: Icon(
-        Icons.person,
-        size: 23,
-      ),
+    // if (avatarUrl != null) {
+    //   try {
+    //     return CircleAvatar(
+    //       radius: 24,
+    //       backgroundImage: NetworkImage(profileData['imgPath']),
+    //     );
+    //   } catch (e) {
+    //     debugPrint(e.toString());
+    //   }
+    // }
+    return CircleAvatar(
+      radius: 25,
+      backgroundColor: Colors.white.withOpacity(0.5),
+      backgroundImage: NetworkImage(profileData['imgPath']),
     );
   }
 

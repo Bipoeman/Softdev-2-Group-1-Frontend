@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 
 class TuachuayDekhorAvatarViewer extends StatelessWidget {
   const TuachuayDekhorAvatarViewer({
@@ -11,23 +12,20 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
   final String? avatarUrl;
 
   Widget getAvatar(BuildContext context) {
-    if (avatarUrl != null) {
-      try {
-        return CircleAvatar(
-          radius: 30,
-          backgroundImage: NetworkImage(avatarUrl!),
-        );
-      } catch (e) {
-        debugPrint(e.toString());
-      }
-    }
-    return const CircleAvatar(
+    // if (avatarUrl != null) {
+    //   try {
+    //     return CircleAvatar(
+    //       radius: 30,
+    //       backgroundImage: NetworkImage(avatarUrl!),
+    //     );
+    //   } catch (e) {
+    //     debugPrint(e.toString());
+    //   }
+    // }
+    return CircleAvatar(
       radius: 30,
-      backgroundColor: Colors.black12,
-      child: Icon(
-        Icons.person,
-        size: 25,
-      ),
+      backgroundColor: Colors.white.withOpacity(0.5),
+      backgroundImage: NetworkImage(profileData['imgPath']),
     );
   }
 
@@ -41,7 +39,7 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
           ),
           constraints: const BoxConstraints(),
           onPressed: () {
-            Navigator.pushNamed(context, ruamMitrPageRoute["profile"]!);
+            Navigator.pushNamed(context,  tuachuayDekhorPageRoute["profile"]!);
           },
           child: Container(
             margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),

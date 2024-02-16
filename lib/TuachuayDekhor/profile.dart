@@ -23,10 +23,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print(profileData['fullname']);
-    print(profileData['profile']);
   }
 
   void updateDescription(String value) {
@@ -67,7 +64,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                             fit: BoxFit.cover,
                             image: NetworkImage(
                               profileData['profile'] ??
-                                  "https://ui-avatars.com/api/?size=512&name=${profileData['fullname'] ?? "John Doe".replaceAll(" ", "+")}",
+                                  "https://api.multiavatar.com/${profileData['fullname'] ?? "John Doe".replaceAll(" ", "+")}.png",
                             ),
                           ),
                         ),
