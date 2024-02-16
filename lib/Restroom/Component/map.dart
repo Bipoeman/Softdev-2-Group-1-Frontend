@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/Restroom/Component/cardpin.dart';
 import 'package:ruam_mitt/Restroom/Component/search_box.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -9,10 +10,8 @@ class MapRestroomRover extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-   
     return Stack(
         children: [
-          
           FlutterMap(
             options: MapOptions(
               center: LatLng(13.825605, 100.514476),
@@ -53,6 +52,7 @@ class MapRestroomRover extends StatelessWidget {
                 width: 130,
                 height: 130,
               )),
+          Cardpin()
           
           // Positioned(
           //     child: NavbarRestroomRover(),
