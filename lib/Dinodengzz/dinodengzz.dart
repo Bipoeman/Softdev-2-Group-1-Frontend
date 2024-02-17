@@ -31,7 +31,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
 
   late JoystickComponent joystick;
   late Hud hud;
-  bool showControls = true;
+  bool joyControls = false;
   bool levelComplete = false;
 
   Color backgroundColor() => const Color.fromARGB(255, 30, 28, 45);
@@ -46,7 +46,10 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
   @override
   void update(double dt) {
     hud.updateLifeCount(player.remainingLives);
-    player.hasJumped = hud.hasJumped;
+    if (joyControls) {
+      player.hasJumped = hud.hasJumped;
+      player.horizontalMovement = hud.horizontalMovement;
+    }
     super.update(dt);
   }
 
