@@ -6,78 +6,112 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Drawer(
       backgroundColor: const Color.fromRGBO(0, 0, 0, 0.8),
-      child: ListView(
-        children: <Widget>[
-          // รูปภาพด้านซ้ายแถวแรก
-          Row(
-            children: <Widget>[
+      child: Stack(
+        children: [
+          ListView(
+            children: [
               const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CircleAvatar(
-                  backgroundImage: AssetImage(
-                      'path_to_your_image.jpg'), // เปลี่ยนเป็นที่อยู่ของรูปภาพของคุณ
+                padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      child: Text("Avatar"),
+                      // backgroundImage: AssetImage(
+                      //     'path_to_your_image.jpg'), // รูปเราดึงจากbackend
+                    ),
+                  ],
                 ),
               ),
-              const Spacer(),
-              Container(
-                width: 40, // ขนาดของปุ่ม
-                height: 40, // ขนาดของปุ่ม
-                margin: const EdgeInsets.only(right: 15),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF77F00), // สี F77F00
-                  borderRadius: BorderRadius.circular(15), // มุมโค้ง 23
+              ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
                 ),
-                child: const Icon(Icons.menu), // ใช้ไอคอน Hamburger ในปุ่ม
+                tileColor: const Color(0xFF1E1E1E),
+                title: const Text(
+                  'Home',
+                  style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.85)),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, pinthebinPageRoute["home"]!);
+                },
+                trailing: const Icon(
+                  Icons.double_arrow,
+                  color: Color.fromRGBO(255, 255, 255, 0.42),
+                ),
+              ),
+              ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                tileColor: const Color(0xFF1E1E1E),
+                title: const Text(
+                  'Add Bin',
+                  style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.85)),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, pinthebinPageRoute["addbin"]!);
+                },
+                trailing: const Icon(Icons.double_arrow,
+                    color: Color.fromRGBO(255, 255, 255, 0.42)),
+              ),
+              ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                tileColor: const Color(0xFF1E1E1E),
+                title: const Text(
+                  'Edit Bin',
+                  style: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 0.85),
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, pinthebinPageRoute["editbin"]!);
+                },
+                trailing: const Icon(Icons.double_arrow,
+                    color: Color.fromRGBO(255, 255, 255, 0.42)),
+              ),
+              ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                tileColor: const Color(0xFF1E1E1E),
+                title: const Text(
+                  'Report',
+                  style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.85)),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, pinthebinPageRoute["report"]!);
+                },
+                trailing: const Icon(
+                  Icons.double_arrow,
+                  color: Color.fromRGBO(255, 255, 255, 0.42),
+                ),
               ),
             ],
           ),
-          // แถวของรายการอื่น ๆ
-          ListTile(
-            title: const Text(
-              'Home',
-              style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.85)),
+          Positioned(
+            bottom: size.height * 0.05,
+            left: size.width * 0.05,
+            child: GestureDetector(
+              child: Container(
+                height: size.height * 0.05,
+                width: size.height * 0.05,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+              ),
+              onTap: () {
+                print("Back to Home");
+                Navigator.popAndPushNamed(context, ruamMitrPageRoute['home']!);
+              },
             ),
-            onTap: () {
-              Navigator.pushNamed(context, pinthebinPageRoute["home"]!);
-            },
-            trailing: const Icon(Icons.double_arrow,
-                color: Color.fromRGBO(255, 255, 255, 0.42)),
-          ),
-          ListTile(
-            title: const Text(
-              'Add Bin',
-              style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.85)),
-            ),
-            onTap: () {
-              Navigator.pushNamed(context, pinthebinPageRoute["addbin"]!);
-            },
-            trailing: const Icon(Icons.double_arrow,
-                color: Color.fromRGBO(255, 255, 255, 0.42)),
-          ),
-          ListTile(
-            title: const Text(
-              'Edit Bin',
-              style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.85)),
-            ),
-            onTap: () {
-              Navigator.pushNamed(context, pinthebinPageRoute["editbin"]!);
-            },
-            trailing: const Icon(Icons.double_arrow,
-                color: Color.fromRGBO(255, 255, 255, 0.42)),
-          ),
-          ListTile(
-            title: const Text(
-              'Report',
-              style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.85)),
-            ),
-            onTap: () {
-              Navigator.pushNamed(context, pinthebinPageRoute["report"]!);
-            },
-            trailing: const Icon(Icons.double_arrow,
-                color: Color.fromRGBO(255, 255, 255, 0.42)),
-          ),
+          )
         ],
       ),
     );
