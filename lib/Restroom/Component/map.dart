@@ -11,21 +11,21 @@ import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
 
 class MapRestroomRover extends StatelessWidget {
-  // static final List<Marker> _markers = [
-  //   const LatLng(13.825605, 100.514476),
-  //   const LatLng(45.683, 10.839),
-  //   const LatLng(45.246, 5.783),
-  // ]
-  //     .map(
-  //       (markerPosition) => Marker(
-  //         point: markerPosition,
-  //         width: 40,
-  //         height: 40,
-  //         // alignment: Alignment.topCenter,
-  //         child: Image.asset("assets/images/RestroomRover/Pinred.png"),
-  //       ),
-  //     )
-  //     .toList();
+  static final List<Marker> _markers = [
+    const LatLng(13.825605, 100.514476),
+    const LatLng(45.683, 10.839),
+    const LatLng(45.246, 5.783),
+  ]
+      .map(
+        (markerPosition) => Marker(
+          point: markerPosition,
+          width: 40,
+          height: 40,
+          // alignment: Alignment.topCenter,
+          child: Image.asset("assets/images/RestroomRover/Pinred.png"),
+        ),
+      )
+      .toList();
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +42,14 @@ class MapRestroomRover extends StatelessWidget {
               userAgentPackageName: 'com.example.app',
             ),
             // PopupMarkerLayer(options: options)
-            // PopupMarkerLayer(
-            //   options: PopupMarkerLayerOptions(
-            //     markers: _markers,
-            //     popupDisplayOptions: PopupDisplayOptions(
-            //         builder: (BuildContext context, Marker marker) =>
-            //             Cardpin()),
-            //   ),
-            // ),
+            PopupMarkerLayer(
+              options: PopupMarkerLayerOptions(
+                markers: _markers,
+                popupDisplayOptions: PopupDisplayOptions(
+                    builder: (BuildContext context, Marker marker) =>
+                        Cardpin()),
+              ),
+            ),
             // MarkerLayer(
 
             //   markers: [
