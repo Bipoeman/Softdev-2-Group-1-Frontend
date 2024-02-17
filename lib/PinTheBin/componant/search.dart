@@ -16,38 +16,21 @@ class _SearchBinState extends State<SearchBin> {
     return TextFormField(
       controller: search, //สร้างไว้ก่อน
       keyboardType: TextInputType.text,
+      style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
-        fillColor: Colors.white,
+        fillColor: Colors.black.withOpacity(0.5),
         filled: true,
-        labelStyle: TextStyle(
-          color: Colors.black.withOpacity(0.5),
-          fontSize: 14,
+        hintStyle: TextStyle(
+          color: Colors.white.withOpacity(0.69),
+          fontSize: 16,
         ),
         contentPadding: const EdgeInsets.only(left: 15),
-        labelText: "Search for...",
-        suffixIconColor: Colors.white,
-        suffixIcon: Container(
-          margin: const EdgeInsets.all(2),
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Color(0xFFF77F00),
-          ),
-          child: const IconButton(
-            onPressed: null,
-            icon: Icon(
-              size: 14,
-              Icons.search,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40),
-          borderSide: const BorderSide(color: Color.fromRGBO(0, 48, 73, 1)),
-        ),
+        hintText: "Search...",
+        suffixIconColor: Colors.white.withOpacity(0.69),
+        suffixIcon: const Icon(Icons.search),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40),
-          borderSide: const BorderSide(color: Color.fromRGBO(0, 48, 73, 1)),
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
         ),
       ),
     );
