@@ -12,9 +12,7 @@ class _CardpinState extends State<Cardpin> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Center(
-        child: Container(
+    return Container(
           height: size.height * 0.55,
           width: size.width * 0.8,
           decoration: BoxDecoration(
@@ -182,8 +180,9 @@ class _CardpinState extends State<Cardpin> {
                   )),
             ],
           ),
-        ),
-      ),
-    );
+        );
+      
+    
+    
   }
 }
