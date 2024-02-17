@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
@@ -27,20 +28,54 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
               MediaQuery.of(context).padding.top,
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Column(
               children: [
-                Text(
-                  "Toggle Theme",
-                  style: theme.textTheme.titleLarge,
+                const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      AvatarViewer(),
+                    ],
+                  ),
                 ),
-                Switch(
-                  value: themeProvider.isDarkMode,
-                  onChanged: (value) {
-                    themeProvider.toggleTheme();
-                  },
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.19),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        color: theme.colorScheme.primary,
+                        width: size.height * 0.03,
+                        height: size.height * 0.03,
+                      ),
+                      SizedBox(width: size.width * 0.02),
+                      Text(
+                        "RuamMitr",
+                        style: TextStyle(
+                          fontSize: theme.textTheme.titleLarge!.fontSize,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      "Toggle Theme",
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                    Switch(
+                      value: themeProvider.isDarkMode,
+                      onChanged: (value) {
+                        themeProvider.toggleTheme();
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

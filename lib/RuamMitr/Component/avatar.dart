@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 
 class AvatarViewer extends StatelessWidget {
@@ -48,18 +47,19 @@ class AvatarViewer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: getAvatar(context),
+                ),
+                const SizedBox(width: 20),
+                Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Text(
                     profileData['fullname'] ?? "John Doe",
                     style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: getAvatar(context),
                 ),
               ],
             ),
