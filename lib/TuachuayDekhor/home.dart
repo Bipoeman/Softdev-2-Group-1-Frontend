@@ -22,7 +22,7 @@ Widget nodeCatagories(
         ),
         constraints: const BoxConstraints(),
         onPressed: () {
-          Navigator.pushNamed(context, ruamMitrPageRoute[page]!);
+          Navigator.pushNamed(context, tuachuayDekhorPageRoute[page]!);
         },
         child: Container(
           margin: const EdgeInsets.fromLTRB(15, 10, 15, 10),
@@ -107,13 +107,13 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 nodeCatagories(
-                                    context, "Decoration", "profile", "1"),
+                                    context, "Decoration", "decoration", "1"),
                                 nodeCatagories(
-                                    context, "Cleaning", "profile", "2"),
+                                    context, "Cleaning", "cleaning", "2"),
                                 nodeCatagories(
-                                    context, "Cooking", "profile", "3"),
+                                    context, "Cooking", "cooking", "3"),
                                 nodeCatagories(
-                                    context, "Story", "profile", "4"),
+                                    context, "Story", "story", "4"),
                               ],
                             ),
                           ),
