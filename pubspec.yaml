@@ -45,6 +45,7 @@ dependencies:
   flame_audio: ^2.1.8
   flutter_map: ^6.1.0
   # flutter_map_location_marker: any
+  google_fonts: ^6.1.0
 
 dev_dependencies:
   flutter_test:
