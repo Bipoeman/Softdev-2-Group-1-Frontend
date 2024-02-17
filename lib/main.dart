@@ -9,6 +9,7 @@ import 'package:ruam_mitt/Restroom/restroom.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
 import 'package:ruam_mitt/RuamMitr/home.dart';
+import 'package:ruam_mitt/RuamMitr/Component/home_v2/central_v2.dart';
 import 'package:ruam_mitt/RuamMitr/settings.dart';
 import 'package:ruam_mitt/RuamMitr/profile.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
@@ -45,6 +46,7 @@ class _SuperAppState extends State<SuperApp> {
         loginPageRoute: (context) => const LoginPage(),
         registerPageRoute: (context) => const RegisterPage(),
         ruamMitrPageRoute["home"]!: (context) => const HomePage(),
+        ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["settings"]!: (context) => const SettingsPage(),
         ruamMitrPageRoute["profile"]!: (context) => const ProfilePage(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),

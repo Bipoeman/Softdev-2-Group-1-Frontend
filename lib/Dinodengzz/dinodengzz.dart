@@ -4,7 +4,6 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/hud.dart';
-import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/level.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
@@ -27,11 +26,12 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
 
   late CameraComponent cam;
   Player player = Player(character: 'Relaxaurus');
+  late double cameraWidth = 640;
+  late double cameraHeight;
 
   late JoystickComponent joystick;
-  late final JumpButton jumpButton = JumpButton();
-  late final Hud hud = Hud();
-  bool showControls = false;
+  late Hud hud;
+  bool joyControls = false;
   bool levelComplete = false;
 
   Color backgroundColor() => const Color.fromARGB(255, 30, 28, 45);
@@ -41,19 +41,16 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
     await Flame.device.fullScreen();
     await Flame.device.setLandscape();
     _loadLevel();
-    add(jumpButton);
-    add(hud);
   }
 
   @override
   void update(double dt) {
-    updateJoystick();
     hud.updateLifeCount(player.remainingLives);
+    if (joyControls) {
+      player.hasJumped = hud.hasJumped;
+      player.horizontalMovement = hud.horizontalMovement;
+    }
     super.update(dt);
-  }
-
-  void updateJoystick() {
-    if (showControls) player.hasJumped = jumpButton.hasJumped;
   }
 
   void _loadLevel() {
@@ -61,15 +58,19 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       levelName: game.levelNames[currentLevel],
       player: player,
     );
+    double screenWidth = game.size.x;
+    double screenHeight = game.size.y;
+    double aspectRatio = screenWidth / screenHeight;
+    cameraHeight = cameraWidth / aspectRatio;
+    hud = Hud(cameraHeight);
 
     cam = CameraComponent.withFixedResolution(
       world: world,
-      width: 640,
-      height: 320,
+      width: cameraWidth,
+      height: cameraHeight,
+      hudComponents: [hud],
     );
     cam.viewfinder.anchor = Anchor.topLeft;
-
-    add(world);
-    add(cam);
+    addAll([world, cam]);
   }
 }
