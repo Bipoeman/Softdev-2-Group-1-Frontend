@@ -11,7 +11,8 @@ class AddbinPage extends StatefulWidget {
 
 class _AddbinPageState extends State<AddbinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController _textEditingController = TextEditingController();
+  TextEditingController _LocationstextController = TextEditingController();
+  TextEditingController _DescriptiontextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +61,7 @@ class _AddbinPageState extends State<AddbinPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 100),
                     child: Text(
-                      'Locations',
+                      'Name',
                       style: GoogleFonts.getFont(
                         'Sen',
                         color: const Color.fromARGB(255, 255, 255, 255),
@@ -71,7 +72,7 @@ class _AddbinPageState extends State<AddbinPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Container(
                 width: 300,
                 height: 28,
@@ -81,7 +82,7 @@ class _AddbinPageState extends State<AddbinPage> {
                 ),
                 child: TextField(
                   scrollPadding: EdgeInsets.all(5),
-                  controller: _textEditingController,
+                  controller: _LocationstextController,
                   onChanged: (text) {
                     print('Typed text: $text');
                   },
@@ -93,6 +94,86 @@ class _AddbinPageState extends State<AddbinPage> {
                   ),
                 ),
               ),
+            ],
+          ),
+          Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 175),
+                    child: Text(
+                      'Description',
+                      style: GoogleFonts.getFont(
+                        'Sen',
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                width: 300,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF77F00).withOpacity(0.45),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                ),
+                child: TextField(
+                  maxLength: 80,
+                  maxLines: 3,
+                  controller: _DescriptiontextController,
+                  onChanged: (text) {
+                    print('Typed text: $text');
+                    int remainningCharacters =
+                        80 - _DescriptiontextController.text.length;
+                    print('Remaining characters: $remainningCharacters');
+                  },
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                  ),
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 320),
+                    child: Text(
+                      'Position',
+                      style: GoogleFonts.getFont(
+                        'Sen',
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Row(children: [
+                //GestureDetector(
+                //onTap: () {},
+                //)
+                //Container(
+
+                //)
+              ]),
             ],
           ),
         ]),
