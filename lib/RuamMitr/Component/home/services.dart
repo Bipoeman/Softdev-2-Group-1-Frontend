@@ -37,6 +37,7 @@ class ServicesWidget extends StatelessWidget {
             appName: "DinoDengzz",
             width: size.width,
             height: size.height * 0.1,
+            appIconPath: "assets/Logo/dino_portal_colored_bg.png",
             appRoute: () {
               Navigator.pushNamed(context, "/game");
             },

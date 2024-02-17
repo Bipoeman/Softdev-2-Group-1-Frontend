@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -147,29 +148,26 @@ class _LoginPageState extends State<LoginPage> {
                         Container(
                           alignment: Alignment.center,
                           margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-                          height: [150.0, size.width * 0.4].reduce(min),
-                          width: [150.0, size.width * 0.4].reduce(min),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.primary,
+                          height: [150.0, size.width * 0.5].reduce(min),
+                          width: [150.0, size.width * 0.5].reduce(min),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
                           ),
-                          child: Text(
-                            "Logo Here",
-                            style: TextStyle(
-                              color: theme.colorScheme.onPrimary,
-                              fontSize: 20,
-                            ),
+                          child: SvgPicture.asset(
+                            "assets/Logo/bipoelogo1.svg",
+                            fit: BoxFit.contain,
                           ),
                         ),
                         Column(
                           children: [
-                            Text(
-                              "RuamMitr",
-                              style: TextStyle(
-                                color: theme.colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 35,
-                              ),
-                            ),
+                            // Text(
+                            //   "RuamMitr",
+                            //   style: TextStyle(
+                            //     color: theme.colorScheme.primary,
+                            //     fontWeight: FontWeight.bold,
+                            //     fontSize: 35,
+                            //   ),
+                            // ),
                             Text(
                               "PORTAL APP",
                               style: TextStyle(

@@ -96,6 +96,7 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                 child: const Text("Logout"),
                 onPressed: () {
                   publicToken = "";
+                  profileData = {};
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     loginPageRoute,
                     (Route<dynamic> route) => false,

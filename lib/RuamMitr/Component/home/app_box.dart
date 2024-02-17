@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class AppBox extends StatelessWidget {
@@ -23,8 +21,15 @@ class AppBox extends StatelessWidget {
     ThemeData theme = Theme.of(context);
     if (appIconPath != null) {
       try {
-        return ImageIcon(
-          Image.asset(appIconPath!).image,
+        // return ImageIcon(
+        //   Image.asset(appIconPath!).image,
+        //   size: 50,
+        // );
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 15),
+          child: Image.asset(
+            appIconPath!,
+          ),
         );
       } catch (_) {}
       try {
@@ -61,8 +66,10 @@ class AppBox extends StatelessWidget {
           children: [
             Row(
               children: [
-                getAppIcon(context),
-                const SizedBox(width: 20),
+                SizedBox(width: width * 0.15, child: getAppIcon(context)),
+                // Image.asset("assets/Logo/dino_portal_color.png",
+                //     fit: BoxFit.contain),
+                SizedBox(width: width * 0.03),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,6 +77,7 @@ class AppBox extends StatelessWidget {
                     Text(
                       appName ?? "App",
                       textAlign: TextAlign.left,
+                      overflow: TextOverflow.fade,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -78,6 +86,7 @@ class AppBox extends StatelessWidget {
                     ),
                     Text(
                       appDescription ?? "Description",
+                      overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
                       style: theme.textTheme.bodySmall,
                     ),
@@ -85,7 +94,7 @@ class AppBox extends StatelessWidget {
                 ),
               ],
             ),
-            const Icon(Icons.arrow_forward_ios)
+            // const Icon(Icons.arrow_forward_ios)
           ],
         ),
       ),
