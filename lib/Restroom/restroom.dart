@@ -26,7 +26,7 @@ class _RestroomRoverState extends State<RestroomRover> {
     return Scaffold(
         key: _scaffoldKey, // กำหนด GlobalKey ให้กับ Scaffold
         appBar: AppBar(
-          title : SizedBox(width: 300,child : RestroomSearchBox(),),
+          title : SizedBox(width: 300,height: 45,child : RestroomSearchBox(),),
           backgroundColor: Color(0xFFFFB703),
           leading: IconButton(
             icon: Container(
