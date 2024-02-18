@@ -229,7 +229,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                               spacing: 20,
                               runSpacing: 20,
                               children: List.generate(
-                                4,
+                                6,
                                 (index) => BlogBox(
                                   title: "Title",
                                   name: "Name",
