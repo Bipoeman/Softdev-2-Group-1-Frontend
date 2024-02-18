@@ -1,8 +1,11 @@
+//import 'dart:ffi';
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
 import 'package:ruam_mitt/PinTheBin/navbar.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:ruam_mitt/global_const.dart';
+import 'package:http/http.dart' as http;
 
 class AddbinPage extends StatefulWidget {
   const AddbinPage({super.key});
@@ -12,9 +15,22 @@ class AddbinPage extends StatefulWidget {
 }
 
 class _AddbinPageState extends State<AddbinPage> {
+  Map<String, bool> _bintype = {};
+  LatLng? _position;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final url = Uri.parse("$api/pinthebin/bin");
   TextEditingController _LocationstextController = TextEditingController();
   TextEditingController _DescriptiontextController = TextEditingController();
+  void _presstosend(LatLng position) async {
+    var response = await http.post(url, body: {
+      "location": _LocationstextController.text,
+      "description": _DescriptiontextController.text,
+      "bintype": '',
+      "latitude": position.latitude,
+      "longitude": position.longitude,
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -25,6 +41,7 @@ class _AddbinPageState extends State<AddbinPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
     return Scaffold(
       key: _scaffoldKey,
       body: SafeArea(
@@ -198,6 +215,7 @@ class _AddbinPageState extends State<AddbinPage> {
                           builder: (context) => const MapaddBinPage()),
                     );
                     print("Result $getPosResult");
+                    _position = getPosResult;
                   },
                 ),
                 //Container(
@@ -232,7 +250,23 @@ class _AddbinPageState extends State<AddbinPage> {
                   ),
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                if (_position != null) {
+                  _presstosend(_position!);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        "Please pin the position.",
+                        style: TextStyle(
+                          color: theme.colorScheme.onPrimary,
+                        ),
+                      ),
+                      backgroundColor: theme.colorScheme.primary,
+                    ),
+                  );
+                }
+              },
             ),
           )
         ]),
