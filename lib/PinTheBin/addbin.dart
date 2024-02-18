@@ -15,7 +15,12 @@ class AddbinPage extends StatefulWidget {
 }
 
 class _AddbinPageState extends State<AddbinPage> {
-  Map<String, bool> _bintype = {};
+  final Map<String, bool> _bintype = {
+    'redbin': false,
+    'greenbin': false,
+    'yellowbin': false,
+    'bluebin': false
+  };
   LatLng? _position;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final url = Uri.parse("$api/pinthebin/bin");
@@ -179,7 +184,7 @@ class _AddbinPageState extends State<AddbinPage> {
                 child: Container(
                   padding: EdgeInsets.only(left: 20),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 320),
+                    padding: const EdgeInsets.only(top: 325),
                     child: Text(
                       'Position',
                       style: GoogleFonts.getFont(
@@ -269,7 +274,7 @@ class _AddbinPageState extends State<AddbinPage> {
                 child: Container(
                   padding: const EdgeInsets.only(left: 20),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 420),
+                    padding: const EdgeInsets.only(top: 425),
                     child: Text(
                       'Picture',
                       style: GoogleFonts.getFont(
@@ -319,6 +324,87 @@ class _AddbinPageState extends State<AddbinPage> {
                   ),
                 ],
               ),
+            ],
+          ),
+          Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 510),
+                    child: Text(
+                      'Type',
+                      style: GoogleFonts.getFont(
+                        'Sen',
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  GestureDetector(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 50),
+                      alignment: Alignment.bottomLeft,
+                      width: 55,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 0, 0),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 20),
+                      alignment: Alignment.bottomLeft,
+                      width: 55,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 251, 0),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 20),
+                      alignment: Alignment.bottomLeft,
+                      width: 55,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 0, 255, 21),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 20),
+                      alignment: Alignment.bottomLeft,
+                      width: 55,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 0, 119, 255),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
           Align(
