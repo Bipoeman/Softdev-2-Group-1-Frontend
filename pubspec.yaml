@@ -30,7 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  # flutter_map_location_marker: ^8.0.4
+  url_launcher: ^6.2.4
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -41,7 +42,26 @@ dependencies:
   connectivity_plus: ^5.0.2
   get: ^4.6.6
   http: ^1.2.0
-
+  flutter_rating_native: ^0.0.2
+  # flutter_map_location_marker: any
+  flame_audio: ^2.1.8
+  flutter_map: ^6.1.0
+  # flutter_map_location_marker: any
+  google_fonts: ^6.1.0
+  latlong2: ^0.9.0
+  flutter_animate: ^4.5.0
+  popup_menu: ^2.0.0
+  flutter_svg: ^2.0.9
+  flutter_markdown: ^0.6.19
+  comment_box: ^0.0.18
+  bottom_bar_matu: ^1.3.1
+  material_floating_search_bar_2: ^0.5.0
+  flutter_rating_bar: ^4.0.1
+  flutter_sliding_box: ^1.1.5
+  flutter_map_marker_popup: ^6.1.2
+  flutter_compass: ^0.8.0
+  flutter_map_location_marker: ^8.0.6
+  geolocator: ^11.0.0
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +92,8 @@ flutter:
     - assets/images/Background/
     - assets/images/Traps/Saw/
     - assets/images/HUD/
+    - assets/images/Logo/
+    - assets/images/Icon/
     - assets/images/Items/Checkpoints/Checkpoint/
     - assets/images/Main Characters/Mask Dude/
     - assets/images/Main Characters/Ninja Frog/
@@ -79,7 +101,12 @@ flutter:
     - assets/images/Main Characters/Virtual Guy/
     - assets/images/Main Characters/Relaxaurus/
     - assets/images/Main Characters/
+    - assets/images/RestroomRover/
     - assets/Menu/Buttons/
+    - assets/Menu/Levels/
+    - assets/images/PinTheBin/
+    - assets/images/Ruammitr/
+    - assets/Logo/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

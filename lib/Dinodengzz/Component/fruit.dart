@@ -6,10 +6,10 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
-import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
+import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 class Fruit extends SpriteAnimationComponent
-    with HasGameRef<DinoDengzz>, CollisionCallbacks {
+    with HasGameRef<GameRoutes>, CollisionCallbacks {
   final String fruit;
 
   Fruit({
@@ -69,13 +69,15 @@ class Fruit extends SpriteAnimationComponent
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Player) {
-      collidedWithPlayer();
-      if (fruit == 'kuayteaw') other.gotNoodle();
+      if (fruit == 'kuayteaw') {
+        other.gotNoodle();
+      }
+      collidedWithPlayer(other);
     }
     super.onCollisionStart(intersectionPoints, other);
   }
 
-  void collidedWithPlayer() async {
+  void collidedWithPlayer(Player other) async {
     if (!collected) {
       collected = true;
       animation = SpriteAnimation.fromFrameData(
@@ -87,6 +89,7 @@ class Fruit extends SpriteAnimationComponent
           loop: false,
         ),
       );
+      if (fruit != 'kuayteaw') other.fruitCount++;
     }
 
     await animationTicker?.completed;
