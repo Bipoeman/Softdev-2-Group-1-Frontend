@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/app_box.dart';
+import 'package:ruam_mitt/global_const.dart';
 
 class ServicesWidget extends StatelessWidget {
   const ServicesWidget({super.key, required this.size});
@@ -27,6 +28,9 @@ class ServicesWidget extends StatelessWidget {
             appName: "Restroom",
             width: size.width,
             height: size.height * 0.1,
+            appRoute: () {
+              Navigator.popAndPushNamed(context, restroomPageRoute["home"]!);
+            },
           ),
           AppBox(
             appName: "Bin",
