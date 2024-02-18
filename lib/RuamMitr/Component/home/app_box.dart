@@ -21,8 +21,15 @@ class AppBox extends StatelessWidget {
     ThemeData theme = Theme.of(context);
     if (appIconPath != null) {
       try {
-        return ImageIcon(
-          Image.asset(appIconPath!).image,
+        // return ImageIcon(
+        //   Image.asset(appIconPath!).image,
+        //   size: 50,
+        // );
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 15),
+          child: Image.asset(
+            appIconPath!,
+          ),
         );
       } catch (_) {}
       try {
@@ -35,72 +42,59 @@ class AppBox extends StatelessWidget {
     }
     return Icon(
       Icons.apps,
-      color: theme.colorScheme.onPrimary,
+      color: theme.colorScheme.primary,
     );
   }
 
   @override
   Widget build(context) {
     ThemeData theme = Theme.of(context);
-    return TextButton(
-      onPressed: appRoute ?? () {},
-      style: ButtonStyle(
-        padding: MaterialStateProperty.all(
-          EdgeInsets.zero,
-        ),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-      ),
+    return GestureDetector(
+      onTap: appRoute ??
+          () {
+            print("Tapped $appName");
+          },
       child: Container(
+        height: height > 100 ? height : 100,
         width: width,
-        height: height,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          color: theme.colorScheme.primary.withOpacity(0.8),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            color: theme.colorScheme.primaryContainer,
+            borderRadius: BorderRadius.circular(20)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              width: width,
-              height: height * 0.5,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  getAppIcon(context),
-                  Text(
-                    appName ?? "App",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.onPrimary,
+            Row(
+              children: [
+                SizedBox(width: width * 0.15, child: getAppIcon(context)),
+                // Image.asset("assets/Logo/dino_portal_color.png",
+                //     fit: BoxFit.contain),
+                SizedBox(width: width * 0.03),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      appName ?? "App",
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.fade,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: theme.textTheme.titleLarge!.color,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: width - 20,
-              height: height * 0.5 - 20,
-              margin: const EdgeInsets.all(10),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primaryContainer.withOpacity(0.8),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Text(
-                  appDescription ?? "Description",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: theme.colorScheme.onBackground,
-                  ),
+                    Text(
+                      appDescription ?? "Description",
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: theme.textTheme.bodySmall,
+                    ),
+                  ],
                 ),
-              ),
+              ],
             ),
+            // const Icon(Icons.arrow_forward_ios)
           ],
         ),
       ),
