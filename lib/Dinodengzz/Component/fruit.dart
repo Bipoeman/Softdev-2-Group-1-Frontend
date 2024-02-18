@@ -72,12 +72,12 @@ class Fruit extends SpriteAnimationComponent
       if (fruit == 'kuayteaw') {
         other.gotNoodle();
       }
-      collidedWithPlayer();
+      collidedWithPlayer(other);
     }
     super.onCollisionStart(intersectionPoints, other);
   }
 
-  void collidedWithPlayer() async {
+  void collidedWithPlayer(Player other) async {
     if (!collected) {
       collected = true;
       animation = SpriteAnimation.fromFrameData(
@@ -89,6 +89,7 @@ class Fruit extends SpriteAnimationComponent
           loop: false,
         ),
       );
+      if (fruit != 'kuayteaw') other.fruitCount++;
     }
 
     await animationTicker?.completed;

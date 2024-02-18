@@ -5,7 +5,8 @@ class ThemeProvider extends ChangeNotifier {
   bool get isDarkMode => _isDarkMode;
   Map<String, Map<String, CustomThemes>> appThemes = _appsThemes;
 
-  CustomThemes? themeFrom(String app) => _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
+  CustomThemes? themeFrom(String app) =>
+      _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
 
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
@@ -40,7 +41,8 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "label": const Color.fromRGBO(84, 84, 84, 1),
         "textInput": Colors.black,
         "icon": Colors.black,
-        "backgroundStart": const Color.fromRGBO(248, 196, 196, 1),
+        // "backgroundStart": const Color.fromRGBO(248, 196, 196, 1),
+        "backgroundStart": const Color(0xFFF8C4C4),
         "backgroundEnd": const Color.fromRGBO(224, 224, 224, 1),
         "hyperlink": const Color.fromRGBO(0, 167, 190, 1),
       },

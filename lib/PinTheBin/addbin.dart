@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
 import 'package:ruam_mitt/PinTheBin/navbar.dart';
+import 'package:latlong2/latlong.dart';
 
 class AddbinPage extends StatefulWidget {
   const AddbinPage({super.key});
@@ -14,7 +16,15 @@ class _AddbinPageState extends State<AddbinPage> {
   TextEditingController _LocationstextController = TextEditingController();
   TextEditingController _DescriptiontextController = TextEditingController();
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("init");
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
       body: SafeArea(
@@ -167,15 +177,64 @@ class _AddbinPageState extends State<AddbinPage> {
               ),
               const SizedBox(height: 10),
               Row(children: [
-                //GestureDetector(
-                //onTap: () {},
-                //)
+                GestureDetector(
+                  child: Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.symmetric(horizontal: 50),
+                    width: size.width * 0.20,
+                    height: 40,
+                    color: Colors.white,
+                    child: const Text(
+                      "edit",
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  onTap: () async {
+                    LatLng getPosResult = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MapaddBinPage()),
+                    );
+                    print("Result $getPosResult");
+                  },
+                ),
                 //Container(
-
+                Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.symmetric(horizontal: 50),
+                  width: size.width * 0.20,
+                  height: 40,
+                  color: Colors.white,
+                  child: const Text(
+                    "edit",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
                 //)
               ]),
             ],
           ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: GestureDetector(
+              child: Container(
+                width: size.width * 0.20,
+                height: 40,
+                color: Colors.white,
+                child: const Text(
+                  "add",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              onTap: () {},
+            ),
+          )
         ]),
       ),
       drawer: const NavBar(),
