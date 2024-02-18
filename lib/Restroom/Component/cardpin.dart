@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
+import 'package:ruam_mitt/global_const.dart';
 
 class Cardpin extends StatefulWidget {
   const Cardpin({Key? key}) : super(key: key);
@@ -159,7 +160,9 @@ class _CardpinState extends State<Cardpin> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, restroomPageRoute["review"]!);
+                          },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
                                 Color.fromRGBO(255, 183, 3, 1)),

@@ -37,8 +37,7 @@ class _SuperAppState extends State<SuperApp> {
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
 
     return GetMaterialApp(
-      initialRoute: restroomPageRoute["home"]!,
-      // initialRoute: loginPageRoute, #ก่อน merge branch dev ให้ใช้อันนี้
+      initialRoute: loginPageRoute, 
       routes: {
         loginPageRoute: (context) => const LoginPage(),
         registerPageRoute: (context) => const RegisterPage(),
