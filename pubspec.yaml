@@ -93,7 +93,7 @@ flutter:
     - assets/Menu/Buttons/
     - assets/Menu/Levels/
     - assets/images/PinTheBin/
-    - assets/images/Ruammitr/
+    #- assets/images/Ruammitr/
     - assets/Logo/
 
   # An image asset can refer to one or more resolution-specific "variants", see
