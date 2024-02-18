@@ -23,7 +23,11 @@ class _MapPinTheBinState extends State<MapPinTheBin>
   int selectedIndex = 0;
   void onPopupClick(MenuItemProvider item) {
     if (item.menuTitle == "Edit") {
-      Navigator.pushNamed(context, pinthebinPageRoute["editbin"]!);
+      Navigator.pushNamed(
+        context,
+        pinthebinPageRoute["editbin"]!,
+        arguments: {'Bininfo': widget.binInfo[selectedIndex]},
+      );
     } else if (item.menuTitle == "Navigate") {}
   }
 
