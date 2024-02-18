@@ -1,4 +1,7 @@
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import "package:ruam_mitt/RuamMitr/Component/avatar.dart";
+import "package:ruam_mitt/RuamMitr/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
 
 class NavBar extends StatelessWidget {
@@ -7,112 +10,75 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Drawer(
-      backgroundColor: const Color.fromRGBO(0, 0, 0, 0.8),
-      child: Stack(
-        children: [
-          ListView(
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      child: Text("Avatar"),
-                      // backgroundImage: AssetImage(
-                      //     'path_to_your_image.jpg'), // รูปเราดึงจากbackend
-                    ),
-                  ],
+    ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    ThemeData pinTheBinTheme = themes.themeFrom("PinTheBin")!.themeData;
+    print(pinTheBinTheme.colorScheme.primary);
+    return Theme(
+      data: pinTheBinTheme,
+      child: Drawer(
+        child: Stack(
+          children: [
+            ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40),
+                  child: AvatarViewer(themeData: pinTheBinTheme),
                 ),
-              ),
-              ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                ListTile(
+                  title: const Text('PinTheBin Home'),
+                  trailing: const Icon(Icons.double_arrow),
+                  onTap: () {
+                    Navigator.pushNamed(context, pinthebinPageRoute["home"]!);
+                  },
                 ),
-                tileColor: const Color(0xFF1E1E1E),
-                title: const Text(
-                  'Home',
-                  style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.85)),
+                ListTile(
+                  title: const Text('Add Bin'),
+                  trailing: const Icon(Icons.double_arrow),
+                  onTap: () {
+                    Navigator.pushNamed(context, pinthebinPageRoute["addbin"]!);
+                  },
                 ),
-                onTap: () {
-                  Navigator.pushNamed(context, pinthebinPageRoute["home"]!);
-                },
-                trailing: const Icon(
-                  Icons.double_arrow,
-                  color: Color.fromRGBO(255, 255, 255, 0.42),
+                ListTile(
+                  title: const Text('Edit Bin'),
+                  trailing: const Icon(Icons.double_arrow),
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, pinthebinPageRoute["editbin"]!);
+                  },
                 ),
-              ),
-              ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                ListTile(
+                  title: const Text('Report'),
+                  trailing: const Icon(Icons.double_arrow),
+                  onTap: () {
+                    Navigator.pushNamed(context, pinthebinPageRoute["report"]!);
+                  },
                 ),
-                tileColor: const Color(0xFF1E1E1E),
-                title: const Text(
-                  'Add Bin',
-                  style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.85)),
-                ),
-                onTap: () {
-                  Navigator.pushNamed(context, pinthebinPageRoute["addbin"]!);
-                },
-                trailing: const Icon(Icons.double_arrow,
-                    color: Color.fromRGBO(255, 255, 255, 0.42)),
-              ),
-              ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                tileColor: const Color(0xFF1E1E1E),
-                title: const Text(
-                  'Edit Bin',
-                  style: TextStyle(
-                    color: Color.fromRGBO(255, 255, 255, 0.85),
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pushNamed(context, pinthebinPageRoute["editbin"]!);
-                },
-                trailing: const Icon(Icons.double_arrow,
-                    color: Color.fromRGBO(255, 255, 255, 0.42)),
-              ),
-              ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                tileColor: const Color(0xFF1E1E1E),
-                title: const Text(
-                  'Report',
-                  style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.85)),
-                ),
-                onTap: () {
-                  Navigator.pushNamed(context, pinthebinPageRoute["report"]!);
-                },
-                trailing: const Icon(
-                  Icons.double_arrow,
-                  color: Color.fromRGBO(255, 255, 255, 0.42),
-                ),
-              ),
-            ],
-          ),
-          Positioned(
-            bottom: size.height * 0.05,
-            left: size.width * 0.05,
-            child: GestureDetector(
-              child: Container(
-                height: size.height * 0.05,
-                width: size.height * 0.05,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                ),
-              ),
-              onTap: () {
-                print("Back to Home");
-                Navigator.popAndPushNamed(context, ruamMitrPageRoute['home']!);
-              },
+              ],
             ),
-          )
-        ],
+            Positioned(
+              bottom: size.height * 0.05,
+              left: size.width * 0.05,
+              child: GestureDetector(
+                child: Container(
+                  height: size.height * 0.05,
+                  width: size.height * 0.05,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                  ),
+                  child: const Icon(Icons.exit_to_app),
+                ),
+                onTap: () {
+                  print("Back to Home");
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    ruamMitrPageRoute["homev2"]!,
+                    (route) => false,
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -45,7 +45,8 @@ class _SuperAppState extends State<SuperApp> {
       routes: {
         loginPageRoute: (context) => const LoginPage(),
         registerPageRoute: (context) => const RegisterPage(),
-        ruamMitrPageRoute["home"]!: (context) => const HomePage(),
+        // ruamMitrPageRoute["home"]!: (context) => const HomePage(),
+        ruamMitrPageRoute["home"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["settings"]!: (context) => const SettingsPage(),
         ruamMitrPageRoute["profile"]!: (context) => const ProfilePage(),
