@@ -5,10 +5,12 @@ import 'package:ruam_mitt/global_const.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:ruam_mitt/Restroom/Component/comment.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
+
 
 class MapRestroomRover extends StatelessWidget {
   static final List<Marker> _markers = [
@@ -85,6 +87,7 @@ class MapRestroomRover extends StatelessWidget {
                 markerSize: const Size(40, 40),
                 markerDirection: MarkerDirection.heading,
               ),
+
             ),
           ],
         ),
@@ -120,5 +123,6 @@ class MapRestroomRover extends StatelessWidget {
         //     ))
       ],
     );
+
   }
 }
