@@ -30,7 +30,7 @@ class _AddbinPageState extends State<AddbinPage> {
     var response = await http.post(url, body: {
       "location": _LocationstextController.text,
       "description": _DescriptiontextController.text,
-      "bintype": '',
+      "bintype": _bintype,
       "latitude": position.latitude,
       "longitude": position.longitude,
     });
@@ -352,17 +352,44 @@ class _AddbinPageState extends State<AddbinPage> {
               Row(
                 children: [
                   GestureDetector(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 50),
-                      alignment: Alignment.bottomLeft,
-                      width: 55,
-                      height: 55,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 0, 0),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
+                    child: AnimatedOpacity(
+                      duration: Duration(milliseconds: 500),
+                      opacity: _bintype['redbin'] != null ? 1.0 : 0.5,
+                      child: Container(
+                        margin: EdgeInsets.only(left: 50),
+                        alignment: Alignment.bottomLeft,
+                        width: 55,
+                        height: 55,
+                        decoration: BoxDecoration(
+                          color:
+                              Color.fromARGB(255, 255, 0, 0).withOpacity(0.5),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                        ),
                       ),
                     ),
+                    onTap: () {
+                      if (_bintype['greenbin'] == false &&
+                          _bintype['yellowbin'] == false &&
+                          _bintype['bluebin'] == false) {
+                        setState(() {
+                          _bintype['redbin'] = true;
+                        });
+                        print(_bintype['redbin']);
+                      } else {
+                        _bintype['redbin'] = false;
+                      }
+                    },
+                    onDoubleTap: () {
+                      if (_bintype['redbin'] == true) {
+                        setState(() {
+                          _bintype['redbin'] = false;
+                        });
+                        print(_bintype['redbin']);
+                      } else {
+                        _bintype['redbin'] = true;
+                      }
+                    },
                   ),
                   GestureDetector(
                     child: Container(
@@ -371,11 +398,34 @@ class _AddbinPageState extends State<AddbinPage> {
                       width: 55,
                       height: 55,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 251, 0),
+                        color:
+                            Color.fromARGB(255, 255, 251, 0).withOpacity(0.5),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
                       ),
                     ),
+                    onTap: () {
+                      if (_bintype['greenbin'] == false &&
+                          _bintype['redbin'] == false &&
+                          _bintype['bluebin'] == false) {
+                        setState(() {
+                          _bintype['yellowbin'] = true;
+                        });
+                        print(_bintype['yellowbin']);
+                      } else {
+                        _bintype['yellowbin'] = false;
+                      }
+                    },
+                    onDoubleTap: () {
+                      if (_bintype['yellowbin'] == true) {
+                        setState(() {
+                          _bintype['yellowbin'] = false;
+                        });
+                        print(_bintype['yellowbin']);
+                      } else {
+                        _bintype['yellowbin'] = true;
+                      }
+                    },
                   ),
                   GestureDetector(
                     child: Container(
@@ -384,11 +434,33 @@ class _AddbinPageState extends State<AddbinPage> {
                       width: 55,
                       height: 55,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 0, 255, 21),
+                        color: Color.fromARGB(255, 0, 255, 21).withOpacity(0.5),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
                       ),
                     ),
+                    onTap: () {
+                      if (_bintype['redbin'] == false &&
+                          _bintype['yellowbin'] == false &&
+                          _bintype['bluebin'] == false) {
+                        setState(() {
+                          _bintype['greenbin'] = true;
+                        });
+                        print(_bintype['greenbin']);
+                      } else {
+                        _bintype['greenbin'] = false;
+                      }
+                    },
+                    onDoubleTap: () {
+                      if (_bintype['greenbin'] == true) {
+                        setState(() {
+                          _bintype['greenbin'] = false;
+                        });
+                        print(_bintype['greenbin']);
+                      } else {
+                        _bintype['greenbin'] = true;
+                      }
+                    },
                   ),
                   GestureDetector(
                     child: Container(
@@ -397,11 +469,34 @@ class _AddbinPageState extends State<AddbinPage> {
                       width: 55,
                       height: 55,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 0, 119, 255),
+                        color:
+                            Color.fromARGB(255, 0, 119, 255).withOpacity(0.5),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
                       ),
                     ),
+                    onTap: () {
+                      if (_bintype['greenbin'] == false &&
+                          _bintype['yellowbin'] == false &&
+                          _bintype['redbin'] == false) {
+                        setState(() {
+                          _bintype['bluebin'] = true;
+                        });
+                        print(_bintype['bluebin']);
+                      } else {
+                        _bintype['bluebin'] = false;
+                      }
+                    },
+                    onDoubleTap: () {
+                      if (_bintype['bluebin'] == true) {
+                        setState(() {
+                          _bintype['bluebin'] = false;
+                        });
+                        print(_bintype['bluebin']);
+                      } else {
+                        _bintype['bluebin'] = true;
+                      }
+                    },
                   ),
                 ],
               )
