@@ -5,7 +5,8 @@ class ThemeProvider extends ChangeNotifier {
   bool get isDarkMode => _isDarkMode;
   Map<String, Map<String, CustomThemes>> appThemes = _appsThemes;
 
-  CustomThemes? themeFrom(String app) => _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
+  CustomThemes? themeFrom(String app) =>
+      _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
 
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
@@ -40,7 +41,8 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "label": const Color.fromRGBO(84, 84, 84, 1),
         "textInput": Colors.black,
         "icon": Colors.black,
-        "backgroundStart": const Color.fromRGBO(248, 196, 196, 1),
+        // "backgroundStart": const Color.fromRGBO(248, 196, 196, 1),
+        "backgroundStart": const Color(0xFFF8C4C4),
         "backgroundEnd": const Color.fromRGBO(224, 224, 224, 1),
         "hyperlink": const Color.fromRGBO(0, 167, 190, 1),
       },
@@ -51,6 +53,99 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
           seedColor: const Color(0xffcb2e23),
           brightness: Brightness.dark,
           primary: const Color(0xffcb2e23),
+          onPrimary: Colors.white,
+          primaryContainer: const Color.fromARGB(255, 46, 46, 46),
+          onPrimaryContainer: Colors.white,
+          secondary: Colors.blue,
+          background: const Color.fromARGB(255, 19, 19, 19),
+        ),
+        useMaterial3: true,
+      ),
+      customColors: {
+        "main": const Color.fromRGBO(214, 40, 40, 1),
+        "onMain": Colors.white,
+        "oddContainer": const Color.fromRGBO(77, 77, 77, 1),
+        "onOddContainer": Colors.white,
+        "evenContainer": const Color.fromRGBO(66, 66, 66, 1),
+        "onEvenContainer": Colors.white,
+        "textInputContainer": const Color.fromRGBO(84, 84, 84, 1),
+        "label": const Color.fromRGBO(221, 221, 221, 1),
+        "textInput": Colors.white,
+        "icon": Colors.white,
+        "backgroundStart": const Color.fromRGBO(67, 49, 49, 1),
+        "backgroundEnd": const Color.fromRGBO(61, 61, 61, 1),
+        "hyperlink": const Color.fromRGBO(0, 200, 212, 1),
+      },
+    ),
+  },
+  "PinTheBin": {
+    "light": CustomThemes(
+      themeData: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFf77f00),
+          brightness: Brightness.light,
+          primary: const Color(0xFFf77f00),
+          onPrimary: Colors.white,
+          primaryContainer: Colors.black,
+          onPrimaryContainer: Colors.black,
+          secondary: Colors.blue,
+          background: Colors.white,
+        ),
+        useMaterial3: true,
+        drawerTheme: DrawerThemeData(
+          backgroundColor: Colors.black.withOpacity(0.8),
+        ),
+        listTileTheme: ListTileThemeData(
+          // shape: RoundedRectangleBorder(
+          //   borderRadius: BorderRadius.circular(15),
+          // ),
+          tileColor: const Color(0xFF1E1E1E),
+          textColor: Colors.white,
+          iconColor: const Color.fromRGBO(255, 255, 255, 0.42),
+          titleTextStyle: TextStyle(
+            color: Colors.white.withOpacity(0.85),
+          ),
+        ),
+        searchBarTheme: SearchBarThemeData(
+          backgroundColor: MaterialStatePropertyAll<Color>(
+            Colors.black.withOpacity(0.5),
+          ),
+          shape: MaterialStatePropertyAll(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+          textStyle:
+              const MaterialStatePropertyAll(TextStyle(color: Colors.white)),
+          hintStyle: MaterialStatePropertyAll(
+            TextStyle(color: Colors.white.withOpacity(0.6)),
+          ),
+          padding: const MaterialStatePropertyAll<EdgeInsets>(
+            EdgeInsets.symmetric(horizontal: 16.0),
+          ),
+        ),
+      ),
+      customColors: {
+        "main": const Color.fromRGBO(214, 40, 40, 1),
+        "onMain": Colors.white,
+        "oddContainer": const Color.fromRGBO(238, 238, 238, 1),
+        "onOddContainer": Colors.black,
+        "evenContainer": Colors.white,
+        "onEvenContainer": Colors.black,
+        "textInputContainer": const Color.fromRGBO(221, 221, 221, 1),
+        "label": const Color.fromRGBO(84, 84, 84, 1),
+        "textInput": Colors.black,
+        "icon": Colors.black,
+        // "backgroundStart": const Color.fromRGBO(248, 196, 196, 1),
+        "backgroundStart": const Color(0xFFF8C4C4),
+        "backgroundEnd": const Color.fromRGBO(224, 224, 224, 1),
+        "hyperlink": const Color.fromRGBO(0, 167, 190, 1),
+      },
+    ),
+    "dark": CustomThemes(
+      themeData: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFf77f00),
+          brightness: Brightness.dark,
+          primary: const Color(0xFFf77f00),
           onPrimary: Colors.white,
           primaryContainer: const Color.fromARGB(255, 46, 46, 46),
           onPrimaryContainer: Colors.white,

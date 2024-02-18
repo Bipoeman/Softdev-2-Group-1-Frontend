@@ -16,7 +16,6 @@ class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      persistentFooterAlignment: AlignmentDirectional.centerStart,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -24,13 +23,10 @@ class StartScreen extends StatelessWidget {
             Text(
               'DinoDengzz',
               style: TextStyle(
-                fontSize: 90,
+                fontSize: 35,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 4,
-                foreground: Paint()
-                  ..style = PaintingStyle.stroke
-                  ..strokeWidth = 5
-                  ..color = const Color.fromARGB(255, 188, 77, 44),
+                color: Colors.deepOrange[200],
               ),
             ),
             const SizedBox(height: 40),

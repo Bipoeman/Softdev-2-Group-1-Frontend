@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
+import 'package:ruam_mitt/RuamMitr/Component/home/contents.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/services.dart';
 import 'package:ruam_mitt/RuamMitr/Component/search_box.dart';
 
@@ -58,7 +59,7 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
               const Padding(
                 padding: EdgeInsets.all(10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     AvatarViewer(),
                   ],
@@ -116,7 +117,9 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                                 ),
                               ],
                             ),
-                            const ServicesWidget(),
+                            isServicesSelected
+                                ? ServicesWidget(size: size)
+                                : ContentWidget(size: size),
                           ],
                         ),
                       ),

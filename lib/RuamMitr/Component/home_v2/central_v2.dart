@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:bottom_bar_matu/bottom_bar_double_bullet/bottom_bar_double_bullet.dart';
 import 'package:bottom_bar_matu/bottom_bar_item.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home_v2/home_v2.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home_v2/profile_v2.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home_v2/settings_v2.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/profile.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
@@ -40,75 +42,79 @@ class _HomePageV2State extends State<HomePageV2> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    String avatarTextBackgroundColorString = theme.colorScheme.primaryContainer
-        .toString()
-        .replaceAll("Color(", "")
-        .replaceAll(")", "")
-        .substring(4);
-    String avatarTextColorString = theme.colorScheme.onPrimaryContainer
-        .toString()
-        .replaceAll("Color(", "")
-        .replaceAll(")", "")
-        .substring(4);
+    // String avatarTextBackgroundColorString = theme.colorScheme.primaryContainer
+    //     .toString()
+    //     .replaceAll("Color(", "")
+    //     .replaceAll(")", "")
+    //     .substring(4);
+    // String avatarTextColorString = theme.colorScheme.onPrimaryContainer
+    //     .toString()
+    //     .replaceAll("Color(", "")
+    //     .replaceAll(")", "")
+    //     .substring(4);
     profileData['imgPath'] = profileData['profile'] ??
-        "https://api.multiavatar.com/${profileData['fullname'] ?? "John Doe".replaceAll(" ", "+")}.png";
-    // "https://ui-avatars.com/api/?background=$avatarTextBackgroundColorString&color=$avatarTextColorString&size=512&name=${profileData['fullname'].replaceAll(" ", "+")}";
-    return Scaffold(
-      backgroundColor: theme.colorScheme.background,
-      // bottomNavigationBar: NavigationBar(
-      //   animationDuration: Duration(seconds: 1),
+        // "https://ui-avatars.com/api/?background=$avatarTextBackgroundColorString&color=$avatarTextColorString&size=512&name=${profileData['fullname'].replaceAll(" ", "+")}";
+        "https://api.multiavatar.com/${profileData['fullname'] ?? "".replaceAll(" ", "+")}.png";
+    ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    return Container(
+      decoration: ruamMitrBackgroundGradient(themes),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        // bottomNavigationBar: NavigationBar(
+        //   animationDuration: Duration(seconds: 1),
 
-      //   selectedIndex: pageIndex,
-      //   destinations: const [
-      //     NavigationDestination(icon: Icon(Icons.person), label: "Profile"),
-      //     NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-      //     NavigationDestination(icon: Icon(Icons.settings), label: "Settings")
-      //   ],
-      //   onDestinationSelected: (int index) {
-      //     setState(() => pageIndex = index);
-      //   },
-      // ),
-      bottomNavigationBar: BottomBarDoubleBullet(
-        color: mainColor,
-        backgroundColor: theme.colorScheme.primaryContainer,
-        selectedIndex: pageIndex,
-        items: [
-          BottomBarItem(iconData: Icons.person),
-          BottomBarItem(iconData: Icons.home),
-          BottomBarItem(iconData: Icons.settings),
-        ],
-        onSelect: (index) {
-          pageController.animateToPage(
-            index,
-            duration: const Duration(seconds: 1),
-            curve: Tanh(),
-          );
-          // setState(() => pageIndex = index);
-        },
-      ),
-      body: SafeArea(
-        child: profileData['fullname'] == null
-            ? const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                    Divider(),
-                    Text("Loading user data"),
+        //   selectedIndex: pageIndex,
+        //   destinations: const [
+        //     NavigationDestination(icon: Icon(Icons.person), label: "Profile"),
+        //     NavigationDestination(icon: Icon(Icons.home), label: "Home"),
+        //     NavigationDestination(icon: Icon(Icons.settings), label: "Settings")
+        //   ],
+        //   onDestinationSelected: (int index) {
+        //     setState(() => pageIndex = index);
+        //   },
+        // ),
+        bottomNavigationBar: BottomBarDoubleBullet(
+          color: mainColor,
+          backgroundColor: theme.colorScheme.primaryContainer,
+          selectedIndex: pageIndex,
+          items: [
+            BottomBarItem(iconData: Icons.person),
+            BottomBarItem(iconData: Icons.home),
+            BottomBarItem(iconData: Icons.settings),
+          ],
+          onSelect: (index) {
+            pageController.animateToPage(
+              index,
+              duration: const Duration(seconds: 1),
+              curve: Tanh(),
+            );
+            // setState(() => pageIndex = index);
+          },
+        ),
+        body: SafeArea(
+          child: profileData['fullname'] == null
+              ? const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      Divider(),
+                      Text("Loading user data"),
+                    ],
+                  ),
+                )
+              : PageView(
+                  controller: pageController,
+                  onPageChanged: (pageChanged) {
+                    setState(() => pageIndex = pageChanged);
+                  },
+                  children: const [
+                    ProfileWidgetV2(),
+                    HomeWidgetV2(),
+                    SettingsWidgetV2()
                   ],
                 ),
-              )
-            : PageView(
-                controller: pageController,
-                onPageChanged: (pageChanged) {
-                  setState(() => pageIndex = pageChanged);
-                },
-                children: const [
-                  ProfileWidgetV2(),
-                  HomeWidgetV2(),
-                  SettingsWidgetV2()
-                ],
-              ),
+        ),
       ),
     );
   }

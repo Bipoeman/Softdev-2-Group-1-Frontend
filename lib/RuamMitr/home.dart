@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ],
                                       ),
-                                      const ServicesWidget(),
+                                      ServicesWidget(size: size),
                                     ],
                                   ),
                                 ),
