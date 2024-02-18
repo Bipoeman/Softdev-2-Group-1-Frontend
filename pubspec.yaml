@@ -46,6 +46,10 @@ dependencies:
   flutter_map: ^6.1.0
   # flutter_map_location_marker: any
   google_fonts: ^6.1.0
+  latlong2: ^0.9.0
+  flutter_animate: ^4.5.0
+  flutter_sliding_box: ^1.1.5
+  popup_menu: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +90,7 @@ flutter:
     - assets/images/RestroomRover/
     - assets/Menu/Buttons/
     - assets/Menu/Levels/
+    - assets/images/PinTheBin/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

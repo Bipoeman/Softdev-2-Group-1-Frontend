@@ -2,7 +2,6 @@ import "dart:convert";
 import "dart:math";
 
 import "package:flutter/material.dart";
-import 'package:latlong2/latlong.dart';
 import "package:ruam_mitt/PinTheBin/componant/search.dart";
 import "package:ruam_mitt/PinTheBin/navbar.dart";
 import "package:ruam_mitt/PinTheBin/componant/map.dart";
@@ -51,28 +50,29 @@ class _BinPageState extends State<BinPage> {
         child: Stack(
           children: binData.isEmpty
               ? [
-                  const Center(
+                  Center(
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircularProgressIndicator(),
-                      Text("Bin map loading...")
+                      const CircularProgressIndicator(),
+                      SizedBox(height: size.height * 0.01),
+                      const Text("Bin map loading...")
                     ],
                   ))
                 ]
               : [
                   MapPinTheBin(
-                    // binPos: [
-                    //   LatLng(13.825605, 100.514476),
-                    //   LatLng(13.826, 100.514476),
-                    // ],
-                    binPos: List.generate(binData.length, (index) {
-                      print(
-                          "${binData[index]["latitude"]},${binData[index]["latitude"]}");
-                      return LatLng(binData[index]["latitude"],
-                          binData[index]["longitude"]);
-                    }),
-                  ),
+                      // binPos: [
+                      //   LatLng(13.825605, 100.514476),
+                      //   LatLng(13.826, 100.514476),
+                      // ],
+                      // binPos: List.generate(binData.length, (index) {
+                      //   print(
+                      //       "${binData[index]["latitude"]},${binData[index]["latitude"]}");
+                      //   return LatLng(binData[index]["latitude"],
+                      //       binData[index]["longitude"]);
+                      // }),
+                      binInfo: binData),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
