@@ -51,8 +51,10 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                     left: size.width * 0.4,
                     top: size.height * 0.005,
                   ),
-                  child: const IconButton(
-                    onPressed: null,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     icon: Icon(
                       Icons.arrow_back_ios_rounded,
                       color: Colors.black,

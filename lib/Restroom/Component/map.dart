@@ -11,10 +11,11 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
 
-
 class MapRestroomRover extends StatelessWidget {
   static final List<Marker> _markers = [
     const LatLng(13.825605, 100.514476),
+    const LatLng(13.825705, 100.514676),
+    const LatLng(13.825805, 100.514976),
     const LatLng(45.683, 10.839),
     const LatLng(45.246, 5.783),
   ]
@@ -34,9 +35,9 @@ class MapRestroomRover extends StatelessWidget {
     return Stack(
       children: [
         FlutterMap(
-          options: MapOptions(
-            center: LatLng(13.825605, 100.514476),
-            zoom: 15,
+          options: const MapOptions(
+            initialCenter: LatLng(13.825605, 100.514476),
+            initialZoom: 15,
           ),
           children: [
             TileLayer(
@@ -48,8 +49,9 @@ class MapRestroomRover extends StatelessWidget {
               options: PopupMarkerLayerOptions(
                 markers: _markers,
                 popupDisplayOptions: PopupDisplayOptions(
-                    builder: (BuildContext context, Marker marker) =>
-                        Cardpin()),
+                    builder: (BuildContext context, Marker marker) {
+                  return Cardpin(marker: marker);
+                }),
               ),
             ),
             // MarkerLayer(
@@ -87,7 +89,6 @@ class MapRestroomRover extends StatelessWidget {
                 markerSize: const Size(40, 40),
                 markerDirection: MarkerDirection.heading,
               ),
-
             ),
           ],
         ),
@@ -123,6 +124,5 @@ class MapRestroomRover extends StatelessWidget {
         //     ))
       ],
     );
-
   }
 }
