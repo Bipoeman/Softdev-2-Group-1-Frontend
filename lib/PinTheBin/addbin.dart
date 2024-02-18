@@ -262,6 +262,65 @@ class _AddbinPageState extends State<AddbinPage> {
               ]),
             ],
           ),
+          Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 420),
+                    child: Text(
+                      'Picture',
+                      style: GoogleFonts.getFont(
+                        'Sen',
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  GestureDetector(
+                    child: Container(
+                      alignment: Alignment.topLeft,
+                      margin: EdgeInsets.only(left: 50),
+                      width: 80,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Text(
+                        "Choose",
+                        style: GoogleFonts.getFont(
+                          'Sen',
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    width: 210,
+                    height: 28,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF77F00).withOpacity(0.45),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: GestureDetector(
