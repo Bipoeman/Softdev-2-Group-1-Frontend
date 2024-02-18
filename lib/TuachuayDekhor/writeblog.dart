@@ -2,6 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:flutter/services.dart';
+import 'package:ruam_mitt/global_var.dart';
+
+
 
 class TuachuayDekhorWriteBlogPage extends StatefulWidget {
   const TuachuayDekhorWriteBlogPage({super.key});
@@ -14,6 +18,11 @@ class TuachuayDekhorWriteBlogPage extends StatefulWidget {
 class _TuachuayDekhorWriteBlogPageState
     extends State<TuachuayDekhorWriteBlogPage> {
   String? _dropdownValue;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +107,12 @@ class _TuachuayDekhorWriteBlogPageState
                       ),
                       child: Row(
                         children: [
-                          const CircleAvatar(
+                          CircleAvatar(
                             radius: 20,
-                            backgroundColor: Colors.grey,
+                            backgroundImage: NetworkImage(
+                                  profileData['profile'] ??
+                                      "https://api.multiavatar.com/${profileData['fullname'] ?? "John Doe".replaceAll(" ", "+")}.png",
+                                ),
                           ),
                           Container(
                             margin: const EdgeInsets.only(left: 20),
