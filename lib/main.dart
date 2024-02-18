@@ -12,6 +12,17 @@ import 'package:ruam_mitt/RuamMitr/profile.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
+import 'package:ruam_mitt/TuachuayDekhor/blogger.dart';
+import 'package:ruam_mitt/TuachuayDekhor/cleaning.dart';
+import 'package:ruam_mitt/TuachuayDekhor/cooking.dart';
+import 'package:ruam_mitt/TuachuayDekhor/decoration.dart';
+import 'package:ruam_mitt/TuachuayDekhor/home.dart';
+import 'package:ruam_mitt/TuachuayDekhor/post.dart';
+import 'package:ruam_mitt/TuachuayDekhor/profile.dart';
+import 'package:ruam_mitt/TuachuayDekhor/search.dart';
+import 'package:ruam_mitt/TuachuayDekhor/story.dart';
+import 'package:ruam_mitt/TuachuayDekhor/writeblog.dart';
+import 'package:ruam_mitt/TuachuayDekhor/draft.dart';
 import 'package:ruam_mitt/PinTheBin/home.dart';
 import 'package:ruam_mitt/global_const.dart';
 
@@ -50,6 +61,28 @@ class _SuperAppState extends State<SuperApp> {
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
         dinodengzzPageRoute: (context) => const MyGame(),
+        tuachuayDekhorPageRoute["home"]!: (context) =>
+            const TuachuayDekhorHomePage(),
+        tuachuayDekhorPageRoute["profile"]!: (context) =>
+            const TuachuayDekhorProfilePage(),
+        tuachuayDekhorPageRoute["search"]!: (context) =>
+            const TuachuayDekhorSearchPage(),
+        tuachuayDekhorPageRoute["blog"]!: (context) =>
+            const TuachuayDekhorBlogPage(),
+        tuachuayDekhorPageRoute["blogger"]!: (context) =>
+            const TuachuayDekhorBloggerPage(),
+        tuachuayDekhorPageRoute["writeblog"]!: (context) =>
+            const TuachuayDekhorWriteBlogPage(),
+        tuachuayDekhorPageRoute["draft"]!: (context) =>
+            const TuachuayDekhorDraftPage(),
+        tuachuayDekhorPageRoute["decoration"]!: (context) =>
+            const TuachuayDekhorDecorationPage(),
+        tuachuayDekhorPageRoute["story"]!: (context) =>
+            const TuachuayDekhorStoryPage(),
+        tuachuayDekhorPageRoute["cooking"]!: (context) =>
+            const TuachuayDekhorCookingPage(),
+        tuachuayDekhorPageRoute["cleaning"]!: (context) =>
+            const TuachuayDekhorCleaningPage(),
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPage(),
         pinthebinPageRoute["editbin"]!: (context) => const EditbinPage(),

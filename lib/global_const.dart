@@ -20,6 +20,19 @@ const Map<String, String> restroomPageRoute = {
   "review": "/Restroom/Review"
 };
 const String dinodengzzPageRoute = "/game";
+const Map<String, String> tuachuayDekhorPageRoute = {
+  "home": "/TuachuayDekhor/home",
+  "profile": "/TuachuayDekhor/profile",
+  "blog": "/TuachuayDekhor/blog",
+  "search": "/TuachuayDekhor/search",
+  "blogger": "/TuachuayDekhor/blogger",
+  "writeblog": "/TuachuayDekhor/writeblog",
+  "draft": "/TuachuayDekhor/draft",
+  "decoration": "/TuachuayDekhor/decoration",
+  "story": "/TuachuayDekhor/story",
+  "cooking": "/TuachuayDekhor/cooking",
+  "cleaning": "/TuachuayDekhor/cleaning",
+};
 const Map<String, String> pinthebinPageRoute = {
   "home": "/PinTheBin/home",
   "addbin": "/PinTheBin/addbin",

@@ -18,6 +18,9 @@ class ServicesWidget extends StatelessWidget {
             appName: "Tuachuay",
             width: size.width,
             height: size.height * 0.1,
+            appRoute: () {
+              Navigator.pushNamed(context, tuachuayDekhorPageRoute["home"]!);
+            },
           ),
           // AppBox(
           //   appName: "Market",
@@ -46,7 +49,7 @@ class ServicesWidget extends StatelessWidget {
             height: size.height * 0.1,
             appIconPath: "assets/Logo/dino_portal_colored_bg.png",
             appRoute: () {
-              Navigator.pushNamed(context, "/game");
+              Navigator.pushNamed(context, dinodengzzPageRoute);
             },
           ),
         ],

@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
       "password": passwordTextController.text,
     }).timeout(const Duration(seconds: 5), onTimeout: () {
       return http.Response("Connection timeout", 408);
-    });
+    }).onError((error, stackTrace) => http.Response("Error", 404));
     if (context.mounted) {
       ThemeData theme = Theme.of(context);
       if (response.statusCode == 408) {
@@ -45,11 +45,24 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       } else if (response.statusCode == 200) {
+        saveuser();
         print(response.body);
         publicToken = response.body;
         Navigator.of(context).pushNamedAndRemoveUntil(
           ruamMitrPageRoute["homev2"]!,
           (route) => false,
+        );
+      } else if (response.statusCode == 404) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Error. Please try again later.",
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary,
+              ),
+            ),
+            backgroundColor: theme.colorScheme.primary,
+          ),
         );
       } else {
         removepassword;
@@ -73,10 +86,11 @@ class _LoginPageState extends State<LoginPage> {
         passwordTextController.text.isNotEmpty &&
         isChecked!;
     if (isLoggedIn) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        ruamMitrPageRoute["homev2"]!,
-        (route) => false,
-      );
+      sendLoginRequest();
+      // Navigator.of(context).pushNamedAndRemoveUntil(
+      //   ruamMitrPageRoute["home"]!,
+      //   (route) => false,
+      // );
     }
   }
 
@@ -91,6 +105,8 @@ class _LoginPageState extends State<LoginPage> {
       isChecked = prefs.getBool("isChecked");
       usernameTextController.text = prefs.getString("emailoruser") ?? "";
       passwordTextController.text = prefs.getString("password") ?? "";
+      print(
+          "username found : ${usernameTextController.text}, password found : ${passwordTextController.text}");
       navigateToHome();
     });
   }

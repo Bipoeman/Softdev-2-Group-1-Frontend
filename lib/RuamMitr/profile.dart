@@ -1,11 +1,6 @@
-import 'dart:convert';
-
 import "package:flutter/material.dart";
-import 'package:http/http.dart';
 import 'package:ruam_mitt/RuamMitr/Component/main_navigator.dart';
 import 'dart:math';
-
-import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 
 Color backgroundColor = const Color(0xffe8e8e8);
@@ -20,20 +15,20 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    profileData = {};
-    Uri uri = Uri.parse("$api$userDataRequestRoute");
-    setState(() {});
-    get(uri, headers: {"Authorization": "Bearer $publicToken"})
-        .then((Response res) {
-      profileData = jsonDecode(res.body);
-      setState(() {});
-      print(profileData);
-    });
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   profileData = {};
+  //   Uri uri = Uri.parse("$api$userDataRequestRoute");
+  //   setState(() {});
+  //   get(uri, headers: {"Authorization": "Bearer $publicToken"})
+  //       .then((Response res) {
+  //     profileData = jsonDecode(res.body);
+  //     setState(() {});
+  //     print(profileData);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
-                                      profileData['profile'] ??
-                                          "https://ui-avatars.com/api/?size=512&name=${profileData['fullname'].replaceAll(" ", "+")}",
+                                     profileData['imgPath']
                                     ),
                                   ),
                                 ),
