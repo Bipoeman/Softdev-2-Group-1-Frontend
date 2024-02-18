@@ -15,7 +15,12 @@ class AddbinPage extends StatefulWidget {
 }
 
 class _AddbinPageState extends State<AddbinPage> {
-  Map<String, bool> _bintype = {};
+  final Map<String, bool> _bintype = {
+    'redbin': false,
+    'greenbin': false,
+    'yellowbin': false,
+    'bluebin': false
+  };
   LatLng? _position;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final url = Uri.parse("$api/pinthebin/bin");
@@ -25,7 +30,7 @@ class _AddbinPageState extends State<AddbinPage> {
     var response = await http.post(url, body: {
       "location": _LocationstextController.text,
       "description": _DescriptiontextController.text,
-      "bintype": '',
+      "bintype": _bintype,
       "latitude": position.latitude,
       "longitude": position.longitude,
     });
@@ -179,7 +184,7 @@ class _AddbinPageState extends State<AddbinPage> {
                 child: Container(
                   padding: EdgeInsets.only(left: 20),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 320),
+                    padding: const EdgeInsets.only(top: 325),
                     child: Text(
                       'Position',
                       style: GoogleFonts.getFont(
@@ -197,14 +202,20 @@ class _AddbinPageState extends State<AddbinPage> {
                 GestureDetector(
                   child: Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(horizontal: 50),
+                    margin: EdgeInsets.only(left: 50),
                     width: size.width * 0.20,
                     height: 40,
-                    color: Colors.white,
-                    child: const Text(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.white,
+                    ),
+                    child: Text(
                       "edit",
-                      style: TextStyle(
-                        color: Colors.black,
+                      style: GoogleFonts.getFont(
+                        'Sen',
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
@@ -215,38 +226,300 @@ class _AddbinPageState extends State<AddbinPage> {
                           builder: (context) => const MapaddBinPage()),
                     );
                     print("Result $getPosResult");
-                    _position = getPosResult;
+                    setState(() {
+                      _position = getPosResult;
+                    });
                   },
                 ),
-                //Container(
-                Container(
-                  alignment: Alignment.center,
-                  margin: const EdgeInsets.symmetric(horizontal: 50),
-                  width: size.width * 0.20,
-                  height: 40,
-                  color: Colors.white,
-                  child: const Text(
-                    "edit",
-                    style: TextStyle(
-                      color: Colors.black,
+                Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.topCenter,
+                      margin: const EdgeInsets.only(left: 10),
+                      width: 200,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        color: const Color(0xFFF77F00).withOpacity(0.45),
+                      ),
+                      child: Text(
+                        'Lat: ${_position?.latitude ?? ()}',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      alignment: Alignment.topCenter,
+                      margin: const EdgeInsets.only(left: 10),
+                      width: 200,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        color: const Color(0xFFF77F00).withOpacity(0.45),
+                      ),
+                      child: Text('Lng: ${_position?.longitude ?? ()}'),
+                    ),
+                  ],
+                ),
+              ]),
+            ],
+          ),
+          Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 425),
+                    child: Text(
+                      'Picture',
+                      style: GoogleFonts.getFont(
+                        'Sen',
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                 ),
-                //)
-              ]),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  GestureDetector(
+                    child: Container(
+                      alignment: Alignment.topLeft,
+                      margin: EdgeInsets.only(left: 50),
+                      width: 80,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Text(
+                        "Choose",
+                        style: GoogleFonts.getFont(
+                          'Sen',
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    width: 210,
+                    height: 28,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF77F00).withOpacity(0.45),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 510),
+                    child: Text(
+                      'Type',
+                      style: GoogleFonts.getFont(
+                        'Sen',
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  GestureDetector(
+                    child: AnimatedOpacity(
+                      duration: Duration(milliseconds: 500),
+                      opacity: _bintype['redbin'] != null ? 1.0 : 0.5,
+                      child: Container(
+                        margin: EdgeInsets.only(left: 50),
+                        alignment: Alignment.bottomLeft,
+                        width: 55,
+                        height: 55,
+                        decoration: BoxDecoration(
+                          color:
+                              Color.fromARGB(255, 255, 0, 0).withOpacity(0.5),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      if (_bintype['greenbin'] == false &&
+                          _bintype['yellowbin'] == false &&
+                          _bintype['bluebin'] == false) {
+                        setState(() {
+                          _bintype['redbin'] = true;
+                        });
+                        print(_bintype['redbin']);
+                      } else {
+                        _bintype['redbin'] = false;
+                      }
+                    },
+                    onDoubleTap: () {
+                      if (_bintype['redbin'] == true) {
+                        setState(() {
+                          _bintype['redbin'] = false;
+                        });
+                        print(_bintype['redbin']);
+                      } else {
+                        _bintype['redbin'] = true;
+                      }
+                    },
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 20),
+                      alignment: Alignment.bottomLeft,
+                      width: 55,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        color:
+                            Color.fromARGB(255, 255, 251, 0).withOpacity(0.5),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onTap: () {
+                      if (_bintype['greenbin'] == false &&
+                          _bintype['redbin'] == false &&
+                          _bintype['bluebin'] == false) {
+                        setState(() {
+                          _bintype['yellowbin'] = true;
+                        });
+                        print(_bintype['yellowbin']);
+                      } else {
+                        _bintype['yellowbin'] = false;
+                      }
+                    },
+                    onDoubleTap: () {
+                      if (_bintype['yellowbin'] == true) {
+                        setState(() {
+                          _bintype['yellowbin'] = false;
+                        });
+                        print(_bintype['yellowbin']);
+                      } else {
+                        _bintype['yellowbin'] = true;
+                      }
+                    },
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 20),
+                      alignment: Alignment.bottomLeft,
+                      width: 55,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 0, 255, 21).withOpacity(0.5),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onTap: () {
+                      if (_bintype['redbin'] == false &&
+                          _bintype['yellowbin'] == false &&
+                          _bintype['bluebin'] == false) {
+                        setState(() {
+                          _bintype['greenbin'] = true;
+                        });
+                        print(_bintype['greenbin']);
+                      } else {
+                        _bintype['greenbin'] = false;
+                      }
+                    },
+                    onDoubleTap: () {
+                      if (_bintype['greenbin'] == true) {
+                        setState(() {
+                          _bintype['greenbin'] = false;
+                        });
+                        print(_bintype['greenbin']);
+                      } else {
+                        _bintype['greenbin'] = true;
+                      }
+                    },
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 20),
+                      alignment: Alignment.bottomLeft,
+                      width: 55,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        color:
+                            Color.fromARGB(255, 0, 119, 255).withOpacity(0.5),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onTap: () {
+                      if (_bintype['greenbin'] == false &&
+                          _bintype['yellowbin'] == false &&
+                          _bintype['redbin'] == false) {
+                        setState(() {
+                          _bintype['bluebin'] = true;
+                        });
+                        print(_bintype['bluebin']);
+                      } else {
+                        _bintype['bluebin'] = false;
+                      }
+                    },
+                    onDoubleTap: () {
+                      if (_bintype['bluebin'] == true) {
+                        setState(() {
+                          _bintype['bluebin'] = false;
+                        });
+                        print(_bintype['bluebin']);
+                      } else {
+                        _bintype['bluebin'] = true;
+                      }
+                    },
+                  ),
+                ],
+              )
             ],
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: GestureDetector(
               child: Container(
+                margin: const EdgeInsets.only(bottom: 10),
                 width: size.width * 0.20,
                 height: 40,
-                color: Colors.white,
-                child: const Text(
-                  "add",
-                  style: TextStyle(
-                    color: Colors.black,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                ),
+                child: Text(
+                  "ADD",
+                  style: GoogleFonts.getFont(
+                    'Sen',
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

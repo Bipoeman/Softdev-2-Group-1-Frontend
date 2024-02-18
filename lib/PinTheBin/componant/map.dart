@@ -23,7 +23,11 @@ class _MapPinTheBinState extends State<MapPinTheBin>
   int selectedIndex = 0;
   void onPopupClick(MenuItemProvider item) async {
     if (item.menuTitle == "Edit") {
-      Navigator.pushNamed(context, pinthebinPageRoute["editbin"]!);
+       Navigator.pushNamed(
+        context,
+        pinthebinPageRoute["editbin"]!,
+        arguments: {'Bininfo': widget.binInfo[selectedIndex]},
+      );
     } else if (item.menuTitle == "Navigate") {
       print(widget.binInfo[selectedIndex]);
       String googleUrl =
@@ -33,6 +37,7 @@ class _MapPinTheBinState extends State<MapPinTheBin>
         throw Exception('Could not launch $googleUrl');
       }
     }
+
   }
 
   @override

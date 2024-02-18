@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/NavBar.dart';
 
 Color colorbackground = const Color(000000);
@@ -14,6 +15,10 @@ class _EditbinPageState extends State<EditbinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    print(arguments['Bininfo']);
+
     return Scaffold(
       key: _scaffoldKey,
       body: SafeArea(
@@ -37,11 +42,25 @@ class _EditbinPageState extends State<EditbinPage> {
                   ),
                 ),
               ),
-            )
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: Text('Edit Bin',
+                    style: GoogleFonts.getFont(
+                      "Sen",
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                    )),
+              ),
+            ),
           ],
         ),
       ),
       drawer: const NavBar(),
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
     );
   }
 }

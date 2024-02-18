@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:ruam_mitt/PinTheBin/addbin.dart';
-import 'package:ruam_mitt/PinTheBin/editbin.dart';
-import 'package:ruam_mitt/PinTheBin/report.dart';
 import 'package:ruam_mitt/Restroom/Review.dart';
 import 'package:ruam_mitt/Restroom/restroom.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
@@ -41,7 +38,7 @@ class _SuperAppState extends State<SuperApp> {
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
 
     return GetMaterialApp(
-      initialRoute: loginPageRoute,
+      initialRoute: loginPageRoute, 
       routes: {
         loginPageRoute: (context) => const LoginPage(),
         registerPageRoute: (context) => const RegisterPage(),
