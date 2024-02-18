@@ -12,6 +12,7 @@ import 'package:ruam_mitt/RuamMitr/profile.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
+import 'package:ruam_mitt/PinTheBin/home.dart';
 import 'package:ruam_mitt/global_const.dart';
 
 void main() {
@@ -48,6 +49,10 @@ class _SuperAppState extends State<SuperApp> {
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
         dinodengzzPageRoute: (context) => const MyGame(),
+        pinthebinPageRoute["home"]!: (context) => const BinPage(),
+        pinthebinPageRoute["addbin"]!: (context) => const AddbinPage(),
+        pinthebinPageRoute["editbin"]!: (context) => const EditbinPage(),
+        pinthebinPageRoute["report"]!: (context) => const ReportPage(),
       },
       title: "RuamMitr - App for Uni Students",
       theme: themes.themeFrom("RuamMitr")?.themeData,
