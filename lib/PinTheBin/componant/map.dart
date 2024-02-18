@@ -21,10 +21,18 @@ class _MapPinTheBinState extends State<MapPinTheBin>
   TextEditingController descriptionTextController = TextEditingController();
   GlobalKey popKey = GlobalKey();
   int selectedIndex = 0;
-  void onPopupClick(MenuItemProvider item) {
+  void onPopupClick(MenuItemProvider item) async {
     if (item.menuTitle == "Edit") {
       Navigator.pushNamed(context, pinthebinPageRoute["editbin"]!);
-    } else if (item.menuTitle == "Navigate") {}
+    } else if (item.menuTitle == "Navigate") {
+      print(widget.binInfo[selectedIndex]);
+      String googleUrl =
+          'https://www.google.com/maps/search/?api=1&query=${widget.binInfo[selectedIndex]['latitude']},${widget.binInfo[selectedIndex]['longitude']}';
+      Uri url = Uri.parse(googleUrl);
+      if (!await launchUrl(url)) {
+        throw Exception('Could not launch $googleUrl');
+      }
+    }
   }
 
   @override
