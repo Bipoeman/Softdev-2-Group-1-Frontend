@@ -42,7 +42,6 @@ dependencies:
   connectivity_plus: ^5.0.2
   get: ^4.6.6
   http: ^1.2.0
-  flutter_map: ^6.1.0
   flutter_rating_native: ^0.0.2
   # flutter_map_location_marker: any
   flame_audio: ^2.1.8
@@ -51,7 +50,6 @@ dependencies:
   google_fonts: ^6.1.0
   latlong2: ^0.9.0
   flutter_animate: ^4.5.0
-  flutter_sliding_box: ^1.1.5
   popup_menu: ^2.0.0
   flutter_svg: ^2.0.9
   flutter_markdown: ^0.6.19

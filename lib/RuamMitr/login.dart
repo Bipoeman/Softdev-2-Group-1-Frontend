@@ -15,7 +15,6 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-
 class _LoginPageState extends State<LoginPage> {
   bool? isChecked = false;
   final url = Uri.parse("$api$loginPageRoute");
@@ -48,6 +47,7 @@ class _LoginPageState extends State<LoginPage> {
         saveuser();
         print(response.body);
         publicToken = response.body;
+        isOnceLogin = true;
         Navigator.of(context).pushNamedAndRemoveUntil(
           ruamMitrPageRoute["homev2"]!,
           (route) => false,
@@ -82,10 +82,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void navigateToHome() async {
-    bool isLoggedIn = usernameTextController.text.isNotEmpty &&
-        passwordTextController.text.isNotEmpty &&
-        isChecked!;
-    if (isLoggedIn) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    isChecked = prefs.getBool("isChecked");
+    if (!isOnceLogin && (isChecked ?? false)) {
       sendLoginRequest();
       // Navigator.of(context).pushNamedAndRemoveUntil(
       //   ruamMitrPageRoute["home"]!,
@@ -102,7 +101,6 @@ class _LoginPageState extends State<LoginPage> {
   loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isChecked = prefs.getBool("isChecked");
       usernameTextController.text = prefs.getString("emailoruser") ?? "";
       passwordTextController.text = prefs.getString("password") ?? "";
       print(

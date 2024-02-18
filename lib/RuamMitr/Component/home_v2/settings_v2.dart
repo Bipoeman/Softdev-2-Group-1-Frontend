@@ -6,6 +6,7 @@ import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsWidgetV2 extends StatefulWidget {
   const SettingsWidgetV2({super.key});
@@ -94,7 +95,12 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                   foregroundColor: theme.colorScheme.onPrimary,
                 ),
                 child: const Text("Logout"),
-                onPressed: () {
+                onPressed: () async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  await prefs.setBool("isChecked", false);
+                  await prefs.setString("password", "");
+                  isOnceLogin = true;
                   publicToken = "";
                   profileData = {};
                   Navigator.of(context).pushNamedAndRemoveUntil(
