@@ -197,14 +197,20 @@ class _AddbinPageState extends State<AddbinPage> {
                 GestureDetector(
                   child: Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(horizontal: 50),
+                    margin: EdgeInsets.only(left: 50),
                     width: size.width * 0.20,
                     height: 40,
-                    color: Colors.white,
-                    child: const Text(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.white,
+                    ),
+                    child: Text(
                       "edit",
-                      style: TextStyle(
-                        color: Colors.black,
+                      style: GoogleFonts.getFont(
+                        'Sen',
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
@@ -215,24 +221,44 @@ class _AddbinPageState extends State<AddbinPage> {
                           builder: (context) => const MapaddBinPage()),
                     );
                     print("Result $getPosResult");
-                    _position = getPosResult;
+                    setState(() {
+                      _position = getPosResult;
+                    });
                   },
                 ),
-                //Container(
-                Container(
-                  alignment: Alignment.center,
-                  margin: const EdgeInsets.symmetric(horizontal: 50),
-                  width: size.width * 0.20,
-                  height: 40,
-                  color: Colors.white,
-                  child: const Text(
-                    "edit",
-                    style: TextStyle(
-                      color: Colors.black,
+                Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.topCenter,
+                      margin: const EdgeInsets.only(left: 10),
+                      width: 200,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        color: const Color(0xFFF77F00).withOpacity(0.45),
+                      ),
+                      child: Text(
+                        'Lat: ${_position?.latitude ?? ()}',
+                      ),
                     ),
-                  ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      alignment: Alignment.topCenter,
+                      margin: const EdgeInsets.only(left: 10),
+                      width: 200,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        color: const Color(0xFFF77F00).withOpacity(0.45),
+                      ),
+                      child: Text('Lng: ${_position?.longitude ?? ()}'),
+                    ),
+                  ],
                 ),
-                //)
               ]),
             ],
           ),
@@ -240,13 +266,20 @@ class _AddbinPageState extends State<AddbinPage> {
             alignment: Alignment.bottomCenter,
             child: GestureDetector(
               child: Container(
+                margin: const EdgeInsets.only(bottom: 10),
                 width: size.width * 0.20,
                 height: 40,
-                color: Colors.white,
-                child: const Text(
-                  "add",
-                  style: TextStyle(
-                    color: Colors.black,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                ),
+                child: Text(
+                  "ADD",
+                  style: GoogleFonts.getFont(
+                    'Sen',
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
