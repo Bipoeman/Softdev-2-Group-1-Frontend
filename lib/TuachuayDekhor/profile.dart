@@ -24,13 +24,16 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
   bool showMore = false;
   bool isPostSelected = true;
   bool isSaveSelected = false;
-  var data = [];
-  final url = Uri.parse("$api$dekhorPosttoprofileRoute");
+  var post = [];
+  var save = [];
+  final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
+  final saveurl = Uri.parse("$api$dekhorShowSaveRoute");
 
   @override
   void initState() {
     super.initState();
     postoprofile();
+    savepost();
   }
 
   void updateDescription(String value) {
@@ -38,15 +41,27 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
       description = value;
     });
   }
-  
 
   Future<void> postoprofile() async {
-    var response =
-        await http.get(url, headers: {"Authorization": "Bearer $publicToken"});
+    var response = await http
+        .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
       setState(() {
-        data = jsonDecode(response.body);
-        print(data); // กำหนดค่าข้อมูลจาก backend ให้กับตัวแปร data
+        post = jsonDecode(response.body);
+        print(post);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Future<void> savepost() async {
+    var response = await http
+        .get(saveurl, headers: {"Authorization": "Bearer $publicToken"});
+    if (response.statusCode == 200) {
+      setState(() {
+        save = jsonDecode(response.body);
+        print(save);
       });
     } else {
       throw Exception('Failed to load data');
@@ -216,35 +231,32 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                         spacing: 20,
                         runSpacing: 20,
                         children: List.generate(
-                          data.length,
+                          isPostSelected ? post.length : save.length,
                           (index) {
                             if (isPostSelected) {
-                              // สร้าง BlogBox สำหรับโพส
+                              // สร้าง BlogBox สำหรับโพสต์
                               return BlogBox(
-                                title: data[index]['title'],
+                                title: post[index]['title'],
+                                name: post[index]['user']['fullname'],
                                 like: 'null',
-                                name: data[index]['user']['fullname'],
-                                image: NetworkImage(data[index]['image_link']),
+                                image: NetworkImage(post[index]['image_link']),
                                 onPressed: () {
                                   Navigator.pushNamed(context,
                                       tuachuayDekhorPageRoute['blog']!);
                                 },
                               );
-                            } else if (isSaveSelected) {
-                              // สร้าง BlogBox สำหรับการบันทึก
+                            } else {
                               return BlogBox(
-                                title: 'Saved Title $index',
-                                name: 'Saved Name $index',
-                                like: 'Saved Like $index',
-                                image: const AssetImage(
-                                    "assets/images/Icon/TuachuayDekhor_Catagories_1.png"),
+                                title: save[index]['post']['title'],
+                                name: save[index]['user']['fullname'],
+                                like: 'null', 
+                                image: NetworkImage(
+                                    save[index]['post']['image_link']), // รูปภาพจาก URL
                                 onPressed: () {
-                                  // ใส่โค้ดที่ต้องการเมื่อคลิก "blog box" สำหรับ Save ที่นี่
+                                  Navigator.pushNamed(context,
+                                      tuachuayDekhorPageRoute['blog']!);
                                 },
                               );
-                            } else {
-                              // ในกรณีที่ทั้งสองตัวแปรนี้เป็น `false` ไม่มี BlogBox ไหนแสดงผล
-                              return SizedBox.shrink();
                             }
                           },
                         ),
