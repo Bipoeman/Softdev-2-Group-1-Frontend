@@ -191,9 +191,6 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _playerJump(double dt) {
-    if (game.playSounds) {
-      FlameAudio.play(GameRoutes.jumpSfx, volume: game.soundVolume);
-    }
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
     isOnGround = false;
@@ -286,7 +283,7 @@ class Player extends SpriteAnimationGroupComponent
     await animationTicker?.completed;
     animationTicker?.reset();
 
-    if (remainingLives == 0) {
+    if (remainingLives <= 0) {
       isGameOver = true;
       gameOverPlayer =
           await FlameAudio.loopLongAudio('Over.wav', volume: game.soundVolume);

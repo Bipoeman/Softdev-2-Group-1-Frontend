@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ruam_mitt/Restroom/Component/search_box.dart';
-import 'package:ruam_mitt/global_const.dart';
 
 class Navbar2RestroomRover extends StatelessWidget {
   const Navbar2RestroomRover({

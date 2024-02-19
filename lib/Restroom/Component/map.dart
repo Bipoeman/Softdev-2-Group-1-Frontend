@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Restroom/Component/cardpin.dart';
-import 'package:ruam_mitt/Restroom/Component/search_box.dart';
-import 'package:ruam_mitt/global_const.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:ruam_mitt/Restroom/Component/comment.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
-import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:ruam_mitt/global_const.dart';
+
 
 class MapRestroomRover extends StatelessWidget {
   static final List<Marker> _markers = [
     const LatLng(13.825605, 100.514476),
+    const LatLng(13.825705, 100.514676),
+    const LatLng(13.825805, 100.514976),
     const LatLng(45.683, 10.839),
     const LatLng(45.246, 5.783),
   ]
@@ -33,9 +33,9 @@ class MapRestroomRover extends StatelessWidget {
     return Stack(
       children: [
         FlutterMap(
-          options: MapOptions(
-            center: LatLng(13.825605, 100.514476),
-            zoom: 15,
+          options: const MapOptions(
+            initialCenter: LatLng(13.825605, 100.514476),
+            initialZoom: 15,
           ),
           children: [
             TileLayer(
@@ -47,8 +47,9 @@ class MapRestroomRover extends StatelessWidget {
               options: PopupMarkerLayerOptions(
                 markers: _markers,
                 popupDisplayOptions: PopupDisplayOptions(
-                    builder: (BuildContext context, Marker marker) =>
-                        Cardpin()),
+                    builder: (BuildContext context, Marker marker) {
+                  return Cardpin(marker: marker);
+                }),
               ),
             ),
             // MarkerLayer(
@@ -103,10 +104,6 @@ class MapRestroomRover extends StatelessWidget {
             bottom: 20,
             left: 15,
             child: RawMaterialButton(
-                // style: ButtonStyle(
-                //     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                //         RoundedRectangleBorder(
-                //             borderRadius: BorderRadius.circular(10.0)))),
                 onPressed: () {
                   Navigator.pushNamed(context, ruamMitrPageRoute["home"]!);
                 },
