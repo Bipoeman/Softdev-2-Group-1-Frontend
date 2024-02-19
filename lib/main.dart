@@ -14,6 +14,9 @@ import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
 import 'package:ruam_mitt/PinTheBin/home.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/PinTheBin/addbin.dart';
+import 'package:ruam_mitt/PinTheBin/editbin.dart';
+import 'package:ruam_mitt/PinTheBin/report.dart';
 
 void main() {
   runApp(
@@ -38,7 +41,7 @@ class _SuperAppState extends State<SuperApp> {
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
 
     return GetMaterialApp(
-      initialRoute: loginPageRoute, 
+      initialRoute: loginPageRoute,
       routes: {
         loginPageRoute: (context) => const LoginPage(),
         registerPageRoute: (context) => const RegisterPage(),
