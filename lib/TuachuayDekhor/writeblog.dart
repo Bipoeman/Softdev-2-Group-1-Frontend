@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/global_const.dart';
-import 'package:flutter/services.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 
@@ -19,12 +18,17 @@ class _TuachuayDekhorWriteBlogPageState
     extends State<TuachuayDekhorWriteBlogPage> {
   String? _dropdownValue;
   BoxController boxController = BoxController();
-  TextEditingController markdownController = TextEditingController();
-  String markdownText = "";
+  TextEditingController markdownTitleController = TextEditingController();
+  TextEditingController markdownContentController = TextEditingController();
+  String markdownTitleText = "";
+  String markdownContentText = "";
+  final FocusNode firstFocusNode = FocusNode();
+  final FocusNode anotherFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    firstFocusNode.requestFocus();
   }
 
   @override
@@ -35,18 +39,94 @@ class _TuachuayDekhorWriteBlogPageState
       body: SafeArea(
         child: SlidingBox(
           controller: boxController,
+          physics: const NeverScrollableScrollPhysics(),
           collapsed: true,
           draggable: false,
           minHeight: 0,
           maxHeight: size.height * 0.75,
-          body: SizedBox(
-            height: size.height,
-            // ignore: prefer_const_constructors
-            child: Scrollbar(
-              child: Markdown(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  data: markdownText,),
+          onBoxClose: () => anotherFocusNode.requestFocus(),
+          body: Container(
+            margin: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                      child: const Icon(Icons.close),
+                      onTap: () {
+                        boxController.closeBox();
+                      }),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: const Text(
+                    "Preview",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(0, 48, 73, 1),
+                    ),
+                  ),
+                ),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Title :",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(0, 48, 73, 1),
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  margin: const EdgeInsets.only(
+                    top: 10,
+                    bottom: 10,
+                  ),
+                  height: size.height * 0.075,
+                  child: Scrollbar(
+                    child: Markdown(
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      data: markdownTitleText,
+                    ),
+                  ),
+                ),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Content :",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(0, 48, 73, 1),
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  margin: const EdgeInsets.only(
+                    top: 10,
+                    bottom: 10,
+                  ),
+                  height: size.height * 0.45,
+                  child: Scrollbar(
+                    child: Markdown(
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      data: markdownContentText,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           backdrop: Backdrop(
@@ -54,178 +134,245 @@ class _TuachuayDekhorWriteBlogPageState
             moving: false,
             body: Stack(
               children: [
-                SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                        minHeight: size.height -
-                            [size.width * 0.4, 100.0].reduce(min) -
-                            MediaQuery.of(context).padding.top),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: size.height * 0.12,
-                            left: size.width * 0.04,
-                          ),
-                          child: GestureDetector(
-                            child: const Row(
-                              children: [
-                                Icon(Icons.arrow_back_outlined),
-                                SizedBox(width: 5),
-                                Text("Back")
-                              ],
-                            ),
-                            onTap: () => Navigator.pop(context),
-                          ),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                      minHeight: size.height -
+                          [size.width * 0.4, 100.0].reduce(min) -
+                          MediaQuery.of(context).padding.top),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.height * 0.12,
+                          left: size.width * 0.04,
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: size.height * 0.01,
-                            right: size.width * 0.04,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                        child: GestureDetector(
+                          child: const Row(
                             children: [
-                              GestureDetector(
-                                child: const Text(
-                                  "DRAFTS",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(0, 48, 73, 1),
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.pushNamed(context,
-                                      tuachuayDekhorPageRoute["draft"]!);
+                              Icon(Icons.arrow_back_outlined),
+                              SizedBox(width: 5),
+                              Text("Back")
+                            ],
+                          ),
+                          onTap: () {
+                            if (markdownTitleController.text.isNotEmpty ||
+                                markdownContentController.text.isNotEmpty) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    surfaceTintColor: Colors.white,
+                                    backgroundColor: Colors.white,
+                                    iconPadding: EdgeInsets.zero,
+                                    iconColor:
+                                        const Color.fromRGBO(0, 48, 73, 1),
+                                    icon: Stack(
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.fromLTRB(
+                                              24, 40, 24, 16),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(Icons.note_alt, size: 50),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10, right: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              IconButton(
+                                                color: Colors.grey,
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                                icon: const Icon(Icons.close),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    title: const Text("Save draft?"),
+                                    actionsAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text(
+                                          "Delete",
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          print("Draft saved");
+                                        },
+                                        child: const Text(
+                                          "Draft",
+                                          style: TextStyle(
+                                            color: Colors.green,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
                                 },
-                              ),
-                              Container(
-                                width: 70,
-                                margin: const EdgeInsets.only(left: 20),
-                                child: RawMaterialButton(
-                                  onPressed: () {
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                    setState(() {
-                                      markdownText = markdownController.text;
-                                    });
-                                    boxController.openBox();
-                                  },
-                                  fillColor: Color.fromARGB(255, 113, 174, 243),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  textStyle: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                  child: const Text("PREVIEW"),
-                                ),
-                              ),
-                              Container(
-                                width: 70,
-                                margin:
-                                    const EdgeInsets.only(left: 20, right: 10),
-                                child: RawMaterialButton(
-                                  onPressed: () {
-                                    print("Post tapped");
-                                  },
-                                  fillColor:
-                                      const Color.fromRGBO(217, 192, 41, 1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  textStyle: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                  child: const Text("POST"),
-                                ),
-                              ),
-                            ],
-                          ),
+                              );
+                            } else {
+                              Navigator.pop(context);
+                            }
+                          },
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: size.height * 0.02,
-                            left: size.width * 0.12,
-                          ),
-                          child: Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 20,
-                                backgroundImage: NetworkImage(
-                                  profileData['profile'] ??
-                                      "https://api.multiavatar.com/${profileData['fullname'] ?? "John Doe".replaceAll(" ", "+")}.png",
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.height * 0.01,
+                          right: size.width * 0.04,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              child: const Text(
+                                "DRAFTS",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromRGBO(0, 48, 73, 1),
                                 ),
                               ),
-                              Container(
-                                margin: const EdgeInsets.only(left: 20),
-                                height: 30,
-                                width: size.width * 0.55,
-                                child: TextFormField(
-                                  style: const TextStyle(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, tuachuayDekhorPageRoute["draft"]!);
+                              },
+                            ),
+                            Container(
+                              width: 70,
+                              margin:
+                                  const EdgeInsets.only(left: 20, right: 10),
+                              child: RawMaterialButton(
+                                onPressed: () {
+                                  print("Post tapped");
+                                },
+                                fillColor:
+                                    const Color.fromRGBO(217, 192, 41, 1),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                textStyle: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                                child: const Text("POST"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.height * 0.02,
+                          left: size.width * 0.12,
+                        ),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 20,
+                              backgroundImage: NetworkImage(
+                                profileData['profile'] ??
+                                    "https://api.multiavatar.com/${profileData['fullname'] ?? "John Doe".replaceAll(" ", "+")}.png",
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              height: 30,
+                              width: size.width * 0.55,
+                              child: TextFormField(
+                                textInputAction: TextInputAction.next,
+                                focusNode: firstFocusNode,
+                                controller: markdownTitleController,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                                keyboardType: TextInputType.text,
+                                cursorColor: Colors.black.withOpacity(0.5),
+                                cursorHeight: 18,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.grey.withOpacity(0.3),
+                                  filled: true,
+                                  labelText: "Write a title",
+                                  labelStyle: TextStyle(
+                                    color: Colors.black.withOpacity(0.5),
                                     fontSize: 14,
-                                    fontWeight: FontWeight.bold,
                                   ),
-                                  keyboardType: TextInputType.text,
-                                  cursorColor: Colors.black.withOpacity(0.5),
-                                  cursorHeight: 18,
-                                  decoration: InputDecoration(
-                                    fillColor: Colors.grey.withOpacity(0.3),
-                                    filled: true,
-                                    labelText: "Write a title",
-                                    labelStyle: TextStyle(
-                                      color: Colors.black.withOpacity(0.5),
-                                      fontSize: 14,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(40),
-                                      borderSide: BorderSide.none,
-                                    ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    borderSide: BorderSide.none,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                setState(() {
+                                  markdownTitleText =
+                                      markdownTitleController.text;
+                                  markdownContentText =
+                                      markdownContentController.text;
+                                });
+                                boxController.openBox();
+                              },
+                              icon: const Icon(Icons.preview),
+                            ),
+                          ],
                         ),
-                        Container(
-                          padding: EdgeInsets.only(
-                            top: size.height * 0.02,
-                            left: size.width * 0.2,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: size.height * 0.02,
+                          left: size.width * 0.2,
+                        ),
+                        width: size.width * 0.85,
+                        child: TextFormField(
+                          focusNode: anotherFocusNode,
+                          controller: markdownContentController,
+                          style: const TextStyle(
+                            fontSize: 12,
                           ),
-                          width: size.width * 0.85,
-                          child: TextFormField(
-                            controller: markdownController,
-                            style: const TextStyle(
+                          keyboardType: TextInputType.multiline,
+                          cursorColor: Colors.black.withOpacity(0.5),
+                          cursorHeight: 16,
+                          minLines: 8,
+                          maxLines: 8,
+                          decoration: InputDecoration(
+                            alignLabelWithHint: true,
+                            fillColor: Colors.grey.withOpacity(0.3),
+                            filled: true,
+                            labelText: "Write a blog",
+                            labelStyle: TextStyle(
+                              color: Colors.black.withOpacity(0.5),
                               fontSize: 12,
                             ),
-                            keyboardType: TextInputType.multiline,
-                            cursorColor: Colors.black.withOpacity(0.5),
-                            cursorHeight: 16,
-                            minLines: 15,
-                            maxLines: null,
-                            decoration: InputDecoration(
-                              alignLabelWithHint: true,
-                              fillColor: Colors.grey.withOpacity(0.3),
-                              filled: true,
-                              labelText: "Write a blog",
-                              labelStyle: TextStyle(
-                                color: Colors.black.withOpacity(0.5),
-                                fontSize: 12,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide.none,
-                              ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 Positioned(
@@ -256,16 +403,30 @@ class _TuachuayDekhorWriteBlogPageState
                             iconEnabledColor: Colors.black,
                             items: const [
                               DropdownMenuItem(
-                                value: "public",
+                                value: "decoration",
                                 child: Text(
-                                  "Public",
+                                  "Decoration",
                                   style: TextStyle(fontSize: 12),
                                 ),
                               ),
                               DropdownMenuItem(
-                                value: "private",
+                                value: "cleaning",
                                 child: Text(
-                                  "Private",
+                                  "Cleaning",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "cooking",
+                                child: Text(
+                                  "Cooking",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "story",
+                                child: Text(
+                                  "Story",
                                   style: TextStyle(fontSize: 12),
                                 ),
                               ),
