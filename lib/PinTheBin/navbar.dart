@@ -50,7 +50,7 @@ class NavBar extends StatelessWidget {
                   title: const Text('Report'),
                   trailing: const Icon(Icons.double_arrow),
                   onTap: () {
-                    Navigator.pushNamed(context, pinthebinPageRoute["report"]!);
+                    Navigator.pushNamed(context, pinthebinPageRoute["admin"]!);
                   },
                 ),
               ],

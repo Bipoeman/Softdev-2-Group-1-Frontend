@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/PinTheBin/addbin.dart';
+import 'package:ruam_mitt/PinTheBin/admin.dart';
 import 'package:ruam_mitt/PinTheBin/editbin.dart';
 import 'package:ruam_mitt/PinTheBin/report.dart';
 import 'package:ruam_mitt/Restroom/Review.dart';
@@ -90,6 +91,7 @@ class _SuperAppState extends State<SuperApp> {
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPage(),
         pinthebinPageRoute["editbin"]!: (context) => const EditbinPage(),
         pinthebinPageRoute["report"]!: (context) => const ReportPage(),
+        pinthebinPageRoute["admin"]!: (context) => const AdminPage(),
       },
       title: "RuamMitr - App for Uni Students",
       theme: themes.themeFrom("RuamMitr")?.themeData,

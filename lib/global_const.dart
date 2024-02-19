@@ -38,6 +38,7 @@ const Map<String, String> pinthebinPageRoute = {
   "addbin": "/PinTheBin/addbin",
   "editbin": "/PinTheBin/editbin",
   "report": "/PinTheBin/report",
+  "admin": "/PinTheBin/admin",
 };
 
 BoxDecoration ruamMitrBackgroundGradient(ThemeProvider themes) {
