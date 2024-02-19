@@ -11,7 +11,6 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
 
-
 class MapRestroomRover extends StatelessWidget {
   static final List<Marker> _markers = [
     const LatLng(13.825605, 100.514476),
@@ -87,7 +86,6 @@ class MapRestroomRover extends StatelessWidget {
                 markerSize: const Size(40, 40),
                 markerDirection: MarkerDirection.heading,
               ),
-
             ),
           ],
         ),
@@ -99,6 +97,22 @@ class MapRestroomRover extends StatelessWidget {
               width: 130,
               height: 130,
             )),
+        Positioned(
+            width: 50,
+            height: 50,
+            bottom: 20,
+            left: 15,
+            child: RawMaterialButton(
+                // style: ButtonStyle(
+                //     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                //         RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(10.0)))),
+                onPressed: () {
+                  Navigator.pushNamed(context, ruamMitrPageRoute["home"]!);
+                },
+                child: Image(
+                    image: AssetImage(
+                        "assets/images/RestroomRover/backtohome.png")))),
         // Positioned(
         //   bottom: 20,
         //   left: 5,
@@ -123,6 +137,5 @@ class MapRestroomRover extends StatelessWidget {
         //     ))
       ],
     );
-
   }
 }
