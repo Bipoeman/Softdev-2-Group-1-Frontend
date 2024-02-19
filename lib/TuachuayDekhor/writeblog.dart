@@ -58,7 +58,7 @@ class _TuachuayDekhorWriteBlogPageState
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                        top: size.height * 0.02,
+                        top: size.height * 0.01,
                         right: size.width * 0.04,
                       ),
                       child: Row(

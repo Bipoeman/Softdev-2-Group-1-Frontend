@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:flutter/services.dart';
 import 'package:ruam_mitt/global_var.dart';
@@ -50,9 +51,25 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                 ),
                 child: Column(
                   children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: size.height * 0.12,
+                        left: size.width * 0.04,
+                      ),
+                      child: GestureDetector(
+                        child: const Row(
+                          children: [
+                            Icon(Icons.arrow_back_outlined),
+                            SizedBox(width: 5),
+                            Text("Back")
+                          ],
+                        ),
+                        onTap: () => Navigator.pop(context),
+                      ),
+                    ),
                     Container(
                       margin: EdgeInsets.only(
-                        top: size.width * 0.25,
+                        top: size.width * 0.05,
                       ),
                       width: size.width * 0.85,
                       height: size.width * 0.2,
@@ -109,7 +126,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                       padding: EdgeInsets.only(
                           left: size.width * 0.1,
                           right: size.width * 0.1,
-                          bottom: size.width * 0.1),
+                          bottom: size.width * 0.05),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -174,8 +191,8 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                         ],
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.only(top: 10),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: size.width * 0.05),
                       child: Wrap(
                         spacing: 20,
                         runSpacing: 20,

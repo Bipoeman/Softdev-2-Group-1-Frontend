@@ -51,14 +51,29 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                 ),
                 child: Column(
                   children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: size.height * 0.12,
+                        left: size.width * 0.04,
+                      ),
+                      child: GestureDetector(
+                        child: const Row(
+                          children: [
+                            Icon(Icons.arrow_back_outlined),
+                            SizedBox(width: 5),
+                            Text("Back")
+                          ],
+                        ),
+                        onTap: () => Navigator.pop(context),
+                      ),
+                    ),
                     Container(
                       padding: EdgeInsets.only(
                         left: size.width * 0.1,
                         right: size.width * 0.1,
-                        top: size.width * 0.25,
+                        top: size.width * 0.03,
                         bottom: size.width * 0.01,
                       ),
-                      height: size.width * 0.35,
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -76,6 +91,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                       padding: EdgeInsets.only(
                         left: size.width * 0.1,
                         right: size.width * 0.1,
+                        bottom: size.width * 0.05,
                       ),
                       width: size.width * 0.9,
                       height: size.width * 0.2,
@@ -99,9 +115,10 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          left: size.width * 0.1,
-                          right: size.width * 0.1,
-                          bottom: size.width * 0.1),
+                        left: size.width * 0.1,
+                        right: size.width * 0.1,
+                        bottom: size.width * 0.05,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -166,8 +183,8 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                         ],
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.only(top: 10),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: size.width * 0.05),
                       child: Wrap(
                         spacing: 20,
                         runSpacing: 20,
