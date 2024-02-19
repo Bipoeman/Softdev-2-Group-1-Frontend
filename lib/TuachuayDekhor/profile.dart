@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:ruam_mitt/global_var.dart';
 import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/global_const.dart";
+import 'package:http/http.dart' as http;
 
 class TuachuayDekhorProfilePage extends StatefulWidget {
   const TuachuayDekhorProfilePage({Key? key}) : super(key: key);
@@ -22,16 +24,33 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
   bool showMore = false;
   bool isPostSelected = true;
   bool isSaveSelected = false;
+  var data = [];
+  final url = Uri.parse("$api$dekhorPosttoprofileRoute");
 
   @override
   void initState() {
     super.initState();
+    postoprofile();
   }
 
   void updateDescription(String value) {
     setState(() {
       description = value;
     });
+  }
+  
+
+  Future<void> postoprofile() async {
+    var response =
+        await http.get(url, headers: {"Authorization": "Bearer $publicToken"});
+    if (response.statusCode == 200) {
+      setState(() {
+        data = jsonDecode(response.body);
+        print(data); // กำหนดค่าข้อมูลจาก backend ให้กับตัวแปร data
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 
   @override
@@ -197,16 +216,15 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                         spacing: 20,
                         runSpacing: 20,
                         children: List.generate(
-                          14,
+                          data.length,
                           (index) {
                             if (isPostSelected) {
                               // สร้าง BlogBox สำหรับโพส
                               return BlogBox(
-                                title: 'Post Title $index',
-                                name: 'Post Name $index',
-                                like: 'Post Like $index',
-                                image: const AssetImage(
-                                    "assets/images/Icon/TuachuayDekhor_Catagories_1.png"),
+                                title: data[index]['title'],
+                                like: 'null',
+                                name: data[index]['user']['fullname'],
+                                image: NetworkImage(data[index]['image_link']),
                                 onPressed: () {
                                   Navigator.pushNamed(context,
                                       tuachuayDekhorPageRoute['blog']!);

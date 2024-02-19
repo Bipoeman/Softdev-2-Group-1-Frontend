@@ -8,6 +8,7 @@ const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
 const String userDataRequestRoute = "/user/id";
 const String pinTheBinGetBinRoute = "/pinthebin/bin";
+const String dekhorPosttoprofileRoute = "/dekhor/posttoprofile";
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",
   "homev2": "/RuamMitr/homev2",
