@@ -143,10 +143,8 @@ class _CardpinState extends State<Cardpin> {
                         String googleMapUrl =
                             'https://www.google.com/maps/search/?api=1&query=${widget.marker.point.latitude},${widget.marker.point.longitude}';
                         Uri googleUrl = Uri.parse(googleMapUrl);
-                        if (await canLaunchUrl(googleUrl)) {
-                          await launchUrl(googleUrl);
-                        } else {
-                          throw 'Could not open the map.';
+                        if (!await launchUrl(googleUrl)) {
+                          throw Exception('Could not launch $googleMapUrl');
                         }
                       },
                       style: ButtonStyle(
