@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class BlogBox extends StatelessWidget {
   const BlogBox({
@@ -16,83 +17,70 @@ class BlogBox extends StatelessWidget {
   final String like;
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: IntrinsicWidth(
-        child: RawMaterialButton(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-          fillColor: Colors.white,
-          constraints: const BoxConstraints(),
-          onPressed: onPressed,
-          child: Container(
-            margin: const EdgeInsets.only(
-              top: 10,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(
-                    right: 10,
-                    left: 10,
-                    bottom: 10,
-                  ),
-                  constraints: const BoxConstraints(
-                    minHeight: 50,
-                    minWidth: 50,
-                    maxWidth: 50,
-                  ),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: image,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+    Size size = MediaQuery.of(context).size;
+    return SizedBox(
+      width: size.width * 0.4,
+      child: RawMaterialButton(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        fillColor: Colors.white,
+        constraints: const BoxConstraints(),
+        onPressed: onPressed,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IntrinsicHeight(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
                 ),
-                Container(
-                  padding: const EdgeInsets.only(
-                    left: 5,
-                    right: 5,
+                child: Image(
+                  image: image,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(
+                left: 5,
+                right: 5,
+              ),
+              height: 35,
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(0, 48, 73, 1),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
                   ),
-                  height: 35,
-                  width: 147,
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(0, 48, 73, 1),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        title,
+                        name,
                         style:
-                            const TextStyle(color: Colors.white, fontSize: 12),
+                            const TextStyle(color: Colors.white, fontSize: 10),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            name,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 10),
-                          ),
-                          Text(
-                            like,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 10),
-                          ),
-                        ],
-                      )
+                      Text(
+                        like,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 10),
+                      ),
                     ],
-                  ),
-                ),
-              ],
+                  )
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
