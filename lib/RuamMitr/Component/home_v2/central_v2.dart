@@ -45,7 +45,7 @@ class _HomePageV2State extends State<HomePageV2> {
     // String avatarTextBackgroundColorString = theme.colorScheme.primaryContainer
     //     .toString()
     //     .replaceAll("Color(", "")
-    //     .replaceAll(")", "")
+    //     .replaceAll(")", "")+
     //     .substring(4);
     // String avatarTextColorString = theme.colorScheme.onPrimaryContainer
     //     .toString()
@@ -54,7 +54,7 @@ class _HomePageV2State extends State<HomePageV2> {
     //     .substring(4);
     profileData['imgPath'] = profileData['profile'] ??
         // "https://ui-avatars.com/api/?background=$avatarTextBackgroundColorString&color=$avatarTextColorString&size=512&name=${profileData['fullname'].replaceAll(" ", "+")}";
-        "https://api.multiavatar.com/${profileData['fullname'] ?? "".replaceAll(" ", "+")}.png";
+        "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}.png";
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
     return Container(
       decoration: ruamMitrBackgroundGradient(themes),
