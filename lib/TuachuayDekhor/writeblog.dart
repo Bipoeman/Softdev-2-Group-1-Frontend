@@ -6,6 +6,8 @@ import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class TuachuayDekhorWriteBlogPage extends StatefulWidget {
   const TuachuayDekhorWriteBlogPage({super.key});
@@ -28,6 +30,54 @@ class _TuachuayDekhorWriteBlogPageState
   final FocusNode anotherFocusNode = FocusNode();
   late AnimationController animationController;
   bool status = true;
+  final writeblogurl = Uri.parse("$api$dekhorWriteBloggerRoute");
+
+  Future<void> writeblog() async {
+    var response = await http.post(writeblogurl, headers: {
+      "Authorization": "Bearer $publicToken"
+    }, body: {
+      "title": markdownTitleController.text,
+      "content": markdownContentController.text,
+      "category": _dropdownValue,
+      "image_link": "null"
+    });
+    if (markdownTitleController.text.isEmpty ||
+        markdownContentController.text.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            iconColor: const Color.fromRGBO(0, 48, 73, 1),
+            icon: const Icon(Icons.close, size: 50),
+            title: const Text("Empty blog."),
+            content:
+                const Text("Please write a title and content before posting."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  "OK",
+                  style: TextStyle(
+                    color: Colors.green,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      if (response.statusCode == 200) {
+        status = true;
+      } else {
+        status = false;
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -299,6 +349,7 @@ class _TuachuayDekhorWriteBlogPageState
                                   const EdgeInsets.only(left: 20, right: 10),
                               child: RawMaterialButton(
                                 onPressed: () {
+                                  writeblog();
                                   print("Post tapped");
                                   showDialog(
                                       context: context,

@@ -12,6 +12,9 @@ const String dekhorPosttoprofileRoute = "/dekhor/posttoprofile";
 const String dekhorShowSaveRoute = "/dekhor/showsave";
 const String dekhorSearchBlogRoute = "/dekhor/searchblog";
 const String dekhorSearchBloggerRoute = "/dekhor/searchblogger";
+const String dekhorWriteBloggerRoute = "/dekhor/createpost";
+const String dekhorAddPictureRoute = "/dekhor/upload";
+const String dekhorRandomPostRoute = "/dekhor/randompost";
 
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",
