@@ -226,40 +226,97 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(bottom: size.width * 0.05),
-                      child: Wrap(
-                        spacing: 20,
-                        runSpacing: 20,
-                        children: List.generate(
-                          isPostSelected ? post.length : save.length,
-                          (index) {
-                            if (isPostSelected) {
-                              // สร้าง BlogBox สำหรับโพสต์
-                              return BlogBox(
-                                title: post[index]['title'],
-                                name: post[index]['user']['fullname'],
-                                like: 'null',
-                                image: NetworkImage(post[index]['image_link']),
-                                onPressed: () {
-                                  Navigator.pushNamed(context,
-                                      tuachuayDekhorPageRoute['blog']!);
-                                },
-                              );
-                            } else {
-                              return BlogBox(
-                                title: save[index]['post']['title'],
-                                name: save[index]['user']['fullname'],
-                                like: 'null', 
-                                image: NetworkImage(
-                                    save[index]['post']['image_link']), // รูปภาพจาก URL
-                                onPressed: () {
-                                  Navigator.pushNamed(context,
-                                      tuachuayDekhorPageRoute['blog']!);
-                                },
-                              );
-                            }
-                          },
-                        ),
+                      padding: EdgeInsets.only(
+                          bottom: size.width * 0.05,
+                          left: size.width * 0.09,
+                          right: size.width * 0.09,
+                          top: size.width * 0.01),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // แสดงข้อมูลในคอลัมน์แรก
+                          Wrap(
+                            direction: Axis.vertical,
+                            spacing: 5,
+                            children: List.generate(
+                              ((isPostSelected ? post.length : save.length) / 2)
+                                  .ceil(),
+                              (index) {
+                                final actualIndex = index * 2;
+                                if (isPostSelected) {
+                                  return BlogBox(
+                                    title: post[actualIndex]['title'],
+                                    name: post[actualIndex]['user']['fullname'],
+                                    like: 'null',
+                                    image: NetworkImage(
+                                        post[actualIndex]['image_link']),
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        tuachuayDekhorPageRoute['blog']!,
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return BlogBox(
+                                    title: save[actualIndex]['post']['title'],
+                                    name: save[actualIndex]['user']['fullname'],
+                                    like: 'null',
+                                    image: NetworkImage(save[actualIndex]
+                                        ['post']['image_link']),
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        tuachuayDekhorPageRoute['blog']!,
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                          // แสดงข้อมูลในคอลัมน์ที่สอง
+                          Wrap(
+                            direction: Axis.vertical,
+                            spacing: 5,
+                            children: List.generate(
+                              (isPostSelected ? post.length : save.length) ~/ 2,
+                              (index) {
+                                final actualIndex = index * 2 + 1;
+                                if (isPostSelected) {
+                                  return BlogBox(
+                                    title: post[actualIndex]['title'],
+                                    name: post[actualIndex]['user']['fullname'],
+                                    like: 'null',
+                                    image: NetworkImage(
+                                        post[actualIndex]['image_link']),
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        tuachuayDekhorPageRoute['blog']!,
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return BlogBox(
+                                    title: save[actualIndex]['post']['title'],
+                                    name: save[actualIndex]['user']['fullname'],
+                                    like: 'null',
+                                    image: NetworkImage(save[actualIndex]
+                                        ['post']['image_link']),
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        tuachuayDekhorPageRoute['blog']!,
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
