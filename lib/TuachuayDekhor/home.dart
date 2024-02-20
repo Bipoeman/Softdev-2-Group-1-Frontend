@@ -4,6 +4,8 @@ import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/TuachuayDekhor/Component/navbar.dart";
 import "dart:math";
 import "package:ruam_mitt/global_const.dart";
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class TuachuayDekhorHomePage extends StatefulWidget {
   const TuachuayDekhorHomePage({super.key});
@@ -55,6 +57,45 @@ Widget nodeCatagories(
 }
 
 class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
+  var blogger = [];
+  var blog = [];
+  final bloggerurl = Uri.parse("$api$dekhorSearchBloggerRoute");
+  final randomurl = Uri.parse("$api$dekhorRandomPostRoute");
+
+  @override
+  void initState() {
+    super.initState();
+    showblogger();
+    randompost();
+  }
+
+  Future<void> showblogger() async {
+    var response = await http.get(
+      bloggerurl,
+    );
+    if (response.statusCode == 200) {
+      setState(() {
+        blogger = jsonDecode(response.body);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Future<void> randompost() async {
+    var response = await http.get(
+      randomurl,
+    );
+    if (response.statusCode == 200) {
+      setState(() {
+        blog = jsonDecode(response.body);
+        print(blog);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -112,8 +153,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                     context, "Cleaning", "cleaning", "2"),
                                 nodeCatagories(
                                     context, "Cooking", "cooking", "3"),
-                                nodeCatagories(
-                                    context, "Story", "story", "4"),
+                                nodeCatagories(context, "Story", "story", "4"),
                               ],
                             ),
                           ),
@@ -179,25 +219,42 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
-                                const TuachuayDekhorAvatarViewer(),
-                                const TuachuayDekhorAvatarViewer(),
-                                const TuachuayDekhorAvatarViewer(),
-                                const TuachuayDekhorAvatarViewer(),
-                                const TuachuayDekhorAvatarViewer(),
-                                const TuachuayDekhorAvatarViewer(),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, tuachuayDekhorPageRoute["blogger"]!);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: const CircleBorder(),
+                                if (blogger.length > 7) ...[
+                                  ...List.generate(
+                                    blogger.length,
+                                    (index) => TuachuayDekhorAvatarViewer(
+                                      username: blogger[index]['user']
+                                          ['fullname'],
+                                      avatarUrl:
+                                          "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
+                                    ),
                                   ),
-                                  child: const Icon(
-                                    Icons.arrow_forward,
-                                    size: 16,
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        tuachuayDekhorPageRoute["blogger"]!,
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: const CircleBorder(),
+                                    ),
+                                    child: const Icon(
+                                      Icons.arrow_forward,
+                                      size: 16,
+                                    ),
                                   ),
-                                ),
+                                ] else ...[
+                                  ...List.generate(
+                                    blogger.length,
+                                    (index) => TuachuayDekhorAvatarViewer(
+                                      username: blogger[index]['user']
+                                          ['fullname'],
+                                      avatarUrl:
+                                          "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
+                                    ),
+                                  ),
+                                ]
                               ],
                             ),
                           ),
@@ -223,27 +280,78 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                               ),
                             ],
                           ),
-                          Container(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Wrap(
-                              spacing: 20,
-                              runSpacing: 20,
-                              children: List.generate(
-                                6,
-                                (index) => BlogBox(
-                                  title: "Title",
-                                  name: "Name",
-                                  like: "Like",
-                                  image: const AssetImage(
-                                      "assets/images/Icon/TuachuayDekhor_Catagories_1.png"),
-                                  onPressed: () {
-                                    Navigator.pushNamed(context,
-                                        tuachuayDekhorPageRoute['blog']!);
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                bottom: size.width * 0.05,
+                                left: size.width * 0.04,
+                                right: size.width * 0.04,
+                                top: size.width * 0.05),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Wrap(
+                                    direction: Axis.vertical,
+                                    spacing: 5,
+                                    children: List.generate(
+                                      (blog.length / 2).ceil(),
+                                      (index) {
+                                        final actualIndex = index * 2;
+                                        if (actualIndex < blog.length) {
+                                          return BlogBox(
+                                            title: blog[actualIndex]['title'],
+                                            name: blog[actualIndex]['user']
+                                                ['fullname'],
+                                            like: 'null',
+                                            image: NetworkImage(
+                                              blog[actualIndex]['image_link'],
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pushNamed(
+                                                context,
+                                                tuachuayDekhorPageRoute[
+                                                    'blog']!,
+                                              );
+                                            },
+                                          );
+                                        } else {
+                                          return SizedBox(); // แสดง SizedBox ถ้าข้อมูลไม่เพียงพอ
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Wrap(
+                                    direction: Axis.vertical,
+                                    spacing: 5,
+                                    children: List.generate(
+                                      (blog.length) ~/ 2,
+                                      (index) {
+                                        final actualIndex = index * 2 + 1;
+                                        if (actualIndex < blog.length) {
+                                          return BlogBox(
+                                            title: blog[actualIndex]['title'],
+                                            name: blog[actualIndex]['user']
+                                                ['fullname'],
+                                            like: 'null',
+                                            image: NetworkImage(
+                                              blog[actualIndex]['image_link'],
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pushNamed(
+                                                context,
+                                                tuachuayDekhorPageRoute[
+                                                    'blog']!,
+                                              );
+                                            },
+                                          );
+                                        } else {
+                                          return SizedBox(); // แสดง SizedBox ถ้าข้อมูลไม่เพียงพอ
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ]),
+                          )
                         ],
                       ),
                     ),
