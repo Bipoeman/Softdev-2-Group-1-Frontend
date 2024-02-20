@@ -6,6 +6,9 @@ import 'package:flutter/services.dart';
 import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/global_const.dart";
 import "package:ruam_mitt/TuachuayDekhor/Component/avatar.dart";
+import "package:ruam_mitt/global_const.dart";
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class TuachuayDekhorSearchPage extends StatefulWidget {
   const TuachuayDekhorSearchPage({super.key});
@@ -20,11 +23,45 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
   String savesearch = '';
   bool isblog = true;
   bool isblogger = false;
+  final blogurl = Uri.parse("$api$dekhorSearchBlogRoute");
+  final bloggerurl = Uri.parse("$api$dekhorSearchBloggerRoute");
+  var allblog = [];
+  var allblogger = [];
 
   @override
   void initState() {
     super.initState();
+    searchblogger();
+    searchblog();
     initial();
+  }
+
+  Future<void> searchblog() async {
+    var response = await http.get(
+      blogurl,
+    );
+    if (response.statusCode == 200) {
+      setState(() {
+        allblog = jsonDecode(response.body);
+        // print(allblog);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Future<void> searchblogger() async {
+    var response = await http.get(
+      bloggerurl,
+    );
+    if (response.statusCode == 200) {
+      setState(() {
+        allblogger = jsonDecode(response.body);
+        // print(allblogger);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 
   void initial() async {
@@ -184,36 +221,145 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(bottom: size.width * 0.05),
-                      child: Wrap(
-                        spacing: 20,
-                        runSpacing: 20,
-                        children: List.generate(
-                          10,
-                          (index) {
-                            if (isblog) {
-                              // สร้าง BlogBox สำหรับโพส
-                              return BlogBox(
-                                title: 't $index',
-                                name: 't $index',
-                                like: 't $index',
-                                image: const AssetImage(
-                                    "assets/images/Icon/TuachuayDekhor_Catagories_1.png"),
-                                onPressed: () {
-                                  Navigator.pushNamed(context,
-                                      tuachuayDekhorPageRoute['blog']!);
-                                },
-                              );
-                            } else if (isblogger) {
-                              // สร้าง BlogBox สำหรับการบันทึก
-                              return TuachuayDekhorAvatarViewer(
-                                  username: 'pumxni');
-                            } else {
-                              // ในกรณีที่ทั้งสองตัวแปรนี้เป็น `false` ไม่มี BlogBox ไหนแสดงผล
-                              return SizedBox.shrink();
-                            }
-                          },
-                        ),
+                      padding: EdgeInsets.only(
+                        left: size.width * 0.09,
+                        right: size.width * 0.09,
+                        bottom: size.width * 0.05,
+                        top: size.width * 0.005,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // แสดงข้อมูลในคอลัมน์แรก
+                          Wrap(
+                            direction: Axis.vertical,
+                            spacing: 5,
+                            children: List.generate(
+                              ((isblog ? allblog.length : allblogger.length) /
+                                      2)
+                                  .ceil(),
+                              (index) {
+                                final actualIndex = index * 2;
+                                if (actualIndex <
+                                    (isblog
+                                        ? allblog.length
+                                        : allblogger.length)) {
+                                  final blog =
+                                      isblog ? allblog[actualIndex] : {};
+                                  final blogger =
+                                      isblogger ? allblogger[actualIndex] : {};
+                                  final blogTitle =
+                                      blog['title']?.toString().toLowerCase() ??
+                                          '';
+                                  final bloggerName = (blogger['user'] !=
+                                              null &&
+                                          blogger['user']['fullname'] != null)
+                                      ? blogger['user']['fullname']
+                                          .toString()
+                                          .toLowerCase()
+                                      : '';
+                                  final searchQueryLowerCase =
+                                      savesearch.toLowerCase();
+                                  if (blogTitle
+                                          .contains(searchQueryLowerCase) ||
+                                      bloggerName
+                                          .contains(searchQueryLowerCase)) {
+                                    if (isblog) {
+                                      return BlogBox(
+                                        title: blog['title'] ?? '',
+                                        name: blog['user']?['fullname'] ?? '',
+                                        like: 'null',
+                                        image: NetworkImage(
+                                            blog['image_link'] ?? ''),
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            tuachuayDekhorPageRoute['blog']!,
+                                          );
+                                        },
+                                      );
+                                    } else if (isblogger) {
+                                       print(blogger);
+                                      return TuachuayDekhorAvatarViewer(
+                                        username:
+                                            blogger['user']['fullname'] ?? '',
+                                        avatarUrl:
+                                            "https://api.multiavatar.com/${(blogger['user']['fullname']).replaceAll(" ", "+")}.png",
+                                      );
+                                    }
+                                  }
+                                }
+                                // ถ้าไม่มีข้อมูลที่ตรงกับเงื่อนไข ให้ return SizedBox.shrink() เพื่อไม่แสดงอะไรบนหน้าจอ
+                                return SizedBox.shrink();
+                              },
+                            ),
+                          ),
+                          // แสดงข้อมูลในคอลัมน์ที่สอง
+                          Wrap(
+                            direction: Axis.vertical,
+                            spacing: 5,
+                            children: List.generate(
+                              ((isblog ? allblog.length : allblogger.length) /
+                                      2)
+                                  .ceil(),
+                              (index) {
+                                final actualIndex = index * 2 + 1;
+                                if (actualIndex <
+                                    (isblog
+                                        ? allblog.length
+                                        : allblogger.length)) {
+                                  final blog =
+                                      isblog ? allblog[actualIndex] : {};
+                                  final blogger =
+                                      isblogger ? allblogger[actualIndex] : {};
+                                  final blogTitle =
+                                      blog['title']?.toString().toLowerCase() ??
+                                          '';
+                                  final bloggerName = (blogger['user'] !=
+                                              null &&
+                                          blogger['user']['fullname'] != null)
+                                      ? blogger['user']['fullname']
+                                          .toString()
+                                          .toLowerCase()
+                                      : '';
+                                  final searchQueryLowerCase =
+                                      savesearch.toLowerCase();
+                                  if (blogTitle
+                                          .contains(searchQueryLowerCase) ||
+                                      bloggerName
+                                          .contains(searchQueryLowerCase)) {
+                                    if (isblog) {
+                                      return BlogBox(
+                                        title: blog['title'] ?? '',
+                                        name: blog['user']?['fullname'] ?? '',
+                                        like: 'null',
+                                        image: NetworkImage(
+                                            blog['image_link'] ?? ''),
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            tuachuayDekhorPageRoute['blog']!,
+                                          );
+                                        },
+                                      );
+                                    } else if (isblogger) {
+                                      print(blogger);
+                                      return TuachuayDekhorAvatarViewer(
+                                        username:
+                                            blogger['user']['fullname'] ?? '',
+                                        avatarUrl:
+                                            "https://api.multiavatar.com/${(blogger['user']['fullname']).replaceAll(" ", "+")}.png",
+                                      );
+                                    }
+                                  }
+                                }
+                                // ถ้าไม่มีข้อมูลที่ตรงกับเงื่อนไข ให้ return SizedBox.shrink() เพื่อไม่แสดงอะไรบนหน้าจอ
+                                return SizedBox.shrink();
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
