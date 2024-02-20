@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
@@ -15,7 +16,8 @@ class TuachuayDekhorWriteBlogPage extends StatefulWidget {
 }
 
 class _TuachuayDekhorWriteBlogPageState
-    extends State<TuachuayDekhorWriteBlogPage> {
+    extends State<TuachuayDekhorWriteBlogPage>
+    with SingleTickerProviderStateMixin {
   String? _dropdownValue;
   BoxController boxController = BoxController();
   TextEditingController markdownTitleController = TextEditingController();
@@ -24,11 +26,34 @@ class _TuachuayDekhorWriteBlogPageState
   String markdownContentText = "";
   final FocusNode firstFocusNode = FocusNode();
   final FocusNode anotherFocusNode = FocusNode();
+  late AnimationController animationController;
+  bool status = true;
 
   @override
   void initState() {
     super.initState();
     firstFocusNode.requestFocus();
+    animationController = AnimationController(
+      vsync: this,
+    );
+    animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Future.delayed(const Duration(milliseconds: 700), () {
+          Navigator.pop(context);
+          markdownTitleController.clear();
+          markdownContentController.clear();
+          FocusManager.instance.primaryFocus?.unfocus();
+          animationController.reset();
+          Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -170,7 +195,7 @@ class _TuachuayDekhorWriteBlogPageState
                                       children: [
                                         const Padding(
                                           padding: EdgeInsets.fromLTRB(
-                                              24, 40, 24, 16),
+                                              24, 30, 24, 16),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
@@ -201,26 +226,38 @@ class _TuachuayDekhorWriteBlogPageState
                                     actionsAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text(
-                                          "Delete",
-                                          style: TextStyle(
-                                            color: Colors.red,
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.red),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            "Delete",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                      TextButton(
-                                        onPressed: () {
-                                          print("Draft saved");
-                                        },
-                                        child: const Text(
-                                          "Draft",
-                                          style: TextStyle(
-                                            color: Colors.green,
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.green),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            print("Draft saved");
+                                          },
+                                          child: const Text(
+                                            "Draft",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -263,6 +300,55 @@ class _TuachuayDekhorWriteBlogPageState
                               child: RawMaterialButton(
                                 onPressed: () {
                                   print("Post tapped");
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          surfaceTintColor: Colors.white,
+                                          backgroundColor: Colors.white,
+                                          child: SizedBox(
+                                            width: size.width * 0.3,
+                                            height: size.height * 0.3,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                LottieBuilder.asset(
+                                                  status
+                                                      ? "assets/images/Logo/Animation_Success.json"
+                                                      : "assets/images/Logo/Animation_Fail.json",
+                                                  repeat: false,
+                                                  controller:
+                                                      animationController,
+                                                  onLoaded: (composition) {
+                                                    animationController
+                                                            .duration =
+                                                        composition.duration;
+                                                    animationController
+                                                        .forward();
+                                                  },
+                                                ),
+                                                SizedBox(
+                                                    height: size.height * 0.03),
+                                                Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    status
+                                                        ? "Post successful!"
+                                                        : "Post failed!",
+                                                    style: const TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      });
                                 },
                                 fillColor:
                                     const Color.fromRGBO(217, 192, 41, 1),
