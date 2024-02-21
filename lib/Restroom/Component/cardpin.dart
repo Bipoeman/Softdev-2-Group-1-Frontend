@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
+import 'package:ruam_mitt/global_const.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Cardpin extends StatefulWidget {
-  const Cardpin({Key? key}) : super(key: key);
+  const Cardpin({super.key, required this.marker});
+  final Marker marker;
 
   @override
   State<Cardpin> createState() => _CardpinState();
@@ -126,7 +130,15 @@ class _CardpinState extends State<Cardpin> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        debugPrint("Navigate me");
+                        String googleMapUrl =
+                            'https://www.google.com/maps/search/?api=1&query=${widget.marker.point.latitude},${widget.marker.point.longitude}';
+                        Uri googleUrl = Uri.parse(googleMapUrl);
+                        if (!await launchUrl(googleUrl)) {
+                          throw Exception('Could not launch $googleMapUrl');
+                        }
+                      },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Color.fromRGBO(255, 183, 3, 1)),
@@ -151,7 +163,10 @@ class _CardpinState extends State<Cardpin> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(
+                            context, restroomPageRoute["review"]!);
+                      },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Color.fromRGBO(255, 183, 3, 1)),

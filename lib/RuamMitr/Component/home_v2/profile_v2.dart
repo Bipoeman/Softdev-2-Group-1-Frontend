@@ -109,6 +109,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
               ],
             ),
             Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Column(
                 children: [
