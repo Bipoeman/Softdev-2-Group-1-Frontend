@@ -8,7 +8,6 @@ import 'package:ruam_mitt/RuamMitr/Component/home_v2/home_v2.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home_v2/profile_v2.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home_v2/settings_v2.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
-import 'package:ruam_mitt/RuamMitr/profile.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
@@ -60,21 +59,8 @@ class _HomePageV2State extends State<HomePageV2> {
       decoration: ruamMitrBackgroundGradient(themes),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        // bottomNavigationBar: NavigationBar(
-        //   animationDuration: Duration(seconds: 1),
-
-        //   selectedIndex: pageIndex,
-        //   destinations: const [
-        //     NavigationDestination(icon: Icon(Icons.person), label: "Profile"),
-        //     NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-        //     NavigationDestination(icon: Icon(Icons.settings), label: "Settings")
-        //   ],
-        //   onDestinationSelected: (int index) {
-        //     setState(() => pageIndex = index);
-        //   },
-        // ),
         bottomNavigationBar: BottomBarDoubleBullet(
-          color: mainColor,
+          color: theme.colorScheme.primary,
           backgroundColor: theme.colorScheme.primaryContainer,
           selectedIndex: pageIndex,
           items: [
@@ -88,7 +74,6 @@ class _HomePageV2State extends State<HomePageV2> {
               duration: const Duration(seconds: 1),
               curve: Tanh(),
             );
-            // setState(() => pageIndex = index);
           },
         ),
         body: SafeArea(

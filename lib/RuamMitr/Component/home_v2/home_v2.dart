@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/contents.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/services.dart';
+import 'package:ruam_mitt/RuamMitr/Component/home_v2/contact_us.dart';
 import 'package:ruam_mitt/RuamMitr/Component/search_box.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 class HomeWidgetV2 extends StatefulWidget {
   const HomeWidgetV2({super.key});
@@ -44,6 +47,8 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints: BoxConstraints(
@@ -56,12 +61,13 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AvatarViewer(),
+                    ContactUs(themeProvider),
                   ],
                 ),
               ),
