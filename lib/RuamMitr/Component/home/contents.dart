@@ -14,8 +14,10 @@ Widget AppContent(
           children: [
             Container(
               margin: EdgeInsets.only(right: screenSize.width * 0.03),
-              width: screenSize.width * 0.06,
-              height: screenSize.width * 0.06,
+              width: 30,
+              height: 30,
+              // width: screenSize.width * 0.06,
+              // height: screenSize.width * 0.06,
               decoration: BoxDecoration(color: color),
             ),
             Text(

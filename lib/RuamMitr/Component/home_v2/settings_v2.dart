@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
+import 'package:ruam_mitt/RuamMitr/Component/home_v2/contact_us.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
@@ -21,6 +22,7 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
     ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
       child: ConstrainedBox(
@@ -34,13 +36,12 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
           children: [
             Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(10),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      AvatarViewer(),
-                    ],
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [const AvatarViewer(), ContactUs(themeProvider)],
                   ),
                 ),
                 Padding(
