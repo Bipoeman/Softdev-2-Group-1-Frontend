@@ -38,7 +38,6 @@ class _HomePageState extends State<HomePage> {
 
   Widget selectionText(String text, bool isSelected) {
     ThemeData theme = Theme.of(context);
-
     return Container(
       decoration: isSelected
           ? UnderlineTabIndicator(
@@ -153,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ],
                                       ),
-                                      const ServicesWidget(),
+                                      ServicesWidget(size: size),
                                     ],
                                   ),
                                 ),
