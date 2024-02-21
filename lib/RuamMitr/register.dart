@@ -37,6 +37,12 @@ class _RegisterPageState extends State<RegisterPage> {
     if (RegExp(r'\s$').hasMatch(fullname)) {
       fullnameWarning += "\n - no whitespace after the last character.";
     }
+    if (RegExp(r'^[0-9]').hasMatch(fullname)) {
+      fullnameWarning += "\n - the first character cannot be a number.";
+    }
+    if (RegExp(r'[!@#$%^&*()?":{}|<>]').hasMatch(fullname)) {
+      fullnameWarning += "\n - no special character.";
+    }
     return (fullnameWarning.isNotEmpty, fullnameWarning);
   }
 
@@ -59,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if (RegExp(r'^[0-9]').hasMatch(username)) {
       usernameWarning += "\n - the first character cannot be a number.";
     }
-    if (RegExp(r'[!@#$%^&*()?":{}|<>]').hasMatch(username)) {
+    if (RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(username)) {
       usernameWarning += "\n - no special character.";
     }
     return (usernameWarning.isNotEmpty, usernameWarning);
@@ -170,14 +176,15 @@ class _RegisterPageState extends State<RegisterPage> {
     if (value!.isEmpty) {
       return "Please enter password.";
     }
-    if (value == passwordTextController.text) {
+    if (value != passwordTextController.text) {
       return "Confirm password and the password does not match.";
     }
     return null;
   }
 
   void validateRegisterInputs(String value) {
-    if (_formKey.currentState!.validate() && !_registerButtonEnabled) {
+    bool noAnyStartStates = _isEmptyFromStart.values.every((element) => !element);
+    if (_formKey.currentState!.validate() && !_registerButtonEnabled && noAnyStartStates) {
       _registerButtonEnabled = true;
       setState(() {});
     } else if (!_formKey.currentState!.validate() && _registerButtonEnabled) {
@@ -239,7 +246,7 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  TextFormField textField({
+  Widget textField({
     required String labelText,
     required BuildContext context,
     String? Function(String?)? validator,
@@ -255,32 +262,35 @@ class _RegisterPageState extends State<RegisterPage> {
     void Function(String?)? onSaved,
   }) {
     ThemeData theme = Theme.of(context);
-    return TextFormField(
-      controller: controller,
-      validator: validator,
-      keyboardType: inputType,
-      obscureText: obscureText ?? false,
-      decoration: InputDecoration(
-        isDense: true,
-        fillColor: theme.colorScheme.background.withOpacity(0.8),
-        filled: true,
-        labelStyle: TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
-        contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
-        labelText: labelText,
-        prefixIconColor: theme.colorScheme.onBackground,
-        prefixIcon: icon,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40),
-          borderSide: BorderSide.none,
+    return Container(
+      margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      child: TextFormField(
+        controller: controller,
+        validator: validator,
+        keyboardType: inputType,
+        obscureText: obscureText ?? false,
+        decoration: InputDecoration(
+          isDense: true,
+          fillColor: theme.colorScheme.background.withOpacity(0.8),
+          filled: true,
+          labelStyle: TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
+          contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
+          labelText: labelText,
+          prefixIconColor: theme.colorScheme.onBackground,
+          prefixIcon: icon,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(40),
+            borderSide: BorderSide.none,
+          ),
         ),
+        onChanged: onChanged,
+        onTap: onTap,
+        onTapOutside: onTapOutside,
+        onEditingComplete: onEditingComplete,
+        onFieldSubmitted: onFieldSubmitted,
+        onSaved: onSaved,
+        maxLines: 1,
       ),
-      onChanged: onChanged,
-      onTap: onTap,
-      onTapOutside: onTapOutside,
-      onEditingComplete: onEditingComplete,
-      onFieldSubmitted: onFieldSubmitted,
-      onSaved: onSaved,
-      maxLines: 1,
     );
   }
 
@@ -330,7 +340,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   margin: const EdgeInsets.fromLTRB(0, 30, 0, 30),
                   padding: const EdgeInsets.all(30),
                   width: [512.0, size.width * 0.9].reduce(min),
-                  height: 512,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(28),
                     color: theme.colorScheme.primaryContainer.withOpacity(0.8),
@@ -342,6 +351,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       children: [
                         textField(
                           controller: fullnameTextController,
+                          validator: fullnameValidator,
                           labelText: "Full Name",
                           context: context,
                           icon: const Icon(Icons.person),
@@ -349,6 +359,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         textField(
                           controller: emailTextController,
+                          validator: emailValidator,
                           labelText: "E-mail",
                           context: context,
                           inputType: TextInputType.emailAddress,
@@ -357,19 +368,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         textField(
                           controller: usernameTextController,
-                          validator: (value) {
-                            if (_isEmptyFromStart["username"]! && value!.isEmpty) {
-                              return null;
-                            }
-                            if (value!.isEmpty) {
-                              return "Please enter username.";
-                            }
-                            if (_isEmptyFromStart["username"]!) {
-                              _isEmptyFromStart["username"] = false;
-                              setState(() {});
-                            }
-                            return null;
-                          },
+                          validator: usernameValidator,
                           labelText: "Username",
                           context: context,
                           icon: const Icon(Icons.account_box_outlined),
@@ -386,15 +385,17 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         textField(
                           controller: confirmpasswordTextController,
+                          validator: confirmPasswordValidator,
                           labelText: "Repeat Password",
                           context: context,
                           obscureText: true,
                           icon: const Icon(Icons.lock_outline),
                           onChanged: validateRegisterInputs,
                         ),
-                        SizedBox(
+                        Container(
                           width: double.infinity,
                           height: 50,
+                          margin: const EdgeInsets.fromLTRB(0, 15, 0, 20),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: theme.colorScheme.primary,
