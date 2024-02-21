@@ -13,16 +13,16 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
   final String? avatarUrl;
 
   Widget getAvatar(BuildContext context) {
-    if (avatarUrl != null) {
-      try {
-        return CircleAvatar(
-          radius: 30,
-          backgroundImage: NetworkImage(avatarUrl!),
-        );
-      } catch (e) {
-        debugPrint(e.toString());
-      }
-    }
+    // if (avatarUrl != null) {
+    //   try {
+    //     return CircleAvatar(
+    //       radius: 30,
+    //       backgroundImage: NetworkImage(avatarUrl!),
+    //     );
+    //   } catch (e) {
+    //     debugPrint(e.toString());
+    //   }
+    // }
     return CircleAvatar(
       radius: 30,
       backgroundColor: Colors.white.withOpacity(0.5),
@@ -40,7 +40,8 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
           ),
           constraints: const BoxConstraints(),
           onPressed: () {
-            Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
+            Navigator.pushNamed(
+                context, tuachuayDekhorPageRoute["profile_blogger"]!);
           },
           child: Container(
             margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
