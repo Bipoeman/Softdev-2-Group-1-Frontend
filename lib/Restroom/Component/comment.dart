@@ -12,9 +12,7 @@ class _CardcommentState extends State<Cardcomment> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Center(
-        child: Container(
+    return Container(
             height: size.height * 0.3,
             width: size.width * 0.75,
             padding: EdgeInsets.only(
@@ -104,8 +102,9 @@ class _CardcommentState extends State<Cardcomment> {
                   ],
                 )
               ],
-            )),
-      ),
-    );
+            )
+          );
+      
+    
   }
 }

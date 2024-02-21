@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:ruam_mitt/global_const.dart';
 class Navbar2RestroomRover extends StatelessWidget {
   const Navbar2RestroomRover({
     super.key,
@@ -150,7 +150,7 @@ class Navbar2RestroomRover extends StatelessWidget {
             onTap: () {
               // เมื่อเลือกรายการเมนู
               // ปิดเมนูสไลด์
-              // Navigator.pushNamed(context, restroomPageRoute["review"]!);
+              Navigator.pushNamed(context, restroomPageRoute["findposition"]!);
               // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
             },
           ),

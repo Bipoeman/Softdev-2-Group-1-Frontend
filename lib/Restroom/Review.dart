@@ -60,7 +60,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
           ),
         ],
       ),
-      body: SlidingBox(
+      body: SingleChildScrollView(child: SlidingBox(
         controller: boxController,
         physics: const NeverScrollableScrollPhysics(),
         collapsed: true,
@@ -239,17 +239,23 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                         width: size.width * 0.8,
                         color: const Color.fromRGBO(99, 99, 99, 1),
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: 10, // จำนวนรายการที่ต้องการแสดง
-                          itemBuilder: (context, index) {
-                            return const SizedBox(
-                              height: 250, // ระบุความสูงที่ต้องการ
-                              child: Cardcomment(),
-                            );
-                          },
-                        ),
-                      ),
+                      Cardcomment(),
+                      Cardcomment(),
+                      Cardcomment(),
+                      Cardcomment(),
+                      Cardcomment(),
+                      Cardcomment(),
+                      // Expanded(
+                      //   child: ListView.builder(
+                      //     itemCount: 10, // จำนวนรายการที่ต้องการแสดง
+                      //     itemBuilder: (context, index) {
+                      //       return const SizedBox(
+                      //         height: 250, // ระบุความสูงที่ต้องการ
+                      //         child: Cardcomment(),
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -258,6 +264,6 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
           ),
         ),
       ),
-    );
+    ));
   }
 }
