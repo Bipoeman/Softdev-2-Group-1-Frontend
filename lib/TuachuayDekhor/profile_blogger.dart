@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 
 class TuachuayDekhorBloggerProfilePage extends StatefulWidget {
   const TuachuayDekhorBloggerProfilePage({super.key});
+  
 
   @override
   State<TuachuayDekhorBloggerProfilePage> createState() =>
@@ -32,8 +33,9 @@ class _TuachuayDekhorBloggerProfilePageState
   @override
   void initState() {
     super.initState();
-    postoprofile();
-    savepost();
+    // postoprofile();
+    // savepost();
+    // print(widget.username);
   }
 
   void updateDescription(String value) {
@@ -70,7 +72,7 @@ class _TuachuayDekhorBloggerProfilePageState
 
   @override
   Widget build(BuildContext context) {
-    final username = ModalRoute.of(context)?.settings.arguments as String;
+    final username = ModalRoute.of(context)!.settings.arguments as String;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -111,21 +113,21 @@ class _TuachuayDekhorBloggerProfilePageState
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          // Container(
-                          //   width: size.width * 0.25,
-                          //   height: size.width * 0.25,
-                          //   decoration: BoxDecoration(
-                          //     shape: BoxShape.circle,
-                          //     color: const Color.fromRGBO(0, 48, 73, 1),
-                          //     image: DecorationImage(
-                          //       fit: BoxFit.cover,
-                          //       image: NetworkImage(
-                          //         profileData['profile'] ??
-                          //             "https://api.multiavatar.com/${profileData['fullname'] ?? "John Doe".replaceAll(" ", "+")}.png",
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
+                          Container(
+                            width: size.width * 0.25,
+                            height: size.width * 0.25,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: const Color.fromRGBO(0, 48, 73, 1),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  profileData['profile'] ??
+                                      "https://api.multiavatar.com/${username}.png",
+                                ),
+                              ),
+                            ),
+                          ),
                           Padding(
                             padding: EdgeInsets.only(left: size.width * 0.04),
                             child: Text(

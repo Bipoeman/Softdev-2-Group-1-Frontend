@@ -86,11 +86,11 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
     var response = await http.get(
       randomurl,
     );
-    print("Status Returned for randompost() ${response.statusCode}");
+    debugPrint("Status Returned for randompost() ${response.statusCode}");
     if (response.statusCode == 200) {
       setState(() {
         blog = jsonDecode(response.body);
-        print("body Returned for randompost() ${response.body}");
+        debugPrint("body Returned for randompost() ${response.body}");
       });
     } else {
       throw Exception('Failed to load data');
@@ -105,189 +105,201 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
       body: SafeArea(
         child: Stack(
           children: [
-            SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                    minHeight: size.height -
-                        [size.width * 0.4, 100.0].reduce(min) -
-                        MediaQuery.of(context).padding.top),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 235,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          opacity: 0.3,
-                          image: AssetImage(
-                              "assets/images/Background/TuachuayDekhor_Home.jpg"),
-                          fit: BoxFit.cover,
+            RefreshIndicator(
+              displacement: 100,
+              color: const Color.fromRGBO(0, 48, 73, 1),
+              onRefresh: randompost,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics()),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                      minHeight: size.height -
+                          [size.width * 0.4, 100.0].reduce(min) -
+                          MediaQuery.of(context).padding.top),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 235,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            opacity: 0.3,
+                            image: AssetImage(
+                                "assets/images/Background/TuachuayDekhor_Home.jpg"),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(right: 10),
-                                width: 10,
-                                height: 20,
-                                color: const Color.fromRGBO(0, 48, 73, 1),
-                              ),
-                              const Text(
-                                "Catagories",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            Row(
                               children: [
-                                nodeCatagories(
-                                    context, "Decoration", "decoration", "1"),
-                                nodeCatagories(
-                                    context, "Cleaning", "cleaning", "2"),
-                                nodeCatagories(
-                                    context, "Cooking", "cooking", "3"),
-                                nodeCatagories(context, "Story", "story", "4"),
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  width: 10,
+                                  height: 20,
+                                  color: const Color.fromRGBO(0, 48, 73, 1),
+                                ),
+                                const Text(
+                                  "Catagories",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ],
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  nodeCatagories(
+                                      context, "Decoration", "decoration", "1"),
+                                  nodeCatagories(
+                                      context, "Cleaning", "cleaning", "2"),
+                                  nodeCatagories(
+                                      context, "Cooking", "cooking", "3"),
+                                  nodeCatagories(
+                                      context, "Story", "story", "4"),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(right: 10),
-                                width: 10,
-                                height: 20,
-                                color: const Color.fromRGBO(0, 48, 73, 1),
-                              ),
-                              const Text(
-                                "Blogger",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(left: 30),
-                                alignment: Alignment.centerLeft,
-                                child: const Text(
-                                  "Start sharing your experiences",
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.italic,
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(right: 10),
-                                child: RawMaterialButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(context,
-                                        tuachuayDekhorPageRoute["writeblog"]!);
-                                  },
-                                  fillColor:
-                                      const Color.fromRGBO(217, 192, 41, 1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  textStyle: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 10,
-                                  ),
-                                  child: const Text("GET START"),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
+                      Container(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Column(
+                          children: [
+                            Row(
                               children: [
-                                if (blogger.length > 7) ...[
-                                  ...List.generate(
-                                    blogger.length,
-                                    (index) => TuachuayDekhorAvatarViewer(
-                                      username: blogger[index]['user']
-                                          ['fullname'],
-                                      avatarUrl:
-                                          "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  width: 10,
+                                  height: 20,
+                                  color: const Color.fromRGBO(0, 48, 73, 1),
+                                ),
+                                const Text(
+                                  "Blogger",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(left: 30),
+                                  alignment: Alignment.centerLeft,
+                                  child: const Text(
+                                    "Start sharing your experiences",
+                                    style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.w300,
                                     ),
                                   ),
-                                  ElevatedButton(
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  child: RawMaterialButton(
                                     onPressed: () {
                                       Navigator.pushNamed(
-                                        context,
-                                        tuachuayDekhorPageRoute["blogger"]!,
-                                      );
+                                          context,
+                                          tuachuayDekhorPageRoute[
+                                              "writeblog"]!);
                                     },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
+                                    fillColor:
+                                        const Color.fromRGBO(217, 192, 41, 1),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
-                                    child: const Icon(
-                                      Icons.arrow_forward,
-                                      size: 16,
+                                    textStyle: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 10,
                                     ),
+                                    child: const Text("GET START"),
                                   ),
-                                ] else ...[
-                                  ...List.generate(
-                                    blogger.length,
-                                    (index) => TuachuayDekhorAvatarViewer(
-                                      username: blogger[index]['user']
-                                          ['fullname'],
-                                      avatarUrl:
-                                          "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
-                                    ),
-                                  ),
-                                ]
+                                ),
                               ],
                             ),
-                          ),
-                        ],
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  if (blogger.length > 7) ...[
+                                    ...List.generate(
+                                      blogger.length,
+                                      (index) => TuachuayDekhorAvatarViewer(
+                                        username: blogger[index]['user']
+                                            ['fullname'],
+                                        avatarUrl:
+                                            "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          tuachuayDekhorPageRoute["blogger"]!,
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        shape: const CircleBorder(),
+                                      ),
+                                      child: const Icon(
+                                        Icons.arrow_forward,
+                                        size: 16,
+                                      ),
+                                    ),
+                                  ] else ...[
+                                    ...List.generate(
+                                      blogger.length,
+                                      (index) => TuachuayDekhorAvatarViewer(
+                                        username: blogger[index]['user']
+                                            ['fullname'],
+                                        avatarUrl:
+                                            "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
+                                      ),
+                                    ),
+                                  ]
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(right: 10),
-                                width: 10,
-                                height: 20,
-                                color: const Color.fromRGBO(0, 48, 73, 1),
-                              ),
-                              const Text(
-                                "DekHor Recommended",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                bottom: size.width * 0.05,
-                                left: size.width * 0.04,
-                                right: size.width * 0.04,
-                                top: size.width * 0.05),
-                            child: Row(
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  width: 10,
+                                  height: 20,
+                                  color: const Color.fromRGBO(0, 48, 73, 1),
+                                ),
+                                const Text(
+                                  "DekHor Recommended",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: size.width * 0.05,
+                                  left: size.width * 0.04,
+                                  right: size.width * 0.04,
+                                  top: size.width * 0.05),
+                              child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,7 +333,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                             },
                                           );
                                         } else {
-                                          return SizedBox(); // แสดง SizedBox ถ้าข้อมูลไม่เพียงพอ
+                                          return const SizedBox(); // แสดง SizedBox ถ้าข้อมูลไม่เพียงพอ
                                         }
                                       },
                                     ),
@@ -355,17 +367,19 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                             },
                                           );
                                         } else {
-                                          return SizedBox(); // แสดง SizedBox ถ้าข้อมูลไม่เพียงพอ
+                                          return const SizedBox(); // แสดง SizedBox ถ้าข้อมูลไม่เพียงพอ
                                         }
                                       },
                                     ),
                                   ),
-                                ]),
-                          )
-                        ],
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

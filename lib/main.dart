@@ -87,7 +87,7 @@ class _SuperAppState extends State<SuperApp> {
             const TuachuayDekhorCookingPage(),
         tuachuayDekhorPageRoute["cleaning"]!: (context) =>
             const TuachuayDekhorCleaningPage(),
-        tuachuayDekhorPageRoute["profile_blogger"]!: (context) =>
+        tuachuayDekhorPageRoute["profileblogger"]!: (context) =>
             const TuachuayDekhorBloggerProfilePage(),
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPage(),
