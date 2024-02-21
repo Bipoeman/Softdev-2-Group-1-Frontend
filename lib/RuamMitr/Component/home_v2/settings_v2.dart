@@ -22,6 +22,7 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
     Size size = MediaQuery.of(context).size;
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return SingleChildScrollView(
+      physics: const NeverScrollableScrollPhysics(),
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minHeight: size.height -
@@ -82,7 +83,7 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
             ),
             Container(
               width: [size.width * 0.6, 300.0].reduce(min),
-              margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+              margin: EdgeInsets.fromLTRB(0, 20, 0, size.width * 0.15),
               height: 50,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(

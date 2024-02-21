@@ -25,14 +25,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void _registerAccount() async {
     ThemeData theme = Theme.of(context);
-    var response = await http.post(Uri.parse("$api/register"), body: {
+    var response = await http.post(Uri.parse("$api$registerPageRoute"), body: {
       'fullname': fullnameTextController.text,
       'email': emailTextController.text,
       'username': usernameTextController.text,
       'password': passwordTextController.text,
     });
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -41,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
               color: theme.colorScheme.onPrimary,
             ),
           ),
-          backgroundColor: theme.colorScheme.onPrimary,
+          backgroundColor: theme.colorScheme.primary,
         ),
       );
       Navigator.of(context).pushNamedAndRemoveUntil(
@@ -57,7 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
               color: theme.colorScheme.onPrimary,
             ),
           ),
-          backgroundColor: theme.colorScheme.onPrimary,
+          backgroundColor: theme.colorScheme.primary,
         ),
       );
     }
