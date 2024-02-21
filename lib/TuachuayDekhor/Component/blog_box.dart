@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class BlogBox extends StatelessWidget {
   const BlogBox({
@@ -18,7 +17,19 @@ class BlogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SizedBox(
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 5,
+            blurStyle: BlurStyle.normal,
+            color: const Color.fromRGBO(0, 48, 73, 1).withOpacity(0.2),
+            spreadRadius: 0.05,
+            offset: const Offset(4, 4),
+          )
+        ],
+      ),
       width: size.width * 0.4,
       child: RawMaterialButton(
         shape: const RoundedRectangleBorder(
@@ -30,18 +41,31 @@ class BlogBox extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IntrinsicHeight(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
-                child: Image(
-                  image: image,
-                  fit: BoxFit.cover,
+            Container(
+              constraints: const BoxConstraints(maxHeight: 200),
+              clipBehavior: Clip.antiAlias,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(10),
                 ),
               ),
+              child: Image(
+                image: image,
+                fit: BoxFit.cover,
+              ),
             ),
+            // IntrinsicHeight(
+            //   child: ClipRRect(
+            //     borderRadius: const BorderRadius.only(
+            //       topLeft: Radius.circular(10),
+            //       topRight: Radius.circular(10),
+            //     ),
+            //     child: Image(
+            //       image: image,
+            //       fit: BoxFit.cover,
+            //     ),
+            //   ),
+            // ),
             Container(
               padding: const EdgeInsets.only(
                 left: 5,
