@@ -15,7 +15,7 @@ class _CardcommentState extends State<Cardcomment> {
     return Center(
         child: Container(
             height: size.height * 0.3,
-            width: size.width * 0.75,
+            width: size.width * 0.85,
             padding: EdgeInsets.only(
               left: size.width * 0.03,
               top: size.height * 0.015,

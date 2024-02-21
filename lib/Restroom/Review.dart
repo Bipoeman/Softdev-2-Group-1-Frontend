@@ -87,12 +87,12 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                   child: Column(
                     children: [
                       Container(
-                        height: size.height * 0.3,
-                        width: size.width * 0.8,
+                        height: size.height * 0.4,
+                        width: size.width * 0.9,
                         padding: EdgeInsets.only(
                           left: size.width * 0.01,
-                          top: size.height * 0.04,
-                          bottom: size.height * 0.01,
+                          top: size.height * 0.02,
+                          // bottom: size.height * 0.01,
                           right: size.width * 0.01,
                         ),
                         child: Image.network(
@@ -100,16 +100,31 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                         ),
                       ),
                       Container(
-                        height: size.height * 0.07,
+                        // height: size.height * 0.07,
                         width: size.width * 0.8,
                         padding: EdgeInsets.only(
-                          top: size.height * 0.02,
+                          // top: size.height * 0.01,
                         ),
                         child: const Text(
                           "Tai taeuk 81",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 25,
+                            fontSize: 26,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: size.height * 0.05,
+                        width: size.width * 0.8,
+                        padding: EdgeInsets.only(
+                          // top: size.height * 0.01,
+                        ),
+                        child: const Text(
+                          "156/512 ซ.วงศ์สว่าง 11 ",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -240,14 +255,6 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                         color: const Color.fromRGBO(99, 99, 99, 1),
                       ),
                       SizedBox(height: 15),
-                      // Cardcomment(),
-                      // Cardcomment(),
-                      // Cardcomment(),
-                      // Cardcomment(),
-                      // Cardcomment(),
-                      // Cardcomment(),
-                      // Cardcomment(),
-                      // Cardcomment(),
                       Expanded(
                         child: Column(
                           children: [
