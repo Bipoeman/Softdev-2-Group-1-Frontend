@@ -251,22 +251,13 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                       Expanded(
                         child: Column(
                           children: [
-                          Cardcomment(),
-                          Cardcomment(),
-                          Cardcomment(),
-                          Cardcomment(),
-                          Cardcomment(),
-                          Cardcomment(),
-                          Cardcomment(),
-                          Cardcomment(),
+                            for (int i = 0; i < 8; i++) // จำนวน Cardcomment ที่ต้องการแสดง
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical : 10), // เพิ่มระยะห่าง 10 หน่วยด้านบนและด้านล่างของ Cardcomment
+                                child: Cardcomment(),
+                              ),
                           ],
-                          // itemCount: 10, // จำนวนรายการที่ต้องการแสดง
-                          // itemBuilder: (context, index) {
-                          //   return const SizedBox(
-                          //     height: 250, // ระบุความสูงที่ต้องการ
-                          //     child: Cardcomment(),
-                          //   );
-                          // },
                         ),
                       ),
                     ],
