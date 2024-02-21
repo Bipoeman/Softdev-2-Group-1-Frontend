@@ -16,6 +16,7 @@ const String dekhorSearchBloggerRoute = "/dekhor/searchblogger";
 const String dekhorWriteBloggerRoute = "/dekhor/createpost";
 const String dekhorAddPictureRoute = "/dekhor/upload";
 const String dekhorRandomPostRoute = "/dekhor/randompost";
+const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",
@@ -47,6 +48,7 @@ const Map<String, String> pinthebinPageRoute = {
   "addbin": "/PinTheBin/addbin",
   "editbin": "/PinTheBin/editbin",
   "report": "/PinTheBin/report",
+  "mybin": "/PinTheBin/mybin",
 };
 
 BoxDecoration ruamMitrBackgroundGradient(ThemeProvider themes) {
