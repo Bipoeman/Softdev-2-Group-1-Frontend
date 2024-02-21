@@ -5,10 +5,6 @@ import 'package:ruam_mitt/global_const.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math';
 
-Color backgroundColor = const Color(0xffe8e8e8);
-Color mainColor = const Color(0xffd33333);
-Color textColor = const Color(0xff000000);
-
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -96,8 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
         isDense: true,
         fillColor: theme.colorScheme.background.withOpacity(0.8),
         filled: true,
-        labelStyle:
-            TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
+        labelStyle: TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
         contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
         labelText: labelText,
         prefixIconColor: theme.colorScheme.onBackground,
@@ -156,8 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
           body: SingleChildScrollView(
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight:
-                    size.height - MediaQuery.of(context).padding.top - 75,
+                minHeight: size.height - MediaQuery.of(context).padding.top - 75,
               ),
               child: Center(
                 child: Container(
@@ -220,14 +214,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           child: const Text("Create Account"),
                           onPressed: () {
-                            if (passwordTextController.text ==
-                                confirmpasswordTextController.text) {
+                            if (passwordTextController.text == confirmpasswordTextController.text) {
                               _registerAccount();
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text(
-                                      "Password and Comfrim Password does not match."),
+                                  content: Text("Password and Comfrim Password does not match."),
                                   backgroundColor: Colors.red,
                                 ),
                               );
