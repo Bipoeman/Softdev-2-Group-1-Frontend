@@ -219,7 +219,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text("Password and Comfrim Password does not match."),
+                                  content: Text("Password and Comfirm Password does not match."),
                                   backgroundColor: Colors.red,
                                 ),
                               );
