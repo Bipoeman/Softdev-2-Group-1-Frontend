@@ -80,10 +80,10 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                     MediaQuery.of(context).padding.top,
               ),
               child: Center(
-                child: Container(
-                  width: size.width,
-                  height: size.height,
-                  color: const Color.fromRGBO(230, 230, 230, 1),
+                child: IntrinsicHeight(
+                  // width: size.width,
+                  // height: size.height,
+                  // color: const Color.fromRGBO(230, 230, 230, 1),
                   child: Column(
                     children: [
                       Container(
@@ -116,7 +116,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                       ),
                       Container(
                         height: size.height * 0.002,
-                        width: size.width * 0.8,
+                        width: size.width * 0.85,
                         color: const Color.fromRGBO(99, 99, 99, 1),
                       ),
                       Row(
@@ -236,18 +236,37 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                       ),
                       Container(
                         height: size.height * 0.002,
-                        width: size.width * 0.8,
+                        width: size.width * 0.85,
                         color: const Color.fromRGBO(99, 99, 99, 1),
                       ),
+                      SizedBox(height: 15),
+                      // Cardcomment(),
+                      // Cardcomment(),
+                      // Cardcomment(),
+                      // Cardcomment(),
+                      // Cardcomment(),
+                      // Cardcomment(),
+                      // Cardcomment(),
+                      // Cardcomment(),
                       Expanded(
-                        child: ListView.builder(
-                          itemCount: 10, // จำนวนรายการที่ต้องการแสดง
-                          itemBuilder: (context, index) {
-                            return const SizedBox(
-                              height: 250, // ระบุความสูงที่ต้องการ
-                              child: Cardcomment(),
-                            );
-                          },
+                        child: Column(
+                          children: [
+                          Cardcomment(),
+                          Cardcomment(),
+                          Cardcomment(),
+                          Cardcomment(),
+                          Cardcomment(),
+                          Cardcomment(),
+                          Cardcomment(),
+                          Cardcomment(),
+                          ],
+                          // itemCount: 10, // จำนวนรายการที่ต้องการแสดง
+                          // itemBuilder: (context, index) {
+                          //   return const SizedBox(
+                          //     height: 250, // ระบุความสูงที่ต้องการ
+                          //     child: Cardcomment(),
+                          //   );
+                          // },
                         ),
                       ),
                     ],
