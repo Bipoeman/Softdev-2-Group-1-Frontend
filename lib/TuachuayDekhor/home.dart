@@ -86,10 +86,11 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
     var response = await http.get(
       randomurl,
     );
+    print("Status Returned for randompost() ${response.statusCode}");
     if (response.statusCode == 200) {
       setState(() {
         blog = jsonDecode(response.body);
-        print(blog);
+        print("body Returned for randompost() ${response.body}");
       });
     } else {
       throw Exception('Failed to load data');
@@ -287,7 +288,8 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                 right: size.width * 0.04,
                                 top: size.width * 0.05),
                             child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Wrap(
@@ -304,7 +306,11 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                                 ['fullname'],
                                             like: 'null',
                                             image: NetworkImage(
-                                              blog[actualIndex]['image_link'],
+                                              blog[actualIndex]['image_link'] !=
+                                                      "null"
+                                                  ? blog[actualIndex]
+                                                      ['image_link']
+                                                  : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                             ),
                                             onPressed: () {
                                               Navigator.pushNamed(
@@ -334,7 +340,11 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                                 ['fullname'],
                                             like: 'null',
                                             image: NetworkImage(
-                                              blog[actualIndex]['image_link'],
+                                              blog[actualIndex]['image_link'] !=
+                                                      "null"
+                                                  ? blog[actualIndex]
+                                                      ['image_link']
+                                                  : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                             ),
                                             onPressed: () {
                                               Navigator.pushNamed(

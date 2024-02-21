@@ -13,7 +13,6 @@ class NavbarTuachuayDekhor extends StatelessWidget {
   final String? username;
   final String? avatarUrl;
 
-
   Widget getAvatar(BuildContext context) {
     // if (avatarUrl != null) {
     //   try {
@@ -49,7 +48,8 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(10),
                   onTap: () {
-                    Navigator.pushNamed(context, tuachuayDekhorPageRoute["home"]!);
+                    Navigator.pushNamed(
+                        context, tuachuayDekhorPageRoute["home"]!);
                   },
                   child: const Image(
                     image: AssetImage(
@@ -97,8 +97,8 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                                   ],
                                 ),
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, tuachuayDekhorPageRoute["profile"]!);
+                                  Navigator.pushNamed(context,
+                                      tuachuayDekhorPageRoute["profile"]!);
                                 },
                               ),
                               PopupMenuItem(
@@ -110,8 +110,10 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                                   ],
                                 ),
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, ruamMitrPageRoute["home"]!);
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                    ruamMitrPageRoute["home"]!,
+                                    (Route<dynamic> route) => false,
+                                  );
                                 },
                               ),
                             ],
