@@ -25,6 +25,21 @@ class _TuachuaySearchBoxState extends State<TuachuaySearchBox> {
     return TextFormField(
       controller: searchText,
       keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.next,
+      onFieldSubmitted: (value) {
+        searchText.text.isNotEmpty
+            ? (
+                Navigator.pushNamed(
+                    context, tuachuayDekhorPageRoute["search"]!),
+                savesearchtext()
+              )
+            : ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Please enter a search term"),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+      },
       cursorColor: const Color.fromRGBO(0, 48, 73, 1),
       decoration: InputDecoration(
         fillColor: Colors.white,
