@@ -63,6 +63,7 @@ dependencies:
   flutter_map_location_marker: ^8.0.6
   geolocator: ^11.0.0
   lottie: ^3.0.0
+  email_validator: ^2.0.1
 
 dev_dependencies:
   flutter_test:
