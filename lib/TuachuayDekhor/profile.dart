@@ -48,7 +48,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
     if (response.statusCode == 200) {
       setState(() {
         post = jsonDecode(response.body);
-        print(post);
+        // print(post);
       });
     } else {
       throw Exception('Failed to load data');
@@ -250,7 +250,10 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     name: post[actualIndex]['user']['fullname'],
                                     like: 'null',
                                     image: NetworkImage(
-                                        post[actualIndex]['image_link']),
+                                      post[actualIndex]['image_link'] != "null"
+                                          ? post[actualIndex]['image_link']
+                                          : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                    ),
                                     onPressed: () {
                                       Navigator.pushNamed(
                                         context,
@@ -263,8 +266,13 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     title: save[actualIndex]['post']['title'],
                                     name: save[actualIndex]['user']['fullname'],
                                     like: 'null',
-                                    image: NetworkImage(save[actualIndex]
-                                        ['post']['image_link']),
+                                    image: NetworkImage(
+                                      save[actualIndex]['post']['image_link'] !=
+                                              "null"
+                                          ? save[actualIndex]['post']
+                                              ['image_link']
+                                          : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                    ),
                                     onPressed: () {
                                       Navigator.pushNamed(
                                         context,
@@ -290,7 +298,10 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     name: post[actualIndex]['user']['fullname'],
                                     like: 'null',
                                     image: NetworkImage(
-                                        post[actualIndex]['image_link']),
+                                      post[actualIndex]['image_link'] != "null"
+                                          ? post[actualIndex]['image_link']
+                                          : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                    ),
                                     onPressed: () {
                                       Navigator.pushNamed(
                                         context,
@@ -304,7 +315,10 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     name: save[actualIndex]['user']['fullname'],
                                     like: 'null',
                                     image: NetworkImage(save[actualIndex]
-                                        ['post']['image_link']),
+                                        ['post']['image_link']!= "null"
+                                          ? post[actualIndex]['image_link']
+                                          : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                    ),
                                     onPressed: () {
                                       Navigator.pushNamed(
                                         context,

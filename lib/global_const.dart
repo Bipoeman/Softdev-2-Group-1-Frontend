@@ -16,6 +16,10 @@ const String dekhorSearchBloggerRoute = "/dekhor/searchblogger";
 const String dekhorWriteBloggerRoute = "/dekhor/createpost";
 const String dekhorAddPictureRoute = "/dekhor/upload";
 const String dekhorRandomPostRoute = "/dekhor/randompost";
+const String dekhorPosttocleaningRoute = "/dekhor/posttocategory/cleaning";
+const String dekhorPosttocookingRoute = "/dekhor/posttocategory/cooking";
+const String dekhorPosttodecorationRoute = "/dekhor/posttocategory/decoration";
+const String dekhorPosttostoryRoute = "/dekhor/posttocategory/story";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 
 const Map<String, String> ruamMitrPageRoute = {
