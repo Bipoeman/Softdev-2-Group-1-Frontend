@@ -60,7 +60,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
           ),
         ],
       ),
-      body: SlidingBox(
+      body: SingleChildScrollView(child: SlidingBox(
         controller: boxController,
         physics: const NeverScrollableScrollPhysics(),
         collapsed: true,
@@ -275,6 +275,6 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
           ),
         ),
       ),
-    );
+    ));
   }
 }
