@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ruam_mitt/Restroom/Component/search_box.dart';
-
-class NavbarRestroomRover extends StatelessWidget {
-  const NavbarRestroomRover({
+import 'package:ruam_mitt/global_const.dart';
+class RestroomRoverNavbar extends StatelessWidget {
+  const RestroomRoverNavbar({
     super.key,
     this.username,
     this.avatarUrl,
@@ -34,131 +33,124 @@ class NavbarRestroomRover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-
-        backgroundColor: Colors.transparent,
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Text('Drawer Header'),
-              ),
-              ListTile(
-                title: Text('Item 1'),
-                onTap: () {
-                  // เมื่อเลือกรายการเมนู
-                  // ปิดเมนูสไลด์
-                  Navigator.pop(context);
-                  // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
-                },
-              ),
-              ListTile(
-                title: Text('Item 2'),
-                onTap: () {
-                  // เมื่อเลือกรายการเมนู
-                  // ปิดเมนูสไลด์
-                  Navigator.pop(context);
-                  // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
-                },
-              ),
-            ],
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
+              color: Color(0xFFFFB703),
+            ),
+            accountName: Container(
+                margin: EdgeInsets.only(bottom: 20),
+                child: Text(
+                  'Kasidit sud smart',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                )),
+            accountEmail: null,
+            currentAccountPicture: CircleAvatar(
+              radius: 30, // กำหนดรัศมีของวงกลม
+              backgroundImage:
+                  AssetImage("assets/images/RestroomRover/Kasidit.jpeg"),
+            ),
           ),
-        ),
-        body: Container(
-          padding: const EdgeInsets.all(10),
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 68.5,
-                    width: 68.5,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () {
-                        Scaffold.of(context).openDrawer();
-                      },
-                      child: const Image(
-                        image: AssetImage(
-                            "assets/images/RestroomRover/Pinred.png"),
-                      ),
-                    ),
-                  ),
-                ],
+          ListTile(
+            leading: Container(
+              // ใส่พื้นหลังด้วย Image.asset
+              decoration: BoxDecoration(
+                color: Color(0xFFFFB703),
+                borderRadius: BorderRadius.circular(10),
               ),
-              Container(
-                padding: const EdgeInsets.only(top: 15),
-                height: 56,
-                width: size.width * 0.5,
-                child: const RestroomSearchBox(),
+              width: size.width * 0.1,
+              height: size.height * 0.05,
+              padding: EdgeInsets.only(left: 5.0, right: 5.0),
+              child: Image.asset(
+                "assets/images/RestroomRover/Icon_pinnoback.png",
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: [
-              //     Container(
-              //       margin: const EdgeInsets.only(right: 10, top: 10),
-              //       alignment: Alignment.topCenter,
-              //       child: Stack(
-              //         children: [
-              //           SizedBox(
-              //             child: getAvatar(context),
-              //           ),
-              //           SizedBox(
-              //             height: 48.5,
-              //             width: 48.5,
-              //             child: RawMaterialButton(
-              //               shape: const CircleBorder(),
-              //               onPressed: () {
-              //                 showMenu(
-              //                   context: context,
-              //                   surfaceTintColor: Colors.white,
-              //                   position:
-              //                       RelativeRect.fromLTRB(size.width, 102, 0, 0),
-              //                   items: [
-              //                     PopupMenuItem(
-              //                       child: const Row(
-              //                         children: [
-              //                           Icon(Icons.people),
-              //                           SizedBox(width: 10),
-              //                           Text("Profile"),
-              //                         ],
-              //                       ),
-              //                       onTap: () {
-              //                         Navigator.pushNamed(
-              //                             context, ruamMitrPageRoute["profile"]!);
-              //                       },
-              //                     ),
-              //                     PopupMenuItem(
-              //                       child: const Row(
-              //                         children: [
-              //                           Icon(Icons.logout),
-              //                           SizedBox(width: 10),
-              //                           Text("RuamMitr"),
-              //                         ],
-              //                       ),
-              //                       onTap: () {
-              //                         Navigator.pushNamed(
-              //                             context, ruamMitrPageRoute["home"]!);
-              //                       },
-              //                     ),
-              //                   ],
-              //                 );
-              //               },
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     )
-              //   ],
-              // ),
-            ],
+            ),
+            title: Text('Pin restroom'),
+            onTap: () {
+              // เมื่อเลือกรายการเมนู
+              // ปิดเมนูสไลด์
+              // Navigator.pushNamed(context, restroomPageRoute["review"]!);
+              // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
+            },
           ),
-        ));
+          SizedBox(height: 10),
+          ListTile(
+            leading: Container(
+              // ใส่พื้นหลังด้วย Image.asset
+              decoration: BoxDecoration(
+                color: Color(0xFFFFB703),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              width: size.width * 0.1,
+              height: size.height * 0.05,
+              padding: EdgeInsets.only(left: 5.0, right: 5.0),
+              child: Image.asset(
+                "assets/images/RestroomRover/Icon_pinnoback.png",
+              ),
+            ),
+            title: Text('Edit pin'),
+            onTap: () {
+              // เมื่อเลือกรายการเมนู
+              // ปิดเมนูสไลด์
+              // Navigator.pushNamed(context, restroomPageRoute["review"]!);
+              // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
+            },
+          ),
+          SizedBox(height: 10),
+          ListTile(
+            leading: Container(
+              // ใส่พื้นหลังด้วย Image.asset
+              decoration: BoxDecoration(
+                color: Color(0xFFFFB703),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              width: size.width * 0.1,
+              height: size.height * 0.05,
+              padding: EdgeInsets.only(left: 5.0, right: 5.0),
+              child: Image.asset(
+                "assets/images/RestroomRover/Icon_pinnoback.png",
+              ),
+            ),
+            title: Text('Report'),
+            onTap: () {
+              // เมื่อเลือกรายการเมนู
+              // ปิดเมนูสไลด์
+              // Navigator.pushNamed(context, restroomPageRoute["review"]!);
+              // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
+            },
+          ),
+          SizedBox(height: 10),
+          ListTile(
+            leading: Container(
+              // ใส่พื้นหลังด้วย Image.asset
+              decoration: BoxDecoration(
+                color: Color(0xFFFFB703),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              width: size.width * 0.1,
+              height: size.height * 0.05,
+              padding: EdgeInsets.only(left: 5.0, right: 5.0),
+              child: Image.asset(
+                "assets/images/RestroomRover/Icon_pinnoback.png",
+              ),
+            ),
+            title: Text('Exit'),
+            onTap: () {
+              // เมื่อเลือกรายการเมนู
+              // ปิดเมนูสไลด์
+              Navigator.pushNamed(context, ruamMitrPageRoute["home"]!);
+              // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
+            },
+          ),
+          SizedBox(height: 10),
+        ],
+      ),
+    );
   }
 }
