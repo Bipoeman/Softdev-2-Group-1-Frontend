@@ -80,19 +80,19 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                     MediaQuery.of(context).padding.top,
               ),
               child: Center(
-                child: Container(
-                  width: size.width,
-                  height: size.height,
-                  color: const Color.fromRGBO(230, 230, 230, 1),
+                child: IntrinsicHeight(
+                  // width: size.width,
+                  // height: size.height,
+                  // color: const Color.fromRGBO(230, 230, 230, 1),
                   child: Column(
                     children: [
                       Container(
-                        height: size.height * 0.3,
-                        width: size.width * 0.8,
+                        height: size.height * 0.4,
+                        width: size.width * 0.9,
                         padding: EdgeInsets.only(
                           left: size.width * 0.01,
-                          top: size.height * 0.04,
-                          bottom: size.height * 0.01,
+                          top: size.height * 0.02,
+                          // bottom: size.height * 0.01,
                           right: size.width * 0.01,
                         ),
                         child: Image.network(
@@ -100,23 +100,38 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                         ),
                       ),
                       Container(
-                        height: size.height * 0.07,
+                        // height: size.height * 0.07,
                         width: size.width * 0.8,
                         padding: EdgeInsets.only(
-                          top: size.height * 0.02,
+                          // top: size.height * 0.01,
                         ),
                         child: const Text(
                           "Tai taeuk 81",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 25,
+                            fontSize: 26,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: size.height * 0.05,
+                        width: size.width * 0.8,
+                        padding: EdgeInsets.only(
+                          // top: size.height * 0.01,
+                        ),
+                        child: const Text(
+                          "156/512 ซ.วงศ์สว่าง 11 ",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
                       Container(
                         height: size.height * 0.002,
-                        width: size.width * 0.8,
+                        width: size.width * 0.85,
                         color: const Color.fromRGBO(99, 99, 99, 1),
                       ),
                       Row(
@@ -236,26 +251,22 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                       ),
                       Container(
                         height: size.height * 0.002,
-                        width: size.width * 0.8,
+                        width: size.width * 0.85,
                         color: const Color.fromRGBO(99, 99, 99, 1),
                       ),
-                      Cardcomment(),
-                      Cardcomment(),
-                      Cardcomment(),
-                      Cardcomment(),
-                      Cardcomment(),
-                      Cardcomment(),
-                      // Expanded(
-                      //   child: ListView.builder(
-                      //     itemCount: 10, // จำนวนรายการที่ต้องการแสดง
-                      //     itemBuilder: (context, index) {
-                      //       return const SizedBox(
-                      //         height: 250, // ระบุความสูงที่ต้องการ
-                      //         child: Cardcomment(),
-                      //       );
-                      //     },
-                      //   ),
-                      // ),
+                      SizedBox(height: 15),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            for (int i = 0; i < 8; i++) // จำนวน Cardcomment ที่ต้องการแสดง
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical : 10), // เพิ่มระยะห่าง 10 หน่วยด้านบนและด้านล่างของ Cardcomment
+                                child: Cardcomment(),
+                              ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
