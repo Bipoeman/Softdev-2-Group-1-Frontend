@@ -29,123 +29,124 @@ class _SearchBinState extends State<SearchBin> {
     Size size = MediaQuery.of(context).size;
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
     ThemeData pinTheBinTheme = themes.themeFrom("PinTheBin")!.themeData;
-    return FloatingSearchBar(
-        backgroundColor: Colors.white,
-        backdropColor: Colors.white,
-        controller: floatingSearchBarController,
-        borderRadius: BorderRadius.circular(10),
-        onFocusChanged: (isFocused) {
-          if (isFocused) {
-            setState(() {
-              tempBinData = widget.binData;
-              print(tempBinData);
-            });
-          }
-        },
-        onQueryChanged: (query) {
-          tempBinData = [];
-          for (var i = 0; i < widget.binData.length; i++) {
-            if (widget.binData[i]['location'] != null) {
-              // print(widget.binData[i]['location'].contains(query));
-              if (widget.binData[i]['location'].contains(query)) {
-                tempBinData?.add(widget.binData[i]);
-              } else if (query == "") {
-                print("Blank Query");
-                tempBinData = widget.binData;
+    return Theme(
+      data: pinTheBinTheme,
+      child: FloatingSearchBar(
+          backgroundColor: Colors.white,
+          backdropColor: Colors.white,
+          controller: floatingSearchBarController,
+          borderRadius: BorderRadius.circular(10),
+          onFocusChanged: (isFocused) {
+            if (isFocused) {
+              setState(() => tempBinData = widget.binData);
+            }
+          },
+          onQueryChanged: (query) {
+            tempBinData = [];
+            for (var i = 0; i < widget.binData.length; i++) {
+              if (widget.binData[i]['location'] != null) {
+                // print(widget.binData[i]['location'].contains(query));
+                if (widget.binData[i]['location'].contains(query)) {
+                  tempBinData?.add(widget.binData[i]);
+                } else if (query == "") {
+                  print("Blank Query");
+                  tempBinData = widget.binData;
+                }
               }
             }
-          }
-          setState(() {});
-          // print(query);
-          // widget.binData.where(
-          //   (element) =>
-          //       element['location'] ?? "".toLowerCase().contains(query),
-          // );
-          // tempBinData ??
-          //     [].where(
-          //       (element) {
-          //         debugPrint(element['location']);
-          //         return element['location'] ?? "".contains(query);
-          //       },
-          //     ).toList();
-          // print(binDataTemp);
-          // print(widget.binData[0]['location'].contains(query));
-          // setState(() {});
-          // widget.binData.forEach((eachBinData) {
-          //   if (tempBinData?.isNotEmpty ?? true) {
-          //     if (eachBinData['location']
-          //         .toLowerCase()
-          //         .contains(eachBinData)) {}
-          //   }
-          // });
-          // if (query){
+            setState(() {});
+            // print(query);
+            // widget.binData.where(
+            //   (element) =>
+            //       element['location'] ?? "".toLowerCase().contains(query),
+            // );
+            // tempBinData ??
+            //     [].where(
+            //       (element) {
+            //         debugPrint(element['location']);
+            //         return element['location'] ?? "".contains(query);
+            //       },
+            //     ).toList();
+            // print(binDataTemp);
+            // print(widget.binData[0]['location'].contains(query));
+            // setState(() {});
+            // widget.binData.forEach((eachBinData) {
+            //   if (tempBinData?.isNotEmpty ?? true) {
+            //     if (eachBinData['location']
+            //         .toLowerCase()
+            //         .contains(eachBinData)) {}
+            //   }
+            // });
+            // if (query){
 
-          // }
-          // print("Query Change");
-          // print(query);
-        },
-        onSubmitted: (query) {
-          // print("Submitted");
-          // print(query);
-          // print(
-          //   floatingSearchBarController.toString(),
-          // );
-          // floatingSearchBarController.close();
-        },
-        builder: (context, transition) {
-          return Column(
-            children: List.generate(tempBinData?.length ?? 0, (index) {
-              return Column(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      print(tempBinData?[index]);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      height: size.height * 0.08,
-                      child: Row(
-                        children: [
-                          const Icon(Icons.location_on),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                tempBinData?[index]["location"] ??
-                                    "Not Provided",
-                                style: GoogleFonts.getFont(
-                                  "K2D",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+            // }
+            // print("Query Change");
+            // print(query);
+          },
+          onSubmitted: (query) {
+            // print("Submitted");
+            // print(query);
+            // print(
+            //   floatingSearchBarController.toString(),
+            // );
+            // floatingSearchBarController.close();
+          },
+          builder: (context, transition) {
+            return Column(
+              children: List.generate(tempBinData?.length ?? 0, (index) {
+                return Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        print(tempBinData?[index]);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        height: size.height * 0.08,
+                        child: Row(
+                          children: [
+                            const Icon(Icons.location_on),
+                            SizedBox(
+                              width: size.width * 0.03,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  tempBinData?[index]["location"] ??
+                                      "Not Provided",
+                                  style: GoogleFonts.getFont(
+                                    "K2D",
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                tempBinData?[index]["description"] ??
-                                    "Not Provided",
-                                style: GoogleFonts.getFont(
-                                  "K2D",
-                                  color: const Color.fromARGB(255, 63, 63, 63),
+                                Text(
+                                  tempBinData?[index]["description"] ??
+                                      "Not Provided",
+                                  style: GoogleFonts.getFont(
+                                    "K2D",
+                                    color:
+                                        const Color.fromARGB(255, 63, 63, 63),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    color: const Color.fromARGB(255, 136, 136, 136),
-                    height: 1,
-                  ),
-                ],
-              );
-            }),
-          );
-        });
+                    Container(
+                      color: const Color.fromARGB(255, 136, 136, 136),
+                      height: 1,
+                    ),
+                  ],
+                );
+              }),
+            );
+          }),
+    );
     // return SearchAnchor(
     //     // viewBackgroundColor: const Color(0xFF1E1E1E),
     //     // viewSurfaceTintColor: const Color(0xFF1E1E1E),
