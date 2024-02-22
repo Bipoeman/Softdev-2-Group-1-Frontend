@@ -271,7 +271,10 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                         name: blog['user']?['fullname'] ?? '',
                                         like: 'null',
                                         image: NetworkImage(
-                                            blog['image_link'] ?? ''),
+                                          blog['image_link'] != "null"
+                                              ? blog['image_link']
+                                              : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                        ),
                                         onPressed: () {
                                           Navigator.pushNamed(
                                             context,
@@ -280,7 +283,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                         },
                                       );
                                     } else if (isblogger) {
-                                       print(blogger);
+                                      print(blogger);
                                       return TuachuayDekhorAvatarViewer(
                                         username:
                                             blogger['user']['fullname'] ?? '',
@@ -335,7 +338,10 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                         name: blog['user']?['fullname'] ?? '',
                                         like: 'null',
                                         image: NetworkImage(
-                                            blog['image_link'] ?? ''),
+                                          blog['image_link'] != "null"
+                                              ? blog['image_link']
+                                              : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                        ),
                                         onPressed: () {
                                           Navigator.pushNamed(
                                             context,
