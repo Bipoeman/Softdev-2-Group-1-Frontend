@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ruam_mitt/PinTheBin/NavBar.dart';
+import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 
 Color colorbackground = const Color(000000);
 
@@ -59,7 +59,7 @@ class _EditbinPageState extends State<EditbinPage> {
           ],
         ),
       ),
-      drawer: const NavBar(),
+      drawer: const BinDrawer(),
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
     );
   }

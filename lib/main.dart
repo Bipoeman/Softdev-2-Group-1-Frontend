@@ -7,7 +7,6 @@ import 'package:ruam_mitt/PinTheBin/mybin.dart';
 import 'package:ruam_mitt/PinTheBin/report.dart';
 import 'package:ruam_mitt/Restroom/Review.dart';
 import 'package:ruam_mitt/Restroom/restroom.dart';
-import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
 // import 'package:ruam_mitt/RuamMitr/home.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home_v2/central_v2.dart';
@@ -27,6 +26,7 @@ import 'package:ruam_mitt/TuachuayDekhor/writeblog.dart';
 import 'package:ruam_mitt/TuachuayDekhor/draft.dart';
 import 'package:ruam_mitt/PinTheBin/home.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 void main() {
   runApp(
