@@ -1,9 +1,7 @@
 import "package:flutter/material.dart";
-import "package:provider/provider.dart";
+import "package:flutter_svg/flutter_svg.dart";
 import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
-import "package:ruam_mitt/RuamMitr/Component/avatar.dart";
 import "package:ruam_mitt/global_const.dart";
-import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import "package:ruam_mitt/global_var.dart";
 
 class BinDrawer extends StatelessWidget {
@@ -44,7 +42,7 @@ class BinDrawer extends StatelessWidget {
               ],
             ),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 30),
+              margin: const EdgeInsets.symmetric(vertical: 30),
               child: Row(
                 children: [
                   Container(
@@ -54,15 +52,15 @@ class BinDrawer extends StatelessWidget {
                         shape: BoxShape.circle, color: Colors.black),
                   ),
                   Container(
-                    width: size.width * 0.8,
+                    width: size.width - 124,
                     height: 1.3,
-                    decoration: BoxDecoration(color: Colors.black),
+                    decoration: const BoxDecoration(color: Colors.black),
                   ),
                 ],
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 18),
+              margin: const EdgeInsets.only(left: 18),
               child: Column(
                 children: [
                   itemSelection(
@@ -70,60 +68,69 @@ class BinDrawer extends StatelessWidget {
                     title: "HOME",
                     image: Image.asset(
                       "assets/images/PinTheBin/home.png",
-                      height: 30,
+                      width: 30,
                     ),
                     onTap: () {
                       Navigator.pushNamed(context, pinthebinPageRoute["home"]!);
                     },
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
+                  const SizedBox(height: 30),
                   itemSelection(
                     context: context,
                     title: "ADD BIN",
                     image: Image.asset(
                       "assets/images/PinTheBin/add_bin.png",
-                      height: 30,
+                      width: 30,
                     ),
                     onTap: () {
                       Navigator.pushNamed(
                           context, pinthebinPageRoute["addbin"]!);
                     },
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
+                  const SizedBox(height: 30),
                   itemSelection(
                     context: context,
                     title: "EDIT MY BIN",
                     image: Image.asset(
                       "assets/images/PinTheBin/edit_bin.png",
-                      height: 30,
+                      width: 30,
                     ),
                     onTap: () {
                       Navigator.pushNamed(
                           context, pinthebinPageRoute["editbin"]!);
                     },
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
+                  const SizedBox(height: 30),
                   itemSelection(
                     context: context,
                     title: "REPORT",
                     image: Image.asset(
                       "assets/images/PinTheBin/report.png",
-                      height: 30,
+                      width: 30,
                     ),
                     onTap: () {
                       Navigator.pushNamed(
                           context, pinthebinPageRoute["report"]!);
                     },
                   ),
+                  const SizedBox(height: 30),
+                  itemSelection(
+                    context: context,
+                    title: "RUAMMITR",
+                    image: Image.asset(
+                      "assets/Logo/ruammitr_logo_for_bin.png",
+                      width: 30,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        ruamMitrPageRoute["homev2"]!,
+                        (route) => false,
+                      );
+                    },
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
         // child: Stack(
@@ -196,7 +203,7 @@ class BinDrawer extends StatelessWidget {
 
 Widget itemSelection({
   required String title,
-  required Image image,
+  required Widget image,
   required void Function() onTap,
   required BuildContext context,
 }) {
