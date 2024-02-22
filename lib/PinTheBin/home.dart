@@ -1,6 +1,9 @@
 import "dart:convert";
+import "dart:developer";
 import "package:flutter/material.dart";
+import "package:flutter_map/flutter_map.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:latlong2/latlong.dart";
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import "package:ruam_mitt/PinTheBin/componant/map.dart";
 import "package:http/http.dart" as http;
@@ -18,9 +21,10 @@ class BinPage extends StatefulWidget {
 class _BinPageState extends State<BinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   SearchController searchBinController = SearchController();
-
+  MapController mapController = MapController();
   List<dynamic> binData = [];
   FocusNode focusNode = FocusNode();
+  LatLng? centerMark;
   Future<http.Response> getBinInfo() async {
     debugPrint("Getting");
     Uri url = Uri.parse("$api$pinTheBinGetBinRoute");
@@ -133,26 +137,37 @@ class _BinPageState extends State<BinPage> {
                                 const Text("Bin map loading...")
                               ],
                             )
-                          : MapPinTheBin(binInfo: binData),
+                          : MapPinTheBin(
+                              mapController: mapController,
+                              binInfo: binData,
+                              centerMark: centerMark,
+                            ),
                     ),
                   ),
                   PinTheBinAppBar(scaffoldKey: _scaffoldKey),
                 ],
               ),
-              // Positioned(
-              //     top: 80,
-              //     width: size.width,
-              //     height: 80,
-              //     child: Padding(
-              //       padding: const EdgeInsets.symmetric(horizontal: 30),
-              //       child: SearchBin(binData: binData),
-              //     )),
               PinTheBinSearchBar(
                 size: size,
                 searchAnchorController: searchBinController,
                 binDataList: binData,
                 focusNode: focusNode,
                 parentKey: widget.key,
+                onSelected: (selectedValue) {
+                  // print("Selected $selectedValue");
+                  binData.forEach((eachBin) {
+                    if (eachBin['location'] == selectedValue) {
+                      print("Pin the bin");
+
+                      setState(() {
+                        focusNode.unfocus();
+                        centerMark =
+                            LatLng(eachBin['latitude'], eachBin['longitude']);
+                        mapController.move(centerMark!, 15);
+                      });
+                    }
+                  });
+                },
               ),
             ],
           ),
@@ -165,18 +180,21 @@ class _BinPageState extends State<BinPage> {
 }
 
 class PinTheBinSearchBar extends StatefulWidget {
-  const PinTheBinSearchBar(
-      {super.key,
-      required this.size,
-      required this.searchAnchorController,
-      required this.binDataList,
-      required this.focusNode,
-      this.parentKey});
+  const PinTheBinSearchBar({
+    super.key,
+    required this.size,
+    required this.searchAnchorController,
+    required this.binDataList,
+    required this.focusNode,
+    required this.onSelected,
+    this.parentKey,
+  });
 
   final Size size;
   final SearchController searchAnchorController;
   final List<dynamic> binDataList;
   final FocusNode focusNode;
+  final Function(dynamic selectedValue) onSelected;
   final Key? parentKey;
 
   @override
@@ -190,7 +208,7 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(seconds: 1))
+    Future.delayed(const Duration(seconds: 1))
         .then((value) => tempBinData = widget.binDataList);
   }
 
@@ -266,8 +284,9 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
                 searchBarController.openView();
               },
               onSubmitted: (value) {
-                print("Submitted");
+                log("Submitted");
                 debugPrint(searchBarController.text);
+                // searchBarController.closeView();
               },
             );
           },
@@ -294,6 +313,7 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
               (int index) {
                 return GestureDetector(
                   onTap: () {
+                    widget.onSelected(suggestionController.text);
                     suggestionController
                         .closeView(tempBinData[index]['location']);
                   },
