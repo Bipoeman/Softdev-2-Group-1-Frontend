@@ -154,19 +154,20 @@ class _BinPageState extends State<BinPage> {
                 focusNode: focusNode,
                 parentKey: widget.key,
                 onSelected: (selectedValue) {
-                  // print("Selected $selectedValue");
-                  binData.forEach((eachBin) {
+                  log("Selected $selectedValue");
+                  for (var eachBin in binData) {
                     if (eachBin['location'] == selectedValue) {
-                      print("Pin the bin");
-
+                      log("Pin the bin");
                       setState(() {
-                        focusNode.unfocus();
+                        log("Has focus : ${focusNode.hasFocus}");
                         centerMark =
                             LatLng(eachBin['latitude'], eachBin['longitude']);
-                        mapController.move(centerMark!, 15);
+                        mapController.move(
+                            LatLng(eachBin['latitude'], eachBin['longitude']),
+                            16);
                       });
                     }
-                  });
+                  }
                 },
               ),
             ],
@@ -271,12 +272,17 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
                     child:
                         Image.asset("assets/images/PinTheBin/search_icon.png"),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    log("Submitted by search icon focus ? ${widget.focusNode.hasFocus}");
+                    widget.focusNode.unfocus();
+                    debugPrint(searchBarController.text);
+                  },
                 )
               ],
               backgroundColor:
                   const MaterialStatePropertyAll(Color(0xFFECECEC)),
               onTap: () {
+                // searchBarController.clear();
                 searchBarController.openView();
               },
               onChanged: (query) {
@@ -284,8 +290,10 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
                 searchBarController.openView();
               },
               onSubmitted: (value) {
-                log("Submitted");
-                debugPrint(searchBarController.text);
+                log("Submitted focus ? ${widget.focusNode.hasFocus}");
+                widget.focusNode.unfocus();
+                // debugPrint(searchBarController.text);
+                searchBarController.clear();
                 // searchBarController.closeView();
               },
             );
@@ -313,7 +321,13 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
               (int index) {
                 return GestureDetector(
                   onTap: () {
-                    widget.onSelected(suggestionController.text);
+                    log("Select some places : ${tempBinData[index]['location']} ${widget.focusNode.hasFocus}");
+                    widget.onSelected(tempBinData[index]['location']);
+                    Future.delayed(const Duration(milliseconds: 500))
+                        .then((value) {
+                      log("Selected focus ? ${widget.focusNode.hasFocus}");
+                      widget.focusNode.unfocus();
+                    });
                     suggestionController
                         .closeView(tempBinData[index]['location']);
                   },
