@@ -96,18 +96,6 @@ class MapRestroomRover extends StatelessWidget {
               width: 130,
               height: 130,
             )),
-        Positioned(
-            width: 50,
-            height: 50,
-            bottom: 20,
-            left: 15,
-            child: RawMaterialButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, ruamMitrPageRoute["home"]!);
-                },
-                child: Image(
-                    image: AssetImage(
-                        "assets/images/RestroomRover/backtohome.png")))),
       ],
     );
   }
