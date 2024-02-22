@@ -73,10 +73,7 @@ class RestroomRoverNavbar extends StatelessWidget {
             ),
             title: Text('Pin restroom'),
             onTap: () {
-              // เมื่อเลือกรายการเมนู
-              // ปิดเมนูสไลด์
-              // Navigator.pushNamed(context, restroomPageRoute["review"]!);
-              // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
+              Navigator.pushNamed(context, restroomPageRoute["findposition"]!);
             },
           ),
           SizedBox(height: 10),
@@ -90,9 +87,7 @@ class RestroomRoverNavbar extends StatelessWidget {
               width: size.width * 0.1,
               height: size.height * 0.05,
               padding: EdgeInsets.only(left: 5.0, right: 5.0),
-              child: Image.asset(
-                "assets/images/RestroomRover/Icon_pinnoback.png",
-              ),
+              child: Icon(Icons.edit_location_alt_sharp, color: Colors.black, size: 30,),
             ),
             title: Text('Edit pin'),
             onTap: () {
@@ -113,9 +108,11 @@ class RestroomRoverNavbar extends StatelessWidget {
               width: size.width * 0.1,
               height: size.height * 0.05,
               padding: EdgeInsets.only(left: 5.0, right: 5.0),
-              child: Image.asset(
-                "assets/images/RestroomRover/Icon_pinnoback.png",
-              ),
+              child: Icon(
+                Icons.report,
+                color: Colors.black,
+                size: 30.0,
+              )
             ),
             title: Text('Report'),
             onTap: () {
@@ -135,10 +132,15 @@ class RestroomRoverNavbar extends StatelessWidget {
               ),
               width: size.width * 0.1,
               height: size.height * 0.05,
-              padding: EdgeInsets.only(left: 5.0, right: 5.0),
-              child: Image.asset(
-                "assets/images/RestroomRover/Icon_pinnoback.png",
-              ),
+              padding: EdgeInsets.only(left: 2.0, right: 2.0),
+              // child: Image.asset(
+              //   "assets/images/RestroomRover/Icon_pinnoback.png",
+              // ),
+              child: Icon(
+                Icons.exit_to_app,
+                color: Colors.black,
+                size: 27.0,
+              )
             ),
             title: Text('Exit'),
             onTap: () {

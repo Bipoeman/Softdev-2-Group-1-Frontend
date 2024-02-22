@@ -96,40 +96,6 @@ class MapRestroomRover extends StatelessWidget {
               width: 130,
               height: 130,
             )),
-        Positioned(
-            width: 50,
-            height: 50,
-            bottom: 20,
-            left: 15,
-            child: RawMaterialButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, ruamMitrPageRoute["home"]!);
-                },
-                child: Image(
-                    image: AssetImage(
-                        "assets/images/RestroomRover/backtohome.png")))),
-        // Positioned(
-        //   bottom: 20,
-        //   left: 5,
-        //   child: SizedBox(
-        //     width: 300,
-        //     height: 400,
-        //     child: Cardpin(), // สร้าง Cardpin ขึ้นมาเป็น StatefulWidget
-        //   ),
-        // ),
-        // Cardpin()
-        // Positioned(
-        //     child: NavbarRestroomRover(),
-        //     ),
-
-        // Positioned(
-        //     top: 20,
-        //     right: 5,
-        //     child: Image.asset(
-        //       "assets/images/RestroomRover/type.png",
-        //       width: 130,
-        //       height: 130,
-        //     ))
       ],
     );
   }
