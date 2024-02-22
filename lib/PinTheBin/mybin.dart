@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 // import "package:flutter_sliding_box/flutter_sliding_box.dart";
 import "package:http/http.dart" as http;
 import "package:provider/provider.dart";
+import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
 import "package:ruam_mitt/PinTheBin/navbar.dart";
 import "package:ruam_mitt/RuamMitr/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
@@ -112,10 +113,11 @@ class _MyBinState extends State<MyBinPage> {
                             children: binData.map<Widget>((data) {
                               return Container(
                                   width: size.width * 0.9,
-                                  height: size.height * 0.3,
+                                  height: size.height * 0.27,
                                   margin: EdgeInsets.symmetric(vertical: 5.0),
                                   padding: EdgeInsets.all(10.0),
                                   decoration: BoxDecoration(
+                                    color: Colors.white,
                                     border: Border.all(color: Colors.grey),
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
@@ -126,64 +128,90 @@ class _MyBinState extends State<MyBinPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Bin Name: ${data["location"]}',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(height: 5),
-                                          Text(
-                                            'Type: ${data["bintype"]["redbin"] ? "\nDanger" : ""} ${data["bintype"]["greenbin"] ? "\nWaste" : ""} ${data["bintype"]["yellow"] ? "\nRecycle" : ""} ${data["bintype"]["bluebin"] ? "\nGeneral" : ""}',
+                                            'Name: ${data["location"]}',
+                                            style: GoogleFonts.getFont(
+                                              'Sen',
+                                              color:
+                                                  Color.fromARGB(67, 0, 30, 49),
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w400,
+                                            ),
                                           ),
                                           Row(
-                                            // verticalDirection:
-                                            //     VerticalDirection.down,
-                                            children: [
-                                              ElevatedButton.icon(
-                                                icon: Icon(
-                                                  Icons.edit,
-                                                  color: const Color.fromARGB(
-                                                      255, 0, 0, 0),
-                                                  size: 30.0,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Type: ',
+                                                  style: GoogleFonts.getFont(
+                                                    'Sen',
+                                                    color: Color.fromARGB(
+                                                        67, 0, 30, 49),
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                 ),
-                                                label: Text('Edit'),
-                                                onPressed: () {
-                                                  Navigator.pushNamed(
-                                                    context,
-                                                    pinthebinPageRoute[
-                                                        "editbin"]!,
-                                                    arguments: {
-                                                      'Bininfo':
-                                                          '${data["id"]}',
-                                                    },
-                                                  );
-                                                },
-                                              ),
-                                              const SizedBox(width: 10),
-                                              ElevatedButton.icon(
-                                                icon: const Icon(
-                                                  Icons.delete,
-                                                  color: Color.fromARGB(
-                                                      255, 0, 0, 0),
-                                                  size: 30.0,
+                                                Text(
+                                                  '${data["bintype"]["redbin"] ? "Danger\n" : ""}${data["bintype"]["greenbin"] ? "Waste\n" : ""}${data["bintype"]["yellow"] ? "Recycle\n" : ""}${data["bintype"]["bluebin"] ? "General" : ""}',
+                                                  style: GoogleFonts.getFont(
+                                                    'Sen',
+                                                    color: Color.fromARGB(
+                                                        67, 0, 30, 49),
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                 ),
-                                                label: Text('Delete'),
-                                                onPressed: () {
-                                                  print('Delete');
-                                                },
-                                              ),
-                                            ],
-                                          )
+                                              ]),
                                         ],
                                       ),
                                       Container(
                                         padding: EdgeInsets.only(
-                                            left: size.width * 0.6),
+                                            top: size.height * 0.18),
+                                        child: Row(
+                                          children: [
+                                            IconButton(
+                                              icon: Image.asset(
+                                                "assets/images/PinTheBin/edit_bin.png",
+                                                height: 30,
+                                                width: 30,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                  context,
+                                                  pinthebinPageRoute[
+                                                      "editbin"]!,
+                                                  arguments: {
+                                                    'Bininfo': '${data["id"]}',
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                            IconButton(
+                                              iconSize: 10,
+                                              icon: Image.asset(
+                                                "assets/images/PinTheBin/delete_bin.png",
+                                                height: 30,
+                                                width: 30,
+                                              ),
+                                              onPressed: () {
+                                                print('Delete');
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        width: size.width,
+                                        height: size.height,
+                                        padding: EdgeInsets.only(
+                                            top: size.height * 0.05,
+                                            left: size.width * 0.4),
                                         child: data["picture"] == null
                                             ? Image.asset(
-                                                "assets/images/PinTheBin/bin_null.png",
-                                                fit: BoxFit.cover,
-                                                width: size.width * 0.2,
-                                                height: size.width * 0.2,
+                                                "assets/images/PinTheBin/test.png",
+                                                // fit: BoxFit.cover,
+                                                width: size.width * 0.4,
+                                                // height: size.width * 0.4,
                                               )
                                             : Image.network(data["picture"]),
                                       )
