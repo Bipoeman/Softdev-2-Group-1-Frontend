@@ -35,7 +35,7 @@ class _SearchBinState extends State<SearchBin> {
           backgroundColor: Colors.white,
           backdropColor: Colors.white,
           controller: floatingSearchBarController,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(40),
           onFocusChanged: (isFocused) {
             if (isFocused) {
               setState(() => tempBinData = widget.binData);
