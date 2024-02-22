@@ -50,7 +50,7 @@ class AvatarViewer extends StatelessWidget {
               // Navigator.pushNamed(context, ruamMitrPageRoute["profile"]!);
             },
             child: Container(
-              margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              // margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

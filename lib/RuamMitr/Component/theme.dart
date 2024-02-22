@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ThemeProvider extends ChangeNotifier {
   bool _isDarkMode = false;
@@ -92,36 +93,6 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
           background: Colors.white,
         ),
         useMaterial3: true,
-        drawerTheme: DrawerThemeData(
-          backgroundColor: Colors.black.withOpacity(0.8),
-        ),
-        listTileTheme: ListTileThemeData(
-          // shape: RoundedRectangleBorder(
-          //   borderRadius: BorderRadius.circular(15),
-          // ),
-          tileColor: const Color(0xFF1E1E1E),
-          textColor: Colors.white,
-          iconColor: const Color.fromRGBO(255, 255, 255, 0.42),
-          titleTextStyle: TextStyle(
-            color: Colors.white.withOpacity(0.85),
-          ),
-        ),
-        searchBarTheme: SearchBarThemeData(
-          backgroundColor: MaterialStatePropertyAll<Color>(
-            Colors.black.withOpacity(0.5),
-          ),
-          shape: MaterialStatePropertyAll(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-          textStyle:
-              const MaterialStatePropertyAll(TextStyle(color: Colors.white)),
-          hintStyle: MaterialStatePropertyAll(
-            TextStyle(color: Colors.white.withOpacity(0.6)),
-          ),
-          padding: const MaterialStatePropertyAll<EdgeInsets>(
-            EdgeInsets.symmetric(horizontal: 16.0),
-          ),
-        ),
       ),
       customColors: {
         "main": const Color.fromRGBO(214, 40, 40, 1),

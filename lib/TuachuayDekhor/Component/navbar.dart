@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/search_box.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
+// import 'package:ruam_mitt/RuamMitr/Component/home_v2/central_v2.dart';
 
 class NavbarTuachuayDekhor extends StatelessWidget {
   const NavbarTuachuayDekhor({
@@ -11,7 +12,6 @@ class NavbarTuachuayDekhor extends StatelessWidget {
   });
   final String? username;
   final String? avatarUrl;
-
 
   Widget getAvatar(BuildContext context) {
     // if (avatarUrl != null) {
@@ -48,7 +48,8 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(10),
                   onTap: () {
-                    Navigator.pushNamed(context, tuachuayDekhorPageRoute["home"]!);
+                    Navigator.pushNamed(
+                        context, tuachuayDekhorPageRoute["home"]!);
                   },
                   child: const Image(
                     image: AssetImage(
@@ -96,8 +97,8 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                                   ],
                                 ),
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, tuachuayDekhorPageRoute["profile"]!);
+                                  Navigator.pushNamed(context,
+                                      tuachuayDekhorPageRoute["profile"]!);
                                 },
                               ),
                               PopupMenuItem(
@@ -109,8 +110,10 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                                   ],
                                 ),
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, ruamMitrPageRoute["home"]!);
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                    ruamMitrPageRoute["home"]!,
+                                    (Route<dynamic> route) => false,
+                                  );
                                 },
                               ),
                             ],
