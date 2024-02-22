@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'dart:math';
-import 'package:ruam_mitt/global_var.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
-import 'package:ruam_mitt/global_const.dart';
+import "package:ruam_mitt/TuachuayDekhor/Component/avatar.dart";
 
 class TuachuayDekhorBloggerPage extends StatefulWidget {
   const TuachuayDekhorBloggerPage({super.key});
@@ -15,21 +12,6 @@ class TuachuayDekhorBloggerPage extends StatefulWidget {
 }
 
 class _TuachuayDekhorBloggerPageState extends State<TuachuayDekhorBloggerPage> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    profileData = {};
-    Uri uri = Uri.parse("$api$userDataRequestRoute");
-    setState(() {});
-    get(uri, headers: {"Authorization": "Bearer $publicToken"})
-        .then((Response res) {
-      profileData = jsonDecode(res.body);
-      setState(() {});
-      print(profileData);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -70,8 +52,25 @@ class _TuachuayDekhorBloggerPageState extends State<TuachuayDekhorBloggerPage> {
                     ),
                     Container(
                       width: size.width * 0.8,
-                      height: size.width * 0.03,
+                      height: size.width * 0.02,
                       color: const Color.fromRGBO(0, 48, 73, 1),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        bottom: size.width * 0.05,
+                        top: size.width * 0.03,
+                      ),
+                      child: Wrap(
+                        spacing: 20,
+                        runSpacing: 20,
+                        children: List.generate(
+                          20,
+                          (index) {
+                            return TuachuayDekhorAvatarViewer(
+                                username: 'pumxni');
+                          },
+                        ),
+                      ),
                     ),
                   ],
                 ),

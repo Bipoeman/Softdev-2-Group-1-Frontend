@@ -9,6 +9,15 @@ const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
 const String userDataRequestRoute = "/user/id";
 const String pinTheBinGetBinRoute = "/pinthebin/bin";
+const String dekhorPosttoprofileRoute = "/dekhor/posttoprofile";
+const String dekhorShowSaveRoute = "/dekhor/showsave";
+const String dekhorSearchBlogRoute = "/dekhor/searchblog";
+const String dekhorSearchBloggerRoute = "/dekhor/searchblogger";
+const String dekhorWriteBloggerRoute = "/dekhor/createpost";
+const String dekhorAddPictureRoute = "/dekhor/upload";
+const String dekhorRandomPostRoute = "/dekhor/randompost";
+const String pinTheBinMyBinRoute = "/pinthebin/mybin";
+
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",
   "homev2": "/RuamMitr/homev2",
@@ -39,6 +48,7 @@ const Map<String, String> pinthebinPageRoute = {
   "addbin": "/PinTheBin/addbin",
   "editbin": "/PinTheBin/editbin",
   "report": "/PinTheBin/report",
+  "mybin": "/PinTheBin/mybin",
 };
 
 BoxDecoration ruamMitrBackgroundGradient(ThemeProvider themes) {
