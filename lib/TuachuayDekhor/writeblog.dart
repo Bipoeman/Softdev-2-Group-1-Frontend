@@ -39,7 +39,8 @@ class _TuachuayDekhorWriteBlogPageState
       "title": markdownTitleController.text,
       "content": markdownContentController.text,
       "category": _dropdownValue,
-      "image_link": "null"
+      "image_link": "null",
+      "fullname": profileData['fullname']
     });
     if (markdownTitleController.text.isEmpty ||
         markdownContentController.text.isEmpty) {

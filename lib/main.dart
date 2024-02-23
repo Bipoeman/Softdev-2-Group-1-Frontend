@@ -87,8 +87,11 @@ class _SuperAppState extends State<SuperApp> {
             const TuachuayDekhorCookingPage(),
         tuachuayDekhorPageRoute["cleaning"]!: (context) =>
             const TuachuayDekhorCleaningPage(),
-        tuachuayDekhorPageRoute["profileblogger"]!: (context) =>
-            const TuachuayDekhorBloggerProfilePage(),
+       tuachuayDekhorPageRoute["profileblogger"]!: (context) {
+  final username = ModalRoute.of(context)!.settings.arguments as String;
+  return TuachuayDekhorBloggerProfilePage(username: username);
+},
+
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPage(),
         pinthebinPageRoute["editbin"]!: (context) => const EditbinPage(),

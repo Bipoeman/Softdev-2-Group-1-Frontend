@@ -10,8 +10,10 @@ import "package:ruam_mitt/global_const.dart";
 import 'package:http/http.dart' as http;
 
 class TuachuayDekhorBloggerProfilePage extends StatefulWidget {
-  const TuachuayDekhorBloggerProfilePage({super.key});
-  
+  final String username;
+
+  const TuachuayDekhorBloggerProfilePage({Key? key, required this.username})
+      : super(key: key);
 
   @override
   State<TuachuayDekhorBloggerProfilePage> createState() =>
@@ -27,15 +29,18 @@ class _TuachuayDekhorBloggerProfilePageState
   bool isSaveSelected = false;
   var post = [];
   var save = [];
-  final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
-  final saveurl = Uri.parse("$api$dekhorShowSaveRoute");
+  late String username;
+  late Uri posturl;
+  final saveurl = Uri.parse("$api$dekhorShowSavebloggerRoute");
 
   @override
   void initState() {
     super.initState();
-    // postoprofile();
-    // savepost();
-    // print(widget.username);
+    username = widget.username;
+    posturl = Uri.parse("$api$dekhorPosttoprofilebloggerRoute/$username");
+    postoprofile();
+    print("Username: $username");
+    print("Post URL: $posturl");
   }
 
   void updateDescription(String value) {
@@ -45,8 +50,7 @@ class _TuachuayDekhorBloggerProfilePageState
   }
 
   Future<void> postoprofile() async {
-    var response = await http
-        .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
+    var response = await http.get(posturl);
     if (response.statusCode == 200) {
       setState(() {
         post = jsonDecode(response.body);
@@ -59,7 +63,7 @@ class _TuachuayDekhorBloggerProfilePageState
 
   Future<void> savepost() async {
     var response = await http
-        .get(saveurl, headers: {"Authorization": "Bearer $publicToken"});
+        .get(saveurl);
     if (response.statusCode == 200) {
       setState(() {
         save = jsonDecode(response.body);
@@ -72,7 +76,8 @@ class _TuachuayDekhorBloggerProfilePageState
 
   @override
   Widget build(BuildContext context) {
-    final username = ModalRoute.of(context)!.settings.arguments as String;
+    final username = widget.username;
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -250,7 +255,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                 if (isPostSelected) {
                                   return BlogBox(
                                     title: post[actualIndex]['title'],
-                                    name: post[actualIndex]['user']['fullname'],
+                                    name: post[actualIndex]['fullname'],
                                     like: 'null',
                                     image: NetworkImage(
                                         post[actualIndex]['image_link']),
@@ -264,7 +269,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                 } else {
                                   return BlogBox(
                                     title: save[actualIndex]['post']['title'],
-                                    name: save[actualIndex]['user']['fullname'],
+                                    name: save[actualIndex]['fullname'],
                                     like: 'null',
                                     image: NetworkImage(save[actualIndex]
                                         ['post']['image_link']),
@@ -290,7 +295,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                 if (isPostSelected) {
                                   return BlogBox(
                                     title: post[actualIndex]['title'],
-                                    name: post[actualIndex]['user']['fullname'],
+                                    name: post[actualIndex]['fullname'],
                                     like: 'null',
                                     image: NetworkImage(
                                         post[actualIndex]['image_link']),
@@ -304,7 +309,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                 } else {
                                   return BlogBox(
                                     title: save[actualIndex]['post']['title'],
-                                    name: save[actualIndex]['user']['fullname'],
+                                    name: save[actualIndex]['fullname'],
                                     like: 'null',
                                     image: NetworkImage(save[actualIndex]
                                         ['post']['image_link']),
