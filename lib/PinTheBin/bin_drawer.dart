@@ -39,9 +39,14 @@ class BinDrawer extends StatelessWidget {
                   width: size.width * 0.15,
                 ),
                 SizedBox(width: size.width * 0.01),
-                Text(
-                  profileData["fullname"] ?? "John Doe",
-                  style: Theme.of(context).textTheme.headlineSmall,
+                ConstrainedBox(
+                  constraints:
+                      BoxConstraints(maxWidth: size.width * (1 - 0.16) - 140),
+                  child: Text(
+                    profileData["fullname"] ?? "John Doe",
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
                 ),
               ],
             ),

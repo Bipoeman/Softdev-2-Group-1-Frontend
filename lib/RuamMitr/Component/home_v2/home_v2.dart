@@ -62,12 +62,13 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.all(10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AvatarViewer(),
-                    ContactUs(themeProvider),
+                    AvatarViewer(size: size),
+                    ContactUs(themeProvider)
                   ],
                 ),
               ),

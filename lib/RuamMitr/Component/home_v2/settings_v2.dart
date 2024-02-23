@@ -41,7 +41,10 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                       const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [const AvatarViewer(), ContactUs(themeProvider)],
+                    children: [
+                      AvatarViewer(size: size),
+                      ContactUs(themeProvider)
+                    ],
                   ),
                 ),
                 Padding(
