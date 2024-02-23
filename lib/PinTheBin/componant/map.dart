@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:popup_menu/popup_menu.dart';
+import 'package:ruam_mitt/Restroom/Component/cardpin.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+class BinLocationInfo {
+  BinLocationInfo({required this.info, required this.markers});
+  late List<Marker> markers;
+  late List<Map<String, dynamic>> info;
+}
 
 class MapPinTheBin extends StatefulWidget {
   const MapPinTheBin(
@@ -27,6 +36,8 @@ class _MapPinTheBinState extends State<MapPinTheBin>
   TextEditingController descriptionTextController = TextEditingController();
   GlobalKey popKey = GlobalKey();
   int selectedIndex = 0;
+  // List<Marker> markers = [];
+  BinLocationInfo markerInfo = BinLocationInfo(info: [], markers: []);
   void onPopupClick(MenuItemProvider item) async {
     if (item.menuTitle == "Edit") {
       Navigator.pushNamed(
@@ -43,6 +54,32 @@ class _MapPinTheBinState extends State<MapPinTheBin>
         throw Exception('Could not launch $googleUrl');
       }
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // markers = List.generate(
+    //   widget.binInfo.length,
+    //   (index) => Marker(
+    //     point: LatLng(widget.binInfo[index]['latitude'],
+    //         widget.binInfo[index]['longitude']),
+    //     width: 50,
+    //     height: 50,
+    //     child: Image.asset("assets/images/RestroomRover/Pinred.png"), //รูปหมุด
+    //   ),
+    // );
+    List.generate(widget.binInfo.length, (index) {
+      markerInfo.markers.add(Marker(
+        point: LatLng(widget.binInfo[index]['latitude'],
+            widget.binInfo[index]['longitude']),
+        width: 50,
+        height: 50,
+        child: Image.asset("assets/images/RestroomRover/Pinred.png"), //รูปหมุด
+      ));
+      markerInfo.info.add(widget.binInfo[index]);
+    });
   }
 
   @override
@@ -114,9 +151,52 @@ class _MapPinTheBinState extends State<MapPinTheBin>
               attributions: [
                 TextSourceAttribution(
                   'OpenStreetMap contributors',
-                  onTap: () => launchUrl(Uri.parse('')),
+                  onTap: () => launchUrl(
+                      Uri.parse('https://openstreetmap.org/copyright')),
                 ),
               ],
+            ),
+            CurrentLocationLayer(
+              // followOnLocationUpdate: FollowOnLocationUpdate.always,
+              // turnOnHeadingUpdate: TurnOnHeadingUpdate.never,
+              style: const LocationMarkerStyle(
+                marker: DefaultLocationMarker(
+                  child: Icon(
+                    Icons.navigation,
+                    color: Colors.white,
+                  ),
+                ),
+                markerSize: Size(40, 40),
+                markerDirection: MarkerDirection.heading,
+              ),
+            ),
+            PopupMarkerLayer(
+              options: PopupMarkerLayerOptions(
+                markers: markerInfo.markers,
+                popupDisplayOptions: PopupDisplayOptions(
+                    builder: (BuildContext context, Marker marker) {
+                  Map<String, dynamic> displayBinInfo = {};
+                  for (int i = 0; i < markerInfo.markers.length; i++) {
+                    if (markerInfo.markers[i].point.latitude ==
+                            marker.point.latitude &&
+                        markerInfo.markers[i].point.longitude ==
+                            marker.point.longitude) {
+                      displayBinInfo = markerInfo.info[i];
+                      break;
+                    }
+                  }
+                  return Container(
+                    width: size.width * 0.5,
+                    height: size.height * 0.25,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Column(
+                        children: [Text("${displayBinInfo['location']}")]),
+                  );
+                }),
+              ),
             ),
           ],
         ),

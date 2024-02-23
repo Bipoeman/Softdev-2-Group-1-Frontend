@@ -2,10 +2,11 @@ import "dart:convert";
 import "dart:developer";
 import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
-import "package:google_fonts/google_fonts.dart";
 import "package:latlong2/latlong.dart";
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import "package:ruam_mitt/PinTheBin/componant/map.dart";
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+
 import "package:http/http.dart" as http;
 import "package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart";
 
