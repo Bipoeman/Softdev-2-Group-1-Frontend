@@ -31,16 +31,19 @@ class _TuachuayDekhorBloggerProfilePageState
   var save = [];
   late String username;
   late Uri posturl;
-  final saveurl = Uri.parse("$api$dekhorShowSavebloggerRoute");
+  late Uri saveurl;
 
   @override
   void initState() {
     super.initState();
     username = widget.username;
     posturl = Uri.parse("$api$dekhorPosttoprofilebloggerRoute/$username");
+    saveurl = Uri.parse("$api$dekhorShowSavebloggerRoute/$username");
     postoprofile();
+    savepost();
     print("Username: $username");
     print("Post URL: $posturl");
+    print("Save URL: $saveurl");
   }
 
   void updateDescription(String value) {
@@ -258,7 +261,12 @@ class _TuachuayDekhorBloggerProfilePageState
                                     name: post[actualIndex]['fullname'],
                                     like: 'null',
                                     image: NetworkImage(
-                                        post[actualIndex]['image_link']),
+                                        post[actualIndex]['image_link']!=
+                                                      "null"
+                                                  ? post[actualIndex]
+                                                      ['image_link']
+                                                  : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                            ),
                                     onPressed: () {
                                       Navigator.pushNamed(
                                         context,
@@ -269,10 +277,15 @@ class _TuachuayDekhorBloggerProfilePageState
                                 } else {
                                   return BlogBox(
                                     title: save[actualIndex]['post']['title'],
-                                    name: save[actualIndex]['fullname'],
+                                    name: save[actualIndex]['fullname_blogger'],
                                     like: 'null',
                                     image: NetworkImage(save[actualIndex]
-                                        ['post']['image_link']),
+                                        ['post']['image_link']!=
+                                                      "null"
+                                                  ? post[actualIndex]
+                                                      ['image_link']
+                                                  : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                            ),
                                     onPressed: () {
                                       Navigator.pushNamed(
                                         context,
@@ -298,7 +311,12 @@ class _TuachuayDekhorBloggerProfilePageState
                                     name: post[actualIndex]['fullname'],
                                     like: 'null',
                                     image: NetworkImage(
-                                        post[actualIndex]['image_link']),
+                                        post[actualIndex]['image_link']!=
+                                                      "null"
+                                                  ? post[actualIndex]
+                                                      ['image_link']
+                                                  : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                            ),
                                     onPressed: () {
                                       Navigator.pushNamed(
                                         context,
@@ -309,10 +327,15 @@ class _TuachuayDekhorBloggerProfilePageState
                                 } else {
                                   return BlogBox(
                                     title: save[actualIndex]['post']['title'],
-                                    name: save[actualIndex]['fullname'],
+                                    name: save[actualIndex]['fullname_blogger'],
                                     like: 'null',
                                     image: NetworkImage(save[actualIndex]
-                                        ['post']['image_link']),
+                                        ['post']['image_link']!=
+                                                      "null"
+                                                  ? post[actualIndex]
+                                                      ['image_link']
+                                                  : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                            ),
                                     onPressed: () {
                                       Navigator.pushNamed(
                                         context,
