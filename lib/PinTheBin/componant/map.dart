@@ -186,7 +186,8 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                     }
                   }
                   // print(displayBinInfo['bintype']);
-                  return Container(
+                  return AnimatedContainer(
+                    duration: const Duration(seconds: 1),
                     width: size.width * 0.65,
                     /*  (404 / 439) are from refrence design */
                     height: (size.width * 0.6) / (404 / 439),
@@ -200,177 +201,210 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                     child: ShaderMask(
                       shaderCallback: (Rect rect) {
                         return const LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
                           colors: [Colors.transparent, Colors.white],
                           //set stops as par your requirement
                           stops: [0.0, 0.05], // 50% transparent, 50% white
                         ).createShader(rect);
                       },
-                      child: SingleChildScrollView(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "${displayBinInfo['location']}",
-                                  style: TextStyle(
-                                      shadows: [
-                                        Shadow(
-                                          color: Color(0xFF46384E)
-                                              .withOpacity(0.4),
-                                          offset: Offset(0, 2),
-                                          blurRadius: 5,
-                                        )
-                                      ],
-                                      color: Color(0xFF46384E),
-                                      fontFamily:
-                                          displayBinInfo['location'].contains(
-                                        RegExp("[ก-๛]"),
-                                      )
-                                              ? "THSarabunPSK"
-                                              : Theme.of(context)
-                                                  .textTheme
-                                                  .labelMedium!
-                                                  .fontFamily,
-                                      fontSize:
-                                          displayBinInfo['location'].contains(
-                                        RegExp("[ก-๛]"),
-                                      )
-                                              ? 24
-                                              : 18,
-                                      fontWeight:
-                                          displayBinInfo['location'].contains(
-                                        RegExp("[ก-๛]"),
-                                      )
-                                              ? FontWeight.w700
-                                              : FontWeight.w800),
-                                ),
-                                Row(children: [
-                                  InkWell(
-                                    child: Image.asset(
-                                      "assets/images/PinTheBin/edit_bin_black_white.png",
-                                      height: 22,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    child: Image.asset(
-                                      "assets/images/PinTheBin/navigate_bin.png",
-                                      height: 22,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    child: Image.asset(
-                                      "assets/images/PinTheBin/report_bin.png",
-                                      height: 22,
-                                    ),
-                                  ),
-                                ]),
-                              ],
-                            ),
-                            const SizedBox(height: 5),
-                            Center(
-                              child: SizedBox(
-                                width: size.width * 0.4,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: AspectRatio(
-                                    aspectRatio: 289 / 211,
-                                    child: displayBinInfo['picture'] == null
-                                        ? Image.asset(
-                                            "assets/images/PinTheBin/bin_null.png",
-                                            fit: BoxFit.contain,
-                                          )
-                                        : Image.network(
-                                            displayBinInfo['picture'],
-                                            fit: BoxFit.cover,
-                                          ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Row(
-                              children: List.generate(
-                                displayBinInfo['bintype'].keys.length,
-                                (index) {
-                                  List<Color> binColors = [
-                                    Colors.red,
-                                    Colors.green,
-                                    Colors.yellow,
-                                    Colors.blue,
-                                  ];
-                                  var keys = displayBinInfo['bintype'].keys;
-                                  print(displayBinInfo['bintype']
-                                      [keys.elementAt(index)]);
-                                  if (displayBinInfo['bintype']
-                                          [keys.elementAt(index)] ==
-                                      true) {
-                                    return Container(
-                                      margin: const EdgeInsets.only(left: 8),
-                                      width: 15,
-                                      height: 15,
-                                      decoration: BoxDecoration(
-                                        color: binColors[index],
-                                        shape: BoxShape.circle,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color:
-                                                Colors.black.withOpacity(0.3),
+                      child: ShaderMask(
+                        shaderCallback: (Rect rect) {
+                          return const LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [Colors.transparent, Colors.white],
+                            //set stops as par your requirement
+                            stops: [0.0, 0.05], // 50% transparent, 50% white
+                          ).createShader(rect);
+                        },
+                        child: SingleChildScrollView(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "${displayBinInfo['location']}",
+                                    style: TextStyle(
+                                        shadows: [
+                                          Shadow(
+                                            color: Color(0xFF46384E)
+                                                .withOpacity(0.4),
                                             offset: Offset(0, 2),
-                                            blurRadius: 2,
-                                            spreadRadius: 1,
+                                            blurRadius: 5,
                                           )
                                         ],
-                                        border: Border.all(
-                                          color: Color(0xFFECECEC),
-                                          width: 1.5,
-                                        ),
+                                        color: Color(0xFF46384E),
+                                        fontFamily:
+                                            displayBinInfo['location'].contains(
+                                          RegExp("[ก-๛]"),
+                                        )
+                                                ? "THSarabunPSK"
+                                                : Theme.of(context)
+                                                    .textTheme
+                                                    .labelMedium!
+                                                    .fontFamily,
+                                        fontSize:
+                                            displayBinInfo['location'].contains(
+                                          RegExp("[ก-๛]"),
+                                        )
+                                                ? 24
+                                                : 18,
+                                        fontWeight:
+                                            displayBinInfo['location'].contains(
+                                          RegExp("[ก-๛]"),
+                                        )
+                                                ? FontWeight.w700
+                                                : FontWeight.w800),
+                                  ),
+                                  Row(children: [
+                                    InkWell(
+                                      child: Image.asset(
+                                        "assets/images/PinTheBin/edit_bin_black_white.png",
+                                        height: 22,
                                       ),
-                                    );
-                                  } else {
-                                    return Container();
-                                  }
-                                },
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          pinthebinPageRoute["editbin"]!,
+                                          arguments: {
+                                            'Bininfo': displayBinInfo
+                                          },
+                                        );
+                                      },
+                                    ),
+                                    InkWell(
+                                      child: Image.asset(
+                                        "assets/images/PinTheBin/navigate_bin.png",
+                                        height: 22,
+                                      ),
+                                      onTap: () async {
+                                        String googleUrl =
+                                            'https://www.google.com/maps/search/?api=1&query=${marker.point.latitude},${marker.point.longitude}';
+                                        Uri url = Uri.parse(googleUrl);
+                                        if (!await launchUrl(url)) {
+                                          throw Exception(
+                                              'Could not launch $googleUrl');
+                                        }
+                                      },
+                                    ),
+                                    InkWell(
+                                      child: Image.asset(
+                                        "assets/images/PinTheBin/report_bin.png",
+                                        height: 22,
+                                      ),
+                                      onTap: () {},
+                                    ),
+                                  ]),
+                                ],
                               ),
-                            ),
-                            Text(
-                              "${displayBinInfo['description']}",
-                              style: TextStyle(
-                                  shadows: [
-                                    Shadow(
-                                      color: Color(0xFF46384E).withOpacity(0.4),
-                                      offset: Offset(0, 2),
-                                      blurRadius: 5,
+                              const SizedBox(height: 5),
+                              Center(
+                                child: SizedBox(
+                                  width: size.width * 0.4,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: AspectRatio(
+                                      aspectRatio: 289 / 211,
+                                      child: displayBinInfo['picture'] == null
+                                          ? Image.asset(
+                                              "assets/images/PinTheBin/bin_null.png",
+                                              fit: BoxFit.contain,
+                                            )
+                                          : Image.network(
+                                              displayBinInfo['picture'],
+                                              fit: BoxFit.cover,
+                                            ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: List.generate(
+                                  displayBinInfo['bintype'].keys.length,
+                                  (index) {
+                                    List<Color> binColors = [
+                                      Colors.red,
+                                      Colors.green,
+                                      Colors.yellow,
+                                      Colors.blue,
+                                    ];
+                                    var keys = displayBinInfo['bintype'].keys;
+                                    print(displayBinInfo['bintype']
+                                        [keys.elementAt(index)]);
+                                    if (displayBinInfo['bintype']
+                                            [keys.elementAt(index)] ==
+                                        true) {
+                                      return Container(
+                                        margin: const EdgeInsets.only(left: 8),
+                                        width: 15,
+                                        height: 15,
+                                        decoration: BoxDecoration(
+                                          color: binColors[index],
+                                          shape: BoxShape.circle,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.black.withOpacity(0.3),
+                                              offset: Offset(0, 2),
+                                              blurRadius: 2,
+                                              spreadRadius: 1,
+                                            )
+                                          ],
+                                          border: Border.all(
+                                            color: Color(0xFFECECEC),
+                                            width: 1.5,
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      return Container();
+                                    }
+                                  },
+                                ),
+                              ),
+                              Text(
+                                "${displayBinInfo['description']}",
+                                style: TextStyle(
+                                    shadows: [
+                                      Shadow(
+                                        color:
+                                            Color(0xFF46384E).withOpacity(0.4),
+                                        offset: Offset(0, 2),
+                                        blurRadius: 5,
+                                      )
+                                    ],
+                                    color: Color(0xFF46384E),
+                                    fontFamily:
+                                        displayBinInfo['location'].contains(
+                                      RegExp("[ก-๛]"),
                                     )
-                                  ],
-                                  color: Color(0xFF46384E),
-                                  fontFamily:
-                                      displayBinInfo['location'].contains(
-                                    RegExp("[ก-๛]"),
-                                  )
-                                          ? "THSarabunPSK"
-                                          : Theme.of(context)
-                                              .textTheme
-                                              .labelMedium!
-                                              .fontFamily,
-                                  fontSize: displayBinInfo['location'].contains(
-                                    RegExp("[ก-๛]"),
-                                  )
-                                      ? 20
-                                      : 16,
-                                  fontWeight:
-                                      displayBinInfo['location'].contains(
-                                    RegExp("[ก-๛]"),
-                                  )
-                                          ? FontWeight.w400
-                                          : FontWeight.w400),
-                            ),
-                          ],
+                                            ? "THSarabunPSK"
+                                            : Theme.of(context)
+                                                .textTheme
+                                                .labelMedium!
+                                                .fontFamily,
+                                    fontSize:
+                                        displayBinInfo['location'].contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                            ? 20
+                                            : 16,
+                                    fontWeight:
+                                        displayBinInfo['location'].contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                            ? FontWeight.w400
+                                            : FontWeight.w400),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

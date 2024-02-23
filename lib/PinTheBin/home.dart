@@ -1,9 +1,10 @@
 import "dart:convert";
 import "dart:developer";
+import "package:animated_icon/animated_icon.dart";
 import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
-import "package:get/get.dart";
 import "package:latlong2/latlong.dart";
+import "package:lottie/lottie.dart";
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import "package:ruam_mitt/PinTheBin/componant/map.dart";
 
@@ -154,12 +155,14 @@ class PinTheBinSearchBar extends StatefulWidget {
   State<PinTheBinSearchBar> createState() => _PinTheBinSearchBarState();
 }
 
-class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
+class _PinTheBinSearchBarState extends State<PinTheBinSearchBar>
+    with TickerProviderStateMixin {
   List<dynamic> tempBinData = [];
-
+  late Animation<double> animation;
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
     Future.delayed(const Duration(seconds: 1))
         .then((value) => tempBinData = widget.binDataList);
@@ -175,8 +178,24 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
         width: widget.size.width,
         height: 60,
         child: SearchAnchor(
-          viewBackgroundColor: Theme.of(context).colorScheme.background,
+          // viewBackgroundColor: Colors.white,
           searchController: widget.searchAnchorController,
+          viewHintText: "Enter bin name...",
+          viewBackgroundColor: Colors.white,
+          viewLeading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          viewBuilder: (suggestions) {
+            return Container(
+              color: Colors.white,
+              child: Column(
+                children: suggestions.toList(),
+              ),
+            );
+          },
           builder: (context, searchBarController) {
             return SearchBar(
               focusNode: widget.focusNode,
@@ -235,10 +254,11 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
                   const MaterialStatePropertyAll(Color(0xFFECECEC)),
               onTap: () {
                 // searchBarController.clear();
+
                 searchBarController.openView();
               },
               onChanged: (query) {
-                debugPrint("Searchbox change");
+                log("Searchbox change");
                 searchBarController.openView();
               },
               onSubmitted: (value) {
@@ -250,8 +270,9 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
               },
             );
           },
+
           suggestionsBuilder: (context, suggestionController) {
-            debugPrint("Suggestion query : ${suggestionController.text}");
+            log("Suggestion query : ${suggestionController.text.length}");
             tempBinData = [];
             String queryText = suggestionController.text;
             for (var i = 0; i < widget.binDataList.length; i++) {
@@ -279,6 +300,7 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
                         .then((value) {
                       log("Selected focus ? ${widget.focusNode.hasFocus}");
                       widget.focusNode.unfocus();
+                      suggestionController.clear();
                     });
                     suggestionController
                         .closeView(tempBinData[index]['location']);
@@ -307,22 +329,22 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
                                                 .textTheme
                                                 .labelMedium!
                                                 .fontFamily,
-                                    fontSize: tempBinData[index]['description']
-                                            .contains(
+                                    fontSize:
+                                        tempBinData[index]['location'].contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                        ? 24
-                                        : 16,
-                                    fontWeight: tempBinData[index]
-                                                ['description']
-                                            .contains(
+                                            ? 24
+                                            : 16,
+                                    fontWeight:
+                                        tempBinData[index]['location'].contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                        ? FontWeight.w700
-                                        : FontWeight.normal),
+                                            ? FontWeight.w700
+                                            : FontWeight.normal),
                               ),
                               Text(
                                 tempBinData[index]['description'],
+                                maxLines: 1,
                                 style: TextStyle(
                                     fontFamily: tempBinData[index]
                                                 ['description']
