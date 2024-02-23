@@ -264,7 +264,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                 } else {
                                   return BlogBox(
                                     title: save[actualIndex]['post']['title'],
-                                    name: save[actualIndex]['user']['fullname'],
+                                    name: save[actualIndex]['fullname_blogger'],
                                     like: 'null',
                                     image: NetworkImage(
                                       save[actualIndex]['post']['image_link'] !=
@@ -312,7 +312,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                 } else {
                                   return BlogBox(
                                     title: save[actualIndex]['post']['title'],
-                                    name: save[actualIndex]['user']['fullname'],
+                                    name: save[actualIndex]['fullname_blogger'],
                                     like: 'null',
                                     image: NetworkImage(save[actualIndex]
                                         ['post']['image_link']!= "null"
