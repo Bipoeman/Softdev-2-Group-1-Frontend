@@ -24,6 +24,7 @@ import 'package:ruam_mitt/TuachuayDekhor/profile.dart';
 import 'package:ruam_mitt/TuachuayDekhor/search.dart';
 import 'package:ruam_mitt/TuachuayDekhor/story.dart';
 import 'package:ruam_mitt/TuachuayDekhor/writeblog.dart';
+import 'package:ruam_mitt/TuachuayDekhor/profile_blogger.dart';
 import 'package:ruam_mitt/TuachuayDekhor/draft.dart';
 import 'package:ruam_mitt/PinTheBin/home.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -83,6 +84,11 @@ class _SuperAppState extends State<SuperApp> {
             const TuachuayDekhorCookingPage(),
         tuachuayDekhorPageRoute["cleaning"]!: (context) =>
             const TuachuayDekhorCleaningPage(),
+       tuachuayDekhorPageRoute["profileblogger"]!: (context) {
+  final username = ModalRoute.of(context)!.settings.arguments as String;
+  return TuachuayDekhorBloggerProfilePage(username: username);
+},
+
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPage(),
         pinthebinPageRoute["editbin"]!: (context) => const EditbinPage(),

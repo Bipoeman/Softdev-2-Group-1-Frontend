@@ -5,7 +5,7 @@ import 'package:ruam_mitt/global_var.dart';
 class TuachuayDekhorAvatarViewer extends StatelessWidget {
   const TuachuayDekhorAvatarViewer({
     Key? key,
-    this.username,
+    required this.username,
     this.avatarUrl,
   }) : super(key: key);
 
@@ -13,7 +13,7 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
   final String? avatarUrl;
 
   Widget getAvatar(BuildContext context) {
-    if (avatarUrl != null) {
+    if (avatarUrl != null && avatarUrl!.isNotEmpty) {
       try {
         return CircleAvatar(
           radius: 30,
@@ -23,10 +23,20 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
         debugPrint(e.toString());
       }
     }
+
+    final imgPath = profileData['imgPath'];
+
+    if (imgPath != null && imgPath.isNotEmpty) {
+      return CircleAvatar(
+        radius: 30,
+        backgroundColor: Colors.white.withOpacity(0.5),
+        backgroundImage: NetworkImage(imgPath),
+      );
+    }
+
     return CircleAvatar(
       radius: 30,
       backgroundColor: Colors.white.withOpacity(0.5),
-      backgroundImage: NetworkImage(profileData['imgPath'] ?? avatarUrl ?? ""),
     );
   }
 
@@ -40,7 +50,11 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
           ),
           constraints: const BoxConstraints(),
           onPressed: () {
-            Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
+            Navigator.pushNamed(
+              context,
+              tuachuayDekhorPageRoute["profileblogger"]!,
+              arguments: username,
+            );
           },
           child: Container(
             margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),

@@ -11,6 +11,8 @@ const String userDataRequestRoute = "/user/id";
 const String pinTheBinGetBinRoute = "/pinthebin/bin";
 const String dekhorPosttoprofileRoute = "/dekhor/posttoprofile";
 const String dekhorShowSaveRoute = "/dekhor/showsave";
+const String dekhorPosttoprofilebloggerRoute = "/dekhor/posttoprofileblogger";
+const String dekhorShowSavebloggerRoute = "/dekhor/showsaveblogger";
 const String dekhorSearchBlogRoute = "/dekhor/searchblog";
 const String dekhorSearchBloggerRoute = "/dekhor/searchblogger";
 const String dekhorWriteBloggerRoute = "/dekhor/createpost";
@@ -37,6 +39,7 @@ const String dinodengzzPageRoute = "/game";
 const Map<String, String> tuachuayDekhorPageRoute = {
   "home": "/TuachuayDekhor/home",
   "profile": "/TuachuayDekhor/profile",
+  "profileblogger": "/TuachuayDekhor/profileblogger",
   "blog": "/TuachuayDekhor/blog",
   "search": "/TuachuayDekhor/search",
   "blogger": "/TuachuayDekhor/blogger",
