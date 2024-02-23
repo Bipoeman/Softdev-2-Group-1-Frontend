@@ -34,6 +34,12 @@ class RestroomRoverNavbar extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Drawer(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(50),
+          bottomRight: Radius.circular(50),
+        ),
+      ),
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
