@@ -248,6 +248,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                   return BlogBox(
                                     title: post[actualIndex]['title'],
                                     name: post[actualIndex]['user']['fullname'],
+                                    category: post[actualIndex]['category'],
                                     like: 'null',
                                     image: NetworkImage(
                                       post[actualIndex]['image_link'] != "null"
@@ -265,6 +266,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                   return BlogBox(
                                     title: save[actualIndex]['post']['title'],
                                     name: save[actualIndex]['fullname_blogger'],
+                                    category: save[actualIndex]['post']['category'],
                                     like: 'null',
                                     image: NetworkImage(
                                       save[actualIndex]['post']['image_link'] !=
@@ -296,6 +298,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                   return BlogBox(
                                     title: post[actualIndex]['title'],
                                     name: post[actualIndex]['user']['fullname'],
+                                    category: post[actualIndex]['category'],
                                     like: 'null',
                                     image: NetworkImage(
                                       post[actualIndex]['image_link'] != "null"
@@ -313,6 +316,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                   return BlogBox(
                                     title: save[actualIndex]['post']['title'],
                                     name: save[actualIndex]['fullname_blogger'],
+                                    category: save[actualIndex]['post']['category'],
                                     like: 'null',
                                     image: NetworkImage(save[actualIndex]
                                         ['post']['image_link']!= "null"

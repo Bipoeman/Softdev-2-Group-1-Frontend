@@ -17,7 +17,7 @@ class TuachuayDekhorCookingPage extends StatefulWidget {
 class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
   final cookingurl = Uri.parse("$api$dekhorPosttocookingRoute");
   var blog_cooking = [];
-   @override
+  @override
   void initState() {
     super.initState();
     posttocooking();
@@ -36,6 +36,7 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
       throw Exception('Failed to load data');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -123,6 +124,8 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                                     title: blog_cooking[actualIndex]['title'],
                                     name: blog_cooking[actualIndex]['user']
                                         ['fullname'],
+                                    category: blog_cooking[actualIndex]
+                                        ['category'],
                                     like: 'null',
                                     image: NetworkImage(
                                       blog_cooking[actualIndex]['image_link'] !=
@@ -156,6 +159,8 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                                     title: blog_cooking[actualIndex]['title'],
                                     name: blog_cooking[actualIndex]['user']
                                         ['fullname'],
+                                    category: blog_cooking[actualIndex]
+                                        ['category'],
                                     like: 'null',
                                     image: NetworkImage(
                                       blog_cooking[actualIndex]['image_link'] !=

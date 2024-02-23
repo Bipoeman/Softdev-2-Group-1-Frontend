@@ -259,6 +259,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                   return BlogBox(
                                     title: post[actualIndex]['title'],
                                     name: post[actualIndex]['fullname'],
+                                    category: post[actualIndex]['category'],
                                     like: 'null',
                                     image: NetworkImage(
                                         post[actualIndex]['image_link']!=
@@ -278,6 +279,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                   return BlogBox(
                                     title: save[actualIndex]['post']['title'],
                                     name: save[actualIndex]['fullname_blogger'],
+                                    category: save[actualIndex]['post']['category'],
                                     like: 'null',
                                     image: NetworkImage(save[actualIndex]
                                         ['post']['image_link']!=
@@ -309,6 +311,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                   return BlogBox(
                                     title: post[actualIndex]['title'],
                                     name: post[actualIndex]['fullname'],
+                                    category: post[actualIndex]['category'],
                                     like: 'null',
                                     image: NetworkImage(
                                         post[actualIndex]['image_link']!=
@@ -328,6 +331,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                   return BlogBox(
                                     title: save[actualIndex]['post']['title'],
                                     name: save[actualIndex]['fullname_blogger'],
+                                    category: save[actualIndex]['post']['category'],
                                     like: 'null',
                                     image: NetworkImage(save[actualIndex]
                                         ['post']['image_link']!=

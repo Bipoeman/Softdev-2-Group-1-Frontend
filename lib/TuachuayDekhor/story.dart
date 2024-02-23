@@ -88,6 +88,22 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
+                        top: size.height * 0.02,
+                        left: size.width * 0.04,
+                      ),
+                      child: GestureDetector(
+                        child: const Row(
+                          children: [
+                            Icon(Icons.arrow_back_outlined),
+                            SizedBox(width: 5),
+                            Text("Back")
+                          ],
+                        ),
+                        onTap: () => Navigator.pop(context),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
                           bottom: size.width * 0.05,
                           left: size.width * 0.04,
                           right: size.width * 0.04,
@@ -108,6 +124,7 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
                                     title: blog_story[actualIndex]['title'],
                                     name: blog_story[actualIndex]['user']
                                         ['fullname'],
+                                    category: blog_story[actualIndex]['category'],
                                     like: 'null',
                                     image: NetworkImage(
                                       blog_story[actualIndex]['image_link'] !=
@@ -140,6 +157,7 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
                                     title: blog_story[actualIndex]['title'],
                                     name: blog_story[actualIndex]['user']
                                         ['fullname'],
+                                    category: blog_story[actualIndex]['category'],
                                     like: 'null',
                                     image: NetworkImage(
                                       blog_story[actualIndex]['image_link'] !=

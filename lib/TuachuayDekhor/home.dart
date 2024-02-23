@@ -316,6 +316,8 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                             title: blog[actualIndex]['title'],
                                             name: blog[actualIndex]['user']
                                                 ['fullname'],
+                                            category: blog[actualIndex]
+                                                ['category'],
                                             like: 'null',
                                             image: NetworkImage(
                                               blog[actualIndex]['image_link'] !=
@@ -350,6 +352,8 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                             title: blog[actualIndex]['title'],
                                             name: blog[actualIndex]['user']
                                                 ['fullname'],
+                                            category: blog[actualIndex]
+                                                ['category'],
                                             like: 'null',
                                             image: NetworkImage(
                                               blog[actualIndex]['image_link'] !=

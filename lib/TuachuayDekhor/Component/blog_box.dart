@@ -6,7 +6,7 @@ class BlogBox extends StatelessWidget {
   const BlogBox({
     super.key,
     required this.title,
-    this.category,
+    required this.category,
     required this.name,
     required this.like,
     required this.image,
@@ -15,7 +15,7 @@ class BlogBox extends StatelessWidget {
   final void Function()? onPressed;
   final ImageProvider<Object> image;
   final String title;
-  final String? category;
+  final String category;
   final String name;
   final String like;
   @override
@@ -102,13 +102,13 @@ class BlogBox extends StatelessWidget {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey[200],
+                          color: Color.fromARGB(255, 232, 232, 232),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 5, right: 5),
+                          padding: const EdgeInsets.only(left: 2, right: 5),
                           child: Text(
-                            "#category",
+                            '#$category',
                             style: const TextStyle(
                               fontSize: 8,
                             ),

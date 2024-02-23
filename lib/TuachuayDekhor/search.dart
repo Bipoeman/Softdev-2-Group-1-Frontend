@@ -269,6 +269,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                       return BlogBox(
                                         title: blog['title'] ?? '',
                                         name: blog['user']?['fullname'] ?? '',
+                                        category: blog['category'] ?? '',
                                         like: 'null',
                                         image: NetworkImage(
                                           blog['image_link'] != "null"
@@ -336,6 +337,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                       return BlogBox(
                                         title: blog['title'] ?? '',
                                         name: blog['user']?['fullname'] ?? '',
+                                        category: blog['category'] ?? '',
                                         like: 'null',
                                         image: NetworkImage(
                                           blog['image_link'] != "null"

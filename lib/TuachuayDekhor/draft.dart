@@ -82,6 +82,7 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                           (index) => BlogBox(
                             title: "Title",
                             name: "Name",
+                            category: "Category",
                             like: "Like",
                             image: const AssetImage(
                                 "assets/images/Icon/TuachuayDekhor_Catagories_1.png"),
