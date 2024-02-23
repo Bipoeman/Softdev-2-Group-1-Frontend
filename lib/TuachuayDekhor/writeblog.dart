@@ -19,7 +19,7 @@ class TuachuayDekhorWriteBlogPage extends StatefulWidget {
 class _TuachuayDekhorWriteBlogPageState
     extends State<TuachuayDekhorWriteBlogPage>
     with SingleTickerProviderStateMixin {
-  String? _dropdownValue = "null";
+  String? _dropdownValue;
   BoxController boxController = BoxController();
   TextEditingController markdownTitleController = TextEditingController();
   TextEditingController markdownContentController = TextEditingController();
@@ -41,41 +41,11 @@ class _TuachuayDekhorWriteBlogPageState
       "image_link": "null",
       "fullname": profileData['fullname']
     });
-    if (markdownTitleController.text.isEmpty ||
-        markdownContentController.text.isEmpty) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            surfaceTintColor: Colors.white,
-            iconColor: const Color.fromRGBO(0, 48, 73, 1),
-            icon: const Icon(Icons.close, size: 50),
-            title: const Text("Empty blog."),
-            content:
-                const Text("Please write a title and content before posting."),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text(
-                  "OK",
-                  style: TextStyle(
-                    color: Colors.green,
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      );
+
+    if (response.statusCode == 200) {
+      status = true;
     } else {
-      if (response.statusCode == 200) {
-        status = true;
-      } else {
-        status = false;
-      }
+      status = false;
     }
   }
 
@@ -349,7 +319,7 @@ class _TuachuayDekhorWriteBlogPageState
                                   const EdgeInsets.only(left: 20, right: 10),
                               child: RawMaterialButton(
                                 onPressed: () {
-                                  writeblog();
+                                  // writeblog();
                                   print("Post tapped");
                                   showDialog(
                                       context: context,
@@ -476,6 +446,29 @@ class _TuachuayDekhorWriteBlogPageState
                           ],
                         ),
                       ),
+                      // Container(
+                      //   width: size.width * 0.6,
+                      //   height: size.height * 0.1,
+                      //   color:
+                      //       Color.fromARGB(255, 150, 171, 225).withOpacity(0.2),
+                      //   padding: EdgeInsets.only(
+                      //     top: size.height * 0.02,
+                      //     left: size.width * 0.2,
+                      //   ),
+                      //   child: Container(
+                      //     width: size.width * 0.6,
+                      //     height: size.height * 0.1,
+                      //     color: Colors.grey.withOpacity(0.2),
+                      //     padding: EdgeInsets.only(
+                      //       top: size.height * 0.02,
+                      //       left: size.width * 0.2,
+                      //     ),
+                      //     child: const IconButton(
+                      //       onPressed: null,
+                      //       icon: Icon(Icons.add_photo_alternate_rounded),
+                      //     ),
+                      //   ),
+                      // ),
                       Container(
                         padding: EdgeInsets.only(
                           top: size.height * 0.02,

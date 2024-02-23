@@ -272,6 +272,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: post[actualIndex]['id_post'],
                                       );
                                     },
                                   );
@@ -292,6 +293,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: save[actualIndex]['post']['id_post'],
                                       );
                                     },
                                   );
@@ -324,6 +326,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: post[actualIndex]['id_post'],
                                       );
                                     },
                                   );
@@ -344,6 +347,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: save[actualIndex]['post']['id_post'],
                                       );
                                     },
                                   );

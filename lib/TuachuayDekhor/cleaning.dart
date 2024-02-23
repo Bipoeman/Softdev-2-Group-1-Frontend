@@ -140,6 +140,7 @@ class _TuachuayDekhorCleaningPageState
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: blog_clean[actualIndex]['id_post'],
                                       );
                                     },
                                   );
@@ -175,6 +176,7 @@ class _TuachuayDekhorCleaningPageState
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: blog_clean[actualIndex]['id_post'],
                                       );
                                     },
                                   );

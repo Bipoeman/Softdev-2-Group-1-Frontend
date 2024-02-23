@@ -136,6 +136,7 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: blog_story[actualIndex]['id_post'],
                                       );
                                     },
                                   );
@@ -169,6 +170,7 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: blog_story[actualIndex]['id_post'],
                                       );
                                     },
                                   );

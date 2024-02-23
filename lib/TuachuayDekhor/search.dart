@@ -280,6 +280,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                           Navigator.pushNamed(
                                             context,
                                             tuachuayDekhorPageRoute['blog']!,
+                                            arguments: blog['id_post'],
                                           );
                                         },
                                       );
@@ -348,6 +349,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                           Navigator.pushNamed(
                                             context,
                                             tuachuayDekhorPageRoute['blog']!,
+                                            arguments: blog['id_post']
                                           );
                                         },
                                       );

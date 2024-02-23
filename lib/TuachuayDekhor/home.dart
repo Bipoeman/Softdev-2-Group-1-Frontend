@@ -331,6 +331,8 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                                 context,
                                                 tuachuayDekhorPageRoute[
                                                     'blog']!,
+                                                arguments: blog[actualIndex]
+                                                    ['id_post'],
                                               );
                                             },
                                           );
@@ -367,6 +369,8 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                                 context,
                                                 tuachuayDekhorPageRoute[
                                                     'blog']!,
+                                                arguments: blog[actualIndex]
+                                                    ['id_post'],
                                               );
                                             },
                                           );
