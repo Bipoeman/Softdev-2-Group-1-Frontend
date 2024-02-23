@@ -5,7 +5,6 @@ import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:popup_menu/popup_menu.dart';
-import 'package:ruam_mitt/Restroom/Component/cardpin.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:url_launcher/url_launcher.dart';
 
