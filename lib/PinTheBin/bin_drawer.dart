@@ -106,7 +106,7 @@ class BinDrawer extends StatelessWidget {
                     ),
                     onTap: () {
                       Navigator.pushNamed(
-                          context, pinthebinPageRoute["editbin"]!);
+                          context, pinthebinPageRoute["mybin"]!);
                     },
                   ),
                   const SizedBox(height: 30),

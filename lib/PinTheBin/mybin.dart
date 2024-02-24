@@ -1,12 +1,13 @@
 import "dart:convert";
+import "dart:math";
 import "package:flutter/material.dart";
-import "package:flutter_sliding_box/flutter_sliding_box.dart";
 import "package:http/http.dart" as http;
-import "package:provider/provider.dart";
-import "package:ruam_mitt/PinTheBin/navbar.dart";
-import "package:ruam_mitt/RuamMitr/Component/theme.dart";
+import "package:latlong2/latlong.dart";
+import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
+import 'package:ruam_mitt/global_var.dart';
 
 class MyBinPage extends StatefulWidget {
   const MyBinPage({super.key});
@@ -17,140 +18,70 @@ class MyBinPage extends StatefulWidget {
 
 class _MyBinState extends State<MyBinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  dynamic binData = [
-    {
-      "id": "1",
-      "location": "Street X, City Y",
-      "description": "XY",
-      "latitude": "50",
-      "longitude": "50",
-      "bintype": {
-        "redbin": false,
-        "greenbin": false,
-        "yellow": false,
-        "bluebin": false
-      }
-    },
-    {
-      "id": "2",
-      "location": "Street W, City Y",
-      "description": "WY",
-      "latitude": "50",
-      "longitude": "40",
-      "bintype": {
-        "redbin": false,
-        "greenbin": false,
-        "yellow": false,
-        "bluebin": false
-      }
-    },
-    {
-      "id": "3",
-      "location": "Street W, City Z",
-      "description": "WZ",
-      "latitude": "40",
-      "longitude": "50",
-      "bintype": {
-        "redbin": true,
-        "greenbin": true,
-        "yellow": true,
-        "bluebin": false
-      }
-    },
-    {
-      "id": "4",
-      "location": "Street W, City Y",
-      "description": "WY",
-      "latitude": "50",
-      "longitude": "40",
-      "bintype": {
-        "redbin": false,
-        "greenbin": false,
-        "yellow": false,
-        "bluebin": false
-      }
-    },
-    {
-      "id": "5",
-      "location": "Street W, City Z",
-      "description": "WZ",
-      "latitude": "40",
-      "longitude": "50",
-      "bintype": {
-        "redbin": true,
-        "greenbin": true,
-        "yellow": true,
-        "bluebin": false
-      }
-    }
-  ];
+  dynamic binData = [];
+  dynamic binShow = [];
+  SearchController searchBinController = SearchController();
+  FocusNode focusNode = FocusNode();
+  LatLng? centerMark;
+  Future<http.Response> myBinInfo() async {
+    Uri url = Uri.parse("$api$pinTheBinMyBinRoute");
+    http.Response res =
+        await http.get(url, headers: {"Authorization": "Bearer $publicToken"});
+    print(res.body);
+    return res;
+  }
 
-  // Future<http.Response> myBinInfo() async {
-  //   Uri url = Uri.parse("$api$pinTheBinMyBinRoute");
-  //   http.Response res = await http.get(url, headers: {"Authorization": ""});
-  //   print(res.body);
-  //   return res;
-  // }
+  Future<http.Response> delBin(int id) async {
+    Uri url = Uri.parse("$api$pinTheBinDeleteBinRoute/$id");
+    http.Response res = await http.delete(url);
+    print(res.body);
+    return res;
+  }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   print("Init Bin Page");
-  //   myBinInfo().then((response) {
-  //     // print("Response");
-  //     // print(response.body);
-  //     setState(() {
-  //       binData = jsonDecode(response.body);
-  //     });
-  //     // print(binData);
-  //   });
-  // }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("Init Bin Page");
+    myBinInfo().then((response) {
+      print("Response");
+      print(response.body);
+      setState(() {
+        binData = jsonDecode(response.body);
+        binShow = binData;
+      });
+      // print(binData);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // BoxController binInfoController = BoxController();
-    ThemeProvider themes = Provider.of<ThemeProvider>(context);
-    ThemeData pinTheBinTheme = themes.themeFrom("PinTheBin")!.themeData;
-    return Theme(
-      data: pinTheBinTheme,
-      child: Scaffold(
-        key: _scaffoldKey,
-        body: SafeArea(
-          child: Stack(children: [
-            Positioned(
-              top: size.height * 0.01,
-              left: size.width * 0.025,
-              child: GestureDetector(
-                onTap: () {
-                  _scaffoldKey.currentState?.openDrawer();
-                },
-                child: Container(
-                  width: size.width * 0.1,
-                  height: size.height * 0.05,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF77F00),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: const Icon(Icons.menu),
-                ),
-              ),
-            ),
+    return Scrollbar(
+      // thumbVisibility: true,
+      thickness: 10,
+      trackVisibility: true,
+      radius: Radius.circular(10),
+      child: Theme(
+        data: pinTheBinThemeData,
+        child: Scaffold(
+          key: _scaffoldKey,
+          body: Stack(children: [
             Container(
-              padding: EdgeInsets.fromLTRB(
-                  size.width * 0.36, size.height * 0.01, 0, 0),
-              child: Text(
-                "My Bin",
-                style: GoogleFonts.getFont(
-                  'Sen',
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Color(0xFFF9957F),
+                    Color(0xFFE69FA1),
+                    Color(0xFFF3F6D1),
+                  ],
                 ),
               ),
             ),
             Column(
-              children: binData.isEmpty
+              children: binShow.isEmpty
                   ? [
                       Center(
                           heightFactor: size.height * 0.02,
@@ -166,51 +97,534 @@ class _MyBinState extends State<MyBinPage> {
                     ]
                   : [
                       Expanded(
-                          child: Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height * 0.1,
-                          left: size.width * 0.05,
-                        ),
-                        child: SingleChildScrollView(
+                          child: SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            top: size.height * 0.23,
+                            left: size.width * 0.05,
+                            bottom: 20,
+                          ),
                           child: Column(
-                            children: binData.map<Widget>((data) {
+                            children: binShow.map<Widget>((data) {
                               return Container(
-                                width: size.width * 0.9,
-                                height: size.height * 0.2,
-                                margin: EdgeInsets.symmetric(vertical: 5.0),
-                                padding: EdgeInsets.all(10.0),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Bin Name: ${data["location"]}',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text('Description: ${data["description"]}'),
-                                    Text('Latitude: ${data["latitude"]}'),
-                                    Text('Longitude: ${data["longitude"]}'),
-                                    Text(
-                                      'Type: ${data["bintype"]["redbin"] ? "Red Bin" : ""} ${data["bintype"]["greenbin"] ? "Green Bin" : ""} ${data["bintype"]["yellow"] ? "Yellow Bin" : ""}',
-                                    ),
-                                  ],
-                                ),
-                              );
+                                  width: size.width * 0.9,
+                                  height: size.height * 0.27,
+                                  margin: EdgeInsets.symmetric(vertical: 5.0),
+                                  padding: EdgeInsets.all(10.0),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(255, 255, 255, 0.6),
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color.fromRGBO(
+                                            126, 120, 120, 0.247),
+                                        offset: Offset(0, 4),
+                                        blurRadius: 4,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Name: ${data["location"]}',
+                                            style: GoogleFonts.getFont(
+                                              'Sen',
+                                              color:
+                                                  Color.fromARGB(67, 0, 30, 49),
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Type: ',
+                                                  style: GoogleFonts.getFont(
+                                                    'Sen',
+                                                    color: Color.fromARGB(
+                                                        67, 0, 30, 49),
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  '${data["bintype"]["redbin"] ? "Danger\n" : ""}${data["bintype"]["greenbin"] ? "Waste\n" : ""}${data["bintype"]["yellow"] ? "Recycle\n" : ""}${data["bintype"]["bluebin"] ? "General" : ""}',
+                                                  style: GoogleFonts.getFont(
+                                                    'Sen',
+                                                    color: Color.fromARGB(
+                                                        67, 0, 30, 49),
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ]),
+                                        ],
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            top: size.height * 0.18),
+                                        child: Row(
+                                          children: [
+                                            IconButton(
+                                              icon: Image.asset(
+                                                "assets/images/PinTheBin/edit_bin.png",
+                                                height: 30,
+                                                width: 30,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                  context,
+                                                  pinthebinPageRoute[
+                                                      "editbin"]!,
+                                                  arguments: {
+                                                    'Bininfo': '${data}',
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                            IconButton(
+                                              iconSize: 10,
+                                              icon: Image.asset(
+                                                "assets/images/PinTheBin/delete_bin.png",
+                                                height: 30,
+                                                width: 30,
+                                              ),
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: Center(
+                                                        child: Text(
+                                                          'Confirm Delete',
+                                                          style: GoogleFonts
+                                                              .getFont(
+                                                            'Sen',
+                                                            color: Colors.black,
+                                                            fontSize: 25,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Text(
+                                                            'Close',
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Sen',
+                                                              color: Colors.red,
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                            delBin(data["id"]);
+                                                            Navigator
+                                                                .pushReplacement(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          MyBinPage()),
+                                                            );
+                                                          },
+                                                          child: Text(
+                                                            'Confirm',
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Sen',
+                                                              color: Colors.red,
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        width: size.width,
+                                        height: size.height,
+                                        padding: EdgeInsets.only(
+                                            top: size.height * 0.05,
+                                            left: size.width * 0.4),
+                                        child: data["picture"] == null
+                                            ? Image.asset(
+                                                "assets/images/PinTheBin/bin_null.png",
+                                                // fit: BoxFit.cover,
+                                                width: size.width * 0.4,
+                                                height: size.width * 0.4,
+                                              )
+                                            : Image.network(
+                                                data["picture"],
+                                                width: size.width * 0.4,
+                                                height: size.width * 0.4,
+                                              ),
+                                      )
+                                    ],
+                                  ));
                             }).toList(),
                           ),
                         ),
-                      ))
+                      )),
                     ],
-            )
+            ),
+            MyPinTheBinAppBar(scaffoldKey: _scaffoldKey),
+            MyBinSearchBar(
+              size: size,
+              searchAnchorController: searchBinController,
+              binDataList: binData,
+              focusNode: focusNode,
+              parentKey: widget.key,
+              onSelected: (selectedValue) {
+                binData.forEach((eachBin) {
+                  if (eachBin['location'] == selectedValue) {
+                    binShow = [eachBin];
+                  }
+                });
+              },
+            ),
           ]),
+          drawerScrimColor: Colors.transparent,
+          drawer: const BinDrawer(),
         ),
-        drawerScrimColor: Colors.transparent,
-        drawer: const NavBar(),
+      ),
+    );
+  }
+}
+
+class MyPinTheBinAppBar extends StatelessWidget {
+  const MyPinTheBinAppBar({
+    super.key,
+    required GlobalKey<ScaffoldState> scaffoldKey,
+  }) : _scaffoldKey = scaffoldKey;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 130,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: <Color>[
+            Color(0xFFF99680),
+            Color(0xFFF8A88F),
+          ],
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              const SizedBox(width: 20),
+              GestureDetector(
+                child: Icon(
+                  Icons.menu_rounded,
+                  size: Theme.of(context).appBarTheme.iconTheme!.size,
+                  color: Theme.of(context).appBarTheme.iconTheme!.color,
+                ),
+                onTap: () {
+                  debugPrint("Open Drawer");
+                  _scaffoldKey.currentState?.openDrawer();
+                },
+              ),
+              const SizedBox(width: 10),
+              Text(
+                "My Bin",
+                style: TextStyle(
+                  fontSize:
+                      Theme.of(context).textTheme.headlineMedium!.fontSize,
+                  fontWeight:
+                      Theme.of(context).textTheme.headlineMedium!.fontWeight,
+                  color: Theme.of(context).textTheme.headlineMedium!.color,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10)
+        ],
+      ),
+    );
+  }
+}
+
+class MyBinSearchBar extends StatefulWidget {
+  const MyBinSearchBar({
+    super.key,
+    required this.size,
+    required this.searchAnchorController,
+    required this.binDataList,
+    required this.focusNode,
+    required this.onSelected,
+    this.parentKey,
+  });
+
+  final Size size;
+  final SearchController searchAnchorController;
+  final List<dynamic> binDataList;
+  final FocusNode focusNode;
+  final Function(dynamic selectedValue) onSelected;
+  final Key? parentKey;
+
+  @override
+  State<MyBinSearchBar> createState() => _MyBinSearchBarState();
+}
+
+class _MyBinSearchBarState extends State<MyBinSearchBar>
+    with TickerProviderStateMixin {
+  List<dynamic> tempBinData = [];
+  late Animation<double> animation;
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    Future.delayed(const Duration(seconds: 1))
+        .then((value) => tempBinData = widget.binDataList);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 100,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        alignment: Alignment.center,
+        width: widget.size.width,
+        height: 60,
+        child: SearchAnchor(
+          searchController: widget.searchAnchorController,
+          viewHintText: "Enter bin name...",
+          viewBackgroundColor: Colors.white,
+          viewLeading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          viewBuilder: (suggestions) {
+            return Container(
+              color: Colors.white,
+              child: Column(
+                children: suggestions.toList(),
+              ),
+            );
+          },
+          builder: (context, searchBarController) {
+            return SearchBar(
+              focusNode: widget.focusNode,
+              controller: searchBarController,
+              hintText: "Search bin...",
+              textStyle: MaterialStatePropertyAll(
+                TextStyle(
+                    fontFamily: searchBarController.text.contains(
+                      RegExp("[ก-๛]"),
+                    )
+                        ? "THSarabunPSK"
+                        : Theme.of(context).textTheme.labelMedium!.fontFamily,
+                    fontSize: searchBarController.text.contains(
+                      RegExp("[ก-๛]"),
+                    )
+                        ? 22
+                        : 18,
+                    fontWeight: searchBarController.text.contains(
+                      RegExp("[ก-๛]"),
+                    )
+                        ? FontWeight.w700
+                        : FontWeight.normal),
+              ),
+              padding: const MaterialStatePropertyAll(
+                EdgeInsets.only(left: 15, right: 6),
+              ),
+              trailing: [
+                GestureDetector(
+                  child: Container(
+                    width: 45,
+                    height: 45,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white, width: 3),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 5,
+                          color: Colors.black.withOpacity(0.3),
+                          offset: const Offset(0, 2),
+                        )
+                      ],
+                      color: const Color(0xFFF9957F),
+                      shape: BoxShape.circle,
+                    ),
+                    child:
+                        Image.asset("assets/images/PinTheBin/search_icon.png"),
+                  ),
+                  onTap: () {
+                    widget.focusNode.unfocus();
+                    debugPrint(searchBarController.text);
+                  },
+                )
+              ],
+              backgroundColor:
+                  const MaterialStatePropertyAll(Color(0xFFECECEC)),
+              onTap: () {
+                searchBarController.openView();
+              },
+              onChanged: (query) {
+                searchBarController.openView();
+              },
+              onSubmitted: (value) {
+                widget.focusNode.unfocus();
+                searchBarController.clear();
+              },
+            );
+          },
+          suggestionsBuilder: (context, suggestionController) {
+            tempBinData = [];
+            String queryText = suggestionController.text;
+            for (var i = 0; i < widget.binDataList.length; i++) {
+              if (widget.binDataList[i]['location'] != null) {
+                if (widget.binDataList[i]['location']
+                    .toLowerCase()
+                    .contains(queryText.toLowerCase())) {
+                  tempBinData.add(widget.binDataList[i]);
+                  // print(tempBinData);
+                } else if (queryText == "") {
+                  debugPrint("Blank Query");
+                  tempBinData = widget.binDataList;
+                  // print('3');
+                }
+              }
+            }
+            return List<GestureDetector>.generate(
+              tempBinData.length,
+              (int index) {
+                return GestureDetector(
+                  onTap: () {
+                    widget.onSelected(tempBinData[index]['location']);
+                    Future.delayed(const Duration(milliseconds: 500))
+                        .then((value) {
+                      widget.focusNode.unfocus();
+                      // suggestionController.clear();
+                    });
+                    suggestionController
+                        .closeView(tempBinData[index]['location']);
+                  },
+                  child: Container(
+                    color: Theme.of(context).colorScheme.background,
+                    padding: const EdgeInsets.only(top: 10, left: 20),
+                    width: widget.size.width,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.location_on, size: 30),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                tempBinData[index]['location'],
+                                style: TextStyle(
+                                    fontFamily:
+                                        tempBinData[index]['location'].contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                            ? "THSarabunPSK"
+                                            : Theme.of(context)
+                                                .textTheme
+                                                .labelMedium!
+                                                .fontFamily,
+                                    fontSize:
+                                        tempBinData[index]['location'].contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                            ? 24
+                                            : 16,
+                                    fontWeight:
+                                        tempBinData[index]['location'].contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                            ? FontWeight.w700
+                                            : FontWeight.normal),
+                              ),
+                              Text(
+                                tempBinData[index]['description'],
+                                maxLines: 1,
+                                style: TextStyle(
+                                    fontFamily: tempBinData[index]
+                                                ['description']
+                                            .contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                        ? "THSarabunPSK"
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .labelMedium!
+                                            .fontFamily,
+                                    fontSize: tempBinData[index]['description']
+                                            .contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                        ? 22
+                                        : 16,
+                                    color: Colors.black.withOpacity(0.6),
+                                    fontWeight: tempBinData[index]
+                                                ['description']
+                                            .contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                        ? FontWeight.w700
+                                        : FontWeight.normal),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 5),
+                                color: Colors.black.withOpacity(0.5),
+                                height: 1,
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
