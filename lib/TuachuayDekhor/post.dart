@@ -1,3 +1,4 @@
+import 'package:bottom_bar_matu/components/colors.dart';
 import "package:comment_box/comment/comment.dart";
 import "package:flutter/material.dart";
 import "package:flutter_markdown/flutter_markdown.dart";
@@ -5,14 +6,9 @@ import "package:ruam_mitt/TuachuayDekhor/Component/navbar.dart";
 import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
-import 'package:ruam_mitt/global_var.dart';
-import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/global_const.dart";
-import 'package:http/http.dart' as http;
 
 class TuachuayDekhorBlogPage extends StatefulWidget {
   final int id_post;
@@ -28,22 +24,97 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
   final formkey = GlobalKey<FormState>();
   late int id_post;
   var detailpost = [];
+  var commentpost = [];
+  var countsavepost = [];
   late Uri detailurl;
+  late Uri showcommenturl;
+  late Uri saveposturl;
+  late Uri unsaveurl;
+  late Uri countsaveurl;
   bool isLoading = false;
+  final commenturl = Uri.parse("$api$dekhorCommentPostRoute");
+  late bool isSave;
 
   @override
   void initState() {
     super.initState();
     id_post = widget.id_post;
     detailurl = Uri.parse("$api$dekhorDetailPostRoute/$id_post");
+    showcommenturl = Uri.parse("$api$dekhorShowcommentPostRoute/$id_post");
+    saveposturl = Uri.parse("$api$dekhorSavePostRoute/$id_post");
+    unsaveurl = Uri.parse("$api$dekhorUnsavePostRoute/$id_post");
+    countsaveurl = Uri.parse("$api$dekhorCountsavePostRoute/$id_post");
     _loadDetail();
+    Future.delayed(Duration(milliseconds: 500) , (){
+      setState(() {
+         showcomment();
+      });
+    });
+    countsave();
+    checkSaveStatus();
   }
 
-  void checkuser(){
-    if (profileData['fullname'] == detailpost[0]['user']['fullname']){
+  void checkSaveStatus() {
+    setState(() {
+      isSave = countsavepost
+          .any((element) => element['id_user'] == profileData['id']);
+    });
+  }
+
+  void checkuser() {
+    if (profileData['fullname'] == detailpost[0]['user']['fullname']) {
       setState(() {
         isOwner = true;
       });
+    }
+  }
+
+  Future<void> countsave() async {
+    var response = await http.get(countsaveurl);
+    if (response.statusCode == 200) {
+      setState(() {
+        countsavepost = jsonDecode(response.body);
+        print("contsave: $countsavepost");
+        checkSaveStatus();
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Future<void> onPressedSaveButton() async {
+    if (isSave) {
+      await unsave();
+    } else {
+      await savepost();
+    }
+    await countsave();
+    checkSaveStatus();
+  }
+
+  Future<void> savepost() async {
+    await http.post(saveposturl, headers: {
+      "Authorization": "Bearer $publicToken"
+    }, body: {
+      'fullname': profileData['fullname'],
+      'fullname_blogger': detailpost[0]['user']['fullname']
+    });
+  }
+
+  Future<void> unsave() async {
+    await http
+        .delete(unsaveurl, headers: {"Authorization": "Bearer $publicToken"});
+  }
+
+  Future<void> showcomment() async {
+    var response = await http.get(showcommenturl);
+    if (response.statusCode == 200) {
+      setState(() {
+        commentpost = jsonDecode(response.body);
+        print(detailpost);
+      });
+    } else {
+      throw Exception('Failed to load data');
     }
   }
 
@@ -59,12 +130,26 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     }
   }
 
+  Future<void> comment() async {
+    var response = await http.post(commenturl, headers: {
+      "Authorization": "Bearer $publicToken"
+    }, body: {
+      "id_post": id_post.toString(),
+      "comment": commentTextController.text,
+    });
+    if (response.statusCode == 200) {
+      commentTextController.clear();
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
   Future<void> _loadDetail() async {
     setState(() {
       isLoading = true;
     });
 
-    await detail(); 
+    await detail();
     setState(() {
       isLoading = false;
     });
@@ -83,7 +168,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
       ),
       body: SafeArea(
         child: isLoading
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : CommentBox(
@@ -101,8 +186,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                 sendWidget: IconButton(
                   icon: Icon(Icons.send_sharp, size: 25, color: Colors.white),
                   onPressed: () {
-                    print("send tapped");
-                    print(commentTextController.text);
+                    comment();
+                    showcomment();
                   },
                 ),
                 child: ConstrainedBox(
@@ -134,7 +219,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                               child: Column(
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         children: [
@@ -152,14 +238,19 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                             ),
                                           ),
                                           SizedBox(width: size.width * 0.04),
-                                          Text(detailpost.isNotEmpty ? detailpost[0]['user']['fullname'] : ''),
+                                          Text(detailpost.isNotEmpty
+                                              ? detailpost[0]['user']
+                                                  ['fullname']
+                                              : ''),
                                           isOwner
                                               ? IconButton(
                                                   onPressed: () {
                                                     print("edit the blog");
                                                   },
-                                                  icon: Icon(Icons.edit_rounded),
-                                                  iconSize: 18,)
+                                                  icon:
+                                                      Icon(Icons.edit_rounded),
+                                                  iconSize: 18,
+                                                )
                                               : Divider()
                                         ],
                                       ),
@@ -182,7 +273,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                   Column(
                                     children: [
                                       Container(
-                                        constraints: const BoxConstraints(maxHeight: 200),
+                                        constraints: const BoxConstraints(
+                                            maxHeight: 200),
                                         clipBehavior: Clip.antiAlias,
                                         decoration: const BoxDecoration(
                                           borderRadius: BorderRadius.vertical(
@@ -191,14 +283,19 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                         ),
                                         child: IntrinsicHeight(
                                           child: ClipRRect(
-                                            borderRadius: const BorderRadius.only(
+                                            borderRadius:
+                                                const BorderRadius.only(
                                               topLeft: Radius.circular(10),
                                               topRight: Radius.circular(10),
                                             ),
                                             child: Image(
                                               image: NetworkImage(
-                                                detailpost.isNotEmpty && detailpost[0]['image_link'] != "null"
-                                                    ? detailpost[0]['image_link']
+                                                detailpost.isNotEmpty &&
+                                                        detailpost[0][
+                                                                'image_link'] !=
+                                                            "null"
+                                                    ? detailpost[0]
+                                                        ['image_link']
                                                     : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                               ),
                                               fit: BoxFit.cover,
@@ -211,13 +308,24 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                       ),
                                       Row(
                                         children: [
-                                          GestureDetector(
-                                            child: Icon(Icons.bookmark_outline),
-                                            onTap: () {
-                                              print("bookmark");
-                                            },
-                                          ),
-                                          Text("100")
+                                          isSave
+                                              ? GestureDetector(
+                                                  onTap: () {
+                                                    onPressedSaveButton();
+                                                  },
+                                                  child: const Icon(
+                                                      Icons.bookmark,
+                                                      color: colorYellow),
+                                                )
+                                              : GestureDetector(
+                                                  onTap: () {
+                                                    onPressedSaveButton();
+                                                  },
+                                                  child: const Icon(
+                                                      Icons.bookmark_outline),
+                                                ),
+                                          Text(
+                                              "${countsavepost.length}")
                                         ],
                                       ),
                                     ],
@@ -228,7 +336,9 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                       child: Markdown(
                                         physics: const BouncingScrollPhysics(),
                                         shrinkWrap: true,
-                                        data: detailpost.isNotEmpty ? detailpost[0]['content'] : '',
+                                        data: detailpost.isNotEmpty
+                                            ? detailpost[0]['content']
+                                            : '',
                                       ),
                                     ),
                                   ),
@@ -237,7 +347,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                     children: [
                                       const Icon(Icons.insert_comment_outlined),
                                       SizedBox(width: size.width * 0.02),
-                                      Text("4 Comments")
+                                      Text("${commentpost.length} Comments")
                                     ],
                                   ),
                                   SizedBox(
@@ -245,22 +355,22 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                     child: Scrollbar(
                                       child: SingleChildScrollView(
                                         child: Column(
-                                          children: List.generate(4, (index) {
+                                          children: List.generate(
+                                              commentpost.length, (index) {
                                             return ListTile(
                                               onTap: () {},
-                                              leading: Container(
-                                                width: 25,
-                                                height: 25,
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Colors.grey),
+                                              leading: CircleAvatar(
+                                                backgroundImage: NetworkImage(
+                                                  "https://api.multiavatar.com/${commentpost[index]['user']['fullname']}.png",
+                                                ),
                                               ),
-                                              title: Text("Username"),
+                                              title: Text(commentpost[index]
+                                                  ['user']['fullname']),
                                               dense: true,
-                                              subtitle: Text("จริงหรอครับ"),
-                                              visualDensity: VisualDensity(vertical: -3),
-                                              trailing:
-                                                  Icon(Icons.report_gmailerrorred_rounded),
+                                              subtitle: Text(commentpost[index]
+                                                  ['comment']),
+                                              visualDensity:
+                                                  VisualDensity(vertical: -3),
                                             );
                                           }),
                                         ),

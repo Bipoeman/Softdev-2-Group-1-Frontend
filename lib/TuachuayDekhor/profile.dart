@@ -227,10 +227,11 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          bottom: size.width * 0.05,
-                          left: size.width * 0.09,
-                          right: size.width * 0.09,
-                          top: size.width * 0.01),
+                        bottom: size.width * 0.05,
+                        left: size.width * 0.09,
+                        right: size.width * 0.09,
+                        top: size.width * 0.01,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,7 +248,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                 if (isPostSelected) {
                                   return BlogBox(
                                     title: post[actualIndex]['title'],
-                                    name: post[actualIndex]['user']['fullname'],
+                                    name: post[actualIndex]['fullname'] ?? profileData['fullname'],
                                     category: post[actualIndex]['category'],
                                     like: 'null',
                                     image: NetworkImage(
@@ -264,27 +265,34 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     },
                                   );
                                 } else {
-                                  return BlogBox(
-                                    title: save[actualIndex]['post']['title'],
-                                    name: save[actualIndex]['fullname_blogger'],
-                                    category: save[actualIndex]['post']['category'],
-                                    like: 'null',
-                                    image: NetworkImage(
-                                      save[actualIndex]['post']['image_link'] !=
-                                              "null"
-                                          ? save[actualIndex]['post']
-                                              ['image_link']
-                                          : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        tuachuayDekhorPageRoute['blog']!,
-                                        arguments: save[actualIndex]['post']
-                                            ['id_post'],
-                                      );
-                                    },
-                                  );
+                                  if (actualIndex < save.length) {
+                                    return BlogBox(
+                                      title: save[actualIndex]['post']['title'],
+                                      name: save[actualIndex]
+                                          ['fullname_blogger'],
+                                      category: save[actualIndex]['post']
+                                          ['category'],
+                                      like: 'null',
+                                      image: NetworkImage(
+                                        save[actualIndex]['post']
+                                                    ['image_link'] !=
+                                                "null"
+                                            ? save[actualIndex]['post']
+                                                ['image_link']
+                                            : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          tuachuayDekhorPageRoute['blog']!,
+                                          arguments: save[actualIndex]['post']
+                                              ['id_post'],
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return SizedBox(); // ให้คืนค่า SizedBox() เมื่อไม่มีข้อมูลในลิสต์ save
+                                  }
                                 }
                               },
                             ),
@@ -300,7 +308,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                 if (isPostSelected) {
                                   return BlogBox(
                                     title: post[actualIndex]['title'],
-                                    name: post[actualIndex]['user']['fullname'],
+                                    name: post[actualIndex]['fullname'] ?? profileData['fullname'],
                                     category: post[actualIndex]['category'],
                                     like: 'null',
                                     image: NetworkImage(
@@ -317,25 +325,34 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     },
                                   );
                                 } else {
-                                  return BlogBox(
-                                    title: save[actualIndex]['post']['title'],
-                                    name: save[actualIndex]['fullname_blogger'],
-                                    category: save[actualIndex]['post']['category'],
-                                    like: 'null',
-                                    image: NetworkImage(save[actualIndex]
-                                        ['post']['image_link']!= "null"
-                                          ? post[actualIndex]['image_link']
-                                          : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        tuachuayDekhorPageRoute['blog']!,
-                                        arguments: save[actualIndex]['post']
-                                            ['id_post'],
-                                      );
-                                    },
-                                  );
+                                  if (actualIndex < save.length) {
+                                    return BlogBox(
+                                      title: save[actualIndex]['post']['title'],
+                                      name: save[actualIndex]
+                                          ['fullname_blogger'],
+                                      category: save[actualIndex]['post']
+                                          ['category'],
+                                      like: 'null',
+                                      image: NetworkImage(
+                                        save[actualIndex]['post']
+                                                    ['image_link'] !=
+                                                "null"
+                                            ? save[actualIndex]['post']
+                                                ['image_link']
+                                            : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          tuachuayDekhorPageRoute['blog']!,
+                                          arguments: save[actualIndex]['post']
+                                              ['id_post'],
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return SizedBox(); // ให้คืนค่า SizedBox() เมื่อไม่มีข้อมูลในลิสต์ save
+                                  }
                                 }
                               },
                             ),
