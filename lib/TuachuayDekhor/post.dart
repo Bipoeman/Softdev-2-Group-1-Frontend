@@ -1,5 +1,6 @@
 import 'package:bottom_bar_matu/components/colors.dart';
 import "package:comment_box/comment/comment.dart";
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import "package:flutter_markdown/flutter_markdown.dart";
 import "package:ruam_mitt/TuachuayDekhor/Component/navbar.dart";
@@ -71,33 +72,29 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     }
   }
 
-   Future<void> numsave() async {
-    var response = await http.patch(numsaveurl,body: {
-      'save': (countsavepost.length + 1).toString()
-    });
+  Future<void> numsave() async {
+    var response = await http.patch(numsaveurl,
+        body: {'save': (countsavepost.length + 1).toString()});
     if (response.statusCode == 200) {
       setState(() {
-       print(response.body);
-      });
-    } else {
-      throw Exception('Failed to load data');
-    }
-  }
-  
-  Future<void> delnumsave() async {
-    var response = await http.patch(numsaveurl,body: {
-      'save': (countsavepost.length - 1).toString()
-    });
-    if (response.statusCode == 200) {
-      setState(() {
-       print(response.body);
+        print(response.body);
       });
     } else {
       throw Exception('Failed to load data');
     }
   }
 
-  
+  Future<void> delnumsave() async {
+    var response = await http.patch(numsaveurl,
+        body: {'save': (countsavepost.length - 1).toString()});
+    if (response.statusCode == 200) {
+      setState(() {
+        print(response.body);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
 
   Future<void> countsave() async {
     var response = await http.get(countsaveurl);
@@ -192,232 +189,292 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const NavbarTuachuayDekhor(),
-      ),
       body: SafeArea(
-        child: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : CommentBox(
-                userImage: NetworkImage(
-                  profileData['profile'] ??
-                      "https://api.multiavatar.com/${profileData['fullname']}.png",
-                ),
-                labelText: 'Write a comment...',
-                errorText: 'Comment cannot be blank',
-                withBorder: false,
-                formKey: formkey,
-                commentController: commentTextController,
-                backgroundColor: const Color.fromRGBO(0, 48, 73, 1),
-                textColor: Colors.white,
-                sendWidget: IconButton(
-                  icon: Icon(Icons.send_sharp, size: 25, color: Colors.white),
-                  onPressed: () {
-                    comment();
-                    showcomment();
-                  },
-                ),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints.expand(),
-                  child: Scrollbar(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: size.width * 0.04,
-                          right: size.width * 0.04,
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(height: size.height * 0.03),
-                            GestureDetector(
-                              child: const Row(children: [
-                                Icon(Icons.arrow_back_outlined),
-                                SizedBox(width: 5),
-                                Text("Back")
-                              ]),
-                              onTap: () => Navigator.pop(context),
-                            ),
-                            SizedBox(height: size.height * 0.02),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: size.width * 0.05,
-                                right: size.width * 0.05,
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+        child: Stack(
+          children: [
+            isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : CommentBox(
+                    userImage: NetworkImage(
+                      profileData['profile'] ??
+                          "https://api.multiavatar.com/${profileData['fullname']}.png",
+                    ),
+                    labelText: 'Write a comment...',
+                    errorText: 'Comment cannot be blank',
+                    withBorder: false,
+                    formKey: formkey,
+                    commentController: commentTextController,
+                    backgroundColor: const Color.fromRGBO(0, 48, 73, 1),
+                    textColor: Colors.white,
+                    sendWidget: IconButton(
+                      icon:
+                          Icon(Icons.send_sharp, size: 25, color: Colors.white),
+                      onPressed: () {
+                        comment();
+                        showcomment();
+                      },
+                    ),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints.expand(),
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            left: size.width * 0.04,
+                            right: size.width * 0.04,
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.12,
+                                  left: size.width * 0.04,
+                                ),
+                                child: GestureDetector(
+                                  child: const Row(
                                     children: [
-                                      Row(
-                                        children: [
-                                          Container(
-                                            height: 35,
-                                            width: 35,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
+                                      Icon(Icons.arrow_back_outlined),
+                                      SizedBox(width: 5),
+                                      Text("Back")
+                                    ],
+                                  ),
+                                  onTap: () => Navigator.pop(context),
+                                ),
+                              ),
+                              SizedBox(height: size.height * 0.02),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: size.width * 0.05,
+                                  right: size.width * 0.05,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              height: 35,
+                                              width: 35,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    "https://api.multiavatar.com/${detailpost[0]['user']['fullname']}.png",
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: size.width * 0.04),
+                                            Text(detailpost.isNotEmpty
+                                                ? detailpost[0]['user']
+                                                    ['fullname']
+                                                : ''),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            isOwner
+                                                ? SizedBox(
+                                                    height: 30,
+                                                    width: 30,
+                                                    child: RawMaterialButton(
+                                                      fillColor: Colors.blue,
+                                                      constraints:
+                                                          const BoxConstraints(
+                                                        minHeight: 30,
+                                                        minWidth: 30,
+                                                      ),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                      onPressed: () {
+                                                        print("edit the blog");
+                                                      },
+                                                      child: const Icon(
+                                                          Icons.edit_outlined,
+                                                          color: Colors.white),
+                                                    ),
+                                                  )
+                                                : Container(),
+                                            SizedBox(width: size.width * 0.02),
+                                            !isOwner
+                                                ? SizedBox(
+                                                    height: 30,
+                                                    width: 30,
+                                                    child: RawMaterialButton(
+                                                      fillColor:
+                                                          const Color.fromRGBO(
+                                                              217, 192, 41, 1),
+                                                      constraints:
+                                                          const BoxConstraints(
+                                                        minHeight: 30,
+                                                        minWidth: 30,
+                                                      ),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                      onPressed: () {
+                                                        print(
+                                                            "report the blog");
+                                                      },
+                                                      child: const Icon(
+                                                          Icons.report_outlined,
+                                                          color: Colors.black),
+                                                    ),
+                                                  )
+                                                : SizedBox(
+                                                    height: 30,
+                                                    width: 30,
+                                                    child: RawMaterialButton(
+                                                      fillColor: Colors.red,
+                                                      constraints:
+                                                          const BoxConstraints(
+                                                        minHeight: 30,
+                                                        minWidth: 30,
+                                                      ),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                      onPressed: () {
+                                                        print(
+                                                            "delete the blog");
+                                                      },
+                                                      child: const Icon(
+                                                          Icons.delete_outlined,
+                                                          color: Colors.white),
+                                                    ),
+                                                  )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: size.height * 0.02,
+                                    ),
+                                    Column(
+                                      children: [
+                                        Container(
+                                          constraints: const BoxConstraints(
+                                              maxHeight: 200),
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: const BoxDecoration(),
+                                          child: IntrinsicHeight(
+                                            child: ClipRRect(
+                                              child: Image(
                                                 image: NetworkImage(
-                                                  "https://api.multiavatar.com/${detailpost[0]['user']['fullname']}.png",
+                                                  detailpost.isNotEmpty &&
+                                                          detailpost[0][
+                                                                  'image_link'] !=
+                                                              "null"
+                                                      ? detailpost[0]
+                                                          ['image_link']
+                                                      : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                                 ),
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
                                           ),
-                                          SizedBox(width: size.width * 0.04),
-                                          Text(detailpost.isNotEmpty
-                                              ? detailpost[0]['user']
-                                                  ['fullname']
-                                              : ''),
-                                          isOwner
-                                              ? IconButton(
-                                                  onPressed: () {
-                                                    print("edit the blog");
-                                                  },
-                                                  icon:
-                                                      Icon(Icons.edit_rounded),
-                                                  iconSize: 18,
-                                                )
-                                              : Divider()
-                                        ],
-                                      ),
-                                      !isOwner
-                                          ? IconButton(
-                                              onPressed: () {
-                                                print("report the blog");
-                                              },
-                                              icon: Icon(Icons.report_outlined))
-                                          : IconButton(
-                                              onPressed: () {
-                                                print("delete the blog");
-                                              },
-                                              icon: Icon(Icons.delete_outlined))
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: size.height * 0.025,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Container(
-                                        constraints: const BoxConstraints(
-                                            maxHeight: 200),
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(10),
-                                          ),
                                         ),
-                                        child: IntrinsicHeight(
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(10),
-                                              topRight: Radius.circular(10),
-                                            ),
-                                            child: Image(
-                                              image: NetworkImage(
-                                                detailpost.isNotEmpty &&
-                                                        detailpost[0][
-                                                                'image_link'] !=
-                                                            "null"
-                                                    ? detailpost[0]
-                                                        ['image_link']
-                                                    : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
-                                              ),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
+                                        SizedBox(
+                                          height: size.height * 0.02,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.015,
-                                      ),
-                                      Row(
-                                        children: [
-                                          isSave
-                                              ? GestureDetector(
-                                                  onTap: () {
-                                                    onPressedSaveButton();
-                                                    delnumsave();
-                                                  },
-                                                  child: const Icon(
-                                                      Icons.bookmark,
-                                                      color: colorYellow),
-                                                )
-                                              : GestureDetector(
-                                                  onTap: () {
-                                                    onPressedSaveButton();
-                                                    numsave();
-                                                  },
-                                                  child: const Icon(
-                                                      Icons.bookmark_outline),
-                                                ),
-                                          Text("${countsavepost.length}")
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: size.height * 0.18,
-                                    child: Scrollbar(
+                                        Row(
+                                          children: [
+                                            isSave
+                                                ? GestureDetector(
+                                                    onTap: () {
+                                                      onPressedSaveButton();
+                                                      delnumsave();
+                                                    },
+                                                    child: const Icon(
+                                                        Icons.bookmark,
+                                                        color: colorYellow),
+                                                  )
+                                                : GestureDetector(
+                                                    onTap: () {
+                                                      onPressedSaveButton();
+                                                      numsave();
+                                                    },
+                                                    child: const Icon(
+                                                        Icons.bookmark_outline),
+                                                  ),
+                                            SizedBox(width: size.width * 0.01),
+                                            Text("${countsavepost.length}")
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
                                       child: Markdown(
-                                        physics: const BouncingScrollPhysics(),
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         data: detailpost.isNotEmpty
                                             ? detailpost[0]['content']
                                             : '',
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(height: size.height * 0.02),
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.insert_comment_outlined),
-                                      SizedBox(width: size.width * 0.02),
-                                      Text("${commentpost.length} Comments")
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: size.height * 0.2,
-                                    child: Scrollbar(
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          children: List.generate(
-                                              commentpost.length, (index) {
-                                            return ListTile(
-                                              onTap: () {},
-                                              leading: CircleAvatar(
-                                                backgroundImage: NetworkImage(
-                                                  "https://api.multiavatar.com/${commentpost[index]['user']['fullname']}.png",
-                                                ),
+                                    SizedBox(height: size.height * 0.02),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                            Icons.insert_comment_outlined),
+                                        SizedBox(width: size.width * 0.02),
+                                        Text("${commentpost.length} Comments")
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        top: size.height * 0.02,
+                                        bottom: size.height * 0.02,
+                                      ),
+                                      child: Column(
+                                        children: List.generate(
+                                            commentpost.length, (index) {
+                                          return ListTile(
+                                            onTap: () {},
+                                            leading: CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                "https://api.multiavatar.com/${commentpost[index]['user']['fullname']}.png",
                                               ),
-                                              title: Text(commentpost[index]
-                                                  ['user']['fullname']),
-                                              dense: true,
-                                              subtitle: Text(commentpost[index]
-                                                  ['comment']),
-                                              visualDensity:
-                                                  VisualDensity(vertical: -3),
-                                            );
-                                          }),
-                                        ),
+                                            ),
+                                            title: Text(commentpost[index]
+                                                ['user']['fullname']),
+                                            dense: true,
+                                            subtitle: Text(
+                                                commentpost[index]['comment']),
+                                            visualDensity:
+                                                VisualDensity(vertical: -3),
+                                          );
+                                        }),
                                       ),
                                     ),
-                                  )
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
+            const NavbarTuachuayDekhor(),
+          ],
+        ),
       ),
     );
   }

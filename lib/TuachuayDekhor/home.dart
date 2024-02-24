@@ -249,9 +249,12 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                     },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
+                                      backgroundColor: Colors.grey[300],
+                                      surfaceTintColor: Colors.white,
                                     ),
                                     child: const Icon(
                                       Icons.arrow_forward,
+                                      color: Color.fromRGBO(0, 48, 73, 1),
                                       size: 16,
                                     ),
                                   ),
