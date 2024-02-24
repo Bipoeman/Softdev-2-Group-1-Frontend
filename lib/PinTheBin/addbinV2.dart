@@ -72,7 +72,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.menu_rounded),
-                        SizedBox(height: 30)
+                        SizedBox(height: 15)
                       ],
                     ),
                     onTap: () => _scaffoldKey.currentState?.openDrawer(),
@@ -100,14 +100,33 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 15,
                       )
                     ],
                   ),
                 ),
                 body: SafeArea(
                     child: Stack(
-                  children: [],
+                  children: [
+                    Row(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                            padding: EdgeInsets.only(left: 20),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 25),
+                              child: Text(
+                                'Name',
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
                 )),
                 drawerScrimColor: Colors.transparent,
                 drawer: const BinDrawer(),
@@ -119,13 +138,3 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
     );
   }
 }
-
-// key: _scaffoldKey,
-// body: SafeArea(
-//     child: Stack(
-//   children: [
-
-//   ],
-// )),
-// drawerScrimColor: Colors.transparent,
-// drawer: const BinDrawer(),

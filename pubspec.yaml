@@ -64,6 +64,8 @@ dependencies:
   geolocator: ^11.0.0
   lottie: ^3.0.0
   email_validator: ^2.0.1
+  clay_containers: ^0.3.4
+  neumorphic_button: ^0.0.1+2
 
 dev_dependencies:
   flutter_test:
