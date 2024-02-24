@@ -1,7 +1,9 @@
+import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart";
 import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
+import 'package:neumorphic_button/neumorphic_button.dart';
 
 class AddbinPageV2 extends StatefulWidget {
   const AddbinPageV2({super.key});
@@ -12,6 +14,7 @@ class AddbinPageV2 extends StatefulWidget {
 
 class _AddbinPageV2State extends State<AddbinPageV2> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController _NametextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -123,6 +126,29 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                             ),
                           ),
+                        ),
+                        SizedBox(
+                          width: size.width * 0.05,
+                        ),
+                        Container(
+                          alignment: Alignment.topRight,
+                          margin: EdgeInsets.only(top: size.height * 0.035),
+                          child: ClayContainer(
+                            width: size.width * 0.65,
+                            height: size.height * 0.032,
+                            color: Color.fromRGBO(239, 239, 239, 1),
+                            borderRadius: 30,
+                            depth: -20,
+                            child: TextField(
+                              controller: _NametextController,
+                              onChanged: (text) {
+                                print('Typed text: $text');
+                              },
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
                         )
                       ],
                     ),
@@ -138,3 +164,18 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
     );
   }
 }
+
+
+
+
+
+
+
+                          // ClayContainer(
+                        
+                          //   width: size.width * 0.6,
+                          //   height: size.height * 0.032,
+                          //   color: Color.fromRGBO(242, 242, 242, 1),
+                          //   borderRadius: 30,
+                          //   depth: -20,
+                          // ),
