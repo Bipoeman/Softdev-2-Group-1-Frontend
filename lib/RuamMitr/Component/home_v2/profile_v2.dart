@@ -168,7 +168,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                   ),
                   ListTile(
                     leading: const Icon(Icons.edit_document),
-                    title: const Text("Edit you desciption"),
+                    title: const Text("Edit your desciption"),
                     trailing: const Icon(Icons.edit),
                     onTap: () {
                       debugPrint("You might want to edit description");

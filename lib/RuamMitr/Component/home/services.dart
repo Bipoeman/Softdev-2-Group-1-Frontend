@@ -18,6 +18,7 @@ class ServicesWidget extends StatelessWidget {
             appName: "Dekhor",
             width: size.width,
             height: size.height * 0.1,
+            appIconPath: "assets/Logo/dekhor_portal_color.png",
             appRoute: () {
               Navigator.pushNamed(context, tuachuayDekhorPageRoute["home"]!);
             },
@@ -39,6 +40,7 @@ class ServicesWidget extends StatelessWidget {
             appName: "PinTheBin",
             width: size.width,
             height: size.height * 0.1,
+            appIconPath: "assets/Logo/bin_portal_color.png",
             appRoute: () {
               Navigator.pushNamed(context, pinthebinPageRoute["home"]!);
             },

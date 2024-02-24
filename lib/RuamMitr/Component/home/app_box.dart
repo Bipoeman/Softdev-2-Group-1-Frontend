@@ -49,26 +49,25 @@ class AppBox extends StatelessWidget {
   @override
   Widget build(context) {
     ThemeData theme = Theme.of(context);
-    return GestureDetector(
+    return InkWell(
       onTap: appRoute ??
           () {
             print("Tapped $appName");
           },
-      child: Container(
+      child: Ink(
         height: height > 100 ? height : 100,
         width: width,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-            color: theme.colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(20)),
+          color: theme.colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
                 SizedBox(width: width * 0.15, child: getAppIcon(context)),
-                // Image.asset("assets/Logo/dino_portal_color.png",
-                //     fit: BoxFit.contain),
                 SizedBox(width: width * 0.03),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
