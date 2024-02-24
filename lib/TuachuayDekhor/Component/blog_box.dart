@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 
-
 class BlogBox extends StatelessWidget {
   const BlogBox({
     super.key,
@@ -134,12 +133,31 @@ class BlogBox extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: size.width * 0.1,
-                        child: Text(
-                          like,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 10),
+                        width: size.width * 0.03,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(left: 7),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons.bookmark_border_rounded,
+                              color: Colors.white,
+                              size: 11,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.007,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.08,
+                              child: Text(
+                                like,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 10),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

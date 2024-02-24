@@ -227,49 +227,37 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                 ),
                               ],
                             ),
-                            // SingleChildScrollView(
-                            //   scrollDirection: Axis.horizontal,
-                            //   child: Row(
-                            //     children: [
-                            //       if (blogger.length > 7) ...[
-                            //         ...List.generate(
-                            //           blogger.length,
-                            //           (index) => TuachuayDekhorAvatarViewer(
-                            //             username: blogger[index]['user']
-                            //                 ['fullname'],
-                            //             avatarUrl:
-                            //                 "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
-                            //           ),
-                            //         ),
-                            //         ElevatedButton(
-                            //           onPressed: () {
-                            //             Navigator.pushNamed(
-                            //               context,
-                            //               tuachuayDekhorPageRoute["blogger"]!,
-                            //             );
-                            //           },
-                            //           style: ElevatedButton.styleFrom(
-                            //             shape: const CircleBorder(),
-                            //           ),
-                            //           child: const Icon(
-                            //             Icons.arrow_forward,
-                            //             size: 16,
-                            //           ),
-                            //         ),
-                            //       ] else ...[
-                            //         ...List.generate(
-                            //           blogger.length,
-                            //           (index) => TuachuayDekhorAvatarViewer(
-                            //             username: blogger[index]['user']
-                            //                 ['fullname'],
-                            //             avatarUrl:
-                            //                 "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
-                            //           ),
-                            //         ),
-                            //       ]
-                            //     ],
-                            //   ),
-                            // ),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  ...List.generate(
+                                    blogger.length,
+                                    (index) => TuachuayDekhorAvatarViewer(
+                                      username: blogger[index]['user']
+                                          ['fullname'],
+                                      avatarUrl:
+                                          "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        tuachuayDekhorPageRoute["blogger"]!,
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: const CircleBorder(),
+                                    ),
+                                    child: const Icon(
+                                      Icons.arrow_forward,
+                                      size: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -318,7 +306,8 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                                 ['fullname'],
                                             category: blog[actualIndex]
                                                 ['category'],
-                                            like: blog[actualIndex]['save'] ?? "0",
+                                            like: blog[actualIndex]['save'] ??
+                                                "0",
                                             image: NetworkImage(
                                               blog[actualIndex]['image_link'] !=
                                                       "null"
@@ -356,7 +345,8 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                                 ['fullname'],
                                             category: blog[actualIndex]
                                                 ['category'],
-                                            like: blog[actualIndex]['save'] ?? "0",
+                                            like: blog[actualIndex]['save'] ??
+                                                "0",
                                             image: NetworkImage(
                                               blog[actualIndex]['image_link'] !=
                                                       "null"
