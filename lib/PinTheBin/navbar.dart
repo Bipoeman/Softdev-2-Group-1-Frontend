@@ -39,11 +39,10 @@ class NavBar extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  title: const Text('Edit Bin'),
+                  title: const Text('Edit My Bin'),
                   trailing: const Icon(Icons.double_arrow),
                   onTap: () {
-                    Navigator.pushNamed(
-                        context, pinthebinPageRoute["editbin"]!);
+                    Navigator.pushNamed(context, pinthebinPageRoute["mybin"]!);
                   },
                 ),
                 ListTile(

@@ -15,7 +15,7 @@ class ServicesWidget extends StatelessWidget {
         runSpacing: 20,
         children: [
           AppBox(
-            appName: "Tuachuay",
+            appName: "Dekhor",
             width: size.width,
             height: size.height * 0.1,
             appRoute: () {
@@ -36,7 +36,7 @@ class ServicesWidget extends StatelessWidget {
             },
           ),
           AppBox(
-            appName: "Bin",
+            appName: "PinTheBin",
             width: size.width,
             height: size.height * 0.1,
             appRoute: () {

@@ -103,8 +103,6 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       usernameTextController.text = prefs.getString("emailoruser") ?? "";
       passwordTextController.text = prefs.getString("password") ?? "";
-      print(
-          "username found : ${usernameTextController.text}, password found : ${passwordTextController.text}");
       navigateToHome();
     });
   }
@@ -200,8 +198,15 @@ class _LoginPageState extends State<LoginPage> {
                           height: 360,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(28),
-                            color: theme.colorScheme.primaryContainer
-                                .withOpacity(0.8),
+                            // color: theme.colorScheme.primaryContainer
+                            // .withOpacity(0.8),
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  theme.colorScheme.primaryContainer,
+                                  Colors.white.withOpacity(0)
+                                ]),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
