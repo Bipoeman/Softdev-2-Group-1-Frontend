@@ -12,6 +12,12 @@ import "package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart";
 import "package:ruam_mitt/global_const.dart";
 import "package:ruam_mitt/global_var.dart";
 
+class BinLocationInfo {
+  BinLocationInfo({required this.info, required this.markers});
+  late List<Marker> markers;
+  late List<Map<String, dynamic>> info;
+}
+
 class BinPage extends StatefulWidget {
   const BinPage({super.key});
 
@@ -25,7 +31,8 @@ class _BinPageState extends State<BinPage> {
   MapController mapController = MapController();
   List<dynamic> binData = [];
   FocusNode focusNode = FocusNode();
-  LatLng? centerMark;
+  BinLocationInfo markerInfo = BinLocationInfo(info: [], markers: []);
+
   Future<http.Response> getBinInfo() async {
     debugPrint("Getting");
     Uri url = Uri.parse("$api$pinTheBinGetBinRoute");
@@ -55,10 +62,26 @@ class _BinPageState extends State<BinPage> {
       // debugPrint("Response");
       // debugPrint(response.body);
       binData = jsonDecode(response.body);
+      List.generate(
+        binData.length,
+        (index) {
+          // print(index);
+          double lattitude = binData[index]['latitude'].toDouble();
+          double longtitude = binData[index]['longitude'].toDouble();
+          // print(
+          //     "$lattitude $longtitude ${(lattitude > 90 || lattitude < -90)}");
+          if ((lattitude < 90 && lattitude > -90) &&
+              (longtitude < 180 && longtitude > -180)) {
+            markerInfo.info.add(binData[index]);
+          }
+        },
+      );
+      print("Array Len : ${markerInfo.info.length}");
+
       Future.delayed(const Duration(milliseconds: 500))
           .then((value) => setState(() {}));
       searchBinController.addListener(searchBinListener);
-      // debugPrint(binData);
+      // debugPrint(markerInfo.info);
     });
   }
 
@@ -79,7 +102,7 @@ class _BinPageState extends State<BinPage> {
                   Container(
                     margin: const EdgeInsets.only(top: 100),
                     child: Center(
-                      child: binData.isEmpty
+                      child: markerInfo.info.isEmpty
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -90,8 +113,7 @@ class _BinPageState extends State<BinPage> {
                             )
                           : MapPinTheBin(
                               mapController: mapController,
-                              binInfo: binData,
-                              centerMark: centerMark,
+                              binInfo: markerInfo.info,
                             ),
                     ),
                   ),
@@ -101,22 +123,22 @@ class _BinPageState extends State<BinPage> {
               PinTheBinSearchBar(
                 size: size,
                 searchAnchorController: searchBinController,
-                binDataList: binData,
+                binDataList: markerInfo.info,
                 focusNode: focusNode,
                 parentKey: widget.key,
                 onSelected: (selectedValue) {
                   log("Selected $selectedValue");
-                  for (var eachBin in binData) {
+                  for (var eachBin in markerInfo.info) {
                     if (eachBin['location'] == selectedValue) {
                       log("Pin the bin");
-                      setState(() {
-                        log("Has focus : ${focusNode.hasFocus}");
-                        centerMark =
-                            LatLng(eachBin['latitude'], eachBin['longitude']);
-                        mapController.move(
-                            LatLng(eachBin['latitude'], eachBin['longitude']),
-                            16);
-                      });
+                      setState(
+                        () {
+                          log("Has focus : ${focusNode.hasFocus}");
+                          mapController.move(
+                              LatLng(eachBin['latitude'], eachBin['longitude']),
+                              16);
+                        },
+                      );
                     }
                   }
                 },
@@ -275,6 +297,7 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar>
             String queryText = suggestionController.text;
             for (var i = 0; i < widget.binDataList.length; i++) {
               if (widget.binDataList[i]['location'] != null) {
+                print(widget.binDataList[i]);
                 // print(tempBinData[i]['location'].contains(query));
                 if (widget.binDataList[i]['location']
                     .toLowerCase()
