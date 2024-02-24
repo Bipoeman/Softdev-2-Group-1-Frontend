@@ -83,6 +83,21 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
       throw Exception('Failed to load data');
     }
   }
+  
+  Future<void> delnumsave() async {
+    var response = await http.patch(numsaveurl,body: {
+      'save': (countsavepost.length - 1).toString()
+    });
+    if (response.statusCode == 200) {
+      setState(() {
+       print(response.body);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  
 
   Future<void> countsave() async {
     var response = await http.get(countsaveurl);
@@ -327,7 +342,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                               ? GestureDetector(
                                                   onTap: () {
                                                     onPressedSaveButton();
-                                                    numsave();
+                                                    delnumsave();
                                                   },
                                                   child: const Icon(
                                                       Icons.bookmark,
