@@ -7,6 +7,7 @@ import "package:latlong2/latlong.dart";
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import "package:ruam_mitt/PinTheBin/componant/map.dart";
 import "package:ruam_mitt/Restroom/Component/Navbar.dart";
+import 'package:ruam_mitt/Restroom/Component/map.dart';
 import "package:http/http.dart" as http;
 
 import "package:ruam_mitt/global_const.dart";
@@ -126,26 +127,27 @@ class _RestroomRoverState extends State<RestroomRover> {
             children: [
               Stack(
                 children: [
+                  MapRestroomRover(),
                   Container(
                     margin: const EdgeInsets.only(top: 100),
                     child: Center(
-                      child: binData.isEmpty
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const CircularProgressIndicator(),
-                                SizedBox(height: size.height * 0.01),
-                                const Text("Bin map loading...")
-                              ],
-                            )
-                          : MapPinTheBin(
-                              mapController: mapController,
-                              binInfo: binData,
-                              centerMark: centerMark,
-                            ),
+                      // child: binData.isEmpty
+                      //     ? Column(
+                      //         mainAxisAlignment: MainAxisAlignment.center,
+                      //         children: [
+                      //           const CircularProgressIndicator(),
+                      //           SizedBox(height: size.height * 0.01),
+                      //           const Text("Bin map loading...")
+                      //         ],
+                      //       )
+                      //     : MapPinTheBin(
+                      //         mapController: mapController,
+                      //         binInfo: binData,
+                      //         centerMark: centerMark,
+                      //       ),
                     ),
                   ),
-                  PinTheBinAppBar(scaffoldKey: _scaffoldKey),
+                  RestroomAppBar(scaffoldKey: _scaffoldKey),
                 ],
               ),
               PinTheBinSearchBar(
@@ -266,7 +268,7 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
                           offset: const Offset(0, 2),
                         )
                       ],
-                      color: const Color(0xFFF9957F),
+                      color: const Color(0xFFFFB330),
                       shape: BoxShape.circle,
                     ),
                     child:
@@ -405,8 +407,8 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
   }
 }
 
-class PinTheBinAppBar extends StatelessWidget {
-  const PinTheBinAppBar({
+class RestroomAppBar extends StatelessWidget {
+  const RestroomAppBar({
     super.key,
     required GlobalKey<ScaffoldState> scaffoldKey,
   }) : _scaffoldKey = scaffoldKey;
@@ -425,7 +427,7 @@ class PinTheBinAppBar extends StatelessWidget {
           end: Alignment.bottomCenter,
           colors: <Color>[
             Color(0xFFFFB330),
-            Color(0xFFFFFCCE),
+            Color(0xFFFFE9A6),
           ],
         ),
       ),
