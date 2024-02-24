@@ -173,6 +173,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                 ],
                               ),
                               Container(
+                                margin: const EdgeInsets.only(top: 100),
                                 height: size.height * 0.12,
                                 width: size.width * 0.7,
                                 padding: EdgeInsets.only(
@@ -192,16 +193,6 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                       ),
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          // showSlidingBox(
-                                          //   context: context,
-                                          //   box: SlidingBox(
-                                          //     draggable: false,
-                                          //     maxHeight: maxBoxHeight,
-                                          //     body: ReviewSlideBar(
-                                          //       setHeight: setMaxBoxHeight,
-                                          //     ),
-                                          //   ),
-                                          // );
                                           boxController.openBox();
                                         },
                                         style: ButtonStyle(

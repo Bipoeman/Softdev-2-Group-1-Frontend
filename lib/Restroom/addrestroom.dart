@@ -11,12 +11,16 @@ class RestroomRoverAddrestroom extends StatefulWidget {
   const RestroomRoverAddrestroom({super.key});
 
   @override
-  State<RestroomRoverAddrestroom> createState() => _RestroomRoverAddrestroomState();
+  State<RestroomRoverAddrestroom> createState() =>
+      _RestroomRoverAddrestroomState();
 }
 
 class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
   BoxController boxController = BoxController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController _LocationstextController = TextEditingController();
+  TextEditingController _DescriptiontextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -77,10 +81,24 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
         key: _scaffoldKey,
         body: Stack(
           children: [
-            
             Container(
-              margin: const EdgeInsets.only(top: 100),
-              
+              margin: const EdgeInsets.only(top: 150),
+              height: size.height * 0.12,
+              width: size.width * 0.7,
+              padding: EdgeInsets.only(
+                bottom: size.height * 0.01,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    
+                  ),
+                  Container(
+                    
+                  ),
+                ],
+              ),
             ),
             RestroomAppBar(scaffoldKey: _scaffoldKey),
           ],

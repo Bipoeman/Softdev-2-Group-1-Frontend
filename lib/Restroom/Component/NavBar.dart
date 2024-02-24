@@ -81,6 +81,31 @@ class RestroomRoverNavbar extends StatelessWidget {
               width: size.width * 0.1,
               height: size.height * 0.05,
               padding: EdgeInsets.only(left: 5.0, right: 5.0),
+              child: Icon(
+                Icons.home,
+                color: Colors.black,
+                size: 30,
+              ),
+            ),
+            title: Text('Home'),
+            onTap: () {
+              // เมื่อเลือกรายการเมนู
+              // ปิดเมนูสไลด์
+              Navigator.pushNamed(context, restroomPageRoute["home"]!);
+              // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
+            },
+          ),
+           SizedBox(height: 10),
+          ListTile(
+            leading: Container(
+              // ใส่พื้นหลังด้วย Image.asset
+              decoration: BoxDecoration(
+                color: Color(0xFFFFB703),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              width: size.width * 0.1,
+              height: size.height * 0.05,
+              padding: EdgeInsets.only(left: 5.0, right: 5.0),
               child: Image.asset(
                 "assets/images/RestroomRover/Icon_pinnoback.png",
               ),
