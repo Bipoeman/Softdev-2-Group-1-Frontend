@@ -87,7 +87,7 @@ class RestroomRoverNavbar extends StatelessWidget {
             ),
             title: Text('Pin restroom'),
             onTap: () {
-              Navigator.pushNamed(context, restroomPageRoute["findposition"]!);
+              Navigator.pushNamed(context, restroomPageRoute["addrestroom"]!);
             },
           ),
           SizedBox(height: 10),

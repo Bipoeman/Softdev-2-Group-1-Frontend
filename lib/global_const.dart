@@ -32,7 +32,8 @@ const Map<String, String> ruamMitrPageRoute = {
 const Map<String, String> restroomPageRoute = {
   "home": "/Restroom/home",
   "review": "/Restroom/Review",
-  "findposition" : "/Restroom/Findposition"
+  "findposition" : "/Restroom/Findposition",
+  "addrestroom" : "/Restroom/Addrestroom"
 };
 const String dinodengzzPageRoute = "/game";
 const Map<String, String> tuachuayDekhorPageRoute = {

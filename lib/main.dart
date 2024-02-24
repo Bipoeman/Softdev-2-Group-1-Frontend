@@ -7,6 +7,7 @@ import 'package:ruam_mitt/PinTheBin/mybin.dart';
 import 'package:ruam_mitt/PinTheBin/report.dart';
 import 'package:ruam_mitt/Restroom/FindPosition.dart';
 import 'package:ruam_mitt/Restroom/Review.dart';
+import 'package:ruam_mitt/Restroom/addrestroom.dart';
 import 'package:ruam_mitt/Restroom/restroom.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
 // import 'package:ruam_mitt/RuamMitr/home.dart';
@@ -62,6 +63,7 @@ class _SuperAppState extends State<SuperApp> {
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
         restroomPageRoute["findposition"]!: (context) => const RestroomRoverFindPosition(),
+        restroomPageRoute["addrestroom"]!: (context) => const RestroomRoverAddrestroom(),
         dinodengzzPageRoute: (context) => const MyGame(),
         tuachuayDekhorPageRoute["home"]!: (context) =>
             const TuachuayDekhorHomePage(),
