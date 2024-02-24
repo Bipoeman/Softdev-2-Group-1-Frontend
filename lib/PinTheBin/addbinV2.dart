@@ -63,7 +63,56 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
       child: Builder(
         builder: (context) {
           return Stack(
-            children: [Scaffold()],
+            children: [
+              Scaffold(
+                key: _scaffoldKey,
+                appBar: AppBar(
+                  leading: GestureDetector(
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.menu_rounded),
+                        SizedBox(height: 30)
+                      ],
+                    ),
+                    onTap: () => _scaffoldKey.currentState?.openDrawer(),
+                  ),
+                  toolbarHeight: 120,
+                  flexibleSpace: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30)),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: <Color>[
+                          Color(0xFFF99680),
+                          Color(0xFFF8A88F),
+                        ],
+                      ),
+                    ),
+                  ),
+                  title: Column(
+                    children: [
+                      Text(
+                        "ADD BIN",
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      )
+                    ],
+                  ),
+                ),
+                body: SafeArea(
+                    child: Stack(
+                  children: [],
+                )),
+                drawerScrimColor: Colors.transparent,
+                drawer: const BinDrawer(),
+              )
+            ],
           );
         },
       ),
@@ -71,16 +120,12 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
   }
 }
 
+// key: _scaffoldKey,
+// body: SafeArea(
+//     child: Stack(
+//   children: [
 
-
-
-
-      // key: _scaffoldKey,
-      // body: SafeArea(
-      //     child: Stack(
-      //   children: [
-          
-      //   ],
-      // )),
-      // drawerScrimColor: Colors.transparent,
-      // drawer: const BinDrawer(),
+//   ],
+// )),
+// drawerScrimColor: Colors.transparent,
+// drawer: const BinDrawer(),
