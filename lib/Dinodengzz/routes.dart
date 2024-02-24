@@ -20,7 +20,9 @@ class GameRoutes extends FlameGame
   //static const collectSfx = 'Collect.wav';
   //static const hurtSfx = 'Hurt.wav';
   bool playSounds = true;
-  double soundVolume = 2.0;
+  late double masterVolume = 1.0;
+  late double bgmVolume = 0.6;
+  late double sfxVolume = 0.6;
 
   late final _routes = <String, Route>{
     StartScreen.id: OverlayRoute(
@@ -35,6 +37,9 @@ class GameRoutes extends FlameGame
     ),
     Settings.id: OverlayRoute(
       (context, game) => Settings(
+        onBgmVolumeChanged: onBgmVolumeChanged,
+        onMasterVolumeChanged: onMasterVolumeChanged,
+        onSfxVolumeChanged: onSfxVolumeChanged,
         onBackPressed: _popRoute,
       ),
     ),
@@ -84,9 +89,7 @@ class GameRoutes extends FlameGame
   Future<void> onLoad() async {
     await Flame.device.setLandscape();
     await Flame.device.fullScreen();
-    await FlameAudio.audioCache.loadAll([
-      bgm, /*jumpSfx*/
-    ]);
+    await FlameAudio.audioCache.loadAll([bgm, jumpSfx]);
     await images.loadAllImages();
     await add(_router);
   }
@@ -157,5 +160,17 @@ class GameRoutes extends FlameGame
 
   void showRetryMenu() {
     _router.pushNamed(GameOverScreen.id);
+  }
+
+  void onMasterVolumeChanged(double volume) {
+    masterVolume = (volume / 100).roundToDouble();
+  }
+
+  void onBgmVolumeChanged(double volume) {
+    bgmVolume = (volume / 100).roundToDouble();
+  }
+
+  void onSfxVolumeChanged(double volume) {
+    sfxVolume = (volume / 100).roundToDouble();
   }
 }
