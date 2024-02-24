@@ -21,6 +21,7 @@ const String dekhorPosttocookingRoute = "/dekhor/posttocategory/cooking";
 const String dekhorPosttodecorationRoute = "/dekhor/posttocategory/decoration";
 const String dekhorPosttostoryRoute = "/dekhor/posttocategory/story";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
+const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
 
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",
