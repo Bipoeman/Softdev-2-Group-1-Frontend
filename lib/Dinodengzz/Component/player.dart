@@ -105,7 +105,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   @override
-  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+  bool onKeyEvent(event, Set<LogicalKeyboardKey> keysPressed) {
     horizontalMovement = 0;
     final isLeftKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyA) ||
         keysPressed.contains(LogicalKeyboardKey.arrowLeft);
@@ -285,8 +285,8 @@ class Player extends SpriteAnimationGroupComponent
 
     if (remainingLives <= 0) {
       isGameOver = true;
-      gameOverPlayer =
-          await FlameAudio.loopLongAudio('Over.wav', volume: game.soundVolume);
+      gameOverPlayer = await FlameAudio.loopLongAudio('Over.wav',
+          volume: game.masterVolume * game.bgmVolume);
 
       gameRef.showRetryMenu();
     }
