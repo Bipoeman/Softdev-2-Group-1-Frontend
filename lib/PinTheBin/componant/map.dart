@@ -16,13 +16,9 @@ class BinLocationInfo {
 
 class MapPinTheBin extends StatefulWidget {
   const MapPinTheBin(
-      {super.key,
-      required this.binInfo,
-      this.centerMark,
-      required this.mapController});
+      {super.key, required this.binInfo, required this.mapController});
   final MapController mapController;
   final dynamic binInfo;
-  final LatLng? centerMark;
 
   @override
   State<MapPinTheBin> createState() => _MapPinTheBinState();
@@ -70,15 +66,24 @@ class _MapPinTheBinState extends State<MapPinTheBin>
     //   ),
     // );
     List.generate(widget.binInfo.length, (index) {
-      markerInfo.markers.add(Marker(
-        point: LatLng(widget.binInfo[index]['latitude'],
-            widget.binInfo[index]['longitude']),
-        width: 50,
-        height: 50,
-        child: Image.asset("assets/images/RestroomRover/Pinred.png"), //รูปหมุด
-      ));
-      markerInfo.info.add(widget.binInfo[index]);
+      double lattitude = widget.binInfo[index]['latitude'].toDouble();
+      double longtitude = widget.binInfo[index]['longitude'].toDouble();
+      print("$lattitude $longtitude ${(lattitude > 90 || lattitude < -90)}");
+      if ((lattitude < 90 && lattitude > -90) &&
+          (longtitude < 180 && longtitude > -180)) {
+        markerInfo.markers.add(
+          Marker(
+            point: LatLng(lattitude, longtitude),
+            width: 50,
+            height: 50,
+            child:
+                Image.asset("assets/images/RestroomRover/Pinred.png"), //รูปหมุด
+          ),
+        );
+        markerInfo.info.add(widget.binInfo[index]);
+      }
     });
+    print("Array Len : ${markerInfo.info.length}");
   }
 
   @override
@@ -89,11 +94,10 @@ class _MapPinTheBinState extends State<MapPinTheBin>
         FlutterMap(
           mapController: widget.mapController,
           options: MapOptions(
-            initialCenter: widget.centerMark ??
-                LatLng(
-                  widget.binInfo[0]['latitude'],
-                  widget.binInfo[0]['longitude'],
-                ),
+            initialCenter: LatLng(
+              widget.binInfo[0]['latitude'],
+              widget.binInfo[0]['longitude'],
+            ),
             initialZoom: 15,
           ),
           children: [
@@ -103,10 +107,9 @@ class _MapPinTheBinState extends State<MapPinTheBin>
             ),
             MarkerLayer(
               markers: List.generate(
-                widget.binInfo.length,
+                markerInfo.info.length,
                 (index) => Marker(
-                  point: LatLng(widget.binInfo[index]['latitude'],
-                      widget.binInfo[index]['longitude']),
+                  point: markerInfo.markers[index].point,
                   width: 50,
                   height: 50,
                   child: GestureDetector(
@@ -470,8 +473,10 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                         ),
                         MenuItem(
                           title: 'Navigate',
-                          image: Icon(Icons.location_on_outlined,
-                              color: Colors.white),
+                          image: Icon(
+                            Icons.location_on_outlined,
+                            color: Colors.white,
+                          ),
                         ),
                       ],
                     );
