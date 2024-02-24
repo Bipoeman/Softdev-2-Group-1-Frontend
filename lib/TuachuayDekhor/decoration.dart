@@ -137,6 +137,7 @@ class _TuachuayDekhorDecorationPageState
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: blog_dec[actualIndex]['id_post'],
                                       );
                                     },
                                   );
@@ -170,6 +171,7 @@ class _TuachuayDekhorDecorationPageState
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: blog_dec[actualIndex]['id_post'],
                                       );
                                     },
                                   );

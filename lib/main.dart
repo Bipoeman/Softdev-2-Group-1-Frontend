@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/PinTheBin/addbin.dart';
 import 'package:ruam_mitt/PinTheBin/editbin.dart';
-import 'package:ruam_mitt/PinTheBin/mybin.dart';
 import 'package:ruam_mitt/PinTheBin/report.dart';
 import 'package:ruam_mitt/Restroom/Review.dart';
 import 'package:ruam_mitt/Restroom/restroom.dart';
@@ -11,6 +10,8 @@ import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
 // import 'package:ruam_mitt/RuamMitr/home.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home_v2/central_v2.dart';
+// import 'package:ruam_mitt/RuamMitr/settings.dart';
+// import 'package:ruam_mitt/RuamMitr/profile.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
@@ -59,6 +60,8 @@ class _SuperAppState extends State<SuperApp> {
         // ruamMitrPageRoute["home"]!: (context) => const HomePage(),
         ruamMitrPageRoute["home"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
+        // ruamMitrPageRoute["settings"]!: (context) => const SettingsPage(),
+        // ruamMitrPageRoute["profile"]!: (context) => const ProfilePage(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
         dinodengzzPageRoute: (context) => const MyGame(),
@@ -68,8 +71,10 @@ class _SuperAppState extends State<SuperApp> {
             const TuachuayDekhorProfilePage(),
         tuachuayDekhorPageRoute["search"]!: (context) =>
             const TuachuayDekhorSearchPage(),
-        tuachuayDekhorPageRoute["blog"]!: (context) =>
-            const TuachuayDekhorBlogPage(),
+         tuachuayDekhorPageRoute["blog"]!: (context) {
+  final id_post = ModalRoute.of(context)!.settings.arguments as int;
+  return TuachuayDekhorBlogPage(id_post:id_post);
+},
         tuachuayDekhorPageRoute["blogger"]!: (context) =>
             const TuachuayDekhorBloggerPage(),
         tuachuayDekhorPageRoute["writeblog"]!: (context) =>
@@ -92,7 +97,6 @@ class _SuperAppState extends State<SuperApp> {
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPage(),
         pinthebinPageRoute["editbin"]!: (context) => const EditbinPage(),
-        pinthebinPageRoute["mybin"]!: (context) => const MyBinPage(),
         pinthebinPageRoute["report"]!: (context) => const ReportPage(),
       },
       title: "RuamMitr - App for Uni Students",

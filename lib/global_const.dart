@@ -22,6 +22,12 @@ const String dekhorPosttocleaningRoute = "/dekhor/posttocategory/cleaning";
 const String dekhorPosttocookingRoute = "/dekhor/posttocategory/cooking";
 const String dekhorPosttodecorationRoute = "/dekhor/posttocategory/decoration";
 const String dekhorPosttostoryRoute = "/dekhor/posttocategory/story";
+const String dekhorDetailPostRoute = "/dekhor/detailpost";
+const String dekhorCommentPostRoute = "/dekhor/commentpost";
+const String dekhorShowcommentPostRoute = "/dekhor/showcomment";
+const String dekhorSavePostRoute = "/dekhor/savepost";
+const String dekhorUnsavePostRoute = "/dekhor/unsave";
+const String dekhorCountsavePostRoute = "/dekhor/countsave";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 
 const Map<String, String> ruamMitrPageRoute = {

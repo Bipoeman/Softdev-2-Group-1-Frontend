@@ -138,6 +138,7 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: blog_cooking[actualIndex]['id_post'],
                                       );
                                     },
                                   );
@@ -173,6 +174,7 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: blog_cooking[actualIndex]['id_post'],
                                       );
                                     },
                                   );
