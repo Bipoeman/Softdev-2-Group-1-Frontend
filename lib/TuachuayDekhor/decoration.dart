@@ -126,7 +126,7 @@ class _TuachuayDekhorDecorationPageState
                                     name: blog_dec[actualIndex]['user']
                                         ['fullname'],
                                     category: blog_dec[actualIndex]['category'],
-                                    like: 'null',
+                                    like: blog_dec[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       blog_dec[actualIndex]['image_link'] !=
                                               "null"
@@ -160,7 +160,7 @@ class _TuachuayDekhorDecorationPageState
                                     name: blog_dec[actualIndex]['user']
                                         ['fullname'],
                                     category: blog_dec[actualIndex]['category'],
-                                    like: 'null',
+                                    like: blog_dec[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       blog_dec[actualIndex]['image_link'] !=
                                               "null"

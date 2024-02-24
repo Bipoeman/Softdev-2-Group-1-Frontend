@@ -250,7 +250,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     title: post[actualIndex]['title'],
                                     name: post[actualIndex]['fullname'] ?? profileData['fullname'],
                                     category: post[actualIndex]['category'],
-                                    like: 'null',
+                                    like: post[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       post[actualIndex]['image_link'] != "null"
                                           ? post[actualIndex]['image_link']
@@ -272,7 +272,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                           ['fullname_blogger'],
                                       category: save[actualIndex]['post']
                                           ['category'],
-                                      like: 'null',
+                                      like:save[actualIndex]['post']['save'] ?? "0",
                                       image: NetworkImage(
                                         save[actualIndex]['post']
                                                     ['image_link'] !=
@@ -310,7 +310,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     title: post[actualIndex]['title'],
                                     name: post[actualIndex]['fullname'] ?? profileData['fullname'],
                                     category: post[actualIndex]['category'],
-                                    like: 'null',
+                                    like: post[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       post[actualIndex]['image_link'] != "null"
                                           ? post[actualIndex]['image_link']
@@ -332,7 +332,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                           ['fullname_blogger'],
                                       category: save[actualIndex]['post']
                                           ['category'],
-                                      like: 'null',
+                                      like: save[actualIndex]['post']['save'] ?? "0",
                                       image: NetworkImage(
                                         save[actualIndex]['post']
                                                     ['image_link'] !=

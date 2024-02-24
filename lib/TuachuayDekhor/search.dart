@@ -270,7 +270,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                         title: blog['title'] ?? '',
                                         name: blog['user']?['fullname'] ?? '',
                                         category: blog['category'] ?? '',
-                                        like: 'null',
+                                        like: blog['save'] ?? "0",
                                         image: NetworkImage(
                                           blog['image_link'] != "null"
                                               ? blog['image_link']
@@ -339,7 +339,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                         title: blog['title'] ?? '',
                                         name: blog['user']?['fullname'] ?? '',
                                         category: blog['category'] ?? '',
-                                        like: 'null',
+                                        like: blog['save'] ?? "0",
                                         image: NetworkImage(
                                           blog['image_link'] != "null"
                                               ? blog['image_link']

@@ -31,6 +31,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
   late Uri saveposturl;
   late Uri unsaveurl;
   late Uri countsaveurl;
+  late Uri numsaveurl;
   bool isLoading = false;
   final commenturl = Uri.parse("$api$dekhorCommentPostRoute");
   late bool isSave;
@@ -44,10 +45,11 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     saveposturl = Uri.parse("$api$dekhorSavePostRoute/$id_post");
     unsaveurl = Uri.parse("$api$dekhorUnsavePostRoute/$id_post");
     countsaveurl = Uri.parse("$api$dekhorCountsavePostRoute/$id_post");
+    numsaveurl = Uri.parse("$api$dekhorNumsavePostRoute/$id_post");
     _loadDetail();
-    Future.delayed(Duration(milliseconds: 500) , (){
+    Future.delayed(Duration(milliseconds: 500), () {
       setState(() {
-         showcomment();
+        showcomment();
       });
     });
     countsave();
@@ -66,6 +68,19 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
       setState(() {
         isOwner = true;
       });
+    }
+  }
+
+   Future<void> numsave() async {
+    var response = await http.patch(numsaveurl,body: {
+      'save': (countsavepost.length + 1).toString()
+    });
+    if (response.statusCode == 200) {
+      setState(() {
+       print(response.body);
+      });
+    } else {
+      throw Exception('Failed to load data');
     }
   }
 
@@ -312,6 +327,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                               ? GestureDetector(
                                                   onTap: () {
                                                     onPressedSaveButton();
+                                                    numsave();
                                                   },
                                                   child: const Icon(
                                                       Icons.bookmark,
@@ -320,12 +336,12 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                               : GestureDetector(
                                                   onTap: () {
                                                     onPressedSaveButton();
+                                                    numsave();
                                                   },
                                                   child: const Icon(
                                                       Icons.bookmark_outline),
                                                 ),
-                                          Text(
-                                              "${countsavepost.length}")
+                                          Text("${countsavepost.length}")
                                         ],
                                       ),
                                     ],

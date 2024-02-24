@@ -260,7 +260,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                     title: post[actualIndex]['title'],
                                     name: post[actualIndex]['fullname'],
                                     category: post[actualIndex]['category'],
-                                    like: 'null',
+                                    like: post[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       post[actualIndex]['image_link'] != "null"
                                           ? post[actualIndex]['image_link']
@@ -282,7 +282,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                           ['fullname_blogger'],
                                       category: save[actualIndex]['post']
                                           ['category'],
-                                      like: 'null',
+                                      like:  save[actualIndex]['post']['save'] ?? "0",
                                       image: NetworkImage(
                                         save[actualIndex]['post']
                                                     ['image_link'] !=
@@ -320,7 +320,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                     title: post[actualIndex]['title'],
                                     name: post[actualIndex]['fullname'],
                                     category: post[actualIndex]['category'],
-                                    like: 'null',
+                                    like: post[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       post[actualIndex]['image_link'] != "null"
                                           ? post[actualIndex]['image_link']
@@ -342,7 +342,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                           ['fullname_blogger'],
                                       category: save[actualIndex]['post']
                                           ['category'],
-                                      like: 'null',
+                                      like: save[actualIndex]['save'] ?? "0",
                                       image: NetworkImage(
                                         save[actualIndex]['post']
                                                     ['image_link'] !=

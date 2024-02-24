@@ -128,7 +128,7 @@ class _TuachuayDekhorCleaningPageState
                                         ['fullname'],
                                     category: blog_clean[actualIndex]
                                         ['category'],
-                                    like: 'null',
+                                    like: blog_clean[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       blog_clean[actualIndex]['image_link'] !=
                                               "null"
@@ -164,7 +164,7 @@ class _TuachuayDekhorCleaningPageState
                                         ['fullname'],
                                     category: blog_clean[actualIndex]
                                         ['category'],
-                                    like: 'null',
+                                    like: blog_clean[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       blog_clean[actualIndex]['image_link'] !=
                                               "null"

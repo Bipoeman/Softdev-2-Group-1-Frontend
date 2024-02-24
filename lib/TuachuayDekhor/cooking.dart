@@ -126,7 +126,7 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                                         ['fullname'],
                                     category: blog_cooking[actualIndex]
                                         ['category'],
-                                    like: 'null',
+                                    like:  blog_cooking[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       blog_cooking[actualIndex]['image_link'] !=
                                               "null"
@@ -162,7 +162,7 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                                         ['fullname'],
                                     category: blog_cooking[actualIndex]
                                         ['category'],
-                                    like: 'null',
+                                    like: blog_cooking[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       blog_cooking[actualIndex]['image_link'] !=
                                               "null"

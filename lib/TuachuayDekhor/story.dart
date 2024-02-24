@@ -125,7 +125,7 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
                                     name: blog_story[actualIndex]['user']
                                         ['fullname'],
                                     category: blog_story[actualIndex]['category'],
-                                    like: 'null',
+                                    like: blog_story[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       blog_story[actualIndex]['image_link'] !=
                                               "null"
@@ -159,7 +159,7 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
                                     name: blog_story[actualIndex]['user']
                                         ['fullname'],
                                     category: blog_story[actualIndex]['category'],
-                                    like: 'null',
+                                    like: blog_story[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       blog_story[actualIndex]['image_link'] !=
                                               "null"
