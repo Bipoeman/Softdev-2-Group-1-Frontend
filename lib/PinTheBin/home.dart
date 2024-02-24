@@ -6,6 +6,7 @@ import "package:google_fonts/google_fonts.dart";
 import "package:latlong2/latlong.dart";
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import "package:ruam_mitt/PinTheBin/componant/map.dart";
+import 'package:ruam_mitt/Restroom/Component/NavBar.dart';
 import "package:http/http.dart" as http;
 
 import "package:ruam_mitt/global_const.dart";

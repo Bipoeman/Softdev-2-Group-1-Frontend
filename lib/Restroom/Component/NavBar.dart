@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/global_const.dart';
+
 class RestroomRoverNavbar extends StatelessWidget {
   const RestroomRoverNavbar({
     super.key,
@@ -34,12 +35,25 @@ class RestroomRoverNavbar extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Drawer(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(50),
+          bottomRight: Radius.circular(50),
+        ),
+      ),
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(
-              color: Color(0xFFFFB703),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[
+                  Color(0xFFFFB330),
+                  Color(0xFFFFCC74),
+                ],
+              ),
             ),
             accountName: Container(
                 margin: EdgeInsets.only(bottom: 20),
@@ -87,7 +101,11 @@ class RestroomRoverNavbar extends StatelessWidget {
               width: size.width * 0.1,
               height: size.height * 0.05,
               padding: EdgeInsets.only(left: 5.0, right: 5.0),
-              child: Icon(Icons.edit_location_alt_sharp, color: Colors.black, size: 30,),
+              child: Icon(
+                Icons.edit_location_alt_sharp,
+                color: Colors.black,
+                size: 30,
+              ),
             ),
             title: Text('Edit pin'),
             onTap: () {
@@ -100,20 +118,19 @@ class RestroomRoverNavbar extends StatelessWidget {
           SizedBox(height: 10),
           ListTile(
             leading: Container(
-              // ใส่พื้นหลังด้วย Image.asset
-              decoration: BoxDecoration(
-                color: Color(0xFFFFB703),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              width: size.width * 0.1,
-              height: size.height * 0.05,
-              padding: EdgeInsets.only(left: 5.0, right: 5.0),
-              child: Icon(
-                Icons.report,
-                color: Colors.black,
-                size: 30.0,
-              )
-            ),
+                // ใส่พื้นหลังด้วย Image.asset
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFB703),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                width: size.width * 0.1,
+                height: size.height * 0.05,
+                padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                child: Icon(
+                  Icons.report,
+                  color: Colors.black,
+                  size: 30.0,
+                )),
             title: Text('Report'),
             onTap: () {
               // เมื่อเลือกรายการเมนู
@@ -125,23 +142,22 @@ class RestroomRoverNavbar extends StatelessWidget {
           SizedBox(height: 10),
           ListTile(
             leading: Container(
-              // ใส่พื้นหลังด้วย Image.asset
-              decoration: BoxDecoration(
-                color: Color(0xFFFFB703),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              width: size.width * 0.1,
-              height: size.height * 0.05,
-              padding: EdgeInsets.only(left: 2.0, right: 2.0),
-              // child: Image.asset(
-              //   "assets/images/RestroomRover/Icon_pinnoback.png",
-              // ),
-              child: Icon(
-                Icons.exit_to_app,
-                color: Colors.black,
-                size: 27.0,
-              )
-            ),
+                // ใส่พื้นหลังด้วย Image.asset
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFB703),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                width: size.width * 0.1,
+                height: size.height * 0.05,
+                padding: EdgeInsets.only(left: 2.0, right: 2.0),
+                // child: Image.asset(
+                //   "assets/images/RestroomRover/Icon_pinnoback.png",
+                // ),
+                child: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.black,
+                  size: 27.0,
+                )),
             title: Text('Exit'),
             onTap: () {
               // เมื่อเลือกรายการเมนู
