@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:lottie/lottie.dart';
@@ -30,6 +31,8 @@ class _TuachuayDekhorWriteBlogPageState
   late AnimationController animationController;
   bool status = true;
   final writeblogurl = Uri.parse("$api$dekhorWriteBloggerRoute");
+  var post = [];
+  final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
 
   Future<void> writeblog() async {
     var response = await http.post(writeblogurl, headers: {
@@ -49,9 +52,23 @@ class _TuachuayDekhorWriteBlogPageState
     }
   }
 
+  Future<void> postoprofile() async {
+    var response = await http
+        .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
+    if (response.statusCode == 200) {
+      setState(() {
+        post = jsonDecode(response.body);
+        // print(post);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+     postoprofile();
     firstFocusNode.requestFocus();
     animationController = AnimationController(
       vsync: this,
@@ -319,7 +336,7 @@ class _TuachuayDekhorWriteBlogPageState
                                   const EdgeInsets.only(left: 20, right: 10),
                               child: RawMaterialButton(
                                 onPressed: () {
-                                  // writeblog();
+                                  writeblog();
                                   print("Post tapped");
                                   showDialog(
                                       context: context,
