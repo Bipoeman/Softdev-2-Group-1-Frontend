@@ -33,6 +33,9 @@ const String dekhorDeletePostRoute = "/dekhor/deletepost";
 const String dekhorEditPostRoute = "/dekhor/editpost";
 const String dekhorDraftPostRoute = "/dekhor/draftpost";
 const String dekhorPosttoDraftRoute = "/dekhor/posttodraft";
+const String dekhorDetailDraftRoute = "/dekhor/detaildraft";
+const String dekhorEditDraftRoute = "/dekhor/editdraft";
+const String dekhorDeleteDraftRoute = "/dekhor/deletedraft";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 
 const Map<String, String> ruamMitrPageRoute = {
@@ -52,6 +55,7 @@ const Map<String, String> tuachuayDekhorPageRoute = {
   "profile": "/TuachuayDekhor/profile",
   "profileblogger": "/TuachuayDekhor/profileblogger",
   "blog": "/TuachuayDekhor/blog",
+  "detaildraft": "/TuachuayDekhor/detaildraft",
   "search": "/TuachuayDekhor/search",
   "blogger": "/TuachuayDekhor/blogger",
   "writeblog": "/TuachuayDekhor/writeblog",

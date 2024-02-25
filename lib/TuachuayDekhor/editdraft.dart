@@ -31,9 +31,50 @@ class _TuachuayDekhorEditDraftPageState
   final FocusNode anotherFocusNode = FocusNode();
   late AnimationController animationController;
   bool status = true;
+  late int id_draft;
   final writeblogurl = Uri.parse("$api$dekhorWriteBloggerRoute");
+  var detaildraft = [];
   var post = [];
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
+  late Uri editurl;
+  late Uri detailurl;
+  late Uri deletedrafturl;
+
+  @override
+  void initState() {
+    super.initState();
+    id_draft = widget.id_draft;
+    editurl = Uri.parse("$api$dekhorEditDraftRoute/$id_draft");
+    detailurl = Uri.parse("$api$dekhorDetailDraftRoute/$id_draft");
+    deletedrafturl = Uri.parse("$api$dekhorDeleteDraftRoute/$id_draft");
+    detail().then((_) {
+      if (detaildraft.isNotEmpty) {
+        setState(() {
+          markdownTitleController.text = detaildraft[0]['title'];
+          markdownContentController.text = detaildraft[0]['content'];
+          _dropdownValue = detaildraft[0]['category'];
+        });
+      }
+    });
+    postoprofile();
+    firstFocusNode.requestFocus();
+    animationController = AnimationController(
+      vsync: this,
+    );
+    animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Future.delayed(const Duration(milliseconds: 700), () {
+          Navigator.pop(context);
+          markdownTitleController.clear();
+          markdownContentController.clear();
+          FocusManager.instance.primaryFocus?.unfocus();
+          animationController.reset();
+          Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
+        });
+      }
+    });
+  }
+  
 
   Future<void> writeblog() async {
     var response = await http.post(writeblogurl, headers: {
@@ -53,6 +94,36 @@ class _TuachuayDekhorEditDraftPageState
     }
   }
 
+   Future<void> editdraft() async {
+    var response = await http.put(editurl, headers: {
+      "Authorization": "Bearer $publicToken"
+    }, body: {
+      "title": markdownTitleController.text,
+      "content": markdownContentController.text,
+      "category": _dropdownValue,
+      "image_link": "null",
+      "fullname": profileData['fullname']
+    });
+
+    if (response.statusCode == 200) {
+      status = true;
+    } else {
+      status = false;
+    }
+  }
+
+  Future<void> detail() async {
+    var response = await http.get(detailurl);
+    if (response.statusCode == 200) {
+      setState(() {
+        detaildraft = jsonDecode(response.body);
+        print(detaildraft);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
   Future<void> postoprofile() async {
     var response = await http
         .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
@@ -66,27 +137,11 @@ class _TuachuayDekhorEditDraftPageState
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-     postoprofile();
-    firstFocusNode.requestFocus();
-    animationController = AnimationController(
-      vsync: this,
-    );
-    animationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        Future.delayed(const Duration(milliseconds: 700), () {
-          Navigator.pop(context);
-          markdownTitleController.clear();
-          markdownContentController.clear();
-          FocusManager.instance.primaryFocus?.unfocus();
-          animationController.reset();
-          Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
-        });
-      }
-    });
+  Future<void> deletedraft() async {
+    await http.delete(deletedrafturl);
   }
+
+  
 
   @override
   void dispose() {
@@ -289,6 +344,12 @@ class _TuachuayDekhorEditDraftPageState
                                             color: Colors.green),
                                         child: TextButton(
                                           onPressed: () {
+                                            editdraft();
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                            Navigator.pushNamed(
+                                                context, tuachuayDekhorPageRoute["draft"]!);
                                             print("Draft saved");
                                           },
                                           child: const Text(
@@ -338,6 +399,7 @@ class _TuachuayDekhorEditDraftPageState
                               child: RawMaterialButton(
                                 onPressed: () {
                                   writeblog();
+                                  deletedraft();
                                   print("Post tapped");
                                   showDialog(
                                       context: context,
