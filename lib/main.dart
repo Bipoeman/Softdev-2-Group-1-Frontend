@@ -19,6 +19,7 @@ import 'package:ruam_mitt/TuachuayDekhor/blogger.dart';
 import 'package:ruam_mitt/TuachuayDekhor/cleaning.dart';
 import 'package:ruam_mitt/TuachuayDekhor/cooking.dart';
 import 'package:ruam_mitt/TuachuayDekhor/decoration.dart';
+import 'package:ruam_mitt/TuachuayDekhor/editpost.dart';
 import 'package:ruam_mitt/TuachuayDekhor/home.dart';
 import 'package:ruam_mitt/TuachuayDekhor/post.dart';
 import 'package:ruam_mitt/TuachuayDekhor/profile.dart';
@@ -71,14 +72,18 @@ class _SuperAppState extends State<SuperApp> {
             const TuachuayDekhorProfilePage(),
         tuachuayDekhorPageRoute["search"]!: (context) =>
             const TuachuayDekhorSearchPage(),
-         tuachuayDekhorPageRoute["blog"]!: (context) {
-  final id_post = ModalRoute.of(context)!.settings.arguments as int;
-  return TuachuayDekhorBlogPage(id_post:id_post);
-},
+        tuachuayDekhorPageRoute["blog"]!: (context) {
+          final id_post = ModalRoute.of(context)!.settings.arguments as int;
+          return TuachuayDekhorBlogPage(id_post: id_post);
+        },
         tuachuayDekhorPageRoute["blogger"]!: (context) =>
             const TuachuayDekhorBloggerPage(),
         tuachuayDekhorPageRoute["writeblog"]!: (context) =>
             const TuachuayDekhorWriteBlogPage(),
+        tuachuayDekhorPageRoute["editpost"]!: (context) {
+          final id_post = ModalRoute.of(context)!.settings.arguments as int;
+          return TuachuayDekhorEditBlogPage(id_post: id_post);
+        },
         tuachuayDekhorPageRoute["draft"]!: (context) =>
             const TuachuayDekhorDraftPage(),
         tuachuayDekhorPageRoute["decoration"]!: (context) =>
@@ -89,10 +94,10 @@ class _SuperAppState extends State<SuperApp> {
             const TuachuayDekhorCookingPage(),
         tuachuayDekhorPageRoute["cleaning"]!: (context) =>
             const TuachuayDekhorCleaningPage(),
-       tuachuayDekhorPageRoute["profileblogger"]!: (context) {
-  final username = ModalRoute.of(context)!.settings.arguments as String;
-  return TuachuayDekhorBloggerProfilePage(username: username);
-},
+        tuachuayDekhorPageRoute["profileblogger"]!: (context) {
+          final username = ModalRoute.of(context)!.settings.arguments as String;
+          return TuachuayDekhorBloggerProfilePage(username: username);
+        },
 
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPage(),

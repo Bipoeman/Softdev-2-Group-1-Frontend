@@ -33,6 +33,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
   late Uri unsaveurl;
   late Uri countsaveurl;
   late Uri numsaveurl;
+  late Uri deleteposturl;
   bool isLoading = false;
   final commenturl = Uri.parse("$api$dekhorCommentPostRoute");
   late bool isSave;
@@ -47,6 +48,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     unsaveurl = Uri.parse("$api$dekhorUnsavePostRoute/$id_post");
     countsaveurl = Uri.parse("$api$dekhorCountsavePostRoute/$id_post");
     numsaveurl = Uri.parse("$api$dekhorNumsavePostRoute/$id_post");
+    deleteposturl = Uri.parse("$api$dekhorDeletePostRoute/$id_post");
     _loadDetail();
     Future.delayed(Duration(milliseconds: 500), () {
       setState(() {
@@ -94,6 +96,10 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     } else {
       throw Exception('Failed to load data');
     }
+  }
+
+  Future<void> deletepost() async {
+    await http.delete(deleteposturl);
   }
 
   Future<void> countsave() async {
@@ -296,6 +302,12 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                                 .circular(10),
                                                       ),
                                                       onPressed: () {
+                                                          Navigator.pushNamed(
+                                                            context,
+                                                            tuachuayDekhorPageRoute[
+                                                                "editpost"]!,
+                                                            arguments: id_post,
+                                                          );
                                                         print("edit the blog");
                                                       },
                                                       child: const Icon(
@@ -350,8 +362,13 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                                 .circular(10),
                                                       ),
                                                       onPressed: () {
+                                                        deletepost();
                                                         print(
                                                             "delete the blog");
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            tuachuayDekhorPageRoute[
+                                                                "profile"]!);
                                                       },
                                                       child: const Icon(
                                                           Icons.delete_outlined,
