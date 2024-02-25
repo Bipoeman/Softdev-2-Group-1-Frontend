@@ -31,6 +31,8 @@ const String dekhorCountsavePostRoute = "/dekhor/countsave";
 const String dekhorNumsavePostRoute = "/dekhor/numsave";
 const String dekhorDeletePostRoute = "/dekhor/deletepost";
 const String dekhorEditPostRoute = "/dekhor/editpost";
+const String dekhorDraftPostRoute = "/dekhor/draftpost";
+const String dekhorPosttoDraftRoute = "/dekhor/posttodraft";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 
 const Map<String, String> ruamMitrPageRoute = {

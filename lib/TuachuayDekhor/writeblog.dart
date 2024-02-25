@@ -33,9 +33,28 @@ class _TuachuayDekhorWriteBlogPageState
   final writeblogurl = Uri.parse("$api$dekhorWriteBloggerRoute");
   var post = [];
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
+  final draftposturl = Uri.parse('$api/dekhor/draftpost');
 
   Future<void> writeblog() async {
     var response = await http.post(writeblogurl, headers: {
+      "Authorization": "Bearer $publicToken"
+    }, body: {
+      "title": markdownTitleController.text,
+      "content": markdownContentController.text,
+      "category": _dropdownValue,
+      "image_link": "null",
+      "fullname": profileData['fullname']
+    });
+
+    if (response.statusCode == 200) {
+      status = true;
+    } else {
+      status = false;
+    }
+  }
+
+  Future<void> draft () async {
+    var response = await http.post(draftposturl, headers: {
       "Authorization": "Bearer $publicToken"
     }, body: {
       "title": markdownTitleController.text,
@@ -288,6 +307,11 @@ class _TuachuayDekhorWriteBlogPageState
                                             color: Colors.green),
                                         child: TextButton(
                                           onPressed: () {
+                                            draft();
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                            Navigator.pushNamed(
+                                                context, tuachuayDekhorPageRoute["draft"]!);
                                             print("Draft saved");
                                           },
                                           child: const Text(

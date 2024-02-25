@@ -27,6 +27,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
   var detailpost = [];
   var commentpost = [];
   var countsavepost = [];
+  var post = [];
   late Uri detailurl;
   late Uri showcommenturl;
   late Uri saveposturl;
@@ -36,6 +37,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
   late Uri deleteposturl;
   bool isLoading = false;
   final commenturl = Uri.parse("$api$dekhorCommentPostRoute");
+  final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
   late bool isSave;
 
   @override
@@ -49,6 +51,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     countsaveurl = Uri.parse("$api$dekhorCountsavePostRoute/$id_post");
     numsaveurl = Uri.parse("$api$dekhorNumsavePostRoute/$id_post");
     deleteposturl = Uri.parse("$api$dekhorDeletePostRoute/$id_post");
+    postoprofile();
     _loadDetail();
     Future.delayed(Duration(milliseconds: 500), () {
       setState(() {
@@ -71,6 +74,19 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
       setState(() {
         isOwner = true;
       });
+    }
+  }
+
+  Future<void> postoprofile() async {
+    var response = await http
+        .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
+    if (response.statusCode == 200) {
+      setState(() {
+        post = jsonDecode(response.body);
+        // print(post);
+      });
+    } else {
+      throw Exception('Failed to load data');
     }
   }
 
