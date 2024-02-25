@@ -8,6 +8,7 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/checkpoint.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/collision_block.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/patrick.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/saw.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/utils.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
@@ -74,7 +75,7 @@ class Player extends SpriteAnimationGroupComponent
   @override
   FutureOr<void> onLoad() async {
     _loadAllAnimation();
-    debugMode = true;
+    //debugMode = true;
     priority = 10;
     startingPos = Vector2(position.x, position.y);
     add(RectangleHitbox(
@@ -126,6 +127,7 @@ class Player extends SpriteAnimationGroupComponent
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (!reachedCheckpoint) {
+      if (other is Patrick) other.collidedWithPlayer();
       if (other is Saw) _respawn();
       if (other is Checkpoint && noodleCollected) _reachCheckpoint();
     }
@@ -321,6 +323,10 @@ class Player extends SpriteAnimationGroupComponent
     reachedCheckpoint = false;
     noodleCollected = false;
     position = Vector2.all(-640);
+  }
+
+  void collidedwithEnemy() {
+    _respawn();
   }
 
   void gotNoodle() {

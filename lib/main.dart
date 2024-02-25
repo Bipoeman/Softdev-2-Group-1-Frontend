@@ -35,7 +35,7 @@ void main() {
       child: const SuperApp(),
     ),
   );
-  //DependencyInjection.init();
+  DependencyInjection.init();
 }
 
 class SuperApp extends StatefulWidget {

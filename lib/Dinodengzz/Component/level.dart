@@ -30,6 +30,7 @@ class Level extends World with HasGameRef<GameRoutes> {
     _addCollision();
 
     player.collisionBlocks = collisionBlocks;
+
     return super.onLoad();
   }
 
@@ -97,6 +98,7 @@ class Level extends World with HasGameRef<GameRoutes> {
               offPos: offPos,
               player: player,
             );
+            patrix.collisionBlocks = collisionBlocks;
             add(patrix);
             break;
           default:
