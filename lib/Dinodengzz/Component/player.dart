@@ -265,7 +265,7 @@ class Player extends SpriteAnimationGroupComponent
           if (velocity.y < 0) {
             velocity.y = 0;
             position.y = block.y + hitbox.height - hitbox.offsetY;
-            isOnGround = true;
+            isOnGround = false;
             break;
           }
         }
@@ -285,8 +285,8 @@ class Player extends SpriteAnimationGroupComponent
 
     if (remainingLives <= 0) {
       isGameOver = true;
-      gameOverPlayer = await FlameAudio.loopLongAudio('Over.wav',
-          volume: game.masterVolume * game.bgmVolume);
+
+      ///gameOverPlayer = await FlameAudio.loopLongAudio('Over.wav',volume: game.masterVolume * game.bgmVolume);
 
       gameRef.showRetryMenu();
     }
