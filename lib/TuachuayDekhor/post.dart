@@ -190,6 +190,55 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     print(detailpost);
   }
 
+  Future<dynamic> popUpAlertDialog(Widget icon, String title, Color color,
+      String button, void Function()? onPressed) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          surfaceTintColor: Colors.white,
+          backgroundColor: Colors.white,
+          iconColor: const Color.fromRGBO(0, 48, 73, 1),
+          icon: icon,
+          title: Text(title),
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          actions: [
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10), color: Colors.grey),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  "Cancel",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: color,
+              ),
+              child: TextButton(
+                onPressed: onPressed,
+                child: Text(
+                  button,
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -276,10 +325,23 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                               ),
                                             ),
                                             SizedBox(width: size.width * 0.04),
-                                            Text(detailpost.isNotEmpty
-                                                ? detailpost[0]['user']
-                                                    ['fullname']
-                                                : ''),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.pushNamed(
+                                                  context,
+                                                  tuachuayDekhorPageRoute[
+                                                      "profileblogger"]!,
+                                                  arguments: detailpost[0]
+                                                      ['user']['fullname'],
+                                                );
+                                              },
+                                              child: Text(
+                                                detailpost.isNotEmpty
+                                                    ? detailpost[0]['user']
+                                                        ['fullname']
+                                                    : '',
+                                              ),
+                                            ),
                                           ],
                                         ),
                                         Row(
@@ -302,12 +364,22 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                                 .circular(10),
                                                       ),
                                                       onPressed: () {
+                                                        popUpAlertDialog(
+                                                            const Icon(
+                                                                Icons.edit,
+                                                                size: 50),
+                                                            "Edit post?",
+                                                            Colors.blue,
+                                                            "Edit", () {
+                                                          Navigator.pop(
+                                                              context);
                                                           Navigator.pushNamed(
                                                             context,
                                                             tuachuayDekhorPageRoute[
                                                                 "editpost"]!,
                                                             arguments: id_post,
                                                           );
+                                                        });
                                                         print("edit the blog");
                                                       },
                                                       child: const Icon(
@@ -337,8 +409,20 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                                 .circular(10),
                                                       ),
                                                       onPressed: () {
-                                                        print(
-                                                            "report the blog");
+                                                        popUpAlertDialog(
+                                                            const Icon(
+                                                                Icons.report,
+                                                                size: 50),
+                                                            "Report post?",
+                                                            const Color
+                                                                .fromRGBO(217,
+                                                                192, 41, 1),
+                                                            "Report", () {
+                                                          Navigator.pop(
+                                                              context);
+                                                          print(
+                                                              "report the blog");
+                                                        });
                                                       },
                                                       child: const Icon(
                                                           Icons.report_outlined,
@@ -362,13 +446,25 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                                 .circular(10),
                                                       ),
                                                       onPressed: () {
-                                                        deletepost();
-                                                        print(
-                                                            "delete the blog");
-                                                        Navigator.pushNamed(
-                                                            context,
-                                                            tuachuayDekhorPageRoute[
-                                                                "profile"]!);
+                                                        popUpAlertDialog(
+                                                            const Icon(
+                                                                Icons.delete,
+                                                                size: 50),
+                                                            "Delete post?",
+                                                            Colors.red,
+                                                            "Delete", () {
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator.pop(
+                                                              context);
+                                                          deletepost();
+                                                          print(
+                                                              "delete the blog");
+                                                          Navigator.pushNamed(
+                                                              context,
+                                                              tuachuayDekhorPageRoute[
+                                                                  "profile"]!);
+                                                        });
                                                       },
                                                       child: const Icon(
                                                           Icons.delete_outlined,
