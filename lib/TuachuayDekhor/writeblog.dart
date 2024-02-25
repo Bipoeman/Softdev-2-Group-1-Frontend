@@ -295,7 +295,7 @@ class _TuachuayDekhorWriteBlogPageState
                                             Navigator.pop(context);
                                           },
                                           child: const Text(
-                                            "Delete",
+                                            "Discard",
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),

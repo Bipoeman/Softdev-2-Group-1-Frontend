@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/material.dart';
-import 'package:ruam_mitt/global_const.dart';
-import 'package:ruam_mitt/global_var.dart';
 
 class BlogBox extends StatelessWidget {
   const BlogBox({

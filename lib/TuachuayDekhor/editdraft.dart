@@ -67,6 +67,7 @@ class _TuachuayDekhorEditDraftPageState
           Navigator.pop(context);
           markdownTitleController.clear();
           markdownContentController.clear();
+          _dropdownValue = null;
           FocusManager.instance.primaryFocus?.unfocus();
           animationController.reset();
           Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
@@ -74,7 +75,6 @@ class _TuachuayDekhorEditDraftPageState
       }
     });
   }
-  
 
   Future<void> writeblog() async {
     var response = await http.post(writeblogurl, headers: {
@@ -94,7 +94,7 @@ class _TuachuayDekhorEditDraftPageState
     }
   }
 
-   Future<void> editdraft() async {
+  Future<void> editdraft() async {
     var response = await http.put(editurl, headers: {
       "Authorization": "Bearer $publicToken"
     }, body: {
@@ -140,8 +140,6 @@ class _TuachuayDekhorEditDraftPageState
   Future<void> deletedraft() async {
     await http.delete(deletedrafturl);
   }
-
-  
 
   @override
   void dispose() {
@@ -273,8 +271,12 @@ class _TuachuayDekhorEditDraftPageState
                             ],
                           ),
                           onTap: () {
-                            if (markdownTitleController.text.isNotEmpty ||
-                                markdownContentController.text.isNotEmpty) {
+                            if ((markdownTitleController.text !=
+                                    detaildraft[0]['title']) ||
+                                (markdownContentController.text !=
+                                    detaildraft[0]['content']) ||
+                                (_dropdownValue !=
+                                    detaildraft[0]['category'])) {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -330,7 +332,7 @@ class _TuachuayDekhorEditDraftPageState
                                             Navigator.pop(context);
                                           },
                                           child: const Text(
-                                            "Delete",
+                                            "Discard",
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
@@ -349,7 +351,9 @@ class _TuachuayDekhorEditDraftPageState
                                             Navigator.pop(context);
                                             Navigator.pop(context);
                                             Navigator.pushNamed(
-                                                context, tuachuayDekhorPageRoute["draft"]!);
+                                                context,
+                                                tuachuayDekhorPageRoute[
+                                                    "draft"]!);
                                             print("Draft saved");
                                           },
                                           child: const Text(
@@ -378,24 +382,29 @@ class _TuachuayDekhorEditDraftPageState
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            GestureDetector(
-                              child: const Text(
-                                "DRAFTS",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(0, 48, 73, 1),
-                                ),
-                              ),
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, tuachuayDekhorPageRoute["draft"]!);
-                              },
-                            ),
                             Container(
                               width: 70,
                               margin:
                                   const EdgeInsets.only(left: 20, right: 10),
+                              child: RawMaterialButton(
+                                onPressed: () {
+                                  print("Delete draft tapped");
+                                },
+                                fillColor: Colors.red[900],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                textStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                                child: const Text("DELETE"),
+                              ),
+                            ),
+                            Container(
+                              width: 70,
+                              margin: const EdgeInsets.only(right: 10),
                               child: RawMaterialButton(
                                 onPressed: () {
                                   writeblog();

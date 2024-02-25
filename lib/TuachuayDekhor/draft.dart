@@ -7,9 +7,6 @@ import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
 
-
-import 'package:ruam_mitt/global_const.dart';
-
 class TuachuayDekhorDraftPage extends StatefulWidget {
   const TuachuayDekhorDraftPage({super.key});
 
