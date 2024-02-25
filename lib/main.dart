@@ -24,6 +24,7 @@ import 'package:ruam_mitt/TuachuayDekhor/editpost.dart';
 import 'package:ruam_mitt/TuachuayDekhor/home.dart';
 import 'package:ruam_mitt/TuachuayDekhor/post.dart';
 import 'package:ruam_mitt/TuachuayDekhor/profile.dart';
+import 'package:ruam_mitt/TuachuayDekhor/report.dart';
 import 'package:ruam_mitt/TuachuayDekhor/search.dart';
 import 'package:ruam_mitt/TuachuayDekhor/story.dart';
 import 'package:ruam_mitt/TuachuayDekhor/writeblog.dart';
@@ -102,6 +103,10 @@ class _SuperAppState extends State<SuperApp> {
         tuachuayDekhorPageRoute["profileblogger"]!: (context) {
           final username = ModalRoute.of(context)!.settings.arguments as String;
           return TuachuayDekhorBloggerProfilePage(username: username);
+        },
+        tuachuayDekhorPageRoute["report"]!: (context) {
+          final id_post = ModalRoute.of(context)!.settings.arguments as int;
+          return TuachuayDekhorReportPage(id_post: id_post);
         },
 
         pinthebinPageRoute["home"]!: (context) => const BinPage(),

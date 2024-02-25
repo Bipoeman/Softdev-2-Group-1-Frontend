@@ -63,8 +63,12 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
           Navigator.pop(context);
           markdownTitleController.clear();
           markdownContentController.clear();
+          _dropdownValue = null;
           FocusManager.instance.primaryFocus?.unfocus();
           animationController.reset();
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
           Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
         });
       }
