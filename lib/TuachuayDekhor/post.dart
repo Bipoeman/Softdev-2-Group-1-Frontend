@@ -300,7 +300,6 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                               Padding(
                                 padding: EdgeInsets.only(
                                   top: size.height * 0.12,
-                                  left: size.width * 0.04,
                                 ),
                                 child: GestureDetector(
                                   child: const Row(
@@ -325,40 +324,41 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              height: 35,
-                                              width: 35,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                image: DecorationImage(
-                                                  image: NetworkImage(
-                                                    "https://api.multiavatar.com/${detailpost[0]['user']['fullname']}.png",
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                              context,
+                                              tuachuayDekhorPageRoute[
+                                                  "profileblogger"]!,
+                                              arguments: detailpost[0]['user']
+                                                  ['fullname'],
+                                            );
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                height: 35,
+                                                width: 35,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      "https://api.multiavatar.com/${detailpost[0]['user']['fullname']}.png",
+                                                    ),
+                                                    fit: BoxFit.cover,
                                                   ),
-                                                  fit: BoxFit.cover,
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(width: size.width * 0.04),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.pushNamed(
-                                                  context,
-                                                  tuachuayDekhorPageRoute[
-                                                      "profileblogger"]!,
-                                                  arguments: detailpost[0]
-                                                      ['user']['fullname'],
-                                                );
-                                              },
-                                              child: Text(
+                                              SizedBox(
+                                                  width: size.width * 0.04),
+                                              Text(
                                                 detailpost.isNotEmpty
                                                     ? detailpost[0]['user']
                                                         ['fullname']
                                                     : '',
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                         Row(
                                           children: [
@@ -436,6 +436,12 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                             "Report", () {
                                                           Navigator.pop(
                                                               context);
+                                                          Navigator.pushNamed(
+                                                              context,
+                                                              tuachuayDekhorPageRoute[
+                                                                  "report"]!,
+                                                              arguments:
+                                                                  id_post);
                                                           print(
                                                               "report the blog");
                                                         });
@@ -469,13 +475,15 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                             "Delete post?",
                                                             Colors.red,
                                                             "Delete", () {
-                                                          Navigator.pop(
-                                                              context);
-                                                          Navigator.pop(
-                                                              context);
                                                           deletepost();
                                                           print(
                                                               "delete the blog");
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator.pop(
+                                                              context);
                                                           Navigator.pushNamed(
                                                               context,
                                                               tuachuayDekhorPageRoute[
