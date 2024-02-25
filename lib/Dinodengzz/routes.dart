@@ -14,7 +14,7 @@ import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 
 class GameRoutes extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
-  List<String> levelNames = ['Level-01', 'Level-02', 'Level-03'];
+  List<String> levelNames = ['Level-01', 'Level-02', 'Level-03', 'Level-04'];
   //static const bgm = 'Over.wav';
   //static const jumpSfx = 'Deng_Suu.wav';
   //static const collectSfx = 'Collect.wav';

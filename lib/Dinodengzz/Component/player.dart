@@ -74,7 +74,7 @@ class Player extends SpriteAnimationGroupComponent
   @override
   FutureOr<void> onLoad() async {
     _loadAllAnimation();
-    //debugMode = true;
+    debugMode = true;
     priority = 10;
     startingPos = Vector2(position.x, position.y);
     add(RectangleHitbox(
@@ -265,8 +265,6 @@ class Player extends SpriteAnimationGroupComponent
           if (velocity.y < 0) {
             velocity.y = 0;
             position.y = block.y + hitbox.height - hitbox.offsetY;
-            isOnGround = false;
-            break;
           }
         }
       }
