@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 
 class ProfileWidgetV2 extends StatefulWidget {
@@ -79,7 +80,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                           ),
                         ),
                         onTap: () {
-                          print("You might want to change profile image");
+                          debugPrint("You might want to change profile image");
                         },
                       ),
                     ),
@@ -118,7 +119,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                     title: Text(profileData['fullname']),
                     trailing: const Icon(Icons.edit),
                     onTap: () {
-                      debugPrint("You might want to edit username");
+                      Navigator.pushNamed(
+                          context, ruamMitrPageRoute['edit-profile']!);
                     },
                   ),
                   const Divider(
@@ -133,7 +135,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                     title: Text(profileData['email']),
                     trailing: const Icon(Icons.edit),
                     onTap: () {
-                      debugPrint("You might want to edit email");
+                      Navigator.pushNamed(
+                          context, ruamMitrPageRoute['edit-profile']!);
                     },
                   ),
                   const Divider(
@@ -148,7 +151,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                     title: Text(profileData['birthday'] ?? "Not provided"),
                     trailing: const Icon(Icons.edit),
                     onTap: () {
-                      debugPrint("You might want to edit birthday");
+                      Navigator.pushNamed(
+                          context, ruamMitrPageRoute['edit-profile']!);
                     },
                   ),
                   const Divider(
@@ -163,7 +167,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                     title: Text(profileData['phonenum'] ?? "Not provided"),
                     trailing: const Icon(Icons.edit),
                     onTap: () {
-                      debugPrint("You might want to edit phone number");
+                      Navigator.pushNamed(
+                          context, ruamMitrPageRoute['edit-profile']!);
                     },
                   ),
                   ListTile(
@@ -171,7 +176,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                     title: const Text("Edit your desciption"),
                     trailing: const Icon(Icons.edit),
                     onTap: () {
-                      debugPrint("You might want to edit description");
+                      Navigator.pushNamed(
+                          context, ruamMitrPageRoute['edit-profile']!);
                     },
                   ),
                 ],
