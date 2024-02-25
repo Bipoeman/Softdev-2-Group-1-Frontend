@@ -121,7 +121,7 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                                     name: draft[actualIndex]['user']
                                         ['fullname'],
                                     category: draft[actualIndex]['category'],
-                                    like: draft[actualIndex]['save'] ?? "0",
+                                    like: "null",
                                     image: NetworkImage(
                                       draft[actualIndex]['image_link'] !=
                                               "null"
@@ -155,7 +155,7 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                                     name: draft[actualIndex]['user']
                                         ['fullname'],
                                     category: draft[actualIndex]['category'],
-                                    like: draft[actualIndex]['save'] ?? "0",
+                                    like: "null",
                                     image: NetworkImage(
                                       draft[actualIndex]['image_link'] !=
                                               "null"
