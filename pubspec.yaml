@@ -91,6 +91,7 @@ flutter:
     - assets/tiles/
     - assets/audio/
     - assets/Terrain/
+    - assets/images/Opponent (Patrick)/
     - assets/images/Items/Fruits/
     - assets/images/Background/
     - assets/images/Traps/Saw/
