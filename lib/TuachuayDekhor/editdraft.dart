@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -10,16 +9,17 @@ import 'package:ruam_mitt/global_var.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:http/http.dart' as http;
 
-class TuachuayDekhorEditBlogPage extends StatefulWidget {
-  final int id_post;
-  const TuachuayDekhorEditBlogPage({super.key, required this.id_post});
+class TuachuayDekhorEditDraftPage extends StatefulWidget {
+  final int id_draft;
+  const TuachuayDekhorEditDraftPage({super.key, required this.id_draft});
 
   @override
-  State<TuachuayDekhorEditBlogPage> createState() =>
-      _TuachuayDekhorEditBlogPageState();
+  State<TuachuayDekhorEditDraftPage> createState() =>
+      _TuachuayDekhorEditDraftPageState();
 }
 
-class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
+class _TuachuayDekhorEditDraftPageState
+    extends State<TuachuayDekhorEditDraftPage>
     with SingleTickerProviderStateMixin {
   String? _dropdownValue;
   BoxController boxController = BoxController();
@@ -31,60 +31,12 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
   final FocusNode anotherFocusNode = FocusNode();
   late AnimationController animationController;
   bool status = true;
-  late int id_post;
-  late Uri detailurl;
-  late Uri editurl;
   final writeblogurl = Uri.parse("$api$dekhorWriteBloggerRoute");
-  var detailpost = [];
   var post = [];
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
 
-  void initState() {
-    super.initState();
-    id_post = widget.id_post;
-    detailurl = Uri.parse("$api$dekhorDetailPostRoute/$id_post");
-    editurl = Uri.parse("$api$dekhorEditPostRoute/$id_post");
-    detail().then((_) {
-      if (detailpost.isNotEmpty) {
-        setState(() {
-          markdownTitleController.text = detailpost[0]['title'];
-          markdownContentController.text = detailpost[0]['content'];
-          _dropdownValue = detailpost[0]['category'];
-        });
-      }
-    });
-    firstFocusNode.requestFocus();
-    animationController = AnimationController(
-      vsync: this,
-    );
-    animationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        Future.delayed(const Duration(milliseconds: 700), () {
-          Navigator.pop(context);
-          markdownTitleController.clear();
-          markdownContentController.clear();
-          FocusManager.instance.primaryFocus?.unfocus();
-          animationController.reset();
-          Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
-        });
-      }
-    });
-  }
-
-  Future<void> detail() async {
-    var response = await http.get(detailurl);
-    if (response.statusCode == 200) {
-      setState(() {
-        detailpost = jsonDecode(response.body);
-        print(detailpost);
-      });
-    } else {
-      throw Exception('Failed to load data');
-    }
-  }
-
-  Future<void> editblog() async {
-    var response = await http.put(editurl, headers: {
+  Future<void> writeblog() async {
+    var response = await http.post(writeblogurl, headers: {
       "Authorization": "Bearer $publicToken"
     }, body: {
       "title": markdownTitleController.text,
@@ -112,6 +64,28 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
     } else {
       throw Exception('Failed to load data');
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+     postoprofile();
+    firstFocusNode.requestFocus();
+    animationController = AnimationController(
+      vsync: this,
+    );
+    animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Future.delayed(const Duration(milliseconds: 700), () {
+          Navigator.pop(context);
+          markdownTitleController.clear();
+          markdownContentController.clear();
+          FocusManager.instance.primaryFocus?.unfocus();
+          animationController.reset();
+          Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
+        });
+      }
+    });
   }
 
   @override
@@ -244,21 +218,49 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                             ],
                           ),
                           onTap: () {
-                            if ((markdownTitleController.text !=
-                                    detailpost[0]['title']) ||
-                                (markdownContentController.text !=
-                                    detailpost[0]['content']) ||
-                                (_dropdownValue != detailpost[0]['category'])) {
+                            if (markdownTitleController.text.isNotEmpty ||
+                                markdownContentController.text.isNotEmpty) {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     surfaceTintColor: Colors.white,
                                     backgroundColor: Colors.white,
+                                    iconPadding: EdgeInsets.zero,
                                     iconColor:
                                         const Color.fromRGBO(0, 48, 73, 1),
-                                    icon: const Icon(Icons.edit_off, size: 50),
-                                    title: const Text("Discard edit?"),
+                                    icon: Stack(
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.fromLTRB(
+                                              24, 30, 24, 16),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(Icons.note_alt, size: 50),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10, right: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              IconButton(
+                                                color: Colors.grey,
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                                icon: const Icon(Icons.close),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    title: const Text("Save draft?"),
                                     actionsAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     actions: [
@@ -266,13 +268,14 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: Colors.grey),
+                                            color: Colors.red),
                                         child: TextButton(
                                           onPressed: () {
                                             Navigator.pop(context);
+                                            Navigator.pop(context);
                                           },
                                           child: const Text(
-                                            "Cancel",
+                                            "Delete",
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
@@ -283,15 +286,13 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: Colors.red),
+                                            color: Colors.green),
                                         child: TextButton(
                                           onPressed: () {
-                                            Navigator.pop(context);
-                                            Navigator.pop(context);
-                                            print("Discard edited post");
+                                            print("Draft saved");
                                           },
                                           child: const Text(
-                                            "Discard",
+                                            "Draft",
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
@@ -316,13 +317,27 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
+                            GestureDetector(
+                              child: const Text(
+                                "DRAFTS",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromRGBO(0, 48, 73, 1),
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, tuachuayDekhorPageRoute["draft"]!);
+                              },
+                            ),
                             Container(
                               width: 70,
                               margin:
                                   const EdgeInsets.only(left: 20, right: 10),
                               child: RawMaterialButton(
                                 onPressed: () {
-                                  editblog();
+                                  writeblog();
                                   print("Post tapped");
                                   showDialog(
                                       context: context,
@@ -418,11 +433,6 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                 keyboardType: TextInputType.text,
                                 cursorColor: Colors.black.withOpacity(0.5),
                                 cursorHeight: 18,
-                                onChanged: (value) {
-                                  setState(() {
-                                    markdownTitleText = value;
-                                  });
-                                },
                                 decoration: InputDecoration(
                                   fillColor: Colors.grey.withOpacity(0.3),
                                   filled: true,
@@ -454,6 +464,29 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                           ],
                         ),
                       ),
+                      // Container(
+                      //   width: size.width * 0.6,
+                      //   height: size.height * 0.1,
+                      //   color:
+                      //       Color.fromARGB(255, 150, 171, 225).withOpacity(0.2),
+                      //   padding: EdgeInsets.only(
+                      //     top: size.height * 0.02,
+                      //     left: size.width * 0.2,
+                      //   ),
+                      //   child: Container(
+                      //     width: size.width * 0.6,
+                      //     height: size.height * 0.1,
+                      //     color: Colors.grey.withOpacity(0.2),
+                      //     padding: EdgeInsets.only(
+                      //       top: size.height * 0.02,
+                      //       left: size.width * 0.2,
+                      //     ),
+                      //     child: const IconButton(
+                      //       onPressed: null,
+                      //       icon: Icon(Icons.add_photo_alternate_rounded),
+                      //     ),
+                      //   ),
+                      // ),
                       Container(
                         padding: EdgeInsets.only(
                           top: size.height * 0.02,
@@ -471,11 +504,6 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                           cursorHeight: 16,
                           minLines: 8,
                           maxLines: 8,
-                          onChanged: (value) {
-                            setState(() {
-                              markdownContentText = value;
-                            });
-                          },
                           decoration: InputDecoration(
                             alignLabelWithHint: true,
                             fillColor: Colors.grey.withOpacity(0.3),

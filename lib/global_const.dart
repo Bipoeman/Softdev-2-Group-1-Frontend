@@ -57,6 +57,7 @@ const Map<String, String> tuachuayDekhorPageRoute = {
   "writeblog": "/TuachuayDekhor/writeblog",
   "editpost": "/TuachuayDekhor/editpost",
   "draft": "/TuachuayDekhor/draft",
+  "editdraft": "/TuachuayDekhor/editdraft",
   "decoration": "/TuachuayDekhor/decoration",
   "story": "/TuachuayDekhor/story",
   "cooking": "/TuachuayDekhor/cooking",

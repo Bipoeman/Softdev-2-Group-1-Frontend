@@ -19,6 +19,7 @@ import 'package:ruam_mitt/TuachuayDekhor/blogger.dart';
 import 'package:ruam_mitt/TuachuayDekhor/cleaning.dart';
 import 'package:ruam_mitt/TuachuayDekhor/cooking.dart';
 import 'package:ruam_mitt/TuachuayDekhor/decoration.dart';
+import 'package:ruam_mitt/TuachuayDekhor/editdraft.dart';
 import 'package:ruam_mitt/TuachuayDekhor/editpost.dart';
 import 'package:ruam_mitt/TuachuayDekhor/home.dart';
 import 'package:ruam_mitt/TuachuayDekhor/post.dart';
@@ -80,6 +81,10 @@ class _SuperAppState extends State<SuperApp> {
             const TuachuayDekhorBloggerPage(),
         tuachuayDekhorPageRoute["writeblog"]!: (context) =>
             const TuachuayDekhorWriteBlogPage(),
+        tuachuayDekhorPageRoute["editdraft"]!: (context) {
+          final id_draft = ModalRoute.of(context)!.settings.arguments as int;
+          return TuachuayDekhorEditDraftPage(id_draft: id_draft);
+        },
         tuachuayDekhorPageRoute["editpost"]!: (context) {
           final id_post = ModalRoute.of(context)!.settings.arguments as int;
           return TuachuayDekhorEditBlogPage(id_post: id_post);
