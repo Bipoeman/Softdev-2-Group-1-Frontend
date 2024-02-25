@@ -9,7 +9,7 @@ import 'package:ruam_mitt/Restroom/Review.dart';
 import 'package:ruam_mitt/Restroom/restroom.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
 // import 'package:ruam_mitt/RuamMitr/home.dart';
-import 'package:ruam_mitt/RuamMitr/Component/home_v2/central_v2.dart';
+import 'package:ruam_mitt/RuamMitr/central_v2.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';

@@ -4,10 +4,10 @@ import 'package:bottom_bar_matu/bottom_bar_double_bullet/bottom_bar_double_bulle
 import 'package:bottom_bar_matu/bottom_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ruam_mitt/RuamMitr/Component/home_v2/home_v2.dart';
-import 'package:ruam_mitt/RuamMitr/Component/home_v2/profile_v2.dart';
-import 'package:ruam_mitt/RuamMitr/Component/home_v2/settings_v2.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:ruam_mitt/RuamMitr/home_v2.dart';
+import 'package:ruam_mitt/RuamMitr/profile_v2.dart';
+import 'package:ruam_mitt/RuamMitr/settings_v2.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
