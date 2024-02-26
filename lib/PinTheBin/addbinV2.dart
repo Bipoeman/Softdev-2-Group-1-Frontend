@@ -370,6 +370,19 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                 height: size.height * 0.035,
                               ),
                             ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: size.height * 0.055,
+                                  left: size.width * 0.23),
+                              child: Opacity(
+                                opacity: 0.4,
+                                child: Text(
+                                  "Upload picture",
+                                  style:
+                                      Theme.of(context).textTheme.displayMedium,
+                                ),
+                              ),
+                            )
                             // itemSelection(title: 'upload', image: Image.asset("assets/images/PinTheBin/upload.png"), onTap: , context: context)
                           ],
                         ),
