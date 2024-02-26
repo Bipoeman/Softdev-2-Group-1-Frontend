@@ -376,7 +376,7 @@ class MyPinTheBinAppBar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Text(
-                "My Bin",
+                "MYBIN",
                 style: TextStyle(
                   fontSize:
                       Theme.of(context).textTheme.headlineMedium!.fontSize,
