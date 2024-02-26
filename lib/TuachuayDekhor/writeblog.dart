@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -34,6 +37,20 @@ class _TuachuayDekhorWriteBlogPageState
   var post = [];
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
   final draftposturl = Uri.parse('$api/dekhor/draftpost');
+  File? _image;
+
+  Future<void> _getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
 
   Future<void> writeblog() async {
     var response = await http.post(writeblogurl, headers: {
@@ -125,7 +142,7 @@ class _TuachuayDekhorWriteBlogPageState
           collapsed: true,
           draggable: false,
           minHeight: 0,
-          maxHeight: size.height * 0.75,
+          maxHeight: size.height * 0.9,
           onBoxClose: () => anotherFocusNode.requestFocus(),
           body: Container(
             margin: const EdgeInsets.all(10),
@@ -179,6 +196,19 @@ class _TuachuayDekhorWriteBlogPageState
                     ),
                   ),
                 ),
+                Container(
+                  constraints: BoxConstraints(
+                    maxHeight: size.height * 0.3,
+                  ),
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: IntrinsicHeight(
+                    child: ClipRRect(
+                      child: _image == null
+                          ? const Text('No image selected.')
+                          : Image.file(_image!, fit: BoxFit.cover),
+                    ),
+                  ),
+                ),
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -199,7 +229,7 @@ class _TuachuayDekhorWriteBlogPageState
                     top: 10,
                     bottom: 10,
                   ),
-                  height: size.height * 0.45,
+                  height: size.height * 0.3,
                   child: Scrollbar(
                     child: Markdown(
                       physics: const BouncingScrollPhysics(),
@@ -608,6 +638,7 @@ class _TuachuayDekhorWriteBlogPageState
                         ),
                         IconButton(
                           onPressed: () {
+                            _getImage();
                             print("Add image tapped");
                           },
                           icon: const Icon(
