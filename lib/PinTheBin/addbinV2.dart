@@ -1,9 +1,12 @@
 import 'package:clay_containers/widgets/clay_container.dart';
-import "package:flutter/material.dart";
+import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
 import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import 'package:neumorphic_button/neumorphic_button.dart';
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
 
 class AddbinPageV2 extends StatefulWidget {
   const AddbinPageV2({super.key});
@@ -15,10 +18,26 @@ class AddbinPageV2 extends StatefulWidget {
 class _AddbinPageV2State extends State<AddbinPageV2> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _NametextController = TextEditingController();
+  final backgroundColor = const Color(0xFFFFFFFF);
+  bool isPressed = true;
+
+  LatLng? _position;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("init");
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    Offset distance = isPressed
+        ? Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blur = isPressed ? 5.0 : 5;
+
     return Theme(
       data: ThemeData(
         fontFamily: "Sen",
@@ -152,6 +171,91 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         )
                       ],
                     ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                            padding: EdgeInsets.only(left: 20),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 76),
+                              child: Text(
+                                'Position',
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: size.height * 0.03),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                setState(() => isPressed = !isPressed);
+                                LatLng getPosResult = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const MapaddBinPage()),
+                                );
+                              },
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 100),
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(left: 30),
+                                width: size.width * 0.165,
+                                height: size.height * 0.038,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: blur,
+                                      offset: distance,
+                                      color: Color(0xFFA7A9AF),
+                                      inset: isPressed,
+                                    ),
+                                    BoxShadow(
+                                      blurRadius: blur,
+                                      offset: -distance,
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      inset: isPressed,
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  'select',
+                                  style:
+                                      Theme.of(context).textTheme.displayMedium,
+                                ),
+                              ),
+                            ),
+                            // Align(
+                            //   alignment: Alignment.topCenter,
+                            //   child: Container(
+                            //     margin: EdgeInsets.only(top: 25),
+                            //     padding: EdgeInsets.all(20),
+                            //     width: size.width * 0.05,
+                            //     height: size.height * 0.032,
+                            //     decoration: BoxDecoration(
+                            //       borderRadius: BorderRadius.circular(30),
+                            //       color: Color(0xFFF99680),
+                            //       boxShadow: [
+                            //         BoxShadow(
+                            //           blurRadius: 30,
+                            //           offset: Offset(28, 28),
+                            //           color: Color(0xFFA7A9AF),
+                            //         )
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ],
                 )),
                 drawerScrimColor: Colors.transparent,
@@ -171,11 +275,21 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
 
 
 
-                          // ClayContainer(
-                        
-                          //   width: size.width * 0.6,
-                          //   height: size.height * 0.032,
-                          //   color: Color.fromRGBO(242, 242, 242, 1),
-                          //   borderRadius: 30,
-                          //   depth: -20,
-                          // ),
+
+// Container(
+//                           alignment: Alignment.topLeft,
+//                           margin: EdgeInsets.only(top: 10),
+//                           width: size.width * 0.05,
+//                           height: size.height * 0.032,
+//                           decoration: BoxDecoration(
+//                             borderRadius: BorderRadius.circular(30),
+//                             color: Color(0xFFF99680),
+//                             boxShadow: [
+//                               BoxShadow(
+//                                 blurRadius: 30,
+//                                 offset: Offset(28, 28),
+//                                 color: Color(0xFFA7A9AF),
+//                               )
+//                             ],
+//                           ),
+//                         )

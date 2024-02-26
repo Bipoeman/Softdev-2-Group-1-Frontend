@@ -66,6 +66,7 @@ dependencies:
   email_validator: ^2.0.1
   clay_containers: ^0.3.4
   neumorphic_button: ^0.0.1+2
+  flutter_inset_box_shadow: ^1.0.7
 
 dev_dependencies:
   flutter_test:
