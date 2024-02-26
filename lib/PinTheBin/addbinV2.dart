@@ -303,9 +303,6 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                 ),
                                 width: size.width * 0.035,
                                 height: size.height * 0.035,
-                                // decoration: BoxDecoration(
-                                //     border: Border.all(
-                                //         color: Colors.black, width: 10)),
                               ),
                             ),
                             Container(
@@ -330,11 +327,8 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               padding: EdgeInsets.only(
                                   right: size.width * 0.77,
                                   top: size.height * 0.05),
-                              // child: Padding(
-                              //   padding:
-                              //       EdgeInsets.only(top: size.height * 0.05),
+
                               child: Container(
-                                //margin:EdgeInsets.only(top: size.height * 0.05),
                                 alignment: Alignment.bottomLeft,
                                 child: Transform.rotate(
                                   angle: 270 * 3.141592653589793 / 180,
@@ -388,6 +382,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         ),
                       ),
                     ),
+                    Column(),
                   ],
                 )),
                 drawerScrimColor: Colors.transparent,
