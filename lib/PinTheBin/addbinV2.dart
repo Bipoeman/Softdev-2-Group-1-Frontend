@@ -252,28 +252,3 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
     );
   }
 }
-
-
-
-
-
-
-
-
-// Container(
-//                           alignment: Alignment.topLeft,
-//                           margin: EdgeInsets.only(top: 10),
-//                           width: size.width * 0.05,
-//                           height: size.height * 0.032,
-//                           decoration: BoxDecoration(
-//                             borderRadius: BorderRadius.circular(30),
-//                             color: Color(0xFFF99680),
-//                             boxShadow: [
-//                               BoxShadow(
-//                                 blurRadius: 30,
-//                                 offset: Offset(28, 28),
-//                                 color: Color(0xFFA7A9AF),
-//                               )
-//                             ],
-//                           ),
-//                         )
