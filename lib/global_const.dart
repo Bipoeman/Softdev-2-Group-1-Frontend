@@ -51,7 +51,7 @@ const Map<String, String> tuachuayDekhorPageRoute = {
 };
 const Map<String, String> pinthebinPageRoute = {
   "home": "/PinTheBin/home",
-  "addbin": "/PinTheBin/addbinV2",
+  "addbin": "/PinTheBin/addbin",
   "editbin": "/PinTheBin/editbin",
   "report": "/PinTheBin/report",
   "mybin": "/PinTheBin/mybin",
