@@ -236,6 +236,30 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                 ),
                               ),
                             ),
+                            SizedBox(
+                              width: size.width * 0.03,
+                            ),
+                            Column(
+                              children: [
+                                ClayContainer(
+                                  width: size.width * 0.62,
+                                  height: size.height * 0.032,
+                                  color: Color.fromRGBO(239, 239, 239, 1),
+                                  borderRadius: 30,
+                                  depth: -20,
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.02,
+                                ),
+                                ClayContainer(
+                                  width: size.width * 0.62,
+                                  height: size.height * 0.032,
+                                  color: Color.fromRGBO(239, 239, 239, 1),
+                                  borderRadius: 30,
+                                  depth: -20,
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ],
