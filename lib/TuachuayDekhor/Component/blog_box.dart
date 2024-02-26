@@ -48,31 +48,18 @@ class BlogBox extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              constraints: const BoxConstraints(maxHeight: 200),
-              clipBehavior: Clip.antiAlias,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(10),
+            IntrinsicHeight(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+                child: Image(
+                  image: image,
+                  fit: BoxFit.cover,
                 ),
               ),
-              child: Image(
-                image: image,
-                fit: BoxFit.cover,
-              ),
             ),
-            // IntrinsicHeight(
-            //   child: ClipRRect(
-            //     borderRadius: const BorderRadius.only(
-            //       topLeft: Radius.circular(10),
-            //       topRight: Radius.circular(10),
-            //     ),
-            //     child: Image(
-            //       image: image,
-            //       fit: BoxFit.cover,
-            //     ),
-            //   ),
-            // ),
             Container(
               padding: const EdgeInsets.only(
                 left: 5,

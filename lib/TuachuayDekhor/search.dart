@@ -236,11 +236,10 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                             direction: Axis.vertical,
                             spacing: 5,
                             children: List.generate(
-                              ((isblog ? allblog.length : allblogger.length) /
-                                      2)
-                                  .ceil(),
+                              (isblog ? allblog.length : allblogger.length)~/ 2
+                                  ,
                               (index) {
-                                final actualIndex = index * 2;
+                                final actualIndex = index * 2 + 1;
                                 if (actualIndex <
                                     (isblog
                                         ? allblog.length
@@ -309,7 +308,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                       2)
                                   .ceil(),
                               (index) {
-                                final actualIndex = index * 2 + 1;
+                                final actualIndex = index * 2 ;
                                 if (actualIndex <
                                     (isblog
                                         ? allblog.length
@@ -346,11 +345,9 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                               : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                         ),
                                         onPressed: () {
-                                          Navigator.pushNamed(
-                                            context,
-                                            tuachuayDekhorPageRoute['blog']!,
-                                            arguments: blog['id_post']
-                                          );
+                                          Navigator.pushNamed(context,
+                                              tuachuayDekhorPageRoute['blog']!,
+                                              arguments: blog['id_post']);
                                         },
                                       );
                                     } else if (isblogger) {

@@ -312,11 +312,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                             like: blog[actualIndex]['save'] ??
                                                 "0",
                                             image: NetworkImage(
-                                              blog[actualIndex]['image_link'] !=
-                                                      "null"
-                                                  ? blog[actualIndex]
-                                                      ['image_link']
-                                                  : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                              blog[actualIndex]['image_link'],
                                             ),
                                             onPressed: () {
                                               Navigator.pushNamed(
@@ -351,11 +347,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                             like: blog[actualIndex]['save'] ??
                                                 "0",
                                             image: NetworkImage(
-                                              blog[actualIndex]['image_link'] !=
-                                                      "null"
-                                                  ? blog[actualIndex]
-                                                      ['image_link']
-                                                  : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                              blog[actualIndex]['image_link'],
                                             ),
                                             onPressed: () {
                                               Navigator.pushNamed(
