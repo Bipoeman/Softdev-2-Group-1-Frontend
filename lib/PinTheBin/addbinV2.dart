@@ -247,6 +247,9 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                   color: Color.fromRGBO(239, 239, 239, 1),
                                   borderRadius: 30,
                                   depth: -20,
+                                  child: Text(
+                                    'Lat: ${_position?.latitude ?? ()}',
+                                  ),
                                 ),
                                 SizedBox(
                                   height: size.height * 0.02,
@@ -257,6 +260,9 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                   color: Color.fromRGBO(239, 239, 239, 1),
                                   borderRadius: 30,
                                   depth: -20,
+                                  child: Text(
+                                    'Lng: ${_position?.longitude ?? ()}',
+                                  ),
                                 ),
                               ],
                             ),
