@@ -287,6 +287,92 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                             ],
                           ),
                         ),
+                        child: Stack(
+                          children: [
+                            Container(
+                              padding:
+                                  EdgeInsets.only(right: size.width * 0.77),
+                              child: Container(
+                                margin:
+                                    EdgeInsets.only(bottom: size.height * 0.05),
+                                alignment: Alignment.topLeft,
+                                child: Opacity(
+                                  opacity: 0.5,
+                                  child: Image.asset(
+                                      "assets/images/PinTheBin/corner.png"),
+                                ),
+                                width: size.width * 0.035,
+                                height: size.height * 0.035,
+                                // decoration: BoxDecoration(
+                                //     border: Border.all(
+                                //         color: Colors.black, width: 10)),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: size.width * 0.77),
+                              child: Container(
+                                margin:
+                                    EdgeInsets.only(bottom: size.height * 0.05),
+                                alignment: Alignment.topLeft,
+                                child: Transform.rotate(
+                                  angle: 90 * 3.141592653589793 / 180,
+                                  child: Opacity(
+                                    opacity: 0.5,
+                                    child: Image.asset(
+                                        "assets/images/PinTheBin/corner.png"),
+                                  ),
+                                ),
+                                width: size.width * 0.035,
+                                height: size.height * 0.035,
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  right: size.width * 0.77,
+                                  top: size.height * 0.05),
+                              // child: Padding(
+                              //   padding:
+                              //       EdgeInsets.only(top: size.height * 0.05),
+                              child: Container(
+                                //margin:EdgeInsets.only(top: size.height * 0.05),
+                                alignment: Alignment.bottomLeft,
+                                child: Transform.rotate(
+                                  angle: 270 * 3.141592653589793 / 180,
+                                  child: Opacity(
+                                    opacity: 0.5,
+                                    child: Image.asset(
+                                        "assets/images/PinTheBin/corner.png"),
+                                  ),
+                                ),
+                                width: size.width * 0.035,
+                                height: size.height * 0.035,
+                                // decoration: BoxDecoration(
+                                //     border: Border.all(
+                                //         color: Colors.black, width: 10)),
+                              ),
+                              //),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: size.width * 0.77),
+                              child: Container(
+                                margin:
+                                    EdgeInsets.only(top: size.height * 0.05),
+                                alignment: Alignment.bottomLeft,
+                                child: Transform.rotate(
+                                  angle: 180 * 3.141592653589793 / 180,
+                                  child: Opacity(
+                                    opacity: 0.5,
+                                    child: Image.asset(
+                                        "assets/images/PinTheBin/corner.png"),
+                                  ),
+                                ),
+                                width: size.width * 0.035,
+                                height: size.height * 0.035,
+                              ),
+                            ),
+                            // itemSelection(title: 'upload', image: Image.asset("assets/images/PinTheBin/upload.png"), onTap: , context: context)
+                          ],
+                        ),
                       ),
                     ),
                   ],
