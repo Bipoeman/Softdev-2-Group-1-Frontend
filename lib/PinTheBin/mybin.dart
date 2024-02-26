@@ -201,17 +201,15 @@ class _MyBinState extends State<MyBinPage> {
                                                   builder:
                                                       (BuildContext context) {
                                                     return AlertDialog(
-                                                      title: Center(
-                                                        child: Text(
-                                                          'Confirm Delete',
-                                                          style: GoogleFonts
-                                                              .getFont(
-                                                            'Sen',
-                                                            color: Colors.black,
-                                                            fontSize: 25,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
+                                                      title: Text(
+                                                        'Confirm Delete',
+                                                        style:
+                                                            GoogleFonts.getFont(
+                                                          'Sen',
+                                                          color: Colors.black,
+                                                          fontSize: 25,
+                                                          fontWeight:
+                                                              FontWeight.w500,
                                                         ),
                                                       ),
                                                       actions: <Widget>[
@@ -222,11 +220,12 @@ class _MyBinState extends State<MyBinPage> {
                                                                 .pop();
                                                           },
                                                           child: Text(
-                                                            'Close',
+                                                            'Cancel',
                                                             style: GoogleFonts
                                                                 .getFont(
                                                               'Sen',
-                                                              color: Colors.red,
+                                                              color: Color(
+                                                                  0xFF98989A),
                                                               fontSize: 20,
                                                               fontWeight:
                                                                   FontWeight
@@ -234,31 +233,43 @@ class _MyBinState extends State<MyBinPage> {
                                                             ),
                                                           ),
                                                         ),
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                            delBin(data["id"]);
-                                                            Navigator
-                                                                .pushReplacement(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          MyBinPage()),
-                                                            );
-                                                          },
-                                                          child: Text(
-                                                            'Confirm',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Sen',
-                                                              color: Colors.red,
-                                                              fontSize: 20,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
+                                                        Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.red,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          child: TextButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                              delBin(
+                                                                  data["id"]);
+                                                              Navigator
+                                                                  .pushReplacement(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            MyBinPage()),
+                                                              );
+                                                            },
+                                                            child: Text(
+                                                              'Delete',
+                                                              style: GoogleFonts
+                                                                  .getFont(
+                                                                'Sen',
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                              ),
                                                             ),
                                                           ),
                                                         )
