@@ -25,7 +25,7 @@ class MapRestroomRover extends StatelessWidget {
         ),
       )
       .toList();
-  
+
   @override
   Widget build(BuildContext context) {
     return Stack(

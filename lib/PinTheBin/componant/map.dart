@@ -7,8 +7,14 @@ import 'package:ruam_mitt/global_const.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MapPinTheBin extends StatefulWidget {
-  const MapPinTheBin({super.key, required this.binInfo});
+  const MapPinTheBin(
+      {super.key,
+      required this.binInfo,
+      this.centerMark,
+      required this.mapController});
+  final MapController mapController;
   final dynamic binInfo;
+  final LatLng? centerMark;
 
   @override
   State<MapPinTheBin> createState() => _MapPinTheBinState();
@@ -23,7 +29,7 @@ class _MapPinTheBinState extends State<MapPinTheBin>
   int selectedIndex = 0;
   void onPopupClick(MenuItemProvider item) async {
     if (item.menuTitle == "Edit") {
-       Navigator.pushNamed(
+      Navigator.pushNamed(
         context,
         pinthebinPageRoute["editbin"]!,
         arguments: {'Bininfo': widget.binInfo[selectedIndex]},
@@ -37,7 +43,6 @@ class _MapPinTheBinState extends State<MapPinTheBin>
         throw Exception('Could not launch $googleUrl');
       }
     }
-
   }
 
   @override
@@ -46,13 +51,13 @@ class _MapPinTheBinState extends State<MapPinTheBin>
     return Stack(
       children: [
         FlutterMap(
+          mapController: widget.mapController,
           options: MapOptions(
-            // center: LatLng(13.825605, 100.514476),
-            // center: binPos[0],
-            initialCenter: LatLng(
-              widget.binInfo[0]['latitude'],
-              widget.binInfo[0]['longitude'],
-            ),
+            initialCenter: widget.centerMark ??
+                LatLng(
+                  widget.binInfo[0]['latitude'],
+                  widget.binInfo[0]['longitude'],
+                ),
             initialZoom: 15,
           ),
           children: [

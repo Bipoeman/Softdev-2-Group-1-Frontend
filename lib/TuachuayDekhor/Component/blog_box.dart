@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class BlogBox extends StatelessWidget {
   const BlogBox({
     super.key,
     required this.title,
+    this.category,
     required this.name,
     required this.like,
     required this.image,
@@ -12,6 +15,7 @@ class BlogBox extends StatelessWidget {
   final void Function()? onPressed;
   final ImageProvider<Object> image;
   final String title;
+  final String? category;
   final String name;
   final String like;
   @override
@@ -82,22 +86,57 @@ class BlogBox extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                  Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(right: 8),
+                        constraints: BoxConstraints(
+                          maxWidth: size.width * 0.23,
+                        ),
+                        child: Text(
+                          title,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 5, right: 5),
+                          child: Text(
+                            "#category",
+                            style: const TextStyle(
+                              fontSize: 8,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        name,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 10),
+                      SizedBox(
+                        width: size.width * 0.2,
+                        child: Text(
+                          name,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 10),
+                        ),
                       ),
-                      Text(
-                        like,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 10),
+                      SizedBox(
+                        width: size.width * 0.1,
+                        child: Text(
+                          like,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 10),
+                        ),
                       ),
                     ],
                   )

@@ -17,7 +17,7 @@ class _CardpinState extends State<Cardpin> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      height: size.height * 0.55,
+      height: size.height * 0.52,
       width: size.width * 0.8,
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 255, 255, 255),
@@ -27,22 +27,31 @@ class _CardpinState extends State<Cardpin> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: size.height * 0.09,
-            width: size.width * 0.7,
-            // color: Color.fromARGB(255, 255, 255, 255),
-            padding: EdgeInsets.only(
-              left: size.width * 0.1,
-              top: size.height * 0.03,
-              bottom: size.height * 0.01,
-              right: size.width * 0.1,
-            ),
-            child: const Text("Bally",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 27,
-                  fontWeight: FontWeight.w600,
-                )),
-          ),
+              height: size.height * 0.09,
+              width: size.width * 0.8,
+              // color: Color.fromARGB(255, 255, 255, 255),
+              padding: EdgeInsets.only(
+                left: size.width * 0.1,
+                top: size.height * 0.03,
+                bottom: size.height * 0.01,
+                right: size.width * 0.1,
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Bally",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 27,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(width: 100), // ระยะห่างระหว่าง Text กับ Icon
+                  Icon(Icons.accessible_sharp, size: 30),
+                  Icon(Icons.baby_changing_station, size: 30),
+                ],
+              )),
           Container(
             height: size.height * 0.05,
             width: size.width * 0.7,
