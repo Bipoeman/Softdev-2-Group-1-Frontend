@@ -92,10 +92,40 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    
+                
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 100),
+                      child: Text(
+                        'Name',
+                        style: GoogleFonts.getFont(
+                          'Sen',
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
                   ),
                   Container(
-                    
+                    width: 300,
+                    height: 28,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF77F00).withOpacity(0.45),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: TextField(
+                      scrollPadding: EdgeInsets.all(5),
+                      controller: _LocationstextController,
+                      onChanged: (text) {
+                        print('Typed text: $text');
+                      },
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ],
               ),
