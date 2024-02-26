@@ -200,6 +200,10 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                       builder: (context) =>
                                           const MapaddBinPage()),
                                 );
+                                print("Result $getPosResult");
+                                setState(() {
+                                  _position = getPosResult;
+                                });
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 100),
