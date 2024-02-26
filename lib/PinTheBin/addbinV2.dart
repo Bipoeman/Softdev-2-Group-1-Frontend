@@ -188,7 +188,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                             ),
                           ),
                         ),
-                        SizedBox(height: size.height * 0.03),
+                        SizedBox(height: size.height * 0.02),
                         Row(
                           children: [
                             GestureDetector(
@@ -237,12 +237,12 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                             ),
                             SizedBox(
-                              width: size.width * 0.03,
+                              width: size.width * 0.05,
                             ),
                             Column(
                               children: [
                                 ClayContainer(
-                                  width: size.width * 0.62,
+                                  width: size.width * 0.6,
                                   height: size.height * 0.032,
                                   color: Color.fromRGBO(239, 239, 239, 1),
                                   borderRadius: 30,
@@ -255,7 +255,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                   height: size.height * 0.02,
                                 ),
                                 ClayContainer(
-                                  width: size.width * 0.62,
+                                  width: size.width * 0.6,
                                   height: size.height * 0.032,
                                   color: Color.fromRGBO(239, 239, 239, 1),
                                   borderRadius: 30,
@@ -269,6 +269,25 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                           ],
                         ),
                       ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: size.height * 0.265),
+                      child: Container(
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.only(left: 30),
+                        width: size.width * 0.84,
+                        height: size.height * 0.1,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [
+                              Color(0xFF292643).withOpacity(0.46),
+                              Color(0xFFF9A58D).withOpacity(0.72),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 )),
