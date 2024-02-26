@@ -7,9 +7,6 @@ import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
 
-
-import 'package:ruam_mitt/global_const.dart';
-
 class TuachuayDekhorDraftPage extends StatefulWidget {
   const TuachuayDekhorDraftPage({super.key});
 
@@ -129,11 +126,11 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                                           : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                     ),
                                     onPressed: () {
-                                      // Navigator.pushNamed(
-                                      //   context,
-                                      //   tuachuayDekhorPageRoute['blog']!,
-                                      //   arguments: draft[actualIndex]['id_draft'],
-                                      // );
+                                     Navigator.pushNamed(
+                                        context,
+                                        tuachuayDekhorPageRoute["editdraft"]!,
+                                        arguments: draft[actualIndex]['id_draft'],
+                                      );
                                     },
                                   );
                                 } else {
@@ -163,11 +160,11 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                                           : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                     ),
                                     onPressed: () {
-                                      // Navigator.pushNamed(
-                                      //   context,
-                                      //   tuachuayDekhorPageRoute['blog']!,
-                                      //   arguments: draft[actualIndex]['id_post'],
-                                      // );
+                                      Navigator.pushNamed(
+                                        context,
+                                        tuachuayDekhorPageRoute["editdraft"]!,
+                                        arguments: draft[actualIndex]['id_draft'],
+                                      );
                                     },
                                   );
                                 } else {

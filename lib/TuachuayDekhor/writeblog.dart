@@ -53,7 +53,7 @@ class _TuachuayDekhorWriteBlogPageState
     }
   }
 
-  Future<void> draft () async {
+  Future<void> draft() async {
     var response = await http.post(draftposturl, headers: {
       "Authorization": "Bearer $publicToken"
     }, body: {
@@ -87,7 +87,7 @@ class _TuachuayDekhorWriteBlogPageState
   @override
   void initState() {
     super.initState();
-     postoprofile();
+    postoprofile();
     firstFocusNode.requestFocus();
     animationController = AnimationController(
       vsync: this,
@@ -98,6 +98,7 @@ class _TuachuayDekhorWriteBlogPageState
           Navigator.pop(context);
           markdownTitleController.clear();
           markdownContentController.clear();
+          _dropdownValue = null;
           FocusManager.instance.primaryFocus?.unfocus();
           animationController.reset();
           Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
@@ -236,8 +237,9 @@ class _TuachuayDekhorWriteBlogPageState
                             ],
                           ),
                           onTap: () {
-                            if (markdownTitleController.text.isNotEmpty ||
-                                markdownContentController.text.isNotEmpty) {
+                            if (markdownTitleController.text.isNotEmpty &&
+                                markdownContentController.text.isNotEmpty &&
+                                _dropdownValue != null) {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -293,7 +295,7 @@ class _TuachuayDekhorWriteBlogPageState
                                             Navigator.pop(context);
                                           },
                                           child: const Text(
-                                            "Delete",
+                                            "Discard",
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
@@ -311,7 +313,9 @@ class _TuachuayDekhorWriteBlogPageState
                                             Navigator.pop(context);
                                             Navigator.pop(context);
                                             Navigator.pushNamed(
-                                                context, tuachuayDekhorPageRoute["draft"]!);
+                                                context,
+                                                tuachuayDekhorPageRoute[
+                                                    "draft"]!);
                                             print("Draft saved");
                                           },
                                           child: const Text(
@@ -360,57 +364,70 @@ class _TuachuayDekhorWriteBlogPageState
                                   const EdgeInsets.only(left: 20, right: 10),
                               child: RawMaterialButton(
                                 onPressed: () {
-                                  writeblog();
-                                  print("Post tapped");
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Dialog(
-                                          surfaceTintColor: Colors.white,
-                                          backgroundColor: Colors.white,
-                                          child: SizedBox(
-                                            width: size.width * 0.3,
-                                            height: size.height * 0.3,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                LottieBuilder.asset(
-                                                  status
-                                                      ? "assets/images/Logo/Animation_Success.json"
-                                                      : "assets/images/Logo/Animation_Fail.json",
-                                                  repeat: false,
-                                                  controller:
-                                                      animationController,
-                                                  onLoaded: (composition) {
-                                                    animationController
-                                                            .duration =
-                                                        composition.duration;
-                                                    animationController
-                                                        .forward();
-                                                  },
-                                                ),
-                                                SizedBox(
-                                                    height: size.height * 0.03),
-                                                Align(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
+                                  if (markdownTitleController.text.isEmpty ||
+                                      markdownContentController.text.isEmpty ||
+                                      _dropdownValue == null) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text("Please fill in all fields"),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
+                                  } else {
+                                    writeblog();
+                                    print("Post tapped");
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Dialog(
+                                            surfaceTintColor: Colors.white,
+                                            backgroundColor: Colors.white,
+                                            child: SizedBox(
+                                              width: size.width * 0.3,
+                                              height: size.height * 0.3,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  LottieBuilder.asset(
                                                     status
-                                                        ? "Post successful!"
-                                                        : "Post failed!",
-                                                    style: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black,
+                                                        ? "assets/images/Logo/Animation_Success.json"
+                                                        : "assets/images/Logo/Animation_Fail.json",
+                                                    repeat: false,
+                                                    controller:
+                                                        animationController,
+                                                    onLoaded: (composition) {
+                                                      animationController
+                                                              .duration =
+                                                          composition.duration;
+                                                      animationController
+                                                          .forward();
+                                                    },
+                                                  ),
+                                                  SizedBox(
+                                                      height:
+                                                          size.height * 0.03),
+                                                  Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      status
+                                                          ? "Post successful!"
+                                                          : "Post failed!",
+                                                      style: const TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      });
+                                          );
+                                        });
+                                  }
                                 },
                                 fillColor:
                                     const Color.fromRGBO(217, 192, 41, 1),
@@ -487,29 +504,6 @@ class _TuachuayDekhorWriteBlogPageState
                           ],
                         ),
                       ),
-                      // Container(
-                      //   width: size.width * 0.6,
-                      //   height: size.height * 0.1,
-                      //   color:
-                      //       Color.fromARGB(255, 150, 171, 225).withOpacity(0.2),
-                      //   padding: EdgeInsets.only(
-                      //     top: size.height * 0.02,
-                      //     left: size.width * 0.2,
-                      //   ),
-                      //   child: Container(
-                      //     width: size.width * 0.6,
-                      //     height: size.height * 0.1,
-                      //     color: Colors.grey.withOpacity(0.2),
-                      //     padding: EdgeInsets.only(
-                      //       top: size.height * 0.02,
-                      //       left: size.width * 0.2,
-                      //     ),
-                      //     child: const IconButton(
-                      //       onPressed: null,
-                      //       icon: Icon(Icons.add_photo_alternate_rounded),
-                      //     ),
-                      //   ),
-                      // ),
                       Container(
                         padding: EdgeInsets.only(
                           top: size.height * 0.02,
