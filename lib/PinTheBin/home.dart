@@ -1,10 +1,8 @@
 import "dart:convert";
 import "dart:developer";
 import "package:flutter/material.dart";
-import "package:google_fonts/google_fonts.dart";
-import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
-import "package:ruam_mitt/PinTheBin/componant/search.dart";
 import "package:flutter_map/flutter_map.dart";
+import "package:google_fonts/google_fonts.dart";
 import "package:latlong2/latlong.dart";
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import "package:ruam_mitt/PinTheBin/componant/map.dart";
@@ -59,6 +57,7 @@ class _BinPageState extends State<BinPage> {
       binData = jsonDecode(response.body);
       Future.delayed(const Duration(milliseconds: 500))
           .then((value) => setState(() {}));
+      searchBinController.addListener(searchBinListener);
       // debugPrint(binData);
     });
   }
@@ -68,7 +67,6 @@ class _BinPageState extends State<BinPage> {
     Size size = MediaQuery.of(context).size;
     // ThemeProvider themes = Provider.of<ThemeProvider>(context);
     // ThemeData pinTheBinTheme = themes.themeFrom("PinTheBin")!.themeData;
-    SearchController searchBarController = SearchController();
     return Theme(
       data: ThemeData(
         fontFamily: "Sen",
@@ -99,7 +97,80 @@ class _BinPageState extends State<BinPage> {
             fontSize: 20,
             overflow: TextOverflow.fade,
             fontWeight: FontWeight.normal,
-            color: const Color(0xFF003049).withOpacity(0.67),
+            color: const Color(0xFF003049).withOpacity(0.69),
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.white,
+            size: 35,
+          ),
+        ),
+        drawerTheme: const DrawerThemeData(
+          scrimColor: Colors.transparent,
+          backgroundColor: Color(0xFFF9957F),
+        ),
+        searchBarTheme: SearchBarThemeData(
+          textStyle: MaterialStatePropertyAll(
+            TextStyle(
+              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ),
+      child: Builder(builder: (context) {
+        return Scaffold(
+          key: _scaffoldKey,
+          body: Stack(
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 100),
+                    child: Center(
+                      child: binData.isEmpty
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const CircularProgressIndicator(),
+                                SizedBox(height: size.height * 0.01),
+                                const Text("Bin map loading...")
+                              ],
+                            )
+                          : MapPinTheBin(
+                              mapController: mapController,
+                              binInfo: binData,
+                              centerMark: centerMark,
+                            ),
+                    ),
+                  ),
+                  PinTheBinAppBar(scaffoldKey: _scaffoldKey),
+                ],
+              ),
+              PinTheBinSearchBar(
+                size: size,
+                searchAnchorController: searchBinController,
+                binDataList: binData,
+                focusNode: focusNode,
+                parentKey: widget.key,
+                onSelected: (selectedValue) {
+                  // print("Selected $selectedValue");
+                  binData.forEach((eachBin) {
+                    if (eachBin['location'] == selectedValue) {
+                      print("Pin the bin");
+
+                      setState(() {
+                        focusNode.unfocus();
+                        centerMark =
+                            LatLng(eachBin['latitude'], eachBin['longitude']);
+                        mapController.move(centerMark!, 15);
+                      });
+                    }
+                  });
+                },
+              ),
+            ],
           ),
           drawerScrimColor: Colors.transparent,
           drawer: const BinDrawer(),
@@ -329,165 +400,68 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
             );
           },
         ),
-        appBarTheme: const AppBarTheme(
-          iconTheme: IconThemeData(
-            color: Colors.white,
-            size: 35,
-          ),
-        ),
-        drawerTheme: const DrawerThemeData(
-          scrimColor: Colors.transparent,
-          backgroundColor: Color(0xFFF9957F),
+      ),
+    );
+  }
+}
+
+class PinTheBinAppBar extends StatelessWidget {
+  const PinTheBinAppBar({
+    super.key,
+    required GlobalKey<ScaffoldState> scaffoldKey,
+  }) : _scaffoldKey = scaffoldKey;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 130,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: <Color>[
+            Color(0xFFF99680),
+            Color(0xFFF8A88F),
+          ],
         ),
       ),
-      child: Builder(builder: (context) {
-        return Stack(
-          children: [
-            Scaffold(
-              key: _scaffoldKey,
-              appBar: AppBar(
-                leading: GestureDetector(
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Icon(Icons.menu_rounded), SizedBox(height: 30)],
-                  ),
-                  onTap: () => _scaffoldKey.currentState?.openDrawer(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              const SizedBox(width: 20),
+              GestureDetector(
+                child: Icon(
+                  Icons.menu_rounded,
+                  size: Theme.of(context).appBarTheme.iconTheme!.size,
+                  color: Theme.of(context).appBarTheme.iconTheme!.color,
                 ),
-                toolbarHeight: 120,
-                flexibleSpace: Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30)),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[
-                        Color(0xFFF99680),
-                        Color(0xFFF8A88F),
-                      ],
-                    ),
-                  ),
-                ),
-                title: Column(
-                  children: [
-                    Text(
-                      "Home",
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                    const SizedBox(height: 30)
-                  ],
+                onTap: () {
+                  debugPrint("Open Drawer");
+                  _scaffoldKey.currentState?.openDrawer();
+                },
+              ),
+              const SizedBox(width: 10),
+              Text(
+                "Home",
+                style: TextStyle(
+                  fontSize:
+                      Theme.of(context).textTheme.headlineMedium!.fontSize,
+                  fontWeight:
+                      Theme.of(context).textTheme.headlineMedium!.fontWeight,
+                  color: Theme.of(context).textTheme.headlineMedium!.color,
                 ),
               ),
-              body: SafeArea(
-                child: Stack(
-                  children: binData.isEmpty
-                      ? [
-                          Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const CircularProgressIndicator(),
-                                SizedBox(height: size.height * 0.01),
-                                const Text("Bin map loading...")
-                              ],
-                            ),
-                          )
-                        ]
-                      : [
-                          Positioned(
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 30),
-                              alignment: Alignment.center,
-                              width: size.width,
-                              height: 60,
-                              child: SearchBar(
-                                controller: searchBarController,
-                                hintText: "Search bin...",
-                                padding: const MaterialStatePropertyAll(
-                                  EdgeInsets.only(left: 15, right: 6),
-                                ),
-                                trailing: [
-                                  Container(
-                                    width: 45,
-                                    height: 45,
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.white, width: 4),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 5,
-                                          color: Colors.black.withOpacity(0.3),
-                                          offset: const Offset(0, 2),
-                                        )
-                                      ],
-                                      color: const Color(0xFFF9957F),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Image.asset(
-                                        "assets/images/PinTheBin/search_icon.png"),
-                                  )
-                                ],
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Color(0xFFECECEC)),
-                                onChanged: (value) {
-                                  debugPrint("Bin Search Change to $value");
-                                },
-                              ),
-                            ),
-                          ),
-                          // MapPinTheBin(binInfo: binData),
-                          // Positioned(
-                          //   child: SearchBin(
-                          //     binData: binData,
-                          //     searchBarController: searchBarController,
-                          //   ),
-                          // ),
-
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: [
-                          //     Container(
-                          //       padding: const EdgeInsets.all(5),
-                          //       width: [300.0, size.width * 0.65].reduce(min),
-                          //       child: SearchBin(
-                          //           binData: binData,
-                          //           searchBarController: searchBarController),
-                          //     ),
-                          //   ],
-                          // ),
-                          // Positioned(
-                          //   top: 10,
-                          //   left: 10,
-                          //   child: Center(
-                          //     child: GestureDetector(
-                          //       onTap: () {
-                          //         _scaffoldKey.currentState?.openDrawer();
-                          //       },
-                          //       child: Container(
-                          //         width: 40,
-                          //
-                          // height: 40,
-                          //         decoration: BoxDecoration(
-                          //           color: const Color(0xFFF77F00),
-                          //           borderRadius: BorderRadius.circular(15),
-                          //         ),
-                          //         child: const Icon(Icons.menu),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                        ],
-                ),
-              ),
-              drawerScrimColor: Colors.transparent,
-              drawer: const BinDrawer(),
-            ),
-          ],
-        );
-      }),
+            ],
+          ),
+          const SizedBox(height: 10)
+        ],
+      ),
     );
   }
 }

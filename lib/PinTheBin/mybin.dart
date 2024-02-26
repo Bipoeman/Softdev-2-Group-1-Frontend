@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_sliding_box/flutter_sliding_box.dart";
 import "package:http/http.dart" as http;
 import "package:provider/provider.dart";
-import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
+import "package:ruam_mitt/PinTheBin/navbar.dart";
 import "package:ruam_mitt/RuamMitr/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:google_fonts/google_fonts.dart';
@@ -210,7 +210,7 @@ class _MyBinState extends State<MyBinPage> {
           ]),
         ),
         drawerScrimColor: Colors.transparent,
-        drawer: const BinDrawer(),
+        drawer: const NavBar(),
       ),
     );
   }
