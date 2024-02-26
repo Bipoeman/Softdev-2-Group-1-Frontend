@@ -64,9 +64,6 @@ dependencies:
   geolocator: ^11.0.0
   lottie: ^3.0.0
   email_validator: ^2.0.1
-  clay_containers: ^0.3.4
-  neumorphic_button: ^0.0.1+2
-  flutter_inset_box_shadow: ^1.0.7
 
 dev_dependencies:
   flutter_test:
@@ -136,7 +133,6 @@ flutter:
           weight: 700
         - asset: assets/fonts/Sen-ExtraBold.ttf
           weight: 800
-
     - family: THSarabunPSK
       fonts:
         - asset: assets/fonts/THSarabun-Regular.ttf
@@ -145,7 +141,6 @@ flutter:
           weight: 700
         - asset: assets/fonts/THSarabun-Italic.ttf
         - asset: assets/fonts/THSarabun-BoldItalic.ttf
-
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
