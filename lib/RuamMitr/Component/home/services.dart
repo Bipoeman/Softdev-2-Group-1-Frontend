@@ -42,7 +42,8 @@ class ServicesWidget extends StatelessWidget {
             height: size.height * 0.1,
             appIconPath: "assets/Logo/bin_portal_color.png",
             appRoute: () {
-              Navigator.pushNamed(context, pinthebinPageRoute["home"]!);
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  pinthebinPageRoute["home"]!, (Route<dynamic> route) => false);
             },
           ),
           AppBox(
