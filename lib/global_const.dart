@@ -7,6 +7,7 @@ const String baseURL = "https://ruammitr.azurewebsites.net";
 const String api = "http://192.168.28.16:3000";
 const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
+const String userDataUpdateRoute = "/user";
 const String userDataRequestRoute = "/user/id";
 const String pinTheBinGetBinRoute = "/pinthebin/bin";
 const String dekhorPosttoprofileRoute = "/dekhor/posttoprofile";

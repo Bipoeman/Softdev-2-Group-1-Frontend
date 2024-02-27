@@ -34,7 +34,7 @@ class _HomePageV2State extends State<HomePageV2> {
       profileData = jsonDecode(res.body);
 
       setState(() {});
-      print(profileData);
+      print("Requested Data : ${profileData}");
     });
   }
 
