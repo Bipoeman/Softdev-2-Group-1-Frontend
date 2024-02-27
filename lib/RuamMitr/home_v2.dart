@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/contents.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/services.dart';
-import 'package:ruam_mitt/RuamMitr/Component/home_v2/contact_us.dart';
 import 'package:ruam_mitt/RuamMitr/Component/search_box.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:ruam_mitt/RuamMitr/contact_us.dart';
 
 class HomeWidgetV2 extends StatefulWidget {
   const HomeWidgetV2({super.key});

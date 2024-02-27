@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ruam_mitt/RuamMitr/Component/frequent_widget/custom_text_field.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:http/http.dart' as http;
@@ -183,8 +184,11 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void validateRegisterInputs(String value) {
-    bool noAnyStartStates = _isEmptyFromStart.values.every((element) => !element);
-    if (_formKey.currentState!.validate() && !_registerButtonEnabled && noAnyStartStates) {
+    bool noAnyStartStates =
+        _isEmptyFromStart.values.every((element) => !element);
+    if (_formKey.currentState!.validate() &&
+        !_registerButtonEnabled &&
+        noAnyStartStates) {
       _registerButtonEnabled = true;
       setState(() {});
     } else if (!_formKey.currentState!.validate() && _registerButtonEnabled) {
@@ -246,54 +250,6 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  Widget textField({
-    required String labelText,
-    required BuildContext context,
-    String? Function(String?)? validator,
-    TextEditingController? controller,
-    Icon? icon,
-    bool? obscureText,
-    TextInputType? inputType,
-    void Function(String)? onChanged,
-    void Function()? onTap,
-    void Function(PointerDownEvent)? onTapOutside,
-    void Function()? onEditingComplete,
-    void Function(String)? onFieldSubmitted,
-    void Function(String?)? onSaved,
-  }) {
-    ThemeData theme = Theme.of(context);
-    return Container(
-      margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-      child: TextFormField(
-        controller: controller,
-        validator: validator,
-        keyboardType: inputType,
-        obscureText: obscureText ?? false,
-        decoration: InputDecoration(
-          isDense: true,
-          fillColor: theme.colorScheme.background.withOpacity(0.8),
-          filled: true,
-          labelStyle: TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
-          contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
-          labelText: labelText,
-          prefixIconColor: theme.colorScheme.onBackground,
-          prefixIcon: icon,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(40),
-            borderSide: BorderSide.none,
-          ),
-        ),
-        onChanged: onChanged,
-        onTap: onTap,
-        onTapOutside: onTapOutside,
-        onEditingComplete: onEditingComplete,
-        onFieldSubmitted: onFieldSubmitted,
-        onSaved: onSaved,
-        maxLines: 1,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -333,7 +289,8 @@ class _RegisterPageState extends State<RegisterPage> {
           body: SingleChildScrollView(
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight: size.height - MediaQuery.of(context).padding.top - 75,
+                minHeight:
+                    size.height - MediaQuery.of(context).padding.top - 75,
               ),
               child: Center(
                 child: Container(
@@ -406,7 +363,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                               foregroundColor: theme.colorScheme.onPrimary,
                             ),
-                            onPressed: _registerButtonEnabled ? _registerAccount : null,
+                            onPressed: _registerButtonEnabled
+                                ? _registerAccount
+                                : null,
                             child: const Text("Create Account"),
                           ),
                         ),
