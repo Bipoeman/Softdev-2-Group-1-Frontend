@@ -20,7 +20,16 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
   BoxController editProfileController = BoxController();
   String fieldToEditDisplayText = "";
   String fieldEditKey = "";
+  FocusNode profileEditFocusNode = FocusNode();
   TextEditingController fieldEditController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    fieldEditController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -100,6 +109,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                       ],
                     ),
                     Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       margin: EdgeInsets.fromLTRB(
                         0,
                         [
@@ -112,6 +122,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                       child: Center(
                         child: Text(
                           profileData['fullname'],
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: theme.colorScheme.onPrimary,
                             fontSize: 30,
@@ -271,6 +282,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                   SizedBox(
                     // height: size.height * 0.07,
                     child: TextField(
+                      focusNode: profileEditFocusNode,
                       controller: fieldEditController,
                       decoration: InputDecoration(
                         hintText:
@@ -328,6 +340,9 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                           });
                           if (value.statusCode == 200) {
                             if (value.body == "change profile success") {
+                              if (profileEditFocusNode.hasFocus) {
+                                profileEditFocusNode.unfocus();
+                              }
                               editProfileController.closeBox();
                             }
                           }
