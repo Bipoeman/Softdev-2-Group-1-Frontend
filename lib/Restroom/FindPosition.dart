@@ -10,7 +10,8 @@ class RestroomRoverFindPosition extends StatefulWidget {
   });
 
   @override
-  State<RestroomRoverFindPosition> createState() => _RestroomRoverFindPositionState();
+  State<RestroomRoverFindPosition> createState() =>
+      _RestroomRoverFindPositionState();
 }
 
 class _RestroomRoverFindPositionState extends State<RestroomRoverFindPosition> {
@@ -18,12 +19,35 @@ class _RestroomRoverFindPositionState extends State<RestroomRoverFindPosition> {
   MapController editMapController = MapController();
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pop(context, editMapController.camera.center);
-        },
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(
+            bottom: size.height * 0.15,
+            // left: size.width* 0.2 ,
+            ), // ขยับปุ่มขึ้นจากด้านล่าง 25%
+        width: size.width * 0.45,
+        height: size.height * 0.06,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black), // เพิ่มเส้นขอบสีดำ
+          borderRadius:
+              BorderRadius.circular(13), // กำหนดรูปร่างของปุ่มเป็นวงกลม
+        ),
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.pop(context, editMapController.camera.center);
+          },
+          backgroundColor: Color(0xFFE6E6E6),
+          child: Text(
+            "Confirm Location",
+            style: TextStyle(
+              fontSize: 20,
+              color: Color(0xFF000000),
+            ),
+          ),
+        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: Stack(
         children: [
           FlutterMap(
