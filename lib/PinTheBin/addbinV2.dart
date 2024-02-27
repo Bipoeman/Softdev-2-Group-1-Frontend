@@ -21,6 +21,8 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
   TextEditingController _DescriptiontextController = TextEditingController();
   final backgroundColor = const Color(0xFFFFFFFF);
   bool isPressed = true;
+  bool isPressedWarning = true;
+  bool isPressedRecycling = true;
 
   LatLng? _position;
 
@@ -38,6 +40,16 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
         ? Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
     double blur = isPressed ? 5.0 : 5;
+
+    Offset distanceWarning = isPressedWarning
+        ? Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurWarning = isPressed ? 5.0 : 5;
+
+    Offset distanceRecycling = isPressedRecycling
+        ? Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurRecycling = isPressedRecycling ? 5.0 : 5;
 
     return Theme(
       data: ThemeData(
@@ -427,6 +439,107 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 35, top: 470),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() =>
+                                      isPressedWarning = !isPressedWarning);
+                                },
+                                child: Container(
+                                  width: size.width * 0.2,
+                                  height: size.height * 0.13,
+                                  //color: Colors.black,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: Color.fromARGB(9, 0, 47, 73),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: blurWarning,
+                                        offset: distanceWarning,
+                                        color: Color(0xFFA7A9AF),
+                                        inset: isPressedWarning,
+                                      ),
+                                      BoxShadow(
+                                        blurRadius: blurWarning,
+                                        offset: -distanceWarning,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        inset: isPressedWarning,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/PinTheBin/warning.png",
+                                      width: size.width * 0.1,
+                                      height: size.height * 0.1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: size.width * 0.03,
+                        ),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 470),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() =>
+                                      isPressedRecycling = !isPressedRecycling);
+                                },
+                                child: Container(
+                                  width: size.width * 0.2,
+                                  height: size.height * 0.13,
+                                  //color: Colors.black,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: Color.fromARGB(9, 0, 47, 73),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: blurRecycling,
+                                        offset: distanceRecycling,
+                                        color: Color(0xFFA7A9AF),
+                                        inset: isPressedRecycling,
+                                      ),
+                                      BoxShadow(
+                                        blurRadius: blurRecycling,
+                                        offset: -distanceRecycling,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        inset: isPressedRecycling,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/PinTheBin/recycling-symbol-2.png",
+                                      width: size.width * 0.1,
+                                      height: size.height * 0.1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        // SizedBox(),
+                        // GestureDetector(),
+                        // SizedBox(),
+                        // GestureDetector(),
                       ],
                     ),
                   ],
