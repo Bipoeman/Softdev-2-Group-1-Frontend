@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -54,29 +55,22 @@ class _TuachuayDekhorWriteBlogPageState
 
   Future<void> writeblog(File? imageFile) async {
     try {
-      if (_dropdownValue != null) {
-        var request = http.MultipartRequest('POST', writeblogurl);
-        request.headers['Authorization'] = 'Bearer $publicToken';
-        request.fields['title'] = markdownTitleController.text;
-        request.fields['content'] = markdownContentController.text;
-        request.fields['category'] = _dropdownValue!;
-        request.fields['fullname'] = profileData['fullname'];
+      var request = http.MultipartRequest('POST', writeblogurl);
+      request.headers['Authorization'] = 'Bearer $publicToken';
+      request.fields['title'] = markdownTitleController.text;
+      request.fields['content'] = markdownContentController.text;
+      request.fields['category'] = _dropdownValue!;
+      request.fields['fullname'] = profileData['fullname'];
+      request.files
+          .add(await http.MultipartFile.fromPath('file', imageFile!.path));
 
-        if (imageFile != null) {
-          request.files
-              .add(await http.MultipartFile.fromPath('file', imageFile.path));
-        }
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
 
-        var streamedResponse = await request.send();
-        var response = await http.Response.fromStream(streamedResponse);
-
-        if (response.statusCode == 200) {
-          status = true;
-        } else {
-          status = false;
-        }
+      if (response.statusCode == 200) {
+        status = true;
       } else {
-        print('Please select a category');
+        status = false;
       }
     } catch (error) {
       print('Error writing blog: $error');
@@ -84,7 +78,7 @@ class _TuachuayDekhorWriteBlogPageState
   }
 
   Future<void> draft() async {
-    var response = await http.post(draftposturl, headers: {
+    await http.post(draftposturl, headers: {
       "Authorization": "Bearer $publicToken"
     }, body: {
       "title": markdownTitleController.text,
@@ -93,15 +87,9 @@ class _TuachuayDekhorWriteBlogPageState
       "image_link": "null",
       "fullname": profileData['fullname']
     });
-
-    if (response.statusCode == 200) {
-      status = true;
-    } else {
-      status = false;
-    }
   }
 
-  Future<void> postoprofile() async {
+  Future<void> posttoprofile() async {
     var response = await http
         .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
@@ -117,7 +105,7 @@ class _TuachuayDekhorWriteBlogPageState
   @override
   void initState() {
     super.initState();
-    postoprofile();
+    posttoprofile();
     firstFocusNode.requestFocus();
     animationController = AnimationController(
       vsync: this,
@@ -411,7 +399,8 @@ class _TuachuayDekhorWriteBlogPageState
                                 onPressed: () {
                                   if (markdownTitleController.text.isEmpty ||
                                       markdownContentController.text.isEmpty ||
-                                      _dropdownValue == null) {
+                                      _dropdownValue == null ||
+                                      _image == null) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content:
@@ -651,14 +640,42 @@ class _TuachuayDekhorWriteBlogPageState
                             },
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            _getImage();
-                            print("Add image tapped");
-                          },
-                          icon: const Icon(
-                            Icons.image,
-                            color: Colors.white,
+                        Container(
+                          padding: const EdgeInsets.only(right: 5),
+                          margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.grey[200],
+                          ),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  _getImage();
+                                  print("Add image tapped");
+                                },
+                                child: const Icon(
+                                  Icons.image,
+                                  color: Color.fromRGBO(0, 48, 73, 1),
+                                  size: 24,
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(left: 5),
+                                constraints: BoxConstraints(
+                                  maxWidth: size.width * 0.525,
+                                ),
+                                child: _image == null
+                                    ? const Text(
+                                        "no image selected",
+                                        style: TextStyle(color: Colors.grey),
+                                      )
+                                    : Text(
+                                        _image!.path.split('/').last,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                              ),
+                            ],
                           ),
                         ),
                       ],

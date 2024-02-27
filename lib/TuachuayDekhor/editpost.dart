@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -38,6 +41,20 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
   var detailpost = [];
   var post = [];
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
+  File? _image;
+
+  Future<void> _getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
 
   void initState() {
     super.initState();
@@ -187,6 +204,19 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       data: markdownTitleText,
+                    ),
+                  ),
+                ),
+                Container(
+                  constraints: BoxConstraints(
+                    maxHeight: size.height * 0.3,
+                  ),
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: IntrinsicHeight(
+                    child: ClipRRect(
+                      child: _image == null
+                          ? const Text('No image selected.')
+                          : Image.file(_image!, fit: BoxFit.cover),
                     ),
                   ),
                 ),
@@ -565,13 +595,42 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                             },
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            print("Add image tapped");
-                          },
-                          icon: const Icon(
-                            Icons.image,
-                            color: Colors.white,
+                        Container(
+                          padding: const EdgeInsets.only(right: 5),
+                          margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.grey[200],
+                          ),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  _getImage();
+                                  print("Add image tapped");
+                                },
+                                child: const Icon(
+                                  Icons.image,
+                                  color: Color.fromRGBO(0, 48, 73, 1),
+                                  size: 24,
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(left: 5),
+                                constraints: BoxConstraints(
+                                  maxWidth: size.width * 0.525,
+                                ),
+                                child: _image == null
+                                    ? const Text(
+                                        "no image selected",
+                                        style: TextStyle(color: Colors.grey),
+                                      )
+                                    : Text(
+                                        _image!.path.split('/').last,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                              ),
+                            ],
                           ),
                         ),
                       ],

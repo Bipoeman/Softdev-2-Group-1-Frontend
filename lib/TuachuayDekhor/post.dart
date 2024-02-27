@@ -51,7 +51,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     countsaveurl = Uri.parse("$api$dekhorCountsavePostRoute/$id_post");
     numsaveurl = Uri.parse("$api$dekhorNumsavePostRoute/$id_post");
     deleteposturl = Uri.parse("$api$dekhorDeletePostRoute/$id_post");
-    postoprofile();
+    posttoprofile();
     _loadDetail();
     Future.delayed(Duration(milliseconds: 500), () {
       setState(() {
@@ -77,7 +77,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     }
   }
 
-  Future<void> postoprofile() async {
+  Future<void> posttoprofile() async {
     var response = await http
         .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
@@ -283,8 +283,16 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                       icon:
                           Icon(Icons.send_sharp, size: 25, color: Colors.white),
                       onPressed: () {
-                        comment();
-                        showcomment();
+                        if (commentTextController.text.isNotEmpty) {
+                          comment();
+                          showcomment();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Comment cannot be blank"),
+                            ),
+                          );
+                        }
                       },
                     ),
                     child: ConstrainedBox(
