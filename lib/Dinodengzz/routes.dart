@@ -41,6 +41,9 @@ class GameRoutes extends FlameGame
         onMasterVolumeChanged: onMasterVolumeChanged,
         onSfxVolumeChanged: onSfxVolumeChanged,
         onBackPressed: _popRoute,
+        masterVolume: masterVolume,
+        bgmVolume: bgmVolume,
+        sfxVolume: sfxVolume,
       ),
     ),
     LevelSelectionScreen.id:
@@ -163,14 +166,15 @@ class GameRoutes extends FlameGame
   }
 
   void onMasterVolumeChanged(double volume) {
-    masterVolume = (volume / 100).roundToDouble();
+    masterVolume = (volume / 100);
+    print(masterVolume);
   }
 
   void onBgmVolumeChanged(double volume) {
-    bgmVolume = (volume / 100).roundToDouble();
+    bgmVolume = (volume / 100);
   }
 
   void onSfxVolumeChanged(double volume) {
-    sfxVolume = (volume / 100).roundToDouble();
+    sfxVolume = (volume / 100);
   }
 }

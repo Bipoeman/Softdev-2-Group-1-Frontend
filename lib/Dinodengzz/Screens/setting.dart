@@ -12,18 +12,32 @@ class Settings extends StatefulWidget {
     this.onMasterVolumeChanged,
     this.onBgmVolumeChanged,
     this.onSfxVolumeChanged,
+    required this.masterVolume,
+    required this.bgmVolume,
+    required this.sfxVolume,
   });
+  final double masterVolume;
+  final double bgmVolume;
+  final double sfxVolume;
 
   static const id = 'Settings';
 
   @override
-  _SettingsState createState() => _SettingsState();
+  _SettingsState createState() => _SettingsState(
+      masterVolume: masterVolume * 100,
+      sfxVolume: sfxVolume * 100,
+      bgmVolume: bgmVolume * 100);
 }
 
 class _SettingsState extends State<Settings> {
-  double masterVolume = 100;
-  double bgmVolume = 50;
-  double sfxVolume = 50;
+  late double masterVolume;
+  late double bgmVolume;
+  late double sfxVolume;
+
+  _SettingsState(
+      {required this.masterVolume,
+      required this.bgmVolume,
+      required this.sfxVolume});
 
   @override
   Widget build(BuildContext context) {
