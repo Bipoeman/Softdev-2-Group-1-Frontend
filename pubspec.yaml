@@ -67,6 +67,9 @@ dependencies:
   clay_containers: ^0.3.4
   neumorphic_button: ^0.0.1+2
   flutter_inset_box_shadow: ^1.0.7
+  animated_icon: ^0.0.6
+  image_picker: ^1.0.7
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +96,7 @@ flutter:
     - assets/tiles/
     - assets/audio/
     - assets/Terrain/
+    - assets/images/Opponent (Patrick)/
     - assets/images/Items/Fruits/
     - assets/images/Background/
     - assets/images/Traps/Saw/
@@ -136,6 +140,14 @@ flutter:
           weight: 700
         - asset: assets/fonts/Sen-ExtraBold.ttf
           weight: 800
+    - family: THSarabunPSK
+      fonts:
+        - asset: assets/fonts/THSarabun-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/THSarabun-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/THSarabun-Italic.ttf
+        - asset: assets/fonts/THSarabun-BoldItalic.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

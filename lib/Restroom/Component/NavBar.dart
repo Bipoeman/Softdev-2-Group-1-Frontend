@@ -41,14 +41,14 @@ class NavbarRestroomRover extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              DrawerHeader(
+              const DrawerHeader(
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
                 child: Text('Drawer Header'),
               ),
               ListTile(
-                title: Text('Item 1'),
+                title: const Text('Item 1'),
                 onTap: () {
                   // เมื่อเลือกรายการเมนู
                   // ปิดเมนูสไลด์
@@ -57,7 +57,7 @@ class NavbarRestroomRover extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: Text('Item 2'),
+                title: const Text('Item 2'),
                 onTap: () {
                   // เมื่อเลือกรายการเมนู
                   // ปิดเมนูสไลด์

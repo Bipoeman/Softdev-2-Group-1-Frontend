@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/contents.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/services.dart';
-import 'package:ruam_mitt/RuamMitr/Component/home_v2/contact_us.dart';
 import 'package:ruam_mitt/RuamMitr/Component/search_box.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:ruam_mitt/RuamMitr/contact_us.dart';
 
 class HomeWidgetV2 extends StatefulWidget {
   const HomeWidgetV2({super.key});
@@ -62,12 +62,13 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.all(10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AvatarViewer(),
-                    ContactUs(themeProvider),
+                    AvatarViewer(size: size),
+                    ContactUs(themeProvider)
                   ],
                 ),
               ),

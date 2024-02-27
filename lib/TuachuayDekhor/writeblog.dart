@@ -7,7 +7,6 @@ import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class TuachuayDekhorWriteBlogPage extends StatefulWidget {
   const TuachuayDekhorWriteBlogPage({super.key});
@@ -20,7 +19,7 @@ class TuachuayDekhorWriteBlogPage extends StatefulWidget {
 class _TuachuayDekhorWriteBlogPageState
     extends State<TuachuayDekhorWriteBlogPage>
     with SingleTickerProviderStateMixin {
-  String? _dropdownValue;
+  String? _dropdownValue = "null";
   BoxController boxController = BoxController();
   TextEditingController markdownTitleController = TextEditingController();
   TextEditingController markdownContentController = TextEditingController();

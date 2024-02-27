@@ -1,6 +1,4 @@
 import "package:flutter/material.dart";
-import "package:flutter_svg/flutter_svg.dart";
-import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
 import "package:ruam_mitt/global_const.dart";
 import "package:ruam_mitt/global_var.dart";
 
@@ -14,6 +12,12 @@ class BinDrawer extends StatelessWidget {
     // ThemeData pinTheBinTheme = themes.themeFrom("PinTheBin")!.themeData;
     // print(pinTheBinTheme.colorScheme.primary);
     return Drawer(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(50),
+          bottomRight: Radius.circular(50),
+        ),
+      ),
       child: Container(
         padding: const EdgeInsets.only(left: 30, top: 50),
         decoration: const BoxDecoration(
@@ -35,9 +39,14 @@ class BinDrawer extends StatelessWidget {
                   width: size.width * 0.15,
                 ),
                 SizedBox(width: size.width * 0.01),
-                Text(
-                  profileData["fullname"] ?? "John Doe",
-                  style: Theme.of(context).textTheme.headlineSmall,
+                ConstrainedBox(
+                  constraints:
+                      BoxConstraints(maxWidth: size.width * (1 - 0.16) - 140),
+                  child: Text(
+                    profileData["fullname"] ?? "John Doe",
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
                 ),
               ],
             ),
@@ -52,7 +61,7 @@ class BinDrawer extends StatelessWidget {
                         shape: BoxShape.circle, color: Colors.black),
                   ),
                   Container(
-                    width: size.width - 124,
+                    width: size.width - 124 - 30,
                     height: 1.3,
                     decoration: const BoxDecoration(color: Colors.black),
                   ),
@@ -97,7 +106,7 @@ class BinDrawer extends StatelessWidget {
                     ),
                     onTap: () {
                       Navigator.pushNamed(
-                          context, pinthebinPageRoute["editbin"]!);
+                          context, pinthebinPageRoute["mybin"]!);
                     },
                   ),
                   const SizedBox(height: 30),

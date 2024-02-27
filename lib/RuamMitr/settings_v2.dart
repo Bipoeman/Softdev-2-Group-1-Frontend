@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
-import 'package:ruam_mitt/RuamMitr/Component/home_v2/contact_us.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:ruam_mitt/RuamMitr/contact_us.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,7 +41,10 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                       const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [const AvatarViewer(), ContactUs(themeProvider)],
+                    children: [
+                      AvatarViewer(size: size),
+                      ContactUs(themeProvider)
+                    ],
                   ),
                 ),
                 Padding(

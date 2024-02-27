@@ -14,13 +14,15 @@ import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 
 class GameRoutes extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
-  List<String> levelNames = ['Level-01', 'Level-02', 'Level-03'];
-  static const bgm = 'Over.wav';
+  List<String> levelNames = ['Level-01', 'Level-02', 'Level-03', 'Level-04'];
+  //static const bgm = 'Over.wav';
   //static const jumpSfx = 'Deng_Suu.wav';
   //static const collectSfx = 'Collect.wav';
   //static const hurtSfx = 'Hurt.wav';
   bool playSounds = true;
-  double soundVolume = 2.0;
+  late double masterVolume = 1.0;
+  late double bgmVolume = 0.6;
+  late double sfxVolume = 0.6;
 
   late final _routes = <String, Route>{
     StartScreen.id: OverlayRoute(
@@ -35,7 +37,13 @@ class GameRoutes extends FlameGame
     ),
     Settings.id: OverlayRoute(
       (context, game) => Settings(
+        onBgmVolumeChanged: onBgmVolumeChanged,
+        onMasterVolumeChanged: onMasterVolumeChanged,
+        onSfxVolumeChanged: onSfxVolumeChanged,
         onBackPressed: _popRoute,
+        masterVolume: masterVolume,
+        bgmVolume: bgmVolume,
+        sfxVolume: sfxVolume,
       ),
     ),
     LevelSelectionScreen.id:
@@ -84,9 +92,7 @@ class GameRoutes extends FlameGame
   Future<void> onLoad() async {
     await Flame.device.setLandscape();
     await Flame.device.fullScreen();
-    await FlameAudio.audioCache.loadAll([
-      bgm, /*jumpSfx*/
-    ]);
+    //await FlameAudio.audioCache.loadAll([bgm, jumpSfx]);
     await images.loadAllImages();
     await add(_router);
   }
@@ -157,5 +163,18 @@ class GameRoutes extends FlameGame
 
   void showRetryMenu() {
     _router.pushNamed(GameOverScreen.id);
+  }
+
+  void onMasterVolumeChanged(double volume) {
+    masterVolume = (volume / 100);
+    print(masterVolume);
+  }
+
+  void onBgmVolumeChanged(double volume) {
+    bgmVolume = (volume / 100);
+  }
+
+  void onSfxVolumeChanged(double volume) {
+    sfxVolume = (volume / 100);
   }
 }

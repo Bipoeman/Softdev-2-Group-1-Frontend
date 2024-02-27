@@ -4,10 +4,10 @@ import 'package:ruam_mitt/global_var.dart';
 
 class TuachuayDekhorAvatarViewer extends StatelessWidget {
   const TuachuayDekhorAvatarViewer({
-    Key? key,
+    super.key,
     this.username,
     this.avatarUrl,
-  }) : super(key: key);
+  });
 
   final String? username;
   final String? avatarUrl;
@@ -54,6 +54,7 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10),
                   child: Container(
                     alignment: Alignment.center,
+                    padding: const EdgeInsets.only(left: 5, right: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
                       color: const Color.fromRGBO(0, 48, 73, 1),
@@ -62,6 +63,7 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
                     width: 68.5,
                     child: Text(
                       username ?? "John Doe",
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 11,
                         color: Colors.white,
