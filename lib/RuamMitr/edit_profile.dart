@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ruam_mitt/RuamMitr/Component/frequent_widget/custom_text_field.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 
@@ -67,7 +66,7 @@ class _EditProfileState extends State<EditProfile> {
                 icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () => Navigator.pop(context),
               ),
-              title: Text("Edit your profile"),
+              title: const Text("Edit your profile"),
             ),
             body: SingleChildScrollView(
               child: ConstrainedBox(

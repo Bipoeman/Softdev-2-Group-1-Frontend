@@ -3,7 +3,7 @@ import 'package:ruam_mitt/global_const.dart';
 import 'dart:math';
 
 class MainNavigator extends StatelessWidget {
-  MainNavigator({super.key, this.pageIndex});
+  const MainNavigator({super.key, this.pageIndex});
   final pageIndex;
 
   @override

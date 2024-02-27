@@ -1,5 +1,4 @@
 import "dart:convert";
-import "dart:math";
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import "package:latlong2/latlong.dart";
@@ -61,7 +60,7 @@ class _MyBinState extends State<MyBinPage> {
       // thumbVisibility: true,
       thickness: 10,
       trackVisibility: true,
-      radius: Radius.circular(10),
+      radius: const Radius.circular(10),
       child: Theme(
         data: pinTheBinThemeData,
         child: Scaffold(
@@ -89,7 +88,7 @@ class _MyBinState extends State<MyBinPage> {
                             'No Bin Found!',
                             style: GoogleFonts.getFont(
                               'Sen',
-                              color: Color(0xFFF77F00),
+                              color: const Color(0xFFF77F00),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -109,12 +108,12 @@ class _MyBinState extends State<MyBinPage> {
                               return Container(
                                   width: size.width * 0.9,
                                   height: size.height * 0.27,
-                                  margin: EdgeInsets.symmetric(vertical: 5.0),
-                                  padding: EdgeInsets.all(10.0),
+                                  margin: const EdgeInsets.symmetric(vertical: 5.0),
+                                  padding: const EdgeInsets.all(10.0),
                                   decoration: BoxDecoration(
-                                    color: Color.fromRGBO(255, 255, 255, 0.6),
+                                    color: const Color.fromRGBO(255, 255, 255, 0.6),
                                     borderRadius: BorderRadius.circular(25.0),
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                         color: Color.fromRGBO(
                                             126, 120, 120, 0.247),
@@ -134,7 +133,7 @@ class _MyBinState extends State<MyBinPage> {
                                             style: GoogleFonts.getFont(
                                               'Sen',
                                               color:
-                                                  Color.fromARGB(67, 0, 30, 49),
+                                                  const Color.fromARGB(67, 0, 30, 49),
                                               fontSize: 20,
                                               fontWeight: FontWeight.w400,
                                             ),
@@ -147,7 +146,7 @@ class _MyBinState extends State<MyBinPage> {
                                                   'Type: ',
                                                   style: GoogleFonts.getFont(
                                                     'Sen',
-                                                    color: Color.fromARGB(
+                                                    color: const Color.fromARGB(
                                                         67, 0, 30, 49),
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.w400,
@@ -157,7 +156,7 @@ class _MyBinState extends State<MyBinPage> {
                                                   '${data["bintype"]["redbin"] ? "Danger\n" : ""}${data["bintype"]["greenbin"] ? "Waste\n" : ""}${data["bintype"]["yellow"] ? "Recycle\n" : ""}${data["bintype"]["bluebin"] ? "General" : ""}',
                                                   style: GoogleFonts.getFont(
                                                     'Sen',
-                                                    color: Color.fromARGB(
+                                                    color: const Color.fromARGB(
                                                         67, 0, 30, 49),
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.w400,
@@ -183,7 +182,7 @@ class _MyBinState extends State<MyBinPage> {
                                                   pinthebinPageRoute[
                                                       "editbin"]!,
                                                   arguments: {
-                                                    'Bininfo': '${data}',
+                                                    'Bininfo': '$data',
                                                   },
                                                 );
                                               },
@@ -224,7 +223,7 @@ class _MyBinState extends State<MyBinPage> {
                                                             style: GoogleFonts
                                                                 .getFont(
                                                               'Sen',
-                                                              color: Color(
+                                                              color: const Color(
                                                                   0xFF98989A),
                                                               fontSize: 20,
                                                               fontWeight:
@@ -255,7 +254,7 @@ class _MyBinState extends State<MyBinPage> {
                                                                 MaterialPageRoute(
                                                                     builder:
                                                                         (context) =>
-                                                                            MyBinPage()),
+                                                                            const MyBinPage()),
                                                               );
                                                             },
                                                             child: Text(

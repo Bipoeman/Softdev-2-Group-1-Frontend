@@ -26,7 +26,7 @@ class AppBox extends StatelessWidget {
         //   size: 50,
         // );
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           child: Image.asset(
             appIconPath!,
           ),

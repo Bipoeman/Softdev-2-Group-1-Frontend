@@ -18,12 +18,12 @@ class _RestroomRoverState extends State<RestroomRover> {
     return Scaffold(
       key: _scaffoldKey, // กำหนด GlobalKey ให้กับ Scaffold
       appBar: AppBar(
-        title: SizedBox(
+        title: const SizedBox(
           width: 300,
           height: 45,
           child: RestroomSearchBox(),
         ),
-        backgroundColor: Color(0xFFFFB703),
+        backgroundColor: const Color(0xFFFFB703),
         leading: IconButton(
           icon: Container(
             width: 40,
@@ -33,7 +33,7 @@ class _RestroomRoverState extends State<RestroomRover> {
               shape: BoxShape.rectangle,
               color: Colors.white,
             ),
-            child: Center(
+            child: const Center(
               child: Icon(
                 Icons.menu,
                 color: Colors.black,
@@ -46,8 +46,8 @@ class _RestroomRoverState extends State<RestroomRover> {
           },
         ),
       ),
-      drawer: Navbar2RestroomRover(),
-      body: MapRestroomRover(),
+      drawer: const Navbar2RestroomRover(),
+      body: const MapRestroomRover(),
       // drawerEdgeDragWidth: 500,
     );
   }

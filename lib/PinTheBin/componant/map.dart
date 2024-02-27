@@ -235,13 +235,13 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                     style: TextStyle(
                                         shadows: [
                                           Shadow(
-                                            color: Color(0xFF46384E)
+                                            color: const Color(0xFF46384E)
                                                 .withOpacity(0.4),
-                                            offset: Offset(0, 2),
+                                            offset: const Offset(0, 2),
                                             blurRadius: 5,
                                           )
                                         ],
-                                        color: Color(0xFF46384E),
+                                        color: const Color(0xFF46384E),
                                         fontFamily:
                                             displayBinInfo['location'].contains(
                                           RegExp("[ก-๛]"),
@@ -354,13 +354,13 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                             BoxShadow(
                                               color:
                                                   Colors.black.withOpacity(0.3),
-                                              offset: Offset(0, 2),
+                                              offset: const Offset(0, 2),
                                               blurRadius: 2,
                                               spreadRadius: 1,
                                             )
                                           ],
                                           border: Border.all(
-                                            color: Color(0xFFECECEC),
+                                            color: const Color(0xFFECECEC),
                                             width: 1.5,
                                           ),
                                         ),
@@ -377,12 +377,12 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                     shadows: [
                                       Shadow(
                                         color:
-                                            Color(0xFF46384E).withOpacity(0.4),
-                                        offset: Offset(0, 2),
+                                            const Color(0xFF46384E).withOpacity(0.4),
+                                        offset: const Offset(0, 2),
                                         blurRadius: 5,
                                       )
                                     ],
-                                    color: Color(0xFF46384E),
+                                    color: const Color(0xFF46384E),
                                     fontFamily:
                                         displayBinInfo['location'].contains(
                                       RegExp("[ก-๛]"),
@@ -419,7 +419,7 @@ class _MapPinTheBinState extends State<MapPinTheBin>
         SlidingBox(
           draggableIcon: Icons.keyboard_arrow_down_sharp,
           draggableIconBackColor: Colors.transparent,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           color: Colors.black.withOpacity(0.8),
           collapsed: true,
           controller: binInfoController,
@@ -453,7 +453,7 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                 ),
                 GestureDetector(
                   child: Container(
-                    padding: EdgeInsets.only(right: 20),
+                    padding: const EdgeInsets.only(right: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -469,11 +469,11 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                       items: [
                         MenuItem(
                           title: 'Edit',
-                          image: Icon(Icons.edit, color: Colors.white),
+                          image: const Icon(Icons.edit, color: Colors.white),
                         ),
                         MenuItem(
                           title: 'Navigate',
-                          image: Icon(
+                          image: const Icon(
                             Icons.location_on_outlined,
                             color: Colors.white,
                           ),

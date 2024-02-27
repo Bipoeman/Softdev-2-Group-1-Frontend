@@ -37,9 +37,9 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
     Size size = MediaQuery.of(context).size;
 
     Future<File?> getImage() async {
-      final ImagePicker _picker = ImagePicker();
+      final ImagePicker picker = ImagePicker();
       // Pick an image
-      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      XFile? image = await picker.pickImage(source: ImageSource.gallery);
       if (image == null) {
         return null;
       }
