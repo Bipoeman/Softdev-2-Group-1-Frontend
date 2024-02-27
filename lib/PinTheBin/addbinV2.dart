@@ -18,6 +18,7 @@ class AddbinPageV2 extends StatefulWidget {
 class _AddbinPageV2State extends State<AddbinPageV2> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _NametextController = TextEditingController();
+  TextEditingController _DescriptiontextController = TextEditingController();
   final backgroundColor = const Color(0xFFFFFFFF);
   bool isPressed = true;
 
@@ -99,7 +100,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                     ),
                     onTap: () => _scaffoldKey.currentState?.openDrawer(),
                   ),
-                  toolbarHeight: 120,
+                  toolbarHeight: 90,
                   flexibleSpace: Container(
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -179,7 +180,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                           child: Container(
                             padding: EdgeInsets.only(left: 20),
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 76),
+                              padding: const EdgeInsets.only(top: 67),
                               child: Text(
                                 'Position',
                                 style:
@@ -271,7 +272,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: size.height * 0.265),
+                      padding: EdgeInsets.only(top: size.height * 0.25),
                       child: Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(left: 30),
@@ -382,7 +383,52 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         ),
                       ),
                     ),
-                    Column(),
+                    // Column(
+                    //   children: [
+                    //     Align(
+                    //       alignment: Alignment.topLeft,
+                    //       child: Container(
+                    //         padding: EdgeInsets.only(left: 20),
+                    //         child: Padding(
+                    //           padding: const EdgeInsets.only(top: 290),
+                    //           child: Text(
+                    //             'Description',
+                    //             style:
+                    //                 Theme.of(context).textTheme.displayMedium,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     SizedBox(
+                    //       height: size.height * 0.02,
+                    //     ),
+                    //     ClayContainer(
+                    //       width: size.width * 0.8,
+                    //       height: size.height * 0.15,
+                    //       color: Color.fromRGBO(239, 239, 239, 1),
+                    //       borderRadius: 30,
+                    //       depth: -20,
+                    //       child: TextField(
+                    //         maxLength: 80,
+                    //         maxLines: 3,
+                    //         controller: _DescriptiontextController,
+                    //         onChanged: (text) {
+                    //           print('Typed text: $text');
+                    //           int remainningCharacters =
+                    //               80 - _DescriptiontextController.text.length;
+                    //           print(
+                    //               'Remaining characters: $remainningCharacters');
+                    //         },
+                    //         decoration: const InputDecoration(
+                    //           border: InputBorder.none,
+                    //         ),
+                    //         style: const TextStyle(
+                    //           color: Colors.white,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 )),
                 drawerScrimColor: Colors.transparent,
