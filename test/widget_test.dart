@@ -40,8 +40,9 @@ void main() {
     //   expect(find.text('1'), findsOneWidget);
   });
   testWidgets("Login Page Test", (tester) async {
-    await tester.pumpWidget(const MaterialApp(
-      home: LoginPage(),
+    await tester.pumpWidget(ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: const SuperApp(),
     ));
     final emailField = find.ancestor(
       of: find.text('Email or Username'),
