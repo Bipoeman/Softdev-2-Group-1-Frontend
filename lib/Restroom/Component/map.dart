@@ -26,6 +26,8 @@ class MapRestroomRover extends StatelessWidget {
       )
       .toList();
 
+  const MapRestroomRover({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -75,14 +77,14 @@ class MapRestroomRover extends StatelessWidget {
             CurrentLocationLayer(
               // followOnLocationUpdate: FollowOnLocationUpdate.always,
               // turnOnHeadingUpdate: TurnOnHeadingUpdate.never,
-              style: LocationMarkerStyle(
-                marker: const DefaultLocationMarker(
+              style: const LocationMarkerStyle(
+                marker: DefaultLocationMarker(
                   child: Icon(
                     Icons.navigation,
                     color: Colors.white,
                   ),
                 ),
-                markerSize: const Size(40, 40),
+                markerSize: Size(40, 40),
                 markerDirection: MarkerDirection.heading,
               ),
             ),
@@ -105,7 +107,7 @@ class MapRestroomRover extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, ruamMitrPageRoute["home"]!);
                 },
-                child: Image(
+                child: const Image(
                     image: AssetImage(
                         "assets/images/RestroomRover/backtohome.png")))),
         // Positioned(

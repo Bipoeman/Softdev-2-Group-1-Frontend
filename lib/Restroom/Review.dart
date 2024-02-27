@@ -48,7 +48,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios_rounded,
                       color: Colors.black,
                       size: 30,

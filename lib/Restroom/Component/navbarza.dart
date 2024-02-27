@@ -49,7 +49,7 @@ class Navbar2RestroomRover extends StatelessWidget {
           //     ),
           //   ],
           // ),
-          UserAccountsDrawerHeader(
+          const UserAccountsDrawerHeader(
             decoration: BoxDecoration(
               color: Color(0xFFFFB703),
             ),
@@ -140,13 +140,13 @@ class Navbar2RestroomRover extends StatelessWidget {
           //   ),
           // ),
           ListTile(
-            contentPadding: EdgeInsets.only(left: 50.0, top: 20.0),
+            contentPadding: const EdgeInsets.only(left: 50.0, top: 20.0),
             leading: Image.asset(
               "assets/images/RestroomRover/Icon_pintrestroom.png",
               width: 50,
               height: 50,
             ),
-            title: Text('Pin Restroom'),
+            title: const Text('Pin Restroom'),
             onTap: () {
               // เมื่อเลือกรายการเมนู
               // ปิดเมนูสไลด์
@@ -154,14 +154,14 @@ class Navbar2RestroomRover extends StatelessWidget {
               // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
             },
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ListTile(
-            contentPadding: EdgeInsets.only(left: 50.0, top: 20.0),
+            contentPadding: const EdgeInsets.only(left: 50.0, top: 20.0),
             leading: Image.asset(
                 "assets/images/RestroomRover/Icon_contactsupport.png",
                 width: 50,
                 height: 50),
-            title: Text('Contact support'),
+            title: const Text('Contact support'),
             onTap: () {
               // เมื่อเลือกรายการเมนู
               // ปิดเมนูสไลด์
