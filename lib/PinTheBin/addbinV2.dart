@@ -383,52 +383,52 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         ),
                       ),
                     ),
-                    // Column(
-                    //   children: [
-                    //     Align(
-                    //       alignment: Alignment.topLeft,
-                    //       child: Container(
-                    //         padding: EdgeInsets.only(left: 20),
-                    //         child: Padding(
-                    //           padding: const EdgeInsets.only(top: 290),
-                    //           child: Text(
-                    //             'Description',
-                    //             style:
-                    //                 Theme.of(context).textTheme.displayMedium,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     SizedBox(
-                    //       height: size.height * 0.02,
-                    //     ),
-                    //     ClayContainer(
-                    //       width: size.width * 0.8,
-                    //       height: size.height * 0.15,
-                    //       color: Color.fromRGBO(239, 239, 239, 1),
-                    //       borderRadius: 30,
-                    //       depth: -20,
-                    //       child: TextField(
-                    //         maxLength: 80,
-                    //         maxLines: 3,
-                    //         controller: _DescriptiontextController,
-                    //         onChanged: (text) {
-                    //           print('Typed text: $text');
-                    //           int remainningCharacters =
-                    //               80 - _DescriptiontextController.text.length;
-                    //           print(
-                    //               'Remaining characters: $remainningCharacters');
-                    //         },
-                    //         decoration: const InputDecoration(
-                    //           border: InputBorder.none,
-                    //         ),
-                    //         style: const TextStyle(
-                    //           color: Colors.white,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
+                    Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                            padding: EdgeInsets.only(left: 20),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 290),
+                              child: Text(
+                                'Description',
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: size.height * 0.02,
+                        ),
+                        ClayContainer(
+                          width: size.width * 0.8,
+                          height: size.height * 0.15,
+                          color: Color.fromRGBO(239, 239, 239, 1),
+                          borderRadius: 30,
+                          depth: -20,
+                          child: TextField(
+                            maxLength: 80,
+                            maxLines: 3,
+                            controller: _DescriptiontextController,
+                            onChanged: (text) {
+                              print('Typed text: $text');
+                              int remainningCharacters =
+                                  80 - _DescriptiontextController.text.length;
+                              print(
+                                  'Remaining characters: $remainningCharacters');
+                            },
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 )),
                 drawerScrimColor: Colors.transparent,
