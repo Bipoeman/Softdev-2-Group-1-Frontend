@@ -28,7 +28,7 @@ class _HomePageV2State extends State<HomePageV2> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print("Home Ruammitr InitState");
+    // print("Home Ruammitr InitState");
     Uri uri = Uri.parse("$api$userDataRequestRoute");
     setState(() {});
     http.get(uri, headers: {"Authorization": "Bearer $publicToken"}).then(
@@ -36,7 +36,7 @@ class _HomePageV2State extends State<HomePageV2> {
       profileData = jsonDecode(res.body);
 
       setState(() {});
-      print("Requested Data : ${profileData}");
+      // print("Requested Data : ${profileData}");
     });
   }
 
@@ -54,9 +54,15 @@ class _HomePageV2State extends State<HomePageV2> {
     //     .replaceAll(")", "")
     //     .substring(4);
     var nowParam = DateFormat('yyyyddMMHHmmss').format(DateTime.now());
-    profileData['imgPath'] = "${profileData['profile']}#$nowParam" ??
-        // "https://ui-avatars.com/api/?background=$avatarTextBackgroundColorString&color=$avatarTextColorString&size=512&name=${profileData['fullname'].replaceAll(" ", "+")}";
-        "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}.png";
+    if (profileData['profile'] != null) {
+      profileData['imgPath'] = "${profileData['profile']}#$nowParam";
+    } else {
+      profileData['imgPath'] =
+          "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}.png";
+    }
+    // profileData['imgPath'] = "${profileData['profile']}" ??
+    //     // "https://ui-avatars.com/api/?background=$avatarTextBackgroundColorString&color=$avatarTextColorString&size=512&name=${profileData['fullname'].replaceAll(" ", "+")}";
+    //     "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}.png";
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
     return Container(
       decoration: ruamMitrBackgroundGradient(themes),
@@ -75,7 +81,7 @@ class _HomePageV2State extends State<HomePageV2> {
             pageController.animateToPage(
               index,
               duration: const Duration(seconds: 1),
-              curve: Tanh(),
+              curve: const Tanh(),
             );
           },
         ),
@@ -111,7 +117,7 @@ class _HomePageV2State extends State<HomePageV2> {
 class Tanh extends Curve {
   final double count;
 
-  Tanh({this.count = 3});
+  const Tanh({this.count = 3});
 
   // t = x
   @override
