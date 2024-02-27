@@ -343,7 +343,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                             name: blog[actualIndex]['user']
                                                 ['fullname'],
                                             category: blog[actualIndex]
-                                                ['category'],
+                                                ['category'] ,
                                             like: blog[actualIndex]['save'] ??
                                                 "0",
                                             image: NetworkImage(

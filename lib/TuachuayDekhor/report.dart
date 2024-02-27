@@ -2,9 +2,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
+import 'package:ruam_mitt/global_var.dart';
+import 'package:http/http.dart' as http;
+import "package:ruam_mitt/global_const.dart";
+
 
 class TuachuayDekhorReportPage extends StatefulWidget {
-  final id_post;
+  final int id_post;
   const TuachuayDekhorReportPage({super.key, required this.id_post});
 
   @override
@@ -15,6 +19,22 @@ class TuachuayDekhorReportPage extends StatefulWidget {
 class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController reasonController = TextEditingController();
+  late int id_post;
+  late Uri reporturl;
+  void initState() {
+    super.initState();
+    id_post = widget.id_post;
+    reporturl = Uri.parse("$api$dekhorReportRoute/$id_post");
+  }
+
+  Future<void> reportblog() async {
+    var response = await http.post(reporturl, headers: {
+      "Authorization": "Bearer $publicToken"
+    }, body: {
+      "title": titleController.text,
+      "reason": reasonController.text
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -207,6 +227,7 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                             surfaceTintColor: Colors.white,
                             minimumSize: const Size(150, 35)),
                         onPressed: () {
+                          reportblog();
                           print("Sending report");
                         },
                         child: const Text(

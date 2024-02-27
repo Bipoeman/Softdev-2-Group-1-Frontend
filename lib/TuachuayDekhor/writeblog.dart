@@ -33,10 +33,10 @@ class _TuachuayDekhorWriteBlogPageState
   final FocusNode anotherFocusNode = FocusNode();
   late AnimationController animationController;
   bool status = true;
-  final writeblogurl = Uri.parse("$api$dekhorWriteBloggerRoute");
+  final writeblogurl = Uri.parse("$api$dekhorWriteBlogRoute");
   var post = [];
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
-  final draftposturl = Uri.parse('$api/dekhor/draftpost');
+  final draftposturl = Uri.parse('$api$dekhorDraftPostRoute');
   File? _image;
 
   Future<void> _getImage() async {
@@ -52,21 +52,34 @@ class _TuachuayDekhorWriteBlogPageState
     });
   }
 
-  Future<void> writeblog() async {
-    var response = await http.post(writeblogurl, headers: {
-      "Authorization": "Bearer $publicToken"
-    }, body: {
-      "title": markdownTitleController.text,
-      "content": markdownContentController.text,
-      "category": _dropdownValue,
-      "image_link": "null",
-      "fullname": profileData['fullname']
-    });
+  Future<void> writeblog(File? imageFile) async {
+    try {
+      if (_dropdownValue != null) {
+        var request = http.MultipartRequest('POST', writeblogurl);
+        request.headers['Authorization'] = 'Bearer $publicToken';
+        request.fields['title'] = markdownTitleController.text;
+        request.fields['content'] = markdownContentController.text;
+        request.fields['category'] = _dropdownValue!;
+        request.fields['fullname'] = profileData['fullname'];
 
-    if (response.statusCode == 200) {
-      status = true;
-    } else {
-      status = false;
+        if (imageFile != null) {
+          request.files
+              .add(await http.MultipartFile.fromPath('file', imageFile.path));
+        }
+
+        var streamedResponse = await request.send();
+        var response = await http.Response.fromStream(streamedResponse);
+
+        if (response.statusCode == 200) {
+          status = true;
+        } else {
+          status = false;
+        }
+      } else {
+        print('Please select a category');
+      }
+    } catch (error) {
+      print('Error writing blog: $error');
     }
   }
 
@@ -133,6 +146,8 @@ class _TuachuayDekhorWriteBlogPageState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    markdownTitleText = markdownTitleController.text;
+    markdownContentText = markdownContentController.text;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -405,7 +420,7 @@ class _TuachuayDekhorWriteBlogPageState
                                       ),
                                     );
                                   } else {
-                                    writeblog();
+                                    writeblog(_image);
                                     print("Post tapped");
                                     showDialog(
                                         context: context,

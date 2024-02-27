@@ -247,9 +247,9 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                 final actualIndex = index * 2;
                                 if (isPostSelected) {
                                   return BlogBox(
-                                    title: post[actualIndex]['title'],
+                                    title: post[actualIndex]['title'] ?? "null",
                                     name: post[actualIndex]['fullname'] ?? profileData['fullname'],
-                                    category: post[actualIndex]['category'],
+                                    category: post[actualIndex]['category'] ?? "null",
                                     like: post[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       post[actualIndex]['image_link'] != "null"
@@ -270,7 +270,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                       title: save[actualIndex]['post']['title'],
                                       name: save[actualIndex]
                                           ['fullname_blogger'],
-                                      category: save[actualIndex]['post']
+                                      category: save[actualIndex]['post'] 
                                           ['category'],
                                       like:save[actualIndex]['post']['save'] ?? "0",
                                       image: NetworkImage(

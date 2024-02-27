@@ -32,7 +32,7 @@ class _TuachuayDekhorEditDraftPageState
   late AnimationController animationController;
   bool status = true;
   late int id_draft;
-  final writeblogurl = Uri.parse("$api$dekhorWriteBloggerRoute");
+  final writeblogurl = Uri.parse("$api$dekhorWriteBlogRoute");
   var detaildraft = [];
   var post = [];
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");

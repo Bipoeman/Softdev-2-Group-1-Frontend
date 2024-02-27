@@ -34,7 +34,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
   late int id_post;
   late Uri detailurl;
   late Uri editurl;
-  final writeblogurl = Uri.parse("$api$dekhorWriteBloggerRoute");
+  final writeblogurl = Uri.parse("$api$dekhorWriteBlogRoute");
   var detailpost = [];
   var post = [];
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
