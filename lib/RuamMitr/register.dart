@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ruam_mitt/RuamMitr/Component/frequent_widget/custom_text_field.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:http/http.dart' as http;
@@ -246,59 +247,12 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  Widget textField({
-    required String labelText,
-    required BuildContext context,
-    String? Function(String?)? validator,
-    TextEditingController? controller,
-    Icon? icon,
-    bool? obscureText,
-    TextInputType? inputType,
-    void Function(String)? onChanged,
-    void Function()? onTap,
-    void Function(PointerDownEvent)? onTapOutside,
-    void Function()? onEditingComplete,
-    void Function(String)? onFieldSubmitted,
-    void Function(String?)? onSaved,
-  }) {
-    ThemeData theme = Theme.of(context);
-    return Container(
-      margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-      child: TextFormField(
-        controller: controller,
-        validator: validator,
-        keyboardType: inputType,
-        obscureText: obscureText ?? false,
-        decoration: InputDecoration(
-          isDense: true,
-          fillColor: theme.colorScheme.background.withOpacity(0.8),
-          filled: true,
-          labelStyle: TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
-          contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
-          labelText: labelText,
-          prefixIconColor: theme.colorScheme.onBackground,
-          prefixIcon: icon,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(40),
-            borderSide: BorderSide.none,
-          ),
-        ),
-        onChanged: onChanged,
-        onTap: onTap,
-        onTapOutside: onTapOutside,
-        onEditingComplete: onEditingComplete,
-        onFieldSubmitted: onFieldSubmitted,
-        onSaved: onSaved,
-        maxLines: 1,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    CustomThemes ruammitrTheme = themes.themeFrom("RuamMitr")!;
     return SafeArea(
       child: Container(
         decoration: ruamMitrBackgroundGradient(themes),
@@ -342,7 +296,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   width: [512.0, size.width * 0.9].reduce(min),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(28),
-                    color: theme.colorScheme.primaryContainer.withOpacity(0.8),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        ruammitrTheme.customColors["oddContainer"]!,
+                        ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
+                      ],
+                    ),
                   ),
                   child: Form(
                     key: _formKey,

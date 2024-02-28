@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
-import 'package:ruam_mitt/RuamMitr/login.dart';
 
 import 'package:ruam_mitt/main.dart';
 
@@ -40,8 +39,9 @@ void main() {
     //   expect(find.text('1'), findsOneWidget);
   });
   testWidgets("Login Page Test", (tester) async {
-    await tester.pumpWidget(const MaterialApp(
-      home: LoginPage(),
+    await tester.pumpWidget(ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: const SuperApp(),
     ));
     final emailField = find.ancestor(
       of: find.text('Email or Username'),

@@ -4,10 +4,10 @@ import 'package:ruam_mitt/global_var.dart';
 
 class TuachuayDekhorAvatarViewer extends StatelessWidget {
   const TuachuayDekhorAvatarViewer({
-    Key? key,
+    super.key,
     this.username,
     this.avatarUrl,
-  }) : super(key: key);
+  });
 
   final String? username;
   final String? avatarUrl;
