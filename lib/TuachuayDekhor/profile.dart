@@ -162,7 +162,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                 bottom: size.width * 0.05,
                                 top: size.width * 0.005),
                             child:
-                                const Text('can\'t edit other\'s description'),
+                                profileData['description'],
                           ),
                           Padding(
                             padding: EdgeInsets.only(
