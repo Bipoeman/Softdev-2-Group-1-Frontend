@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import "package:flutter/material.dart";
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -45,8 +47,10 @@ class _LoginPageState extends State<LoginPage> {
         );
       } else if (response.statusCode == 200) {
         saveuser();
-        print(response.body);
-        publicToken = response.body;
+        print("Body : ${response.body}");
+        dynamic resJson =  json.decode(response.body);
+        publicToken = resJson['accessjwt'];
+        refreshToken = resJson['refreshjwt'];
         isOnceLogin = true;
         Navigator.of(context).pushNamedAndRemoveUntil(
           ruamMitrPageRoute["homev2"]!,
