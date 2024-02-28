@@ -477,7 +477,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(left: 35, top: 470),
+                              padding: EdgeInsets.only(left: 20, top: 460),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() => isPressedWarning = false);
@@ -572,7 +572,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(top: 470),
+                              padding: EdgeInsets.only(top: 460),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() => isPressedRecycling = false);
@@ -662,7 +662,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(top: 470),
+                              padding: EdgeInsets.only(top: 460),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() => isPressedWaste = false);
@@ -752,7 +752,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(top: 470),
+                              padding: EdgeInsets.only(top: 460),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() => isPressedGeneral = false);
