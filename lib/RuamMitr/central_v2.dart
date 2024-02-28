@@ -53,7 +53,7 @@ class _HomePageV2State extends State<HomePageV2> {
     //     .replaceAll("Color(", "")
     //     .replaceAll(")", "")
     //     .substring(4);
-    var nowParam = DateFormat('yyyyddMMHHmmss').format(DateTime.now());
+    var nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
     if (profileData['profile'] != null) {
       profileData['imgPath'] = "${profileData['profile']}#$nowParam";
     } else {
@@ -86,28 +86,39 @@ class _HomePageV2State extends State<HomePageV2> {
           },
         ),
         body: SafeArea(
-          child: profileData['fullname'] == null
-              ? const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(),
-                      Divider(),
-                      Text("Loading user data"),
-                    ],
-                  ),
-                )
-              : PageView(
-                  controller: pageController,
-                  onPageChanged: (pageChanged) {
-                    setState(() => pageIndex = pageChanged);
-                  },
-                  children: const [
-                    ProfileWidgetV2(),
-                    HomeWidgetV2(),
-                    SettingsWidgetV2()
-                  ],
-                ),
+          child: PageView(
+            controller: pageController,
+            onPageChanged: (pageChanged) {
+              setState(() => pageIndex = pageChanged);
+            },
+            children: [
+              profileData['fullname'] == null
+                  ? const Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(),
+                          Divider(),
+                          Text("Loading user data"),
+                        ],
+                      ),
+                    )
+                  : ProfileWidgetV2(),
+              profileData['fullname'] == null
+                  ? const Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(),
+                          Divider(),
+                          Text("Loading user data"),
+                        ],
+                      ),
+                    )
+                  : HomeWidgetV2(),
+              SettingsWidgetV2()
+            ],
+          ),
         ),
       ),
     );
