@@ -19,10 +19,15 @@ class EditbinPage extends StatefulWidget {
 
 class _EditbinPageState extends State<EditbinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController _LocationstextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
+    _LocationstextController =
+        TextEditingController(text: arguments['Bininfo']['location']);
     print(arguments['Bininfo']);
 
     return Theme(
@@ -117,6 +122,53 @@ class _EditbinPageState extends State<EditbinPage> {
                       const SizedBox(
                         height: 15,
                       )
+                    ],
+                  ),
+                ),
+                body: SingleChildScrollView(
+                  child: Stack(
+                    children: [
+                      Row(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Container(
+                              padding: EdgeInsets.only(left: 20),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 25),
+                                child: Text(
+                                  'Name',
+                                  style:
+                                      Theme.of(context).textTheme.displayMedium,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: size.width * 0.05,
+                          ),
+                          Container(
+                            alignment: Alignment.topRight,
+                            margin: EdgeInsets.only(top: size.height * 0.035),
+                            child: ClayContainer(
+                              width: size.width * 0.65,
+                              height: size.height * 0.032,
+                              color: Color.fromRGBO(239, 239, 239, 1),
+                              borderRadius: 30,
+                              depth: -20,
+                              child: TextField(
+                                controller: _LocationstextController,
+                                onChanged: (text) {
+                                  print('Typed text: $text');
+                                },
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),
