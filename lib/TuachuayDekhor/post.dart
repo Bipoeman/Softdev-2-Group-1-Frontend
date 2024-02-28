@@ -519,18 +519,17 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                           decoration: const BoxDecoration(),
                                           child: IntrinsicHeight(
                                             child: ClipRRect(
-                                              child: Image(
-                                                image: NetworkImage(
-                                                  detailpost.isNotEmpty &&
-                                                          detailpost[0][
-                                                                  'image_link'] !=
-                                                              "null"
-                                                      ? detailpost[0]
-                                                          ['image_link']
-                                                      : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
-                                                ),
-                                                fit: BoxFit.cover,
-                                              ),
+                                              child: isLoading
+                                                  ? const Center(
+                                                      child:
+                                                          CircularProgressIndicator(),
+                                                    )
+                                                  : Image(
+                                                      image: NetworkImage(
+                                                          detailpost[0]
+                                                              ['image_link']),
+                                                      fit: BoxFit.cover,
+                                                    ),
                                             ),
                                           ),
                                         ),
