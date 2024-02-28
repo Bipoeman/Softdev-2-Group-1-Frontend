@@ -43,6 +43,8 @@ class _HomePageV2State extends State<HomePageV2> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+    ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    
     // String avatarTextBackgroundColorString = theme.colorScheme.primaryContainer
     //     .toString()
     //     .replaceAll("Color(", "")
@@ -63,7 +65,7 @@ class _HomePageV2State extends State<HomePageV2> {
     // profileData['imgPath'] = "${profileData['profile']}" ??
     //     // "https://ui-avatars.com/api/?background=$avatarTextBackgroundColorString&color=$avatarTextColorString&size=512&name=${profileData['fullname'].replaceAll(" ", "+")}";
     //     "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}.png";
-    ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    
     return Container(
       decoration: ruamMitrBackgroundGradient(themes),
       child: Scaffold(
