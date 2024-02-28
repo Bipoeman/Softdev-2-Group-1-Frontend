@@ -56,7 +56,13 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
               fontSize: 20,
               overflow: TextOverflow.fade,
               fontWeight: FontWeight.normal,
-              color: const Color(0xFF003049).withOpacity(0.69),
+              color: const Color(0xFF050505).withOpacity(0.69),
+            ),
+            displayLarge: TextStyle(
+              fontSize: 17,
+              overflow: TextOverflow.fade,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF050505),
             ),
           ),
           appBarTheme: const AppBarTheme(
@@ -171,6 +177,39 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                           )
                         ],
                       ),
+                      Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      backgroundColor: Colors.amber,
+                      surfaceTintColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                        side: const BorderSide(color: Colors.grey),
+                      ),
+                    ),
+                    child: Text('Submit', style: Theme.of(context).textTheme.displayLarge, ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      backgroundColor: Colors.grey[300],
+                      surfaceTintColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                        side: const BorderSide(color: Colors.grey),
+                      ),
+                    ),
+                    child: Text("Cancel", style: Theme.of(context).textTheme.displayLarge,),
+                  ),
+                ],
+              ),
                     ],
                   ),
                 ),
