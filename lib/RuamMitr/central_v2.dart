@@ -103,7 +103,7 @@ class _HomePageV2State extends State<HomePageV2> {
                         ],
                       ),
                     )
-                  : ProfileWidgetV2(),
+                  : const ProfileWidgetV2(),
               profileData['fullname'] == null
                   ? const Center(
                       child: Column(
@@ -115,8 +115,8 @@ class _HomePageV2State extends State<HomePageV2> {
                         ],
                       ),
                     )
-                  : HomeWidgetV2(),
-              SettingsWidgetV2()
+                  : const HomeWidgetV2(),
+              const SettingsWidgetV2()
             ],
           ),
         ),
