@@ -77,16 +77,28 @@ class _TuachuayDekhorWriteBlogPageState
     }
   }
 
-  Future<void> draft() async {
-    await http.post(draftposturl, headers: {
-      "Authorization": "Bearer $publicToken"
-    }, body: {
-      "title": markdownTitleController.text,
-      "content": markdownContentController.text,
-      "category": _dropdownValue,
-      "image_link": "null",
-      "fullname": profileData['fullname']
-    });
+ Future<void> draft(File? imageFile) async {
+    try {
+      var request = http.MultipartRequest('POST', draftposturl);
+      request.headers['Authorization'] = 'Bearer $publicToken';
+      request.fields['title'] = markdownTitleController.text;
+      request.fields['content'] = markdownContentController.text;
+      request.fields['category'] = _dropdownValue!;
+      request.fields['fullname'] = profileData['fullname'];
+      request.files
+          .add(await http.MultipartFile.fromPath('file', imageFile!.path));
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200) {
+        status = true;
+      } else {
+        status = false;
+      }
+    } catch (error) {
+      print('Error writing blog: $error');
+    }
   }
 
   Future<void> posttoprofile() async {
@@ -117,6 +129,7 @@ class _TuachuayDekhorWriteBlogPageState
           markdownTitleController.clear();
           markdownContentController.clear();
           _dropdownValue = null;
+          _image = null;
           FocusManager.instance.primaryFocus?.unfocus();
           animationController.reset();
           Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
@@ -342,7 +355,7 @@ class _TuachuayDekhorWriteBlogPageState
                                             color: Colors.green),
                                         child: TextButton(
                                           onPressed: () {
-                                            draft();
+                                            draft(_image);
                                             Navigator.pop(context);
                                             Navigator.pop(context);
                                             Navigator.pushNamed(

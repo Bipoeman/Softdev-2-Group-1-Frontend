@@ -22,7 +22,11 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
   @override
   void initState() {
     super.initState();
-    posttodraft();
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        posttodraft();
+      });
+    });
   }
 
   Future<void> posttodraft() async {
@@ -107,7 +111,7 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                         children: [
                           Wrap(
                             direction: Axis.vertical,
-                            spacing: 5,
+                            spacing: 7,
                             children: List.generate(
                               (draft.length / 2).ceil(),
                               (index) {
@@ -141,7 +145,7 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                           ),
                           Wrap(
                             direction: Axis.vertical,
-                            spacing: 5,
+                            spacing: 7,
                             children: List.generate(
                               (draft.length) ~/ 2,
                               (index) {
