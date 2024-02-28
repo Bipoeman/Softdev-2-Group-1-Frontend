@@ -108,7 +108,6 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "label": const Color.fromRGBO(84, 84, 84, 1),
         "textInput": Colors.black,
         "icon": Colors.black,
-        // "backgroundStart": const Color.fromRGBO(248, 196, 196, 1),
         "backgroundStart": const Color(0xFFF8C4C4),
         "backgroundEnd": const Color.fromRGBO(224, 224, 224, 1),
         "hyperlink": const Color.fromRGBO(0, 167, 190, 1),
@@ -154,7 +153,18 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         ),
         useMaterial3: true,
       ),
-      customColors: {},
+      customColors: {
+        "main": const Color.fromRGBO(0, 48, 73, 1),
+        "onMain": Colors.white,
+        "container": const Color.fromRGBO(240, 240, 240, 1),
+        "onContainer": Colors.black,
+        "textInputContainer": const Color.fromRGBO(221, 221, 221, 1),
+        "label": const Color.fromRGBO(84, 84, 84, 1),
+        "textInput": Colors.black,
+        "icon1": const Color.fromRGBO(217, 192, 41, 1),
+        "icon2": const Color.fromRGBO(0, 48, 73, 1),
+        "background": Colors.white,
+      },
     ),
     "dark": CustomThemes(
       themeData: ThemeData(
@@ -164,7 +174,18 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         ),
         useMaterial3: true,
       ),
-      customColors: {},
+      customColors: {
+        "main": Colors.white,
+        "onMain": Colors.white,
+        "container": const Color.fromRGBO(77, 77, 77, 1),
+        "onContainer": Colors.white,
+        "textInputContainer": const Color.fromRGBO(84, 84, 84, 1),
+        "label": const Color.fromRGBO(221, 221, 221, 1),
+        "textInput": Colors.white,
+        "icon1": const Color.fromRGBO(217, 192, 41, 1),
+        "icon2": const Color.fromRGBO(0, 48, 73, 1),
+        "background": Colors.black,
+      },
     ),
   }
 };
