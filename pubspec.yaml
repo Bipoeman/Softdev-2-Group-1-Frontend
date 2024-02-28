@@ -64,6 +64,7 @@ dependencies:
   geolocator: ^11.0.0
   lottie: ^3.0.0
   email_validator: ^2.0.1
+  clay_containers: ^0.3.4
   animated_icon: ^0.0.6
 
 dev_dependencies:

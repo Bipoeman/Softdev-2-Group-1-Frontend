@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
 import "package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart";
+import 'package:clay_containers/widgets/clay_container.dart';
 
 class ReportPage extends StatefulWidget {
   const ReportPage({super.key});
@@ -63,30 +64,39 @@ class _ReportPageState extends State<ReportPage> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: size.width * 0.05),
-                      child: Container(
-                        padding: EdgeInsets.only(left: size.width * 0.02),
+                      // child: Container(
+                      //   padding: EdgeInsets.only(left: size.width * 0.02),
+                      //   height: size.height * 0.03,
+                      //   width: size.width * 0.6,
+                      //   decoration: const BoxDecoration(
+                      //     borderRadius: BorderRadius.all(Radius.circular(15)),
+                      //     boxShadow: [
+                      //       BoxShadow(
+                      //         color: Color.fromRGBO(0, 0, 0, 0.25),
+                      //       ),
+                      //       BoxShadow(
+                      //         color: Color(0xFFEBEBEB),
+                      //         offset: const Offset(0, 4),
+                      //         spreadRadius: 0,
+                      //         blurRadius: 4.0,
+                      //       ),
+                      //     ],
+                      //   ),
+                      child: ClayContainer(
                         height: size.height * 0.03,
                         width: size.width * 0.6,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.25),
+                        color: Color.fromRGBO(239, 239, 239, 1),
+                        borderRadius: 30,
+                        depth: -20,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: size.width * 0.02),
+                          child: Text(
+                            data['Bininfo']["location"],
+                            style: textStyle(
+                              context,
+                              Color.fromRGBO(0, 30, 49, 67),
+                              data['Bininfo']['location'],
                             ),
-                            BoxShadow(
-                              color: Color(0xFFEBEBEB),
-                              offset: const Offset(0, 4),
-                              spreadRadius: 0,
-                              blurRadius: 4.0,
-                            ),
-                          ],
-                        ),
-                        child: Text(
-                          data['Bininfo']["location"],
-                          style: textStyle(
-                            context,
-                            Color.fromRGBO(0, 30, 49, 67),
-                            data['Bininfo']['location'],
                           ),
                         ),
                       ),
@@ -111,27 +121,14 @@ class _ReportPageState extends State<ReportPage> {
                       top: size.height * 0.01, right: size.width * 0.1),
                   child: Column(
                     children: [
-                      Container(
-                        alignment: Alignment.topCenter,
+                      ClayContainer(
                         width: size.width * 0.6,
                         height: size.height * 0.03,
-                        decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.25),
-                            ),
-                            BoxShadow(
-                              color: Color(0xFFEBEBEB),
-                              offset: const Offset(0, 4),
-                              spreadRadius: 0,
-                              blurRadius: 4.0,
-                            ),
-                          ],
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                        ),
-                        child: Container(
+                        color: Color(0xFFEBEBEB),
+                        borderRadius: 30,
+                        depth: -20,
+                        child: Padding(
                           padding: EdgeInsets.only(left: size.width * 0.02),
-                          alignment: Alignment.bottomLeft,
                           child: Text(
                             "Latitude : ${data['Bininfo']['latitude']}",
                             style: textStyle(
@@ -145,27 +142,14 @@ class _ReportPageState extends State<ReportPage> {
                       Padding(
                         padding: EdgeInsets.only(top: size.height * 0.01),
                       ),
-                      Container(
-                        alignment: Alignment.topCenter,
+                      ClayContainer(
                         width: size.width * 0.6,
                         height: size.height * 0.03,
-                        decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.25),
-                            ),
-                            BoxShadow(
-                              color: Color(0xFFEBEBEB),
-                              offset: const Offset(0, 4),
-                              spreadRadius: 0,
-                              blurRadius: 4.0,
-                            ),
-                          ],
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                        ),
-                        child: Container(
+                        color: Color(0xFFEBEBEB),
+                        borderRadius: 30,
+                        depth: -20,
+                        child: Padding(
                           padding: EdgeInsets.only(left: size.width * 0.02),
-                          alignment: Alignment.bottomLeft,
                           child: Text(
                             "Longitude : ${data['Bininfo']['longitude']}",
                             style: textStyle(
