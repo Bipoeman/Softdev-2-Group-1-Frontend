@@ -7,6 +7,7 @@ import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_func.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
 
@@ -115,8 +116,6 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                               ),
                             ),
                             onTap: () async {
-                              print("You might want to change profile image");
-                              print(publicToken);
                               File? imageSelectedFile = await getImage();
                               if (imageSelectedFile == null) return;
                               Uri url = Uri.parse("$api$userImageUpdateRoute");
@@ -142,12 +141,17 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                                   await http.Response.fromStream(response);
                               if (res.statusCode == 200) {
                                 dynamic responseJson = json.decode(res.body);
-                                var nowParam = DateFormat('yyyyddMMHHmmss')
+                                var nowParam = DateFormat('yyyyddMMHHmm')
                                     .format(DateTime.now());
                                 print(nowParam);
                                 profileData['imgPath'] =
                                     "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}#$nowParam";
                                 setState(() {});
+                              } else if (res.statusCode == 403) {
+                                if (context.mounted) {
+                                  int newTokenStatusReturn =
+                                      await requestNewToken(context);
+                                }
                               }
                             },
                           ),

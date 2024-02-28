@@ -9,6 +9,7 @@ const String registerPageRoute = "/register";
 const String userDataUpdateRoute = "/user";
 const String userImageUpdateRoute = "/user/upload";
 const String userDataRequestRoute = "/user/id";
+const String refreshTokenRoute = "/user/refresh";
 const String pinTheBinGetBinRoute = "/pinthebin/bin";
 const String dekhorPosttoprofileRoute = "/dekhor/posttoprofile";
 const String dekhorShowSaveRoute = "/dekhor/showsave";
