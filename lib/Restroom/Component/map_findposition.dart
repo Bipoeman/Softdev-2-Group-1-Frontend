@@ -26,7 +26,6 @@ class MapRestroomRover extends StatelessWidget {
       )
       .toList();
 
-  const MapRestroomRover({super.key});
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -76,14 +75,14 @@ class MapRestroomRover extends StatelessWidget {
             CurrentLocationLayer(
               // followOnLocationUpdate: FollowOnLocationUpdate.always,
               // turnOnHeadingUpdate: TurnOnHeadingUpdate.never,
-              style: const LocationMarkerStyle(
-                marker: DefaultLocationMarker(
+              style: LocationMarkerStyle(
+                marker: const DefaultLocationMarker(
                   child: Icon(
                     Icons.navigation,
                     color: Colors.white,
                   ),
                 ),
-                markerSize: Size(40, 40),
+                markerSize: const Size(40, 40),
                 markerDirection: MarkerDirection.heading,
               ),
             ),

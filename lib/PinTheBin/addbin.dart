@@ -86,7 +86,7 @@ class _AddbinPageState extends State<AddbinPage> {
           ),
           Column(
             children: [
-              Align(
+              Container(
                 alignment: Alignment.topLeft,
                 child: Container(
                   padding: const EdgeInsets.only(left: 20),
@@ -104,7 +104,7 @@ class _AddbinPageState extends State<AddbinPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+            
               Container(
                 width: 300,
                 height: 28,
