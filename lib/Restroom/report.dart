@@ -130,6 +130,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                 },
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric( vertical: 10.0)
                                 ),
                               ),
                             ),
@@ -147,16 +148,14 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                             alignment: Alignment.topLeft,
                             child: Container(
                               padding: EdgeInsets.only(left: 40),
-                              
-                                child: Text(
-                                  'Description',
-                                  style: Theme.of(context).textTheme.displayMedium,
-                                ),
-                              
+                              child: Text(
+                                'Description',
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
+                              ),
                             ),
                           ),
-                         Container(
-                          
+                          Container(
                             margin: EdgeInsets.only(top: size.height * 0.02),
                             child: ClayContainer(
                               width: size.width * 0.78,
@@ -169,47 +168,59 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                 onChanged: (text) {
                                   print('Typed text: $text');
                                 },
+                                maxLines: null,
+                                // textAlignVertical: TextAlignVertical.center,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0)
                                 ),
                               ),
                             ),
                           )
                         ],
                       ),
+                      SizedBox(
+                          height:
+                              size.height * 0.25), // เพิ่มระยะห่างระหว่าง Row กับเนื้อหาด้านล่าง
                       Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.amber,
-                      surfaceTintColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                        side: const BorderSide(color: Colors.grey),
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.amber,
+                              surfaceTintColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                side: const BorderSide(color: Colors.grey),
+                              ),
+                            ),
+                            child: Text(
+                              'Submit',
+                              style: Theme.of(context).textTheme.displayLarge,
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.grey[300],
+                              surfaceTintColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                side: const BorderSide(color: Colors.grey),
+                              ),
+                            ),
+                            child: Text(
+                              "Cancel",
+                              style: Theme.of(context).textTheme.displayLarge,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    child: Text('Submit', style: Theme.of(context).textTheme.displayLarge, ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.grey[300],
-                      surfaceTintColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                        side: const BorderSide(color: Colors.grey),
-                      ),
-                    ),
-                    child: Text("Cancel", style: Theme.of(context).textTheme.displayLarge,),
-                  ),
-                ],
-              ),
                     ],
                   ),
                 ),
