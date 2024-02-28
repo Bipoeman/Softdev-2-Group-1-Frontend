@@ -121,13 +121,13 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                     },
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 5,
                   ),
                   Container(
                     margin: EdgeInsets.only(top: size.height * 0.02),
                     child: ClayContainer(
                       width: size.width * 0.85,
-                      height: size.height * 0.15,
+                      height: size.height * 0.17,
                       color: Color(0xFFEAEAEA),
                       borderRadius: 30,
                       depth: -20,
@@ -143,7 +143,7 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 16.0, vertical: 10.0),
-                            hintText: 'Write a review',),
+                            hintText: 'Write a review...',),
                       ),
                     ),
                   ),

@@ -130,7 +130,8 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                 },
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric( vertical: 10.0)
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.5),
+                                  hintText: 'Write a topic...',
                                 ),
                               ),
                             ),
@@ -172,7 +173,8 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                 // textAlignVertical: TextAlignVertical.center,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0)
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                                  hintText: 'Write a description...',
                                 ),
                               ),
                             ),
