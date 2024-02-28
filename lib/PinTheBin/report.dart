@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
 import "package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart";
 import 'package:clay_containers/widgets/clay_container.dart';
+import "package:ruam_mitt/global_const.dart";
 
 class ReportPage extends StatefulWidget {
   const ReportPage({super.key});
@@ -14,25 +15,6 @@ class _ReportPageState extends State<ReportPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   TextEditingController _ReporttextController = TextEditingController();
-  TextStyle textStyle(context, Color color, String data) {
-    return TextStyle(
-        fontFamily: data.contains(
-          RegExp("[ก-๛]"),
-        )
-            ? "THSarabunPSK"
-            : Theme.of(context).textTheme.labelMedium!.fontFamily,
-        fontSize: data.contains(
-          RegExp("[ก-๛]"),
-        )
-            ? 22
-            : 16,
-        fontWeight: data.contains(
-          RegExp("[ก-๛]"),
-        )
-            ? FontWeight.w700
-            : FontWeight.normal,
-        color: color);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +38,14 @@ class _ReportPageState extends State<ReportPage> {
                       Container(
                         height: size.height * 0.03,
                         alignment: Alignment.bottomLeft,
-                        child: Text("Name",
-                            style: textStyle(
-                              context,
-                              Color.fromRGBO(0, 30, 49, 67),
-                              "Name",
-                            )),
+                        child: Text(
+                          "Name",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color.fromRGBO(0, 30, 49, 67),
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: size.width * 0.05),
@@ -75,11 +59,26 @@ class _ReportPageState extends State<ReportPage> {
                             padding: EdgeInsets.only(left: size.width * 0.02),
                             child: Text(
                               data['Bininfo']["location"],
-                              style: textStyle(
-                                context,
-                                Color.fromRGBO(0, 30, 49, 67),
-                                data['Bininfo']['location'],
-                              ),
+                              style: TextStyle(
+                                  fontFamily:
+                                      data['Bininfo']["location"].contains(
+                                    RegExp("[ก-๛]"),
+                                  )
+                                          ? "THSarabunPSK"
+                                          : "Sen",
+                                  fontSize:
+                                      data['Bininfo']["location"].contains(
+                                    RegExp("[ก-๛]"),
+                                  )
+                                          ? 22
+                                          : 16,
+                                  fontWeight:
+                                      data['Bininfo']["location"].contains(
+                                    RegExp("[ก-๛]"),
+                                  )
+                                          ? FontWeight.w700
+                                          : FontWeight.normal,
+                                  color: Color.fromRGBO(0, 30, 49, 67)),
                             ),
                           ),
                         ),
@@ -92,10 +91,10 @@ class _ReportPageState extends State<ReportPage> {
                         alignment: Alignment.topLeft,
                         child: Text(
                           "Position",
-                          style: textStyle(
-                            context,
-                            Color.fromRGBO(0, 30, 49, 0.67),
-                            "Position",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color.fromRGBO(0, 30, 49, 67),
                           ),
                         )),
                   ),
@@ -114,10 +113,10 @@ class _ReportPageState extends State<ReportPage> {
                             padding: EdgeInsets.only(left: size.width * 0.02),
                             child: Text(
                               "Latitude : ${data['Bininfo']['latitude']}",
-                              style: textStyle(
-                                context,
-                                Color.fromRGBO(0, 30, 49, 0.67),
-                                ("Latitude"),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 30, 49, 67),
                               ),
                             ),
                           ),
@@ -135,10 +134,10 @@ class _ReportPageState extends State<ReportPage> {
                             padding: EdgeInsets.only(left: size.width * 0.02),
                             child: Text(
                               "Longitude : ${data['Bininfo']['longitude']}",
-                              style: textStyle(
-                                context,
-                                Color.fromRGBO(0, 30, 49, 0.67),
-                                ("Longitude"),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 30, 49, 67),
                               ),
                             ),
                           ),
@@ -176,10 +175,10 @@ class _ReportPageState extends State<ReportPage> {
                           alignment: Alignment.topLeft,
                           child: Text(
                             "Report",
-                            style: textStyle(
-                              context,
-                              Color.fromRGBO(0, 30, 49, 0.67),
-                              "Report",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: Color.fromRGBO(0, 30, 49, 67),
                             ),
                           ),
                         ),
@@ -188,15 +187,18 @@ class _ReportPageState extends State<ReportPage> {
                               top: size.height * 0.01, right: size.width * 0.1),
                           child: ClayContainer(
                             width: size.width * 0.7,
-                            height: size.height * 0.15,
+                            height: size.height * 0.125,
                             color: Color(0xFFEBEBEB),
                             borderRadius: 30,
                             depth: -20,
                             child: Padding(
-                              padding: EdgeInsets.only(left: size.width * 0.02),
+                              padding: EdgeInsets.only(
+                                  top: size.height * 0.01,
+                                  left: size.width * 0.02),
                               child: TextField(
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
+                                  contentPadding: EdgeInsets.zero,
                                 ),
                                 controller: _ReporttextController,
                                 onChanged: (text) {
@@ -204,11 +206,26 @@ class _ReportPageState extends State<ReportPage> {
                                 },
                                 maxLength: 80,
                                 maxLines: 3,
-                                style: textStyle(
-                                  context,
-                                  Color.fromRGBO(0, 30, 49, 0.67),
-                                  (_ReporttextController.text),
-                                ),
+                                style: TextStyle(
+                                    fontFamily:
+                                        _ReporttextController.text.contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                            ? "THSarabunPSK"
+                                            : "Sen",
+                                    fontSize:
+                                        _ReporttextController.text.contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                            ? 22
+                                            : 16,
+                                    fontWeight:
+                                        _ReporttextController.text.contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                            ? FontWeight.w700
+                                            : FontWeight.normal,
+                                    color: Color.fromRGBO(0, 30, 49, 67)),
                                 textInputAction: TextInputAction.done,
                               ),
                             ),
@@ -226,7 +243,7 @@ class _ReportPageState extends State<ReportPage> {
                       },
                       child: Container(
                         width: size.width * 0.7,
-                        height: size.height * 0.15,
+                        height: size.height * 0.125,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.bottomCenter,
@@ -276,7 +293,7 @@ class _ReportPageState extends State<ReportPage> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                top: size.height * 0.105,
+                                top: size.height * 0.08,
                                 left: size.width * 0.01,
                               ),
                               child: Container(
@@ -295,7 +312,7 @@ class _ReportPageState extends State<ReportPage> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                top: size.height * 0.105,
+                                top: size.height * 0.08,
                                 left: size.width * 0.65,
                               ),
                               child: Container(
@@ -313,7 +330,8 @@ class _ReportPageState extends State<ReportPage> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: size.height * 0.1),
+                              padding:
+                                  EdgeInsets.only(top: size.height * 0.075),
                               child: Container(
                                 alignment: Alignment.topCenter,
                                 child: Opacity(
@@ -329,11 +347,11 @@ class _ReportPageState extends State<ReportPage> {
                             Padding(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.03,
-                                left: size.width * 0.27,
+                                left: size.width * 0.3,
                               ),
                               child: Image.asset(
                                 "assets/images/PinTheBin/upload.png",
-                                height: size.height * 0.075,
+                                height: size.height * 0.05,
                                 color: Color.fromRGBO(255, 255, 255, 0.67),
                               ),
                             ),
@@ -342,6 +360,80 @@ class _ReportPageState extends State<ReportPage> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: size.height * 0.02, right: size.width * 0.1),
+                    child: Container(
+                      height: size.height * 0.1,
+                      width: size.width * 0.7,
+                      // color: Colors.black,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: size.width * 0.3,
+                            height: size.height * 0.05,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // Navigator.pushNamed(
+                                //   context,
+                                //   pinthebinPageRoute["home"]!,
+                                // );
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "SUMMIT",
+                                  style: TextStyle(
+                                    fontFamily: "Sen",
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFFEBEBEB),
+                                  ),
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF547485),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: size.width * 0.1),
+                            child: Container(
+                              width: size.width * 0.3,
+                              height: size.height * 0.05,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    pinthebinPageRoute["home"]!,
+                                  );
+                                },
+                                child: Text(
+                                  "CANCEL",
+                                  style: TextStyle(
+                                    fontFamily: "Sen",
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFFEBEBEB),
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xFFF79F8A),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
