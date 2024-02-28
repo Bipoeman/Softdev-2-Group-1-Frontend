@@ -21,8 +21,21 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
   TextEditingController _DescriptiontextController = TextEditingController();
   final backgroundColor = const Color(0xFFFFFFFF);
   bool isPressed = true;
-  bool isPressedWarning = true;
-  bool isPressedRecycling = true;
+  bool isPressedWarning = false;
+  bool isPressedRecycling = false;
+  final Map<String, bool> _isPressedbintype = {
+    'isPressedWarning': true,
+    'isPressedRecycling': true,
+    'isPressedwaste': true,
+    'isPressedgeneral': true
+  };
+
+  final Map<String, bool> _bintype = {
+    'redbin': false,
+    'greenbin': false,
+    'yellowbin': false,
+    'bluebin': false
+  };
 
   LatLng? _position;
 
@@ -449,8 +462,44 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               padding: EdgeInsets.only(left: 35, top: 470),
                               child: GestureDetector(
                                 onTap: () {
-                                  setState(() =>
-                                      isPressedWarning = !isPressedWarning);
+                                  setState(() => isPressedWarning = false);
+                                  setState(() => _bintype['redbin'] = true);
+                                  print(_bintype['redbin']);
+                                  if (_bintype['redbin'] == true) {
+                                    setState(() {
+                                      isPressedWarning = !isPressedWarning;
+                                    });
+                                  } else {
+                                    isPressedWarning = true;
+                                  }
+                                  // if (_bintype['greenbin'] == false &&
+                                  //     _bintype['yellowbin'] == false &&
+                                  //     _bintype['bluebin'] == false) {
+                                  //   setState(() {
+                                  //     _bintype['redbin'] = true;
+                                  //   });
+                                  //   setState(() {
+                                  //     isPressedWarning = !isPressedWarning;
+                                  //     isPressedRecycling = false;
+                                  //   });
+
+                                  //   //isPressedRecycling = false;
+                                  //   print(_bintype['redbin']);
+                                  // } else {
+                                  //   _bintype['redbin'] = false;
+                                  //   isPressedWarning = true;
+                                  // }
+                                },
+                                onDoubleTap: () {
+                                  setState(() => isPressedWarning = false);
+                                  if (_bintype['redbin'] == true) {
+                                    setState(() {
+                                      _bintype['redbin'] = false;
+                                    });
+                                    print(_bintype['redbin']);
+                                  } else {
+                                    _bintype['redbin'] = true;
+                                  }
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
@@ -497,8 +546,39 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               padding: EdgeInsets.only(top: 470),
                               child: GestureDetector(
                                 onTap: () {
-                                  setState(() =>
-                                      isPressedRecycling = !isPressedRecycling);
+                                  setState(() => isPressedRecycling = false);
+                                  setState(() => _bintype['yellowbin'] = true);
+                                  print(_bintype['yellowbin']);
+                                  if (_bintype['yellowbin'] == true) {
+                                    setState(() {
+                                      isPressedRecycling = !isPressedRecycling;
+                                    });
+                                  } else {
+                                    isPressedRecycling = true;
+                                  }
+                                  //   setState(() => isPressedRecycling = false);
+                                  // },
+                                  // onDoubleTap: () {
+                                  //   setState(() => isPressedRecycling = false);
+                                  //   if (_bintype['yellowbin'] == true) {
+                                  //     setState(() {
+                                  //       _bintype['yellowbin'] = false;
+                                  //     });
+                                  //     print(_bintype['yellowbin']);
+                                  //   } else {
+                                  //     _bintype['yellowbin'] = true;
+                                  //   }
+                                },
+                                onDoubleTap: () {
+                                  setState(() => isPressedRecycling = false);
+                                  if (_bintype['yellowbin'] == true) {
+                                    setState(() {
+                                      _bintype['yellowbin'] = false;
+                                    });
+                                    print(_bintype['yellowbin']);
+                                  } else {
+                                    _bintype['yellowbin'] = true;
+                                  }
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
