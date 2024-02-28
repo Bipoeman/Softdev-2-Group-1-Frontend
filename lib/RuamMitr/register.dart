@@ -184,11 +184,8 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void validateRegisterInputs(String value) {
-    bool noAnyStartStates =
-        _isEmptyFromStart.values.every((element) => !element);
-    if (_formKey.currentState!.validate() &&
-        !_registerButtonEnabled &&
-        noAnyStartStates) {
+    bool noAnyStartStates = _isEmptyFromStart.values.every((element) => !element);
+    if (_formKey.currentState!.validate() && !_registerButtonEnabled && noAnyStartStates) {
       _registerButtonEnabled = true;
       setState(() {});
     } else if (!_formKey.currentState!.validate() && _registerButtonEnabled) {
@@ -255,6 +252,7 @@ class _RegisterPageState extends State<RegisterPage> {
     Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    CustomThemes ruammitrTheme = themes.themeFrom("RuamMitr")!;
     return SafeArea(
       child: Container(
         decoration: ruamMitrBackgroundGradient(themes),
@@ -289,8 +287,7 @@ class _RegisterPageState extends State<RegisterPage> {
           body: SingleChildScrollView(
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight:
-                    size.height - MediaQuery.of(context).padding.top - 75,
+                minHeight: size.height - MediaQuery.of(context).padding.top - 75,
               ),
               child: Center(
                 child: Container(
@@ -299,7 +296,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   width: [512.0, size.width * 0.9].reduce(min),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(28),
-                    color: theme.colorScheme.primaryContainer.withOpacity(0.8),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        ruammitrTheme.customColors["oddContainer"]!,
+                        ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
+                      ],
+                    ),
                   ),
                   child: Form(
                     key: _formKey,
@@ -363,9 +367,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                               foregroundColor: theme.colorScheme.onPrimary,
                             ),
-                            onPressed: _registerButtonEnabled
-                                ? _registerAccount
-                                : null,
+                            onPressed: _registerButtonEnabled ? _registerAccount : null,
                             child: const Text("Create Account"),
                           ),
                         ),

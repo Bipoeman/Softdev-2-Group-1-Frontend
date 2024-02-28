@@ -45,10 +45,9 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
-
+    CustomThemes ruammitrTheme = themeProvider.themeFrom("RuamMitr")!;
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints: BoxConstraints(
@@ -62,14 +61,10 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AvatarViewer(size: size),
-                    ContactUs(themeProvider)
-                  ],
+                  children: [AvatarViewer(size: size), ContactUs(themeProvider)],
                 ),
               ),
               Container(
@@ -84,8 +79,14 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
                         decoration: BoxDecoration(
-                          color: theme.colorScheme.primaryContainer
-                              .withOpacity(0.5),
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              ruammitrTheme.customColors["oddContainer"]!,
+                              ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
+                            ],
+                          ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
