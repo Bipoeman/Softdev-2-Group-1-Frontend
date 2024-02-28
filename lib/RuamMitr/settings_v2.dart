@@ -84,34 +84,22 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                     ),
                   ],
                 ),
-                if (profileData['role'] == "Admin")
+                if (profileData['role'] == "User")
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.19),
                     child: InkWell(
-                      onTap: () {
-                        // Navigator.pushAndRemoveUntil(
-                        //     context,
-                        //     MaterialPageRoute<void>(
-                        //         builder: (BuildContext context) =>
-                        //             const AdminPage()),
-                        //     (route) => false);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                                builder: (BuildContext context) =>
-                                    const AdminPage()));
-                      },
+                      onTap: () {},
                       child: Ink(
                         width: size.width,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Admin Page",
+                              "Report",
                               style: theme.textTheme.bodyLarge,
                             ),
-                            const Icon(Icons.arrow_forward_ios_rounded)
+                            const Icon(Icons.flag)
                           ],
                         ),
                       ),
@@ -121,37 +109,56 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                   const SizedBox(),
               ],
             ),
-            Container(
-              width: [size.width * 0.6, 300.0].reduce(min),
-              margin: EdgeInsets.fromLTRB(0, 20, 0, size.width * 0.15),
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.colorScheme.primary,
-                  textStyle: TextStyle(
-                    color: theme.colorScheme.onPrimary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+            Column(
+              children: [
+                if (profileData['role'] == "Admin")
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => const AdminPage(),
+                        ),
+                      );
+                    },
+                    icon: Image.asset(
+                      "assets/images/Ruammitr/admin_page_icon.png",
+                      height: size.height * 0.07,
+                    ),
                   ),
-                  foregroundColor: theme.colorScheme.onPrimary,
+                Container(
+                  width: [size.width * 0.6, 300.0].reduce(min),
+                  margin: EdgeInsets.fromLTRB(0, 0, 0, size.width * 0.15),
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: theme.colorScheme.primary,
+                      textStyle: TextStyle(
+                        color: theme.colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                      foregroundColor: theme.colorScheme.onPrimary,
+                    ),
+                    child: const Text("Logout"),
+                    onPressed: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      await prefs.setBool("isChecked", false);
+                      await prefs.setString("password", "");
+                      isOnceLogin = true;
+                      publicToken = "";
+                      profileData = {};
+                      if (context.mounted) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          loginPageRoute,
+                          (Route<dynamic> route) => false,
+                        );
+                      }
+                    },
+                  ),
                 ),
-                child: const Text("Logout"),
-                onPressed: () async {
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  await prefs.setBool("isChecked", false);
-                  await prefs.setString("password", "");
-                  isOnceLogin = true;
-                  publicToken = "";
-                  profileData = {};
-                  if (context.mounted) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      loginPageRoute,
-                      (Route<dynamic> route) => false,
-                    );
-                  }
-                },
-              ),
+              ],
             ),
           ],
         ),
