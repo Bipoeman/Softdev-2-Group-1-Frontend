@@ -151,7 +151,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                           ),
                          Container(
                           
-                            margin: EdgeInsets.only(top: size.height * 0.01),
+                            margin: EdgeInsets.only(top: size.height * 0.02),
                             child: ClayContainer(
                               width: size.width * 0.78,
                               height: size.height * 0.3,
