@@ -291,7 +291,6 @@ class _MyBinState extends State<MyBinPage> {
                                         child: data["picture"] == null
                                             ? Image.asset(
                                                 "assets/images/PinTheBin/bin_null.png",
-                                                // fit: BoxFit.cover,
                                                 width: size.width * 0.4,
                                                 height: size.width * 0.4,
                                               )

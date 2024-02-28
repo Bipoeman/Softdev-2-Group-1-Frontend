@@ -3,10 +3,7 @@ import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
 import "package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart";
 
 class ReportPage extends StatefulWidget {
-  // ReportPage({required this.data, Key? key}) : super(key: key);
   const ReportPage({super.key});
-
-  // late Map<String, dynamic> data;
 
   @override
   State<ReportPage> createState() => _ReportPageState();
@@ -14,27 +11,20 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPageState extends State<ReportPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  Map<String, dynamic>? _useData;
 
-  @override
-  void initState() {
-    super.initState();
-    // _useData = widget.data;
-  }
-
-  TextStyle textStyle(context, color) {
+  TextStyle textStyle(context, Color color, String data) {
     return TextStyle(
-        fontFamily: context.contains(
+        fontFamily: data.contains(
           RegExp("[ก-๛]"),
         )
             ? "THSarabunPSK"
             : Theme.of(context).textTheme.labelMedium!.fontFamily,
-        fontSize: context.contains(
+        fontSize: data.contains(
           RegExp("[ก-๛]"),
         )
-            ? 24
+            ? 22
             : 16,
-        fontWeight: context.contains(
+        fontWeight: data.contains(
           RegExp("[ก-๛]"),
         )
             ? FontWeight.w700
@@ -44,7 +34,10 @@ class _ReportPageState extends State<ReportPage> {
 
   @override
   Widget build(BuildContext context) {
+    final data = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
     Size size = MediaQuery.of(context).size;
+
     return Theme(
       data: pinTheBinThemeData,
       child: Scaffold(
@@ -63,7 +56,10 @@ class _ReportPageState extends State<ReportPage> {
                       alignment: Alignment.bottomLeft,
                       child: Text("Name",
                           style: textStyle(
-                              context, Color.fromRGBO(0, 30, 49, 67))),
+                            context,
+                            Color.fromRGBO(0, 30, 49, 67),
+                            "Name",
+                          )),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: size.width * 0.05),
@@ -86,10 +82,11 @@ class _ReportPageState extends State<ReportPage> {
                           ],
                         ),
                         child: Text(
-                          _useData!["location"],
+                          data['Bininfo']["location"],
                           style: textStyle(
                             context,
                             Color.fromRGBO(0, 30, 49, 67),
+                            data['Bininfo']['location'],
                           ),
                         ),
                       ),
@@ -102,8 +99,11 @@ class _ReportPageState extends State<ReportPage> {
                       alignment: Alignment.topLeft,
                       child: Text(
                         "Position",
-                        style:
-                            textStyle(context, Color.fromRGBO(0, 30, 49, 0.67)),
+                        style: textStyle(
+                          context,
+                          Color.fromRGBO(0, 30, 49, 0.67),
+                          "Position",
+                        ),
                       )),
                 ),
                 Padding(
@@ -133,9 +133,12 @@ class _ReportPageState extends State<ReportPage> {
                           padding: EdgeInsets.only(left: size.width * 0.02),
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            "Latitude : ",
+                            "Latitude : ${data['Bininfo']['latitude']}",
                             style: textStyle(
-                                context, Color.fromRGBO(0, 30, 49, 0.67)),
+                              context,
+                              Color.fromRGBO(0, 30, 49, 0.67),
+                              ("Latitude"),
+                            ),
                           ),
                         ),
                       ),
@@ -164,9 +167,12 @@ class _ReportPageState extends State<ReportPage> {
                           padding: EdgeInsets.only(left: size.width * 0.02),
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            "Longitude : ",
+                            "Longitude : ${data['Bininfo']['longitude']}",
                             style: textStyle(
-                                context, Color.fromRGBO(0, 30, 49, 0.67)),
+                              context,
+                              Color.fromRGBO(0, 30, 49, 0.67),
+                              ("Longitude"),
+                            ),
                           ),
                         ),
                       ),
@@ -176,21 +182,21 @@ class _ReportPageState extends State<ReportPage> {
                       Container(
                         width: size.width * 0.7,
                         height: size.height * 0.15,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFEBEBEB),
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                        ),
-                        // child: data["picture"] == null
-                        // ? Image.asset(
-                        //     "assets/images/PinTheBin/bin_null.png",
-                        //     width: size.width * 0.4,
-                        //     height: size.width * 0.4,
-                        //   )
-                        // : Image.network(
-                        //     data["picture"],
-                        //     width: size.width * 0.4,
-                        //     height: size.width * 0.4,
-                        // ),
+                        child: data['Bininfo']['picture'] == null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: Image.asset(
+                                  "assets/images/PinTheBin/bin_null.png",
+                                  fit: BoxFit.fill,
+                                ),
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: Image.network(
+                                  data['Bininfo']['picture'],
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
                       )
                     ],
                   ),

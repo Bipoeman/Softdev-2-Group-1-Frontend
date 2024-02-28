@@ -300,7 +300,15 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                         "assets/images/PinTheBin/report_bin.png",
                                         height: 22,
                                       ),
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          pinthebinPageRoute["report"]!,
+                                          arguments: {
+                                            'Bininfo': displayBinInfo
+                                          },
+                                        );
+                                      },
                                     ),
                                   ]),
                                 ],
