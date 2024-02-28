@@ -9,6 +9,7 @@ import "package:ruam_mitt/PinTheBin/componant/map.dart";
 import "package:ruam_mitt/Restroom/Component/Navbar.dart";
 import 'package:ruam_mitt/Restroom/Component/map.dart';
 import "package:http/http.dart" as http;
+import "package:ruam_mitt/Restroom/Component/theme.dart";
 
 import "package:ruam_mitt/global_const.dart";
 import "package:ruam_mitt/global_var.dart";
@@ -69,57 +70,7 @@ class _RestroomRoverState extends State<RestroomRover> {
     // ThemeProvider themes = Provider.of<ThemeProvider>(context);
     // ThemeData pinTheBinTheme = themes.themeFrom("PinTheBin")!.themeData;
     return Theme(
-      data: ThemeData(
-        fontFamily: "Sen",
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFFFB330),
-          background: const Color(0xFFFFFCCE),
-        ),
-        textTheme: TextTheme(
-          headlineMedium: const TextStyle(
-            fontSize: 35,
-            fontWeight: FontWeight.w800,
-            color: Color.fromARGB(255, 112, 110, 110),
-          ),
-          headlineSmall: TextStyle(
-            fontSize: 30,
-            overflow: TextOverflow.fade,
-            fontWeight: FontWeight.w800,
-            color: const Color(0xFF003049),
-            shadows: [
-              Shadow(
-                blurRadius: 20,
-                offset: const Offset(0, 3),
-                color: const Color(0xFF003049).withOpacity(0.3),
-              ),
-            ],
-          ),
-          displayMedium: TextStyle(
-            fontSize: 20,
-            overflow: TextOverflow.fade,
-            fontWeight: FontWeight.normal,
-            color: const Color(0xFF003049).withOpacity(0.69),
-          ),
-        ),
-        appBarTheme: const AppBarTheme(
-          iconTheme: IconThemeData(
-            color: Colors.white,
-            size: 35,
-          ),
-        ),
-        drawerTheme: const DrawerThemeData(
-          scrimColor: Colors.transparent,
-          backgroundColor: Color(0xFFFFFFFF),
-        ),
-        searchBarTheme: SearchBarThemeData(
-          textStyle: MaterialStatePropertyAll(
-            TextStyle(
-              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ),
+      data: RestroomThemeData,
       child: Builder(builder: (context) {
         return Scaffold(
           key: _scaffoldKey,
