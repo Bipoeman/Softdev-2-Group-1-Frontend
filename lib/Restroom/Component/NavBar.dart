@@ -160,7 +160,7 @@ class RestroomRoverNavbar extends StatelessWidget {
             onTap: () {
               // เมื่อเลือกรายการเมนู
               // ปิดเมนูสไลด์
-              // Navigator.pushNamed(context, restroomPageRoute["review"]!);
+              Navigator.pushNamed(context, restroomPageRoute["report"]!);
               // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
             },
           ),
