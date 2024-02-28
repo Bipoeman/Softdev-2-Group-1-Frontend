@@ -17,8 +17,9 @@ class AddbinPageV2 extends StatefulWidget {
 
 class _AddbinPageV2State extends State<AddbinPageV2> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController _NametextController = TextEditingController();
-  TextEditingController _DescriptiontextController = TextEditingController();
+  final TextEditingController _NametextController = TextEditingController();
+  final TextEditingController _DescriptiontextController =
+      TextEditingController();
   final backgroundColor = const Color(0xFFFFFFFF);
   bool isPressed = true;
   bool isPressedWarning = false;
@@ -171,7 +172,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                     ],
                   ),
                 ),
-                body: SafeArea(
+                body: SingleChildScrollView(
                     child: Stack(
                   children: [
                     Row(
@@ -466,7 +467,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               border: InputBorder.none,
                             ),
                             style: const TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                           ),
                         ),
