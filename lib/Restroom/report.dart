@@ -120,7 +120,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                             child: ClayContainer(
                               width: size.width * 0.6,
                               height: size.height * 0.032,
-                              color: Color.fromRGBO(239, 239, 239, 1),
+                              color: Color(0xFFEAEAEA),
                               borderRadius: 30,
                               depth: -20,
                               child: TextField(
@@ -160,7 +160,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                             child: ClayContainer(
                               width: size.width * 0.78,
                               height: size.height * 0.3,
-                              color: Color.fromRGBO(239, 239, 239, 1),
+                              color: Color(0xFFEAEAEA),
                               borderRadius: 30,
                               depth: -20,
                               child: TextField(
