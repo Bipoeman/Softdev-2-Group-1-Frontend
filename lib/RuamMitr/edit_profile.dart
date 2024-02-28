@@ -71,8 +71,7 @@ class _EditProfileState extends State<EditProfile> {
             body: SingleChildScrollView(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight:
-                      size.height - MediaQuery.of(context).padding.top - 75,
+                  minHeight: size.height - MediaQuery.of(context).padding.top - 75,
                 ),
                 child: Container(
                   padding: EdgeInsets.only(

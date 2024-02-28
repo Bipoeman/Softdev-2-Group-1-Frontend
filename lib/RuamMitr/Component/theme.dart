@@ -8,14 +8,16 @@ class ThemeProvider extends ChangeNotifier {
 
   CustomThemes? themeFrom(String app) => _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
 
-  CustomThemes? appThemeFromContext(BuildContext context, String app) {
-    ThemeProvider themes = Provider.of<ThemeProvider>(context);
-    return themes.themeFrom(app);
-  }
-
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
     notifyListeners();
+  }
+}
+
+class ThemesPortal {
+  static CustomThemes? appThemeFromContext(BuildContext context, String app) {
+    ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    return themes.themeFrom(app);
   }
 }
 
