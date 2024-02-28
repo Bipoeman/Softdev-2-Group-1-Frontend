@@ -15,9 +15,10 @@ class ServicesWidget extends StatelessWidget {
         runSpacing: 20,
         children: [
           AppBox(
-            appName: "Tuachuay",
+            appName: "Dekhor",
             width: size.width,
             height: size.height * 0.1,
+            appIconPath: "assets/Logo/dekhor_portal_color.png",
             appRoute: () {
               Navigator.pushNamed(context, tuachuayDekhorPageRoute["home"]!);
             },
@@ -36,11 +37,13 @@ class ServicesWidget extends StatelessWidget {
             },
           ),
           AppBox(
-            appName: "Bin",
+            appName: "PinTheBin",
             width: size.width,
             height: size.height * 0.1,
+            appIconPath: "assets/Logo/bin_portal_color.png",
             appRoute: () {
-              Navigator.pushNamed(context, pinthebinPageRoute["home"]!);
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  pinthebinPageRoute["home"]!, (Route<dynamic> route) => false);
             },
           ),
           AppBox(

@@ -3,15 +3,14 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/PinTheBin/addbin.dart';
 import 'package:ruam_mitt/PinTheBin/editbin.dart';
+import 'package:ruam_mitt/PinTheBin/mybin.dart';
 import 'package:ruam_mitt/PinTheBin/report.dart';
 import 'package:ruam_mitt/Restroom/Review.dart';
 import 'package:ruam_mitt/Restroom/restroom.dart';
-import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
 // import 'package:ruam_mitt/RuamMitr/home.dart';
-import 'package:ruam_mitt/RuamMitr/Component/home_v2/central_v2.dart';
-import 'package:ruam_mitt/RuamMitr/settings.dart';
-import 'package:ruam_mitt/RuamMitr/profile.dart';
+import 'package:ruam_mitt/RuamMitr/central_v2.dart';
+import 'package:ruam_mitt/RuamMitr/edit_profile.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
@@ -28,6 +27,7 @@ import 'package:ruam_mitt/TuachuayDekhor/writeblog.dart';
 import 'package:ruam_mitt/TuachuayDekhor/draft.dart';
 import 'package:ruam_mitt/PinTheBin/home.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 void main() {
   runApp(
@@ -59,8 +59,7 @@ class _SuperAppState extends State<SuperApp> {
         // ruamMitrPageRoute["home"]!: (context) => const HomePage(),
         ruamMitrPageRoute["home"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
-        ruamMitrPageRoute["settings"]!: (context) => const SettingsPage(),
-        ruamMitrPageRoute["profile"]!: (context) => const ProfilePage(),
+        ruamMitrPageRoute["edit-profile"]!: (context) => const EditProfile(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
         dinodengzzPageRoute: (context) => const MyGame(),
@@ -89,6 +88,7 @@ class _SuperAppState extends State<SuperApp> {
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPage(),
         pinthebinPageRoute["editbin"]!: (context) => const EditbinPage(),
+        pinthebinPageRoute["mybin"]!: (context) => const MyBinPage(),
         pinthebinPageRoute["report"]!: (context) => const ReportPage(),
       },
       title: "RuamMitr - App for Uni Students",

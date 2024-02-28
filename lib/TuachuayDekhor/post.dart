@@ -41,7 +41,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
           backgroundColor: const Color.fromRGBO(0, 48, 73, 1),
           textColor: Colors.white,
           sendWidget: IconButton(
-            icon: Icon(Icons.send_sharp, size: 25, color: Colors.white),
+            icon: const Icon(Icons.send_sharp, size: 25, color: Colors.white),
             onPressed: () {
               print("send tapped");
               print(commentTextController.text);
@@ -89,15 +89,15 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                       ),
                                     ),
                                     SizedBox(width: size.width * 0.04),
-                                    Text("pumxni"),
+                                    const Text("pumxni"),
                                     isOwner
                                         ? IconButton(
                                             onPressed: () {
                                               print("edit the blog");
                                             },
                                             icon:
-                                                Icon(Icons.edit_note_outlined))
-                                        : Divider()
+                                                const Icon(Icons.edit_note_outlined))
+                                        : const Divider()
                                   ],
                                 ),
                                 !isOwner
@@ -129,12 +129,12 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                 Row(
                                   children: [
                                     GestureDetector(
-                                      child: Icon(Icons.bookmark_outline),
+                                      child: const Icon(Icons.bookmark_outline),
                                       onTap: () {
                                         print("bookmark");
                                       },
                                     ),
-                                    Text("100")
+                                    const Text("100")
                                   ],
                                 ),
                               ],
@@ -144,8 +144,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                               height: size.height * 0.18,
                               // ignore: prefer_const_constructors
                               child: Scrollbar(
-                                child: Markdown(
-                                    physics: const BouncingScrollPhysics(),
+                                child: const Markdown(
+                                    physics: BouncingScrollPhysics(),
                                     shrinkWrap: true,
                                     data: """### หอดีมากครับ ดีจนอยากย้ายเลย
 Lorem Ipsum is simply **Bold** text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
@@ -157,7 +157,7 @@ Lorem Ipsum is simply **Bold** text of the printing and typesetting industry. Lo
                               children: [
                                 const Icon(Icons.insert_comment_outlined),
                                 SizedBox(width: size.width * 0.02),
-                                Text("4 Comments")
+                                const Text("4 Comments")
                               ],
                             ),
                             SizedBox(
@@ -171,16 +171,16 @@ Lorem Ipsum is simply **Bold** text of the printing and typesetting industry. Lo
                                         leading: Container(
                                           width: 25,
                                           height: 25,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                               shape: BoxShape.circle,
                                               color: Colors.grey),
                                         ),
-                                        title: Text("Username"),
+                                        title: const Text("Username"),
                                         dense: true,
-                                        subtitle: Text("จริงหรอครับ"),
+                                        subtitle: const Text("จริงหรอครับ"),
                                         visualDensity:
-                                            VisualDensity(vertical: -3),
-                                        trailing: Icon(
+                                            const VisualDensity(vertical: -3),
+                                        trailing: const Icon(
                                             Icons.report_gmailerrorred_rounded),
                                       );
                                     }),

@@ -20,7 +20,7 @@ class _CardpinState extends State<Cardpin> {
       height: size.height * 0.55,
       width: size.width * 0.8,
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 255, 255, 255),
+        color: const Color.fromARGB(255, 255, 255, 255),
         borderRadius: BorderRadius.circular(35),
       ),
       child: Column(
@@ -134,7 +134,7 @@ class _CardpinState extends State<Cardpin> {
                     height: size.height * 0.06,
                     width: size.width * 0.25,
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 183, 3, 1),
+                      color: const Color.fromRGBO(255, 183, 3, 1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: ElevatedButton(
@@ -143,15 +143,13 @@ class _CardpinState extends State<Cardpin> {
                         String googleMapUrl =
                             'https://www.google.com/maps/search/?api=1&query=${widget.marker.point.latitude},${widget.marker.point.longitude}';
                         Uri googleUrl = Uri.parse(googleMapUrl);
-                        if (await canLaunchUrl(googleUrl)) {
-                          await launchUrl(googleUrl);
-                        } else {
-                          throw 'Could not open the map.';
+                        if (!await launchUrl(googleUrl)) {
+                          throw Exception('Could not launch $googleMapUrl');
                         }
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromRGBO(255, 183, 3, 1)),
+                            const Color.fromRGBO(255, 183, 3, 1)),
                         shape: MaterialStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -169,7 +167,7 @@ class _CardpinState extends State<Cardpin> {
                     height: size.height * 0.06,
                     width: size.width * 0.25,
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 183, 3, 1),
+                      color: const Color.fromRGBO(255, 183, 3, 1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: ElevatedButton(
@@ -179,7 +177,7 @@ class _CardpinState extends State<Cardpin> {
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromRGBO(255, 183, 3, 1)),
+                            const Color.fromRGBO(255, 183, 3, 1)),
                         shape: MaterialStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),

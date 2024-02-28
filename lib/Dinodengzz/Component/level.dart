@@ -5,6 +5,7 @@ import 'package:ruam_mitt/Dinodengzz/Component/background_tile.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/checkpoint.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/collision_block.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/fruit.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/patrick.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/saw.dart';
 import 'package:flame_tiled/flame_tiled.dart';
@@ -29,6 +30,7 @@ class Level extends World with HasGameRef<GameRoutes> {
     _addCollision();
 
     player.collisionBlocks = collisionBlocks;
+
     return super.onLoad();
   }
 
@@ -86,7 +88,19 @@ class Level extends World with HasGameRef<GameRoutes> {
                 size: Vector2(spawnPoint.width, spawnPoint.height));
             add(checkpoint);
             break;
-
+          case 'Star':
+            final offNeg = spawnPoint.properties.getValue('offNeg');
+            final offPos = spawnPoint.properties.getValue('offPos');
+            final patrix = Patrick(
+              position: Vector2(spawnPoint.x, spawnPoint.y),
+              size: Vector2(spawnPoint.width, spawnPoint.height),
+              offNeg: offNeg,
+              offPos: offPos,
+              player: player,
+            );
+            patrix.collisionBlocks = collisionBlocks;
+            add(patrix);
+            break;
           default:
         }
       }

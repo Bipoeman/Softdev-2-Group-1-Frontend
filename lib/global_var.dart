@@ -1,3 +1,4 @@
 String publicToken = "";
-Map<dynamic, dynamic> profileData = {};
+String refreshToken = "";
+Map<String, dynamic> profileData = {};
 bool isOnceLogin = false;

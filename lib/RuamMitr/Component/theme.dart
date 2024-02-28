@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ThemeProvider extends ChangeNotifier {
   bool _isDarkMode = false;
   bool get isDarkMode => _isDarkMode;
   Map<String, Map<String, CustomThemes>> appThemes = _appsThemes;
 
-  CustomThemes? themeFrom(String app) =>
-      _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
+  CustomThemes? themeFrom(String app) => _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
 
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
     notifyListeners();
+  }
+}
+
+class ThemesPortal {
+  static CustomThemes? appThemeFromContext(BuildContext context, String app) {
+    ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    return themes.themeFrom(app);
   }
 }
 
@@ -41,7 +48,6 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "label": const Color.fromRGBO(84, 84, 84, 1),
         "textInput": Colors.black,
         "icon": Colors.black,
-        // "backgroundStart": const Color.fromRGBO(248, 196, 196, 1),
         "backgroundStart": const Color(0xFFF8C4C4),
         "backgroundEnd": const Color.fromRGBO(224, 224, 224, 1),
         "hyperlink": const Color.fromRGBO(0, 167, 190, 1),
@@ -92,36 +98,6 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
           background: Colors.white,
         ),
         useMaterial3: true,
-        drawerTheme: DrawerThemeData(
-          backgroundColor: Colors.black.withOpacity(0.8),
-        ),
-        listTileTheme: ListTileThemeData(
-          // shape: RoundedRectangleBorder(
-          //   borderRadius: BorderRadius.circular(15),
-          // ),
-          tileColor: const Color(0xFF1E1E1E),
-          textColor: Colors.white,
-          iconColor: const Color.fromRGBO(255, 255, 255, 0.42),
-          titleTextStyle: TextStyle(
-            color: Colors.white.withOpacity(0.85),
-          ),
-        ),
-        searchBarTheme: SearchBarThemeData(
-          backgroundColor: MaterialStatePropertyAll<Color>(
-            Colors.black.withOpacity(0.5),
-          ),
-          shape: MaterialStatePropertyAll(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-          textStyle:
-              const MaterialStatePropertyAll(TextStyle(color: Colors.white)),
-          hintStyle: MaterialStatePropertyAll(
-            TextStyle(color: Colors.white.withOpacity(0.6)),
-          ),
-          padding: const MaterialStatePropertyAll<EdgeInsets>(
-            EdgeInsets.symmetric(horizontal: 16.0),
-          ),
-        ),
       ),
       customColors: {
         "main": const Color.fromRGBO(214, 40, 40, 1),
@@ -134,7 +110,6 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "label": const Color.fromRGBO(84, 84, 84, 1),
         "textInput": Colors.black,
         "icon": Colors.black,
-        // "backgroundStart": const Color.fromRGBO(248, 196, 196, 1),
         "backgroundStart": const Color(0xFFF8C4C4),
         "backgroundEnd": const Color.fromRGBO(224, 224, 224, 1),
         "hyperlink": const Color.fromRGBO(0, 167, 190, 1),
@@ -171,6 +146,50 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
       },
     ),
   },
+  "TuachuayDekhor": {
+    "light": CustomThemes(
+      themeData: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromRGBO(0, 48, 73, 1),
+          brightness: Brightness.light,
+        ),
+        useMaterial3: true,
+      ),
+      customColors: {
+        "main": const Color.fromRGBO(0, 48, 73, 1),
+        "onMain": Colors.white,
+        "container": const Color.fromRGBO(240, 240, 240, 1),
+        "onContainer": Colors.black,
+        "textInputContainer": const Color.fromRGBO(221, 221, 221, 1),
+        "label": const Color.fromRGBO(84, 84, 84, 1),
+        "textInput": Colors.black,
+        "icon1": const Color.fromRGBO(217, 192, 41, 1),
+        "icon2": const Color.fromRGBO(0, 48, 73, 1),
+        "background": Colors.white,
+      },
+    ),
+    "dark": CustomThemes(
+      themeData: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.white,
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
+      ),
+      customColors: {
+        "main": Colors.white,
+        "onMain": Colors.white,
+        "container": const Color.fromRGBO(77, 77, 77, 1),
+        "onContainer": Colors.white,
+        "textInputContainer": const Color.fromRGBO(84, 84, 84, 1),
+        "label": const Color.fromRGBO(221, 221, 221, 1),
+        "textInput": Colors.white,
+        "icon1": const Color.fromRGBO(217, 192, 41, 1),
+        "icon2": const Color.fromRGBO(0, 48, 73, 1),
+        "background": Colors.black,
+      },
+    ),
+  }
 };
 
 class CustomThemes {
