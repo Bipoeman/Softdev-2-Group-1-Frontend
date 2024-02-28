@@ -66,7 +66,7 @@ class _TuachuayDekhorBloggerPageState extends State<TuachuayDekhorBloggerPage> {
                         children: List.generate(
                           20,
                           (index) {
-                            return TuachuayDekhorAvatarViewer(
+                            return const TuachuayDekhorAvatarViewer(
                                 username: 'pumxni');
                           },
                         ),

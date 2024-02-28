@@ -12,9 +12,9 @@ class Hud extends PositionComponent with HasGameReference {
   late double horizontalMovement = 0;
   late JoystickComponent joystick = JoystickComponent(
     knob: CircleComponent(
-        radius: 16, paint: Paint()..color = Color.fromARGB(205, 246, 241, 241)),
+        radius: 16, paint: Paint()..color = const Color.fromARGB(205, 246, 241, 241)),
     background: CircleComponent(
-        radius: 32, paint: Paint()..color = Color.fromARGB(123, 43, 41, 41)),
+        radius: 32, paint: Paint()..color = const Color.fromARGB(123, 43, 41, 41)),
     anchor: Anchor.topCenter,
   );
 

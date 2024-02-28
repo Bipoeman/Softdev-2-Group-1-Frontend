@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 
-Color colorbackground = const Color(000000);
+Color colorbackground = const Color(0x00000000);
 
 class EditbinPage extends StatefulWidget {
   const EditbinPage({super.key});

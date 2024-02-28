@@ -13,7 +13,8 @@ import 'package:ruam_mitt/Restroom/report.dart';
 import 'package:ruam_mitt/Restroom/restroom.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
 // import 'package:ruam_mitt/RuamMitr/home.dart';
-import 'package:ruam_mitt/RuamMitr/Component/home_v2/central_v2.dart';
+import 'package:ruam_mitt/RuamMitr/central_v2.dart';
+import 'package:ruam_mitt/RuamMitr/edit_profile.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
@@ -62,6 +63,7 @@ class _SuperAppState extends State<SuperApp> {
         // ruamMitrPageRoute["home"]!: (context) => const HomePage(),
         ruamMitrPageRoute["home"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
+        ruamMitrPageRoute["edit-profile"]!: (context) => const EditProfile(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
         restroomPageRoute["findposition"]!: (context) => const RestroomRoverFindPosition(),

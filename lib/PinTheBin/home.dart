@@ -2,15 +2,21 @@ import "dart:convert";
 import "dart:developer";
 import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
-import "package:google_fonts/google_fonts.dart";
 import "package:latlong2/latlong.dart";
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import "package:ruam_mitt/PinTheBin/componant/map.dart";
-import 'package:ruam_mitt/Restroom/Component/NavBar.dart';
 import "package:http/http.dart" as http;
+import "package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart";
 
 import "package:ruam_mitt/global_const.dart";
+import "package:ruam_mitt/global_func.dart";
 import "package:ruam_mitt/global_var.dart";
+
+class BinLocationInfo {
+  BinLocationInfo({required this.info, required this.markers});
+  late List<Marker> markers;
+  late List<Map<String, dynamic>> info;
+}
 
 class BinPage extends StatefulWidget {
   const BinPage({super.key});
@@ -25,7 +31,8 @@ class _BinPageState extends State<BinPage> {
   MapController mapController = MapController();
   List<dynamic> binData = [];
   FocusNode focusNode = FocusNode();
-  LatLng? centerMark;
+  BinLocationInfo markerInfo = BinLocationInfo(info: [], markers: []);
+
   Future<http.Response> getBinInfo() async {
     debugPrint("Getting");
     Uri url = Uri.parse("$api$pinTheBinGetBinRoute");
@@ -35,6 +42,12 @@ class _BinPageState extends State<BinPage> {
         "Authorization": publicToken,
       },
     );
+    if (res.statusCode == 403){
+      if (context.mounted){
+        await requestNewToken(context);
+        return await getBinInfo();
+      }
+    }
     debugPrint(res.body);
     return res;
   }
@@ -55,10 +68,26 @@ class _BinPageState extends State<BinPage> {
       // debugPrint("Response");
       // debugPrint(response.body);
       binData = jsonDecode(response.body);
+      List.generate(
+        binData.length,
+        (index) {
+          // print(index);
+          double lattitude = binData[index]['latitude'].toDouble();
+          double longtitude = binData[index]['longitude'].toDouble();
+          // print(
+          //     "$lattitude $longtitude ${(lattitude > 90 || lattitude < -90)}");
+          if ((lattitude < 90 && lattitude > -90) &&
+              (longtitude < 180 && longtitude > -180)) {
+            markerInfo.info.add(binData[index]);
+          }
+        },
+      );
+      print("Array Len : ${markerInfo.info.length}");
+
       Future.delayed(const Duration(milliseconds: 500))
           .then((value) => setState(() {}));
       searchBinController.addListener(searchBinListener);
-      // debugPrint(binData);
+      // debugPrint(markerInfo.info);
     });
   }
 
@@ -68,57 +97,7 @@ class _BinPageState extends State<BinPage> {
     // ThemeProvider themes = Provider.of<ThemeProvider>(context);
     // ThemeData pinTheBinTheme = themes.themeFrom("PinTheBin")!.themeData;
     return Theme(
-      data: ThemeData(
-        fontFamily: "Sen",
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFF9957F),
-          background: const Color(0xFFFFFFFF),
-        ),
-        textTheme: TextTheme(
-          headlineMedium: const TextStyle(
-            fontSize: 35,
-            fontWeight: FontWeight.w800,
-            color: Colors.white,
-          ),
-          headlineSmall: TextStyle(
-            fontSize: 30,
-            overflow: TextOverflow.fade,
-            fontWeight: FontWeight.w800,
-            color: const Color(0xFF003049),
-            shadows: [
-              Shadow(
-                blurRadius: 20,
-                offset: const Offset(0, 3),
-                color: const Color(0xFF003049).withOpacity(0.3),
-              ),
-            ],
-          ),
-          displayMedium: TextStyle(
-            fontSize: 20,
-            overflow: TextOverflow.fade,
-            fontWeight: FontWeight.normal,
-            color: const Color(0xFF003049).withOpacity(0.69),
-          ),
-        ),
-        appBarTheme: const AppBarTheme(
-          iconTheme: IconThemeData(
-            color: Colors.white,
-            size: 35,
-          ),
-        ),
-        drawerTheme: const DrawerThemeData(
-          scrimColor: Colors.transparent,
-          backgroundColor: Color(0xFFF9957F),
-        ),
-        searchBarTheme: SearchBarThemeData(
-          textStyle: MaterialStatePropertyAll(
-            TextStyle(
-              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ),
+      data: pinTheBinThemeData,
       child: Builder(builder: (context) {
         return Scaffold(
           key: _scaffoldKey,
@@ -129,7 +108,7 @@ class _BinPageState extends State<BinPage> {
                   Container(
                     margin: const EdgeInsets.only(top: 100),
                     child: Center(
-                      child: binData.isEmpty
+                      child: markerInfo.info.isEmpty
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -140,8 +119,7 @@ class _BinPageState extends State<BinPage> {
                             )
                           : MapPinTheBin(
                               mapController: mapController,
-                              binInfo: binData,
-                              centerMark: centerMark,
+                              binInfo: markerInfo.info,
                             ),
                     ),
                   ),
@@ -151,23 +129,24 @@ class _BinPageState extends State<BinPage> {
               PinTheBinSearchBar(
                 size: size,
                 searchAnchorController: searchBinController,
-                binDataList: binData,
+                binDataList: markerInfo.info,
                 focusNode: focusNode,
                 parentKey: widget.key,
                 onSelected: (selectedValue) {
-                  // print("Selected $selectedValue");
-                  binData.forEach((eachBin) {
+                  log("Selected $selectedValue");
+                  for (var eachBin in markerInfo.info) {
                     if (eachBin['location'] == selectedValue) {
-                      print("Pin the bin");
-
-                      setState(() {
-                        focusNode.unfocus();
-                        centerMark =
-                            LatLng(eachBin['latitude'], eachBin['longitude']);
-                        mapController.move(centerMark!, 15);
-                      });
+                      log("Pin the bin");
+                      setState(
+                        () {
+                          log("Has focus : ${focusNode.hasFocus}");
+                          mapController.move(
+                              LatLng(eachBin['latitude'], eachBin['longitude']),
+                              16);
+                        },
+                      );
                     }
-                  });
+                  }
                 },
               ),
             ],
@@ -202,12 +181,14 @@ class PinTheBinSearchBar extends StatefulWidget {
   State<PinTheBinSearchBar> createState() => _PinTheBinSearchBarState();
 }
 
-class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
+class _PinTheBinSearchBarState extends State<PinTheBinSearchBar>
+    with TickerProviderStateMixin {
   List<dynamic> tempBinData = [];
-
+  late Animation<double> animation;
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
     Future.delayed(const Duration(seconds: 1))
         .then((value) => tempBinData = widget.binDataList);
@@ -223,8 +204,24 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
         width: widget.size.width,
         height: 60,
         child: SearchAnchor(
-          viewBackgroundColor: Theme.of(context).colorScheme.background,
+          // viewBackgroundColor: Colors.white,
           searchController: widget.searchAnchorController,
+          viewHintText: "Enter bin name...",
+          viewBackgroundColor: Colors.white,
+          viewLeading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          viewBuilder: (suggestions) {
+            return Container(
+              color: Colors.white,
+              child: Column(
+                children: suggestions.toList(),
+              ),
+            );
+          },
           builder: (context, searchBarController) {
             return SearchBar(
               focusNode: widget.focusNode,
@@ -272,31 +269,41 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
                     child:
                         Image.asset("assets/images/PinTheBin/search_icon.png"),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    log("Submitted by search icon focus ? ${widget.focusNode.hasFocus}");
+                    widget.focusNode.unfocus();
+                    debugPrint(searchBarController.text);
+                  },
                 )
               ],
               backgroundColor:
                   const MaterialStatePropertyAll(Color(0xFFECECEC)),
               onTap: () {
+                // searchBarController.clear();
+
                 searchBarController.openView();
               },
               onChanged: (query) {
-                debugPrint("Searchbox change");
+                log("Searchbox change");
                 searchBarController.openView();
               },
               onSubmitted: (value) {
-                log("Submitted");
-                debugPrint(searchBarController.text);
+                log("Submitted focus ? ${widget.focusNode.hasFocus}");
+                widget.focusNode.unfocus();
+                // debugPrint(searchBarController.text);
+                searchBarController.clear();
                 // searchBarController.closeView();
               },
             );
           },
+
           suggestionsBuilder: (context, suggestionController) {
-            debugPrint("Suggestion query : ${suggestionController.text}");
+            log("Suggestion query : ${suggestionController.text.length}");
             tempBinData = [];
             String queryText = suggestionController.text;
             for (var i = 0; i < widget.binDataList.length; i++) {
               if (widget.binDataList[i]['location'] != null) {
+                print(widget.binDataList[i]);
                 // print(tempBinData[i]['location'].contains(query));
                 if (widget.binDataList[i]['location']
                     .toLowerCase()
@@ -314,7 +321,14 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
               (int index) {
                 return GestureDetector(
                   onTap: () {
-                    widget.onSelected(suggestionController.text);
+                    log("Select some places : ${tempBinData[index]['location']} ${widget.focusNode.hasFocus}");
+                    widget.onSelected(tempBinData[index]['location']);
+                    Future.delayed(const Duration(milliseconds: 500))
+                        .then((value) {
+                      log("Selected focus ? ${widget.focusNode.hasFocus}");
+                      widget.focusNode.unfocus();
+                      suggestionController.clear();
+                    });
                     suggestionController
                         .closeView(tempBinData[index]['location']);
                   },
@@ -342,22 +356,22 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
                                                 .textTheme
                                                 .labelMedium!
                                                 .fontFamily,
-                                    fontSize: tempBinData[index]['description']
-                                            .contains(
+                                    fontSize:
+                                        tempBinData[index]['location'].contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                        ? 24
-                                        : 16,
-                                    fontWeight: tempBinData[index]
-                                                ['description']
-                                            .contains(
+                                            ? 24
+                                            : 16,
+                                    fontWeight:
+                                        tempBinData[index]['location'].contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                        ? FontWeight.w700
-                                        : FontWeight.normal),
+                                            ? FontWeight.w700
+                                            : FontWeight.normal),
                               ),
                               Text(
                                 tempBinData[index]['description'],
+                                maxLines: 1,
                                 style: TextStyle(
                                     fontFamily: tempBinData[index]
                                                 ['description']

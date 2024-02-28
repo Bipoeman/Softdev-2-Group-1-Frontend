@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
-import 'package:flutter/services.dart';
 import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/global_const.dart";
 import "package:ruam_mitt/TuachuayDekhor/Component/avatar.dart";
-import "package:ruam_mitt/global_const.dart";
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -291,7 +289,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                   }
                                 }
                                 // ถ้าไม่มีข้อมูลที่ตรงกับเงื่อนไข ให้ return SizedBox.shrink() เพื่อไม่แสดงอะไรบนหน้าจอ
-                                return SizedBox.shrink();
+                                return const SizedBox.shrink();
                               },
                             ),
                           ),
@@ -355,7 +353,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                   }
                                 }
                                 // ถ้าไม่มีข้อมูลที่ตรงกับเงื่อนไข ให้ return SizedBox.shrink() เพื่อไม่แสดงอะไรบนหน้าจอ
-                                return SizedBox.shrink();
+                                return const SizedBox.shrink();
                               },
                             ),
                           ),
