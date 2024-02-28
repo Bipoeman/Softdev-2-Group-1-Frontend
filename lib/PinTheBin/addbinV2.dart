@@ -17,9 +17,29 @@ class AddbinPageV2 extends StatefulWidget {
 
 class _AddbinPageV2State extends State<AddbinPageV2> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController _NametextController = TextEditingController();
+  final TextEditingController _NametextController = TextEditingController();
+  final TextEditingController _DescriptiontextController =
+      TextEditingController();
   final backgroundColor = const Color(0xFFFFFFFF);
   bool isPressed = true;
+  bool isPressedWarning = false;
+  bool isPressedRecycling = false;
+  bool isPressedWaste = false;
+  bool isPressedGeneral = false;
+
+  final Map<String, bool> _isPressedbintype = {
+    'isPressedWarning': true,
+    'isPressedRecycling': true,
+    'isPressedwaste': true,
+    'isPressedgeneral': true
+  };
+
+  final Map<String, bool> _bintype = {
+    'redbin': false,
+    'greenbin': false,
+    'yellowbin': false,
+    'bluebin': false
+  };
 
   LatLng? _position;
 
@@ -38,6 +58,25 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
         : Offset(size.width * 0.008, size.height * 0.005);
     double blur = isPressed ? 5.0 : 5;
 
+    Offset distanceWarning = isPressedWarning
+        ? Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurWarning = isPressed ? 5.0 : 5;
+
+    Offset distanceRecycling = isPressedRecycling
+        ? Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurRecycling = isPressedRecycling ? 5.0 : 5;
+
+    Offset distanceWaste = isPressedWaste
+        ? Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurWaste = isPressedWaste ? 5.0 : 5;
+
+    Offset distanceGeneral = isPressedGeneral
+        ? Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurGeneral = isPressedGeneral ? 5.0 : 5;
     return Theme(
       data: ThemeData(
         fontFamily: "Sen",
@@ -70,6 +109,12 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
             fontWeight: FontWeight.normal,
             color: const Color(0xFF003049).withOpacity(0.67),
           ),
+          displaySmall: TextStyle(
+            fontSize: 13.5,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xFF003049).withOpacity(0.45),
+          ),
         ),
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(
@@ -99,7 +144,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                     ),
                     onTap: () => _scaffoldKey.currentState?.openDrawer(),
                   ),
-                  toolbarHeight: 120,
+                  toolbarHeight: 90,
                   flexibleSpace: Container(
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -127,7 +172,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                     ],
                   ),
                 ),
-                body: SafeArea(
+                body: SingleChildScrollView(
                     child: Stack(
                   children: [
                     Row(
@@ -179,7 +224,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                           child: Container(
                             padding: EdgeInsets.only(left: 20),
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 76),
+                              padding: const EdgeInsets.only(top: 67),
                               child: Text(
                                 'Position',
                                 style:
@@ -271,7 +316,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: size.height * 0.265),
+                      padding: EdgeInsets.only(top: size.height * 0.25),
                       child: Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(left: 30),
@@ -382,7 +427,418 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         ),
                       ),
                     ),
-                    Column(),
+                    Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                            padding: EdgeInsets.only(left: 20),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 290),
+                              child: Text(
+                                'Description',
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: size.height * 0.02,
+                        ),
+                        ClayContainer(
+                          width: size.width * 0.8,
+                          height: size.height * 0.15,
+                          color: Color.fromRGBO(239, 239, 239, 1),
+                          borderRadius: 30,
+                          depth: -20,
+                          child: TextField(
+                            maxLength: 80,
+                            maxLines: 3,
+                            controller: _DescriptiontextController,
+                            onChanged: (text) {
+                              print('Typed text: $text');
+                              int remainningCharacters =
+                                  80 - _DescriptiontextController.text.length;
+                              print(
+                                  'Remaining characters: $remainningCharacters');
+                            },
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                            style: const TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 20, top: 460),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() => isPressedWarning = false);
+                                  setState(() => _bintype['redbin'] = true);
+                                  print(_bintype['redbin']);
+                                  if (_bintype['redbin'] == true) {
+                                    setState(() {
+                                      isPressedWarning = !isPressedWarning;
+                                    });
+                                  } else {
+                                    isPressedWarning = true;
+                                  }
+                                  // if (_bintype['greenbin'] == false &&
+                                  //     _bintype['yellowbin'] == false &&
+                                  //     _bintype['bluebin'] == false) {
+                                  //   setState(() {
+                                  //     _bintype['redbin'] = true;
+                                  //   });
+                                  //   setState(() {
+                                  //     isPressedWarning = !isPressedWarning;
+                                  //     isPressedRecycling = false;
+                                  //   });
+
+                                  //   //isPressedRecycling = false;
+                                  //   print(_bintype['redbin']);
+                                  // } else {
+                                  //   _bintype['redbin'] = false;
+                                  //   isPressedWarning = true;
+                                  // }
+                                },
+                                onDoubleTap: () {
+                                  setState(() => isPressedWarning = false);
+                                  if (_bintype['redbin'] == true) {
+                                    setState(() {
+                                      _bintype['redbin'] = false;
+                                    });
+                                    print(_bintype['redbin']);
+                                  } else {
+                                    _bintype['redbin'] = true;
+                                  }
+                                },
+                                child: Container(
+                                  width: size.width * 0.2,
+                                  height: size.height * 0.13,
+                                  //color: Colors.black,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: Color.fromARGB(9, 0, 47, 73),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: blurWarning,
+                                        offset: distanceWarning,
+                                        color: Color(0xFFA7A9AF),
+                                        inset: isPressedWarning,
+                                      ),
+                                      BoxShadow(
+                                        blurRadius: blurWarning,
+                                        offset: -distanceWarning,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        inset: isPressedWarning,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/PinTheBin/warning.png",
+                                      width: size.width * 0.1,
+                                      height: size.height * 0.1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 38),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: Text(
+                                  'DANGER',
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: size.width * 0.03,
+                        ),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 460),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() => isPressedRecycling = false);
+                                  setState(() => _bintype['yellowbin'] = true);
+                                  print(_bintype['yellowbin']);
+                                  if (_bintype['yellowbin'] == true) {
+                                    setState(() {
+                                      isPressedRecycling = !isPressedRecycling;
+                                    });
+                                  } else {
+                                    isPressedRecycling = true;
+                                  }
+                                  //   setState(() => isPressedRecycling = false);
+                                  // },
+                                  // onDoubleTap: () {
+                                  //   setState(() => isPressedRecycling = false);
+                                  //   if (_bintype['yellowbin'] == true) {
+                                  //     setState(() {
+                                  //       _bintype['yellowbin'] = false;
+                                  //     });
+                                  //     print(_bintype['yellowbin']);
+                                  //   } else {
+                                  //     _bintype['yellowbin'] = true;
+                                  //   }
+                                },
+                                onDoubleTap: () {
+                                  setState(() => isPressedRecycling = false);
+                                  if (_bintype['yellowbin'] == true) {
+                                    setState(() {
+                                      _bintype['yellowbin'] = false;
+                                    });
+                                    print(_bintype['yellowbin']);
+                                  } else {
+                                    _bintype['yellowbin'] = true;
+                                  }
+                                },
+                                child: Container(
+                                  width: size.width * 0.2,
+                                  height: size.height * 0.13,
+                                  //color: Colors.black,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: Color.fromARGB(9, 0, 47, 73),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: blurRecycling,
+                                        offset: distanceRecycling,
+                                        color: Color(0xFFA7A9AF),
+                                        inset: isPressedRecycling,
+                                      ),
+                                      BoxShadow(
+                                        blurRadius: blurRecycling,
+                                        offset: -distanceRecycling,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        inset: isPressedRecycling,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/PinTheBin/recycling-symbol-2.png",
+                                      width: size.width * 0.1,
+                                      height: size.height * 0.1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              //padding: EdgeInsets.only(left: 0),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: Text(
+                                  'RECYCLE',
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: size.width * 0.03,
+                        ),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 460),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() => isPressedWaste = false);
+                                  setState(() => _bintype['greenbin'] = true);
+                                  print(_bintype['greenbin']);
+                                  if (_bintype['greenbin'] == true) {
+                                    setState(() {
+                                      isPressedWaste = !isPressedWaste;
+                                    });
+                                  } else {
+                                    isPressedWaste = true;
+                                  }
+                                  //   setState(() => isPressedRecycling = false);
+                                  // },
+                                  // onDoubleTap: () {
+                                  //   setState(() => isPressedRecycling = false);
+                                  //   if (_bintype['yellowbin'] == true) {
+                                  //     setState(() {
+                                  //       _bintype['yellowbin'] = false;
+                                  //     });
+                                  //     print(_bintype['yellowbin']);
+                                  //   } else {
+                                  //     _bintype['yellowbin'] = true;
+                                  //   }
+                                },
+                                onDoubleTap: () {
+                                  setState(() => isPressedWaste = false);
+                                  if (_bintype['greenbin'] == true) {
+                                    setState(() {
+                                      _bintype['greenbin'] = false;
+                                    });
+                                    print(_bintype['greenbin']);
+                                  } else {
+                                    _bintype['greenbin'] = true;
+                                  }
+                                },
+                                child: Container(
+                                  width: size.width * 0.2,
+                                  height: size.height * 0.13,
+                                  //color: Colors.black,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: Color.fromARGB(9, 0, 47, 73),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: blurWaste,
+                                        offset: distanceWaste,
+                                        color: Color(0xFFA7A9AF),
+                                        inset: isPressedWaste,
+                                      ),
+                                      BoxShadow(
+                                        blurRadius: blurWaste,
+                                        offset: -distanceWaste,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        inset: isPressedWaste,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/PinTheBin/compost.png",
+                                      width: size.width * 0.1,
+                                      height: size.height * 0.1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              //padding: EdgeInsets.only(left: 0),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: Text(
+                                  'WASTE',
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: size.width * 0.03,
+                        ),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 460),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() => isPressedGeneral = false);
+                                  setState(() => _bintype['bluebin'] = true);
+                                  print(_bintype['bluebin']);
+                                  if (_bintype['bluebin'] == true) {
+                                    setState(() {
+                                      isPressedGeneral = !isPressedGeneral;
+                                    });
+                                  } else {
+                                    isPressedGeneral = true;
+                                  }
+                                  //   setState(() => isPressedRecycling = false);
+                                  // },
+                                  // onDoubleTap: () {
+                                  //   setState(() => isPressedRecycling = false);
+                                  //   if (_bintype['yellowbin'] == true) {
+                                  //     setState(() {
+                                  //       _bintype['yellowbin'] = false;
+                                  //     });
+                                  //     print(_bintype['yellowbin']);
+                                  //   } else {
+                                  //     _bintype['yellowbin'] = true;
+                                  //   }
+                                },
+                                onDoubleTap: () {
+                                  setState(() => isPressedGeneral = false);
+                                  if (_bintype['bluebin'] == true) {
+                                    setState(() {
+                                      _bintype['bluebin'] = false;
+                                    });
+                                    print(_bintype['bluebin']);
+                                  } else {
+                                    _bintype['bluebin'] = true;
+                                  }
+                                },
+                                child: Container(
+                                  width: size.width * 0.2,
+                                  height: size.height * 0.13,
+                                  //color: Colors.black,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: Color.fromARGB(9, 0, 47, 73),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: blurGeneral,
+                                        offset: distanceGeneral,
+                                        color: Color(0xFFA7A9AF),
+                                        inset: isPressedGeneral,
+                                      ),
+                                      BoxShadow(
+                                        blurRadius: blurGeneral,
+                                        offset: -distanceGeneral,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        inset: isPressedGeneral,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      "assets/images/PinTheBin/bin.png",
+                                      width: size.width * 0.1,
+                                      height: size.height * 0.1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              //padding: EdgeInsets.only(left: 0),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: Text(
+                                  'GENERAL',
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ],
                 )),
                 drawerScrimColor: Colors.transparent,

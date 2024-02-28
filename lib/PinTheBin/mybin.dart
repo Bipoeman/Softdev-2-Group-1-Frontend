@@ -3,10 +3,14 @@ import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import "package:latlong2/latlong.dart";
 import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
+import "package:provider/provider.dart";
+import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
+import "package:ruam_mitt/RuamMitr/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
 import 'package:ruam_mitt/global_var.dart';
+import 'package:latlong2/latlong.dart';
 
 class MyBinPage extends StatefulWidget {
   const MyBinPage({super.key});
@@ -108,10 +112,12 @@ class _MyBinState extends State<MyBinPage> {
                               return Container(
                                   width: size.width * 0.9,
                                   height: size.height * 0.27,
-                                  margin: const EdgeInsets.symmetric(vertical: 5.0),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5.0),
                                   padding: const EdgeInsets.all(10.0),
                                   decoration: BoxDecoration(
-                                    color: const Color.fromRGBO(255, 255, 255, 0.6),
+                                    color: const Color.fromRGBO(
+                                        255, 255, 255, 0.6),
                                     borderRadius: BorderRadius.circular(25.0),
                                     boxShadow: const [
                                       BoxShadow(
@@ -132,8 +138,8 @@ class _MyBinState extends State<MyBinPage> {
                                             'Name: ${data["location"]}',
                                             style: GoogleFonts.getFont(
                                               'Sen',
-                                              color:
-                                                  const Color.fromARGB(67, 0, 30, 49),
+                                              color: const Color.fromARGB(
+                                                  67, 0, 30, 49),
                                               fontSize: 20,
                                               fontWeight: FontWeight.w400,
                                             ),
