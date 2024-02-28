@@ -210,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                               end: Alignment.bottomCenter,
                               colors: [
                                 ruammitrTheme.customColors["oddContainer"]!,
-                                Colors.transparent,
+                                ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
                               ],
                             ),
                           ),

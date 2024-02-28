@@ -84,7 +84,7 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                             end: Alignment.bottomCenter,
                             colors: [
                               ruammitrTheme.customColors["oddContainer"]!,
-                              Colors.transparent,
+                              ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(20),

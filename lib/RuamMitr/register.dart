@@ -301,7 +301,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       end: Alignment.bottomCenter,
                       colors: [
                         ruammitrTheme.customColors["oddContainer"]!,
-                        Colors.transparent,
+                        ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
                       ],
                     ),
                   ),
