@@ -1,6 +1,12 @@
-import "package:flutter/material.dart";
+import 'package:clay_containers/widgets/clay_container.dart';
+import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
+import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
+import 'package:neumorphic_button/neumorphic_button.dart';
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
 
 Color colorbackground = const Color(0x00000000);
 
@@ -19,48 +25,106 @@ class _EditbinPageState extends State<EditbinPage> {
         <String, dynamic>{}) as Map;
     print(arguments['Bininfo']);
 
-    return Scaffold(
-      key: _scaffoldKey,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Positioned(
-              top: 10,
-              left: 10,
-              child: Center(
-                child: GestureDetector(
-                  onTap: () {
-                    _scaffoldKey.currentState?.openDrawer();
-                  },
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: const Color(0xFFF77F00),
-                        borderRadius: BorderRadius.circular(15)),
-                    child: const Icon(Icons.menu),
+    return Theme(
+      data: ThemeData(
+        fontFamily: "Sen",
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFF9957F),
+          background: const Color(0xFFFFFFFF),
+        ),
+        textTheme: TextTheme(
+          headlineMedium: const TextStyle(
+            fontSize: 35,
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+          ),
+          headlineSmall: TextStyle(
+            fontSize: 30,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w800,
+            color: const Color(0xFF003049),
+            shadows: [
+              Shadow(
+                blurRadius: 20,
+                offset: const Offset(0, 3),
+                color: const Color(0xFF003049).withOpacity(0.3),
+              ),
+            ],
+          ),
+          displayMedium: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xFF003049).withOpacity(0.67),
+          ),
+          displaySmall: TextStyle(
+            fontSize: 13.5,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xFF003049).withOpacity(0.45),
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.white,
+            size: 35,
+          ),
+        ),
+        drawerTheme: const DrawerThemeData(
+          scrimColor: Colors.transparent,
+          backgroundColor: Color(0xFFF9957F),
+        ),
+      ),
+      child: Builder(
+        builder: (context) {
+          return Stack(
+            children: [
+              Scaffold(
+                key: _scaffoldKey,
+                appBar: AppBar(
+                  leading: GestureDetector(
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.menu_rounded),
+                        SizedBox(height: 15)
+                      ],
+                    ),
+                    onTap: () => _scaffoldKey.currentState?.openDrawer(),
+                  ),
+                  toolbarHeight: 90,
+                  flexibleSpace: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30)),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: <Color>[
+                          Color(0xFFF99680),
+                          Color(0xFFF8A88F),
+                        ],
+                      ),
+                    ),
+                  ),
+                  title: Column(
+                    children: [
+                      Text(
+                        "EDIT",
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      )
+                    ],
                   ),
                 ),
               ),
-            ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: Text('Edit Bin',
-                    style: GoogleFonts.getFont(
-                      "Sen",
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 30,
-                      fontWeight: FontWeight.w600,
-                    )),
-              ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
       ),
-      drawer: const BinDrawer(),
-      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
     );
   }
 }
