@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:ruam_mitt/RuamMitr/admin.dart';
 import 'package:ruam_mitt/RuamMitr/contact_us.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
@@ -83,6 +84,41 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                     ),
                   ],
                 ),
+                if (profileData['role'] == "Admin")
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: size.width * 0.19),
+                    child: InkWell(
+                      onTap: () {
+                        // Navigator.pushAndRemoveUntil(
+                        //     context,
+                        //     MaterialPageRoute<void>(
+                        //         builder: (BuildContext context) =>
+                        //             const AdminPage()),
+                        //     (route) => false);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                                builder: (BuildContext context) =>
+                                    const AdminPage()));
+                      },
+                      child: Ink(
+                        width: size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Admin Page",
+                              style: theme.textTheme.bodyLarge,
+                            ),
+                            const Icon(Icons.arrow_forward_ios_rounded)
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                else
+                  const SizedBox(),
               ],
             ),
             Container(
@@ -108,10 +144,12 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                   isOnceLogin = true;
                   publicToken = "";
                   profileData = {};
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    loginPageRoute,
-                    (Route<dynamic> route) => false,
-                  );
+                  if (context.mounted) {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      loginPageRoute,
+                      (Route<dynamic> route) => false,
+                    );
+                  }
                 },
               ),
             ),
