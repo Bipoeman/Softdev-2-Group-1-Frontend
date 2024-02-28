@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ThemeProvider extends ChangeNotifier {
   bool _isDarkMode = false;
   bool get isDarkMode => _isDarkMode;
   Map<String, Map<String, CustomThemes>> appThemes = _appsThemes;
 
-  CustomThemes? themeFrom(String app) =>
-      _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
+  CustomThemes? themeFrom(String app) => _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
+
+  CustomThemes? appThemeFromContext(BuildContext context, String app) {
+    ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    return themes.themeFrom(app);
+  }
 
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
@@ -41,7 +46,6 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "label": const Color.fromRGBO(84, 84, 84, 1),
         "textInput": Colors.black,
         "icon": Colors.black,
-        // "backgroundStart": const Color.fromRGBO(248, 196, 196, 1),
         "backgroundStart": const Color(0xFFF8C4C4),
         "backgroundEnd": const Color.fromRGBO(224, 224, 224, 1),
         "hyperlink": const Color.fromRGBO(0, 167, 190, 1),
@@ -141,6 +145,28 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
       },
     ),
   },
+  "TuachuayDekhor": {
+    "light": CustomThemes(
+      themeData: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromRGBO(0, 48, 73, 1),
+          brightness: Brightness.light,
+        ),
+        useMaterial3: true,
+      ),
+      customColors: {},
+    ),
+    "dark": CustomThemes(
+      themeData: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.white,
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
+      ),
+      customColors: {},
+    ),
+  }
 };
 
 class CustomThemes {
