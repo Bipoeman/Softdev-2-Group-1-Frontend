@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/PinTheBin/addbin.dart';
+import 'package:ruam_mitt/PinTheBin/addbinV2.dart';
 import 'package:ruam_mitt/PinTheBin/editbin.dart';
 import 'package:ruam_mitt/PinTheBin/report.dart';
+import 'package:ruam_mitt/Restroom/FindPosition.dart';
 import 'package:ruam_mitt/Restroom/Review.dart';
+import 'package:ruam_mitt/Restroom/addrestroom.dart';
+import 'package:ruam_mitt/Restroom/report.dart';
 import 'package:ruam_mitt/Restroom/restroom.dart';
-import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
 // import 'package:ruam_mitt/RuamMitr/home.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home_v2/central_v2.dart';
 // import 'package:ruam_mitt/RuamMitr/settings.dart';
 // import 'package:ruam_mitt/RuamMitr/profile.dart';
+import 'package:ruam_mitt/RuamMitr/central_v2.dart';
+import 'package:ruam_mitt/RuamMitr/edit_profile.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
@@ -32,6 +37,7 @@ import 'package:ruam_mitt/TuachuayDekhor/profile_blogger.dart';
 import 'package:ruam_mitt/TuachuayDekhor/draft.dart';
 import 'package:ruam_mitt/PinTheBin/home.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 void main() {
   runApp(
@@ -65,8 +71,12 @@ class _SuperAppState extends State<SuperApp> {
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
         // ruamMitrPageRoute["settings"]!: (context) => const SettingsPage(),
         // ruamMitrPageRoute["profile"]!: (context) => const ProfilePage(),
+        ruamMitrPageRoute["edit-profile"]!: (context) => const EditProfile(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
+        restroomPageRoute["findposition"]!: (context) => const RestroomRoverFindPosition(),
+        restroomPageRoute["addrestroom"]!: (context) => const RestroomRoverAddrestroom(),
+        restroomPageRoute["report"]!: (context) => const RestroomRoverReport(),
         dinodengzzPageRoute: (context) => const MyGame(),
         tuachuayDekhorPageRoute["home"]!: (context) =>
             const TuachuayDekhorHomePage(),
@@ -110,7 +120,7 @@ class _SuperAppState extends State<SuperApp> {
         },
 
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
-        pinthebinPageRoute["addbin"]!: (context) => const AddbinPage(),
+        pinthebinPageRoute["addbin"]!: (context) => const AddbinPageV2(),
         pinthebinPageRoute["editbin"]!: (context) => const EditbinPage(),
         pinthebinPageRoute["report"]!: (context) => const ReportPage(),
       },

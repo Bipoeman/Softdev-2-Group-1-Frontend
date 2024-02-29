@@ -1,16 +1,14 @@
 import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
-import 'package:flutter/services.dart';
 import 'package:ruam_mitt/global_var.dart';
 import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:http/http.dart' as http;
 
 class TuachuayDekhorProfilePage extends StatefulWidget {
-  const TuachuayDekhorProfilePage({Key? key}) : super(key: key);
+  const TuachuayDekhorProfilePage({super.key});
 
   @override
   State<TuachuayDekhorProfilePage> createState() =>

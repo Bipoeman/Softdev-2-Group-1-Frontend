@@ -8,6 +8,7 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/checkpoint.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/collision_block.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/patrick.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/saw.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/utils.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
@@ -105,7 +106,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   @override
-  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+  bool onKeyEvent(event, Set<LogicalKeyboardKey> keysPressed) {
     horizontalMovement = 0;
     final isLeftKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyA) ||
         keysPressed.contains(LogicalKeyboardKey.arrowLeft);
@@ -126,6 +127,7 @@ class Player extends SpriteAnimationGroupComponent
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (!reachedCheckpoint) {
+      if (other is Patrick) other.collidedWithPlayer();
       if (other is Saw) _respawn();
       if (other is Checkpoint && noodleCollected) _reachCheckpoint();
     }
@@ -191,6 +193,8 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _playerJump(double dt) {
+    FlameAudio.playLongAudio(game.jumpSfx,
+        volume: game.masterVolume * game.sfxVolume);
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
     isOnGround = false;
@@ -265,8 +269,6 @@ class Player extends SpriteAnimationGroupComponent
           if (velocity.y < 0) {
             velocity.y = 0;
             position.y = block.y + hitbox.height - hitbox.offsetY;
-            isOnGround = true;
-            break;
           }
         }
       }
@@ -275,7 +277,7 @@ class Player extends SpriteAnimationGroupComponent
 
   void _respawn() async {
     const moveDelay = Duration(milliseconds: 350);
-
+    FlameAudio.play(game.hitSfx, volume: game.masterVolume * game.sfxVolume);
     gotHit = true;
     current = PlayerState.hit;
     remainingLives--;
@@ -285,9 +287,6 @@ class Player extends SpriteAnimationGroupComponent
 
     if (remainingLives <= 0) {
       isGameOver = true;
-      gameOverPlayer =
-          await FlameAudio.loopLongAudio('Over.wav', volume: game.soundVolume);
-
       gameRef.showRetryMenu();
     }
     scale.x = 1;
@@ -309,6 +308,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _reachCheckpoint() async {
+    FlameAudio.play(game.clearSFX, volume: game.masterVolume * game.sfxVolume);
     reachedCheckpoint = true;
     if (scale.x > 0) {
       position = position - Vector2.all(32);
@@ -323,6 +323,10 @@ class Player extends SpriteAnimationGroupComponent
     reachedCheckpoint = false;
     noodleCollected = false;
     position = Vector2.all(-640);
+  }
+
+  void collidedwithEnemy() {
+    _respawn();
   }
 
   void gotNoodle() {

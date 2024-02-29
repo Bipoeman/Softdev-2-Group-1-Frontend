@@ -17,32 +17,41 @@ class _CardpinState extends State<Cardpin> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      height: size.height * 0.55,
+      height: size.height * 0.52,
       width: size.width * 0.8,
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 255, 255, 255),
+        color: const Color.fromARGB(255, 255, 255, 255),
         borderRadius: BorderRadius.circular(35),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: size.height * 0.09,
-            width: size.width * 0.7,
-            // color: Color.fromARGB(255, 255, 255, 255),
-            padding: EdgeInsets.only(
-              left: size.width * 0.1,
-              top: size.height * 0.03,
-              bottom: size.height * 0.01,
-              right: size.width * 0.1,
-            ),
-            child: const Text("Bally",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 27,
-                  fontWeight: FontWeight.w600,
-                )),
-          ),
+              height: size.height * 0.09,
+              width: size.width * 0.8,
+              // color: Color.fromARGB(255, 255, 255, 255),
+              padding: EdgeInsets.only(
+                left: size.width * 0.1,
+                top: size.height * 0.03,
+                bottom: size.height * 0.01,
+                right: size.width * 0.1,
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Bally",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 27,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(width: 100), // ระยะห่างระหว่าง Text กับ Icon
+                  Icon(Icons.accessible_sharp, size: 30),
+                  Icon(Icons.baby_changing_station, size: 30),
+                ],
+              )),
           Container(
             height: size.height * 0.05,
             width: size.width * 0.7,
@@ -134,7 +143,7 @@ class _CardpinState extends State<Cardpin> {
                     height: size.height * 0.06,
                     width: size.width * 0.25,
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 183, 3, 1),
+                      color: const Color.fromRGBO(255, 183, 3, 1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: ElevatedButton(
@@ -149,7 +158,7 @@ class _CardpinState extends State<Cardpin> {
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromRGBO(255, 183, 3, 1)),
+                            const Color.fromRGBO(255, 183, 3, 1)),
                         shape: MaterialStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -167,7 +176,7 @@ class _CardpinState extends State<Cardpin> {
                     height: size.height * 0.06,
                     width: size.width * 0.25,
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 183, 3, 1),
+                      color: const Color.fromRGBO(255, 183, 3, 1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: ElevatedButton(
@@ -177,7 +186,7 @@ class _CardpinState extends State<Cardpin> {
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromRGBO(255, 183, 3, 1)),
+                            const Color.fromRGBO(255, 183, 3, 1)),
                         shape: MaterialStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
