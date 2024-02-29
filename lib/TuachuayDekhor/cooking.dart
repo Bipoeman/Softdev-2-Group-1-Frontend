@@ -17,7 +17,7 @@ class TuachuayDekhorCookingPage extends StatefulWidget {
 class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
   final cookingurl = Uri.parse("$api$dekhorPosttocookingRoute");
   var blog_cooking = [];
-   @override
+  @override
   void initState() {
     super.initState();
     posttocooking();
@@ -36,6 +36,7 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
       throw Exception('Failed to load data');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -123,7 +124,9 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                                     title: blog_cooking[actualIndex]['title'],
                                     name: blog_cooking[actualIndex]['user']
                                         ['fullname'],
-                                    like: 'null',
+                                    category: blog_cooking[actualIndex]
+                                        ['category'],
+                                    like:  blog_cooking[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       blog_cooking[actualIndex]['image_link'] !=
                                               "null"
@@ -135,6 +138,7 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: blog_cooking[actualIndex]['id_post'],
                                       );
                                     },
                                   );
@@ -156,7 +160,9 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                                     title: blog_cooking[actualIndex]['title'],
                                     name: blog_cooking[actualIndex]['user']
                                         ['fullname'],
-                                    like: 'null',
+                                    category: blog_cooking[actualIndex]
+                                        ['category'],
+                                    like: blog_cooking[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       blog_cooking[actualIndex]['image_link'] !=
                                               "null"
@@ -168,6 +174,7 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: blog_cooking[actualIndex]['id_post'],
                                       );
                                     },
                                   );
