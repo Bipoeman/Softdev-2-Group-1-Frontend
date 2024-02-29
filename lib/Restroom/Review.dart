@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ruam_mitt/Restroom/Component/NavBar.dart';
+import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/Restroom/Component/write_review.dart';
 import 'package:ruam_mitt/Restroom/Component/comment.dart';

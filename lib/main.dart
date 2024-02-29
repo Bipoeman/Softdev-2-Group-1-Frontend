@@ -6,7 +6,7 @@ import 'package:ruam_mitt/PinTheBin/addbinV2.dart';
 import 'package:ruam_mitt/PinTheBin/editbin.dart';
 import 'package:ruam_mitt/PinTheBin/mybin.dart';
 import 'package:ruam_mitt/PinTheBin/report.dart';
-import 'package:ruam_mitt/Restroom/FindPosition.dart';
+import 'package:ruam_mitt/Restroom/findposition.dart';
 import 'package:ruam_mitt/Restroom/Review.dart';
 import 'package:ruam_mitt/Restroom/addrestroom.dart';
 import 'package:ruam_mitt/Restroom/report.dart';
