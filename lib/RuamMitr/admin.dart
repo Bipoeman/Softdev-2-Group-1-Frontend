@@ -71,6 +71,48 @@ class _AdminPageState extends State<AdminPage> {
                   ),
                 ),
               ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                width: size.width * (570 / 738),
+                height: size.width * (570 / 738) / (570 / 152),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: const Color(0xFFEEEEEE),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 70,
+                      height: 70,
+                      margin: const EdgeInsets.only(left: 10, right: 10),
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.person),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(right: 10),
+                              width: 20,
+                              height: 20,
+                              color: theme.colorScheme.primary,
+                            ),
+                            const Text("Suggestion - “Better UI”")
+                          ],
+                        ),
+                        const Text("Explanation"),
+                        const Text("User")
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
