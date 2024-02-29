@@ -290,7 +290,6 @@ class _MyBinState extends State<MyBinPage> {
                                         child: data["picture"] == null
                                             ? Image.asset(
                                                 "assets/images/PinTheBin/bin_null.png",
-                                                // fit: BoxFit.cover,
                                                 width: size.width * 0.4,
                                                 height: size.width * 0.4,
                                               )
@@ -375,7 +374,7 @@ class MyPinTheBinAppBar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Text(
-                "My Bin",
+                "MYBIN",
                 style: TextStyle(
                   fontSize:
                       Theme.of(context).textTheme.headlineMedium!.fontSize,
