@@ -3,7 +3,8 @@ import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 const String baseURL = "https://ruammitr.azurewebsites.net";
 // const String api = "https://ruammitr.azurewebsites.net/api";
-const String api = "http://10.0.2.2:3000";
+// const String api = "http://10.0.2.2:3000";
+const String api = "http://192.168.28.16:3000";
 const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
 const String userDataUpdateRoute = "/user";
@@ -53,9 +54,9 @@ const Map<String, String> ruamMitrPageRoute = {
 const Map<String, String> restroomPageRoute = {
   "home": "/Restroom/home",
   "review": "/Restroom/Review",
-  "findposition" : "/Restroom/Findposition",
-  "addrestroom" : "/Restroom/Addrestroom",
-  "report" : "/Restroom/Report",
+  "findposition": "/Restroom/Findposition",
+  "addrestroom": "/Restroom/Addrestroom",
+  "report": "/Restroom/Report",
 };
 const String dinodengzzPageRoute = "/game";
 const Map<String, String> tuachuayDekhorPageRoute = {

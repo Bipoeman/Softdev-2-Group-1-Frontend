@@ -11,10 +11,6 @@ import 'package:ruam_mitt/Restroom/addrestroom.dart';
 import 'package:ruam_mitt/Restroom/report.dart';
 import 'package:ruam_mitt/Restroom/restroom.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
-// import 'package:ruam_mitt/RuamMitr/home.dart';
-import 'package:ruam_mitt/RuamMitr/Component/home_v2/central_v2.dart';
-// import 'package:ruam_mitt/RuamMitr/settings.dart';
-// import 'package:ruam_mitt/RuamMitr/profile.dart';
 import 'package:ruam_mitt/RuamMitr/central_v2.dart';
 import 'package:ruam_mitt/RuamMitr/edit_profile.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
@@ -74,8 +70,10 @@ class _SuperAppState extends State<SuperApp> {
         ruamMitrPageRoute["edit-profile"]!: (context) => const EditProfile(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
-        restroomPageRoute["findposition"]!: (context) => const RestroomRoverFindPosition(),
-        restroomPageRoute["addrestroom"]!: (context) => const RestroomRoverAddrestroom(),
+        restroomPageRoute["findposition"]!: (context) =>
+            const RestroomRoverFindPosition(),
+        restroomPageRoute["addrestroom"]!: (context) =>
+            const RestroomRoverAddrestroom(),
         restroomPageRoute["report"]!: (context) => const RestroomRoverReport(),
         dinodengzzPageRoute: (context) => const MyGame(),
         tuachuayDekhorPageRoute["home"]!: (context) =>
