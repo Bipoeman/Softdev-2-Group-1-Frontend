@@ -7,7 +7,6 @@ import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import "package:ruam_mitt/PinTheBin/componant/map.dart";
 import "package:http/http.dart" as http;
 import "package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart";
-
 import "package:ruam_mitt/global_const.dart";
 import "package:ruam_mitt/global_func.dart";
 import "package:ruam_mitt/global_var.dart";
