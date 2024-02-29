@@ -193,6 +193,8 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _playerJump(double dt) {
+    FlameAudio.playLongAudio(game.jumpSfx,
+        volume: game.masterVolume * game.sfxVolume);
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
     isOnGround = false;
@@ -275,7 +277,7 @@ class Player extends SpriteAnimationGroupComponent
 
   void _respawn() async {
     const moveDelay = Duration(milliseconds: 350);
-
+    FlameAudio.play(game.hitSfx, volume: game.masterVolume * game.sfxVolume);
     gotHit = true;
     current = PlayerState.hit;
     remainingLives--;
@@ -285,9 +287,6 @@ class Player extends SpriteAnimationGroupComponent
 
     if (remainingLives <= 0) {
       isGameOver = true;
-
-      ///gameOverPlayer = await FlameAudio.loopLongAudio('Over.wav',volume: game.masterVolume * game.bgmVolume);
-
       gameRef.showRetryMenu();
     }
     scale.x = 1;
@@ -309,6 +308,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _reachCheckpoint() async {
+    FlameAudio.play(game.clearSFX, volume: game.masterVolume * game.sfxVolume);
     reachedCheckpoint = true;
     if (scale.x > 0) {
       position = position - Vector2.all(32);
