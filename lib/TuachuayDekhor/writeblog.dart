@@ -12,12 +12,10 @@ class TuachuayDekhorWriteBlogPage extends StatefulWidget {
   const TuachuayDekhorWriteBlogPage({super.key});
 
   @override
-  State<TuachuayDekhorWriteBlogPage> createState() =>
-      _TuachuayDekhorWriteBlogPageState();
+  State<TuachuayDekhorWriteBlogPage> createState() => _TuachuayDekhorWriteBlogPageState();
 }
 
-class _TuachuayDekhorWriteBlogPageState
-    extends State<TuachuayDekhorWriteBlogPage>
+class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPage>
     with SingleTickerProviderStateMixin {
   String? _dropdownValue = "null";
   BoxController boxController = BoxController();
@@ -40,8 +38,7 @@ class _TuachuayDekhorWriteBlogPageState
       "category": _dropdownValue,
       "image_link": "null"
     });
-    if (markdownTitleController.text.isEmpty ||
-        markdownContentController.text.isEmpty) {
+    if (markdownTitleController.text.isEmpty || markdownContentController.text.isEmpty) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -51,8 +48,7 @@ class _TuachuayDekhorWriteBlogPageState
             iconColor: const Color.fromRGBO(0, 48, 73, 1),
             icon: const Icon(Icons.close, size: 50),
             title: const Text("Empty blog."),
-            content:
-                const Text("Please write a title and content before posting."),
+            content: const Text("Please write a title and content before posting."),
             actions: [
               TextButton(
                 onPressed: () {
@@ -238,32 +234,26 @@ class _TuachuayDekhorWriteBlogPageState
                                     surfaceTintColor: Colors.white,
                                     backgroundColor: Colors.white,
                                     iconPadding: EdgeInsets.zero,
-                                    iconColor:
-                                        const Color.fromRGBO(0, 48, 73, 1),
+                                    iconColor: const Color.fromRGBO(0, 48, 73, 1),
                                     icon: Stack(
                                       children: [
                                         const Padding(
-                                          padding: EdgeInsets.fromLTRB(
-                                              24, 30, 24, 16),
+                                          padding: EdgeInsets.fromLTRB(24, 30, 24, 16),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Icon(Icons.note_alt, size: 50),
                                             ],
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 10, right: 10),
+                                          padding: const EdgeInsets.only(top: 10, right: 10),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                            mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               IconButton(
                                                 color: Colors.grey,
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
+                                                onPressed: () => Navigator.pop(context),
                                                 icon: const Icon(Icons.close),
                                               ),
                                             ],
@@ -272,13 +262,11 @@ class _TuachuayDekhorWriteBlogPageState
                                       ],
                                     ),
                                     title: const Text("Save draft?"),
-                                    actionsAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    actionsAlignment: MainAxisAlignment.spaceBetween,
                                     actions: [
                                       Container(
                                         decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                             color: Colors.red),
                                         child: TextButton(
                                           onPressed: () {
@@ -295,8 +283,7 @@ class _TuachuayDekhorWriteBlogPageState
                                       ),
                                       Container(
                                         decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                             color: Colors.green),
                                         child: TextButton(
                                           onPressed: () {
@@ -338,14 +325,12 @@ class _TuachuayDekhorWriteBlogPageState
                                 ),
                               ),
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, tuachuayDekhorPageRoute["draft"]!);
+                                Navigator.pushNamed(context, tuachuayDekhorPageRoute["draft"]!);
                               },
                             ),
                             Container(
                               width: 70,
-                              margin:
-                                  const EdgeInsets.only(left: 20, right: 10),
+                              margin: const EdgeInsets.only(left: 20, right: 10),
                               child: RawMaterialButton(
                                 onPressed: () {
                                   writeblog();
@@ -360,36 +345,28 @@ class _TuachuayDekhorWriteBlogPageState
                                             width: size.width * 0.3,
                                             height: size.height * 0.3,
                                             child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 LottieBuilder.asset(
                                                   status
                                                       ? "assets/images/Logo/Animation_Success.json"
                                                       : "assets/images/Logo/Animation_Fail.json",
                                                   repeat: false,
-                                                  controller:
-                                                      animationController,
+                                                  controller: animationController,
                                                   onLoaded: (composition) {
-                                                    animationController
-                                                            .duration =
+                                                    animationController.duration =
                                                         composition.duration;
-                                                    animationController
-                                                        .forward();
+                                                    animationController.forward();
                                                   },
                                                 ),
-                                                SizedBox(
-                                                    height: size.height * 0.03),
+                                                SizedBox(height: size.height * 0.03),
                                                 Align(
                                                   alignment: Alignment.center,
                                                   child: Text(
-                                                    status
-                                                        ? "Post successful!"
-                                                        : "Post failed!",
+                                                    status ? "Post successful!" : "Post failed!",
                                                     style: const TextStyle(
                                                       fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                      fontWeight: FontWeight.bold,
                                                       color: Colors.black,
                                                     ),
                                                   ),
@@ -400,8 +377,7 @@ class _TuachuayDekhorWriteBlogPageState
                                         );
                                       });
                                 },
-                                fillColor:
-                                    const Color.fromRGBO(217, 192, 41, 1),
+                                fillColor: const Color.fromRGBO(217, 192, 41, 1),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
@@ -463,10 +439,8 @@ class _TuachuayDekhorWriteBlogPageState
                               onPressed: () {
                                 FocusManager.instance.primaryFocus?.unfocus();
                                 setState(() {
-                                  markdownTitleText =
-                                      markdownTitleController.text;
-                                  markdownContentText =
-                                      markdownContentController.text;
+                                  markdownTitleText = markdownTitleController.text;
+                                  markdownContentText = markdownContentController.text;
                                 });
                                 boxController.openBox();
                               },
