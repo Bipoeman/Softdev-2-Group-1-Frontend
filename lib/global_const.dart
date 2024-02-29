@@ -13,15 +13,32 @@ const String refreshTokenRoute = "/user/refresh";
 const String pinTheBinGetBinRoute = "/pinthebin/bin";
 const String dekhorPosttoprofileRoute = "/dekhor/posttoprofile";
 const String dekhorShowSaveRoute = "/dekhor/showsave";
+const String dekhorPosttoprofilebloggerRoute = "/dekhor/posttoprofileblogger";
+const String dekhorShowSavebloggerRoute = "/dekhor/showsaveblogger";
 const String dekhorSearchBlogRoute = "/dekhor/searchblog";
 const String dekhorSearchBloggerRoute = "/dekhor/searchblogger";
-const String dekhorWriteBloggerRoute = "/dekhor/createpost";
-const String dekhorAddPictureRoute = "/dekhor/upload";
+const String dekhorWriteBlogRoute = "/dekhor/createpost";
+const String dekhorAddPictureRoute = "/dekhor/createpic";
 const String dekhorRandomPostRoute = "/dekhor/randompost";
 const String dekhorPosttocleaningRoute = "/dekhor/posttocategory/cleaning";
 const String dekhorPosttocookingRoute = "/dekhor/posttocategory/cooking";
 const String dekhorPosttodecorationRoute = "/dekhor/posttocategory/decoration";
 const String dekhorPosttostoryRoute = "/dekhor/posttocategory/story";
+const String dekhorDetailPostRoute = "/dekhor/detailpost";
+const String dekhorCommentPostRoute = "/dekhor/commentpost";
+const String dekhorShowcommentPostRoute = "/dekhor/showcomment";
+const String dekhorSavePostRoute = "/dekhor/savepost";
+const String dekhorUnsavePostRoute = "/dekhor/unsave";
+const String dekhorCountsavePostRoute = "/dekhor/countsave";
+const String dekhorNumsavePostRoute = "/dekhor/numsave";
+const String dekhorDeletePostRoute = "/dekhor/deletepost";
+const String dekhorEditPostRoute = "/dekhor/editpost";
+const String dekhorDraftPostRoute = "/dekhor/draftpost";
+const String dekhorPosttoDraftRoute = "/dekhor/posttodraft";
+const String dekhorDetailDraftRoute = "/dekhor/detaildraft";
+const String dekhorEditDraftRoute = "/dekhor/editdraft";
+const String dekhorDeleteDraftRoute = "/dekhor/deletedraft";
+const String dekhorReportRoute = "/dekhor/report";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
 
@@ -44,15 +61,20 @@ const String dinodengzzPageRoute = "/game";
 const Map<String, String> tuachuayDekhorPageRoute = {
   "home": "/TuachuayDekhor/home",
   "profile": "/TuachuayDekhor/profile",
+  "profileblogger": "/TuachuayDekhor/profileblogger",
   "blog": "/TuachuayDekhor/blog",
+  "detaildraft": "/TuachuayDekhor/detaildraft",
   "search": "/TuachuayDekhor/search",
   "blogger": "/TuachuayDekhor/blogger",
   "writeblog": "/TuachuayDekhor/writeblog",
+  "editpost": "/TuachuayDekhor/editpost",
   "draft": "/TuachuayDekhor/draft",
+  "editdraft": "/TuachuayDekhor/editdraft",
   "decoration": "/TuachuayDekhor/decoration",
   "story": "/TuachuayDekhor/story",
   "cooking": "/TuachuayDekhor/cooking",
   "cleaning": "/TuachuayDekhor/cleaning",
+  "report": "/TuachuayDekhor/report",
 };
 const Map<String, String> pinthebinPageRoute = {
   "home": "/PinTheBin/home",

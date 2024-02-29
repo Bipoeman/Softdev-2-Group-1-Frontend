@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'dart:math';
 import "package:ruam_mitt/TuachuayDekhor/Component/avatar.dart";
+import "package:ruam_mitt/global_const.dart";
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class TuachuayDekhorBloggerPage extends StatefulWidget {
   const TuachuayDekhorBloggerPage({super.key});
@@ -12,6 +15,28 @@ class TuachuayDekhorBloggerPage extends StatefulWidget {
 }
 
 class _TuachuayDekhorBloggerPageState extends State<TuachuayDekhorBloggerPage> {
+  var blogger = [];
+  final bloggerurl = Uri.parse("$api$dekhorSearchBloggerRoute");
+
+  @override
+  void initState() {
+    super.initState();
+    showblogger();
+  }
+
+  Future<void> showblogger() async {
+    var response = await http.get(
+      bloggerurl,
+    );
+    if (response.statusCode == 200) {
+      setState(() {
+        blogger = jsonDecode(response.body);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -64,10 +89,13 @@ class _TuachuayDekhorBloggerPageState extends State<TuachuayDekhorBloggerPage> {
                         spacing: 20,
                         runSpacing: 20,
                         children: List.generate(
-                          20,
+                          blogger.length,
                           (index) {
-                            return const TuachuayDekhorAvatarViewer(
-                                username: 'pumxni');
+                            return TuachuayDekhorAvatarViewer(
+                              username: blogger[index]['user']['fullname'],
+                              avatarUrl:
+                                  "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
+                            );
                           },
                         ),
                       ),
