@@ -55,7 +55,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
     if (response.statusCode == 200) {
       setState(() {
         allblogger = jsonDecode(response.body);
-        // print(allblogger);
+        print(allblogger);
       });
     } else {
       throw Exception('Failed to load data');
@@ -286,7 +286,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                       return TuachuayDekhorAvatarViewer(
                                         username:
                                             blogger['user']['fullname'] ?? '',
-                                        avatarUrl:
+                                        avatarUrl: blogger['profile']  ??
                                             "https://api.multiavatar.com/${(blogger['user']['fullname']).replaceAll(" ", "+")}.png",
                                       );
                                     }
@@ -353,7 +353,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                       return TuachuayDekhorAvatarViewer(
                                         username:
                                             blogger['user']['fullname'] ?? '',
-                                        avatarUrl:
+                                        avatarUrl:blogger['profile']  ??
                                             "https://api.multiavatar.com/${(blogger['user']['fullname']).replaceAll(" ", "+")}.png",
                                       );
                                     }
