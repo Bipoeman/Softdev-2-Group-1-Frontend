@@ -107,6 +107,10 @@ class GameRoutes extends FlameGame
     await add(_router);
   }
 
+  void dispose() {
+    FlameAudio.bgm.dispose();
+  }
+
   void _routeById(String id) {
     _router.pushNamed(id);
   }
@@ -200,5 +204,9 @@ class GameRoutes extends FlameGame
 
   void onSfxVolumeChanged(double volume) {
     sfxVolume = (volume / 100);
+  }
+
+  void stopBGMInApp() {
+    FlameAudio.bgm.stop();
   }
 }
