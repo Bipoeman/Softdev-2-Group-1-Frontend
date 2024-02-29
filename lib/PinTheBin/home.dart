@@ -5,11 +5,11 @@ import "package:flutter_map/flutter_map.dart";
 import "package:latlong2/latlong.dart";
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import "package:ruam_mitt/PinTheBin/componant/map.dart";
-
 import "package:http/http.dart" as http;
 import "package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart";
 
 import "package:ruam_mitt/global_const.dart";
+import "package:ruam_mitt/global_func.dart";
 import "package:ruam_mitt/global_var.dart";
 
 class BinLocationInfo {
@@ -42,6 +42,12 @@ class _BinPageState extends State<BinPage> {
         "Authorization": publicToken,
       },
     );
+    if (res.statusCode == 403){
+      if (context.mounted){
+        await requestNewToken(context);
+        return await getBinInfo();
+      }
+    }
     debugPrint(res.body);
     return res;
   }

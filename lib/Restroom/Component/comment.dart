@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
 
 class Cardcomment extends StatefulWidget {
-  const Cardcomment({Key? key}) : super(key: key);
+  const Cardcomment({super.key});
 
   @override
   State<Cardcomment> createState() => _CardcommentState();
@@ -12,17 +12,16 @@ class _CardcommentState extends State<Cardcomment> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Center(
+    return Center(
         child: Container(
             height: size.height * 0.3,
-            width: size.width * 0.75,
+            width: size.width * 0.85,
             padding: EdgeInsets.only(
               left: size.width * 0.03,
               top: size.height * 0.015,
             ),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 255, 255, 255),
+              color: const Color.fromARGB(255, 255, 255, 255),
               borderRadius: BorderRadius.circular(35),
             ),
             child: Column(
@@ -30,7 +29,7 @@ class _CardcommentState extends State<Cardcomment> {
                 Container(
                   width: size.width * 0.85,
                   height: size.height * 0.1,
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     left: 0.1,
                     top: 10,
                   ),
@@ -42,7 +41,7 @@ class _CardcommentState extends State<Cardcomment> {
                         backgroundImage: NetworkImage(
                             "https://i.pinimg.com/564x/9b/2a/e8/9b2ae82b19caea75419be79b046b2107.jpg"),
                       ),
-                      Container(
+                      SizedBox(
                         width: size.width * 0.5,
                         height: size.height * 0.07,
                         child: Column(
@@ -85,7 +84,7 @@ class _CardcommentState extends State<Cardcomment> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
+                    SizedBox(
                         height: size.height * 0.12,
                         width: size.width * 0.3,
                         // padding: EdgeInsets.only(
@@ -105,7 +104,7 @@ class _CardcommentState extends State<Cardcomment> {
                 )
               ],
             )),
-      ),
-    );
+      );
+    
   }
 }

@@ -15,10 +15,14 @@ import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 class GameRoutes extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
   List<String> levelNames = ['Level-01', 'Level-02', 'Level-03', 'Level-04'];
-  //static const bgm = 'Over.wav';
-  //static const jumpSfx = 'Deng_Suu.wav';
-  //static const collectSfx = 'Collect.wav';
-  //static const hurtSfx = 'Hurt.wav';
+  String gameOver = 'Over.wav';
+  String startGame = 'Start_Screen.wav';
+  String boss = 'Boss.wav';
+  String gameBGM = 'Bgm.wav';
+  String jumpSfx = 'Deng_Suu.wav';
+  String collectSfx = 'Collect.wav';
+  String hitSfx = 'Hit.wav';
+  String clearSFX = 'Disappear.wav';
   bool playSounds = true;
   late double masterVolume = 1.0;
   late double bgmVolume = 0.6;
@@ -30,10 +34,13 @@ class GameRoutes extends FlameGame
           onLevelSelectionPressed: () => _routeById(LevelSelectionScreen.id),
           onExitPressed: () {
             Flame.device.setPortrait();
-            FlameAudio.audioCache.clearAll();
+            FlameAudio.bgm.stop();
             Get.toNamed('/login');
           },
-          onSettingPressed: () => _routeById(Settings.id)),
+          onSettingPressed: () {
+            FlameAudio.bgm.pause();
+            _routeById(Settings.id);
+          }),
     ),
     Settings.id: OverlayRoute(
       (context, game) => Settings(
@@ -41,6 +48,9 @@ class GameRoutes extends FlameGame
         onMasterVolumeChanged: onMasterVolumeChanged,
         onSfxVolumeChanged: onSfxVolumeChanged,
         onBackPressed: _popRoute,
+        masterVolume: masterVolume,
+        bgmVolume: bgmVolume,
+        sfxVolume: sfxVolume,
       ),
     ),
     LevelSelectionScreen.id:
@@ -59,9 +69,11 @@ class GameRoutes extends FlameGame
     GameOverScreen.id: OverlayRoute(
       (context, game) => GameOverScreen(
         onRetryPressed: () {
+          FlameAudio.bgm.stop();
           _restartLevel();
         },
         onMainMenuPressed: () {
+          FlameAudio.bgm.stop();
           _exitToMainMenu();
         },
       ),
@@ -89,7 +101,8 @@ class GameRoutes extends FlameGame
   Future<void> onLoad() async {
     await Flame.device.setLandscape();
     await Flame.device.fullScreen();
-    //await FlameAudio.audioCache.loadAll([bgm, jumpSfx]);
+    FlameAudio.bgm.initialize();
+    FlameAudio.bgm.play(startGame, volume: masterVolume * bgmVolume);
     await images.loadAllImages();
     await add(_router);
   }
@@ -104,6 +117,11 @@ class GameRoutes extends FlameGame
 
   void _startLevel(int levelIndex) {
     _router.pop();
+    if (levelIndex < levelNames.length - 1) {
+      FlameAudio.bgm.play(gameBGM, volume: masterVolume * bgmVolume);
+    } else {
+      FlameAudio.bgm.play(boss, volume: masterVolume * bgmVolume);
+    }
     _router.pushReplacement(
       Route(
         () => DinoDengzz(
@@ -129,11 +147,16 @@ class GameRoutes extends FlameGame
 
   void _startNextLevel() {
     final gameplay = findByKeyName<DinoDengzz>(DinoDengzz.id);
-
+    FlameAudio.bgm.stop();
     if (gameplay != null) {
       if (gameplay.currentLevel == levelNames.length - 1) {
         _exitToMainMenu();
       } else {
+        if (gameplay.currentLevel < levelNames.length) {
+          FlameAudio.bgm.play(gameBGM, volume: masterVolume * bgmVolume);
+        } else {
+          FlameAudio.bgm.play(boss, volume: masterVolume * bgmVolume);
+        }
         _startLevel(gameplay.currentLevel + 1);
       }
     }
@@ -141,16 +164,19 @@ class GameRoutes extends FlameGame
 
   void pauseGame() {
     _router.pushNamed(PauseMenu.id);
+    FlameAudio.bgm.pause();
     pauseEngine();
   }
 
   void _resumeGame() {
     _router.pop();
+    FlameAudio.bgm.resume();
     resumeEngine();
   }
 
   void _exitToMainMenu() {
     _resumeGame();
+    FlameAudio.bgm.stop();
     _router.pushReplacementNamed(StartScreen.id);
   }
 
@@ -159,18 +185,19 @@ class GameRoutes extends FlameGame
   }
 
   void showRetryMenu() {
+    FlameAudio.bgm.play(gameOver, volume: masterVolume * bgmVolume);
     _router.pushNamed(GameOverScreen.id);
   }
 
   void onMasterVolumeChanged(double volume) {
-    masterVolume = (volume / 100).roundToDouble();
+    masterVolume = (volume / 100);
   }
 
   void onBgmVolumeChanged(double volume) {
-    bgmVolume = (volume / 100).roundToDouble();
+    bgmVolume = (volume / 100);
   }
 
   void onSfxVolumeChanged(double volume) {
-    sfxVolume = (volume / 100).roundToDouble();
+    sfxVolume = (volume / 100);
   }
 }

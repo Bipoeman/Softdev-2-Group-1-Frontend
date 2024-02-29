@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/hud.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/level.dart';
@@ -31,7 +32,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
 
   late JoystickComponent joystick;
   late Hud hud;
-  bool joyControls = false;
+  bool joyControls = true;
   bool levelComplete = false;
 
   Color backgroundColor() => const Color.fromARGB(255, 30, 28, 45);
