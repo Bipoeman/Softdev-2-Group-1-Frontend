@@ -40,6 +40,7 @@ const String dekhorDetailDraftRoute = "/dekhor/detaildraft";
 const String dekhorEditDraftRoute = "/dekhor/editdraft";
 const String dekhorDeleteDraftRoute = "/dekhor/deletedraft";
 const String dekhorReportRoute = "/dekhor/report";
+const String dekhorUpdatePicRoute = "/dekhor/updatepicture";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
 
