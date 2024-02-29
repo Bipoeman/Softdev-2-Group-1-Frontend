@@ -20,6 +20,7 @@ class EditbinPage extends StatefulWidget {
 class _EditbinPageState extends State<EditbinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _LocationstextController = TextEditingController();
+  //TextEditingController _LatitudetextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -29,6 +30,9 @@ class _EditbinPageState extends State<EditbinPage> {
     _LocationstextController =
         TextEditingController(text: arguments['Bininfo']['location']);
     print(arguments['Bininfo']);
+
+    // _LatitudetextController =
+    //     TextEditingController(text: arguments['Bininfo']['latitude']);
 
     return Theme(
       data: ThemeData(
@@ -167,6 +171,52 @@ class _EditbinPageState extends State<EditbinPage> {
                               ),
                             ),
                           )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Container(
+                              padding: EdgeInsets.only(left: 20),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 67),
+                                child: Text(
+                                  'Position',
+                                  style:
+                                      Theme.of(context).textTheme.displayMedium,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: size.height * 0.02),
+                          Column(
+                            children: [
+                              ClayContainer(
+                                width: size.width * 0.75,
+                                height: size.height * 0.032,
+                                color: Color.fromRGBO(239, 239, 239, 1),
+                                borderRadius: 30,
+                                depth: -20,
+                                child: Text(
+                                  'Latitude : ${arguments['Bininfo']['latitude']}',
+                                ),
+                              ),
+                              SizedBox(
+                                height: size.height * 0.015,
+                              ),
+                              ClayContainer(
+                                width: size.width * 0.75,
+                                height: size.height * 0.032,
+                                color: Color.fromRGBO(239, 239, 239, 1),
+                                borderRadius: 30,
+                                depth: -20,
+                                child: Text(
+                                  'Longitude : ${arguments['Bininfo']['longitude']}',
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ],
