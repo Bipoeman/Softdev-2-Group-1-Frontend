@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'dart:math';
-
+import 'dart:convert';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
+import 'package:http/http.dart' as http;
 
 class TuachuayDekhorDraftPage extends StatefulWidget {
   const TuachuayDekhorDraftPage({super.key});
@@ -14,6 +16,31 @@ class TuachuayDekhorDraftPage extends StatefulWidget {
 }
 
 class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
+  var draft = [];
+  final draftposturl  = Uri.parse("$api$dekhorPosttoDraftRoute");
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        posttodraft();
+      });
+    });
+  }
+
+  Future<void> posttodraft() async {
+    var response = await http
+        .get(draftposturl, headers: {"Authorization": "Bearer $publicToken"});
+    if (response.statusCode == 200) {
+      setState(() {
+        draft = jsonDecode(response.body);
+        print(draft);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -72,27 +99,87 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                       height: size.width * 0.02,
                       color: const Color.fromRGBO(0, 48, 73, 1),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(top: size.width * 0.05),
-                      child: Wrap(
-                        spacing: 20,
-                        runSpacing: 20,
-                        children: List.generate(
-                          8,
-                          (index) => BlogBox(
-                            title: "Title",
-                            name: "Name",
-                            like: "Like",
-                            image: const AssetImage(
-                                "assets/images/Icon/TuachuayDekhor_Catagories_1.png"),
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, tuachuayDekhorPageRoute['blog']!);
-                            },
+                     Padding(
+                      padding: EdgeInsets.only(
+                          bottom: size.width * 0.05,
+                          left: size.width * 0.04,
+                          right: size.width * 0.04,
+                          top: size.width * 0.05),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Wrap(
+                            direction: Axis.vertical,
+                            spacing: 7,
+                            children: List.generate(
+                              (draft.length / 2).ceil(),
+                              (index) {
+                                final actualIndex = index * 2;
+                                if (actualIndex < draft.length) {
+                                  return BlogBox(
+                                    title: draft[actualIndex]['title'],
+                                    name: draft[actualIndex]['user']
+                                        ['fullname'],
+                                    category: draft[actualIndex]['category'],
+                                    like: "null",
+                                    image: NetworkImage(
+                                      draft[actualIndex]['image_link'] !=
+                                              "null"
+                                          ? draft[actualIndex]['image_link']
+                                          : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                    ),
+                                    onPressed: () {
+                                     Navigator.pushNamed(
+                                        context,
+                                        tuachuayDekhorPageRoute["editdraft"]!,
+                                        arguments: draft[actualIndex]['id_draft'],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return const SizedBox(); // แสดง SizedBox ถ้าข้อมูลไม่เพียงพอ
+                                }
+                              },
+                            ),
                           ),
-                        ),
+                          Wrap(
+                            direction: Axis.vertical,
+                            spacing: 7,
+                            children: List.generate(
+                              (draft.length) ~/ 2,
+                              (index) {
+                                final actualIndex = index * 2 + 1;
+                                if (actualIndex < draft.length) {
+                                  return BlogBox(
+                                    title: draft[actualIndex]['title'],
+                                    name: draft[actualIndex]['user']
+                                        ['fullname'],
+                                    category: draft[actualIndex]['category'],
+                                    like: "null",
+                                    image: NetworkImage(
+                                      draft[actualIndex]['image_link'] !=
+                                              "null"
+                                          ? draft[actualIndex]['image_link']
+                                          : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        tuachuayDekhorPageRoute["editdraft"]!,
+                                        arguments: draft[actualIndex]['id_draft'],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return const SizedBox(); // แสดง SizedBox ถ้าข้อมูลไม่เพียงพอ
+                                }
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),

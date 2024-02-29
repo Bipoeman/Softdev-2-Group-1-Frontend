@@ -35,7 +35,7 @@ class GameRoutes extends FlameGame
           onExitPressed: () {
             Flame.device.setPortrait();
             FlameAudio.bgm.stop();
-            Get.toNamed('/login');
+            navigator?.pop(context);
           },
           onSettingPressed: () {
             FlameAudio.bgm.pause();
@@ -107,12 +107,17 @@ class GameRoutes extends FlameGame
     await add(_router);
   }
 
+  void dispose() {
+    FlameAudio.bgm.dispose();
+  }
+
   void _routeById(String id) {
     _router.pushNamed(id);
   }
 
   void _popRoute() {
     _router.pop();
+    FlameAudio.bgm.resume();
   }
 
   void _startLevel(int levelIndex) {
@@ -199,5 +204,9 @@ class GameRoutes extends FlameGame
 
   void onSfxVolumeChanged(double volume) {
     sfxVolume = (volume / 100);
+  }
+
+  void stopBGMInApp() {
+    FlameAudio.bgm.stop();
   }
 }

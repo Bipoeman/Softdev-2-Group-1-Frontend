@@ -2,6 +2,7 @@ import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/Restroom/Component/NavBar.dart';
+import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/Restroom/Component/write_review.dart';
 import 'package:ruam_mitt/Restroom/Component/comment.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
@@ -27,57 +28,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
     Size size = MediaQuery.of(context).size;
     var rating = 2.5;
     return Theme(
-        data: ThemeData(
-          fontFamily: "Sen",
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFFFFB330),
-            background: const Color(0xFFECECEC),
-          ),
-          textTheme: TextTheme(
-            headlineMedium: const TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.w800,
-              color: Color.fromARGB(255, 112, 110, 110),
-            ),
-            headlineSmall: TextStyle(
-              fontSize: 30,
-              overflow: TextOverflow.fade,
-              fontWeight: FontWeight.w800,
-              color: const Color(0xFF003049),
-              shadows: [
-                Shadow(
-                  blurRadius: 20,
-                  offset: const Offset(0, 3),
-                  color: const Color(0xFF003049).withOpacity(0.3),
-                ),
-              ],
-            ),
-            displayMedium: TextStyle(
-              fontSize: 20,
-              overflow: TextOverflow.fade,
-              fontWeight: FontWeight.normal,
-              color: const Color(0xFF003049).withOpacity(0.69),
-            ),
-          ),
-          appBarTheme: const AppBarTheme(
-            iconTheme: IconThemeData(
-              color: Colors.white,
-              size: 35,
-            ),
-          ),
-          drawerTheme: const DrawerThemeData(
-            scrimColor: Colors.transparent,
-            backgroundColor: Color(0xFFFFFFFF),
-          ),
-          searchBarTheme: SearchBarThemeData(
-            textStyle: MaterialStatePropertyAll(
-              TextStyle(
-                fontFamily: GoogleFonts.getFont("Inter").fontFamily,
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ),
+        data: RestroomThemeData,
         child: Builder(builder: (context) {
           return Scaffold(
             key: _scaffoldKey,
@@ -114,7 +65,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                             child: ClayContainer(
                               width: size.width * 0.6,
                               height: size.height * 0.032,
-                              color: Color.fromRGBO(239, 239, 239, 1),
+                              color: Color(0xFFEAEAEA),
                               borderRadius: 30,
                               depth: -20,
                               child: TextField(
@@ -124,6 +75,8 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                 },
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.5),
+                                  hintText: 'Write a topic...',
                                 ),
                               ),
                             ),
@@ -141,21 +94,19 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                             alignment: Alignment.topLeft,
                             child: Container(
                               padding: EdgeInsets.only(left: 40),
-                              
-                                child: Text(
-                                  'Description',
-                                  style: Theme.of(context).textTheme.displayMedium,
-                                ),
-                              
+                              child: Text(
+                                'Description',
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
+                              ),
                             ),
                           ),
-                         Container(
-                          
+                          Container(
                             margin: EdgeInsets.only(top: size.height * 0.02),
                             child: ClayContainer(
                               width: size.width * 0.78,
                               height: size.height * 0.3,
-                              color: Color.fromRGBO(239, 239, 239, 1),
+                              color: Color(0xFFEAEAEA),
                               borderRadius: 30,
                               depth: -20,
                               child: TextField(
@@ -163,12 +114,58 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                 onChanged: (text) {
                                   print('Typed text: $text');
                                 },
+                                maxLines: null,
+                                // textAlignVertical: TextAlignVertical.center,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                                  hintText: 'Write a description...',
                                 ),
                               ),
                             ),
                           )
+                        ],
+                      ),
+                      SizedBox(
+                          height:
+                              size.height * 0.25), // เพิ่มระยะห่างระหว่าง Row กับเนื้อหาด้านล่าง
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.amber,
+                              surfaceTintColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                side: const BorderSide(color: Colors.grey),
+                              ),
+                            ),
+                            child: Text(
+                              'Submit',
+                              style: Theme.of(context).textTheme.displayLarge,
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.grey[300],
+                              surfaceTintColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
+                                side: const BorderSide(color: Colors.grey),
+                              ),
+                            ),
+                            child: Text(
+                              "Cancel",
+                              style: Theme.of(context).textTheme.displayLarge,
+                            ),
+                          ),
                         ],
                       ),
                     ],

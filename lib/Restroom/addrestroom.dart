@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/Restroom/Component/NavBar.dart';
+import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/Restroom/Component/write_review.dart';
 import 'package:ruam_mitt/Restroom/Component/comment.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
@@ -26,57 +27,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
     Size size = MediaQuery.of(context).size;
     var rating = 2.5;
     return Theme(
-      data: ThemeData(
-        fontFamily: "Sen",
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFFFB330),
-          background: const Color(0xFFECECEC),
-        ),
-        textTheme: TextTheme(
-          headlineMedium: const TextStyle(
-            fontSize: 35,
-            fontWeight: FontWeight.w800,
-            color: Color.fromARGB(255, 112, 110, 110),
-          ),
-          headlineSmall: TextStyle(
-            fontSize: 30,
-            overflow: TextOverflow.fade,
-            fontWeight: FontWeight.w800,
-            color: const Color(0xFF003049),
-            shadows: [
-              Shadow(
-                blurRadius: 20,
-                offset: const Offset(0, 3),
-                color: const Color(0xFF003049).withOpacity(0.3),
-              ),
-            ],
-          ),
-          displayMedium: TextStyle(
-            fontSize: 20,
-            overflow: TextOverflow.fade,
-            fontWeight: FontWeight.normal,
-            color: const Color(0xFF003049).withOpacity(0.69),
-          ),
-        ),
-        appBarTheme: const AppBarTheme(
-          iconTheme: IconThemeData(
-            color: Colors.white,
-            size: 35,
-          ),
-        ),
-        drawerTheme: const DrawerThemeData(
-          scrimColor: Colors.transparent,
-          backgroundColor: Color(0xFFFFFFFF),
-        ),
-        searchBarTheme: SearchBarThemeData(
-          textStyle: MaterialStatePropertyAll(
-            TextStyle(
-              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ),
+      data: RestroomThemeData,
       child: Scaffold(
         key: _scaffoldKey,
         body: Stack(

@@ -231,42 +231,33 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                               scrollDirection: Axis.horizontal,
                               child: Row(
                                 children: [
-                                  if (blogger.length > 7) ...[
-                                    ...List.generate(
-                                      blogger.length,
-                                      (index) => TuachuayDekhorAvatarViewer(
-                                        username: blogger[index]['user']
-                                            ['fullname'],
-                                        avatarUrl:
-                                            "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
-                                      ),
+                                  ...List.generate(
+                                    blogger.length,
+                                    (index) => TuachuayDekhorAvatarViewer(
+                                      username: blogger[index]['user']
+                                          ['fullname'],
+                                      avatarUrl:
+                                          "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
                                     ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          tuachuayDekhorPageRoute["blogger"]!,
-                                        );
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        shape: const CircleBorder(),
-                                      ),
-                                      child: const Icon(
-                                        Icons.arrow_forward,
-                                        size: 16,
-                                      ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        tuachuayDekhorPageRoute["blogger"]!,
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: const CircleBorder(),
+                                      backgroundColor: Colors.grey[300],
+                                      surfaceTintColor: Colors.white,
                                     ),
-                                  ] else ...[
-                                    ...List.generate(
-                                      blogger.length,
-                                      (index) => TuachuayDekhorAvatarViewer(
-                                        username: blogger[index]['user']
-                                            ['fullname'],
-                                        avatarUrl:
-                                            "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
-                                      ),
+                                    child: const Icon(
+                                      Icons.arrow_forward,
+                                      color: Color.fromRGBO(0, 48, 73, 1),
+                                      size: 16,
                                     ),
-                                  ]
+                                  ),
                                 ],
                               ),
                             ),
@@ -316,19 +307,20 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                             title: blog[actualIndex]['title'],
                                             name: blog[actualIndex]['user']
                                                 ['fullname'],
-                                            like: 'null',
+                                            category: blog[actualIndex]
+                                                ['category'],
+                                            like: blog[actualIndex]['save'] ??
+                                                "0",
                                             image: NetworkImage(
-                                              blog[actualIndex]['image_link'] !=
-                                                      "null"
-                                                  ? blog[actualIndex]
-                                                      ['image_link']
-                                                  : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                              blog[actualIndex]['image_link'],
                                             ),
                                             onPressed: () {
                                               Navigator.pushNamed(
                                                 context,
                                                 tuachuayDekhorPageRoute[
                                                     'blog']!,
+                                                arguments: blog[actualIndex]
+                                                    ['id_post'],
                                               );
                                             },
                                           );
@@ -350,19 +342,20 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                             title: blog[actualIndex]['title'],
                                             name: blog[actualIndex]['user']
                                                 ['fullname'],
-                                            like: 'null',
+                                            category: blog[actualIndex]
+                                                ['category'] ,
+                                            like: blog[actualIndex]['save'] ??
+                                                "0",
                                             image: NetworkImage(
-                                              blog[actualIndex]['image_link'] !=
-                                                      "null"
-                                                  ? blog[actualIndex]
-                                                      ['image_link']
-                                                  : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                              blog[actualIndex]['image_link'],
                                             ),
                                             onPressed: () {
                                               Navigator.pushNamed(
                                                 context,
                                                 tuachuayDekhorPageRoute[
                                                     'blog']!,
+                                                arguments: blog[actualIndex]
+                                                    ['id_post'],
                                               );
                                             },
                                           );

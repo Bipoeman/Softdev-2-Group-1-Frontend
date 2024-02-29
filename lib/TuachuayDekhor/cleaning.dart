@@ -126,7 +126,9 @@ class _TuachuayDekhorCleaningPageState
                                     title: blog_clean[actualIndex]['title'],
                                     name: blog_clean[actualIndex]['user']
                                         ['fullname'],
-                                    like: 'null',
+                                    category: blog_clean[actualIndex]
+                                        ['category'],
+                                    like: blog_clean[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       blog_clean[actualIndex]['image_link'] !=
                                               "null"
@@ -138,6 +140,7 @@ class _TuachuayDekhorCleaningPageState
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: blog_clean[actualIndex]['id_post'],
                                       );
                                     },
                                   );
@@ -159,7 +162,9 @@ class _TuachuayDekhorCleaningPageState
                                     title: blog_clean[actualIndex]['title'],
                                     name: blog_clean[actualIndex]['user']
                                         ['fullname'],
-                                    like: 'null',
+                                    category: blog_clean[actualIndex]
+                                        ['category'],
+                                    like: blog_clean[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
                                       blog_clean[actualIndex]['image_link'] !=
                                               "null"
@@ -171,6 +176,7 @@ class _TuachuayDekhorCleaningPageState
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
+                                        arguments: blog_clean[actualIndex]['id_post'],
                                       );
                                     },
                                   );
