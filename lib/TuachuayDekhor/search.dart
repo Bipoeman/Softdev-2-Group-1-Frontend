@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
@@ -25,16 +26,23 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
   final bloggerurl = Uri.parse("$api$dekhorSearchBloggerRoute");
   var allblog = [];
   var allblogger = [];
+  var blogSearch = [];
+  var bloggerSearch = [];
+  String searchQueryLowerCase = '';
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    searchblogger();
-    searchblog();
+    searchAllBlogger();
+    searchAllBlog();
     initial();
+    Future.delayed(const Duration(seconds: 1), () {
+      searchData();
+    });
   }
 
-  Future<void> searchblog() async {
+  Future<void> searchAllBlog() async {
     var response = await http.get(
       blogurl,
     );
@@ -48,7 +56,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
     }
   }
 
-  Future<void> searchblogger() async {
+  Future<void> searchAllBlogger() async {
     var response = await http.get(
       bloggerurl,
     );
@@ -62,10 +70,39 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
     }
   }
 
+  void searchBlog(String search) {
+    setState(() {
+      blogSearch = allblog
+          .where(
+              (blog) => blog['title'].toString().toLowerCase().contains(search))
+          .toList();
+    });
+  }
+
+  void searchBlogger(String search) {
+    setState(() {
+      bloggerSearch = allblogger
+          .where((blogger) => blogger['user']['fullname']
+              .toString()
+              .toLowerCase()
+              .contains(search))
+          .toList();
+    });
+  }
+
+  Future<void> searchData() async {
+    searchBlog(searchQueryLowerCase);
+    searchBlogger(searchQueryLowerCase);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   void initial() async {
     savesearchtext = await SharedPreferences.getInstance();
     setState(() {
       savesearch = savesearchtext.getString("searchText") ?? '';
+      searchQueryLowerCase = savesearch.toLowerCase();
     });
   }
 
@@ -225,147 +262,59 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                         bottom: size.width * 0.05,
                         top: size.width * 0.005,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // แสดงข้อมูลในคอลัมน์แรก
-                          Wrap(
-                            direction: Axis.vertical,
-                            spacing: 5,
-                            children: List.generate(
-                              (isblog ? allblog.length : allblogger.length)~/ 2
-                                  ,
-                              (index) {
-                                final actualIndex = index * 2 + 1;
-                                if (actualIndex <
-                                    (isblog
-                                        ? allblog.length
-                                        : allblogger.length)) {
-                                  final blog =
-                                      isblog ? allblog[actualIndex] : {};
-                                  final blogger =
-                                      isblogger ? allblogger[actualIndex] : {};
-                                  final blogTitle =
-                                      blog['title']?.toString().toLowerCase() ??
-                                          '';
-                                  final bloggerName = (blogger['user'] !=
-                                              null &&
-                                          blogger['user']['fullname'] != null)
-                                      ? blogger['user']['fullname']
-                                          .toString()
-                                          .toLowerCase()
-                                      : '';
-                                  final searchQueryLowerCase =
-                                      savesearch.toLowerCase();
-                                  if (blogTitle
-                                          .contains(searchQueryLowerCase) ||
-                                      bloggerName
-                                          .contains(searchQueryLowerCase)) {
-                                    if (isblog) {
-                                      return BlogBox(
-                                        title: blog['title'] ?? '',
-                                        name: blog['user']?['fullname'] ?? '',
-                                        category: blog['category'] ?? '',
-                                        like: blog['save'] ?? "0",
+                      child: isLoading
+                          ? const CircularProgressIndicator(
+                              color: Color.fromRGBO(0, 48, 73, 1),
+                            )
+                          : isblog
+                              ? MasonryGridView.builder(
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10,
+                                  itemCount: blogSearch.length,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                      const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2),
+                                  itemBuilder: ((context, index) => BlogBox(
+                                        title: blogSearch[index]['title'] ?? '',
+                                        name: blogSearch[index]['user']
+                                                ?['fullname'] ??
+                                            '',
+                                        category:
+                                            blogSearch[index]['category'] ?? '',
+                                        like: blogSearch[index]['save'] ?? "0",
                                         image: NetworkImage(
-                                          blog['image_link'] != "null"
-                                              ? blog['image_link']
-                                              : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
-                                        ),
-                                        onPressed: () {
-                                          Navigator.pushNamed(
-                                            context,
-                                            tuachuayDekhorPageRoute['blog']!,
-                                            arguments: blog['id_post'],
-                                          );
-                                        },
-                                      );
-                                    } else if (isblogger) {
-                                      print(blogger);
-                                      return TuachuayDekhorAvatarViewer(
-                                        username:
-                                            blogger['user']['fullname'] ?? '',
-                                        avatarUrl: blogger['profile']  ??
-                                            "https://api.multiavatar.com/${(blogger['user']['fullname']).replaceAll(" ", "+")}.png",
-                                      );
-                                    }
-                                  }
-                                }
-                                // ถ้าไม่มีข้อมูลที่ตรงกับเงื่อนไข ให้ return SizedBox.shrink() เพื่อไม่แสดงอะไรบนหน้าจอ
-                                return const SizedBox.shrink();
-                              },
-                            ),
-                          ),
-                          // แสดงข้อมูลในคอลัมน์ที่สอง
-                          Wrap(
-                            direction: Axis.vertical,
-                            spacing: 5,
-                            children: List.generate(
-                              ((isblog ? allblog.length : allblogger.length) /
-                                      2)
-                                  .ceil(),
-                              (index) {
-                                final actualIndex = index * 2 ;
-                                if (actualIndex <
-                                    (isblog
-                                        ? allblog.length
-                                        : allblogger.length)) {
-                                  final blog =
-                                      isblog ? allblog[actualIndex] : {};
-                                  final blogger =
-                                      isblogger ? allblogger[actualIndex] : {};
-                                  final blogTitle =
-                                      blog['title']?.toString().toLowerCase() ??
-                                          '';
-                                  final bloggerName = (blogger['user'] !=
-                                              null &&
-                                          blogger['user']['fullname'] != null)
-                                      ? blogger['user']['fullname']
-                                          .toString()
-                                          .toLowerCase()
-                                      : '';
-                                  final searchQueryLowerCase =
-                                      savesearch.toLowerCase();
-                                  if (blogTitle
-                                          .contains(searchQueryLowerCase) ||
-                                      bloggerName
-                                          .contains(searchQueryLowerCase)) {
-                                    if (isblog) {
-                                      return BlogBox(
-                                        title: blog['title'] ?? '',
-                                        name: blog['user']?['fullname'] ?? '',
-                                        category: blog['category'] ?? '',
-                                        like: blog['save'] ?? "0",
-                                        image: NetworkImage(
-                                          blog['image_link'] != "null"
-                                              ? blog['image_link']
+                                          blogSearch[index]['image_link'] !=
+                                                  "null"
+                                              ? blogSearch[index]['image_link']
                                               : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                         ),
                                         onPressed: () {
                                           Navigator.pushNamed(context,
                                               tuachuayDekhorPageRoute['blog']!,
-                                              arguments: blog['id_post']);
+                                              arguments: blogSearch[index]
+                                                  ['id_post']);
                                         },
-                                      );
-                                    } else if (isblogger) {
-                                      print(blogger);
-                                      return TuachuayDekhorAvatarViewer(
+                                      )),
+                                )
+                              : MasonryGridView.builder(
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10,
+                                  itemCount: bloggerSearch.length,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                      const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3),
+                                  itemBuilder: ((context, index) =>
+                                      TuachuayDekhorAvatarViewer(
                                         username:
                                             blogger['user']['fullname'] ?? '',
                                         avatarUrl:blogger['profile']  ??
                                             "https://api.multiavatar.com/${(blogger['user']['fullname']).replaceAll(" ", "+")}.png",
-                                      );
-                                    }
-                                  }
-                                }
-                                // ถ้าไม่มีข้อมูลที่ตรงกับเงื่อนไข ให้ return SizedBox.shrink() เพื่อไม่แสดงอะไรบนหน้าจอ
-                                return const SizedBox.shrink();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
+                                      )),
+                                ),
                     ),
                   ],
                 ),

@@ -283,6 +283,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                           Icon(Icons.send_sharp, size: 25, color: Colors.white),
                       onPressed: () {
                         if (commentTextController.text.isNotEmpty) {
+                          FocusScope.of(context).unfocus();
                           comment();
                           showcomment();
                         } else {
