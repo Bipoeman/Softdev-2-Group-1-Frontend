@@ -70,6 +70,7 @@ dependencies:
   animated_icon: ^0.0.6
   image_picker: ^1.0.7
   intl: ^0.19.0
+  dropdown_button2: ^2.3.9
   flutter_staggered_grid_view: ^0.7.0
 
 dev_dependencies:
@@ -112,6 +113,7 @@ flutter:
     - assets/images/Main Characters/Relaxaurus/
     - assets/images/Main Characters/
     - assets/images/RestroomRover/
+    - assets/images/Ruammitr/
     - assets/Menu/Buttons/
     - assets/Menu/Levels/
     - assets/images/PinTheBin/

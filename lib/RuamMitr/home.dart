@@ -160,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                               Container(
                                 padding: const EdgeInsets.all(10),
                                 width: [300.0, size.width * 0.7].reduce(min),
-                                child: const SearchBox(),
+                                child: const CustomSearchBox(),
                               ),
                             ],
                           ),
