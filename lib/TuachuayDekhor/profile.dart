@@ -154,13 +154,15 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                               ],
                             ),
                           ),
-                          Padding(
+                          Container(
+                            alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(
-                                left: size.width * 0.3,
+                                left: size.width * 0.37,
                                 right: size.width * 0.1,
                                 bottom: size.width * 0.05,
                                 top: size.width * 0.005),
-                            child: profileData['description'],
+                            child:
+                                 Text(profileData['description'] ?? ''),
                           ),
                           Padding(
                             padding: EdgeInsets.only(

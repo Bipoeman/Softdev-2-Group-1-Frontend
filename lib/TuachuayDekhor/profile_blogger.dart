@@ -12,8 +12,9 @@ import 'package:http/http.dart' as http;
 
 class TuachuayDekhorBloggerProfilePage extends StatefulWidget {
   final String username;
+  final String avatarUrl;
 
-  const TuachuayDekhorBloggerProfilePage({Key? key, required this.username})
+  const TuachuayDekhorBloggerProfilePage({Key? key, required this.username,required this.avatarUrl})
       : super(key: key);
 
   @override
@@ -130,8 +131,7 @@ class _TuachuayDekhorBloggerProfilePageState
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  profileData['profile'] ??
-                                      "https://api.multiavatar.com/${username}.png",
+                                      widget.avatarUrl,
                                 ),
                               ),
                             ),

@@ -53,7 +53,10 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
             Navigator.pushNamed(
               context,
               tuachuayDekhorPageRoute["profileblogger"]!,
-              arguments: username,
+              arguments: {
+                'username': username,
+                'avatarUrl': avatarUrl,
+              },
             );
           },
           child: Container(

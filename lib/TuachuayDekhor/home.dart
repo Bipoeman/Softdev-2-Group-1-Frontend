@@ -77,6 +77,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
     if (response.statusCode == 200) {
       setState(() {
         blogger = jsonDecode(response.body);
+        print(blogger);
       });
     } else {
       throw Exception('Failed to load data');
@@ -237,8 +238,8 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                     (index) => TuachuayDekhorAvatarViewer(
                                       username: blogger[index]['user']
                                           ['fullname'],
-                                      avatarUrl:
-                                          "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
+                                      avatarUrl: blogger[index]['profile'] ??
+                                          "https://api.multiavatar.com/${blogger[index]['user']['fullname'].replaceAll(" ", "+")}.png",
                                     ),
                                   ),
                                   ElevatedButton(
