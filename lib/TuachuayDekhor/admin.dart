@@ -1,10 +1,11 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class TuachuayDekhorAdminPage extends StatefulWidget {
-  const TuachuayDekhorAdminPage({super.key});
+  const TuachuayDekhorAdminPage({Key? key}) : super(key: key);
 
   @override
   State<TuachuayDekhorAdminPage> createState() =>
@@ -12,7 +13,39 @@ class TuachuayDekhorAdminPage extends StatefulWidget {
 }
 
 class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
-  final item = List.generate(20, (index) => 'Item ${index + 1}');
+  late List<dynamic> item;
+  late List<dynamic> report;
+  final reporturl = Uri.parse("$api$dekhorShowReportRoute");
+  final deleteurl = Uri.parse("$api$dekhorDeleteReportRoute");
+
+  @override
+  void initState() {
+    super.initState();
+    item = [];
+    report = [];
+    namereport();
+  }
+
+  Future<void> namereport() async {
+    var response = await http.get(reporturl);
+    if (response.statusCode == 200) {
+      setState(() {
+        report = jsonDecode(response.body);
+        item = List.generate(
+            report.length, (index) => 'Title : ${report[index]['title']}');
+        print(report);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+ Future<void> deleteReport(int index) async {
+  var id_report = report[index]['id_report'];
+  var deleteurl = Uri.parse("$api$dekhorDeleteReportRoute/$id_report");
+  await http.delete(deleteurl);
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -61,15 +94,16 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
                   shrinkWrap: true,
                   itemCount: item.length,
                   itemBuilder: (context, index) {
-                    final item = this.item[index];
+                    final currentItem = item[index];
                     return Container(
                       margin: const EdgeInsets.fromLTRB(0, 0, 20, 20),
                       child: Dismissible(
-                        key: Key(item),
+                        key: Key(currentItem),
                         direction: DismissDirection.endToStart,
                         onDismissed: (direction) {
                           setState(() {
-                            this.item.removeAt(index);
+                            deleteReport(index);
+                            item.removeAt(index);
                           });
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -87,7 +121,13 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
                           margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                           color: Colors.grey[300],
                           child: ListTile(
-                            title: Text(item),
+                            title: Text(
+                              currentItem,
+                              style: const TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ),
                         ),
                       ),

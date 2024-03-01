@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
+import 'package:ruam_mitt/TuachuayDekhor/home.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
 import "package:ruam_mitt/global_const.dart";
@@ -228,6 +229,8 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                             minimumSize: const Size(150, 35)),
                         onPressed: () {
                           reportblog();
+                          Navigator.pushNamed(
+                        context, tuachuayDekhorPageRoute["home"]!);
                           print("Sending report");
                         },
                         child: const Text(
