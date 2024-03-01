@@ -404,7 +404,7 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                             //   ),
                             // ),
                             Padding(
-                              padding: const EdgeInsets.only(right: 10.0),
+                              padding: const EdgeInsets.only(right: 20.0),
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.pop(context);
