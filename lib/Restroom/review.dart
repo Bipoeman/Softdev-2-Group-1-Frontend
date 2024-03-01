@@ -6,7 +6,10 @@ import 'package:ruam_mitt/Restroom/Component/write_review.dart';
 import 'package:ruam_mitt/Restroom/Component/comment.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
+import 'package:ruam_mitt/Restroom/report_pin.dart';
 import 'dart:math';
+
+import '../global_const.dart';
 
 class RestroomRoverReview extends StatefulWidget {
   const RestroomRoverReview({super.key});
@@ -184,7 +187,9 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                         Navigator.pushNamed(context, restroomPageRoute["reportpin"]!);
+                                        },
                                         style: ButtonStyle(
                                           backgroundColor:
                                               MaterialStateProperty.all<Color>(
