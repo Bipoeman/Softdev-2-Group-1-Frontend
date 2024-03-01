@@ -2,11 +2,13 @@ import "package:flutter/material.dart";
 import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
 import "package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart";
 import 'package:clay_containers/widgets/clay_container.dart';
+import "package:ruam_mitt/Restroom/Component/navbar.dart";
+import "package:ruam_mitt/Restroom/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
 
 class RestroomRoverReportPin extends StatefulWidget {
-  const RestroomRoverReportPin({super.key});
-
+  const RestroomRoverReportPin({super.key, required this.restroomData});
+  final Map<String, dynamic> restroomData;
   @override
   State<RestroomRoverReportPin> createState() => _RestroomRoverReportPinState();
 }
@@ -15,15 +17,37 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   TextEditingController _ReporttextController = TextEditingController();
-
+  int remainingCharacters = 80;
   @override
   Widget build(BuildContext context) {
     final data = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     Size size = MediaQuery.of(context).size;
+
+  //   @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   print("init");
+  //   _ReporttextController.addListener(updateRemainingCharacters);
+  // }
+
+   void updateRemainingCharacters() {
+    setState(() {
+      remainingCharacters = _ReporttextController.text.length;
+    });
+  }
+  @override
+  void dispose() {
+    _ReporttextController.removeListener(updateRemainingCharacters);
+    _ReporttextController.dispose();
+    super.dispose();
+  }
+
     return Theme(
-      data: pinTheBinThemeData,
-      child: Scaffold(
+      data: RestroomThemeData,
+      child: Builder(builder: (context) {
+          return Scaffold(
         key: _scaffoldKey,
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -57,29 +81,29 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                           depth: -20,
                           child: Padding(
                             padding: EdgeInsets.only(left: size.width * 0.02),
-                            // child: Text(
-                            //   data['Bininfo']["location"],
-                            //   style: TextStyle(
-                            //       fontFamily:
-                            //           data['Bininfo']["location"].contains(
-                            //         RegExp("[ก-๛]"),
-                            //       )
-                            //               ? "THSarabunPSK"
-                            //               : "Sen",
-                            //       fontSize:
-                            //           data['Bininfo']["location"].contains(
-                            //         RegExp("[ก-๛]"),
-                            //       )
-                            //               ? 22
-                            //               : 16,
-                            //       fontWeight:
-                            //           data['Bininfo']["location"].contains(
-                            //         RegExp("[ก-๛]"),
-                            //       )
-                            //               ? FontWeight.w700
-                            //               : FontWeight.normal,
-                            //       color: Color.fromRGBO(0, 30, 49, 67)),
-                            // ),
+                            child: Text(
+                              widget.restroomData["name"],
+                              style: TextStyle(
+                                  fontFamily:
+                                      widget.restroomData["name"].contains(
+                                    RegExp("[ก-๛]"),
+                                  )
+                                          ? "THSarabunPSK"
+                                          : "Sen",
+                                  fontSize:
+                                      widget.restroomData["name"].contains(
+                                    RegExp("[ก-๛]"),
+                                  )
+                                          ? 22
+                                          : 16,
+                                  fontWeight:
+                                      widget.restroomData["name"].contains(
+                                    RegExp("[ก-๛]"),
+                                  )
+                                          ? FontWeight.w700
+                                          : FontWeight.normal,
+                                  color: Color.fromRGBO(0, 30, 49, 67)),
+                            ),
                           ),
                         ),
                       ),
@@ -112,7 +136,7 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                           child: Padding(
                             padding: EdgeInsets.only(left: size.width * 0.02),
                             child: Text(
-                              "Latitude : ${data['Bininfo']['latitude']}",
+                              "Latitude : ${widget.restroomData["latitude"]}",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -133,7 +157,7 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                           child: Padding(
                             padding: EdgeInsets.only(left: size.width * 0.02),
                             child: Text(
-                              "Longitude : ${data['Bininfo']['longitude']}",
+                              "Longitude : ${widget.restroomData["longitude"]}",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -148,7 +172,7 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                         Container(
                           width: size.width * 0.7,
                           height: size.height * 0.15,
-                          child: data['Bininfo']['picture'] == null
+                          child: widget.restroomData["picture"] == null
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: Image.asset(
@@ -159,7 +183,7 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                               : ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: Image.network(
-                                    data['Bininfo']['picture'],
+                                    widget.restroomData["picture"],
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -167,73 +191,61 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: size.height * 0.02),
-                    child: Column(
-                      children: [
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Report",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(0, 30, 49, 67),
-                            ),
-                          ),
+                  Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        padding: EdgeInsets.only(left: 40),
+                        child: Text(
+                          'Description',
+                          style: Theme.of(context).textTheme.displayMedium,
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: size.height * 0.01, right: size.width * 0.1),
-                          child: ClayContainer(
-                            width: size.width * 0.7,
-                            height: size.height * 0.125,
-                            color: Color(0xFFEBEBEB),
-                            borderRadius: 30,
-                            depth: -20,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  top: size.height * 0.01,
-                                  left: size.width * 0.02),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.zero,
-                                ),
-                                controller: _ReporttextController,
-                                onChanged: (text) {
-                                  print('Typed text: $text , ${text.length}');
-                                },
-                                maxLength: 80,
-                                maxLines: 3,
-                                style: TextStyle(
-                                    fontFamily:
-                                        _ReporttextController.text.contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? "THSarabunPSK"
-                                            : "Sen",
-                                    fontSize:
-                                        _ReporttextController.text.contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? 22
-                                            : 16,
-                                    fontWeight:
-                                        _ReporttextController.text.contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? FontWeight.w700
-                                            : FontWeight.normal,
-                                    color: Color.fromRGBO(0, 30, 49, 67)),
-                                textInputAction: TextInputAction.done,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: size.height * 0.02),
+                      child: ClayContainer(
+                        width: size.width * 0.78,
+                        height: size.height * 0.17,
+                        color: Color(0xFFEAEAEA),
+                        borderRadius: 30,
+                        depth: -20,
+                        child: Stack(
+                          alignment: Alignment.centerRight,
+                          children: [
+                            TextField(
+                              maxLength: 80,
+                              maxLines: 3,
+                              controller: _DescriptiontextController,
+                              // inputFormatters: [
+                              //   LengthLimitingTextInputFormatter(80),
+                              // ],
+                              decoration: InputDecoration(
+                                counterText: "",
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.only(
+                                    left: 16, right: 16, bottom: 25),
+                                hintText: 'Write a description...',
                               ),
                             ),
-                          ),
+                            Positioned(
+                              top: 1,
+                              right: 16.0,
+                              child: Text(
+                                '$remainingCharacters/80',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    )
+                  ],
+                ),
                   Padding(
                     padding: EdgeInsets.only(
                         top: size.height * 0.02, right: size.width * 0.1),
@@ -360,95 +372,60 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: size.height * 0.02, right: size.width * 0.1),
-                    child: Container(
-                      height: size.height * 0.1,
-                      width: size.width * 0.7,
-                      // color: Colors.black,
-                      child: Row(
-                        children: [
-                          Container(
-                            width: size.width * 0.3,
-                            height: size.height * 0.05,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Navigator.pushNamed(
-                                //   context,
-                                //   pinthebinPageRoute["home"]!,
-                                // );
-                              },
-                              child: Container(
-                                width: double.infinity,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "SUMMIT",
-                                  style: TextStyle(
-                                    fontFamily: "Sen",
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFFEBEBEB),
-                                  ),
-                                ),
-                              ),
+                  Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFF547485),
+                                foregroundColor: Colors.black,
+                                backgroundColor: Colors.amber,
+                                surfaceTintColor: Colors.white,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
+                                  borderRadius: BorderRadius.circular(40),
+                                  side: const BorderSide(color: Colors.grey),
                                 ),
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: size.width * 0.1),
-                            child: Container(
-                              width: size.width * 0.3,
-                              height: size.height * 0.05,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    pinthebinPageRoute["home"]!,
-                                  );
-                                },
-                                child: Text(
-                                  "CANCEL",
-                                  style: TextStyle(
-                                    fontFamily: "Sen",
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFFEBEBEB),
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xFFF79F8A),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
+                              child: Text(
+                                'Submit',
+                                style: Theme.of(context).textTheme.displayLarge,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.black,
+                                backgroundColor: Colors.grey[300],
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                  side: const BorderSide(color: Colors.grey),
+                                ),
+                              ),
+                              child: Text(
+                                "Cancel",
+                                style: Theme.of(context).textTheme.displayLarge,
+                              ),
+                            ),
+                          ],
+                        ),
                 ],
               ),
             ),
-            ReportAppBar(scaffoldKey: _scaffoldKey),
+            RestroomAppBar(scaffoldKey: _scaffoldKey),
           ]),
         ),
         drawerScrimColor: Colors.transparent,
-        drawer: const BinDrawer(),
-      ),
-    );
+        drawer: RestroomRoverNavbar(),
+      );
+  }));
   }
 }
 
-class ReportAppBar extends StatelessWidget {
-  const ReportAppBar({
+class RestroomAppBar extends StatelessWidget {
+  const RestroomAppBar({
     super.key,
     required GlobalKey<ScaffoldState> scaffoldKey,
   }) : _scaffoldKey = scaffoldKey;
@@ -466,8 +443,8 @@ class ReportAppBar extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: <Color>[
-            Color(0xFFF99680),
-            Color(0xFFF8A88F),
+            Color(0xFFFFB330),
+            Color(0xFFFFE9A6),
           ],
         ),
       ),
@@ -490,7 +467,7 @@ class ReportAppBar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Text(
-                "REPORT",
+                "Report Pin",
                 style: TextStyle(
                   fontSize:
                       Theme.of(context).textTheme.headlineMedium!.fontSize,

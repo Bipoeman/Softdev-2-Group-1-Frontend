@@ -80,7 +80,8 @@ class _SuperAppState extends State<SuperApp> {
         restroomPageRoute["addrestroom"]!: (context) =>
             const RestroomRoverAddrestroom(),
         restroomPageRoute["report"]!: (context) => const RestroomRoverReport(),
-        restroomPageRoute["reportpin"]!: (context) => const RestroomRoverReportPin(),
+        restroomPageRoute["reportpin"]!: (context) => RestroomRoverReportPin(restroomData: ModalRoute.of(context)!.settings.arguments
+                as Map<String, dynamic>),
         restroomPageRoute["edit"]!: (context) => const MyRestroomPage(),
         dinodengzzPageRoute: (context) => const MyGame(),
         tuachuayDekhorPageRoute["home"]!: (context) =>

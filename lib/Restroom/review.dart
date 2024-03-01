@@ -225,7 +225,9 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                       ),
                                       child: ElevatedButton(
                                         onPressed: () {
-                                         Navigator.pushNamed(context, restroomPageRoute["reportpin"]!);
+                                          Navigator.pushNamed(context,
+                                              restroomPageRoute["reportpin"]!,
+                                              arguments: widget.restroomData);
                                         },
                                         style: ButtonStyle(
                                           backgroundColor:
