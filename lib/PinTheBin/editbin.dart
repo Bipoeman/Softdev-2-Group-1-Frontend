@@ -22,7 +22,7 @@ class EditbinPage extends StatefulWidget {
 class _EditbinPageState extends State<EditbinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _LocationstextController = TextEditingController();
-  TextEditingController _ReporttextController = TextEditingController();
+  TextEditingController _DescriptiontextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +37,12 @@ class _EditbinPageState extends State<EditbinPage> {
     // _LatitudetextController =
     //     TextEditingController(text: arguments['Bininfo']['latitude']);
     final url = Uri.parse("$api/pinthebin/bin");
-    void _presstosend(LatLng position) async {
+    void _presstosend() async {
       await http.post(url, body: {
         "location": _LocationstextController.text,
-        "description": _ReporttextController.text,
+        "description": _DescriptiontextController.text,
         //"bintype": _bintype,
+        "id": arguments['Bininfo']['id']
       });
     }
 
@@ -78,10 +79,10 @@ class _EditbinPageState extends State<EditbinPage> {
             color: const Color(0xFF003049).withOpacity(0.67),
           ),
           displaySmall: TextStyle(
-            fontSize: 13.5,
+            fontSize: 20,
             overflow: TextOverflow.fade,
-            fontWeight: FontWeight.normal,
-            color: const Color(0xFF003049).withOpacity(0.45),
+            fontWeight: FontWeight.w300,
+            color: Color.fromARGB(255, 255, 255, 255),
           ),
         ),
         appBarTheme: const AppBarTheme(
@@ -284,11 +285,11 @@ class _EditbinPageState extends State<EditbinPage> {
                             child: TextField(
                               maxLength: 150,
                               maxLines: 3,
-                              controller: _ReporttextController,
+                              controller: _DescriptiontextController,
                               onChanged: (text) {
                                 print('Typed text: $text');
-                                int remainningCharacters =
-                                    80 - _ReporttextController.text.length;
+                                int remainningCharacters = 150 -
+                                    _DescriptiontextController.text.length;
                                 print(
                                     'Remaining characters: $remainningCharacters');
                               },
@@ -453,6 +454,53 @@ class _EditbinPageState extends State<EditbinPage> {
                                 ),
                               ),
                               onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                          'Confirm change',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headlineSmall,
+                                        ),
+                                        content:
+                                            Text('yours bin info is changing'),
+                                        actions: [
+                                          MaterialButton(
+                                            onPressed: () {
+                                              _presstosend();
+                                            },
+                                            child: Text('Confirm'),
+                                          ),
+                                          MaterialButton(
+                                            color: Colors.red,
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  top: size.height * 0.007,
+                                                  left: size.width * 0.02),
+                                              width: size.width * 0.2,
+                                              height: size.height * 0.05,
+                                              decoration: BoxDecoration(
+                                                  color: const Color.fromARGB(
+                                                      0, 244, 67, 54),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30)),
+                                              child: Text(
+                                                'cancel',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .displaySmall,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    });
                                 // showDialog(
                                 //     context: context,
                                 //     builder: (BuildContext context) {
