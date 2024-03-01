@@ -336,30 +336,31 @@ class _HomePageV2State extends State<HomePageV2> {
                                   const Icon(Icons.keyboard_arrow_down_rounded),
                               items: const [
                                 DropdownMenuItem(
-                                  child: Text("Ruammitr"),
                                   value: "Ruammitr",
+                                  child: Text("Ruammitr"),
                                 ),
                                 DropdownMenuItem(
-                                  child: Text("Tuachuy Dekhor"),
                                   value: "Dekhor",
+                                  child: Text("Tuachuy Dekhor"),
                                 ),
                                 DropdownMenuItem(
-                                  child: Text("Restroom Rover"),
                                   value: "Restroom",
+                                  child: Text("Restroom Rover"),
                                 ),
                                 DropdownMenuItem(
-                                  child: Text("Pin The Bin"),
                                   value: "Bin",
+                                  child: Text("Pin The Bin"),
                                 ),
                                 DropdownMenuItem(
-                                  child: Text("Dinodengzz"),
                                   value: "Dinodengzz",
+                                  child: Text("Dinodengzz"),
                                 ),
                               ],
                               validator: (value) {
                                 if ((value ?? "").isEmpty) {
                                   return "Please select app to report";
                                 }
+                                return null;
                               },
                               onChanged: (item) {
                                 reportKey.currentState!.validate();
@@ -391,6 +392,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                 if ((value ?? "").isEmpty) {
                                   return "Please explain about the report";
                                 }
+                                return null;
                               },
                               onChanged: (value) {
                                 reportKey.currentState!.validate();
