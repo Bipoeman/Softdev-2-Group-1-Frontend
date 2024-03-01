@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
       } else if (response.statusCode == 200) {
         saveuser();
         print("Body : ${response.body}");
-        dynamic resJson =  json.decode(response.body);
+        dynamic resJson = json.decode(response.body);
         publicToken = resJson['accessjwt'];
         refreshToken = resJson['refreshjwt'];
         isOnceLogin = true;
@@ -145,6 +145,7 @@ class _LoginPageState extends State<LoginPage> {
     Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    CustomThemes ruammitrTheme = themes.themeFrom("RuamMitr")!;
     return Container(
       decoration: ruamMitrBackgroundGradient(themes),
       child: Scaffold(
@@ -205,12 +206,13 @@ class _LoginPageState extends State<LoginPage> {
                             // color: theme.colorScheme.primaryContainer
                             // .withOpacity(0.8),
                             gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  theme.colorScheme.primaryContainer,
-                                  Colors.white.withOpacity(0)
-                                ]),
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                ruammitrTheme.customColors["oddContainer"]!,
+                                ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
+                              ],
+                            ),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -222,13 +224,10 @@ class _LoginPageState extends State<LoginPage> {
                                   fillColor: theme.colorScheme.background,
                                   filled: true,
                                   labelStyle: TextStyle(
-                                      color: theme.colorScheme.onBackground
-                                          .withOpacity(0.5)),
-                                  contentPadding:
-                                      const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                      color: theme.colorScheme.onBackground.withOpacity(0.5)),
+                                  contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                   labelText: "Email or Username",
-                                  prefixIconColor:
-                                      theme.colorScheme.onBackground,
+                                  prefixIconColor: theme.colorScheme.onBackground,
                                   prefixIcon: const Icon(Icons.person),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(40),
@@ -244,13 +243,10 @@ class _LoginPageState extends State<LoginPage> {
                                   fillColor: theme.colorScheme.background,
                                   filled: true,
                                   labelStyle: TextStyle(
-                                      color: theme.colorScheme.onBackground
-                                          .withOpacity(0.5)),
-                                  contentPadding:
-                                      const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                      color: theme.colorScheme.onBackground.withOpacity(0.5)),
+                                  contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                   labelText: "Password",
-                                  prefixIconColor:
-                                      theme.colorScheme.onBackground,
+                                  prefixIconColor: theme.colorScheme.onBackground,
                                   prefixIcon: const Icon(Icons.lock_outline),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(40),
@@ -261,8 +257,7 @@ class _LoginPageState extends State<LoginPage> {
                               Align(
                                 alignment: Alignment.center,
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
@@ -282,8 +277,7 @@ class _LoginPageState extends State<LoginPage> {
                                               }
                                             });
                                           },
-                                          activeColor:
-                                              theme.colorScheme.onPrimary,
+                                          activeColor: theme.colorScheme.onPrimary,
                                           checkColor: theme.colorScheme.primary,
                                         ),
                                         const Text(
@@ -296,8 +290,7 @@ class _LoginPageState extends State<LoginPage> {
                                       child: Text(
                                         "Forgot password?",
                                         style: TextStyle(
-                                            fontSize: 13,
-                                            color: theme.colorScheme.secondary),
+                                            fontSize: 13, color: theme.colorScheme.secondary),
                                       ),
                                       onPressed: () {},
                                     ),
@@ -315,8 +308,7 @@ class _LoginPageState extends State<LoginPage> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
                                     ),
-                                    foregroundColor:
-                                        theme.colorScheme.onPrimary,
+                                    foregroundColor: theme.colorScheme.onPrimary,
                                   ),
                                   child: const Text("Login"),
                                   onPressed: () {
@@ -330,8 +322,7 @@ class _LoginPageState extends State<LoginPage> {
                                   const Text("Don't have an account?"),
                                   TextButton(
                                     onPressed: () {
-                                      Navigator.pushNamed(
-                                          context, registerPageRoute);
+                                      Navigator.pushNamed(context, registerPageRoute);
                                     },
                                     child: Text(
                                       "Create an account",

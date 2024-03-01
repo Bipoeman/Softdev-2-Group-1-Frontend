@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
@@ -79,6 +80,8 @@ class Fruit extends SpriteAnimationComponent
 
   void collidedWithPlayer(Player other) async {
     if (!collected) {
+      FlameAudio.play(game.collectSfx,
+          volume: game.masterVolume * game.sfxVolume);
       collected = true;
       animation = SpriteAnimation.fromFrameData(
         game.images.fromCache('Items/Fruits/Collected.png'),
