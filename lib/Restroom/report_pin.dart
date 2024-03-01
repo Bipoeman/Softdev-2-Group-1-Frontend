@@ -57,29 +57,29 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                           depth: -20,
                           child: Padding(
                             padding: EdgeInsets.only(left: size.width * 0.02),
-                            child: Text(
-                              data['Bininfo']["location"],
-                              style: TextStyle(
-                                  fontFamily:
-                                      data['Bininfo']["location"].contains(
-                                    RegExp("[ก-๛]"),
-                                  )
-                                          ? "THSarabunPSK"
-                                          : "Sen",
-                                  fontSize:
-                                      data['Bininfo']["location"].contains(
-                                    RegExp("[ก-๛]"),
-                                  )
-                                          ? 22
-                                          : 16,
-                                  fontWeight:
-                                      data['Bininfo']["location"].contains(
-                                    RegExp("[ก-๛]"),
-                                  )
-                                          ? FontWeight.w700
-                                          : FontWeight.normal,
-                                  color: Color.fromRGBO(0, 30, 49, 67)),
-                            ),
+                            // child: Text(
+                            //   data['Bininfo']["location"],
+                            //   style: TextStyle(
+                            //       fontFamily:
+                            //           data['Bininfo']["location"].contains(
+                            //         RegExp("[ก-๛]"),
+                            //       )
+                            //               ? "THSarabunPSK"
+                            //               : "Sen",
+                            //       fontSize:
+                            //           data['Bininfo']["location"].contains(
+                            //         RegExp("[ก-๛]"),
+                            //       )
+                            //               ? 22
+                            //               : 16,
+                            //       fontWeight:
+                            //           data['Bininfo']["location"].contains(
+                            //         RegExp("[ก-๛]"),
+                            //       )
+                            //               ? FontWeight.w700
+                            //               : FontWeight.normal,
+                            //       color: Color.fromRGBO(0, 30, 49, 67)),
+                            // ),
                           ),
                         ),
                       ),
