@@ -1,5 +1,6 @@
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
+import 'package:flutter/services.dart';
 import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
@@ -171,7 +172,8 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                             LatLng getPosResult = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const RestroomRoverFindPosition()),
+                                  builder: (context) =>
+                                      const RestroomRoverFindPosition()),
                             );
                             print("Result $getPosResult");
                             setState(() {
@@ -377,10 +379,14 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                               maxLength: 80,
                               maxLines: 3,
                               controller: _DescriptiontextController,
+                              // inputFormatters: [
+                              //   LengthLimitingTextInputFormatter(80),
+                              // ],
                               decoration: InputDecoration(
+                                counterText: "",
                                 border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 16.0, vertical: 10.0),
+                                contentPadding: EdgeInsets.only(
+                                    left: 16,right: 16,bottom: 25 ),
                                 hintText: 'Write a description...',
                               ),
                             ),
@@ -451,7 +457,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 20,top:20 ),
+                          padding: EdgeInsets.only(left: 20, top: 20),
                           child: GestureDetector(
                             onTap: () {
                               setState(() => isPressedWarning = false);
@@ -543,8 +549,8 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                     ),
                     Column(
                       children: [
-                         Padding(
-                          padding: EdgeInsets.only(top:20 ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 20),
                           child: GestureDetector(
                             onTap: () {
                               setState(() => isPressedRecycling = false);
@@ -612,8 +618,8 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                 ),
                               ),
                             ),
-                          ),),
-                        
+                          ),
+                        ),
                         Container(
                           //padding: EdgeInsets.only(left: 0),
                           child: Padding(
@@ -626,9 +632,6 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                         ),
                       ],
                     ),
-                   
-                    
-                    
                   ],
                 ),
               ],
