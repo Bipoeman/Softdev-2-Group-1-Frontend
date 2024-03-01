@@ -45,6 +45,11 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
   LatLng? _position;
 
   @override
+  void updateRemainingCharacters() {
+    setState(() {
+      remainingCharacters = _DescriptiontextController.text.length;
+    });
+  }
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -52,11 +57,11 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
     _DescriptiontextController.addListener(updateRemainingCharacters);
   }
 
-  void updateRemainingCharacters() {
-    setState(() {
-      remainingCharacters = _DescriptiontextController.text.length;
-    });
-  }
+  // void updateRemainingCharacters() {
+  //   setState(() {
+  //     remainingCharacters = _DescriptiontextController.text.length;
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -542,22 +547,6 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.black,
-                        backgroundColor: Colors.amber,
-                        surfaceTintColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                          side: const BorderSide(color: Colors.grey),
-                        ),
-                      ),
-                      child: Text(
-                        'Submit',
-                        style: Theme.of(context).textTheme.displayLarge,
-                      ),
-                    ),
-                    ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -575,8 +564,26 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                         style: Theme.of(context).textTheme.displayLarge,
                       ),
                     ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.black,
+                        backgroundColor: Colors.amber,
+                        surfaceTintColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          side: const BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                      child: Text(
+                        'Submit',
+                        style: Theme.of(context).textTheme.displayLarge,
+                      ),
+                    ),
+                    
                   ],
                 ),
+                Padding(padding: EdgeInsets.only(top: size.height * 0.035)),
               ],
             )),
             drawerScrimColor: Colors.transparent,

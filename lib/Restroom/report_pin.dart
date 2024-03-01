@@ -24,403 +24,439 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
         <String, dynamic>{}) as Map;
     Size size = MediaQuery.of(context).size;
 
-  //   @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   print("init");
-  //   _ReporttextController.addListener(updateRemainingCharacters);
-  // }
+    @override
+    void updateRemainingCharacters() {
+      setState(() {
+        remainingCharacters = _ReporttextController.text.length;
+      });
+    }
 
-   void updateRemainingCharacters() {
-    setState(() {
-      remainingCharacters = _ReporttextController.text.length;
-    });
-  }
-  @override
-  void dispose() {
-    _ReporttextController.removeListener(updateRemainingCharacters);
-    _ReporttextController.dispose();
-    super.dispose();
-  }
+    void initState() {
+      // TODO: implement initState
+      super.initState();
+      print("init");
+      _ReporttextController.addListener(updateRemainingCharacters);
+    }
+    
+    @override
+    void dispose() {
+      _ReporttextController.removeListener(updateRemainingCharacters);
+      _ReporttextController.dispose();
+      super.dispose();
+    }
 
     return Theme(
-      data: RestroomThemeData,
-      child: Builder(builder: (context) {
+        data: RestroomThemeData,
+        child: Builder(builder: (context) {
           return Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Stack(children: [
-            Padding(
-              padding: EdgeInsets.only(
-                  top: size.height * 0.2, left: size.width * 0.1),
-              child: Column(
-                children: [
-                  Row(
+            key: _scaffoldKey,
+            backgroundColor: Colors.white,
+            body: SingleChildScrollView(
+              child: Stack(children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: size.height * 0.2, left: size.width * 0.1),
+                  child: Column(
                     children: [
-                      Container(
-                        height: size.height * 0.03,
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          "Name",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromRGBO(0, 30, 49, 67),
+                      Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                              bottom: size.height * 0.01,
+                            ),
+                            height: size.height * 0.03,
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              "Name",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 30, 49, 67),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: size.width * 0.05),
+                            child: ClayContainer(
+                              height: size.height * 0.04,
+                              width: size.width * 0.6,
+                              color: Color.fromRGBO(239, 239, 239, 1),
+                              borderRadius: 30,
+                              depth: -20,
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: size.width * 0.03,bottom: size.height * 0.005),
+                                child: Text(
+                                  widget.restroomData["name"],
+                                  style: TextStyle(
+                                      fontFamily:
+                                          widget.restroomData["name"].contains(
+                                        RegExp("[ก-๛]"),
+                                      )
+                                              ? "THSarabunPSK"
+                                              : "Sen",
+                                      fontSize:
+                                          widget.restroomData["name"].contains(
+                                        RegExp("[ก-๛]"),
+                                      )
+                                              ? 22
+                                              : 16,
+                                      fontWeight:
+                                          widget.restroomData["name"].contains(
+                                        RegExp("[ก-๛]"),
+                                      )
+                                              ? FontWeight.w700
+                                              : FontWeight.normal,
+                                      color: Color.fromRGBO(0, 30, 49, 67)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: size.height * 0.02),
+                        child: Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Position",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 30, 49, 67),
+                              ),
+                            )),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: size.height * 0.01, right: size.width * 0.1),
+                        child: Column(
+                          children: [
+                            ClayContainer(
+                              width: size.width * 0.6,
+                              height: size.height * 0.03,
+                              color: Color(0xFFEBEBEB),
+                              borderRadius: 30,
+                              depth: -20,
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: size.width * 0.02),
+                                child: Text(
+                                  "Latitude : ${widget.restroomData["latitude"]}",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(0, 30, 49, 67),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: size.height * 0.02),
+                            ),
+                            ClayContainer(
+                              width: size.width * 0.6,
+                              height: size.height * 0.03,
+                              color: Color(0xFFEBEBEB),
+                              borderRadius: 30,
+                              depth: -20,
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: size.width * 0.02),
+                                child: Text(
+                                  "Longitude : ${widget.restroomData["longitude"]}",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(0, 30, 49, 67),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: size.height * 0.02),
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: AspectRatio(
+                                aspectRatio:
+                                    30 / 30, // สามารถเปลี่ยนสัดส่วนตามรูปภาพได้
+                                child: widget.restroomData["picture"] == null
+                                    ? Image.asset(
+                                        "assets/images/PinTheBin/bin_null.png",
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.network(
+                                        widget.restroomData["picture"],
+                                        fit: BoxFit.cover,
+                                      ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Container(
+                              // padding: EdgeInsets.only(left: 40),
+                              child: Text(
+                                'Report',
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: size.height * 0.02,right: size.width * 0.1),
+                            child: ClayContainer(
+                              width: size.width * 0.82,
+                              height: size.height * 0.17,
+                              color: Color(0xFFEAEAEA),
+                              borderRadius: 30,
+                              depth: -20,
+                              child: Stack(
+                                alignment: Alignment.centerRight,
+                                children: [
+                                  TextField(
+                                    maxLength: 80,
+                                    maxLines: 3,
+                                    controller: _ReporttextController,
+                                    // inputFormatters: [
+                                    //   LengthLimitingTextInputFormatter(80),
+                                    // ],
+                                    decoration: InputDecoration(
+                                      counterText: "",
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.only(
+                                          left: 16, right: 16, bottom: 25),
+                                      hintText: 'Write a report...',
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 1,
+                                    right: 16.0,
+                                    child: Text(
+                                      '$remainingCharacters/80',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: size.height * 0.02, right: size.width * 0.1),
+                        child: InkWell(
+                          onTap: () {
+                            print("1");
+                          },
+                          child: Container(
+                            width: size.width * 0.8,
+                            height: size.height * 0.125,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [
+                                  Color(0xFFFFB432).withOpacity(0.9),
+                                  Color(0xFFFFFCCE).withOpacity(1),
+                                ],
+                              ),
+                            ),
+                            child: Stack(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.005,
+                                    left: size.width * 0.01,
+                                  ),
+                                  child: Container(
+                                    alignment: Alignment.topLeft,
+                                    child: Opacity(
+                                      opacity: 0.5,
+                                      child: Image.asset(
+                                          "assets/images/PinTheBin/corner.png"),
+                                    ),
+                                    width: size.width * 0.035,
+                                    height: size.height * 0.035,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.005,
+                                    left: size.width * 0.75,
+                                  ),
+                                  child: Container(
+                                    alignment: Alignment.topLeft,
+                                    child: Transform.rotate(
+                                      angle: 90 * 3.141592653589793 / 180,
+                                      child: Opacity(
+                                        opacity: 0.5,
+                                        child: Image.asset(
+                                            "assets/images/PinTheBin/corner.png"),
+                                      ),
+                                    ),
+                                    width: size.width * 0.035,
+                                    height: size.height * 0.035,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.085,
+                                    left: size.width * 0.01,
+                                  ),
+                                  child: Container(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Transform.rotate(
+                                      angle: 270 * 3.141592653589793 / 180,
+                                      child: Opacity(
+                                        opacity: 0.5,
+                                        child: Image.asset(
+                                            "assets/images/PinTheBin/corner.png"),
+                                      ),
+                                    ),
+                                    width: size.width * 0.035,
+                                    height: size.height * 0.035,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.085,
+                                    left: size.width * 0.75,
+                                  ),
+                                  child: Container(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Transform.rotate(
+                                      angle: 180 * 3.141592653589793 / 180,
+                                      child: Opacity(
+                                        opacity: 0.5,
+                                        child: Image.asset(
+                                            "assets/images/PinTheBin/corner.png"),
+                                      ),
+                                    ),
+                                    width: size.width * 0.035,
+                                    height: size.height * 0.035,
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: size.height * 0.075),
+                                  child: Container(
+                                    alignment: Alignment.topCenter,
+                                    child: Opacity(
+                                      opacity: 0.4,
+                                      child: Text(
+                                        "Upload picture",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.03,
+                                    left: size.width * 0.35,
+                                  ),
+                                  child: Image.asset(
+                                    "assets/images/PinTheBin/upload.png",
+                                    height: size.height * 0.05,
+                                    color: Color.fromRGBO(255, 255, 255, 0.67),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: size.width * 0.05),
-                        child: ClayContainer(
-                          height: size.height * 0.03,
-                          width: size.width * 0.6,
-                          color: Color.fromRGBO(239, 239, 239, 1),
-                          borderRadius: 30,
-                          depth: -20,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: size.width * 0.02),
-                            child: Text(
-                              widget.restroomData["name"],
-                              style: TextStyle(
-                                  fontFamily:
-                                      widget.restroomData["name"].contains(
-                                    RegExp("[ก-๛]"),
-                                  )
-                                          ? "THSarabunPSK"
-                                          : "Sen",
-                                  fontSize:
-                                      widget.restroomData["name"].contains(
-                                    RegExp("[ก-๛]"),
-                                  )
-                                          ? 22
-                                          : 16,
-                                  fontWeight:
-                                      widget.restroomData["name"].contains(
-                                    RegExp("[ก-๛]"),
-                                  )
-                                          ? FontWeight.w700
-                                          : FontWeight.normal,
-                                  color: Color.fromRGBO(0, 30, 49, 67)),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: size.height * 0.02),
-                    child: Container(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Position",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromRGBO(0, 30, 49, 67),
-                          ),
-                        )),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: size.height * 0.01, right: size.width * 0.1),
-                    child: Column(
-                      children: [
-                        ClayContainer(
-                          width: size.width * 0.6,
-                          height: size.height * 0.03,
-                          color: Color(0xFFEBEBEB),
-                          borderRadius: 30,
-                          depth: -20,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: size.width * 0.02),
-                            child: Text(
-                              "Latitude : ${widget.restroomData["latitude"]}",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(0, 30, 49, 67),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: size.height * 0.01),
-                        ),
-                        ClayContainer(
-                          width: size.width * 0.6,
-                          height: size.height * 0.03,
-                          color: Color(0xFFEBEBEB),
-                          borderRadius: 30,
-                          depth: -20,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: size.width * 0.02),
-                            child: Text(
-                              "Longitude : ${widget.restroomData["longitude"]}",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(0, 30, 49, 67),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: size.height * 0.02),
-                        ),
-                        Container(
-                          width: size.width * 0.7,
-                          height: size.height * 0.15,
-                          child: widget.restroomData["picture"] == null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.asset(
-                                    "assets/images/PinTheBin/bin_null.png",
-                                    fit: BoxFit.fill,
-                                  ),
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.network(
-                                    widget.restroomData["picture"],
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        padding: EdgeInsets.only(left: 40),
-                        child: Text(
-                          'Description',
-                          style: Theme.of(context).textTheme.displayMedium,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: size.height * 0.02),
-                      child: ClayContainer(
-                        width: size.width * 0.78,
-                        height: size.height * 0.17,
-                        color: Color(0xFFEAEAEA),
-                        borderRadius: 30,
-                        depth: -20,
-                        child: Stack(
-                          alignment: Alignment.centerRight,
-                          children: [
-                            TextField(
-                              maxLength: 80,
-                              maxLines: 3,
-                              controller: _DescriptiontextController,
-                              // inputFormatters: [
-                              //   LengthLimitingTextInputFormatter(80),
-                              // ],
-                              decoration: InputDecoration(
-                                counterText: "",
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.only(
-                                    left: 16, right: 16, bottom: 25),
-                                hintText: 'Write a description...',
-                              ),
-                            ),
-                            Positioned(
-                              top: 1,
-                              right: 16.0,
-                              child: Text(
-                                '$remainingCharacters/80',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: size.height * 0.02, right: size.width * 0.1),
-                    child: InkWell(
-                      onTap: () {
-                        print("1");
-                      },
-                      child: Container(
-                        width: size.width * 0.7,
-                        height: size.height * 0.125,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            colors: [
-                              Color(0xFF292643).withOpacity(0.46),
-                              Color(0xFFF9A58D).withOpacity(0.72),
-                            ],
-                          ),
-                        ),
-                        child: Stack(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.01,
-                                left: size.width * 0.01,
-                              ),
-                              child: Container(
-                                alignment: Alignment.topLeft,
-                                child: Opacity(
-                                  opacity: 0.5,
-                                  child: Image.asset(
-                                      "assets/images/PinTheBin/corner.png"),
-                                ),
-                                width: size.width * 0.035,
-                                height: size.height * 0.035,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.01,
-                                left: size.width * 0.65,
-                              ),
-                              child: Container(
-                                alignment: Alignment.topLeft,
-                                child: Transform.rotate(
-                                  angle: 90 * 3.141592653589793 / 180,
-                                  child: Opacity(
-                                    opacity: 0.5,
-                                    child: Image.asset(
-                                        "assets/images/PinTheBin/corner.png"),
-                                  ),
-                                ),
-                                width: size.width * 0.035,
-                                height: size.height * 0.035,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.08,
-                                left: size.width * 0.01,
-                              ),
-                              child: Container(
-                                alignment: Alignment.bottomLeft,
-                                child: Transform.rotate(
-                                  angle: 270 * 3.141592653589793 / 180,
-                                  child: Opacity(
-                                    opacity: 0.5,
-                                    child: Image.asset(
-                                        "assets/images/PinTheBin/corner.png"),
-                                  ),
-                                ),
-                                width: size.width * 0.035,
-                                height: size.height * 0.035,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.08,
-                                left: size.width * 0.65,
-                              ),
-                              child: Container(
-                                alignment: Alignment.bottomLeft,
-                                child: Transform.rotate(
-                                  angle: 180 * 3.141592653589793 / 180,
-                                  child: Opacity(
-                                    opacity: 0.5,
-                                    child: Image.asset(
-                                        "assets/images/PinTheBin/corner.png"),
-                                  ),
-                                ),
-                                width: size.width * 0.035,
-                                height: size.height * 0.035,
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  EdgeInsets.only(top: size.height * 0.075),
-                              child: Container(
-                                alignment: Alignment.topCenter,
-                                child: Opacity(
-                                  opacity: 0.4,
-                                  child: Text(
-                                    "Upload picture",
-                                    style:
-                                        Theme.of(context).textTheme.labelLarge,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.03,
-                                left: size.width * 0.3,
-                              ),
-                              child: Image.asset(
-                                "assets/images/PinTheBin/upload.png",
-                                height: size.height * 0.05,
-                                color: Color.fromRGBO(255, 255, 255, 0.67),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Row(
+                        padding: EdgeInsets.only(
+                            top: size.height * 0.03, right: size.width * 0.1),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.black,
-                                backgroundColor: Colors.amber,
-                                surfaceTintColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                  side: const BorderSide(color: Colors.grey),
+                            // ElevatedButton(
+                            //   onPressed: () {},
+                            //   style: ElevatedButton.styleFrom(
+                            //     foregroundColor: Colors.black,
+                            //     backgroundColor: Colors.amber,
+                            //     surfaceTintColor: Colors.white,
+                            //     shape: RoundedRectangleBorder(
+                            //       borderRadius: BorderRadius.circular(40),
+                            //       side: const BorderSide(color: Colors.grey),
+                            //     ),
+                            //   ),
+                            //   child: Text(
+                            //     'Submit',
+                            //     style: Theme.of(context).textTheme.displayLarge,
+                            //   ),
+                            // ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.black,
+                                  backgroundColor: Colors.grey[300],
+                                  surfaceTintColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    side: const BorderSide(color: Colors.grey),
+                                  ),
                                 ),
-                              ),
-                              child: Text(
-                                'Submit',
-                                style: Theme.of(context).textTheme.displayLarge,
+                                child: Text(
+                                  "Cancel",
+                                  style: Theme.of(context).textTheme.displayLarge,
+                                ),
                               ),
                             ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.black,
-                                backgroundColor: Colors.grey[300],
-                                surfaceTintColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                  side: const BorderSide(color: Colors.grey),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 55.0),
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.black,
+                                  backgroundColor: Colors.amber,
+                                  surfaceTintColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    side: const BorderSide(color: Colors.grey),
+                                  ),
                                 ),
-                              ),
-                              child: Text(
-                                "Cancel",
-                                style: Theme.of(context).textTheme.displayLarge,
+                                child: Text(
+                                  'Submit',
+                                  style: Theme.of(context).textTheme.displayLarge,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                ],
-              ),
+                      ),
+                      Padding(padding: EdgeInsets.only(top: size.height * 0.035)),
+                    ],
+                  ),
+                ),
+                RestroomAppBar(scaffoldKey: _scaffoldKey),
+              ]),
             ),
-            RestroomAppBar(scaffoldKey: _scaffoldKey),
-          ]),
-        ),
-        drawerScrimColor: Colors.transparent,
-        drawer: RestroomRoverNavbar(),
-      );
-  }));
+            drawerScrimColor: Colors.transparent,
+            drawer: RestroomRoverNavbar(),
+          );
+        }));
   }
 }
 
