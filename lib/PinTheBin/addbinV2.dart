@@ -7,6 +7,8 @@ import 'package:neumorphic_button/neumorphic_button.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
+import 'package:http/http.dart' as http;
+import 'package:ruam_mitt/global_const.dart';
 
 class AddbinPageV2 extends StatefulWidget {
   const AddbinPageV2({super.key});
@@ -21,18 +23,23 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
   final TextEditingController _DescriptiontextController =
       TextEditingController();
   final backgroundColor = const Color(0xFFFFFFFF);
+  final url = Uri.parse("$api/pinthebin/bin");
   bool isPressed = true;
   bool isPressedWarning = false;
   bool isPressedRecycling = false;
   bool isPressedWaste = false;
   bool isPressedGeneral = false;
+  LatLng? _position;
 
-  // final Map<String, bool> _isPressedbintype = {
-  //   'isPressedWarning': true,
-  //   'isPressedRecycling': true,
-  //   'isPressedwaste': true,
-  //   'isPressedgeneral': true
-  // };
+  void _presstosend(LatLng position) async {
+    await http.post(url, body: {
+      "location": _NametextController.text,
+      "description": _DescriptiontextController.text,
+      "bintype": _bintype,
+      "latitude": position.latitude,
+      "longitude": position.longitude,
+    });
+  }
 
   final Map<String, bool> _bintype = {
     'redbin': false,
@@ -40,8 +47,6 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
     'yellowbin': false,
     'bluebin': false
   };
-
-  LatLng? _position;
 
   @override
   void initState() {
@@ -114,6 +119,12 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
             overflow: TextOverflow.fade,
             fontWeight: FontWeight.normal,
             color: const Color(0xFF003049).withOpacity(0.45),
+          ),
+          displayLarge: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w300,
+            color: Color.fromARGB(255, 255, 255, 255),
           ),
         ),
         appBarTheme: const AppBarTheme(
@@ -726,6 +737,69 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                           padding: EdgeInsets.only(
                               left: size.width * 0.17, top: size.height * 0.77),
                           child: GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        'Confirm change',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall,
+                                      ),
+                                      content:
+                                          Text('yours bin info will changing'),
+                                      actions: [
+                                        MaterialButton(
+                                          onPressed: () {
+                                            if (_position != null) {
+                                              _presstosend(_position!);
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    "Please pin the position.",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  backgroundColor: Colors.red,
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: Text('Confirm'),
+                                        ),
+                                        MaterialButton(
+                                          color: Colors.red,
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                                top: size.height * 0.007,
+                                                left: size.width * 0.02),
+                                            width: size.width * 0.2,
+                                            height: size.height * 0.05,
+                                            decoration: BoxDecoration(
+                                                color: const Color.fromARGB(
+                                                    0, 244, 67, 54),
+                                                borderRadius:
+                                                    BorderRadius.circular(30)),
+                                            child: Text(
+                                              'cancel',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .displayLarge,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            },
                             child: Container(
                               padding: EdgeInsets.only(
                                   left: size.width * 0.07,
@@ -779,7 +853,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                 ],
                               ),
                               child: Text(
-                                'CANCLE',
+                                'CANCEL',
                                 style: GoogleFonts.getFont(
                                   "Sen",
                                   color:
