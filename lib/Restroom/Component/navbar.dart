@@ -95,7 +95,7 @@ class RestroomRoverNavbar extends StatelessWidget {
               // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
             },
           ),
-           SizedBox(height: 10),
+          SizedBox(height: 10),
           ListTile(
             leading: Container(
               // ใส่พื้นหลังด้วย Image.asset
@@ -112,7 +112,7 @@ class RestroomRoverNavbar extends StatelessWidget {
             ),
             title: Text('Pin restroom'),
             onTap: () {
-              Navigator.pushNamed(context, restroomPageRoute["findposition"]!);
+              Navigator.pushNamed(context, restroomPageRoute["addrestroom"]!);
             },
           ),
           SizedBox(height: 10),
@@ -134,10 +134,7 @@ class RestroomRoverNavbar extends StatelessWidget {
             ),
             title: Text('Edit pin'),
             onTap: () {
-              // เมื่อเลือกรายการเมนู
-              // ปิดเมนูสไลด์
-              // Navigator.pushNamed(context, restroomPageRoute["review"]!);
-              // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
+              Navigator.pushNamed(context, restroomPageRoute["edit"]!);
             },
           ),
           SizedBox(height: 10),
