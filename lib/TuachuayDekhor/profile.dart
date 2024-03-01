@@ -89,7 +89,9 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
           children: [
             isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: Color.fromRGBO(0, 48, 73, 1),
+                    ),
                   )
                 : SingleChildScrollView(
                     child: ConstrainedBox(
@@ -161,8 +163,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                 right: size.width * 0.1,
                                 bottom: size.width * 0.05,
                                 top: size.width * 0.005),
-                            child:
-                                 Text(profileData['description'] ?? ''),
+                            child: Text(profileData['description'] ?? ''),
                           ),
                           Padding(
                             padding: EdgeInsets.only(

@@ -229,7 +229,9 @@ class _TuachuayDekhorEditDraftPageState
       body: SafeArea(
         child: isLoading
             ? const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Color.fromRGBO(0, 48, 73, 1),
+                ),
               )
             : SlidingBox(
                 controller: boxController,

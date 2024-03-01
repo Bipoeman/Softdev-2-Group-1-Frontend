@@ -234,7 +234,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                               child: Row(
                                 children: [
                                   ...List.generate(
-                                    blogger.length,
+                                    blogger.length > 6 ? 6 : blogger.length,
                                     (index) => TuachuayDekhorAvatarViewer(
                                       username: blogger[index]['user']
                                           ['fullname'],

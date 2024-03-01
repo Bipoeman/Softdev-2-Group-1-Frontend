@@ -114,212 +114,230 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
       body: SafeArea(
         child: Stack(
           children: [
-            SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: size.height -
-                      [size.width * 0.4, 100.0].reduce(min) -
-                      MediaQuery.of(context).padding.top,
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: size.height * 0.12,
-                        left: size.width * 0.04,
-                      ),
-                      child: GestureDetector(
-                        child: const Row(
-                          children: [
-                            Icon(Icons.arrow_back_outlined),
-                            SizedBox(width: 5),
-                            Text("Back")
-                          ],
-                        ),
-                        onTap: () => Navigator.pop(context),
-                      ),
+            isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: Color.fromRGBO(0, 48, 73, 1),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(
-                        left: size.width * 0.1,
-                        right: size.width * 0.1,
-                        top: size.width * 0.03,
-                        bottom: size.width * 0.01,
+                  )
+                : SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: size.height -
+                            [size.width * 0.4, 100.0].reduce(min) -
+                            MediaQuery.of(context).padding.top,
                       ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      child: Column(
                         children: [
-                          Text(
-                            'Search Results',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w500,
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: size.height * 0.12,
+                              left: size.width * 0.04,
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(
-                        left: size.width * 0.1,
-                        right: size.width * 0.1,
-                        bottom: size.width * 0.05,
-                      ),
-                      width: size.width * 0.9,
-                      height: size.width * 0.2,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            savesearch.isNotEmpty ? '"$savesearch"' : ' ',
-                            style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: size.width * 0.8,
-                      height: size.width * 0.03,
-                      color: const Color.fromRGBO(0, 48, 73, 1),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: size.width * 0.1,
-                        right: size.width * 0.1,
-                        bottom: size.width * 0.05,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isblog = true;
-                                isblogger = false;
-                              });
-                            },
-                            child: Container(
-                              width: size.width * 0.4,
-                              height: size.width * 0.1,
-                              decoration: BoxDecoration(
-                                color: isblog
-                                    ? const Color.fromRGBO(0, 48, 73, 1)
-                                    : const Color.fromRGBO(217, 217, 217, 1),
-                                borderRadius: BorderRadius.circular(2.0),
+                            child: GestureDetector(
+                              child: const Row(
+                                children: [
+                                  Icon(Icons.arrow_back_outlined),
+                                  SizedBox(width: 5),
+                                  Text("Back")
+                                ],
                               ),
-                              child: Center(
-                                child: Text(
-                                  'Blog',
+                              onTap: () => Navigator.pop(context),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(
+                              left: size.width * 0.1,
+                              right: size.width * 0.1,
+                              top: size.width * 0.03,
+                              bottom: size.width * 0.01,
+                            ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Search Results',
                                   style: TextStyle(
-                                    color: isblog
-                                        ? const Color.fromRGBO(217, 217, 217, 1)
-                                        : const Color.fromRGBO(0, 48, 73, 1),
-                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isblog = false;
-                                isblogger = true;
-                              });
-                            },
-                            child: Container(
-                              width: size.width * 0.4,
-                              height: size.width * 0.1,
-                              decoration: BoxDecoration(
-                                color: isblogger
-                                    ? const Color.fromRGBO(0, 48, 73, 1)
-                                    : const Color.fromRGBO(217, 217, 217, 1),
-                                borderRadius: BorderRadius.circular(2.0),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Blogger',
-                                  style: TextStyle(
-                                    color: isblogger
-                                        ? const Color.fromRGBO(217, 217, 217, 1)
-                                        : const Color.fromRGBO(0, 48, 73, 1),
-                                    fontWeight: FontWeight.bold,
+                          Container(
+                            padding: EdgeInsets.only(
+                              left: size.width * 0.1,
+                              right: size.width * 0.1,
+                              bottom: size.width * 0.05,
+                            ),
+                            width: size.width * 0.9,
+                            height: size.width * 0.2,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  savesearch.isNotEmpty ? '"$savesearch"' : ' ',
+                                  style: const TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w300,
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: size.width * 0.09,
-                        right: size.width * 0.09,
-                        bottom: size.width * 0.05,
-                        top: size.width * 0.005,
-                      ),
-                      child: isLoading
-                          ? const CircularProgressIndicator(
-                              color: Color.fromRGBO(0, 48, 73, 1),
-                            )
-                          : isblog
-                              ? MasonryGridView.builder(
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10,
-                                  itemCount: blogSearch.length,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                      const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2),
-                                  itemBuilder: ((context, index) => BlogBox(
-                                        title: blogSearch[index]['title'] ?? '',
-                                        name: blogSearch[index]['user']
-                                                ?['fullname'] ??
-                                            '',
-                                        category:
-                                            blogSearch[index]['category'] ?? '',
-                                        like: blogSearch[index]['save'] ?? "0",
-                                        image: NetworkImage(
-                                          blogSearch[index]['image_link'] !=
-                                                  "null"
-                                              ? blogSearch[index]['image_link']
-                                              : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                          Container(
+                            width: size.width * 0.8,
+                            height: size.width * 0.03,
+                            color: const Color.fromRGBO(0, 48, 73, 1),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: size.width * 0.1,
+                              right: size.width * 0.1,
+                              bottom: size.width * 0.05,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isblog = true;
+                                      isblogger = false;
+                                    });
+                                  },
+                                  child: Container(
+                                    width: size.width * 0.4,
+                                    height: size.width * 0.1,
+                                    decoration: BoxDecoration(
+                                      color: isblog
+                                          ? const Color.fromRGBO(0, 48, 73, 1)
+                                          : const Color.fromRGBO(
+                                              217, 217, 217, 1),
+                                      borderRadius: BorderRadius.circular(2.0),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Blog',
+                                        style: TextStyle(
+                                          color: isblog
+                                              ? const Color.fromRGBO(
+                                                  217, 217, 217, 1)
+                                              : const Color.fromRGBO(
+                                                  0, 48, 73, 1),
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        onPressed: () {
-                                          Navigator.pushNamed(context,
-                                              tuachuayDekhorPageRoute['blog']!,
-                                              arguments: blogSearch[index]
-                                                  ['id_post']);
-                                        },
-                                      )),
-                                )
-                              : MasonryGridView.builder(
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10,
-                                  itemCount: bloggerSearch.length,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                      const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3),
-                                  itemBuilder: ((context, index) =>
-                                      TuachuayDekhorAvatarViewer(
-                                        username:
-                                            blogger['user']['fullname'] ?? '',
-                                        avatarUrl:blogger['profile']  ??
-                                            "https://api.multiavatar.com/${(blogger['user']['fullname']).replaceAll(" ", "+")}.png",
-                                      )),
+                                      ),
+                                    ),
+                                  ),
                                 ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isblog = false;
+                                      isblogger = true;
+                                    });
+                                  },
+                                  child: Container(
+                                    width: size.width * 0.4,
+                                    height: size.width * 0.1,
+                                    decoration: BoxDecoration(
+                                      color: isblogger
+                                          ? const Color.fromRGBO(0, 48, 73, 1)
+                                          : const Color.fromRGBO(
+                                              217, 217, 217, 1),
+                                      borderRadius: BorderRadius.circular(2.0),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Blogger',
+                                        style: TextStyle(
+                                          color: isblogger
+                                              ? const Color.fromRGBO(
+                                                  217, 217, 217, 1)
+                                              : const Color.fromRGBO(
+                                                  0, 48, 73, 1),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: size.width * 0.09,
+                              right: size.width * 0.09,
+                              bottom: size.width * 0.05,
+                              top: size.width * 0.005,
+                            ),
+                            child: isblog
+                                ? MasonryGridView.builder(
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10,
+                                    itemCount: blogSearch.length,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    gridDelegate:
+                                        const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2),
+                                    itemBuilder: ((context, index) => BlogBox(
+                                          title:
+                                              blogSearch[index]['title'] ?? '',
+                                          name: blogSearch[index]['user']
+                                                  ?['fullname'] ??
+                                              '',
+                                          category: blogSearch[index]
+                                                  ['category'] ??
+                                              '',
+                                          like:
+                                              blogSearch[index]['save'] ?? "0",
+                                          image: NetworkImage(
+                                            blogSearch[index]['image_link'] !=
+                                                    "null"
+                                                ? blogSearch[index]
+                                                    ['image_link']
+                                                : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context,
+                                                tuachuayDekhorPageRoute[
+                                                    'blog']!,
+                                                arguments: blogSearch[index]
+                                                    ['id_post']);
+                                          },
+                                        )),
+                                  )
+                                : MasonryGridView.builder(
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10,
+                                    itemCount: bloggerSearch.length,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    gridDelegate:
+                                        const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3),
+                                    itemBuilder: ((context, index) =>
+                                        TuachuayDekhorAvatarViewer(
+                                          username: bloggerSearch[index]['user']
+                                                  ['fullname'] ??
+                                              '',
+                                          avatarUrl: bloggerSearch[index]
+                                                  ['profile'] ??
+                                              "https://api.multiavatar.com/${(bloggerSearch[index]['user']['fullname']).replaceAll(" ", "+")}.png",
+                                        )),
+                                  ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
             const NavbarTuachuayDekhor(),
           ],
         ),

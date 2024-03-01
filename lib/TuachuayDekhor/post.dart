@@ -265,12 +265,12 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
           children: [
             isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: Color.fromRGBO(0, 48, 73, 1),
+                    ),
                   )
                 : CommentBox(
-                    userImage: NetworkImage(
-                      profileData['imgPath'] 
-                    ),
+                    userImage: NetworkImage(profileData['imgPath']),
                     labelText: 'Write a comment...',
                     errorText: 'Comment cannot be blank',
                     withBorder: false,
@@ -350,8 +350,10 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
-                                                    image: NetworkImage(detailpost[0]['user']['profile'] ??
-                                                      "https://api.multiavatar.com/${detailpost[0]['user']['fullname']}.png",
+                                                    image: NetworkImage(
+                                                      detailpost[0]['user']
+                                                              ['profile'] ??
+                                                          "https://api.multiavatar.com/${detailpost[0]['user']['fullname']}.png",
                                                     ),
                                                     fit: BoxFit.cover,
                                                   ),
@@ -592,8 +594,10 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                           return ListTile(
                                             onTap: () {},
                                             leading: CircleAvatar(
-                                              backgroundImage: NetworkImage(commentpost[index]['user']['profile'] ??
-                                                "https://api.multiavatar.com/${commentpost[index]['user']['fullname']}.png",
+                                              backgroundImage: NetworkImage(
+                                                commentpost[index]['user']
+                                                        ['profile'] ??
+                                                    "https://api.multiavatar.com/${commentpost[index]['user']['fullname']}.png",
                                               ),
                                             ),
                                             title: Text(commentpost[index]
