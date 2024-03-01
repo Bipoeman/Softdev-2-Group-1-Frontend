@@ -67,7 +67,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
     Offset distanceWarning = isPressedWarning
         ? Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
-    double blurWarning = isPressed ? 5.0 : 5;
+    double blurWarning = isPressedWarning ? 5.0 : 5;
 
     Offset distanceRecycling = isPressedRecycling
         ? Offset(5, 5)

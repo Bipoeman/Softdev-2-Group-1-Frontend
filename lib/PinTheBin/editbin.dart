@@ -23,10 +23,40 @@ class _EditbinPageState extends State<EditbinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _LocationstextController = TextEditingController();
   TextEditingController _DescriptiontextController = TextEditingController();
+  final Map<String, bool> _bintype = {
+    'redbin': false,
+    'greenbin': false,
+    'yellowbin': false,
+    'bluebin': false
+  };
+  bool isPressedWarning = false;
+  bool isPressedRecycling = false;
+  bool isPressedWaste = false;
+  bool isPressedGeneral = false;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    Offset distanceWarning = isPressedWarning
+        ? Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurWarning = isPressedWarning ? 5.0 : 5;
+
+    Offset distanceRecycling = isPressedRecycling
+        ? Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurRecycling = isPressedRecycling ? 5.0 : 5;
+
+    Offset distanceWaste = isPressedWaste
+        ? Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurWaste = isPressedWaste ? 5.0 : 5;
+
+    Offset distanceGeneral = isPressedGeneral
+        ? Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurGeneral = isPressedGeneral ? 5.0 : 5;
 
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
@@ -85,6 +115,12 @@ class _EditbinPageState extends State<EditbinPage> {
             overflow: TextOverflow.fade,
             fontWeight: FontWeight.w300,
             color: Color.fromARGB(255, 255, 255, 255),
+          ),
+          bodySmall: TextStyle(
+            fontSize: 13.5,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xFF003049).withOpacity(0.45),
           ),
         ),
         appBarTheme: const AppBarTheme(
@@ -307,10 +343,269 @@ class _EditbinPageState extends State<EditbinPage> {
                       ),
                       Row(
                         children: [
+                          Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: size.width * 0.05,
+                                    top: size.height * 0.6),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _bintype['redbin'] = !_bintype['redbin']!;
+                                      isPressedWarning = _bintype['redbin']!;
+                                    });
+                                    print(_bintype['redbin']);
+                                  },
+                                  child: Container(
+                                    width: size.width * 0.2,
+                                    height: size.height * 0.13,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: Color.fromARGB(9, 0, 47, 73),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: blurWarning,
+                                          offset: distanceWarning,
+                                          color: Color(0xFFA7A9AF),
+                                          inset: isPressedWarning,
+                                        ),
+                                        BoxShadow(
+                                          blurRadius: blurWarning,
+                                          offset: -distanceWarning,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          inset: isPressedWarning,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Image.asset(
+                                        "assets/images/PinTheBin/warning.png",
+                                        width: size.width * 0.1,
+                                        height: size.height * 0.1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: size.width * 0.03,
+                                    top: size.height * 0.01),
+                                child: Align(
+                                  //padding: const EdgeInsets.only(top: size.height * 0.0),
+                                  child: Text(
+                                    'DANGER',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: size.width * 0.03,
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.6),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _bintype['yellowbin'] =
+                                          !_bintype['yellowbin']!;
+                                      isPressedRecycling =
+                                          _bintype['yellowbin']!;
+                                    });
+                                    print(_bintype['yellowbin']);
+                                  },
+                                  child: Container(
+                                    width: size.width * 0.2,
+                                    height: size.height * 0.13,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: Color.fromARGB(9, 0, 47, 73),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: blurRecycling,
+                                          offset: distanceRecycling,
+                                          color: Color(0xFFA7A9AF),
+                                          inset: isPressedRecycling,
+                                        ),
+                                        BoxShadow(
+                                          blurRadius: blurRecycling,
+                                          offset: -distanceRecycling,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          inset: isPressedRecycling,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Image.asset(
+                                        "assets/images/PinTheBin/recycling-symbol-2.png",
+                                        width: size.width * 0.1,
+                                        height: size.height * 0.1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(top: size.height * 0.01),
+                                  child: Text(
+                                    'RECYCLE',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: size.width * 0.03,
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.6),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _bintype['greenbin'] =
+                                          !_bintype['greenbin']!;
+                                      isPressedWaste = _bintype['greenbin']!;
+                                    });
+                                    print(_bintype['greenbin']);
+                                  },
+                                  child: Container(
+                                    width: size.width * 0.2,
+                                    height: size.height * 0.13,
+                                    //color: Colors.black,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: Color.fromARGB(9, 0, 47, 73),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: blurWaste,
+                                          offset: distanceWaste,
+                                          color: Color(0xFFA7A9AF),
+                                          inset: isPressedWaste,
+                                        ),
+                                        BoxShadow(
+                                          blurRadius: blurWaste,
+                                          offset: -distanceWaste,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          inset: isPressedWaste,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Image.asset(
+                                        "assets/images/PinTheBin/compost.png",
+                                        width: size.width * 0.1,
+                                        height: size.height * 0.1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(top: size.height * 0.01),
+                                  child: Text(
+                                    'WASTE',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: size.width * 0.03,
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.6),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _bintype['bluebin'] =
+                                          !_bintype['bluebin']!;
+                                      isPressedGeneral = _bintype['bluebin']!;
+                                    });
+                                    print(_bintype['bluebin']);
+                                  },
+                                  child: Container(
+                                    width: size.width * 0.2,
+                                    height: size.height * 0.13,
+                                    //color: Colors.black,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: Color.fromARGB(9, 0, 47, 73),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: blurGeneral,
+                                          offset: distanceGeneral,
+                                          color: Color(0xFFA7A9AF),
+                                          inset: isPressedGeneral,
+                                        ),
+                                        BoxShadow(
+                                          blurRadius: blurGeneral,
+                                          offset: -distanceGeneral,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          inset: isPressedGeneral,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Image.asset(
+                                        "assets/images/PinTheBin/bin.png",
+                                        width: size.width * 0.1,
+                                        height: size.height * 0.1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                //padding: EdgeInsets.only(left: 0),
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(top: size.height * 0.01),
+                                  child: Text(
+                                    'GENERAL',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
                           Padding(
                             padding: EdgeInsets.only(
                                 left: size.width * 0.17,
-                                top: size.height * 0.77),
+                                top: size.height * 0.78),
                             child: GestureDetector(
                               child: Container(
                                 padding: EdgeInsets.only(
@@ -394,7 +689,7 @@ class _EditbinPageState extends State<EditbinPage> {
                           Padding(
                             padding: EdgeInsets.only(
                                 left: size.width * 0.175,
-                                top: size.height * 0.77),
+                                top: size.height * 0.78),
                             child: GestureDetector(
                               child: Container(
                                 padding: EdgeInsets.only(
