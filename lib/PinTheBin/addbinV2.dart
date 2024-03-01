@@ -38,6 +38,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
       "bintype": _bintype,
       "latitude": position.latitude,
       "longitude": position.longitude,
+      //กุต้องส่ง user id ด้วยไหม
     });
   }
 
@@ -835,6 +836,10 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               left: size.width * 0.175,
                               top: size.height * 0.77),
                           child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, pinthebinPageRoute['home']!);
+                            },
                             child: Container(
                               padding: EdgeInsets.only(
                                   left: size.width * 0.024,
