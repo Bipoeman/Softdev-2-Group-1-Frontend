@@ -418,6 +418,9 @@ class _EditbinPageState extends State<EditbinPage> {
                                 top: size.height * 0.745),
                             child: GestureDetector(
                               child: Container(
+                                padding: EdgeInsets.only(
+                                    left: size.width * 0.017,
+                                    top: size.height * 0.01),
                                 width: size.width * 0.25,
                                 height: size.height * 0.055,
                                 decoration: BoxDecoration(
@@ -450,10 +453,13 @@ class _EditbinPageState extends State<EditbinPage> {
                                 top: size.height * 0.745),
                             child: GestureDetector(
                               child: Container(
+                                padding: EdgeInsets.only(
+                                    left: size.width * 0.024,
+                                    top: size.height * 0.01),
                                 width: size.width * 0.25,
                                 height: size.height * 0.055,
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 255, 211, 80),
+                                  color: Color(0xFFF9957F),
                                   borderRadius: BorderRadius.circular(30),
                                   boxShadow: [
                                     BoxShadow(
