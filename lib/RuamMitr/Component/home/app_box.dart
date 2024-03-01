@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AppBox extends StatelessWidget {
   const AppBox({
@@ -73,19 +74,22 @@ class AppBox extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      appName ?? "App",
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.fade,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: theme.textTheme.titleLarge!.color,
+                    SizedBox(
+                      width: width * 0.3,
+                      child: Text(
+                        appName ?? "App",
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.fade,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: theme.textTheme.titleLarge!.color,
+                        ),
                       ),
                     ),
                     Text(
                       appDescription ?? "Description",
-                      overflow: TextOverflow.ellipsis,
+                      overflow: TextOverflow.fade,
                       textAlign: TextAlign.left,
                       style: theme.textTheme.bodySmall,
                     ),
