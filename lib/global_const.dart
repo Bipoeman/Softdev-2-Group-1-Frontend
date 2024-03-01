@@ -3,8 +3,8 @@ import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 const String baseURL = "https://ruammitr.azurewebsites.net";
 // const String api = "https://ruammitr.azurewebsites.net/api";
-// const String api = "http://10.0.2.2:3000";
-const String api = "http://192.168.1.39:3000";
+
+const String api = "http://10.0.2.2:3000";
 const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
 const String userDataUpdateRoute = "/user";
@@ -40,10 +40,16 @@ const String dekhorDetailDraftRoute = "/dekhor/detaildraft";
 const String dekhorEditDraftRoute = "/dekhor/editdraft";
 const String dekhorDeleteDraftRoute = "/dekhor/deletedraft";
 const String dekhorReportRoute = "/dekhor/report";
+const String dekhorUpdatePicRoute = "/dekhor/updatepicture";
+const String dekhorUpdatePicDraftRoute = "/dekhor/updatepic";
+const String dekhorDrafttoPostBlogRoute = "/dekhor/drafttopostblog";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
 const String restroomRoverGetRestroomRoute = "/restroom";
 const String restroomRoverGetReviewRoute = "/restroom/review";
+const String pinTheBinReportBinRoute = "/pinthebin/report";
+const String pinTheBinReportPictureBinRoute = "/pinthebin/report/upload";
+
 
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",
