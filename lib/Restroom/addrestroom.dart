@@ -25,7 +25,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
   final TextEditingController _NametextController = TextEditingController();
   final TextEditingController _DescriptiontextController =
       TextEditingController();
-  int remainingCharacters = 80;
+  int remainingCharacters = 0;
   final backgroundColor = const Color(0xFFFFFFFF);
   bool isPressed = true;
   bool isPressedHandicapped = false;
@@ -365,7 +365,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                       margin: EdgeInsets.only(top: size.height * 0.02),
                       child: ClayContainer(
                         width: size.width * 0.78,
-                        height: size.height * 0.17,
+                        height: size.height * 0.2,
                         color: Color(0xFFEAEAEA),
                         borderRadius: 30,
                         depth: -20,
@@ -373,8 +373,8 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                           alignment: Alignment.centerRight,
                           children: [
                             TextField(
-                              maxLength: 80,
-                              maxLines: 3,
+                              maxLength: 150,
+                              maxLines: 5,
                               controller: _DescriptiontextController,
                               // inputFormatters: [
                               //   LengthLimitingTextInputFormatter(80),
@@ -383,7 +383,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                 counterText: "",
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(
-                                    left: 16, right: 16, bottom: 25),
+                                    left: 16, right: 16, top:0),
                                 hintText: 'Write a description...',
                               ),
                             ),
@@ -391,7 +391,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                               top: 1,
                               right: 16.0,
                               child: Text(
-                                '$remainingCharacters/80',
+                                '$remainingCharacters/150',
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 12.0,

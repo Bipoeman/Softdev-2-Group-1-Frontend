@@ -387,22 +387,6 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            // ElevatedButton(
-                            //   onPressed: () {},
-                            //   style: ElevatedButton.styleFrom(
-                            //     foregroundColor: Colors.black,
-                            //     backgroundColor: Colors.amber,
-                            //     surfaceTintColor: Colors.white,
-                            //     shape: RoundedRectangleBorder(
-                            //       borderRadius: BorderRadius.circular(40),
-                            //       side: const BorderSide(color: Colors.grey),
-                            //     ),
-                            //   ),
-                            //   child: Text(
-                            //     'Submit',
-                            //     style: Theme.of(context).textTheme.displayLarge,
-                            //   ),
-                            // ),
                             Padding(
                               padding: const EdgeInsets.only(right: 20.0),
                               child: ElevatedButton(
