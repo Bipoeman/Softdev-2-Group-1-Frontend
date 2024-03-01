@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
-GestureDetector ContactUs(ThemeProvider themeProvider) {
+GestureDetector reportToUs(
+    ThemeProvider themeProvider, BoxController reportBoxController) {
   return GestureDetector(
     child: Text(
-      "Contact Us",
+      "Report",
       style: TextStyle(
         color: themeProvider.themeFrom("RuamMitr")!.customColors["hyperlink"],
       ),
     ),
-    onTap: () {},
+    onTap: () {
+      reportBoxController.showBox();
+    },
   );
 }

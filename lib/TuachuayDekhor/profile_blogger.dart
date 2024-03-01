@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:flutter/services.dart';
 import 'package:ruam_mitt/global_var.dart';
@@ -11,8 +12,9 @@ import 'package:http/http.dart' as http;
 
 class TuachuayDekhorBloggerProfilePage extends StatefulWidget {
   final String username;
+  final String avatarUrl;
 
-  const TuachuayDekhorBloggerProfilePage({Key? key, required this.username})
+  const TuachuayDekhorBloggerProfilePage({Key? key, required this.username,required this.avatarUrl})
       : super(key: key);
 
   @override
@@ -129,8 +131,7 @@ class _TuachuayDekhorBloggerProfilePageState
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  profileData['profile'] ??
-                                      "https://api.multiavatar.com/${username}.png",
+                                      widget.avatarUrl,
                                 ),
                               ),
                             ),
@@ -242,133 +243,60 @@ class _TuachuayDekhorBloggerProfilePageState
                         right: size.width * 0.09,
                         top: size.width * 0.01,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // แสดงข้อมูลในคอลัมน์แรก
-                          Wrap(
-                            direction: Axis.vertical,
-                            spacing: 5,
-                            children: List.generate(
-                              ((isPostSelected ? post.length : save.length) / 2)
-                                  .ceil(),
-                              (index) {
-                                final actualIndex = index * 2;
-                                if (isPostSelected) {
-                                  return BlogBox(
-                                    title: post[actualIndex]['title'],
-                                    name: post[actualIndex]['fullname'],
-                                    category: post[actualIndex]['category'],
-                                    like: post[actualIndex]['save'] ?? "0",
+                      child: isPostSelected
+                          ? MasonryGridView.builder(
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              itemCount: post.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2),
+                              itemBuilder: ((context, index) => BlogBox(
+                                    title: post[index]['title'],
+                                    name: post[index]['fullname'],
+                                    category: post[index]['category'],
+                                    like: post[index]['save'] ?? "0",
                                     image: NetworkImage(
-                                      post[actualIndex]['image_link'] != "null"
-                                          ? post[actualIndex]['image_link']
-                                          : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                      post[index]['image_link'],
                                     ),
                                     onPressed: () {
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
-                                        arguments: post[actualIndex]['id_post'],
+                                        arguments: post[index]['id_post'],
                                       );
                                     },
-                                  );
-                                } else {
-                                  if (actualIndex < save.length) {
-                                    return BlogBox(
-                                      title: save[actualIndex]['post']['title'],
-                                      name: save[actualIndex]
-                                          ['fullname_blogger'],
-                                      category: save[actualIndex]['post']
-                                          ['category'],
-                                      like:  save[actualIndex]['post']['save'] ?? "0",
-                                      image: NetworkImage(
-                                        save[actualIndex]['post']
-                                                    ['image_link'] !=
-                                                "null"
-                                            ? save[actualIndex]['post']
-                                                ['image_link']
-                                            : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          tuachuayDekhorPageRoute['blog']!,
-                                          arguments: save[actualIndex]['post']
-                                              ['id_post'],
-                                        );
-                                      },
-                                    );
-                                  } else {
-                                    return SizedBox(); // ให้คืนค่า SizedBox() เมื่อไม่มีข้อมูลในลิสต์ save
-                                  }
-                                }
-                              },
-                            ),
-                          ),
-                          // แสดงข้อมูลในคอลัมน์ที่สอง
-                          Wrap(
-                            direction: Axis.vertical,
-                            spacing: 5,
-                            children: List.generate(
-                              (isPostSelected ? post.length : save.length) ~/ 2,
-                              (index) {
-                                final actualIndex = index * 2 + 1;
-                                if (isPostSelected) {
-                                  return BlogBox(
-                                    title: post[actualIndex]['title'],
-                                    name: post[actualIndex]['fullname'],
-                                    category: post[actualIndex]['category'],
-                                    like: post[actualIndex]['save'] ?? "0",
+                                  )),
+                            )
+                          : MasonryGridView.builder(
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              itemCount: save.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2),
+                              itemBuilder: ((context, index) => BlogBox(
+                                    title: save[index]['post']['title'],
+                                    name: save[index]['fullname_blogger'],
+                                    category: save[index]['post']['category'],
+                                    like: save[index]['post']['save'] ?? "0",
                                     image: NetworkImage(
-                                      post[actualIndex]['image_link'] != "null"
-                                          ? post[actualIndex]['image_link']
-                                          : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                      save[index]['post']['image_link'],
                                     ),
                                     onPressed: () {
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
-                                        arguments: post[actualIndex]['id_post'],
+                                        arguments: save[index]['post']
+                                            ['id_post'],
                                       );
                                     },
-                                  );
-                                } else {
-                                  if (actualIndex < save.length) {
-                                    return BlogBox(
-                                      title: save[actualIndex]['post']['title'],
-                                      name: save[actualIndex]
-                                          ['fullname_blogger'],
-                                      category: save[actualIndex]['post']
-                                          ['category'],
-                                      like: save[actualIndex]['save'] ?? "0",
-                                      image: NetworkImage(
-                                        save[actualIndex]['post']
-                                                    ['image_link'] !=
-                                                "null"
-                                            ? save[actualIndex]['post']
-                                                ['image_link']
-                                            : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          tuachuayDekhorPageRoute['blog']!,
-                                          arguments: save[actualIndex]['post']
-                                              ['id_post'],
-                                        );
-                                      },
-                                    );
-                                  } else {
-                                    return SizedBox(); // ให้คืนค่า SizedBox() เมื่อไม่มีข้อมูลในลิสต์ save
-                                  }
-                                }
-                              },
+                                  )),
                             ),
-                          ),
-                        ],
-                      ),
                     ),
                   ],
                 ),

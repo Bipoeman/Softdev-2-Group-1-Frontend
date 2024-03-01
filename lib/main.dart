@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:ruam_mitt/PinTheBin/addbin.dart';
 import 'package:ruam_mitt/PinTheBin/addbinV2.dart';
 import 'package:ruam_mitt/PinTheBin/editbin.dart';
 import 'package:ruam_mitt/PinTheBin/mybin.dart';
@@ -13,7 +12,6 @@ import 'package:ruam_mitt/Restroom/report.dart';
 import 'package:ruam_mitt/Restroom/restroom.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
 import 'package:ruam_mitt/RuamMitr/central_v2.dart';
-import 'package:ruam_mitt/RuamMitr/edit_profile.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
@@ -63,12 +61,8 @@ class _SuperAppState extends State<SuperApp> {
       routes: {
         loginPageRoute: (context) => const LoginPage(),
         registerPageRoute: (context) => const RegisterPage(),
-        // ruamMitrPageRoute["home"]!: (context) => const HomePage(),
         ruamMitrPageRoute["home"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
-        // ruamMitrPageRoute["settings"]!: (context) => const SettingsPage(),
-        // ruamMitrPageRoute["profile"]!: (context) => const ProfilePage(),
-        ruamMitrPageRoute["edit-profile"]!: (context) => const EditProfile(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
         restroomPageRoute["findposition"]!: (context) =>
@@ -110,14 +104,17 @@ class _SuperAppState extends State<SuperApp> {
         tuachuayDekhorPageRoute["cleaning"]!: (context) =>
             const TuachuayDekhorCleaningPage(),
         tuachuayDekhorPageRoute["profileblogger"]!: (context) {
-          final username = ModalRoute.of(context)!.settings.arguments as String;
-          return TuachuayDekhorBloggerProfilePage(username: username);
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          final username = args['username'] as String;
+          final avatarUrl = args['avatarUrl'] as String;
+          return TuachuayDekhorBloggerProfilePage(
+              username: username, avatarUrl: avatarUrl);
         },
         tuachuayDekhorPageRoute["report"]!: (context) {
           final id_post = ModalRoute.of(context)!.settings.arguments as int;
           return TuachuayDekhorReportPage(id_post: id_post);
         },
-
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPageV2(),
         pinthebinPageRoute["editbin"]!: (context) => const EditbinPage(),
