@@ -3,12 +3,8 @@ import 'dart:io';
 import 'dart:math';
 import 'package:bottom_bar_matu/bottom_bar_double_bullet/bottom_bar_double_bullet.dart';
 import 'package:bottom_bar_matu/bottom_bar_item.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -171,6 +167,7 @@ class _HomePageV2State extends State<HomePageV2> {
                     draggableIconVisible: true,
                     minHeight: 0,
                     maxHeight: size.height * 0.6,
+                    color: theme.colorScheme.primaryContainer,
                     body: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       width: size.width,
@@ -379,13 +376,18 @@ class _HomePageV2State extends State<HomePageV2> {
                             TextFormField(
                               focusNode: explainationFocusNode,
                               controller: explainationController,
+
+                              // minLines: 1,
                               maxLines: 4,
+                              maxLength: 200,
                               decoration: InputDecoration(
                                 filled: true,
+                                isDense: true,
+                                contentPadding: const EdgeInsets.all(6),
                                 fillColor: theme.colorScheme.background,
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(35),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
                               validator: (value) {
@@ -470,8 +472,8 @@ class _HomePageV2State extends State<HomePageV2> {
       ThemeData theme, Size size, BuildContext context,
       {required void onAnswer(bool isConfirm)}) {
     return AlertDialog(
-      backgroundColor: theme.colorScheme.onPrimary,
-      surfaceTintColor: theme.colorScheme.onPrimary,
+      backgroundColor: theme.colorScheme.primaryContainer,
+      surfaceTintColor: theme.colorScheme.primaryContainer,
       title: const Text("Discard report?"),
       actions: [
         InkWell(
