@@ -28,23 +28,18 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
   int remainingCharacters = 80;
   final backgroundColor = const Color(0xFFFFFFFF);
   bool isPressed = true;
-  bool isPressedWarning = false;
-  bool isPressedRecycling = false;
-  bool isPressedWaste = false;
-  bool isPressedGeneral = false;
+  bool isPressedHandicapped = false;
+  bool isPressedKid = false;
 
-  final Map<String, bool> _isPressedbintype = {
-    'isPressedWarning': true,
-    'isPressedRecycling': true,
-    'isPressedwaste': true,
-    'isPressedgeneral': true
+
+  final Map<String, bool> _isPressedrestroomtype = {
+    'isPressedKid': true,
+    'isPressedHandicapped': true,
   };
 
-  final Map<String, bool> _bintype = {
-    'redbin': false,
-    'greenbin': false,
-    'yellowbin': false,
-    'bluebin': false
+  final Map<String, bool> _restroomtype = {
+    'Kid': false,
+    'Handicapped': false,
   };
 
   LatLng? _position;
@@ -78,25 +73,16 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
         : Offset(size.width * 0.008, size.height * 0.005);
     double blur = isPressed ? 5.0 : 5;
 
-    Offset distanceWarning = isPressedWarning
+    Offset distanceWarning = isPressedKid
         ? Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
     double blurWarning = isPressed ? 5.0 : 5;
 
-    Offset distanceRecycling = isPressedRecycling
+    Offset distanceRecycling = isPressedHandicapped
         ? Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
-    double blurRecycling = isPressedRecycling ? 5.0 : 5;
+    double blurRecycling = isPressedHandicapped ? 5.0 : 5;
 
-    Offset distanceWaste = isPressedWaste
-        ? Offset(5, 5)
-        : Offset(size.width * 0.008, size.height * 0.005);
-    double blurWaste = isPressedWaste ? 5.0 : 5;
-
-    Offset distanceGeneral = isPressedGeneral
-        ? Offset(5, 5)
-        : Offset(size.width * 0.008, size.height * 0.005);
-    double blurGeneral = isPressedGeneral ? 5.0 : 5;
     return Theme(
       data: RestroomThemeData,
       child: Builder(
@@ -386,7 +372,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                 counterText: "",
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(
-                                    left: 16,right: 16,bottom: 25 ),
+                                    left: 16, right: 16, bottom: 25),
                                 hintText: 'Write a description...',
                               ),
                             ),
@@ -414,75 +400,59 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: size.height * 0.03,left: size.width*0.1),
+                          margin: EdgeInsets.only(
+                              top: size.height * 0.03, left: size.width * 0.1),
                           child: GestureDetector(
-                              onTap: () {
-                                setState(() => isPressedWarning = false);
-                                setState(() => _bintype['redbin'] = true);
-                                print(_bintype['redbin']);
-                                if (_bintype['redbin'] == true) {
-                                  setState(() {
-                                    isPressedWarning = !isPressedWarning;
-                                  });
-                                } else {
-                                  isPressedWarning = true;
-                                }
-                              },
-                              onDoubleTap: () {
-                                setState(() => isPressedWarning = false);
-                                if (_bintype['redbin'] == true) {
-                                  setState(() {
-                                    _bintype['redbin'] = false;
-                                  });
-                                  print(_bintype['redbin']);
-                                } else {
-                                  _bintype['redbin'] = true;
-                                }
-                              },
-                              child: Container(
-                                width: size.width * 0.2,
-                                height: size.height * 0.1,
-                                //color: Colors.black,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: Color.fromARGB(9, 0, 47, 73),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: blurWarning,
-                                      offset: distanceWarning,
-                                      color: Color(0xFFA7A9AF),
-                                      inset: isPressedWarning,
-                                    ),
-                                    BoxShadow(
-                                      blurRadius: blurWarning,
-                                      offset: -distanceWarning,
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                      inset: isPressedWarning,
-                                    ),
-                                  ],
-                                ),
-                                // child: Align(
-                                //   alignment: Alignment.center,
-                                //   child: Image.asset(
-                                //     "assets/images/PinTheBin/warning.png",
-                                //     width: size.width * 0.1,
-                                //     height: size.height * 0.1,
-                                //   ),
-                                // ),
-                                child : Icon(Icons.baby_changing_station, size: 50),
+                            onTap: () {
+                              setState(() {
+                                _restroomtype['Kid'] = !_restroomtype['Kid']!;
+                                isPressedKid = _restroomtype['Kid']!;
+                              });
+                              print(_restroomtype['Kid']);
+                            },
+                            child: Container(
+                              width: size.width * 0.2,
+                              height: size.height * 0.1,
+                              //color: Colors.black,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Color.fromARGB(9, 0, 47, 73),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: blurWarning,
+                                    offset: distanceWarning,
+                                    color: Color(0xFFA7A9AF),
+                                    inset: isPressedKid,
+                                  ),
+                                  BoxShadow(
+                                    blurRadius: blurWarning,
+                                    offset: -distanceWarning,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    inset: isPressedKid,
+                                  ),
+                                ],
                               ),
+                              // child: Align(
+                              //   alignment: Alignment.center,
+                              //   child: Image.asset(
+                              //     "assets/images/PinTheBin/warning.png",
+                              //     width: size.width * 0.1,
+                              //     height: size.height * 0.1,
+                              //   ),
+                              // ),
+                              child:
+                                  Icon(Icons.baby_changing_station, size: 50),
                             ),
+                          ),
                         ),
-                        
                         Container(
                           // padding: EdgeInsets.only(left: 38),
-                          margin: EdgeInsets.only(top: size.height * 0.01,left: size.width*0.1),
+                          margin: EdgeInsets.only(
+                              top: size.height * 0.01, left: size.width * 0.1),
                           child: Text(
-                              'Kid',
-                              style: Theme.of(context).textTheme.displayMedium,
-                            ),
-                          
-                          
+                            'Kid',
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
                         ),
                       ],
                     ),
@@ -493,123 +463,120 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: size.height * 0.03,right: size.width*0.05),
+                          margin: EdgeInsets.only(
+                              top: size.height * 0.03,
+                              right: size.width * 0.05),
                           child: GestureDetector(
-                              onTap: () {
-                                setState(() => isPressedRecycling = false);
-                                setState(() => _bintype['yellowbin'] = true);
-                                print(_bintype['yellowbin']);
-                                if (_bintype['yellowbin'] == true) {
-                                  setState(() {
-                                    isPressedRecycling = !isPressedRecycling;
-                                  });
-                                } else {
-                                  isPressedRecycling = true;
-                                }
-                                
-                              },
-                              onDoubleTap: () {
-                                setState(() => isPressedRecycling = false);
-                                if (_bintype['yellowbin'] == true) {
-                                  setState(() {
-                                    _bintype['yellowbin'] = false;
-                                  });
-                                  print(_bintype['yellowbin']);
-                                } else {
-                                  _bintype['yellowbin'] = true;
-                                }
-                              },
-                              child: Container(
-                                width: size.width * 0.2,
-                                height: size.height * 0.1,
-                                //color: Colors.black,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: Color.fromARGB(9, 0, 47, 73),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: blurRecycling,
-                                      offset: distanceRecycling,
-                                      color: Color(0xFFA7A9AF),
-                                      inset: isPressedRecycling,
-                                    ),
-                                    BoxShadow(
-                                      blurRadius: blurRecycling,
-                                      offset: -distanceRecycling,
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                      inset: isPressedRecycling,
-                                    ),
-                                  ],
-                                ),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  // child: Image.asset(
-                                  //   "assets/images/PinTheBin/recycling-symbol-2.png",
-                                  //   width: size.width * 0.1,
-                                  //   height: size.height * 0.1,
-                                  // ),
-                                  child : Icon(Icons.accessible_sharp, size: 50),
-                                ),
+                            onTap: () {
+                              setState(() {
+                                _restroomtype['Handicapped'] =
+                                    !_restroomtype['Handicapped']!;
+                                isPressedHandicapped =
+                                    _restroomtype['Handicapped']!;
+                              });
+                              print(_restroomtype['Handicapped']);
+                            },
+                            // onDoubleTap: () {
+                            //   setState(() => isPressedRecycling = false);
+                            //   if (_bintype['yellowbin'] == true) {
+                            //     setState(() {
+                            //       _bintype['yellowbin'] = false;
+                            //     });
+                            //     print(_bintype['yellowbin']);
+                            //   } else {
+                            //     _bintype['yellowbin'] = true;
+                            //   }
+                            // },
+                            child: Container(
+                              width: size.width * 0.2,
+                              height: size.height * 0.1,
+                              //color: Colors.black,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Color.fromARGB(9, 0, 47, 73),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: blurRecycling,
+                                    offset: distanceRecycling,
+                                    color: Color(0xFFA7A9AF),
+                                    inset: isPressedHandicapped,
+                                  ),
+                                  BoxShadow(
+                                    blurRadius: blurRecycling,
+                                    offset: -distanceRecycling,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    inset: isPressedHandicapped,
+                                  ),
+                                ],
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                // child: Image.asset(
+                                //   "assets/images/PinTheBin/recycling-symbol-2.png",
+                                //   width: size.width * 0.1,
+                                //   height: size.height * 0.1,
+                                // ),
+                                child: Icon(Icons.accessible_sharp, size: 50),
                               ),
                             ),
+                          ),
                         ),
-                        
                         Container(
-                          margin: EdgeInsets.only(top: size.height * 0.01,right: size.width*0.05),
+                          margin: EdgeInsets.only(
+                              top: size.height * 0.01,
+                              right: size.width * 0.05),
                           //padding: EdgeInsets.only(left: 0),
                           child: Text(
-                              'Handicapped',
-                              style: Theme.of(context).textTheme.displayMedium,
-                            ),
-                          
+                            'Handicapped',
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
                         ),
                       ],
                     ),
-                   
                   ],
                 ),
                 SizedBox(
                   height: size.height * 0.03,
                 ),
                 Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.black,
-                                backgroundColor: Colors.amber,
-                                surfaceTintColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                  side: const BorderSide(color: Colors.grey),
-                                ),
-                              ),
-                              child: Text(
-                                'Submit',
-                                style: Theme.of(context).textTheme.displayLarge,
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.black,
-                                backgroundColor: Colors.grey[300],
-                                surfaceTintColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                  side: const BorderSide(color: Colors.grey),
-                                ),
-                              ),
-                              child: Text(
-                                "Cancel",
-                                style: Theme.of(context).textTheme.displayLarge,
-                              ),
-                            ),
-                          ],
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.black,
+                        backgroundColor: Colors.amber,
+                        surfaceTintColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          side: const BorderSide(color: Colors.grey),
                         ),
+                      ),
+                      child: Text(
+                        'Submit',
+                        style: Theme.of(context).textTheme.displayLarge,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.black,
+                        backgroundColor: Colors.grey[300],
+                        surfaceTintColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          side: const BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                      child: Text(
+                        "Cancel",
+                        style: Theme.of(context).textTheme.displayLarge,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             )),
             drawerScrimColor: Colors.transparent,
