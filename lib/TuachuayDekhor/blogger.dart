@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
-import 'dart:math';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import "package:ruam_mitt/TuachuayDekhor/Component/avatar.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:math';
 
 class TuachuayDekhorBloggerPage extends StatefulWidget {
   const TuachuayDekhorBloggerPage({super.key});
 
   @override
-  State<TuachuayDekhorBloggerPage> createState() =>
-      _TuachuayDekhorBloggerPageState();
+  State<TuachuayDekhorBloggerPage> createState() => _TuachuayDekhorBloggerPageState();
 }
 
 class _TuachuayDekhorBloggerPageState extends State<TuachuayDekhorBloggerPage> {
@@ -40,8 +40,11 @@ class _TuachuayDekhorBloggerPageState extends State<TuachuayDekhorBloggerPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"]!,
       body: SafeArea(
         child: Stack(
           children: [
@@ -62,12 +65,13 @@ class _TuachuayDekhorBloggerPageState extends State<TuachuayDekhorBloggerPage> {
                         bottom: size.width * 0.01,
                       ),
                       height: size.width * 0.45,
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             'Blogger',
                             style: TextStyle(
+                              color: customColors["main"]!,
                               fontSize: 25,
                               fontWeight: FontWeight.w500,
                             ),
@@ -78,7 +82,7 @@ class _TuachuayDekhorBloggerPageState extends State<TuachuayDekhorBloggerPage> {
                     Container(
                       width: size.width * 0.8,
                       height: size.width * 0.02,
-                      color: const Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"]!,
                     ),
                     Padding(
                       padding: EdgeInsets.only(
