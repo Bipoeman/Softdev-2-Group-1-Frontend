@@ -33,6 +33,8 @@ class _EditbinPageState extends State<EditbinPage> {
     _LocationstextController =
         TextEditingController(text: arguments['Bininfo']['location']);
     print(arguments['Bininfo']);
+    _DescriptiontextController =
+        TextEditingController(text: arguments['Bininfo']['description']);
 
     // _LatitudetextController =
     //     TextEditingController(text: arguments['Bininfo']['latitude']);
