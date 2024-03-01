@@ -377,8 +377,10 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                 ),
                               ),
                             ),
+                            
                           ],
                         ),
+                        Padding(padding: EdgeInsets.only(top: size.height * 0.035)),
                       ],
                     ),
                   ),
