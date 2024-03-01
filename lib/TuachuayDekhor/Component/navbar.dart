@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/search_box.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
@@ -34,6 +35,9 @@ class NavbarTuachuayDekhor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Container(
       padding: const EdgeInsets.all(10),
       child: Stack(
@@ -49,11 +53,14 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   onTap: () {
                     Navigator.pushNamed(
-                        context, tuachuayDekhorPageRoute["home"]!);
+                      context,
+                      tuachuayDekhorPageRoute["home"]!,
+                    );
                   },
                   child: const Image(
                     image: AssetImage(
-                        "assets/images/Logo/TuachuayDekhor_Light.png"),
+                      "assets/images/Logo/TuachuayDekhor_Light.png",
+                    ),
                   ),
                 ),
               ),
@@ -84,29 +91,54 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                         onPressed: () {
                           showMenu(
                             context: context,
+                            color: customColors["container"]!,
                             surfaceTintColor: Colors.white,
-                            position:
-                                RelativeRect.fromLTRB(size.width, 102, 0, 0),
+                            position: RelativeRect.fromLTRB(
+                              size.width,
+                              102,
+                              0,
+                              0,
+                            ),
                             items: [
                               PopupMenuItem(
-                                child: const Row(
+                                child: Row(
                                   children: [
-                                    Icon(Icons.people),
-                                    SizedBox(width: 10),
-                                    Text("Profile"),
+                                    Icon(
+                                      Icons.people,
+                                      color: customColors["onContainer"]!,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "Profile",
+                                      style: TextStyle(
+                                        color: customColors["onContainer"]!,
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 onTap: () {
-                                  Navigator.pushNamed(context,
-                                      tuachuayDekhorPageRoute["profile"]!);
+                                  Navigator.pushNamed(
+                                    context,
+                                    tuachuayDekhorPageRoute["profile"]!,
+                                  );
                                 },
                               ),
                               PopupMenuItem(
-                                child: const Row(
+                                child: Row(
                                   children: [
-                                    Icon(Icons.logout),
-                                    SizedBox(width: 10),
-                                    Text("RuamMitr"),
+                                    Icon(
+                                      Icons.logout,
+                                      color: customColors["onContainer"]!,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      "RuamMitr",
+                                      style: TextStyle(
+                                        color: customColors["onContainer"]!,
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 onTap: () {
