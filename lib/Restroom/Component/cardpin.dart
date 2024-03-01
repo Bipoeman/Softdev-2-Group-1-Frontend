@@ -56,8 +56,18 @@ class _CardpinState extends State<Cardpin> {
                   ),
                   SizedBox(
                       width: 100 * zoomFactor), // ระยะห่างระหว่าง Text กับ Icon
-                  Icon(Icons.accessible_sharp, size: 30 * zoomFactor),
-                  Icon(Icons.baby_changing_station, size: 30 * zoomFactor),
+                  widget.restroomData["for_who"]["Handicapped"]
+                      ? Icon(Icons.accessible_sharp, size: 30 * zoomFactor)
+                      : SizedBox(
+                          width: 30 * zoomFactor,
+                          height: 30 * zoomFactor,
+                        ),
+                  widget.restroomData["for_who"]["Kid"]
+                      ? Icon(Icons.baby_changing_station, size: 30 * zoomFactor)
+                      : SizedBox(
+                          width: 30 * zoomFactor,
+                          height: 30 * zoomFactor,
+                        ),
                 ],
               )),
           Container(
