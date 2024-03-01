@@ -8,6 +8,7 @@ import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
 import 'package:http/http.dart' as http;
+import 'package:ruam_mitt/global_const.dart';
 
 Color colorbackground = const Color(0x00000000);
 
@@ -35,6 +36,14 @@ class _EditbinPageState extends State<EditbinPage> {
 
     // _LatitudetextController =
     //     TextEditingController(text: arguments['Bininfo']['latitude']);
+    final url = Uri.parse("$api/pinthebin/bin");
+    void _presstosend(LatLng position) async {
+      await http.post(url, body: {
+        "location": _LocationstextController.text,
+        "description": _ReporttextController.text,
+        //"bintype": _bintype,
+      });
+    }
 
     return Theme(
       data: ThemeData(
@@ -228,21 +237,19 @@ class _EditbinPageState extends State<EditbinPage> {
                           width: size.width * 0.7,
                           height: size.height * 0.15,
                           child: arguments['Bininfo']['picture'] == null
-                              ? SingleChildScrollView(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: Image.asset(
-                                      "assets/images/PinTheBin/bin_null.png",
-                                      //fit: BoxFit.fill,
-                                    ),
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Image.asset(
+                                    fit: BoxFit.contain,
+                                    "assets/images/PinTheBin/bin_null.png",
+                                    //fit: BoxFit.fill,
                                   ),
                                 )
-                              : SingleChildScrollView(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: Image.network(
-                                      arguments['Bininfo']['picture'],
-                                    ),
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Image.network(
+                                    fit: BoxFit.contain,
+                                    arguments['Bininfo']['picture'],
                                   ),
                                 ),
                         ),
@@ -445,6 +452,35 @@ class _EditbinPageState extends State<EditbinPage> {
                                   ),
                                 ),
                               ),
+                              onTap: () {
+                                // showDialog(
+                                //     context: context,
+                                //     builder: (BuildContext context) {
+                                //       return AlertDialog(
+                                //         title: Text(
+                                //           'Confirm change',
+                                //           style: GoogleFonts.getFont('Sen',
+                                //               color: Colors.black,
+                                //               fontWeight: FontWeight.w200),
+                                //         ),
+                                //         actions: <Widget>[
+                                //           TextButton(
+                                //             onPressed: () {
+                                //               Navigator.of(context).pop();
+                                //             },
+                                //             child: Text(
+                                //               "Cancle",
+                                //               style: GoogleFonts.getFont('Sen',
+                                //                   color: Colors.black,
+                                //                   fontSize: 20,
+                                //                   fontWeight: FontWeight.w200),
+                                //             ),
+                                //           ),
+
+                                //         ],
+                                //       );
+                                //     });
+                              },
                             ),
                           ),
                           Padding(
