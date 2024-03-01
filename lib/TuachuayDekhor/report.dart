@@ -2,11 +2,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
-import 'package:ruam_mitt/TuachuayDekhor/home.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
 import "package:ruam_mitt/global_const.dart";
-
 
 class TuachuayDekhorReportPage extends StatefulWidget {
   final int id_post;
@@ -29,12 +27,9 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
   }
 
   Future<void> reportblog() async {
-    var response = await http.post(reporturl, headers: {
-      "Authorization": "Bearer $publicToken"
-    }, body: {
-      "title": titleController.text,
-      "reason": reasonController.text
-    });
+    await http.post(reporturl,
+        headers: {"Authorization": "Bearer $publicToken"},
+        body: {"title": titleController.text, "reason": reasonController.text});
   }
 
   @override
@@ -230,7 +225,7 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                         onPressed: () {
                           reportblog();
                           Navigator.pushNamed(
-                        context, tuachuayDekhorPageRoute["home"]!);
+                              context, tuachuayDekhorPageRoute["home"]!);
                           print("Sending report");
                         },
                         child: const Text(

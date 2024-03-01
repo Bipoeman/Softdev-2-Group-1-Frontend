@@ -83,6 +83,7 @@ const Map<String, String> tuachuayDekhorPageRoute = {
   "cleaning": "/TuachuayDekhor/cleaning",
   "report": "/TuachuayDekhor/report",
   "admin": "/TuachuayDekhor/admin",
+  "detailreport": "/TuachuayDekhor/detailreport",
 };
 const Map<String, String> pinthebinPageRoute = {
   "home": "/PinTheBin/home",

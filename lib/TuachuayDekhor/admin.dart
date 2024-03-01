@@ -40,12 +40,11 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
     }
   }
 
- Future<void> deleteReport(int index) async {
-  var id_report = report[index]['id_report'];
-  var deleteurl = Uri.parse("$api$dekhorDeleteReportRoute/$id_report");
-  await http.delete(deleteurl);
-}
-
+  Future<void> deleteReport(int index) async {
+    var id_report = report[index]['id_report'];
+    var deleteurl = Uri.parse("$api$dekhorDeleteReportRoute/$id_report");
+    await http.delete(deleteurl);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +120,11 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
                           margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                           color: Colors.grey[300],
                           child: ListTile(
+                            onTap: () {
+                              Navigator.pushNamed(context,
+                                  tuachuayDekhorPageRoute["detailreport"]!,
+                                  arguments: report[index]['id_report']);
+                            },
                             title: Text(
                               currentItem,
                               style: const TextStyle(
