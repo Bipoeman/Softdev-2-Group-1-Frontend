@@ -267,7 +267,7 @@ class _EditbinPageState extends State<EditbinPage> {
                               // padding: const EdgeInsets.only(
                               //     top: size.height * 0.1),
                               child: Text(
-                                'Report',
+                                'Description',
                                 style:
                                     Theme.of(context).textTheme.displayMedium,
                               ),
@@ -283,13 +283,13 @@ class _EditbinPageState extends State<EditbinPage> {
                             borderRadius: 30,
                             depth: -20,
                             child: TextField(
-                              maxLength: 150,
+                              maxLength: 80,
                               maxLines: 3,
                               controller: _DescriptiontextController,
                               onChanged: (text) {
                                 print('Typed text: $text');
-                                int remainningCharacters = 150 -
-                                    _DescriptiontextController.text.length;
+                                int remainningCharacters =
+                                    80 - _DescriptiontextController.text.length;
                                 print(
                                     'Remaining characters: $remainningCharacters');
                               },
@@ -303,127 +303,12 @@ class _EditbinPageState extends State<EditbinPage> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: size.height * 0.61),
-                        child: Container(
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.only(left: 30),
-                          width: size.width * 0.83,
-                          height: size.height * 0.1,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Color(0xFF292643).withOpacity(0.46),
-                                Color(0xFFF9A58D).withOpacity(0.72),
-                              ],
-                            ),
-                          ),
-                          child: Stack(
-                            children: [
-                              Container(
-                                padding:
-                                    EdgeInsets.only(right: size.width * 0.77),
-                                child: Container(
-                                  margin: EdgeInsets.only(
-                                      bottom: size.height * 0.05),
-                                  alignment: Alignment.topLeft,
-                                  child: Opacity(
-                                    opacity: 0.5,
-                                    child: Image.asset(
-                                        "assets/images/PinTheBin/corner.png"),
-                                  ),
-                                  width: size.width * 0.035,
-                                  height: size.height * 0.035,
-                                ),
-                              ),
-                              Container(
-                                padding:
-                                    EdgeInsets.only(left: size.width * 0.77),
-                                child: Container(
-                                  margin: EdgeInsets.only(
-                                      bottom: size.height * 0.05),
-                                  alignment: Alignment.topLeft,
-                                  child: Transform.rotate(
-                                    angle: 90 * 3.141592653589793 / 180,
-                                    child: Opacity(
-                                      opacity: 0.5,
-                                      child: Image.asset(
-                                          "assets/images/PinTheBin/corner.png"),
-                                    ),
-                                  ),
-                                  width: size.width * 0.035,
-                                  height: size.height * 0.035,
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(
-                                    right: size.width * 0.77,
-                                    top: size.height * 0.05),
-
-                                child: Container(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Transform.rotate(
-                                    angle: 270 * 3.141592653589793 / 180,
-                                    child: Opacity(
-                                      opacity: 0.5,
-                                      child: Image.asset(
-                                          "assets/images/PinTheBin/corner.png"),
-                                    ),
-                                  ),
-                                  width: size.width * 0.035,
-                                  height: size.height * 0.035,
-                                  // decoration: BoxDecoration(
-                                  //     border: Border.all(
-                                  //         color: Colors.black, width: 10)),
-                                ),
-                                //),
-                              ),
-                              Container(
-                                padding:
-                                    EdgeInsets.only(left: size.width * 0.77),
-                                child: Container(
-                                  margin:
-                                      EdgeInsets.only(top: size.height * 0.05),
-                                  alignment: Alignment.bottomLeft,
-                                  child: Transform.rotate(
-                                    angle: 180 * 3.141592653589793 / 180,
-                                    child: Opacity(
-                                      opacity: 0.5,
-                                      child: Image.asset(
-                                          "assets/images/PinTheBin/corner.png"),
-                                    ),
-                                  ),
-                                  width: size.width * 0.035,
-                                  height: size.height * 0.035,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: size.height * 0.055,
-                                    left: size.width * 0.23),
-                                child: Opacity(
-                                  opacity: 0.4,
-                                  child: Text(
-                                    "Upload picture",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayMedium,
-                                  ),
-                                ),
-                              )
-                              // itemSelection(title: 'upload', image: Image.asset("assets/images/PinTheBin/upload.png"), onTap: , context: context)
-                            ],
-                          ),
-                        ),
-                      ),
                       Row(
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
                                 left: size.width * 0.17,
-                                top: size.height * 0.745),
+                                top: size.height * 0.77),
                             child: GestureDetector(
                               child: Container(
                                 padding: EdgeInsets.only(
@@ -464,8 +349,8 @@ class _EditbinPageState extends State<EditbinPage> {
                                               .textTheme
                                               .headlineSmall,
                                         ),
-                                        content:
-                                            Text('yours bin info is changing'),
+                                        content: Text(
+                                            'yours bin info will changing'),
                                         actions: [
                                           MaterialButton(
                                             onPressed: () {
@@ -501,40 +386,13 @@ class _EditbinPageState extends State<EditbinPage> {
                                         ],
                                       );
                                     });
-                                // showDialog(
-                                //     context: context,
-                                //     builder: (BuildContext context) {
-                                //       return AlertDialog(
-                                //         title: Text(
-                                //           'Confirm change',
-                                //           style: GoogleFonts.getFont('Sen',
-                                //               color: Colors.black,
-                                //               fontWeight: FontWeight.w200),
-                                //         ),
-                                //         actions: <Widget>[
-                                //           TextButton(
-                                //             onPressed: () {
-                                //               Navigator.of(context).pop();
-                                //             },
-                                //             child: Text(
-                                //               "Cancle",
-                                //               style: GoogleFonts.getFont('Sen',
-                                //                   color: Colors.black,
-                                //                   fontSize: 20,
-                                //                   fontWeight: FontWeight.w200),
-                                //             ),
-                                //           ),
-
-                                //         ],
-                                //       );
-                                //     });
                               },
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
                                 left: size.width * 0.175,
-                                top: size.height * 0.745),
+                                top: size.height * 0.77),
                             child: GestureDetector(
                               child: Container(
                                 padding: EdgeInsets.only(
@@ -564,6 +422,10 @@ class _EditbinPageState extends State<EditbinPage> {
                                   ),
                                 ),
                               ),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, pinthebinPageRoute['home']!);
+                              },
                             ),
                           ),
                         ],
