@@ -35,12 +35,14 @@ class _TuachuayDekhorEditDraftPageState
   bool status = true;
   late int id_draft;
   final writeblogurl = Uri.parse("$api$dekhorWriteBlogRoute");
+  final drafttopostbloggurl = Uri.parse("$api$dekhorDrafttoPostBlogRoute");
   var detaildraft = [];
   var post = [];
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
   late Uri editurl;
   late Uri detailurl;
   late Uri deletedrafturl;
+  late Uri uppicurl;
   bool isLoading = false;
   late File _image;
 
@@ -68,7 +70,7 @@ class _TuachuayDekhorEditDraftPageState
           markdownTitleController.text = detaildraft[0]['title'];
           markdownContentController.text = detaildraft[0]['content'];
           _dropdownValue = detaildraft[0]['category'];
-          _image = File(detaildraft[0]['image_link']);
+          _image = File(detaildraft[0]['pathimage']);
         });
       }
     });
@@ -84,6 +86,7 @@ class _TuachuayDekhorEditDraftPageState
     editurl = Uri.parse("$api$dekhorEditDraftRoute/$id_draft");
     detailurl = Uri.parse("$api$dekhorDetailDraftRoute/$id_draft");
     deletedrafturl = Uri.parse("$api$dekhorDeleteDraftRoute/$id_draft");
+    uppicurl = Uri.parse("$api$dekhorUpdatePicDraftRoute/$id_draft");
     _loadDetail();
     posttoprofile();
     firstFocusNode.requestFocus();
@@ -126,17 +129,50 @@ class _TuachuayDekhorEditDraftPageState
     }
   }
 
-  Future<void> editdraft(File? imageFile) async {
+  Future<void> drafttopostblog() async {
+    var response = await http.post(drafttopostbloggurl, headers: {
+      "Authorization": "Bearer $publicToken"
+    }, body: {
+      "title": markdownTitleController.text,
+      "content": markdownContentController.text,
+      "category": _dropdownValue,
+      "image_link": detaildraft[0]['image_link'],
+      "fullname": profileData['fullname'],
+      "pathimage": _image.path,
+    });
+
+    if (response.statusCode == 200) {
+      print('success');
+      status = true;
+    } else {
+      print('failed');
+      status = false;
+    }
+  }
+
+  Future<void> editdraft() async {
+    var response = await http.put(editurl, headers: {
+      "Authorization": "Bearer $publicToken"
+    }, body: {
+      "title": markdownTitleController.text,
+      "content": markdownContentController.text,
+      "category": _dropdownValue,
+      "fullname": profileData['fullname'],
+      "pathimage": _image.path,
+    });
+
+    if (response.statusCode == 200) {
+      status = true;
+    } else {
+      status = false;
+    }
+  }
+
+  Future<void> updatepicture(File? imageFile) async {
     try {
-      var request = http.MultipartRequest('PUT', editurl);
-      request.headers['Authorization'] = 'Bearer $publicToken';
-      request.fields['title'] = markdownTitleController.text;
-      request.fields['content'] = markdownContentController.text;
-      request.fields['category'] = _dropdownValue!;
-      request.fields['fullname'] = profileData['fullname'];
+      var request = http.MultipartRequest('PUT', uppicurl);
       request.files
           .add(await http.MultipartFile.fromPath('file', imageFile!.path));
-
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
 
@@ -274,7 +310,7 @@ class _TuachuayDekhorEditDraftPageState
                                         detaildraft[0]['image_link'],
                                         fit: BoxFit.cover,
                                       )
-                                    : Image.file(_image!, fit: BoxFit.cover),
+                                    : Image.file(_image, fit: BoxFit.cover),
                           ),
                         ),
                       ),
@@ -414,7 +450,8 @@ class _TuachuayDekhorEditDraftPageState
                                                   color: Colors.green),
                                               child: TextButton(
                                                 onPressed: () {
-                                                  editdraft(_image);
+                                                  editdraft();
+                                                  updatepicture(_image);
                                                   Navigator.pop(context);
                                                   Navigator.pop(context);
                                                   Navigator.pop(context);
@@ -458,6 +495,7 @@ class _TuachuayDekhorEditDraftPageState
                                       onPressed: () {
                                         deletedraft();
                                         print("Delete draft tapped");
+                                        Navigator.pop(context);
                                       },
                                       fillColor: Colors.red[900],
                                       shape: RoundedRectangleBorder(
@@ -476,7 +514,12 @@ class _TuachuayDekhorEditDraftPageState
                                     margin: const EdgeInsets.only(right: 10),
                                     child: RawMaterialButton(
                                       onPressed: () {
-                                        writeblog(_image);
+                                        if (_image.path !=
+                                            detaildraft[0]['pathimage']) {
+                                          writeblog(_image);
+                                        } else {
+                                          drafttopostblog();
+                                        }
                                         deletedraft();
                                         print("Post tapped");
                                         showDialog(

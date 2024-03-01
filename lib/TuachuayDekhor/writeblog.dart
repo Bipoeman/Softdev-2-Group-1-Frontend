@@ -86,6 +86,7 @@ class _TuachuayDekhorWriteBlogPageState
       request.fields['content'] = markdownContentController.text;
       request.fields['category'] = _dropdownValue!;
       request.fields['fullname'] = profileData['fullname'];
+      request.fields['pathimage'] = imageFile!.path;
       request.files
           .add(await http.MultipartFile.fromPath('file', imageFile!.path));
 
