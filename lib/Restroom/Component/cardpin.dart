@@ -203,7 +203,8 @@ class _CardpinState extends State<Cardpin> {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamed(
-                            context, restroomPageRoute["review"]!);
+                            context, restroomPageRoute["review"]!,
+                            arguments: widget.restroomData);
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(

@@ -1,18 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/Restroom/Component/write_review.dart';
 import 'package:ruam_mitt/Restroom/Component/comment.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
-import 'package:ruam_mitt/Restroom/report_pin.dart';
+import "package:http/http.dart" as http;
 import 'dart:math';
 
-import '../global_const.dart';
+import 'package:ruam_mitt/global_const.dart';
+import "package:ruam_mitt/global_var.dart";
 
 class RestroomRoverReview extends StatefulWidget {
-  const RestroomRoverReview({super.key});
+  const RestroomRoverReview({super.key, required this.restroomData});
+  final Map<String, dynamic> restroomData;
 
   @override
   State<RestroomRoverReview> createState() => _RestroomRoverReviewState();
@@ -20,18 +23,56 @@ class RestroomRoverReview extends StatefulWidget {
 
 class _RestroomRoverReviewState extends State<RestroomRoverReview> {
   BoxController boxController = BoxController();
+  List<dynamic> reviewData = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Future<http.Response> getRestroomReview() async {
+    debugPrint("Getting Review");
+    Uri url = Uri.parse(
+        "$api$restroomRoverGetReviewRoute/${widget.restroomData["id"]}");
+    http.Response res = await http.get(
+      url,
+      headers: {
+        "Authorization": publicToken,
+      },
+    );
+    debugPrint(res.body);
+    return res;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getRestroomReview().then((response) {
+      reviewData = jsonDecode(response.body);
+      setState(() {});
+    }).onError((error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrint(stackTrace.toString());
+      ThemeData theme = Theme.of(context);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Failed to fetch reviews",
+          style: TextStyle(
+            color: theme.colorScheme.onPrimary,
+          ),
+        ),
+        backgroundColor: theme.colorScheme.primary,
+      ));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var rating = 2.5;
+
     return Theme(
       data: RestroomThemeData,
       child: Scaffold(
         key: _scaffoldKey,
         body: Stack(
           children: [
-            
             Container(
               margin: const EdgeInsets.only(top: 100),
               child: SlidingBox(
@@ -55,7 +96,6 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                       ),
                       child: Center(
                         child: IntrinsicHeight(
-                         
                           child: Column(
                             children: [
                               Container(
@@ -68,7 +108,8 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                   right: size.width * 0.01,
                                 ),
                                 child: Image.network(
-                                  "https://i.pinimg.com/564x/1c/13/1c/1c131cc30f7c203a4833b6983d025b03.jpg",
+                                  widget.restroomData["picture"] ??
+                                      "https://i.pinimg.com/564x/1c/13/1c/1c131cc30f7c203a4833b6983d025b03.jpg",
                                 ),
                               ),
                               Container(
@@ -77,9 +118,9 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                 padding: EdgeInsets.only(
                                   top: size.height * 0.02,
                                 ),
-                                child: const Text(
-                                  "Tai taeuk 81",
-                                  style: TextStyle(
+                                child: Text(
+                                  widget.restroomData["name"],
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 25,
                                     fontWeight: FontWeight.w500,
@@ -102,9 +143,12 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                       bottom: size.height * 0.01,
                                     ),
                                     child: FlutterRating(
-                                      rating: rating,
+                                      rating: widget.restroomData["avg_star"]
+                                              ?.toDouble() ??
+                                          0.0,
                                       size: size.height * 0.05,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                     ),
                                   ),
                                   Container(
@@ -116,7 +160,9 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                       bottom: size.height * 0.01,
                                     ),
                                     child: Text(
-                                      rating.toString(),
+                                      widget.restroomData["avg_star"]
+                                              ?.toStringAsFixed(1) ??
+                                          "0.0",
                                       style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 25,
@@ -140,28 +186,19 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                       height: size.height * 0.06,
                                       width: size.width * 0.25,
                                       decoration: BoxDecoration(
-                                        color:
-                                            const Color.fromRGBO(255, 183, 3, 1),
+                                        color: const Color.fromRGBO(
+                                            255, 183, 3, 1),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          // showSlidingBox(
-                                          //   context: context,
-                                          //   box: SlidingBox(
-                                          //     draggable: false,
-                                          //     maxHeight: maxBoxHeight,
-                                          //     body: ReviewSlideBar(
-                                          //       setHeight: setMaxBoxHeight,
-                                          //     ),
-                                          //   ),
-                                          // );
                                           boxController.openBox();
                                         },
                                         style: ButtonStyle(
                                           backgroundColor:
                                               MaterialStateProperty.all<Color>(
-                                            const Color.fromRGBO(255, 183, 3, 1),
+                                            const Color.fromRGBO(
+                                                255, 183, 3, 1),
                                           ),
                                           shape: MaterialStateProperty.all<
                                               OutlinedBorder>(
@@ -182,8 +219,8 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                       height: size.height * 0.06,
                                       width: size.width * 0.25,
                                       decoration: BoxDecoration(
-                                        color:
-                                            const Color.fromRGBO(255, 183, 3, 1),
+                                        color: const Color.fromRGBO(
+                                            255, 183, 3, 1),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: ElevatedButton(
@@ -193,7 +230,8 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                         style: ButtonStyle(
                                           backgroundColor:
                                               MaterialStateProperty.all<Color>(
-                                            const Color.fromRGBO(255, 183, 3, 1),
+                                            const Color.fromRGBO(
+                                                255, 183, 3, 1),
                                           ),
                                           shape: MaterialStateProperty.all<
                                               OutlinedBorder>(
@@ -218,20 +256,17 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                 width: size.width * 0.8,
                                 color: const Color.fromRGBO(99, 99, 99, 1),
                               ),
-                              SizedBox(height: 15),
+                              const SizedBox(height: 15),
                               Expanded(
                                 child: Column(
-                                  children: [
-                                    for (int i = 0;
-                                        i < 8;
-                                        i++) // จำนวน Cardcomment ที่ต้องการแสดง
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical:
-                                                10), // เพิ่มระยะห่าง 10 หน่วยด้านบนและด้านล่างของ Cardcomment
-                                        child: Cardcomment(),
-                                      ),
-                                  ],
+                                  children: reviewData.map((review) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical:
+                                              10), // เพิ่มระยะห่าง 10 หน่วยด้านบนและด้านล่างของ Cardcomment
+                                      child: Cardcomment(cardData: review),
+                                    );
+                                  }).toList(),
                                 ),
                               ),
                             ],

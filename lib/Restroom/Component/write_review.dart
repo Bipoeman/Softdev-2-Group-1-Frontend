@@ -1,8 +1,8 @@
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
+import 'package:ruam_mitt/global_var.dart';
 
 class ReviewSlideBar extends StatefulWidget {
   const ReviewSlideBar({super.key, required this.cancelOnPressed});
@@ -28,23 +28,23 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
               padding: const EdgeInsets.all(30),
               child: Column(
                 children: [
-                  const Row(
+                  Row(
                     children: [
                       CircleAvatar(
                         radius: 25,
-                        backgroundImage: NetworkImage(
+                        backgroundImage: NetworkImage(profileData["profile"] ??
                             'https://www.pngkey.com/png/full/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png'),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('GoGo Scared',
-                              style: TextStyle(
+                          Text(profileData["username"],
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)),
-                          Text('Posting publicly'),
+                          const Text('Posting publicly'),
                         ],
                       ),
                     ],
@@ -73,7 +73,7 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                     child: ClayContainer(
                       width: size.width * 0.85,
                       height: size.height * 0.17,
-                      color: Color(0xFFEAEAEA),
+                      color: const Color(0xFFEAEAEA),
                       borderRadius: 30,
                       depth: -20,
                       child: TextField(
@@ -84,11 +84,11 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                         maxLines: null,
                         // textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
-
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 10.0),
-                            hintText: 'Write a review...',),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 10.0),
+                          hintText: 'Write a review...',
+                        ),
                       ),
                     ),
                   ),
