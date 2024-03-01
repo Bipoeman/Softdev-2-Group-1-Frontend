@@ -1,11 +1,13 @@
+import "dart:convert";
 import "dart:io";
-
+import "package:http/http.dart" as http;
 import "package:flutter/material.dart";
 import "package:image_picker/image_picker.dart";
 import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
 import "package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart";
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:ruam_mitt/global_const.dart";
+import "package:ruam_mitt/global_var.dart";
 
 class ReportPage extends StatefulWidget {
   const ReportPage({super.key});
@@ -18,10 +20,10 @@ class _ReportPageState extends State<ReportPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _ReporttextController = TextEditingController();
   File? _image;
+
   Future<void> _getImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -29,6 +31,39 @@ class _ReportPageState extends State<ReportPage> {
         print('No image selected.');
       }
     });
+  }
+
+  Future<http.Response> _sendreport(id, data) async {
+    final url = Uri.parse("$api$pinTheBinReportBinRoute");
+    print("Report has been sent");
+    return await http.post(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }, body: {
+      "binId": id,
+      "description": _ReporttextController.text,
+      "header": data,
+    });
+  }
+
+  Future<http.Response> _addpicturereport(id, picture) async {
+    final url = Uri.parse("$api$pinTheBinReportPictureBinRoute");
+    print("Report has been sent");
+    http.MultipartRequest request = http.MultipartRequest('POST', url);
+    request.headers.addAll({
+      "Authorization": "Bearer $publicToken",
+      "Content-Type": "application/json"
+    });
+    request.files.add(
+      http.MultipartFile.fromBytes(
+        "file",
+        File(picture.path).readAsBytesSync(),
+        filename: picture.path,
+      ),
+    );
+    request.fields['id'] = id;
+    http.StreamedResponse response = await request.send();
+    http.Response res = await http.Response.fromStream(response);
+    return res;
   }
 
   @override
@@ -212,7 +247,8 @@ class _ReportPageState extends State<ReportPage> {
                             child: Padding(
                               padding: EdgeInsets.only(
                                   top: size.height * 0.01,
-                                  left: size.width * 0.02),
+                                  left: size.width * 0.02,
+                                  right: size.width * 0.02),
                               child: TextField(
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
@@ -262,21 +298,21 @@ class _ReportPageState extends State<ReportPage> {
                       onTap: () {
                         _getImage();
                       },
-                      child: Container(
-                        width: size.width * 0.7,
-                        height: size.height * 0.125,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            colors: [
-                              const Color(0xFF292643).withOpacity(0.46),
-                              const Color(0xFFF9A58D).withOpacity(0.72),
-                            ],
-                          ),
-                        ),
-                        child: _image == null
-                            ? Stack(
+                      child: _image == null
+                          ? Container(
+                              width: size.width * 0.7,
+                              height: size.height * 0.125,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                  colors: [
+                                    const Color(0xFF292643).withOpacity(0.46),
+                                    const Color(0xFFF9A58D).withOpacity(0.72),
+                                  ],
+                                ),
+                              ),
+                              child: Stack(
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.only(
@@ -380,14 +416,15 @@ class _ReportPageState extends State<ReportPage> {
                                     ),
                                   ),
                                 ],
-                              )
-                            : Container(
-                                child: Image.file(
-                                  _image!,
-                                  fit: BoxFit.contain,
-                                ),
+                              ))
+                          : SizedBox(
+                              width: size.width * 0.7,
+                              height: size.height * 0.125,
+                              child: Image.file(
+                                _image!,
+                                fit: BoxFit.contain,
                               ),
-                      ),
+                            ),
                     ),
                   ),
                   Padding(
@@ -401,28 +438,27 @@ class _ReportPageState extends State<ReportPage> {
                           SizedBox(
                             width: size.width * 0.3,
                             height: size.height * 0.05,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Navigator.pushNamed(
-                                //   context,
-                                //   pinthebinPageRoute["home"]!,
-                                // );
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(30),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  pinthebinPageRoute["home"]!,
+                                );
                               },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF547485),
-                                shape: RoundedRectangleBorder(
+                              child: Ink(
+                                decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
+                                  color: const Color(0xFFF79F8A),
                                 ),
-                              ),
-                              child: Container(
-                                width: double.infinity,
-                                alignment: Alignment.center,
-                                child: const Text(
-                                  "SUMMIT",
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFFEBEBEB),
+                                child: const Center(
+                                  child: Text(
+                                    "CANCEL",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFFEBEBEB),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -433,25 +469,62 @@ class _ReportPageState extends State<ReportPage> {
                             child: SizedBox(
                               width: size.width * 0.3,
                               height: size.height * 0.05,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    pinthebinPageRoute["home"]!,
-                                  );
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(30),
+                                onTap: () async {
+                                  http.Response res = await _sendreport(
+                                      '${data['Bininfo']["id"]}',
+                                      data['Bininfo']['location']);
+                                  print("res : ${res.body}");
+
+                                  res = await _addpicturereport(
+                                      '${jsonDecode(res.body)[0]["id"]}',
+                                      _image!);
+                                  print("response : ${res.body}");
+                                  if (res.statusCode == 200) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: const Text(
+                                          "Registration successful.",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.green[300],
+                                      ),
+                                    );
+                                    Navigator.pushNamed(
+                                      context,
+                                      pinthebinPageRoute["home"]!,
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          "Registration failed.",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
                                 },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFFF79F8A),
-                                  shape: RoundedRectangleBorder(
+                                child: Ink(
+                                  decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
+                                    color: const Color(0xFF547485),
                                   ),
-                                ),
-                                child: const Text(
-                                  "CANCEL",
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFFEBEBEB),
+                                  child: const Center(
+                                    child: Text(
+                                      "SUMMIT",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFFEBEBEB),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
