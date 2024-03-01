@@ -104,8 +104,12 @@ class _SuperAppState extends State<SuperApp> {
         tuachuayDekhorPageRoute["cleaning"]!: (context) =>
             const TuachuayDekhorCleaningPage(),
         tuachuayDekhorPageRoute["profileblogger"]!: (context) {
-          final username = ModalRoute.of(context)!.settings.arguments as String;
-          return TuachuayDekhorBloggerProfilePage(username: username);
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          final username = args['username'] as String;
+          final avatarUrl = args['avatarUrl'] as String;
+          return TuachuayDekhorBloggerProfilePage(
+              username: username, avatarUrl: avatarUrl);
         },
         tuachuayDekhorPageRoute["report"]!: (context) {
           final id_post = ModalRoute.of(context)!.settings.arguments as int;
