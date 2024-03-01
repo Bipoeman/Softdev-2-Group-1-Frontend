@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -10,8 +11,7 @@ class TuachuayDekhorCookingPage extends StatefulWidget {
   const TuachuayDekhorCookingPage({super.key});
 
   @override
-  State<TuachuayDekhorCookingPage> createState() =>
-      _TuachuayDekhorCookingPageState();
+  State<TuachuayDekhorCookingPage> createState() => _TuachuayDekhorCookingPageState();
 }
 
 class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
@@ -40,8 +40,11 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"]!,
       body: SafeArea(
         child: Stack(
           children: [
@@ -60,8 +63,7 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                           opacity: 0.3,
-                          image: AssetImage(
-                              "assets/images/Background/TuachuayDekhor_Cooking.jpg"),
+                          image: AssetImage("assets/images/Background/TuachuayDekhor_Cooking.jpg"),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -76,14 +78,14 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                               fontSize: 30,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(0.5),
+                              color: customColors["onContainer"]!.withOpacity(0.5),
                             ),
                           ),
                         ],
                       ),
                     ),
                     Container(
-                      color: const Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"]!,
                       height: 10,
                     ),
                     Padding(
@@ -92,11 +94,18 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                         left: size.width * 0.04,
                       ),
                       child: GestureDetector(
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.arrow_back_outlined),
-                            SizedBox(width: 5),
-                            Text("Back")
+                            Icon(
+                              Icons.arrow_back_outlined,
+                              color: customColors["main"]!,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "Back",
+                              style: TextStyle(color: customColors["main"]!),
+                            ),
                           ],
                         ),
                         onTap: () => Navigator.pop(context),
@@ -122,16 +131,12 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                                 if (actualIndex < blog_cooking.length) {
                                   return BlogBox(
                                     title: blog_cooking[actualIndex]['title'],
-                                    name: blog_cooking[actualIndex]['user']
-                                        ['fullname'],
-                                    category: blog_cooking[actualIndex]
-                                        ['category'],
-                                    like:  blog_cooking[actualIndex]['save'] ?? "0",
+                                    name: blog_cooking[actualIndex]['user']['fullname'],
+                                    category: blog_cooking[actualIndex]['category'],
+                                    like: blog_cooking[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
-                                      blog_cooking[actualIndex]['image_link'] !=
-                                              "null"
-                                          ? blog_cooking[actualIndex]
-                                              ['image_link']
+                                      blog_cooking[actualIndex]['image_link'] != "null"
+                                          ? blog_cooking[actualIndex]['image_link']
                                           : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                     ),
                                     onPressed: () {
@@ -158,16 +163,12 @@ class _TuachuayDekhorCookingPageState extends State<TuachuayDekhorCookingPage> {
                                 if (actualIndex < blog_cooking.length) {
                                   return BlogBox(
                                     title: blog_cooking[actualIndex]['title'],
-                                    name: blog_cooking[actualIndex]['user']
-                                        ['fullname'],
-                                    category: blog_cooking[actualIndex]
-                                        ['category'],
+                                    name: blog_cooking[actualIndex]['user']['fullname'],
+                                    category: blog_cooking[actualIndex]['category'],
                                     like: blog_cooking[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
-                                      blog_cooking[actualIndex]['image_link'] !=
-                                              "null"
-                                          ? blog_cooking[actualIndex]
-                                              ['image_link']
+                                      blog_cooking[actualIndex]['image_link'] != "null"
+                                          ? blog_cooking[actualIndex]['image_link']
                                           : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                     ),
                                     onPressed: () {

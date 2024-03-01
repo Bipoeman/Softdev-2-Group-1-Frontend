@@ -186,7 +186,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "textInput": Colors.white,
         "icon1": const Color.fromRGBO(217, 192, 41, 1),
         "icon2": const Color.fromRGBO(0, 48, 73, 1),
-        "background": Colors.black,
+        "background": const Color.fromRGBO(32, 32, 32, 1),
       },
     ),
   }

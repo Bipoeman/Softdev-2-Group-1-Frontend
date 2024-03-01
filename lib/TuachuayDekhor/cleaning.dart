@@ -11,12 +11,10 @@ class TuachuayDekhorCleaningPage extends StatefulWidget {
   const TuachuayDekhorCleaningPage({super.key});
 
   @override
-  State<TuachuayDekhorCleaningPage> createState() =>
-      _TuachuayDekhorCleaningPageState();
+  State<TuachuayDekhorCleaningPage> createState() => _TuachuayDekhorCleaningPageState();
 }
 
-class _TuachuayDekhorCleaningPageState
-    extends State<TuachuayDekhorCleaningPage> {
+class _TuachuayDekhorCleaningPageState extends State<TuachuayDekhorCleaningPage> {
   final cleaningurl = Uri.parse("$api$dekhorPosttocleaningRoute");
   var blog_clean = [];
 
@@ -67,7 +65,8 @@ class _TuachuayDekhorCleaningPageState
                         image: DecorationImage(
                           opacity: 0.3,
                           image: AssetImage(
-                              "assets/images/Background/TuachuayDekhor_Cleaning.jpg",),
+                            "assets/images/Background/TuachuayDekhor_Cleaning.jpg",
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -100,9 +99,16 @@ class _TuachuayDekhorCleaningPageState
                       child: GestureDetector(
                         child: Row(
                           children: [
-                            Icon(Icons.arrow_back_outlined, color: customColors["main"]!,),
+                            Icon(
+                              Icons.arrow_back_outlined,
+                              color: customColors["main"]!,
+                              size: 20,
+                            ),
                             const SizedBox(width: 5),
-                            Text("Back", style: TextStyle(color: customColors["main"]!),),
+                            Text(
+                              "Back",
+                              style: TextStyle(color: customColors["main"]!),
+                            ),
                           ],
                         ),
                         onTap: () => Navigator.pop(context),
@@ -128,16 +134,12 @@ class _TuachuayDekhorCleaningPageState
                                 if (actualIndex < blog_clean.length) {
                                   return BlogBox(
                                     title: blog_clean[actualIndex]['title'],
-                                    name: blog_clean[actualIndex]['user']
-                                        ['fullname'],
-                                    category: blog_clean[actualIndex]
-                                        ['category'],
+                                    name: blog_clean[actualIndex]['user']['fullname'],
+                                    category: blog_clean[actualIndex]['category'],
                                     like: blog_clean[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
-                                      blog_clean[actualIndex]['image_link'] !=
-                                              "null"
-                                          ? blog_clean[actualIndex]
-                                              ['image_link']
+                                      blog_clean[actualIndex]['image_link'] != "null"
+                                          ? blog_clean[actualIndex]['image_link']
                                           : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                     ),
                                     onPressed: () {
@@ -164,16 +166,12 @@ class _TuachuayDekhorCleaningPageState
                                 if (actualIndex < blog_clean.length) {
                                   return BlogBox(
                                     title: blog_clean[actualIndex]['title'],
-                                    name: blog_clean[actualIndex]['user']
-                                        ['fullname'],
-                                    category: blog_clean[actualIndex]
-                                        ['category'],
+                                    name: blog_clean[actualIndex]['user']['fullname'],
+                                    category: blog_clean[actualIndex]['category'],
                                     like: blog_clean[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
-                                      blog_clean[actualIndex]['image_link'] !=
-                                              "null"
-                                          ? blog_clean[actualIndex]
-                                              ['image_link']
+                                      blog_clean[actualIndex]['image_link'] != "null"
+                                          ? blog_clean[actualIndex]['image_link']
                                           : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                     ),
                                     onPressed: () {
