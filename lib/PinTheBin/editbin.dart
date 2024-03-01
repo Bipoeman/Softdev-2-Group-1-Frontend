@@ -7,6 +7,7 @@ import 'package:neumorphic_button/neumorphic_button.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
+import 'package:http/http.dart' as http;
 
 Color colorbackground = const Color(0x00000000);
 
@@ -20,7 +21,8 @@ class EditbinPage extends StatefulWidget {
 class _EditbinPageState extends State<EditbinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _LocationstextController = TextEditingController();
-  //TextEditingController _LatitudetextController = TextEditingController();
+  TextEditingController _ReporttextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -219,9 +221,242 @@ class _EditbinPageState extends State<EditbinPage> {
                           ),
                         ],
                       ),
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  left: size.width * 0.05,
+                                  top: size.height * 0.39),
+
+                              // padding: const EdgeInsets.only(
+                              //     top: size.height * 0.1),
+                              child: Text(
+                                'Report',
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: size.height * 0.015,
+                          ),
+                          ClayContainer(
+                            width: size.width * 0.8,
+                            height: size.height * 0.15,
+                            color: Color.fromRGBO(239, 239, 239, 1),
+                            borderRadius: 30,
+                            depth: -20,
+                            child: TextField(
+                              maxLength: 150,
+                              maxLines: 3,
+                              controller: _ReporttextController,
+                              onChanged: (text) {
+                                print('Typed text: $text');
+                                int remainningCharacters =
+                                    80 - _ReporttextController.text.length;
+                                print(
+                                    'Remaining characters: $remainningCharacters');
+                              },
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                              ),
+                              style: const TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: size.height * 0.61),
+                        child: Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(left: 30),
+                          width: size.width * 0.83,
+                          height: size.height * 0.1,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Color(0xFF292643).withOpacity(0.46),
+                                Color(0xFFF9A58D).withOpacity(0.72),
+                              ],
+                            ),
+                          ),
+                          child: Stack(
+                            children: [
+                              Container(
+                                padding:
+                                    EdgeInsets.only(right: size.width * 0.77),
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      bottom: size.height * 0.05),
+                                  alignment: Alignment.topLeft,
+                                  child: Opacity(
+                                    opacity: 0.5,
+                                    child: Image.asset(
+                                        "assets/images/PinTheBin/corner.png"),
+                                  ),
+                                  width: size.width * 0.035,
+                                  height: size.height * 0.035,
+                                ),
+                              ),
+                              Container(
+                                padding:
+                                    EdgeInsets.only(left: size.width * 0.77),
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      bottom: size.height * 0.05),
+                                  alignment: Alignment.topLeft,
+                                  child: Transform.rotate(
+                                    angle: 90 * 3.141592653589793 / 180,
+                                    child: Opacity(
+                                      opacity: 0.5,
+                                      child: Image.asset(
+                                          "assets/images/PinTheBin/corner.png"),
+                                    ),
+                                  ),
+                                  width: size.width * 0.035,
+                                  height: size.height * 0.035,
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    right: size.width * 0.77,
+                                    top: size.height * 0.05),
+
+                                child: Container(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Transform.rotate(
+                                    angle: 270 * 3.141592653589793 / 180,
+                                    child: Opacity(
+                                      opacity: 0.5,
+                                      child: Image.asset(
+                                          "assets/images/PinTheBin/corner.png"),
+                                    ),
+                                  ),
+                                  width: size.width * 0.035,
+                                  height: size.height * 0.035,
+                                  // decoration: BoxDecoration(
+                                  //     border: Border.all(
+                                  //         color: Colors.black, width: 10)),
+                                ),
+                                //),
+                              ),
+                              Container(
+                                padding:
+                                    EdgeInsets.only(left: size.width * 0.77),
+                                child: Container(
+                                  margin:
+                                      EdgeInsets.only(top: size.height * 0.05),
+                                  alignment: Alignment.bottomLeft,
+                                  child: Transform.rotate(
+                                    angle: 180 * 3.141592653589793 / 180,
+                                    child: Opacity(
+                                      opacity: 0.5,
+                                      child: Image.asset(
+                                          "assets/images/PinTheBin/corner.png"),
+                                    ),
+                                  ),
+                                  width: size.width * 0.035,
+                                  height: size.height * 0.035,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: size.height * 0.055,
+                                    left: size.width * 0.23),
+                                child: Opacity(
+                                  opacity: 0.4,
+                                  child: Text(
+                                    "Upload picture",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium,
+                                  ),
+                                ),
+                              )
+                              // itemSelection(title: 'upload', image: Image.asset("assets/images/PinTheBin/upload.png"), onTap: , context: context)
+                            ],
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: size.width * 0.17,
+                                top: size.height * 0.745),
+                            child: GestureDetector(
+                              child: Container(
+                                width: size.width * 0.25,
+                                height: size.height * 0.055,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFF547485),
+                                  borderRadius: BorderRadius.circular(30),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 5,
+                                      //offset: ,
+                                      color: Color(0xFFA7A9AF),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  'CHANGE',
+                                  style: GoogleFonts.getFont(
+                                    "Sen",
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: size.width * 0.175,
+                                top: size.height * 0.745),
+                            child: GestureDetector(
+                              child: Container(
+                                width: size.width * 0.25,
+                                height: size.height * 0.055,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 255, 211, 80),
+                                  borderRadius: BorderRadius.circular(30),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 5,
+                                      //offset: ,
+                                      color: Color(0xFFA7A9AF),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  'CANCLE',
+                                  style: GoogleFonts.getFont(
+                                    "Sen",
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
+                drawerScrimColor: Colors.transparent,
+                drawer: const BinDrawer(),
               ),
             ],
           );
