@@ -59,6 +59,7 @@ const Map<String, String> restroomPageRoute = {
   "findposition": "/Restroom/Findposition",
   "addrestroom": "/Restroom/Addrestroom",
   "report": "/Restroom/Report",
+  "reportpin": "/Restroom/ReportPin",
   "edit": "/Restroom/Edit",
 };
 const String dinodengzzPageRoute = "/game";

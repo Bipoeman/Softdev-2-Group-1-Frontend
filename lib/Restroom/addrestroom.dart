@@ -45,6 +45,11 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
   LatLng? _position;
 
   @override
+  void updateRemainingCharacters() {
+    setState(() {
+      remainingCharacters = _DescriptiontextController.text.length;
+    });
+  }
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -52,11 +57,11 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
     _DescriptiontextController.addListener(updateRemainingCharacters);
   }
 
-  void updateRemainingCharacters() {
-    setState(() {
-      remainingCharacters = _DescriptiontextController.text.length;
-    });
-  }
+  // void updateRemainingCharacters() {
+  //   setState(() {
+  //     remainingCharacters = _DescriptiontextController.text.length;
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -120,13 +125,19 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                         color: Color.fromRGBO(239, 239, 239, 1),
                         borderRadius: 30,
                         depth: -20,
-                        child: TextField(
-                          controller: _NametextController,
-                          onChanged: (text) {
-                            print('Typed text: $text');
-                          },
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: TextField(
+                            maxLength: 20,
+                            textAlign: TextAlign.left,
+                            controller: _NametextController,
+                            onChanged: (text) {
+                              print('Typed text: $text');
+                            },
+                            decoration: InputDecoration(
+                              counterText: "",
+                              border: InputBorder.none,
+                            ),
                           ),
                         ),
                       ),
@@ -541,42 +552,50 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.black,
-                        backgroundColor: Colors.amber,
-                        surfaceTintColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                          side: const BorderSide(color: Colors.grey),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.black,
+                          backgroundColor: Colors.grey[300],
+                          surfaceTintColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                            side: const BorderSide(color: Colors.grey),
+                          ),
+                        ),
+                        child: Text(
+                          "Cancel",
+                          style: Theme.of(context).textTheme.displayLarge,
                         ),
                       ),
-                      child: Text(
-                        'Submit',
-                        style: Theme.of(context).textTheme.displayLarge,
-                      ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.black,
-                        backgroundColor: Colors.grey[300],
-                        surfaceTintColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                          side: const BorderSide(color: Colors.grey),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.black,
+                          backgroundColor: Colors.amber,
+                          surfaceTintColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                            side: const BorderSide(color: Colors.grey),
+                          ),
+                        ),
+                        child: Text(
+                          'Submit',
+                          style: Theme.of(context).textTheme.displayLarge,
                         ),
                       ),
-                      child: Text(
-                        "Cancel",
-                        style: Theme.of(context).textTheme.displayLarge,
-                      ),
                     ),
+                    
                   ],
                 ),
+                Padding(padding: EdgeInsets.only(top: size.height * 0.035)),
               ],
             )),
             drawerScrimColor: Colors.transparent,
