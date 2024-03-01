@@ -240,8 +240,8 @@ class _HomePageV2State extends State<HomePageV2> {
                                                           ?.reset();
                                                       reportBoxController
                                                           .closeBox();
-                                                      Navigator.pop(context);
                                                     }
+                                                    Navigator.pop(context);
                                                   });
                                                 });
                                           } else {
