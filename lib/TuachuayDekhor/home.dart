@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart";
 import "package:ruam_mitt/TuachuayDekhor/Component/avatar.dart";
 import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/TuachuayDekhor/Component/navbar.dart";
@@ -76,6 +77,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
     if (response.statusCode == 200) {
       setState(() {
         blogger = jsonDecode(response.body);
+        print(blogger);
       });
     } else {
       throw Exception('Failed to load data');
@@ -232,12 +234,12 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                               child: Row(
                                 children: [
                                   ...List.generate(
-                                    blogger.length,
+                                    blogger.length > 6 ? 6 : blogger.length,
                                     (index) => TuachuayDekhorAvatarViewer(
                                       username: blogger[index]['user']
                                           ['fullname'],
-                                      avatarUrl:
-                                          "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
+                                      avatarUrl: blogger[index]['profile'] ??
+                                          "https://api.multiavatar.com/${blogger[index]['user']['fullname'].replaceAll(" ", "+")}.png",
                                     ),
                                   ),
                                   ElevatedButton(
@@ -285,89 +287,34 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                               ],
                             ),
                             Padding(
-                              padding: EdgeInsets.only(
-                                  bottom: size.width * 0.05,
-                                  left: size.width * 0.04,
-                                  right: size.width * 0.04,
-                                  top: size.width * 0.05),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Wrap(
-                                    direction: Axis.vertical,
-                                    spacing: 5,
-                                    children: List.generate(
-                                      (blog.length / 2).ceil(),
-                                      (index) {
-                                        final actualIndex = index * 2;
-                                        if (actualIndex < blog.length) {
-                                          return BlogBox(
-                                            title: blog[actualIndex]['title'],
-                                            name: blog[actualIndex]['user']
-                                                ['fullname'],
-                                            category: blog[actualIndex]
-                                                ['category'],
-                                            like: blog[actualIndex]['save'] ??
-                                                "0",
-                                            image: NetworkImage(
-                                              blog[actualIndex]['image_link'],
-                                            ),
-                                            onPressed: () {
-                                              Navigator.pushNamed(
-                                                context,
-                                                tuachuayDekhorPageRoute[
-                                                    'blog']!,
-                                                arguments: blog[actualIndex]
-                                                    ['id_post'],
-                                              );
-                                            },
-                                          );
-                                        } else {
-                                          return const SizedBox(); // แสดง SizedBox ถ้าข้อมูลไม่เพียงพอ
-                                        }
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: MasonryGridView.builder(
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                itemCount: blog.length,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2),
+                                itemBuilder: ((context, index) => BlogBox(
+                                      title: blog[index]['title'],
+                                      name: blog[index]['user']['fullname'],
+                                      category: blog[index]['category'],
+                                      like: blog[index]['save'] ?? "0",
+                                      image: NetworkImage(
+                                        blog[index]['image_link'],
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          tuachuayDekhorPageRoute['blog']!,
+                                          arguments: blog[index]['id_post'],
+                                        );
                                       },
-                                    ),
-                                  ),
-                                  Wrap(
-                                    direction: Axis.vertical,
-                                    spacing: 5,
-                                    children: List.generate(
-                                      (blog.length) ~/ 2,
-                                      (index) {
-                                        final actualIndex = index * 2 + 1;
-                                        if (actualIndex < blog.length) {
-                                          return BlogBox(
-                                            title: blog[actualIndex]['title'],
-                                            name: blog[actualIndex]['user']
-                                                ['fullname'],
-                                            category: blog[actualIndex]
-                                                ['category'] ,
-                                            like: blog[actualIndex]['save'] ??
-                                                "0",
-                                            image: NetworkImage(
-                                              blog[actualIndex]['image_link'],
-                                            ),
-                                            onPressed: () {
-                                              Navigator.pushNamed(
-                                                context,
-                                                tuachuayDekhorPageRoute[
-                                                    'blog']!,
-                                                arguments: blog[actualIndex]
-                                                    ['id_post'],
-                                              );
-                                            },
-                                          );
-                                        } else {
-                                          return const SizedBox(); // แสดง SizedBox ถ้าข้อมูลไม่เพียงพอ
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                ],
+                                    )),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
