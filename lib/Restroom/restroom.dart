@@ -2,15 +2,11 @@ import "dart:convert";
 import "dart:developer";
 import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
-import "package:google_fonts/google_fonts.dart";
 import "package:latlong2/latlong.dart";
-import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
-import "package:ruam_mitt/PinTheBin/componant/map.dart";
 import "package:ruam_mitt/Restroom/Component/Navbar.dart";
 import 'package:ruam_mitt/Restroom/Component/map.dart';
 import "package:http/http.dart" as http;
 import "package:ruam_mitt/Restroom/Component/theme.dart";
-
 import "package:ruam_mitt/global_const.dart";
 import "package:ruam_mitt/global_var.dart";
 
@@ -23,14 +19,14 @@ class RestroomRover extends StatefulWidget {
 
 class _RestroomRoverState extends State<RestroomRover> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  SearchController searchBinController = SearchController();
+  SearchController searchRestroomController = SearchController();
   MapController mapController = MapController();
-  List<dynamic> binData = [];
+  List<dynamic> restroomData = [];
   FocusNode focusNode = FocusNode();
   LatLng? centerMark;
-  Future<http.Response> getBinInfo() async {
+  Future<http.Response> getRestroomInfo() async {
     debugPrint("Getting");
-    Uri url = Uri.parse("$api$pinTheBinGetBinRoute");
+    Uri url = Uri.parse("$api$restroomRoverGetRestroomRoute");
     http.Response res = await http.get(
       url,
       headers: {
@@ -41,8 +37,9 @@ class _RestroomRoverState extends State<RestroomRover> {
     return res;
   }
 
-  void searchBinListener() {
-    debugPrint("Sonething chagne in search field ${searchBinController.text}");
+  void searchRestroomListener() {
+    debugPrint(
+        "Sonething changed in search field ${searchRestroomController.text}");
     // debugPrint();
 
     setState(() {});
@@ -52,14 +49,14 @@ class _RestroomRoverState extends State<RestroomRover> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    debugPrint("Init Bin Page");
-    getBinInfo().then((response) {
+    debugPrint("Init Restroom Page");
+    getRestroomInfo().then((response) {
       // debugPrint("Response");
       // debugPrint(response.body);
-      binData = jsonDecode(response.body);
+      restroomData = jsonDecode(response.body);
       Future.delayed(const Duration(milliseconds: 500))
           .then((value) => setState(() {}));
-      searchBinController.addListener(searchBinListener);
+      searchRestroomController.addListener(searchRestroomListener);
       // debugPrint(binData);
     });
   }
@@ -78,38 +75,38 @@ class _RestroomRoverState extends State<RestroomRover> {
             children: [
               Stack(
                 children: [
-                  MapRestroomRover(),
+                  MapRestroomRover(restroomData: restroomData),
                   Container(
                     margin: const EdgeInsets.only(top: 100),
                     child: Center(
-                      // child: binData.isEmpty
-                      //     ? Column(
-                      //         mainAxisAlignment: MainAxisAlignment.center,
-                      //         children: [
-                      //           const CircularProgressIndicator(),
-                      //           SizedBox(height: size.height * 0.01),
-                      //           const Text("Bin map loading...")
-                      //         ],
-                      //       )
-                      //     : MapPinTheBin(
-                      //         mapController: mapController,
-                      //         binInfo: binData,
-                      //         centerMark: centerMark,
-                      //       ),
-                    ),
+                        // child: binData.isEmpty
+                        //     ? Column(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         children: [
+                        //           const CircularProgressIndicator(),
+                        //           SizedBox(height: size.height * 0.01),
+                        //           const Text("Bin map loading...")
+                        //         ],
+                        //       )
+                        //     : MapPinTheBin(
+                        //         mapController: mapController,
+                        //         binInfo: binData,
+                        //         centerMark: centerMark,
+                        //       ),
+                        ),
                   ),
                   RestroomAppBar(scaffoldKey: _scaffoldKey),
                 ],
               ),
-              PinTheBinSearchBar(
+              RestroomRoverSearchBar(
                 size: size,
-                searchAnchorController: searchBinController,
-                binDataList: binData,
+                searchAnchorController: searchRestroomController,
+                binDataList: restroomData,
                 focusNode: focusNode,
                 parentKey: widget.key,
                 onSelected: (selectedValue) {
                   // print("Selected $selectedValue");
-                  binData.forEach((eachBin) {
+                  restroomData.forEach((eachBin) {
                     if (eachBin['location'] == selectedValue) {
                       print("Pin the bin");
 
@@ -133,8 +130,8 @@ class _RestroomRoverState extends State<RestroomRover> {
   }
 }
 
-class PinTheBinSearchBar extends StatefulWidget {
-  const PinTheBinSearchBar({
+class RestroomRoverSearchBar extends StatefulWidget {
+  const RestroomRoverSearchBar({
     super.key,
     required this.size,
     required this.searchAnchorController,
@@ -152,15 +149,14 @@ class PinTheBinSearchBar extends StatefulWidget {
   final Key? parentKey;
 
   @override
-  State<PinTheBinSearchBar> createState() => _PinTheBinSearchBarState();
+  State<RestroomRoverSearchBar> createState() => _RestroomRoverSearchBarState();
 }
 
-class _PinTheBinSearchBarState extends State<PinTheBinSearchBar> {
+class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
   List<dynamic> tempBinData = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(const Duration(seconds: 1))
         .then((value) => tempBinData = widget.binDataList);
