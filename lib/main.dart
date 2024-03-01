@@ -5,8 +5,10 @@ import 'package:ruam_mitt/PinTheBin/addbinV2.dart';
 import 'package:ruam_mitt/PinTheBin/editbin.dart';
 import 'package:ruam_mitt/PinTheBin/mybin.dart';
 import 'package:ruam_mitt/PinTheBin/report.dart';
-import 'package:ruam_mitt/Restroom/FindPosition.dart';
-import 'package:ruam_mitt/Restroom/Review.dart';
+import 'package:ruam_mitt/Restroom/myrestroom.dart';
+import 'package:ruam_mitt/Restroom/findposition.dart';
+import 'package:ruam_mitt/Restroom/report_pin.dart';
+import 'package:ruam_mitt/Restroom/review.dart';
 import 'package:ruam_mitt/Restroom/addrestroom.dart';
 import 'package:ruam_mitt/Restroom/report.dart';
 import 'package:ruam_mitt/Restroom/restroom.dart';
@@ -64,12 +66,17 @@ class _SuperAppState extends State<SuperApp> {
         ruamMitrPageRoute["home"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
-        restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
+        restroomPageRoute["review"]!: (context) => RestroomRoverReview(
+            restroomData: ModalRoute.of(context)!.settings.arguments
+                as Map<String, dynamic>),
         restroomPageRoute["findposition"]!: (context) =>
             const RestroomRoverFindPosition(),
         restroomPageRoute["addrestroom"]!: (context) =>
             const RestroomRoverAddrestroom(),
         restroomPageRoute["report"]!: (context) => const RestroomRoverReport(),
+        restroomPageRoute["reportpin"]!: (context) => RestroomRoverReportPin(restroomData: ModalRoute.of(context)!.settings.arguments
+                as Map<String, dynamic>),
+        restroomPageRoute["edit"]!: (context) => const MyRestroomPage(),
         dinodengzzPageRoute: (context) => const MyGame(),
         tuachuayDekhorPageRoute["home"]!: (context) =>
             const TuachuayDekhorHomePage(),
