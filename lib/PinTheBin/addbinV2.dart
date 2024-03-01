@@ -27,12 +27,12 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
   bool isPressedWaste = false;
   bool isPressedGeneral = false;
 
-  final Map<String, bool> _isPressedbintype = {
-    'isPressedWarning': true,
-    'isPressedRecycling': true,
-    'isPressedwaste': true,
-    'isPressedgeneral': true
-  };
+  // final Map<String, bool> _isPressedbintype = {
+  //   'isPressedWarning': true,
+  //   'isPressedRecycling': true,
+  //   'isPressedwaste': true,
+  //   'isPressedgeneral': true
+  // };
 
   final Map<String, bool> _bintype = {
     'redbin': false,
@@ -481,49 +481,15 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               padding: EdgeInsets.only(left: 20, top: 460),
                               child: GestureDetector(
                                 onTap: () {
-                                  setState(() => isPressedWarning = false);
-                                  setState(() => _bintype['redbin'] = true);
+                                  setState(() {
+                                    _bintype['redbin'] = !_bintype['redbin']!;
+                                    isPressedWarning = _bintype['redbin']!;
+                                  });
                                   print(_bintype['redbin']);
-                                  if (_bintype['redbin'] == true) {
-                                    setState(() {
-                                      isPressedWarning = !isPressedWarning;
-                                    });
-                                  } else {
-                                    isPressedWarning = true;
-                                  }
-                                  // if (_bintype['greenbin'] == false &&
-                                  //     _bintype['yellowbin'] == false &&
-                                  //     _bintype['bluebin'] == false) {
-                                  //   setState(() {
-                                  //     _bintype['redbin'] = true;
-                                  //   });
-                                  //   setState(() {
-                                  //     isPressedWarning = !isPressedWarning;
-                                  //     isPressedRecycling = false;
-                                  //   });
-
-                                  //   //isPressedRecycling = false;
-                                  //   print(_bintype['redbin']);
-                                  // } else {
-                                  //   _bintype['redbin'] = false;
-                                  //   isPressedWarning = true;
-                                  // }
-                                },
-                                onDoubleTap: () {
-                                  setState(() => isPressedWarning = false);
-                                  if (_bintype['redbin'] == true) {
-                                    setState(() {
-                                      _bintype['redbin'] = false;
-                                    });
-                                    print(_bintype['redbin']);
-                                  } else {
-                                    _bintype['redbin'] = true;
-                                  }
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
                                   height: size.height * 0.13,
-                                  //color: Colors.black,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     color: Color.fromARGB(9, 0, 47, 73),
@@ -576,44 +542,16 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               padding: EdgeInsets.only(top: 460),
                               child: GestureDetector(
                                 onTap: () {
-                                  setState(() => isPressedRecycling = false);
-                                  setState(() => _bintype['yellowbin'] = true);
+                                  setState(() {
+                                    _bintype['yellowbin'] =
+                                        !_bintype['yellowbin']!;
+                                    isPressedRecycling = _bintype['yellowbin']!;
+                                  });
                                   print(_bintype['yellowbin']);
-                                  if (_bintype['yellowbin'] == true) {
-                                    setState(() {
-                                      isPressedRecycling = !isPressedRecycling;
-                                    });
-                                  } else {
-                                    isPressedRecycling = true;
-                                  }
-                                  //   setState(() => isPressedRecycling = false);
-                                  // },
-                                  // onDoubleTap: () {
-                                  //   setState(() => isPressedRecycling = false);
-                                  //   if (_bintype['yellowbin'] == true) {
-                                  //     setState(() {
-                                  //       _bintype['yellowbin'] = false;
-                                  //     });
-                                  //     print(_bintype['yellowbin']);
-                                  //   } else {
-                                  //     _bintype['yellowbin'] = true;
-                                  //   }
-                                },
-                                onDoubleTap: () {
-                                  setState(() => isPressedRecycling = false);
-                                  if (_bintype['yellowbin'] == true) {
-                                    setState(() {
-                                      _bintype['yellowbin'] = false;
-                                    });
-                                    print(_bintype['yellowbin']);
-                                  } else {
-                                    _bintype['yellowbin'] = true;
-                                  }
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
                                   height: size.height * 0.13,
-                                  //color: Colors.black,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     color: Color.fromARGB(9, 0, 47, 73),
@@ -645,7 +583,6 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                             ),
                             Container(
-                              //padding: EdgeInsets.only(left: 0),
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 8),
                                 child: Text(
@@ -666,39 +603,12 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               padding: EdgeInsets.only(top: 460),
                               child: GestureDetector(
                                 onTap: () {
-                                  setState(() => isPressedWaste = false);
-                                  setState(() => _bintype['greenbin'] = true);
+                                  setState(() {
+                                    _bintype['greenbin'] =
+                                        !_bintype['greenbin']!;
+                                    isPressedWaste = _bintype['greenbin']!;
+                                  });
                                   print(_bintype['greenbin']);
-                                  if (_bintype['greenbin'] == true) {
-                                    setState(() {
-                                      isPressedWaste = !isPressedWaste;
-                                    });
-                                  } else {
-                                    isPressedWaste = true;
-                                  }
-                                  //   setState(() => isPressedRecycling = false);
-                                  // },
-                                  // onDoubleTap: () {
-                                  //   setState(() => isPressedRecycling = false);
-                                  //   if (_bintype['yellowbin'] == true) {
-                                  //     setState(() {
-                                  //       _bintype['yellowbin'] = false;
-                                  //     });
-                                  //     print(_bintype['yellowbin']);
-                                  //   } else {
-                                  //     _bintype['yellowbin'] = true;
-                                  //   }
-                                },
-                                onDoubleTap: () {
-                                  setState(() => isPressedWaste = false);
-                                  if (_bintype['greenbin'] == true) {
-                                    setState(() {
-                                      _bintype['greenbin'] = false;
-                                    });
-                                    print(_bintype['greenbin']);
-                                  } else {
-                                    _bintype['greenbin'] = true;
-                                  }
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
@@ -735,7 +645,6 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                             ),
                             Container(
-                              //padding: EdgeInsets.only(left: 0),
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 8),
                                 child: Text(
@@ -756,39 +665,11 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               padding: EdgeInsets.only(top: 460),
                               child: GestureDetector(
                                 onTap: () {
-                                  setState(() => isPressedGeneral = false);
-                                  setState(() => _bintype['bluebin'] = true);
+                                  setState(() {
+                                    _bintype['bluebin'] = !_bintype['bluebin']!;
+                                    isPressedGeneral = _bintype['bluebin']!;
+                                  });
                                   print(_bintype['bluebin']);
-                                  if (_bintype['bluebin'] == true) {
-                                    setState(() {
-                                      isPressedGeneral = !isPressedGeneral;
-                                    });
-                                  } else {
-                                    isPressedGeneral = true;
-                                  }
-                                  //   setState(() => isPressedRecycling = false);
-                                  // },
-                                  // onDoubleTap: () {
-                                  //   setState(() => isPressedRecycling = false);
-                                  //   if (_bintype['yellowbin'] == true) {
-                                  //     setState(() {
-                                  //       _bintype['yellowbin'] = false;
-                                  //     });
-                                  //     print(_bintype['yellowbin']);
-                                  //   } else {
-                                  //     _bintype['yellowbin'] = true;
-                                  //   }
-                                },
-                                onDoubleTap: () {
-                                  setState(() => isPressedGeneral = false);
-                                  if (_bintype['bluebin'] == true) {
-                                    setState(() {
-                                      _bintype['bluebin'] = false;
-                                    });
-                                    print(_bintype['bluebin']);
-                                  } else {
-                                    _bintype['bluebin'] = true;
-                                  }
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
@@ -836,6 +717,79 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                             ),
                           ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: size.width * 0.17, top: size.height * 0.77),
+                          child: GestureDetector(
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  left: size.width * 0.07,
+                                  top: size.height * 0.01),
+                              width: size.width * 0.25,
+                              height: size.height * 0.055,
+                              decoration: BoxDecoration(
+                                color: Color(0xFF547485),
+                                borderRadius: BorderRadius.circular(30),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 5,
+                                    //offset: ,
+                                    color: Color(0xFFA7A9AF),
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                'ADD',
+                                style: GoogleFonts.getFont(
+                                  "Sen",
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: size.width * 0.175,
+                              top: size.height * 0.77),
+                          child: GestureDetector(
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  left: size.width * 0.024,
+                                  top: size.height * 0.01),
+                              width: size.width * 0.25,
+                              height: size.height * 0.055,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFF9957F),
+                                borderRadius: BorderRadius.circular(30),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 5,
+                                    //offset: ,
+                                    color: Color(0xFFA7A9AF),
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                'CANCLE',
+                                style: GoogleFonts.getFont(
+                                  "Sen",
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
