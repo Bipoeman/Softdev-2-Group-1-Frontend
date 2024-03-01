@@ -221,6 +221,32 @@ class _EditbinPageState extends State<EditbinPage> {
                           ),
                         ],
                       ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: size.width * 0.16, top: size.height * 0.23),
+                        child: Container(
+                          width: size.width * 0.7,
+                          height: size.height * 0.15,
+                          child: arguments['Bininfo']['picture'] == null
+                              ? SingleChildScrollView(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.asset(
+                                      "assets/images/PinTheBin/bin_null.png",
+                                      //fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                )
+                              : SingleChildScrollView(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.network(
+                                      arguments['Bininfo']['picture'],
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ),
                       Column(
                         children: [
                           Align(
