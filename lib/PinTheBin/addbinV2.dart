@@ -744,13 +744,13 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                   builder: (context) {
                                     return AlertDialog(
                                       title: Text(
-                                        'Confirm change',
+                                        'Add bin Confirm',
                                         style: Theme.of(context)
                                             .textTheme
                                             .headlineSmall,
                                       ),
-                                      content:
-                                          Text('yours bin info will changing'),
+                                      content: Text(
+                                          'Would you like to confirm the modifications to your trash bin information?'),
                                       actions: [
                                         MaterialButton(
                                           onPressed: () {

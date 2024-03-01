@@ -352,7 +352,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                               .headlineSmall,
                                         ),
                                         content: Text(
-                                            'yours bin info will changing'),
+                                            'Would you like to confirm the modifications to your trash bin information?'),
                                         actions: [
                                           MaterialButton(
                                             onPressed: () {
