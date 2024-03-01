@@ -1,17 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/admin.dart';
-import 'package:ruam_mitt/RuamMitr/contact_us.dart';
+import 'package:ruam_mitt/RuamMitr/Component/ruammitr_report.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsWidgetV2 extends StatefulWidget {
-  const SettingsWidgetV2({super.key});
+  const SettingsWidgetV2({super.key, required this.reportBoxController});
+  final BoxController reportBoxController;
 
   @override
   State<SettingsWidgetV2> createState() => _SettingsWidgetV2State();
@@ -44,7 +46,7 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AvatarViewer(size: size),
-                      ContactUs(themeProvider)
+                      reportToUs(themeProvider, widget.reportBoxController)
                     ],
                   ),
                 ),
@@ -84,29 +86,29 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                     ),
                   ],
                 ),
-                if (profileData['role'] == "User")
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: size.width * 0.19),
-                    child: InkWell(
-                      onTap: () {},
-                      child: Ink(
-                        width: size.width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Report",
-                              style: theme.textTheme.bodyLarge,
-                            ),
-                            const Icon(Icons.flag)
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                else
-                  const SizedBox(),
+                // if (profileData['role'] == "User")
+                //   Padding(
+                //     padding:
+                //         EdgeInsets.symmetric(horizontal: size.width * 0.19),
+                //     child: InkWell(
+                //       onTap: () {},
+                //       child: Ink(
+                //         width: size.width,
+                //         child: Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             Text(
+                //               "Report",
+                //               style: theme.textTheme.bodyLarge,
+                //             ),
+                //             const Icon(Icons.flag)
+                //           ],
+                //         ),
+                //       ),
+                //     ),
+                //   )
+                // else
+                //   const SizedBox(),
               ],
             ),
             Column(

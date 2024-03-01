@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:ruam_mitt/PinTheBin/addbin.dart';
 import 'package:ruam_mitt/PinTheBin/addbinV2.dart';
 import 'package:ruam_mitt/PinTheBin/editbin.dart';
 import 'package:ruam_mitt/PinTheBin/mybin.dart';
@@ -62,7 +61,6 @@ class _SuperAppState extends State<SuperApp> {
       routes: {
         loginPageRoute: (context) => const LoginPage(),
         registerPageRoute: (context) => const RegisterPage(),
-        // ruamMitrPageRoute["home"]!: (context) => const HomePage(),
         ruamMitrPageRoute["home"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
@@ -113,7 +111,6 @@ class _SuperAppState extends State<SuperApp> {
           final id_post = ModalRoute.of(context)!.settings.arguments as int;
           return TuachuayDekhorReportPage(id_post: id_post);
         },
-
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPageV2(),
         pinthebinPageRoute["editbin"]!: (context) => const EditbinPage(),

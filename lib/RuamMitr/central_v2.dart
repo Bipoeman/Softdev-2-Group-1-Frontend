@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:bottom_bar_matu/bottom_bar_double_bullet/bottom_bar_double_bullet.dart';
 import 'package:bottom_bar_matu/bottom_bar_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
@@ -44,7 +45,7 @@ class _HomePageV2State extends State<HomePageV2> {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
-    
+    BoxController reportBoxController = BoxController();
     // String avatarTextBackgroundColorString = theme.colorScheme.primaryContainer
     //     .toString()
     //     .replaceAll("Color(", "")
@@ -65,7 +66,7 @@ class _HomePageV2State extends State<HomePageV2> {
     // profileData['imgPath'] = "${profileData['profile']}" ??
     //     // "https://ui-avatars.com/api/?background=$avatarTextBackgroundColorString&color=$avatarTextColorString&size=512&name=${profileData['fullname'].replaceAll(" ", "+")}";
     //     "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}.png";
-    
+
     return Container(
       decoration: ruamMitrBackgroundGradient(themes),
       child: Scaffold(
@@ -88,37 +89,67 @@ class _HomePageV2State extends State<HomePageV2> {
           },
         ),
         body: SafeArea(
-          child: PageView(
-            controller: pageController,
-            onPageChanged: (pageChanged) {
-              setState(() => pageIndex = pageChanged);
-            },
+          child: Column(
             children: [
-              profileData['fullname'] == null
-                  ? const Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircularProgressIndicator(),
-                          Divider(),
-                          Text("Loading user data"),
-                        ],
-                      ),
-                    )
-                  : const ProfileWidgetV2(),
-              profileData['fullname'] == null
-                  ? const Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircularProgressIndicator(),
-                          Divider(),
-                          Text("Loading user data"),
-                        ],
-                      ),
-                    )
-                  : const HomeWidgetV2(),
-              const SettingsWidgetV2()
+              Expanded(
+                child: PageView(
+                  controller: pageController,
+                  onPageChanged: (pageChanged) {
+                    setState(() => pageIndex = pageChanged);
+                  },
+                  children: [
+                    profileData['fullname'] == null
+                        ? const Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircularProgressIndicator(),
+                                Divider(),
+                                Text("Loading user data"),
+                              ],
+                            ),
+                          )
+                        : const ProfileWidgetV2(),
+                    profileData['fullname'] == null
+                        ? const Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircularProgressIndicator(),
+                                Divider(),
+                                Text("Loading user data"),
+                              ],
+                            ),
+                          )
+                        : HomeWidgetV2(
+                            reportBoxController: reportBoxController),
+                    SettingsWidgetV2(reportBoxController: reportBoxController)
+                  ],
+                ),
+              ),
+              SlidingBox(
+                draggableIcon: Icons.keyboard_arrow_down_rounded,
+                controller: reportBoxController,
+                collapsed: false,
+                draggable: true,
+                draggableIconVisible: true,
+                minHeight: 0,
+                maxHeight: MediaQuery.of(context).size.height * 0.7,
+                body: Column(children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Report"),
+                        IconButton(
+                            onPressed: () {}, icon: const Icon(Icons.close)),
+                      ],
+                    ),
+                  ),
+                ]),
+              )
             ],
           ),
         ),
