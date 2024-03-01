@@ -265,13 +265,12 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
           children: [
             isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: Color.fromRGBO(0, 48, 73, 1),
+                    ),
                   )
                 : CommentBox(
-                    userImage: NetworkImage(
-                      profileData['profile'] ??
-                          "https://api.multiavatar.com/${profileData['fullname']}.png",
-                    ),
+                    userImage: NetworkImage(profileData['imgPath']),
                     labelText: 'Write a comment...',
                     errorText: 'Comment cannot be blank',
                     withBorder: false,
@@ -284,6 +283,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                           Icon(Icons.send_sharp, size: 25, color: Colors.white),
                       onPressed: () {
                         if (commentTextController.text.isNotEmpty) {
+                          FocusScope.of(context).unfocus();
                           comment();
                           showcomment();
                         } else {
@@ -351,7 +351,9 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                     image: NetworkImage(
-                                                      "https://api.multiavatar.com/${detailpost[0]['user']['fullname']}.png",
+                                                      detailpost[0]['user']
+                                                              ['profile'] ??
+                                                          "https://api.multiavatar.com/${detailpost[0]['user']['fullname']}.png",
                                                     ),
                                                     fit: BoxFit.cover,
                                                   ),
@@ -593,7 +595,9 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                             onTap: () {},
                                             leading: CircleAvatar(
                                               backgroundImage: NetworkImage(
-                                                "https://api.multiavatar.com/${commentpost[index]['user']['fullname']}.png",
+                                                commentpost[index]['user']
+                                                        ['profile'] ??
+                                                    "https://api.multiavatar.com/${commentpost[index]['user']['fullname']}.png",
                                               ),
                                             ),
                                             title: Text(commentpost[index]
