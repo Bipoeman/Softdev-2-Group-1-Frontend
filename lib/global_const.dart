@@ -43,6 +43,7 @@ const String dekhorReportRoute = "/dekhor/report";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
 const String restroomRoverGetRestroomRoute = "/restroom";
+const String restroomRoverGetReviewRoute = "/restroom/review";
 
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",

@@ -1,3 +1,4 @@
+import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Restroom/Component/cardpin.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -7,9 +8,11 @@ import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 
 class MapRestroomRover extends StatelessWidget {
-  const MapRestroomRover({super.key, required this.restroomData});
+  const MapRestroomRover(
+      {super.key, required this.restroomData, this.mapController});
 
   final List<dynamic> restroomData;
+  final MapController? mapController;
 
   static final Map<String, String> pinImg = {
     "Free": "assets/images/RestroomRover/Pingreen.png",
@@ -33,6 +36,7 @@ class MapRestroomRover extends StatelessWidget {
     return Stack(
       children: [
         FlutterMap(
+          mapController: mapController,
           options: const MapOptions(
             initialCenter: LatLng(13.825605, 100.514476),
             initialZoom: 15,
@@ -48,7 +52,14 @@ class MapRestroomRover extends StatelessWidget {
                 markers: markers,
                 popupDisplayOptions: PopupDisplayOptions(
                     builder: (BuildContext context, Marker marker) {
-                  return Cardpin(marker: marker, restroomData: restroomData);
+                  Map<String, dynamic> data = restroomData
+                      .filter((restroom) =>
+                          restroom["latitude"].toDouble() ==
+                              marker.point.latitude &&
+                          restroom["longitude"].toDouble() ==
+                              marker.point.longitude)
+                      .single;
+                  return Cardpin(marker: marker, restroomData: data);
                 }),
               ),
             ),

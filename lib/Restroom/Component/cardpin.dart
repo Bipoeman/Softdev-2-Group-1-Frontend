@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 class Cardpin extends StatefulWidget {
   const Cardpin({super.key, required this.marker, required this.restroomData});
   final Marker marker;
-  final List<dynamic> restroomData;
+  final Map<String, dynamic> restroomData;
 
   @override
   State<Cardpin> createState() => _CardpinState();
@@ -47,7 +47,7 @@ class _CardpinState extends State<Cardpin> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "Bally",
+                    widget.restroomData["name"],
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 27 * zoomFactor,
@@ -69,7 +69,7 @@ class _CardpinState extends State<Cardpin> {
               bottom: size.height * 0.01,
               right: size.width * 0.1,
             ),
-            child: Text("97/2 บางซ่อน",
+            child: Text(widget.restroomData["address"],
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20 * zoomFactor,
@@ -85,7 +85,9 @@ class _CardpinState extends State<Cardpin> {
                   left: size.width * 0.1,
                   top: size.height * 0.01,
                 ),
-                child: Text("5.0",
+                child: Text(
+                    widget.restroomData["avg_star"]?.toStringAsFixed(1) ??
+                        "0.0",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 17 * zoomFactor,
@@ -102,7 +104,7 @@ class _CardpinState extends State<Cardpin> {
                   right: size.width * 0.01,
                 ),
                 child: FlutterRating(
-                  rating: 3.5,
+                  rating: widget.restroomData["avg_star"]?.toDouble() ?? 0.0,
                   size: size.height * 0.03,
                   mainAxisAlignment: MainAxisAlignment.center,
                 ),
@@ -115,7 +117,7 @@ class _CardpinState extends State<Cardpin> {
                   left: size.width * 0.01,
                   top: size.height * 0.01,
                 ),
-                child: Text("[ 9 ]",
+                child: Text("[ ${widget.restroomData["count"] ?? 0} ]",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 17 * zoomFactor,
@@ -133,7 +135,7 @@ class _CardpinState extends State<Cardpin> {
                 bottom: size.height * 0.01,
                 right: size.width * 0.1,
               ),
-              child: Image.network(
+              child: Image.network(widget.restroomData["picture"] ??
                   "https://i.pinimg.com/564x/97/15/0f/97150f3cc7e93677495133ffe6ea77c3.jpg")),
           Container(
               height: size.height * 0.1,

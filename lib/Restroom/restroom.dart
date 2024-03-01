@@ -1,7 +1,9 @@
 import "dart:convert";
 import "dart:developer";
+import "package:bottom_bar_matu/utils/app_utils.dart";
 import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
+import "package:get/get.dart";
 import "package:latlong2/latlong.dart";
 import "package:ruam_mitt/Restroom/Component/Navbar.dart";
 import 'package:ruam_mitt/Restroom/Component/map.dart';
@@ -25,7 +27,7 @@ class _RestroomRoverState extends State<RestroomRover> {
   FocusNode focusNode = FocusNode();
   LatLng? centerMark;
   Future<http.Response> getRestroomInfo() async {
-    debugPrint("Getting");
+    debugPrint("Getting Info");
     Uri url = Uri.parse("$api$restroomRoverGetRestroomRoute");
     http.Response res = await http.get(
       url,
@@ -33,39 +35,49 @@ class _RestroomRoverState extends State<RestroomRover> {
         "Authorization": publicToken,
       },
     );
-    debugPrint(res.body);
     return res;
   }
 
-  void searchRestroomListener() {
-    debugPrint(
-        "Sonething changed in search field ${searchRestroomController.text}");
-    // debugPrint();
-
-    setState(() {});
+  Future<http.Response> getRestroomReview() async {
+    debugPrint("Getting Review");
+    Uri url = Uri.parse("$api$restroomRoverGetReviewRoute");
+    http.Response res = await http.get(
+      url,
+      headers: {
+        "Authorization": publicToken,
+      },
+    );
+    return res;
   }
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
     debugPrint("Init Restroom Page");
-    getRestroomInfo().then((response) {
-      // debugPrint("Response");
-      // debugPrint(response.body);
-      restroomData = jsonDecode(response.body);
-      Future.delayed(const Duration(milliseconds: 500))
-          .then((value) => setState(() {}));
-      searchRestroomController.addListener(searchRestroomListener);
-      // debugPrint(binData);
+    Future.wait([getRestroomInfo(), getRestroomReview()]).then((res) {
+      var decoded = res
+          .map<List<dynamic>>((response) => jsonDecode(response.body))
+          .toList();
+
+      // Combine datas
+      restroomData = decoded[0].map((info) {
+        var founded = decoded[1].singleWhere(
+            (review) => review["id"] == info["id"],
+            orElse: () => null);
+        if (founded != null) {
+          info.addEntries(founded.entries);
+        }
+        return info;
+      }).toList();
+
+      print(restroomData);
+      setState(() {});
     });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // ThemeProvider themes = Provider.of<ThemeProvider>(context);
-    // ThemeData pinTheBinTheme = themes.themeFrom("PinTheBin")!.themeData;
     return Theme(
       data: RestroomThemeData,
       child: Builder(builder: (context) {
@@ -75,45 +87,25 @@ class _RestroomRoverState extends State<RestroomRover> {
             children: [
               Stack(
                 children: [
-                  MapRestroomRover(restroomData: restroomData),
-                  Container(
-                    margin: const EdgeInsets.only(top: 100),
-                    child: Center(
-                        // child: binData.isEmpty
-                        //     ? Column(
-                        //         mainAxisAlignment: MainAxisAlignment.center,
-                        //         children: [
-                        //           const CircularProgressIndicator(),
-                        //           SizedBox(height: size.height * 0.01),
-                        //           const Text("Bin map loading...")
-                        //         ],
-                        //       )
-                        //     : MapPinTheBin(
-                        //         mapController: mapController,
-                        //         binInfo: binData,
-                        //         centerMark: centerMark,
-                        //       ),
-                        ),
-                  ),
+                  MapRestroomRover(
+                      restroomData: restroomData, mapController: mapController),
                   RestroomAppBar(scaffoldKey: _scaffoldKey),
                 ],
               ),
               RestroomRoverSearchBar(
                 size: size,
                 searchAnchorController: searchRestroomController,
-                binDataList: restroomData,
+                restroomDataList: restroomData,
                 focusNode: focusNode,
                 parentKey: widget.key,
                 onSelected: (selectedValue) {
                   // print("Selected $selectedValue");
-                  restroomData.forEach((eachBin) {
-                    if (eachBin['location'] == selectedValue) {
-                      print("Pin the bin");
-
+                  restroomData.forEach((eachRestroom) {
+                    if (eachRestroom['name'] == selectedValue) {
                       setState(() {
                         focusNode.unfocus();
-                        centerMark =
-                            LatLng(eachBin['latitude'], eachBin['longitude']);
+                        centerMark = LatLng(eachRestroom['latitude'],
+                            eachRestroom['longitude']);
                         mapController.move(centerMark!, 15);
                       });
                     }
@@ -123,7 +115,7 @@ class _RestroomRoverState extends State<RestroomRover> {
             ],
           ),
           drawerScrimColor: Colors.transparent,
-          drawer: RestroomRoverNavbar(),
+          drawer: const RestroomRoverNavbar(),
         );
       }),
     );
@@ -135,7 +127,7 @@ class RestroomRoverSearchBar extends StatefulWidget {
     super.key,
     required this.size,
     required this.searchAnchorController,
-    required this.binDataList,
+    required this.restroomDataList,
     required this.focusNode,
     required this.onSelected,
     this.parentKey,
@@ -143,7 +135,7 @@ class RestroomRoverSearchBar extends StatefulWidget {
 
   final Size size;
   final SearchController searchAnchorController;
-  final List<dynamic> binDataList;
+  final List<dynamic> restroomDataList;
   final FocusNode focusNode;
   final Function(dynamic selectedValue) onSelected;
   final Key? parentKey;
@@ -159,7 +151,7 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 1))
-        .then((value) => tempBinData = widget.binDataList);
+        .then((value) => tempBinData = widget.restroomDataList);
   }
 
   @override
@@ -244,17 +236,17 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
             debugPrint("Suggestion query : ${suggestionController.text}");
             tempBinData = [];
             String queryText = suggestionController.text;
-            for (var i = 0; i < widget.binDataList.length; i++) {
-              if (widget.binDataList[i]['location'] != null) {
+            for (var i = 0; i < widget.restroomDataList.length; i++) {
+              if (widget.restroomDataList[i]['name'] != null) {
                 // print(tempBinData[i]['location'].contains(query));
-                if (widget.binDataList[i]['location']
+                if (widget.restroomDataList[i]['name']
                     .toLowerCase()
                     .contains(queryText.toLowerCase())) {
-                  tempBinData.add(widget.binDataList[i]);
+                  tempBinData.add(widget.restroomDataList[i]);
                   print(tempBinData);
                 } else if (queryText == "") {
                   debugPrint("Blank Query");
-                  tempBinData = widget.binDataList;
+                  tempBinData = widget.restroomDataList;
                 }
               }
             }
@@ -264,8 +256,7 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
                 return GestureDetector(
                   onTap: () {
                     widget.onSelected(suggestionController.text);
-                    suggestionController
-                        .closeView(tempBinData[index]['location']);
+                    suggestionController.closeView(tempBinData[index]['name']);
                   },
                   child: Container(
                     color: Theme.of(context).colorScheme.background,
@@ -280,10 +271,10 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                tempBinData[index]['location'],
+                                tempBinData[index]['name'],
                                 style: TextStyle(
                                     fontFamily:
-                                        tempBinData[index]['location'].contains(
+                                        tempBinData[index]['name'].contains(
                                       RegExp("[ก-๛]"),
                                     )
                                             ? "THSarabunPSK"
@@ -291,47 +282,44 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
                                                 .textTheme
                                                 .labelMedium!
                                                 .fontFamily,
-                                    fontSize: tempBinData[index]['description']
-                                            .contains(
+                                    fontSize:
+                                        tempBinData[index]['name'].contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                        ? 24
-                                        : 16,
-                                    fontWeight: tempBinData[index]
-                                                ['description']
-                                            .contains(
+                                            ? 24
+                                            : 16,
+                                    fontWeight:
+                                        tempBinData[index]['name'].contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                        ? FontWeight.w700
-                                        : FontWeight.normal),
+                                            ? FontWeight.w700
+                                            : FontWeight.normal),
                               ),
                               Text(
-                                tempBinData[index]['description'],
+                                tempBinData[index]['address'],
                                 style: TextStyle(
-                                    fontFamily: tempBinData[index]
-                                                ['description']
-                                            .contains(
+                                    fontFamily:
+                                        tempBinData[index]['address'].contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                        ? "THSarabunPSK"
-                                        : Theme.of(context)
-                                            .textTheme
-                                            .labelMedium!
-                                            .fontFamily,
-                                    fontSize: tempBinData[index]['description']
-                                            .contains(
+                                            ? "THSarabunPSK"
+                                            : Theme.of(context)
+                                                .textTheme
+                                                .labelMedium!
+                                                .fontFamily,
+                                    fontSize:
+                                        tempBinData[index]['address'].contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                        ? 22
-                                        : 16,
+                                            ? 22
+                                            : 16,
                                     color: Colors.black.withOpacity(0.6),
-                                    fontWeight: tempBinData[index]
-                                                ['description']
-                                            .contains(
+                                    fontWeight:
+                                        tempBinData[index]['address'].contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                        ? FontWeight.w700
-                                        : FontWeight.normal),
+                                            ? FontWeight.w700
+                                            : FontWeight.normal),
                               ),
                               Container(
                                 margin: const EdgeInsets.only(top: 5),
