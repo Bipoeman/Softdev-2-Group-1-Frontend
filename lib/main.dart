@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:ruam_mitt/PinTheBin/addbin.dart';
 import 'package:ruam_mitt/PinTheBin/addbinV2.dart';
 import 'package:ruam_mitt/PinTheBin/editbin.dart';
 import 'package:ruam_mitt/PinTheBin/mybin.dart';
@@ -17,6 +16,7 @@ import 'package:ruam_mitt/RuamMitr/edit_profile.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
+import 'package:ruam_mitt/TuachuayDekhor/admin.dart';
 import 'package:ruam_mitt/TuachuayDekhor/blogger.dart';
 import 'package:ruam_mitt/TuachuayDekhor/cleaning.dart';
 import 'package:ruam_mitt/TuachuayDekhor/cooking.dart';
@@ -121,6 +121,8 @@ class _SuperAppState extends State<SuperApp> {
           final id_post = ModalRoute.of(context)!.settings.arguments as int;
           return TuachuayDekhorReportPage(id_post: id_post);
         },
+        tuachuayDekhorPageRoute["admin"]!: (context) =>
+            const TuachuayDekhorAdminPage(),
 
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPageV2(),

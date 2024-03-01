@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:flutter/services.dart';
-import 'package:ruam_mitt/global_var.dart';
 import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:http/http.dart' as http;
@@ -14,7 +13,8 @@ class TuachuayDekhorBloggerProfilePage extends StatefulWidget {
   final String username;
   final String avatarUrl;
 
-  const TuachuayDekhorBloggerProfilePage({Key? key, required this.username,required this.avatarUrl})
+  const TuachuayDekhorBloggerProfilePage(
+      {Key? key, required this.username, required this.avatarUrl})
       : super(key: key);
 
   @override
@@ -131,7 +131,7 @@ class _TuachuayDekhorBloggerProfilePageState
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                      widget.avatarUrl,
+                                  widget.avatarUrl,
                                 ),
                               ),
                             ),

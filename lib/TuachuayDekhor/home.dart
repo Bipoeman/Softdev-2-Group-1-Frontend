@@ -8,6 +8,8 @@ import "package:ruam_mitt/global_const.dart";
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import "package:ruam_mitt/global_var.dart";
+
 class TuachuayDekhorHomePage extends StatefulWidget {
   const TuachuayDekhorHomePage({super.key});
 
@@ -191,44 +193,51 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                 ),
                               ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.only(left: 30),
-                                  alignment: Alignment.centerLeft,
-                                  child: const Text(
-                                    "Start sharing your experiences",
-                                    style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                            profileData['role'] == "User"
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(left: 30),
+                                        alignment: Alignment.centerLeft,
+                                        child: const Text(
+                                          "Start sharing your experiences",
+                                          style: TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
+                                        child: RawMaterialButton(
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context,
+                                                tuachuayDekhorPageRoute[
+                                                    "writeblog"]!);
+                                          },
+                                          fillColor: const Color.fromRGBO(
+                                              217, 192, 41, 1),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          textStyle: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10,
+                                          ),
+                                          child: const Text("GET START"),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox(
+                                    height: 10,
                                   ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(right: 10),
-                                  child: RawMaterialButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                          context,
-                                          tuachuayDekhorPageRoute[
-                                              "writeblog"]!);
-                                    },
-                                    fillColor:
-                                        const Color.fromRGBO(217, 192, 41, 1),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    textStyle: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 10,
-                                    ),
-                                    child: const Text("GET START"),
-                                  ),
-                                ),
-                              ],
-                            ),
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
