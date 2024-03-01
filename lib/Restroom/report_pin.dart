@@ -20,7 +20,7 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   TextEditingController _ReporttextController = TextEditingController();
-  int remainingCharacters = 80;
+  int remainingCharacters = 0;
   File? _image;
   @override
   Widget build(BuildContext context) {
@@ -29,25 +29,25 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
     Size size = MediaQuery.of(context).size;
 
     @override
-    void updateRemainingCharacters() {
-      setState(() {
-        remainingCharacters = _ReporttextController.text.length;
-      });
-    }
+  void updateRemainingCharacters() {
+    setState(() {
+      remainingCharacters = _ReporttextController.text.length;
+    });
+  }
 
-    void initState() {
-      // TODO: implement initState
-      super.initState();
-      print("init");
-      _ReporttextController.addListener(updateRemainingCharacters);
-    }
-    
-    @override
-    void dispose() {
-      _ReporttextController.removeListener(updateRemainingCharacters);
-      _ReporttextController.dispose();
-      super.dispose();
-    }
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("init");
+    _ReporttextController.addListener(updateRemainingCharacters);
+  }
+
+  @override
+  void dispose() {
+    _ReporttextController.removeListener(updateRemainingCharacters);
+    _ReporttextController.dispose();
+    super.dispose();
+  }
 
     Future<void> _getImage() async {
     final picker = ImagePicker();

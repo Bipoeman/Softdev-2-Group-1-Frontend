@@ -44,7 +44,7 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                           Text(profileData["username"],
                               style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)),
-                          const Text('Posting publicly'),
+                          
                         ],
                       ),
                     ],
@@ -141,38 +141,45 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.black,
-                          backgroundColor: Colors.amber,
-                          surfaceTintColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                            side: const BorderSide(color: Colors.grey),
+                       Padding(
+                         padding: const EdgeInsets.only(right: 25),
+                         child: ElevatedButton(
+                          onPressed: widget.cancelOnPressed,
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.grey[300],
+                            surfaceTintColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                              side: const BorderSide(color: Colors.grey),
+                            ),
+                          ),
+                          child: Text(
+                            "Cancel",
+                            style: Theme.of(context).textTheme.displayLarge,
+                          ),
+                                               ),
+                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25),
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.amber,
+                            surfaceTintColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                              side: const BorderSide(color: Colors.grey),
+                            ),
+                          ),
+                          child: Text(
+                            'Submit',
+                            style: Theme.of(context).textTheme.displayLarge,
                           ),
                         ),
-                        child: Text(
-                          'Submit',
-                          style: Theme.of(context).textTheme.displayLarge,
-                        ),
                       ),
-                      ElevatedButton(
-                        onPressed: widget.cancelOnPressed,
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.black,
-                          backgroundColor: Colors.grey[300],
-                          surfaceTintColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                            side: const BorderSide(color: Colors.grey),
-                          ),
-                        ),
-                        child: Text(
-                          "Cancel",
-                          style: Theme.of(context).textTheme.displayLarge,
-                        ),
-                      ),
+                     
                     ],
                   ),
                 ],
