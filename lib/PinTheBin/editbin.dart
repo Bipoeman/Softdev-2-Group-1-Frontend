@@ -20,19 +20,12 @@ class EditbinPage extends StatefulWidget {
 class _EditbinPageState extends State<EditbinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _LocationstextController = TextEditingController();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
     _LocationstextController =
         TextEditingController(text: arguments['Bininfo']['location']);
     print(arguments['Bininfo']);
