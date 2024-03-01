@@ -412,7 +412,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   ],
                                 ),
                                 child: Text(
-                                  'CANCLE',
+                                  'CANCEL',
                                   style: GoogleFonts.getFont(
                                     "Sen",
                                     color: const Color.fromARGB(
