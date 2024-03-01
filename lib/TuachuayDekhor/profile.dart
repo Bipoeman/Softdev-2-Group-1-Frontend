@@ -149,7 +149,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     profileData['fullname'] ?? '',
                                     style: const TextStyle(
                                       fontSize: 25,
-                                      fontWeight: FontWeight.w400,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
@@ -163,7 +163,11 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                 right: size.width * 0.1,
                                 bottom: size.width * 0.05,
                                 top: size.width * 0.005),
-                            child: Text(profileData['description'] ?? ''),
+                            child: Text(
+                              profileData['description'] ?? '',
+                              style:
+                                  const TextStyle(fontSize: 14,fontWeight: FontWeight.w400),
+                            ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(

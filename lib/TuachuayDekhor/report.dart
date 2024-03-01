@@ -28,7 +28,7 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
   }
 
   Future<void> reportblog() async {
-    var response = await http.post(reporturl, headers: {
+    await http.post(reporturl, headers: {
       "Authorization": "Bearer $publicToken"
     }, body: {
       "title": titleController.text,
