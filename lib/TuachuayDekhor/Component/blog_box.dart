@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 class BlogBox extends StatelessWidget {
   const BlogBox({
@@ -19,6 +20,8 @@ class BlogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -26,7 +29,7 @@ class BlogBox extends StatelessWidget {
           BoxShadow(
             blurRadius: 5,
             blurStyle: BlurStyle.normal,
-            color: const Color.fromRGBO(0, 48, 73, 1).withOpacity(0.2),
+            color: customColors["main"]!.withOpacity(0.2),
             spreadRadius: 0.05,
             offset: const Offset(4, 4),
           )
@@ -37,7 +40,7 @@ class BlogBox extends StatelessWidget {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
-        fillColor: Colors.white,
+        fillColor: customColors["background"]!,
         constraints: const BoxConstraints(),
         onPressed: onPressed,
         child: Column(
@@ -61,9 +64,9 @@ class BlogBox extends StatelessWidget {
                 right: 5,
               ),
               height: 35,
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(0, 48, 73, 1),
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: customColors["main"]!,
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
@@ -81,21 +84,24 @@ class BlogBox extends StatelessWidget {
                         child: Text(
                           title,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
+                          style: TextStyle(
+                            color: customColors["onMain"]!,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 232, 232, 232),
+                          color: customColors["container"]!,
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(left: 2, right: 5),
                           child: Text(
                             '#$category',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 8,
+                              color: customColors["onContainer"]!,
                             ),
                           ),
                         ),
@@ -110,8 +116,10 @@ class BlogBox extends StatelessWidget {
                         child: Text(
                           name,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 10),
+                          style: TextStyle(
+                            color: customColors["onMain"]!,
+                            fontSize: 10,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -122,9 +130,9 @@ class BlogBox extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.bookmark_border_rounded,
-                              color: Colors.white,
+                              color: customColors["onMain"]!,
                               size: 11,
                             ),
                             SizedBox(
@@ -135,8 +143,7 @@ class BlogBox extends StatelessWidget {
                               child: Text(
                                 like,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 10),
+                                style: TextStyle(color: customColors["onMain"]!, fontSize: 10),
                               ),
                             ),
                           ],

@@ -178,7 +178,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
       ),
       customColors: {
         "main": Colors.white,
-        "onMain": Colors.white,
+        "onMain": const Color.fromRGBO(0, 48, 73, 1),
         "container": const Color.fromRGBO(77, 77, 77, 1),
         "onContainer": Colors.white,
         "textInputContainer": const Color.fromRGBO(84, 84, 84, 1),
