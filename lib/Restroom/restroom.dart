@@ -1,9 +1,7 @@
 import "dart:convert";
 import "dart:developer";
-import "package:bottom_bar_matu/utils/app_utils.dart";
 import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
-import "package:get/get.dart";
 import "package:latlong2/latlong.dart";
 import "package:ruam_mitt/Restroom/Component/Navbar.dart";
 import 'package:ruam_mitt/Restroom/Component/map.dart';
@@ -71,7 +69,19 @@ class _RestroomRoverState extends State<RestroomRover> {
 
       print(restroomData);
       setState(() {});
+    }).onError((error, stackTrace) {
+      ThemeData theme = Theme.of(context);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Failed to fetch data",
+          style: TextStyle(
+            color: theme.colorScheme.onPrimary,
+          ),
+        ),
+        backgroundColor: theme.colorScheme.primary,
+      ));
     });
+    ;
     super.initState();
   }
 

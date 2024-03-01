@@ -71,7 +71,9 @@ class _SuperAppState extends State<SuperApp> {
         // ruamMitrPageRoute["profile"]!: (context) => const ProfilePage(),
         ruamMitrPageRoute["edit-profile"]!: (context) => const EditProfile(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
-        restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
+        restroomPageRoute["review"]!: (context) => RestroomRoverReview(
+            restroomData: ModalRoute.of(context)!.settings.arguments
+                as Map<String, dynamic>),
         restroomPageRoute["findposition"]!: (context) =>
             const RestroomRoverFindPosition(),
         restroomPageRoute["addrestroom"]!: (context) =>
