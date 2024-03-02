@@ -10,7 +10,7 @@ class Settings extends StatefulWidget {
   final double sfxVolume;
 
   const Settings({
-    Key? key, // Added key parameter
+    super.key,
     this.onBackPressed,
     this.onMasterVolumeChanged,
     this.onBgmVolumeChanged,
@@ -18,7 +18,7 @@ class Settings extends StatefulWidget {
     required this.masterVolume,
     required this.bgmVolume,
     required this.sfxVolume,
-  }) : super(key: key);
+  });
 
   static const id = 'Settings';
 
