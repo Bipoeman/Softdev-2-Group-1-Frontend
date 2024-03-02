@@ -48,7 +48,7 @@ class GameRoutes extends FlameGame
         onBgmVolumeChanged: onBgmVolumeChanged,
         onMasterVolumeChanged: onMasterVolumeChanged,
         onSfxVolumeChanged: onSfxVolumeChanged,
-        onBackPressed: _popRoute,
+        onBackPressed: _exitToMainMenu,
         masterVolume: masterVolume,
         bgmVolume: bgmVolume,
         sfxVolume: sfxVolume,
@@ -65,7 +65,6 @@ class GameRoutes extends FlameGame
       (context, game) => PauseMenu(
         onResumePressed: _resumeGame,
         onRetryPressed: _restartLevel,
-        onSettingPressed: () => _routeById(Settings.id),
         onExitPressed: _exitToMainMenu,
       ),
     ),
