@@ -10,6 +10,7 @@ import 'package:ruam_mitt/Dinodengzz/Screens/levelselect.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/pause.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/setting.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/start.dart';
+import 'package:ruam_mitt/Dinodengzz/Screens/tutorial.dart';
 import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 
 class GameRoutes extends FlameGame
@@ -58,6 +59,7 @@ class GameRoutes extends FlameGame
               levelNames: levelNames,
               onLevelSelected: _startLevel,
               onBackPressed: _popRoute,
+              onTutorialPressed: () => _routeById(TutorialScreen.id),
             )),
     PauseMenu.id: OverlayRoute(
       (context, game) => PauseMenu(
@@ -79,6 +81,12 @@ class GameRoutes extends FlameGame
         },
       ),
     ),
+    TutorialScreen.id: OverlayRoute(
+      (context, game) => TutorialScreen(
+        onExit: _popRoute,
+        onPlay: () => _startLevel(1),
+      ),
+    )
   };
 
   late final _routeFactories = <String, Route Function(String)>{
