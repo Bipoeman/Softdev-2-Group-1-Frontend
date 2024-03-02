@@ -27,7 +27,6 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   TextEditingController _nameTextController = TextEditingController();
   TextEditingController _addressTextController = TextEditingController();
   File? _image;
-  int _nameLength = 0;
   String _type = restroomTypes.first;
 
   final Map<String, bool> _forwho = {
@@ -98,7 +97,6 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
       _forwho["Kid"] = widget.restroomData["for_who"]["Kid"];
       _forwho["Handicapped"] = widget.restroomData["for_who"]["Handicapped"];
       _type = widget.restroomData["type"];
-      _nameLength = _nameTextController.text.length;
     });
   }
 
@@ -180,35 +178,23 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                           SizedBox(
                             width: size.width * 0.05,
                           ),
-                          Container(
-                            alignment: Alignment.topRight,
-                            child: ClayContainer(
-                                width: size.width * 0.65,
-                                height: size.height * 0.032,
-                                color: const Color.fromRGBO(239, 239, 239, 1),
-                                borderRadius: 30,
-                                depth: -20,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 5, top: 7, right: 5),
-                                  child: TextField(
-                                    maxLength: 15,
-                                    controller: _nameTextController,
-                                    onChanged: (text) {
-                                      setState(() {
-                                        _nameLength = text.length;
-                                      });
-                                      debugPrint('Typed text: $text');
-                                    },
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      suffixText:
-                                          '${_nameLength.toString()}/15',
-                                      counterText: "",
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
-                                )),
+                          ClayContainer(
+                            width: size.width * 0.65,
+                            height: size.height * 0.06,
+                            color: const Color.fromRGBO(239, 239, 239, 1),
+                            borderRadius: 30,
+                            depth: -20,
+                            child: TextField(
+                              controller: _nameTextController,
+                              onChanged: (text) {
+                                debugPrint('Typed text: $text');
+                              },
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.only(
+                                    left: 5, right: 5, bottom: 5),
+                                border: InputBorder.none,
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -229,7 +215,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                             alignment: Alignment.topRight,
                             child: ClayContainer(
                                 width: size.width * 0.65,
-                                height: size.height * 0.032,
+                                height: size.height * 0.06,
                                 color: const Color.fromRGBO(239, 239, 239, 1),
                                 borderRadius: 30,
                                 depth: -20,
@@ -326,7 +312,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                           SizedBox(height: size.height * 0.015),
                           ClayContainer(
                               width: size.width * 0.8,
-                              height: size.height * 0.15,
+                              height: size.height * 0.12,
                               color: const Color.fromRGBO(239, 239, 239, 1),
                               borderRadius: 30,
                               depth: -20,
@@ -334,7 +320,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                 padding: const EdgeInsets.only(left: 5),
                                 child: TextField(
                                   maxLength: 80,
-                                  maxLines: 3,
+                                  maxLines: 2,
                                   controller: _addressTextController,
                                   onChanged: (text) {
                                     debugPrint('Typed text: $text');
