@@ -138,7 +138,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                       child: Container(
                         padding: EdgeInsets.only(left: 40),
                         child: Text(
-                          'Description',
+                          'Report',
                           style: Theme.of(context).textTheme.displayMedium,
                         ),
                       ),
@@ -166,7 +166,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(
                                     left: 16, right: 16, top: 20),
-                                hintText: 'Write a description...',
+                                hintText: 'Write a report...',
                               ),
                             ),
                             Positioned(

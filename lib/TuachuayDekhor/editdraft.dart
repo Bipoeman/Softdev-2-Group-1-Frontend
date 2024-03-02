@@ -497,7 +497,10 @@ class _TuachuayDekhorEditDraftPageState
                                       onPressed: () {
                                         deletedraft();
                                         print("Delete draft tapped");
-                                        Navigator.pop(context);
+                                        Navigator.pushNamed(
+                                                context,
+                                                tuachuayDekhorPageRoute[
+                                                    "draft"]!);
                                       },
                                       fillColor: Colors.red[900],
                                       shape: RoundedRectangleBorder(
@@ -523,7 +526,6 @@ class _TuachuayDekhorEditDraftPageState
                                           drafttopostblog();
                                         }
                                         deletedraft();
-                                        print("Post tapped");
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext context) {

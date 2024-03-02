@@ -146,52 +146,12 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                            top: size.height * 0.01, right: size.width * 0.1),
+                             right: size.width * 0.1),
                         child: Column(
                           children: [
-                            ClayContainer(
-                              width: size.width * 0.6,
-                              height: size.height * 0.03,
-                              color: Color(0xFFEBEBEB),
-                              borderRadius: 30,
-                              depth: -20,
-                              child: Padding(
-                                padding:
-                                    EdgeInsets.only(left: size.width * 0.02),
-                                child: Text(
-                                  "Latitude : ${widget.restroomData["latitude"]}",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color.fromRGBO(0, 30, 49, 67),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            
                             Padding(
-                              padding: EdgeInsets.only(top: size.height * 0.02),
-                            ),
-                            ClayContainer(
-                              width: size.width * 0.6,
-                              height: size.height * 0.03,
-                              color: Color(0xFFEBEBEB),
-                              borderRadius: 30,
-                              depth: -20,
-                              child: Padding(
-                                padding:
-                                    EdgeInsets.only(left: size.width * 0.02),
-                                child: Text(
-                                  "Longitude : ${widget.restroomData["longitude"]}",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color.fromRGBO(0, 30, 49, 67),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: size.height * 0.02),
+                              padding: EdgeInsets.only(top: size.height * 0.01),
                             ),
                             ClipRRect(
                               borderRadius: BorderRadius.circular(15),

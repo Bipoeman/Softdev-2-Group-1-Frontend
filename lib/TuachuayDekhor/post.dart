@@ -53,7 +53,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     deleteposturl = Uri.parse("$api$dekhorDeletePostRoute/$id_post");
     posttoprofile();
     _loadDetail();
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(Duration(seconds: 1), () {
       setState(() {
         showcomment();
       });
@@ -450,8 +450,13 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                               context,
                                                               tuachuayDekhorPageRoute[
                                                                   "report"]!,
-                                                              arguments:
-                                                                  id_post);
+                                                              arguments: {
+                                                                'id_post':
+                                                                    id_post,
+                                                                'id_blogger':
+                                                                    detailpost[0]
+                                                                        ['id_user'],
+                                                              });
                                                           print(
                                                               "report the blog");
                                                         });

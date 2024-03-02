@@ -481,13 +481,13 @@ class _HomePageV2State extends State<HomePageV2> {
               width: size.width * 0.2,
               height: size.width * 0.2 * 0.5,
               decoration: BoxDecoration(
-                color: theme.colorScheme.primary,
+                // color: theme.colorScheme.primary,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Center(
+              child: Center(
                   child: Text("No",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: theme.colorScheme.onPrimaryContainer,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       )))),
@@ -497,19 +497,23 @@ class _HomePageV2State extends State<HomePageV2> {
         ),
         InkWell(
           child: Ink(
-              width: size.width * 0.2,
-              height: size.width * 0.2 * 0.8,
-              decoration: BoxDecoration(
-                // color: theme.colorScheme.primary,
-                borderRadius: BorderRadius.circular(10),
+            width: size.width * 0.2,
+            height: size.width * 0.2 * 0.8,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: Text(
+                "Yes",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              child: Center(
-                  child: Text("Yes",
-                      style: TextStyle(
-                        color: theme.colorScheme.onBackground,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      )))),
+            ),
+          ),
           onTap: () {
             onAnswer(true);
           },

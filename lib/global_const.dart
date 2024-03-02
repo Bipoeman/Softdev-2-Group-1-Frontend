@@ -10,6 +10,9 @@ const String registerPageRoute = "/register";
 const String userDataUpdateRoute = "/user";
 const String userImageUpdateRoute = "/user/upload";
 const String userDataRequestRoute = "/user/id";
+const String userPasswordChangeOTPRoute = "/user/otp";
+const String userPasswordChangeRoute = "/user/changepassword";
+const String userPasswordResetRoute = "/user/reset";
 const String refreshTokenRoute = "/user/refresh";
 const String pinTheBinGetBinRoute = "/pinthebin/bin";
 const String dekhorPosttoprofileRoute = "/dekhor/posttoprofile";
@@ -43,6 +46,10 @@ const String dekhorReportRoute = "/dekhor/report";
 const String dekhorUpdatePicRoute = "/dekhor/updatepicture";
 const String dekhorUpdatePicDraftRoute = "/dekhor/updatepic";
 const String dekhorDrafttoPostBlogRoute = "/dekhor/drafttopostblog";
+const String dekhorShowReportRoute = "/dekhor/showreport";
+const String dekhorDeleteReportRoute = "/dekhor/deletereport";
+const String dekhorDetailReportRoute = "/dekhor/detailreport";
+const String dekhorDescriptionRoute = "/dekhor/bloggerdescription";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
 const String restroomRoverGetRestroomRoute = "/restroom";
@@ -58,6 +65,7 @@ const Map<String, String> ruamMitrPageRoute = {
   "homev2": "/RuamMitr/homev2",
   "profile": "/RuamMitr/profile",
   "edit-profile": "/RuamMitr/profile/edit",
+  "password-change": "/RuamMitr/password",
   "settings": "/RuamMitr/settings",
   "restroom": "/RuamMitr/restroom",
 };
@@ -89,6 +97,8 @@ const Map<String, String> tuachuayDekhorPageRoute = {
   "cooking": "/TuachuayDekhor/cooking",
   "cleaning": "/TuachuayDekhor/cleaning",
   "report": "/TuachuayDekhor/report",
+  "admin": "/TuachuayDekhor/admin",
+  "detailreport": "/TuachuayDekhor/detailreport",
 };
 const Map<String, String> pinthebinPageRoute = {
   "home": "/PinTheBin/home",
