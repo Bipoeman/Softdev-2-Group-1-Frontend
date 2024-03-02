@@ -31,8 +31,6 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
   File? _image;
   String _type = restroomTypes.first;
   LatLng? _position;
-  bool isPressedHandicapped = false;
-  bool isPressedKid = false;
 
   final Map<String, bool> _forwho = {
     'Kid': false,
@@ -47,23 +45,31 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
           content: Text("Please fill in all the required fields"),
         ),
       );
-      return;
+      return Future.error("Please fill in all the required fields");
     }
     final url = Uri.parse("$api$restroomRoverRestroomRoute");
-    var response = await http.post(url, headers: {
-      "Authorization": "Bearer $publicToken",
-    }, body: {
-      "name": _nameTextController.text,
-      "type": _type,
-      "address": _addressTextController.text,
-      "for_who": jsonEncode(_forwho),
-      "latitude": _position!.latitude.toString(),
-      "longitude": _position!.longitude.toString(),
-    }).timeout(Durations.extralong4);
+    debugPrint(_forwho.toString());
+    var response = await http
+        .post(url, headers: {
+          "Authorization": "Bearer $publicToken",
+        }, body: {
+          "name": _nameTextController.text,
+          "type": _type,
+          "address": _addressTextController.text,
+          "for_who": jsonEncode(_forwho),
+          "latitude": _position!.latitude.toString(),
+          "longitude": _position!.longitude.toString(),
+        })
+        .timeout(Durations.extralong4)
+        .onError((error, stackTrace) {
+          return Future.error(error ?? {}, stackTrace);
+        });
     debugPrint("Response: ${response.body}");
     int id = jsonDecode(response.body)['id'];
     if (_image != null) {
-      await _updatePicture(id.toString(), _image);
+      await _updatePicture(id.toString(), _image).onError((error, stackTrace) {
+        return Future.error(error ?? {}, stackTrace);
+      });
     }
   }
 
@@ -127,15 +133,15 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    Offset distanceWarning = isPressedKid
+    Offset distanceWarning = _forwho["Kid"]!
         ? const Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
-    double blurWarning = isPressedKid ? 5.0 : 5;
+    double blurWarning = _forwho["Kid"]! ? 5.0 : 5;
 
-    Offset distanceRecycling = isPressedHandicapped
+    Offset distanceRecycling = _forwho["Handicapped"]!
         ? const Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
-    double blurRecycling = isPressedHandicapped ? 5.0 : 5;
+    double blurRecycling = _forwho["Handicapped"]! ? 5.0 : 5;
 
     return Theme(
       data: RestroomThemeData,
@@ -506,14 +512,12 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                 onTap: () {
                                   setState(() {
                                     _forwho['Kid'] = !_forwho['Kid']!;
-                                    isPressedKid = _forwho['Kid']!;
                                   });
                                   debugPrint(_forwho['Kid'].toString());
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
                                   height: size.height * 0.1,
-                                  //color: Colors.black,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     color: const Color.fromARGB(9, 0, 47, 73),
@@ -522,32 +526,23 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                         blurRadius: blurWarning,
                                         offset: distanceWarning,
                                         color: const Color(0xFFA7A9AF),
-                                        inset: isPressedKid,
+                                        inset: _forwho["Kid"]!,
                                       ),
                                       BoxShadow(
                                         blurRadius: blurWarning,
                                         offset: -distanceWarning,
                                         color: const Color.fromARGB(
                                             255, 255, 255, 255),
-                                        inset: isPressedKid,
+                                        inset: _forwho["Kid"]!,
                                       ),
                                     ],
                                   ),
-                                  // child: Align(
-                                  //   alignment: Alignment.center,
-                                  //   child: Image.asset(
-                                  //     "assets/images/PinTheBin/warning.png",
-                                  //     width: size.width * 0.1,
-                                  //     height: size.height * 0.1,
-                                  //   ),
-                                  // ),
                                   child: const Icon(Icons.baby_changing_station,
                                       size: 50),
                                 ),
                               ),
                             ),
                             Container(
-                              // padding: EdgeInsets.only(left: 38),
                               margin: EdgeInsets.only(
                                   top: size.height * 0.01,
                                   left: size.width * 0.1),
@@ -574,26 +569,12 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                   setState(() {
                                     _forwho['Handicapped'] =
                                         !_forwho['Handicapped']!;
-                                    isPressedHandicapped =
-                                        _forwho['Handicapped']!;
                                   });
                                   debugPrint(_forwho['Handicapped'].toString());
                                 },
-                                // onDoubleTap: () {
-                                //   setState(() => isPressedRecycling = false);
-                                //   if (_bintype['yellowbin'] == true) {
-                                //     setState(() {
-                                //       _bintype['yellowbin'] = false;
-                                //     });
-                                //     debugPrint(_bintype['yellowbin']);
-                                //   } else {
-                                //     _bintype['yellowbin'] = true;
-                                //   }
-                                // },
                                 child: Container(
                                   width: size.width * 0.2,
                                   height: size.height * 0.1,
-                                  //color: Colors.black,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     color: const Color.fromARGB(9, 0, 47, 73),
@@ -602,24 +583,19 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                         blurRadius: blurRecycling,
                                         offset: distanceRecycling,
                                         color: const Color(0xFFA7A9AF),
-                                        inset: isPressedHandicapped,
+                                        inset: _forwho["Handicapped"]!,
                                       ),
                                       BoxShadow(
                                         blurRadius: blurRecycling,
                                         offset: -distanceRecycling,
                                         color: const Color.fromARGB(
                                             255, 255, 255, 255),
-                                        inset: isPressedHandicapped,
+                                        inset: _forwho["Handicapped"]!,
                                       ),
                                     ],
                                   ),
                                   child: const Align(
                                     alignment: Alignment.center,
-                                    // child: Image.asset(
-                                    //   "assets/images/PinTheBin/recycling-symbol-2.png",
-                                    //   width: size.width * 0.1,
-                                    //   height: size.height * 0.1,
-                                    // ),
                                     child:
                                         Icon(Icons.accessible_sharp, size: 50),
                                   ),
@@ -630,7 +606,6 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                               margin: EdgeInsets.only(
                                   top: size.height * 0.01,
                                   right: size.width * 0.05),
-                              //padding: EdgeInsets.only(left: 0),
                               child: Text(
                                 'Handicapped',
                                 style:
