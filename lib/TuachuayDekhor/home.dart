@@ -15,8 +15,10 @@ class TuachuayDekhorHomePage extends StatefulWidget {
   State<TuachuayDekhorHomePage> createState() => _TuachuayDekhorHomePageState();
 }
 
-Widget nodeCatagories(
-    BuildContext context, String title, String page, String number) {
+Widget nodeCatagories(BuildContext context, String title, String page, String number) {
+  CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+  Map<String, Color> customColors = theme.customColors;
+
   return IntrinsicHeight(
     child: IntrinsicWidth(
       child: RawMaterialButton(
@@ -36,17 +38,17 @@ Widget nodeCatagories(
                 height: 55,
                 width: 55,
                 fit: BoxFit.cover,
-                image: AssetImage(
-                    "assets/images/Icon/TuachuayDekhor_Catagories_$number.png"),
+                image: AssetImage("assets/images/Icon/TuachuayDekhor_Catagories_$number.png"),
               ),
               const SizedBox(
                 height: 5,
               ),
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 13,
+                  color: customColors["onContainer"],
                 ),
               ),
             ],
@@ -101,18 +103,20 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"],
       body: SafeArea(
         child: Stack(
           children: [
             RefreshIndicator(
               displacement: 100,
-              color: const Color.fromRGBO(0, 48, 73, 1),
+              color: customColors["main"],
               onRefresh: randompost,
               child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics()),
+                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                       minHeight: size.height -
@@ -125,8 +129,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                         decoration: const BoxDecoration(
                           image: DecorationImage(
                             opacity: 0.3,
-                            image: AssetImage(
-                                "assets/images/Background/TuachuayDekhor_Home.jpg"),
+                            image: AssetImage("assets/images/Background/TuachuayDekhor_Home.jpg"),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -141,13 +144,15 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                   margin: const EdgeInsets.only(right: 10),
                                   width: 10,
                                   height: 20,
-                                  color: const Color.fromRGBO(0, 48, 73, 1),
+                                  color: customColors["main"],
                                 ),
-                                const Text(
+                                Text(
                                   "Catagories",
                                   style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: customColors["main"],
+                                  ),
                                 ),
                               ],
                             ),
@@ -156,14 +161,10 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  nodeCatagories(
-                                      context, "Decoration", "decoration", "1"),
-                                  nodeCatagories(
-                                      context, "Cleaning", "cleaning", "2"),
-                                  nodeCatagories(
-                                      context, "Cooking", "cooking", "3"),
-                                  nodeCatagories(
-                                      context, "Story", "story", "4"),
+                                  nodeCatagories(context, "Decoration", "decoration", "1"),
+                                  nodeCatagories(context, "Cleaning", "cleaning", "2"),
+                                  nodeCatagories(context, "Cooking", "cooking", "3"),
+                                  nodeCatagories(context, "Story", "story", "4"),
                                 ],
                               ),
                             ),
@@ -180,13 +181,15 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                   margin: const EdgeInsets.only(right: 10),
                                   width: 10,
                                   height: 20,
-                                  color: const Color.fromRGBO(0, 48, 73, 1),
+                                  color: customColors["main"],
                                 ),
-                                const Text(
+                                Text(
                                   "Blogger",
                                   style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: customColors["main"],
+                                  ),
                                 ),
                               ],
                             ),
@@ -196,11 +199,13 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                 Container(
                                   margin: const EdgeInsets.only(left: 30),
                                   alignment: Alignment.centerLeft,
-                                  child: const Text(
+                                  child: Text(
                                     "Start sharing your experiences",
                                     style: TextStyle(
                                       fontStyle: FontStyle.italic,
                                       fontWeight: FontWeight.w300,
+                                      color: customColors["label"],
+                                      fontSize: 25,
                                     ),
                                   ),
                                 ),
@@ -209,12 +214,11 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                   child: RawMaterialButton(
                                     onPressed: () {
                                       Navigator.pushNamed(
-                                          context,
-                                          tuachuayDekhorPageRoute[
-                                              "writeblog"]!);
+                                        context,
+                                        tuachuayDekhorPageRoute["writeblog"]!,
+                                      );
                                     },
-                                    fillColor:
-                                        const Color.fromRGBO(217, 192, 41, 1),
+                                    fillColor: const Color.fromRGBO(217, 192, 41, 1),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
                                     ),
@@ -235,8 +239,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                   ...List.generate(
                                     blogger.length,
                                     (index) => TuachuayDekhorAvatarViewer(
-                                      username: blogger[index]['user']
-                                          ['fullname'],
+                                      username: blogger[index]['user']['fullname'],
                                       avatarUrl:
                                           "https://api.multiavatar.com/${(blogger[index]['user']['fullname']).replaceAll(" ", "+")}.png",
                                     ),
@@ -275,13 +278,15 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                   margin: const EdgeInsets.only(right: 10),
                                   width: 10,
                                   height: 20,
-                                  color: const Color.fromRGBO(0, 48, 73, 1),
+                                  color: customColors["main"],
                                 ),
-                                const Text(
+                                Text(
                                   "DekHor Recommended",
                                   style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: customColors["main"],
+                                  ),
                                 ),
                               ],
                             ),
@@ -292,8 +297,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                   right: size.width * 0.04,
                                   top: size.width * 0.05),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Wrap(
@@ -306,22 +310,17 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                         if (actualIndex < blog.length) {
                                           return BlogBox(
                                             title: blog[actualIndex]['title'],
-                                            name: blog[actualIndex]['user']
-                                                ['fullname'],
-                                            category: blog[actualIndex]
-                                                ['category'],
-                                            like: blog[actualIndex]['save'] ??
-                                                "0",
+                                            name: blog[actualIndex]['user']['fullname'],
+                                            category: blog[actualIndex]['category'],
+                                            like: blog[actualIndex]['save'] ?? "0",
                                             image: NetworkImage(
                                               blog[actualIndex]['image_link'],
                                             ),
                                             onPressed: () {
                                               Navigator.pushNamed(
                                                 context,
-                                                tuachuayDekhorPageRoute[
-                                                    'blog']!,
-                                                arguments: blog[actualIndex]
-                                                    ['id_post'],
+                                                tuachuayDekhorPageRoute['blog']!,
+                                                arguments: blog[actualIndex]['id_post'],
                                               );
                                             },
                                           );
@@ -341,22 +340,17 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                         if (actualIndex < blog.length) {
                                           return BlogBox(
                                             title: blog[actualIndex]['title'],
-                                            name: blog[actualIndex]['user']
-                                                ['fullname'],
-                                            category: blog[actualIndex]
-                                                ['category'] ,
-                                            like: blog[actualIndex]['save'] ??
-                                                "0",
+                                            name: blog[actualIndex]['user']['fullname'],
+                                            category: blog[actualIndex]['category'],
+                                            like: blog[actualIndex]['save'] ?? "0",
                                             image: NetworkImage(
                                               blog[actualIndex]['image_link'],
                                             ),
                                             onPressed: () {
                                               Navigator.pushNamed(
                                                 context,
-                                                tuachuayDekhorPageRoute[
-                                                    'blog']!,
-                                                arguments: blog[actualIndex]
-                                                    ['id_post'],
+                                                tuachuayDekhorPageRoute['blog']!,
+                                                arguments: blog[actualIndex]['id_post'],
                                               );
                                             },
                                           );
