@@ -36,8 +36,9 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
 
   Future<void> _updateData() async {
     if (_image != null) {
-      _updatePicture(widget.restroomData['id'].toString(), _image);
+      await _updatePicture(widget.restroomData['id'].toString(), _image);
     }
+    debugPrint("Updating data");
     final url = Uri.parse("$api$restroomRoverEditRoute");
     await http.post(url, body: {
       "id": widget.restroomData['id'].toString(),
@@ -61,6 +62,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   }
 
   Future<http.Response> _updatePicture(id, picture) async {
+    debugPrint("Updating picture");
     final url = Uri.parse("$api$restroomRoverUploadToiletPictureRoute");
     http.MultipartRequest request = http.MultipartRequest('POST', url);
     request.headers.addAll({
@@ -77,6 +79,9 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
     request.fields['id'] = id;
     http.StreamedResponse response = await request.send();
     http.Response res = await http.Response.fromStream(response);
+    if (res.statusCode != 200) {
+      throw Exception("Failed to upload picture ${res.body}");
+    }
     return res;
   }
 
@@ -91,6 +96,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
     setState(() {
       _forwho["Kid"] = widget.restroomData["for_who"]["Kid"];
       _forwho["Handicapped"] = widget.restroomData["for_who"]["Handicapped"];
+      _type = widget.restroomData["type"];
     });
   }
 
@@ -183,11 +189,13 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 5),
                                   child: TextField(
+                                    maxLength: 20,
                                     controller: _nameTextController,
                                     onChanged: (text) {
                                       debugPrint('Typed text: $text');
                                     },
                                     decoration: const InputDecoration(
+                                      isDense: true,
                                       border: InputBorder.none,
                                     ),
                                   ),

@@ -50,7 +50,7 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
     int reviewId = jsonDecode(response.body)["id"];
     debugPrint(reviewId.toString());
     if (_image != null) {
-      _uploadPicture(reviewId.toString(), _image);
+      await _uploadPicture(reviewId.toString(), _image);
     }
   }
 

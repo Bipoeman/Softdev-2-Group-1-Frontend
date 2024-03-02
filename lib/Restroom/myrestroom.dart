@@ -132,6 +132,7 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                         children: [
                                           Text(
                                             'Name: ${data["name"]}',
+                                            overflow: TextOverflow.ellipsis,
                                             style: GoogleFonts.getFont(
                                               'Sen',
                                               color: const Color.fromARGB(

@@ -38,9 +38,6 @@ class _CardpinState extends State<Cardpin> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                    height: size.height * 0.09,
-                    width: size.width * 0.8,
-                    // color: Color.fromARGB(255, 255, 255, 255),
                     padding: EdgeInsets.only(
                       left: size.width * 0.1,
                       top: size.height * 0.03,
@@ -50,27 +47,35 @@ class _CardpinState extends State<Cardpin> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          widget.restroomData["name"],
-                          style: Theme.of(context).textTheme.displayMedium,
-                        ),
                         SizedBox(
-                            width: 100 *
-                                zoomFactor), // ระยะห่างระหว่าง Text กับ Icon
-                        widget.restroomData["for_who"]["Handicapped"]
-                            ? Icon(Icons.accessible_sharp,
-                                size: 30 * zoomFactor)
-                            : SizedBox(
-                                width: 30 * zoomFactor,
-                                height: 30 * zoomFactor,
-                              ),
-                        widget.restroomData["for_who"]["Kid"]
-                            ? Icon(Icons.baby_changing_station,
-                                size: 30 * zoomFactor)
-                            : SizedBox(
-                                width: 30 * zoomFactor,
-                                height: 30 * zoomFactor,
-                              ),
+                          width: 150 * zoomFactor,
+                          child: Text(
+                            widget.restroomData["name"],
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              widget.restroomData["for_who"]["Handicapped"]
+                                  ? Icon(Icons.accessible_sharp,
+                                      size: 30 * zoomFactor)
+                                  : SizedBox(
+                                      width: 30 * zoomFactor,
+                                      height: 30 * zoomFactor,
+                                    ),
+                              widget.restroomData["for_who"]["Kid"]
+                                  ? Icon(Icons.baby_changing_station,
+                                      size: 30 * zoomFactor)
+                                  : SizedBox(
+                                      width: 30 * zoomFactor,
+                                      height: 30 * zoomFactor,
+                                    ),
+                            ],
+                          ),
+                        ),
                       ],
                     )),
                 Container(
