@@ -44,6 +44,9 @@ const String dekhorReportRoute = "/dekhor/report";
 const String dekhorUpdatePicRoute = "/dekhor/updatepicture";
 const String dekhorUpdatePicDraftRoute = "/dekhor/updatepic";
 const String dekhorDrafttoPostBlogRoute = "/dekhor/drafttopostblog";
+const String dekhorShowReportRoute = "/dekhor/showreport";
+const String dekhorDeleteReportRoute = "/dekhor/deletereport";
+const String dekhorDetailReportRoute = "/dekhor/detailreport";
 const String dekhorDescriptionRoute = "/dekhor/bloggerdescription";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
@@ -81,6 +84,8 @@ const Map<String, String> tuachuayDekhorPageRoute = {
   "cooking": "/TuachuayDekhor/cooking",
   "cleaning": "/TuachuayDekhor/cleaning",
   "report": "/TuachuayDekhor/report",
+  "admin": "/TuachuayDekhor/admin",
+  "detailreport": "/TuachuayDekhor/detailreport",
 };
 const Map<String, String> pinthebinPageRoute = {
   "home": "/PinTheBin/home",

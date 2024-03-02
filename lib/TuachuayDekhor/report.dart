@@ -6,10 +6,10 @@ import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
 import "package:ruam_mitt/global_const.dart";
 
-
 class TuachuayDekhorReportPage extends StatefulWidget {
   final int id_post;
-  const TuachuayDekhorReportPage({super.key, required this.id_post});
+  final int id_blogger;
+  const TuachuayDekhorReportPage({super.key, required this.id_post, required this.id_blogger});
 
   @override
   State<TuachuayDekhorReportPage> createState() =>
@@ -20,20 +20,18 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController reasonController = TextEditingController();
   late int id_post;
+  late int id_blogger;
   late Uri reporturl;
   void initState() {
     super.initState();
     id_post = widget.id_post;
-    reporturl = Uri.parse("$api$dekhorReportRoute/$id_post");
+    id_blogger = widget.id_blogger;
+    reporturl = Uri.parse("$api$dekhorReportRoute/$id_post/$id_blogger");
   }
 
   Future<void> reportblog() async {
-    await http.post(reporturl, headers: {
-      "Authorization": "Bearer $publicToken"
-    }, body: {
-      "title": titleController.text,
-      "reason": reasonController.text
-    });
+    await http.post(reporturl,
+        body: {"title": titleController.text, "reason": reasonController.text});
   }
 
   @override
@@ -228,6 +226,8 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                             minimumSize: const Size(150, 35)),
                         onPressed: () {
                           reportblog();
+                          Navigator.pushNamed(
+                              context, tuachuayDekhorPageRoute["home"]!);
                           print("Sending report");
                         },
                         child: const Text(

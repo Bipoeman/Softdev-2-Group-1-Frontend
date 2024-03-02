@@ -78,7 +78,7 @@ class _TuachuayDekhorWriteBlogPageState
     }
   }
 
- Future<void> draft(File? imageFile) async {
+  Future<void> draft(File? imageFile) async {
     try {
       var request = http.MultipartRequest('POST', draftposturl);
       request.headers['Authorization'] = 'Bearer $publicToken';
@@ -88,7 +88,7 @@ class _TuachuayDekhorWriteBlogPageState
       request.fields['fullname'] = profileData['fullname'];
       request.fields['pathimage'] = imageFile!.path;
       request.files
-          .add(await http.MultipartFile.fromPath('file', imageFile!.path));
+          .add(await http.MultipartFile.fromPath('file', imageFile.path));
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
