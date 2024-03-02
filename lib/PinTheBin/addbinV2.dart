@@ -217,11 +217,15 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                             depth: -20,
                             child: TextField(
                               controller: _NametextController,
+                              maxLines: 1,
                               onChanged: (text) {
                                 print('Typed text: $text');
                               },
                               decoration: InputDecoration(
                                 border: InputBorder.none,
+                                isDense: true,
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 1, horizontal: 1),
                               ),
                             ),
                           ),
@@ -477,6 +481,8 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                             },
                             decoration: const InputDecoration(
                               border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 13, horizontal: 15),
                             ),
                             style: const TextStyle(
                               color: Colors.black,
