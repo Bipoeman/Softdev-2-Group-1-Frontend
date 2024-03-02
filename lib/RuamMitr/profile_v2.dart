@@ -292,6 +292,15 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                           }
                         },
                       ),
+                      ListTile(
+                        leading: const Icon(Icons.password),
+                        title: const Text("********"),
+                        trailing: const Icon(Icons.edit),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, ruamMitrPageRoute["password-change"]!);
+                        },
+                      ),
                     ],
                   ),
                 ),

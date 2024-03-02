@@ -56,6 +56,7 @@ const Map<String, String> ruamMitrPageRoute = {
   "homev2": "/RuamMitr/homev2",
   "profile": "/RuamMitr/profile",
   "edit-profile": "/RuamMitr/profile/edit",
+  "password-change": "/RuamMitr/password",
   "settings": "/RuamMitr/settings",
   "restroom": "/RuamMitr/restroom",
 };
