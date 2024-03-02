@@ -56,7 +56,6 @@ class SuperApp extends StatefulWidget {
 class _SuperAppState extends State<SuperApp> {
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themes = Provider.of<ThemeProvider>(context);
 
     return GetMaterialApp(
       initialRoute: loginPageRoute,
@@ -113,7 +112,7 @@ class _SuperAppState extends State<SuperApp> {
         pinthebinPageRoute["report"]!: (context) => const ReportPage(),
       },
       title: "RuamMitr - App for Uni Students",
-      theme: themes.themeFrom("RuamMitr")?.themeData,
+      theme: ThemesPortal.appThemeFromContext(context, "RuamMitr")?.themeData,
     );
   }
 }

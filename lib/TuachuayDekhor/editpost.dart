@@ -17,8 +17,7 @@ class TuachuayDekhorEditBlogPage extends StatefulWidget {
   const TuachuayDekhorEditBlogPage({super.key, required this.id_post});
 
   @override
-  State<TuachuayDekhorEditBlogPage> createState() =>
-      _TuachuayDekhorEditBlogPageState();
+  State<TuachuayDekhorEditBlogPage> createState() => _TuachuayDekhorEditBlogPageState();
 }
 
 class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
@@ -96,8 +95,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
           Navigator.pop(context);
           Navigator.pop(context);
           Navigator.pop(context);
-          Navigator.pushNamed(context, tuachuayDekhorPageRoute["blog"]!,
-              arguments: id_post);
+          Navigator.pushNamed(context, tuachuayDekhorPageRoute["blog"]!, arguments: id_post);
         });
       }
     });
@@ -123,8 +121,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
       request.fields['content'] = markdownContentController.text;
       request.fields['category'] = _dropdownValue!;
       request.fields['fullname'] = profileData['fullname'];
-      request.files
-          .add(await http.MultipartFile.fromPath('file', imageFile.path));
+      request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -148,12 +145,18 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
+            ? Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: customColors["background"]!,
+                  color: customColors["main"]!,
+                ),
               )
             : SlidingBox(
                 controller: boxController,
@@ -170,36 +173,40 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                       Align(
                         alignment: Alignment.topRight,
                         child: GestureDetector(
-                            child: const Icon(Icons.close),
+                            child: Icon(
+                              Icons.close,
+                              color: customColors["main"]!,
+                              size: 20,
+                            ),
                             onTap: () {
                               boxController.closeBox();
                             }),
                       ),
                       Container(
                         margin: const EdgeInsets.only(bottom: 10),
-                        child: const Text(
+                        child: Text(
                           "Preview",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(0, 48, 73, 1),
+                            color: customColors["main"]!,
                           ),
                         ),
                       ),
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Title :",
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(0, 48, 73, 1),
+                            color: customColors["main"]!,
                           ),
                         ),
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.2),
+                          color: customColors["textInputContainer"]!,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         margin: const EdgeInsets.only(
@@ -209,6 +216,9 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                         height: size.height * 0.075,
                         child: Scrollbar(
                           child: Markdown(
+                            styleSheet: MarkdownStyleSheet.fromTheme(
+                              theme.themeData,
+                            ),
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             data: markdownTitleText,
@@ -223,29 +233,32 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                         child: IntrinsicHeight(
                           child: ClipRRect(
                             child: isLoading
-                                ? const Center(
-                                    child: CircularProgressIndicator(),
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      backgroundColor: customColors["background"]!,
+                                      color: customColors["main"]!,
+                                    ),
                                   )
-                                : (_image.path.split('/').last)
-                                            .split('_')
-                                            .first ==
-                                        "dekhorblog"
+                                : (_image.path.split('/').last).split('_').first == "dekhorblog"
                                     ? Image.network(
                                         detailpost[0]['image_link'],
                                         fit: BoxFit.cover,
                                       )
-                                    : Image.file(_image, fit: BoxFit.cover),
+                                    : Image.file(
+                                        _image,
+                                        fit: BoxFit.cover,
+                                      ),
                           ),
                         ),
                       ),
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Content :",
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(0, 48, 73, 1),
+                            color: customColors["main"]!,
                           ),
                         ),
                       ),
@@ -288,39 +301,45 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                 left: size.width * 0.04,
                               ),
                               child: GestureDetector(
-                                child: const Row(
+                                child: Row(
                                   children: [
-                                    Icon(Icons.arrow_back_outlined),
-                                    SizedBox(width: 5),
-                                    Text("Back")
+                                    Icon(
+                                      Icons.arrow_back_outlined,
+                                      color: customColors["main"]!,
+                                      size: 20,
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      "Back",
+                                      style: TextStyle(color: customColors["main"]!),
+                                    ),
                                   ],
                                 ),
                                 onTap: () {
-                                  if ((markdownTitleController.text !=
-                                          detailpost[0]['title']) ||
+                                  if ((markdownTitleController.text != detailpost[0]['title']) ||
                                       (markdownContentController.text !=
                                           detailpost[0]['content']) ||
-                                      (_dropdownValue !=
-                                          detailpost[0]['category'])) {
+                                      (_dropdownValue != detailpost[0]['category'])) {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          surfaceTintColor: Colors.white,
-                                          backgroundColor: Colors.white,
-                                          iconColor: const Color.fromRGBO(
-                                              0, 48, 73, 1),
-                                          icon: const Icon(Icons.edit_off,
-                                              size: 50),
+                                          surfaceTintColor: customColors["container"]!,
+                                          backgroundColor: customColors["container"]!,
+                                          iconColor: customColors["main"]!,
+                                          icon: Icon(
+                                            Icons.edit_off,
+                                            size: 50,
+                                            color: customColors["main"]!,
+                                          ),
                                           title: const Text("Discard edit?"),
-                                          actionsAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          actionsAlignment: MainAxisAlignment.spaceBetween,
                                           actions: [
                                             Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Colors.grey),
+                                                borderRadius: BorderRadius.circular(10),
+                                                color: Colors.grey,
+                                              ),
                                               child: TextButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
@@ -335,8 +354,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                             ),
                                             Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
+                                                  borderRadius: BorderRadius.circular(10),
                                                   color: Colors.red),
                                               child: TextButton(
                                                 onPressed: () {
@@ -372,8 +390,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                 children: [
                                   Container(
                                     width: 70,
-                                    margin: const EdgeInsets.only(
-                                        left: 20, right: 10),
+                                    margin: const EdgeInsets.only(left: 20, right: 10),
                                     child: RawMaterialButton(
                                       onPressed: () {
                                         editblog(_image);
@@ -382,49 +399,37 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                             context: context,
                                             builder: (BuildContext context) {
                                               return Dialog(
-                                                surfaceTintColor: Colors.white,
-                                                backgroundColor: Colors.white,
+                                                surfaceTintColor: customColors["container"]!,
+                                                backgroundColor: customColors["container"]!,
                                                 child: SizedBox(
                                                   width: size.width * 0.3,
                                                   height: size.height * 0.3,
                                                   child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       LottieBuilder.asset(
                                                         status
                                                             ? "assets/images/Logo/Animation_Success.json"
                                                             : "assets/images/Logo/Animation_Fail.json",
                                                         repeat: false,
-                                                        controller:
-                                                            animationController,
-                                                        onLoaded:
-                                                            (composition) {
-                                                          animationController
-                                                                  .duration =
-                                                              composition
-                                                                  .duration;
-                                                          animationController
-                                                              .forward();
+                                                        controller: animationController,
+                                                        onLoaded: (composition) {
+                                                          animationController.duration =
+                                                              composition.duration;
+                                                          animationController.forward();
                                                         },
                                                       ),
-                                                      SizedBox(
-                                                          height: size.height *
-                                                              0.03),
+                                                      SizedBox(height: size.height * 0.03),
                                                       Align(
-                                                        alignment:
-                                                            Alignment.center,
+                                                        alignment: Alignment.center,
                                                         child: Text(
                                                           status
                                                               ? "Post successful!"
                                                               : "Post failed!",
-                                                          style:
-                                                              const TextStyle(
+                                                          style: TextStyle(
                                                             fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Colors.black,
+                                                            fontWeight: FontWeight.bold,
+                                                            color: customColors["onContainer"]!,
                                                           ),
                                                         ),
                                                       ),
@@ -434,8 +439,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                               );
                                             });
                                       },
-                                      fillColor:
-                                          const Color.fromRGBO(217, 192, 41, 1),
+                                      fillColor: const Color.fromRGBO(217, 192, 41, 1),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(20),
                                       ),
@@ -476,8 +480,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                         fontSize: 14,
                                       ),
                                       keyboardType: TextInputType.text,
-                                      cursorColor:
-                                          Colors.black.withOpacity(0.5),
+                                      cursorColor: customColors["textInput"]!.withOpacity(0.5),
                                       cursorHeight: 18,
                                       onChanged: (value) {
                                         setState(() {
@@ -485,16 +488,15 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                         });
                                       },
                                       decoration: InputDecoration(
-                                        fillColor: Colors.grey.withOpacity(0.3),
+                                        fillColor: customColors["textInputContainer"]!,
                                         filled: true,
                                         labelText: "Write a title",
                                         labelStyle: TextStyle(
-                                          color: Colors.black.withOpacity(0.5),
+                                          color: customColors["label"]!,
                                           fontSize: 14,
                                         ),
                                         border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(40),
+                                          borderRadius: BorderRadius.circular(40),
                                           borderSide: BorderSide.none,
                                         ),
                                       ),
@@ -502,17 +504,17 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                   ),
                                   IconButton(
                                     onPressed: () {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
+                                      FocusManager.instance.primaryFocus?.unfocus();
                                       setState(() {
-                                        markdownTitleText =
-                                            markdownTitleController.text;
-                                        markdownContentText =
-                                            markdownContentController.text;
+                                        markdownTitleText = markdownTitleController.text;
+                                        markdownContentText = markdownContentController.text;
                                       });
                                       boxController.openBox();
                                     },
-                                    icon: const Icon(Icons.preview),
+                                    icon: Icon(
+                                      Icons.preview,
+                                      color: customColors["main"]!,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -530,7 +532,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                   fontSize: 12,
                                 ),
                                 keyboardType: TextInputType.multiline,
-                                cursorColor: Colors.black.withOpacity(0.5),
+                                cursorColor: customColors["textInput"]!.withOpacity(0.5),
                                 cursorHeight: 16,
                                 minLines: 8,
                                 maxLines: 8,
@@ -541,11 +543,11 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                 },
                                 decoration: InputDecoration(
                                   alignLabelWithHint: true,
-                                  fillColor: Colors.grey.withOpacity(0.3),
+                                  fillColor: customColors["textInputContainer"]!,
                                   filled: true,
                                   labelText: "Write a blog",
                                   labelStyle: TextStyle(
-                                    color: Colors.black.withOpacity(0.5),
+                                    color: customColors["label"]!,
                                     fontSize: 12,
                                   ),
                                   border: OutlineInputBorder(
@@ -564,8 +566,8 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                         right: 0,
                         child: Container(
                           height: size.width * 0.12,
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(0, 48, 73, 1),
+                          decoration: BoxDecoration(
+                            color: customColors["main"]!,
                           ),
                           child: Row(
                             children: [
@@ -573,44 +575,59 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                 margin: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
+                                  color: customColors["container"]!,
                                 ),
                                 child: DropdownButton(
                                   underline: const SizedBox(),
                                   padding: const EdgeInsets.only(left: 10),
-                                  hint: const Text(
+                                  hint: Text(
                                     "Select Category",
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: customColors["onContainer"]!,
+                                    ),
                                   ),
-                                  dropdownColor: Colors.white,
-                                  iconEnabledColor: Colors.black,
-                                  items: const [
+                                  dropdownColor: customColors["container"]!,
+                                  iconEnabledColor: customColors["onContainer"]!,
+                                  items: [
                                     DropdownMenuItem(
                                       value: "decoration",
                                       child: Text(
                                         "Decoration",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: customColors["onContainer"]!,
+                                        ),
                                       ),
                                     ),
                                     DropdownMenuItem(
                                       value: "cleaning",
                                       child: Text(
                                         "Cleaning",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: customColors["onContainer"]!,
+                                        ),
                                       ),
                                     ),
                                     DropdownMenuItem(
                                       value: "cooking",
                                       child: Text(
                                         "Cooking",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: customColors["onContainer"]!,
+                                        ),
                                       ),
                                     ),
                                     DropdownMenuItem(
                                       value: "story",
                                       child: Text(
                                         "Story",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: customColors["onContainer"]!,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -629,7 +646,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                 margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
-                                  color: Colors.grey[200],
+                                  color: customColors["container"]!,
                                 ),
                                 child: Row(
                                   children: [
@@ -638,9 +655,9 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                         _getImage();
                                         print("Add image tapped");
                                       },
-                                      child: const Icon(
+                                      child: Icon(
                                         Icons.image,
-                                        color: Color.fromRGBO(0, 48, 73, 1),
+                                        color: customColors["main"]!,
                                         size: 24,
                                       ),
                                     ),
@@ -650,9 +667,9 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                         maxWidth: size.width * 0.525,
                                       ),
                                       child: Text(
-                                              _image.path.split('/').last,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
+                                        _image.path.split('/').last,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
                                   ],
                                 ),

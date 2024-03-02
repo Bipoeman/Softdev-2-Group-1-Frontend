@@ -17,12 +17,10 @@ class TuachuayDekhorEditDraftPage extends StatefulWidget {
   const TuachuayDekhorEditDraftPage({super.key, required this.id_draft});
 
   @override
-  State<TuachuayDekhorEditDraftPage> createState() =>
-      _TuachuayDekhorEditDraftPageState();
+  State<TuachuayDekhorEditDraftPage> createState() => _TuachuayDekhorEditDraftPageState();
 }
 
-class _TuachuayDekhorEditDraftPageState
-    extends State<TuachuayDekhorEditDraftPage>
+class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPage>
     with SingleTickerProviderStateMixin {
   String? _dropdownValue;
   BoxController boxController = BoxController();
@@ -111,8 +109,7 @@ class _TuachuayDekhorEditDraftPageState
       request.fields['content'] = markdownContentController.text;
       request.fields['category'] = _dropdownValue!;
       request.fields['fullname'] = profileData['fullname'];
-      request.files
-          .add(await http.MultipartFile.fromPath('file', imageFile.path));
+      request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -135,8 +132,7 @@ class _TuachuayDekhorEditDraftPageState
       request.fields['content'] = markdownContentController.text;
       request.fields['category'] = _dropdownValue!;
       request.fields['fullname'] = profileData['fullname'];
-      request.files
-          .add(await http.MultipartFile.fromPath('file', imageFile!.path));
+      request.files.add(await http.MultipartFile.fromPath('file', imageFile!.path));
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -164,8 +160,7 @@ class _TuachuayDekhorEditDraftPageState
   }
 
   Future<void> posttoprofile() async {
-    var response = await http
-        .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
+    var response = await http.get(posturl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
       setState(() {
         post = jsonDecode(response.body);
@@ -217,7 +212,11 @@ class _TuachuayDekhorEditDraftPageState
                       Align(
                         alignment: Alignment.topRight,
                         child: GestureDetector(
-                            child: Icon(Icons.close, color: customColors["main"]!, size: 20,),
+                            child: Icon(
+                              Icons.close,
+                              color: customColors["main"]!,
+                              size: 20,
+                            ),
                             onTap: () {
                               boxController.closeBox();
                             }),
@@ -256,7 +255,9 @@ class _TuachuayDekhorEditDraftPageState
                         height: size.height * 0.075,
                         child: Scrollbar(
                           child: Markdown(
-                            styleSheet: MarkdownStyleSheet.fromTheme(theme.themeData,),
+                            styleSheet: MarkdownStyleSheet.fromTheme(
+                              theme.themeData,
+                            ),
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             data: markdownTitleText,
@@ -277,15 +278,15 @@ class _TuachuayDekhorEditDraftPageState
                                       color: customColors["main"]!,
                                     ),
                                   )
-                                : (_image.path.split('/').last)
-                                            .split('_')
-                                            .first ==
-                                        "dekhorblog"
+                                : (_image.path.split('/').last).split('_').first == "dekhorblog"
                                     ? Image.network(
                                         detaildraft[0]['image_link'],
                                         fit: BoxFit.cover,
                                       )
-                                    : Image.file(_image, fit: BoxFit.cover,),
+                                    : Image.file(
+                                        _image,
+                                        fit: BoxFit.cover,
+                                      ),
                           ),
                         ),
                       ),
@@ -354,49 +355,45 @@ class _TuachuayDekhorEditDraftPageState
                                   ],
                                 ),
                                 onTap: () {
-                                  if ((markdownTitleController.text !=
-                                          detaildraft[0]['title']) ||
+                                  if ((markdownTitleController.text != detaildraft[0]['title']) ||
                                       (markdownContentController.text !=
                                           detaildraft[0]['content']) ||
-                                      (_dropdownValue !=
-                                          detaildraft[0]['category'])) {
+                                      (_dropdownValue != detaildraft[0]['category'])) {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          surfaceTintColor: Colors.white,
-                                          backgroundColor: Colors.white,
+                                          surfaceTintColor: customColors["container"]!,
+                                          backgroundColor: customColors["container"]!,
                                           iconPadding: EdgeInsets.zero,
                                           iconColor: customColors["main"]!,
                                           icon: Stack(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.fromLTRB(
-                                                    24, 30, 24, 16),
+                                                padding: const EdgeInsets.fromLTRB(24, 30, 24, 16),
                                                 child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    Icon(Icons.note_alt,
-                                                        size: 50,
-                                                        color: customColors["main"]!,),
+                                                    Icon(
+                                                      Icons.note_alt,
+                                                      size: 50,
+                                                      color: customColors["main"]!,
+                                                    ),
                                                   ],
                                                 ),
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.only(
-                                                    top: 10, right: 10,),
+                                                  top: 10,
+                                                  right: 10,
+                                                ),
                                                 child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
+                                                  mainAxisAlignment: MainAxisAlignment.end,
                                                   children: [
                                                     IconButton(
                                                       color: customColors["main"]!,
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              context),
-                                                      icon: const Icon(
-                                                          Icons.close),
+                                                      onPressed: () => Navigator.pop(context),
+                                                      icon: const Icon(Icons.close),
                                                     ),
                                                   ],
                                                 ),
@@ -404,14 +401,13 @@ class _TuachuayDekhorEditDraftPageState
                                             ],
                                           ),
                                           title: const Text("Save draft?"),
-                                          actionsAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          actionsAlignment: MainAxisAlignment.spaceBetween,
                                           actions: [
                                             Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Colors.red),
+                                                borderRadius: BorderRadius.circular(10),
+                                                color: Colors.red,
+                                              ),
                                               child: TextButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
@@ -427,9 +423,9 @@ class _TuachuayDekhorEditDraftPageState
                                             ),
                                             Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Colors.green),
+                                                borderRadius: BorderRadius.circular(10),
+                                                color: Colors.green,
+                                              ),
                                               child: TextButton(
                                                 onPressed: () {
                                                   editdraft(_image);
@@ -437,9 +433,9 @@ class _TuachuayDekhorEditDraftPageState
                                                   Navigator.pop(context);
                                                   Navigator.pop(context);
                                                   Navigator.pushNamed(
-                                                      context,
-                                                      tuachuayDekhorPageRoute[
-                                                          "draft"]!);
+                                                    context,
+                                                    tuachuayDekhorPageRoute["draft"]!,
+                                                  );
                                                   print("Draft saved");
                                                 },
                                                 child: const Text(
@@ -470,8 +466,7 @@ class _TuachuayDekhorEditDraftPageState
                                 children: [
                                   Container(
                                     width: 70,
-                                    margin: const EdgeInsets.only(
-                                        left: 20, right: 10),
+                                    margin: const EdgeInsets.only(left: 20, right: 10),
                                     child: RawMaterialButton(
                                       onPressed: () {
                                         deletedraft();
@@ -507,42 +502,30 @@ class _TuachuayDekhorEditDraftPageState
                                                   width: size.width * 0.3,
                                                   height: size.height * 0.3,
                                                   child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       LottieBuilder.asset(
                                                         status
                                                             ? "assets/images/Logo/Animation_Success.json"
                                                             : "assets/images/Logo/Animation_Fail.json",
                                                         repeat: false,
-                                                        controller:
-                                                            animationController,
-                                                        onLoaded:
-                                                            (composition) {
-                                                          animationController
-                                                                  .duration =
-                                                              composition
-                                                                  .duration;
-                                                          animationController
-                                                              .forward();
+                                                        controller: animationController,
+                                                        onLoaded: (composition) {
+                                                          animationController.duration =
+                                                              composition.duration;
+                                                          animationController.forward();
                                                         },
                                                       ),
-                                                      SizedBox(
-                                                          height: size.height *
-                                                              0.03),
+                                                      SizedBox(height: size.height * 0.03),
                                                       Align(
-                                                        alignment:
-                                                            Alignment.center,
+                                                        alignment: Alignment.center,
                                                         child: Text(
                                                           status
                                                               ? "Post successful!"
                                                               : "Post failed!",
-                                                          style:
-                                                              TextStyle(
+                                                          style: TextStyle(
                                                             fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                            fontWeight: FontWeight.bold,
                                                             color: customColors["onContainer"]!,
                                                           ),
                                                         ),
@@ -553,8 +536,7 @@ class _TuachuayDekhorEditDraftPageState
                                               );
                                             });
                                       },
-                                      fillColor:
-                                          const Color.fromRGBO(217, 192, 41, 1),
+                                      fillColor: const Color.fromRGBO(217, 192, 41, 1),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(20),
                                       ),
@@ -595,11 +577,10 @@ class _TuachuayDekhorEditDraftPageState
                                         fontSize: 14,
                                       ),
                                       keyboardType: TextInputType.text,
-                                      cursorColor:
-                                          customColors["textInput"]!.withOpacity(0.5),
+                                      cursorColor: customColors["textInput"]!.withOpacity(0.5),
                                       cursorHeight: 18,
                                       decoration: InputDecoration(
-                                        fillColor: customColors["textInput"]!,
+                                        fillColor: customColors["textInputContainer"]!,
                                         filled: true,
                                         labelText: "Write a title",
                                         labelStyle: TextStyle(
@@ -607,8 +588,7 @@ class _TuachuayDekhorEditDraftPageState
                                           fontSize: 14,
                                         ),
                                         border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(40),
+                                          borderRadius: BorderRadius.circular(40),
                                           borderSide: BorderSide.none,
                                         ),
                                       ),
@@ -616,17 +596,17 @@ class _TuachuayDekhorEditDraftPageState
                                   ),
                                   IconButton(
                                     onPressed: () {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
+                                      FocusManager.instance.primaryFocus?.unfocus();
                                       setState(() {
-                                        markdownTitleText =
-                                            markdownTitleController.text;
-                                        markdownContentText =
-                                            markdownContentController.text;
+                                        markdownTitleText = markdownTitleController.text;
+                                        markdownContentText = markdownContentController.text;
                                       });
                                       boxController.openBox();
                                     },
-                                    icon: Icon(Icons.preview, color: customColors["main"]!,),
+                                    icon: Icon(
+                                      Icons.preview,
+                                      color: customColors["main"]!,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -650,7 +630,7 @@ class _TuachuayDekhorEditDraftPageState
                                 maxLines: 8,
                                 decoration: InputDecoration(
                                   alignLabelWithHint: true,
-                                  fillColor: customColors["textInput"]!,
+                                  fillColor: customColors["textInputContainer"]!,
                                   filled: true,
                                   labelText: "Write a blog",
                                   labelStyle: TextStyle(
