@@ -2,29 +2,34 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/pause_button.dart';
+import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
-class Hud extends PositionComponent with HasGameReference {
+class Hud extends PositionComponent with HasGameReference<GameRoutes> {
   Hud(this.camHeight);
 
   final JumpButton _jumpButton = JumpButton();
+  final PauseButton _pauseButton = PauseButton();
   final double camHeight;
   late bool hasJumped = false;
   late double horizontalMovement = 0;
   late JoystickComponent joystick = JoystickComponent(
     knob: CircleComponent(
-        radius: 16, paint: Paint()..color = const Color.fromARGB(205, 246, 241, 241)),
+        radius: 16,
+        paint: Paint()..color = const Color.fromARGB(205, 246, 241, 241)),
     background: CircleComponent(
-        radius: 32, paint: Paint()..color = const Color.fromARGB(123, 43, 41, 41)),
+        radius: 32,
+        paint: Paint()..color = const Color.fromARGB(123, 43, 41, 41)),
     anchor: Anchor.topCenter,
   );
 
   final _life = TextComponent(
-    text: 'x3',
+    text: '\u2665×3',
     anchor: Anchor.centerLeft,
     textRenderer: TextPaint(
       style: const TextStyle(
         color: Color.fromARGB(255, 197, 59, 21),
-        fontSize: 35,
+        fontSize: 30,
       ),
     ),
   );
@@ -33,12 +38,13 @@ class Hud extends PositionComponent with HasGameReference {
   Future<void> onLoad() async {
     _life.position.setValues(24, 24);
     _jumpButton.position.setValues(576, camHeight - 86);
+    _pauseButton.position.setValues(588, 12);
     joystick.position.setValues(48, camHeight - 86);
-    addAll([_life, _jumpButton, joystick]);
+    addAll([_life, _jumpButton, _pauseButton, joystick]);
   }
 
   void updateLifeCount(int count) {
-    _life.text = 'x$count';
+    _life.text = '\u2665×$count';
     hasJumped = _jumpButton.hasJumped;
     updateJoystick();
   }
