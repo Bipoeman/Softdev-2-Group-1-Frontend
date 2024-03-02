@@ -39,18 +39,25 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
   Future<void> _postReview() async {
     debugPrint("post review");
     final url = Uri.parse("$api$restroomRoverReviewRoute");
-    var response = await http.post(url, headers: {
-      "Authorization": "Bearer $publicToken"
-    }, body: {
-      "id_toilet": widget.restroomId.toString(),
-      "star": _rating.toString(),
-      "comment": _reviewTextController.text
-    }).timeout(Durations.extralong4);
+    var response = await http
+        .post(url, headers: {
+          "Authorization": "Bearer $publicToken"
+        }, body: {
+          "id_toilet": widget.restroomId.toString(),
+          "star": _rating.toString(),
+          "comment": _reviewTextController.text
+        })
+        .timeout(Durations.extralong4)
+        .onError((error, stackTrace) {
+          return Future.error(error ?? {}, stackTrace);
+        });
     debugPrint(response.body);
     int reviewId = jsonDecode(response.body)["id"];
-    debugPrint(reviewId.toString());
     if (_image != null) {
-      await _uploadPicture(reviewId.toString(), _image);
+      await _uploadPicture(reviewId.toString(), _image)
+          .onError((error, stackTrace) {
+        return Future.error(error ?? {}, stackTrace);
+      });
     }
   }
 

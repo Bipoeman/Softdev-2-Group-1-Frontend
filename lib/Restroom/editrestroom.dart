@@ -35,18 +35,28 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   };
 
   Future<void> _updateData() async {
-    if (_image != null) {
-      await _updatePicture(widget.restroomData['id'].toString(), _image);
-    }
     debugPrint("Updating data");
     final url = Uri.parse("$api$restroomRoverEditRoute");
-    await http.post(url, body: {
-      "id": widget.restroomData['id'].toString(),
-      "name": _nameTextController.text,
-      "type": _type,
-      "address": _addressTextController.text,
-      "for_who": jsonEncode(_forwho)
-    }).timeout(Durations.extralong4);
+    await http
+        .post(url, headers: {
+          "Authorization": "Bearer $publicToken",
+        }, body: {
+          "id": widget.restroomData['id'].toString(),
+          "name": _nameTextController.text,
+          "type": _type,
+          "address": _addressTextController.text,
+          "for_who": jsonEncode(_forwho)
+        })
+        .timeout(Durations.extralong4)
+        .onError((error, stackTrace) {
+          return Future.error(error ?? {}, stackTrace);
+        });
+    if (_image != null) {
+      await _updatePicture(widget.restroomData['id'].toString(), _image)
+          .onError((error, stackTrace) {
+        return Future.error(error ?? {}, stackTrace);
+      });
+    }
   }
 
   Future<void> _getImage() async {
@@ -88,12 +98,12 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   @override
   void initState() {
     super.initState();
-    _nameTextController =
-        TextEditingController(text: widget.restroomData['name']);
-    _addressTextController =
-        TextEditingController(text: widget.restroomData['address']);
 
     setState(() {
+      _nameTextController =
+          TextEditingController(text: widget.restroomData['name']);
+      _addressTextController =
+          TextEditingController(text: widget.restroomData['address']);
       _forwho["Kid"] = widget.restroomData["for_who"]["Kid"];
       _forwho["Handicapped"] = widget.restroomData["for_who"]["Handicapped"];
       _type = widget.restroomData["type"];
@@ -178,28 +188,23 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                           SizedBox(
                             width: size.width * 0.05,
                           ),
-                          Container(
-                            alignment: Alignment.topRight,
-                            child: ClayContainer(
-                                width: size.width * 0.65,
-                                height: size.height * 0.032,
-                                color: const Color.fromRGBO(239, 239, 239, 1),
-                                borderRadius: 30,
-                                depth: -20,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 5),
-                                  child: TextField(
-                                    maxLength: 20,
-                                    controller: _nameTextController,
-                                    onChanged: (text) {
-                                      debugPrint('Typed text: $text');
-                                    },
-                                    decoration: const InputDecoration(
-                                      isDense: true,
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
-                                )),
+                          ClayContainer(
+                            width: size.width * 0.65,
+                            height: size.height * 0.06,
+                            color: const Color.fromRGBO(239, 239, 239, 1),
+                            borderRadius: 30,
+                            depth: -20,
+                            child: TextField(
+                              controller: _nameTextController,
+                              onChanged: (text) {
+                                debugPrint('Typed text: $text');
+                              },
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.only(
+                                    left: 5, right: 5, bottom: 5),
+                                border: InputBorder.none,
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -220,7 +225,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                             alignment: Alignment.topRight,
                             child: ClayContainer(
                                 width: size.width * 0.65,
-                                height: size.height * 0.032,
+                                height: size.height * 0.06,
                                 color: const Color.fromRGBO(239, 239, 239, 1),
                                 borderRadius: 30,
                                 depth: -20,
@@ -317,7 +322,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                           SizedBox(height: size.height * 0.015),
                           ClayContainer(
                               width: size.width * 0.8,
-                              height: size.height * 0.15,
+                              height: size.height * 0.12,
                               color: const Color.fromRGBO(239, 239, 239, 1),
                               borderRadius: 30,
                               depth: -20,
@@ -325,7 +330,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                 padding: const EdgeInsets.only(left: 5),
                                 child: TextField(
                                   maxLength: 80,
-                                  maxLines: 3,
+                                  maxLines: 2,
                                   controller: _addressTextController,
                                   onChanged: (text) {
                                     debugPrint('Typed text: $text');
