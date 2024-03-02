@@ -450,8 +450,13 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                               context,
                                                               tuachuayDekhorPageRoute[
                                                                   "report"]!,
-                                                              arguments:
-                                                                  id_post);
+                                                              arguments: {
+                                                                'id_post':
+                                                                    id_post,
+                                                                'id_blogger':
+                                                                    detailpost[0]
+                                                                        ['id_user'],
+                                                              });
                                                           print(
                                                               "report the blog");
                                                         });

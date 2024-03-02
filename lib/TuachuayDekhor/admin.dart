@@ -121,9 +121,14 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
                           color: Colors.grey[300],
                           child: ListTile(
                             onTap: () {
-                              Navigator.pushNamed(context,
-                                  tuachuayDekhorPageRoute["detailreport"]!,
-                                  arguments: report[index]['id_report']);
+                              Navigator.pushNamed(
+                                context,
+                                tuachuayDekhorPageRoute["detailreport"]!,
+                                arguments: {
+                                  'id_post': report[index]['id_post'],
+                                  'id_report': report[index]['id_report'],
+                                },
+                              );
                             },
                             title: Text(
                               currentItem,
