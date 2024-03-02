@@ -19,6 +19,10 @@ class ThemesPortal {
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
     return themes.themeFrom(app);
   }
+
+  static ThemeProvider getCurrent(BuildContext context) {
+    return Provider.of<ThemeProvider>(context);
+  }
 }
 
 Map<String, Map<String, CustomThemes>> _appsThemes = {
