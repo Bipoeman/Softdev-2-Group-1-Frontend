@@ -26,6 +26,12 @@ ThemeData RestroomThemeData = ThemeData(
         ),
       ],
     ),
+    displaySmall: TextStyle(
+      fontSize: 10,
+      overflow: TextOverflow.fade,
+      fontWeight: FontWeight.w800,
+      color: const Color(0xFF050505).withOpacity(1),
+    ),
     displayMedium: TextStyle(
       fontSize: 20,
       overflow: TextOverflow.fade,
@@ -33,11 +39,15 @@ ThemeData RestroomThemeData = ThemeData(
       color: const Color(0xFF050505).withOpacity(0.69),
     ),
     displayLarge: TextStyle(
-      fontSize: 17,
+      fontSize: 20,
       overflow: TextOverflow.fade,
       fontWeight: FontWeight.w700,
       color: const Color(0xFF050505),
     ),
+  ).apply(
+    fontFamily: 'H Sarabun PSK', // Apply Thai font
+    displayColor: const Color(0xFF003049),
+    bodyColor: const Color(0xFF003049),
   ),
   appBarTheme: const AppBarTheme(
     iconTheme: IconThemeData(
