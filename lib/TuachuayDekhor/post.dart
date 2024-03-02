@@ -36,6 +36,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
   late Uri numsaveurl;
   late Uri deleteposturl;
   bool isLoading = false;
+  bool isLoadingComment = false;
   final commenturl = Uri.parse("$api$dekhorCommentPostRoute");
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
   late bool isSave;
@@ -53,7 +54,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     deleteposturl = Uri.parse("$api$dekhorDeletePostRoute/$id_post");
     posttoprofile();
     _loadDetail();
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(Duration(seconds: 2), () {
       setState(() {
         showcomment();
       });
@@ -204,6 +205,11 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     });
     checkuser();
     print(detailpost);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   Future<dynamic> popUpAlertDialog(Widget icon, String title, Color color,
@@ -454,8 +460,9 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                                 'id_post':
                                                                     id_post,
                                                                 'id_blogger':
-                                                                    detailpost[0]
-                                                                        ['id_user'],
+                                                                    detailpost[
+                                                                            0][
+                                                                        'id_user'],
                                                               });
                                                           print(
                                                               "report the blog");
