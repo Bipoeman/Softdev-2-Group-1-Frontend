@@ -35,6 +35,7 @@ class _TuachuaySearchBoxState extends State<TuachuaySearchBox> {
             ? (Navigator.pushNamed(context, tuachuayDekhorPageRoute["search"]!), savesearchtext())
             : ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
+                  backgroundColor: customColors["main"]!,
                   content: Text(
                     "Please enter a search term",
                     style: TextStyle(
@@ -57,7 +58,7 @@ class _TuachuaySearchBoxState extends State<TuachuaySearchBox> {
         labelText: "Search for...",
         suffixIconColor: customColors["onMain"]!,
         suffixIcon: Container(
-          margin: const EdgeInsets.all(2),
+          margin: const EdgeInsets.only(right: 5),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: customColors["main"]!,
@@ -71,6 +72,7 @@ class _TuachuaySearchBoxState extends State<TuachuaySearchBox> {
                     )
                   : ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
+                        backgroundColor: customColors["main"]!,
                         content: Text(
                           "Please enter a search term",
                           style: TextStyle(
@@ -89,13 +91,13 @@ class _TuachuaySearchBoxState extends State<TuachuaySearchBox> {
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40),
+          borderRadius: BorderRadius.circular(100),
           borderSide: BorderSide(
             color: customColors["main"]!,
           ),
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40),
+          borderRadius: BorderRadius.circular(100),
           borderSide: BorderSide(
             color: customColors["main"]!,
           ),

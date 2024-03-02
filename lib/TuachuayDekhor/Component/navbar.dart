@@ -35,128 +35,104 @@ class NavbarTuachuayDekhor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    ThemeProvider themeProvider = ThemesPortal.getCurrent(context);
     CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
+    const double navbarHeight = 100;
+    const double paddingSize = 30;
 
     return Container(
-      padding: const EdgeInsets.all(10),
-      child: Stack(
-        alignment: Alignment.topCenter,
+      padding: const EdgeInsets.all(paddingSize * 0.5),
+      height: navbarHeight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 68.5,
-                width: 68.5,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      tuachuayDekhorPageRoute["home"]!,
-                    );
-                  },
-                  child: const Image(
-                    image: AssetImage(
-                      "assets/images/Logo/TuachuayDekhor_Light.png",
-                    ),
-                  ),
+          SizedBox(
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  tuachuayDekhorPageRoute["home"]!,
+                );
+              },
+              child: Image(
+                image: AssetImage(
+                  "assets/images/Logo/TuachuayDekhor_${themeProvider.isDarkMode ? "Dark" : "Light"}.png",
                 ),
               ),
-            ],
+            ),
           ),
-          Container(
-            padding: const EdgeInsets.only(top: 15),
-            height: 56,
+          SizedBox(
             width: size.width * 0.5,
             child: const TuachuaySearchBox(),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(right: 10, top: 10),
-                alignment: Alignment.topCenter,
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      child: getAvatar(context),
-                    ),
-                    SizedBox(
-                      height: 48.5,
-                      width: 48.5,
-                      child: RawMaterialButton(
-                        shape: const CircleBorder(),
-                        onPressed: () {
-                          showMenu(
-                            context: context,
-                            color: customColors["container"]!,
-                            surfaceTintColor: Colors.white,
-                            position: RelativeRect.fromLTRB(
-                              size.width,
-                              102,
-                              0,
-                              0,
-                            ),
-                            items: [
-                              PopupMenuItem(
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.people,
-                                      color: customColors["onContainer"]!,
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      "Profile",
-                                      style: TextStyle(
-                                        color: customColors["onContainer"]!,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    tuachuayDekhorPageRoute["profile"]!,
-                                  );
-                                },
-                              ),
-                              PopupMenuItem(
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.logout,
-                                      color: customColors["onContainer"]!,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      "RuamMitr",
-                                      style: TextStyle(
-                                        color: customColors["onContainer"]!,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                    ruamMitrPageRoute["home"]!,
-                                    (Route<dynamic> route) => false,
-                                  );
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+          RawMaterialButton(
+            shape: const CircleBorder(),
+            onPressed: () {
+              showMenu(
+                context: context,
+                color: customColors["container"]!,
+                surfaceTintColor: Colors.white,
+                position: RelativeRect.fromLTRB(
+                  size.width,
+                  navbarHeight - paddingSize * 0.5,
+                  0,
+                  0,
                 ),
-              )
-            ],
+                items: [
+                  PopupMenuItem(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.people,
+                          color: customColors["onContainer"]!,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Profile",
+                          style: TextStyle(
+                            color: customColors["onContainer"]!,
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        tuachuayDekhorPageRoute["profile"]!,
+                      );
+                    },
+                  ),
+                  PopupMenuItem(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.logout,
+                          color: customColors["onContainer"]!,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          "RuamMitr",
+                          style: TextStyle(
+                            color: customColors["onContainer"]!,
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        ruamMitrPageRoute["home"]!,
+                        (Route<dynamic> route) => false,
+                      );
+                    },
+                  ),
+                ],
+              );
+            },
+            child: getAvatar(context),
           ),
         ],
       ),
