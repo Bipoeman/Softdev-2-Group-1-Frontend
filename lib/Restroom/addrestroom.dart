@@ -122,7 +122,6 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
     _addressTextController.addListener(updateRemainingCharacters);
   }
 
-  @override
   void dispose() {
     _addressTextController.removeListener(updateRemainingCharacters);
     _addressTextController.dispose();

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
-import 'package:ruam_mitt/global_var.dart';
 
 class Cardcomment extends StatefulWidget {
   const Cardcomment({super.key, required this.cardData});
@@ -49,7 +48,7 @@ class _CardcommentState extends State<Cardcomment> {
                           radius: 25,
                           backgroundImage: NetworkImage(widget
                                   .cardData["user_info"]["profile"] ??
-                              "https://api.multiavatar.com/${(widget.cardData["user_info"]["username"] ?? "").replaceAll(" ", "+")}.png"),
+                              "https://i.pinimg.com/564x/9b/2a/e8/9b2ae82b19caea75419be79b046b2107.jpg"),
                         ),
                         SizedBox(
                           width: size.width * 0.5,
@@ -78,22 +77,23 @@ class _CardcommentState extends State<Cardcomment> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           widget.cardData["picture"] != null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(
-                                      1), // กำหนดขนาดขอบโค้ง
-                                  child: SizedBox(
-                                    height: size.height *
-                                        0.12, // กำหนดความสูงของกล่องให้เท่ากับ 12% ของความสูงของหน้าจอ
-                                    width: size.width *
-                                        0.3, // กำหนดความกว้างของกล่องให้เท่ากับ 30% ของความกว้างของหน้าจอ
+                              ? SizedBox(
+                                  width: 120, // กำหนดความกว้างที่ต้องการ
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
                                     child: Image.network(
-                                      widget.cardData[
-                                          "picture"], // โหลดรูปภาพจาก URL
-                                      fit: BoxFit
-                                          .cover, // ปรับขนาดรูปภาพให้เต็มพื้นที่ของกล่องและตัดตามขอบโค้ง
+                                      widget.cardData["picture"],
+                                      fit: BoxFit.cover,
+                                      scale: 3,
                                     ),
                                   ),
                                 )
+
+                              //     SizedBox(
+                              //   height: size.height * 0.12,
+                              //   width: size.width * 0.3,
+                              //   child: Image.network(widget.cardData["picture"]),
+                              // )
                               : Container(),
                         ],
                       ),

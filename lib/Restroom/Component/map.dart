@@ -1,5 +1,6 @@
 import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ruam_mitt/Restroom/Component/cardpin.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -17,21 +18,35 @@ class MapRestroomRover extends StatelessWidget {
   static final Map<String, String> pinImg = {
     "Free": "assets/images/RestroomRover/Pingreen.png",
     "Must Paid": "assets/images/RestroomRover/Pinred.png",
-    "Toilet In Stores": "assets/images/RestroomRover/Pinorange.png"
+    "Toilet In Stores": "assets/images/RestroomRover/Pinorange3.png",
   };
 
   @override
   Widget build(BuildContext context) {
-    List<Marker> markers = restroomData
-        .map((restroom) => Marker(
-              point: LatLng(restroom["latitude"].toDouble(),
-                  restroom["longitude"].toDouble()),
-              width: 40,
-              height: 40,
-              rotate: true,
-              child: Image.asset(pinImg[restroom["type"]]!),
-            ))
-        .toList();
+    List<Marker> markers = restroomData.map((restroom) {
+      final String type = restroom["type"];
+      return Marker(
+        point: LatLng(
+          restroom["latitude"].toDouble(),
+          restroom["longitude"].toDouble(),
+        ),
+        width: 50,
+        height: 50,
+        rotate: true,
+        child: type == "Must Paid"
+            ? Image.asset(
+                pinImg[type]!,
+              )
+            : Image.asset(
+                pinImg[type]!,
+                width: type == "Toilet In Stores" ? 50 : 50,
+                height: type == "Toilet In Stores" ? 50 : 50,
+                scale: type == "Toilet In Stores"
+                    ? 5.0
+                    : 5.15 , // ปรับ scale สำหรับ "Free" ให้มีขนาดเท่ากับ "Toilet In Stores"
+              ),
+      );
+    }).toList();
 
     return Stack(
       children: [
