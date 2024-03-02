@@ -218,11 +218,15 @@ class _EditbinPageState extends State<EditbinPage> {
                               depth: -20,
                               child: TextField(
                                 controller: _LocationstextController,
+                                maxLines: 1,
                                 onChanged: (text) {
                                   print('Typed text: $text');
                                 },
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 1, horizontal: 1),
                                 ),
                               ),
                             ),
