@@ -205,7 +205,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                       fontStyle: FontStyle.italic,
                                       fontWeight: FontWeight.w300,
                                       color: customColors["label"],
-                                      fontSize: 25,
+                                      fontSize: 12,
                                     ),
                                   ),
                                 ),
