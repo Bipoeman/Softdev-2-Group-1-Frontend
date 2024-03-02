@@ -26,12 +26,16 @@ class _MyBinState extends State<MyBinPage> {
     http.Response res =
         await http.get(url, headers: {"Authorization": "Bearer $publicToken"});
     print(res.body);
-    return res;
+    if (res.statusCode == 200)
+      return res;
+    else
+      return binData;
   }
 
   Future<http.Response> delBin(int id) async {
     Uri url = Uri.parse("$api$pinTheBinDeleteBinRoute/$id");
-    http.Response res = await http.delete(url);
+    http.Response res = await http
+        .delete(url, headers: {"Authorization": "Bearer $publicToken"});
     print(res.body);
     return res;
   }
