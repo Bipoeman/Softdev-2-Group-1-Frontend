@@ -229,7 +229,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 10,
                                     ),
-                                    child: const Text("GET START"),
+                                    child: const Text("GET STARTED"),
                                   ),
                                 ),
                               ],
