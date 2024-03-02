@@ -18,35 +18,36 @@ class MapRestroomRover extends StatelessWidget {
   static final Map<String, String> pinImg = {
     "Free": "assets/images/RestroomRover/Pingreen.png",
     "Must Paid": "assets/images/RestroomRover/Pinred.png",
-    "Toilet In Stores": "assets/images/RestroomRover/Pinorange.png",
+    "Toilet In Stores": "assets/images/RestroomRover/Pinorange3.png",
   };
-  
+
   @override
   Widget build(BuildContext context) {
     List<Marker> markers = restroomData.map((restroom) {
-    final String type = restroom["type"];
-    return Marker(
-      point: LatLng(
-        restroom["latitude"].toDouble(),
-        restroom["longitude"].toDouble(),
-      ),
-      width: 50,
-      height: 50,
-      // rotate: true,
-      child: type == "Toilet In Stores"
-          ? Image.asset(
-              pinImg[type]!,
-      
-            )
-          :  Image.asset(
-              pinImg[type]!,
-              width: 50,
-              height: 50,
-              scale:5.2,
-              
-            )
-    );
-  }).toList();
+      final String type = restroom["type"];
+      return Marker(
+        point: LatLng(
+          restroom["latitude"].toDouble(),
+          restroom["longitude"].toDouble(),
+        ),
+        width: 50,
+        height: 50,
+        rotate: true,
+        child: type == "Must Paid"
+            ? Image.asset(
+                pinImg[type]!,
+              )
+            : Image.asset(
+                pinImg[type]!,
+                width: type == "Toilet In Stores" ? 50 : 50,
+                height: type == "Toilet In Stores" ? 50 : 50,
+                scale: type == "Toilet In Stores"
+                    ? 5.0
+                    : 5.15 , // ปรับ scale สำหรับ "Free" ให้มีขนาดเท่ากับ "Toilet In Stores"
+              ),
+      );
+    }).toList();
+
     return Stack(
       children: [
         FlutterMap(
