@@ -3,6 +3,7 @@ import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/search_box.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
+import 'dart:ui';
 // import 'package:ruam_mitt/RuamMitr/Component/home_v2/central_v2.dart';
 
 class NavbarTuachuayDekhor extends StatelessWidget {
@@ -43,6 +44,16 @@ class NavbarTuachuayDekhor extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(paddingSize * 0.5),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            customColors["background"]!,
+            customColors["background"]!.withOpacity(0),
+          ],
+        ),
+      ),
       height: navbarHeight,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
