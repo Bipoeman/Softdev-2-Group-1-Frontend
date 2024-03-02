@@ -229,58 +229,59 @@ class _EditbinPageState extends State<EditbinPage> {
                           )
                         ],
                       ),
-                      Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              padding: EdgeInsets.only(left: 20),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 67),
-                                child: Text(
-                                  'Position',
-                                  style:
-                                      Theme.of(context).textTheme.displayMedium,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: size.height * 0.02),
-                          Column(
-                            children: [
-                              ClayContainer(
-                                width: size.width * 0.75,
-                                height: size.height * 0.032,
-                                color: Color.fromRGBO(239, 239, 239, 1),
-                                borderRadius: 30,
-                                depth: -20,
-                                child: Text(
-                                  'Latitude : ${widget.binData['Bininfo']['latitude']}',
-                                ),
-                              ),
-                              SizedBox(
-                                height: size.height * 0.015,
-                              ),
-                              ClayContainer(
-                                width: size.width * 0.75,
-                                height: size.height * 0.032,
-                                color: Color.fromRGBO(239, 239, 239, 1),
-                                borderRadius: 30,
-                                depth: -20,
-                                child: Text(
-                                  'Longitude : ${widget.binData['Bininfo']['longitude']}',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                      // Column(
+                      //   children: [
+                      //     Align(
+                      //       alignment: Alignment.topLeft,
+                      //       child: Container(
+                      //         padding: EdgeInsets.only(left: 20),
+                      //         child: Padding(
+                      //           padding: const EdgeInsets.only(top: 67),
+                      //           child: Text(
+                      //             'Position',
+                      //             style:
+                      //                 Theme.of(context).textTheme.displayMedium,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     SizedBox(height: size.height * 0.02),
+                      //     Column(
+                      //       children: [
+                      //         ClayContainer(
+                      //           width: size.width * 0.75,
+                      //           height: size.height * 0.032,
+                      //           color: Color.fromRGBO(239, 239, 239, 1),
+                      //           borderRadius: 30,
+                      //           depth: -20,
+                      //           child: Text(
+                      //             'Latitude : ${widget.binData['Bininfo']['latitude']}',
+                      //           ),
+                      //         ),
+                      //         SizedBox(
+                      //           height: size.height * 0.015,
+                      //         ),
+                      //         ClayContainer(
+                      //           width: size.width * 0.75,
+                      //           height: size.height * 0.032,
+                      //           color: Color.fromRGBO(239, 239, 239, 1),
+                      //           borderRadius: 30,
+                      //           depth: -20,
+                      //           child: Text(
+                      //             'Longitude : ${widget.binData['Bininfo']['longitude']}',
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ],
+                      // ),
                       Padding(
                         padding: EdgeInsets.only(
-                            left: size.width * 0.16, top: size.height * 0.23),
+                            left: size.width * 0.16, top: size.height * 0.085),
                         child: Container(
                           width: size.width * 0.7,
-                          height: size.height * 0.15,
+                          height: size.height * 0.25,
+                          //color: Colors.black,
                           child: widget.binData['Bininfo']['picture'] == null
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
@@ -306,7 +307,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             child: Container(
                               padding: EdgeInsets.only(
                                   left: size.width * 0.05,
-                                  top: size.height * 0.39),
+                                  top: size.height * 0.36),
 
                               // padding: const EdgeInsets.only(
                               //     top: size.height * 0.1),
@@ -354,7 +355,7 @@ class _EditbinPageState extends State<EditbinPage> {
                               Padding(
                                 padding: EdgeInsets.only(
                                     left: size.width * 0.05,
-                                    top: size.height * 0.6),
+                                    top: size.height * 0.57),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -418,7 +419,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.only(top: size.height * 0.6),
+                                    EdgeInsets.only(top: size.height * 0.57),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -482,7 +483,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.only(top: size.height * 0.6),
+                                    EdgeInsets.only(top: size.height * 0.57),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -547,7 +548,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.only(top: size.height * 0.6),
+                                    EdgeInsets.only(top: size.height * 0.57),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
