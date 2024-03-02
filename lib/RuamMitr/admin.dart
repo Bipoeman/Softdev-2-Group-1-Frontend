@@ -6,6 +6,8 @@ import 'package:ruam_mitt/global_const.dart';
 
 enum App { ruammitr, dekhor, restroom, pinthebin, dinodengzz }
 
+class AppReport {}
+
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
 
@@ -14,6 +16,7 @@ class AdminPage extends StatefulWidget {
 }
 
 class _AdminPageState extends State<AdminPage> {
+  int issueFocusIndex = 0;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -40,6 +43,7 @@ class _AdminPageState extends State<AdminPage> {
               "Administrator",
               style: TextStyle(
                 color: theme.colorScheme.onPrimary,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -49,7 +53,16 @@ class _AdminPageState extends State<AdminPage> {
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  AdminHeader(size, theme),
+                  adminIssueBar(
+                    size,
+                    theme,
+                    selected: issueFocusIndex,
+                    onChange: (index) {
+                      print(index);
+                      issueFocusIndex = index;
+                      setState(() {});
+                    },
+                  ),
                   ReportCard(
                     size: size,
                     theme: theme,
@@ -68,29 +81,47 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
-  Center AdminHeader(Size size, ThemeData theme) {
+  Center adminIssueBar(Size size, ThemeData theme,
+      {required Function(int index) onChange, required int selected}) {
+    List<String> issueStringList = [
+      "All Issues",
+      "Open Issues",
+      "Closed Issues"
+    ];
     return Center(
       child: Container(
         margin: const EdgeInsets.only(top: 50, bottom: 40),
         height: size.width * (588 / 738) / (588 / 85),
         width: size.width * (588 / 738),
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           color: Colors.white,
         ),
-        child: Center(
-          child: Container(
-            decoration: UnderlineTabIndicator(
-              borderSide: BorderSide(
-                color: theme.colorScheme.primary,
-                width: 3,
-              ),
-            ),
-            child: Text(
-              "Issues",
-              style: TextStyle(
-                fontFamily: GoogleFonts.getFont("Inter").fontFamily,
-                fontWeight: FontWeight.bold,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: List.generate(
+            3,
+            (index) => GestureDetector(
+              onTap: () {
+                onChange(index);
+              },
+              child: Container(
+                decoration: selected == index
+                    ? UnderlineTabIndicator(
+                        borderSide: BorderSide(
+                          color: theme.colorScheme.primary,
+                          width: 3,
+                        ),
+                      )
+                    : null,
+                child: Text(
+                  issueStringList[index],
+                  style: TextStyle(
+                    fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ),

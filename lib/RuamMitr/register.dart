@@ -184,8 +184,11 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void validateRegisterInputs(String value) {
-    bool noAnyStartStates = _isEmptyFromStart.values.every((element) => !element);
-    if (_formKey.currentState!.validate() && !_registerButtonEnabled && noAnyStartStates) {
+    bool noAnyStartStates =
+        _isEmptyFromStart.values.every((element) => !element);
+    if (_formKey.currentState!.validate() &&
+        !_registerButtonEnabled &&
+        noAnyStartStates) {
       _registerButtonEnabled = true;
       setState(() {});
     } else if (!_formKey.currentState!.validate() && _registerButtonEnabled) {
@@ -263,9 +266,8 @@ class _RegisterPageState extends State<RegisterPage> {
             title: Text(
               "Create an account",
               style: TextStyle(
-                color: theme.colorScheme.onPrimary,
-                fontWeight: FontWeight.bold
-              ),
+                  color: theme.colorScheme.onPrimary,
+                  fontWeight: FontWeight.bold),
             ),
             backgroundColor: theme.colorScheme.primary,
             leading: GestureDetector(
@@ -288,7 +290,8 @@ class _RegisterPageState extends State<RegisterPage> {
           body: SingleChildScrollView(
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight: size.height - MediaQuery.of(context).padding.top - 75,
+                minHeight:
+                    size.height - MediaQuery.of(context).padding.top - 75,
               ),
               child: Center(
                 child: Container(
@@ -302,7 +305,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       end: Alignment.bottomCenter,
                       colors: [
                         ruammitrTheme.customColors["oddContainer"]!,
-                        ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
+                        ruammitrTheme.customColors["oddContainer"]!
+                            .withOpacity(0),
                       ],
                     ),
                   ),
@@ -368,7 +372,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                               foregroundColor: theme.colorScheme.onPrimary,
                             ),
-                            onPressed: _registerButtonEnabled ? _registerAccount : null,
+                            onPressed: _registerButtonEnabled
+                                ? _registerAccount
+                                : null,
                             child: const Text("Create Account"),
                           ),
                         ),
