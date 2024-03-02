@@ -45,8 +45,11 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"]!,
       body: SafeArea(
         child: Stack(
           children: [
@@ -65,11 +68,18 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                         left: size.width * 0.04,
                       ),
                       child: GestureDetector(
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.arrow_back_outlined),
-                            SizedBox(width: 5),
-                            Text("Back")
+                            Icon(
+                              Icons.arrow_back_outlined,
+                              color: customColors["main"]!,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "Back",
+                              style: TextStyle(color: customColors["main"]!),
+                            ),
                           ],
                         ),
                         onTap: () => Navigator.pop(context),
@@ -82,7 +92,7 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                         top: size.width * 0.05,
                         bottom: size.width * 0.05,
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -90,6 +100,7 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.w500,
+                              color: customColors["main"]!,
                             ),
                           ),
                         ],
@@ -98,7 +109,7 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                     Container(
                       width: size.width * 0.8,
                       height: size.width * 0.02,
-                      color: const Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"]!,
                     ),
                      Padding(
                       padding: EdgeInsets.only(
