@@ -37,8 +37,9 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(10),
                   onTap: () {
-                    Navigator.pushNamed(
-                        context, tuachuayDekhorPageRoute["home"]!);
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        tuachuayDekhorPageRoute["home"]!,
+                        (Route<dynamic> route) => false);
                   },
                   child: const Image(
                     image: AssetImage(
