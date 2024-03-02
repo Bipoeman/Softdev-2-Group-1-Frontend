@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/global_var.dart';
 
@@ -14,6 +17,41 @@ class ReviewSlideBar extends StatefulWidget {
 
 class _ReviewSlideBarState extends State<ReviewSlideBar> {
   TextEditingController _ReviewtextController = TextEditingController();
+  File? _image;
+  int remainingCharacters = 0;
+  Future<void> _getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  @override
+  void updateRemainingCharacters() {
+    setState(() {
+      remainingCharacters = _ReviewtextController.text.length;
+    });
+  }
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("init");
+    _ReviewtextController.addListener(updateRemainingCharacters);
+  }
+
+  @override
+  void dispose() {
+    _ReviewtextController.removeListener(updateRemainingCharacters);
+    _ReviewtextController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -44,7 +82,6 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                           Text(profileData["username"],
                               style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)),
-                          
                         ],
                       ),
                     ],
@@ -68,27 +105,45 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                   const SizedBox(
                     height: 5,
                   ),
+
                   Container(
                     margin: EdgeInsets.only(top: size.height * 0.02),
                     child: ClayContainer(
                       width: size.width * 0.85,
                       height: size.height * 0.17,
-                      color: const Color(0xFFEAEAEA),
+                      color: Color(0xFFEAEAEA),
                       borderRadius: 30,
                       depth: -20,
-                      child: TextField(
-                        controller: _ReviewtextController,
-                        onChanged: (text) {
-                          print('Typed text: $text');
-                        },
-                        maxLines: null,
-                        // textAlignVertical: TextAlignVertical.center,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 10.0),
-                          hintText: 'Write a review...',
-                        ),
+                      child: Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          TextField(
+                            maxLength: 150,
+                            maxLines: 4,
+                            controller: _ReviewtextController,
+                            // inputFormatters: [
+                            //   LengthLimitingTextInputFormatter(80),
+                            // ],
+                            decoration: InputDecoration(
+                              counterText: "",
+                              border: InputBorder.none,
+                              contentPadding:
+                                  EdgeInsets.only(left: 16, right: 16, bottom: 5),
+                              hintText: 'Write a review...',
+                            ),
+                          ),
+                          Positioned(
+                            top: 1,
+                            right: 16.0,
+                            child: Text(
+                              '$remainingCharacters/150',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -110,40 +165,93 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                   //   maxLines: 3,
                   // ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.grey[300],
-                      surfaceTintColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                        side: const BorderSide(color: Colors.grey),
-                      ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.02,
                     ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.camera_alt),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text('Add Photo'),
-                      ],
+                    child: InkWell(
+                      onTap: () {
+                        _getImage();
+                      },
+                      child: _image == null
+                          ? Container(
+                              padding: const EdgeInsets.only(right: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(40),
+                                border: Border.all(color: Colors.grey),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 20, right: 10, top: 10, bottom: 10),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.camera_alt),
+                                    SizedBox(width: 10),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        'Add Photo',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayLarge,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(right: 0.5),
+                              child: Expanded(
+                                // ใช้ Expanded เพื่อให้รูปภาพขยายตามพื้นที่
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Image.file(
+                                    _image!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
                     ),
                   ),
+                  // ElevatedButton(
+                  //   onPressed: () {},
+                  //   style: ElevatedButton.styleFrom(
+                  //     foregroundColor: Colors.black,
+                  //     backgroundColor: Colors.grey[300],
+                  //     surfaceTintColor: Colors.white,
+                  //     shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(40),
+                  //       side: const BorderSide(color: Colors.grey),
+                  //     ),
+                  //   ),
+                  //   child: const Row(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Icon(Icons.camera_alt),
+                  //       SizedBox(
+                  //         width: 10,
+                  //       ),
+                  //       Text('Add Photo'),
+                  //     ],
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 30,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                       Padding(
-                         padding: const EdgeInsets.only(right: 25),
-                         child: ElevatedButton(
+                      Padding(
+                        padding: const EdgeInsets.only(right: 25),
+                        child: ElevatedButton(
                           onPressed: widget.cancelOnPressed,
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.black,
@@ -158,8 +266,8 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                             "Cancel",
                             style: Theme.of(context).textTheme.displayLarge,
                           ),
-                                               ),
-                       ),
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(left: 25),
                         child: ElevatedButton(
@@ -179,7 +287,6 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                           ),
                         ),
                       ),
-                     
                     ],
                   ),
                 ],

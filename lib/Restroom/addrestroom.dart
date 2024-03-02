@@ -73,12 +73,6 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
     _DescriptiontextController.addListener(updateRemainingCharacters);
   }
 
-  // void updateRemainingCharacters() {
-  //   setState(() {
-  //     remainingCharacters = _DescriptiontextController.text.length;
-  //   });
-  // }
-
   @override
   void dispose() {
     _DescriptiontextController.removeListener(updateRemainingCharacters);
