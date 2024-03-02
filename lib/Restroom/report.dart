@@ -28,7 +28,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
   File? _image;
   int remainingCharacters = 0;
 
-  @override
+  
   void updateRemainingCharacters() {
     setState(() {
       remainingCharacters = _DescriptiontextController.text.length;
@@ -42,7 +42,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
     _DescriptiontextController.addListener(updateRemainingCharacters);
   }
 
-  @override
+  
   void dispose() {
     _DescriptiontextController.removeListener(updateRemainingCharacters);
     _DescriptiontextController.dispose();
@@ -166,7 +166,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(
                                     left: 16, right: 16, top: 20),
-                                hintText: 'Write a report...',
+                                hintText: 'Write a r...',
                               ),
                             ),
                             Positioned(
