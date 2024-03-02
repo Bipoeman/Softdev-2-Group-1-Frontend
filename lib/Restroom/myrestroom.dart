@@ -23,7 +23,7 @@ class _MyRestroomState extends State<MyRestroomPage> {
   FocusNode focusNode = FocusNode();
   LatLng? centerMark;
   Future<http.Response> myRestroomInfo() async {
-    Uri url = Uri.parse("$api$restroomRoverGetRestroomRoute");
+    Uri url = Uri.parse("$api$restroomRoverRestroomRoute");
     http.Response res =
         await http.get(url, headers: {"Authorization": "Bearer $publicToken"});
     print(res.body);
@@ -31,7 +31,7 @@ class _MyRestroomState extends State<MyRestroomPage> {
   }
 
   Future<http.Response> delRestroom(int id) async {
-    Uri url = Uri.parse("$api$restroomRoverAddOrDeleteRoute/$id");
+    Uri url = Uri.parse("$api$restroomRoverRestroomRoute/$id");
     http.Response res = await http.delete(url);
     print(res.body);
     return res;

@@ -28,8 +28,8 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
 
   Future<http.Response> getRestroomReview() async {
     debugPrint("Getting Review");
-    Uri url = Uri.parse(
-        "$api$restroomRoverGetReviewRoute/${widget.restroomData["id"]}");
+    Uri url =
+        Uri.parse("$api$restroomRoverReviewRoute/${widget.restroomData["id"]}");
     http.Response res = await http.get(
       url,
       headers: {
@@ -44,7 +44,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
   void initState() {
     super.initState();
 
-    getRestroomReview().then((response) {
+    getRestroomReview().timeout(Durations.extralong4).then((response) {
       reviewData = jsonDecode(response.body);
       setState(() {});
     }).onError((error, stackTrace) {
@@ -75,203 +75,217 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
           children: [
             Container(
               margin: const EdgeInsets.only(top: 100),
-              child: SlidingBox(
-                controller: boxController,
-                physics: const NeverScrollableScrollPhysics(),
-                collapsed: true,
-                minHeight: 0,
-                maxHeight: 460,
-                draggable: false,
-                onBoxClose: () => FocusManager.instance.primaryFocus?.unfocus(),
-                body: ReviewSlideBar(cancelOnPressed: boxController.closeBox),
-                backdrop: Backdrop(
-                  moving: false,
-                  overlay: true,
-                  body: SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: size.height -
-                            [size.width * 0.4, 100.0].reduce(min) -
-                            MediaQuery.of(context).padding.top,
-                      ),
-                      child: Center(
-                        child: IntrinsicHeight(
-                          child: Column(
-                            children: [
-                              Container(
-                                height: size.height * 0.3,
-                                width: size.width * 0.8,
-                                padding: EdgeInsets.only(
-                                  left: size.width * 0.01,
-                                  top: size.height * 0.04,
-                                  bottom: size.height * 0.01,
-                                  right: size.width * 0.01,
-                                ),
-                                child: Image.network(
-                                  widget.restroomData["picture"] ??
-                                      "https://i.pinimg.com/564x/1c/13/1c/1c131cc30f7c203a4833b6983d025b03.jpg",
-                                ),
-                              ),
-                              Container(
-                                height: size.height * 0.07,
-                                width: size.width * 0.8,
-                                padding: EdgeInsets.only(
-                                  top: size.height * 0.02,
-                                ),
-                                child: Text(
-                                  widget.restroomData["name"],
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w500,
+              child: NotificationListener<OverscrollIndicatorNotification>(
+                onNotification: (overscroll) {
+                  overscroll
+                      .disallowIndicator(); // Prevent Overscroll Indication
+                  return true;
+                },
+                child: SlidingBox(
+                  controller: boxController,
+                  physics: const ClampingScrollPhysics(),
+                  collapsed: true,
+                  minHeight: 0,
+                  maxHeight: size.height * 0.6,
+                  draggable: false,
+                  onBoxClose: () =>
+                      FocusManager.instance.primaryFocus?.unfocus(),
+                  body: ReviewSlideBar(
+                      restroomId: widget.restroomData["id"],
+                      closeSlidingBox: boxController.closeBox),
+                  backdrop: Backdrop(
+                    moving: false,
+                    overlay: true,
+                    body: SingleChildScrollView(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: size.height -
+                              [size.width * 0.4, 100.0].reduce(min) -
+                              MediaQuery.of(context).padding.top,
+                        ),
+                        child: Center(
+                          child: IntrinsicHeight(
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: size.height * 0.3,
+                                  width: size.width * 0.8,
+                                  padding: EdgeInsets.only(
+                                    left: size.width * 0.01,
+                                    top: size.height * 0.04,
+                                    bottom: size.height * 0.01,
+                                    right: size.width * 0.01,
+                                  ),
+                                  child: Image.network(
+                                    widget.restroomData["picture"] ??
+                                        "https://i.pinimg.com/564x/1c/13/1c/1c131cc30f7c203a4833b6983d025b03.jpg",
                                   ),
                                 ),
-                              ),
-                              Container(
-                                height: size.height * 0.002,
-                                width: size.width * 0.8,
-                                color: const Color.fromRGBO(99, 99, 99, 1),
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    height: size.height * 0.09,
-                                    width: size.width * 0.7,
-                                    padding: EdgeInsets.only(
-                                      left: size.width * 0.1,
-                                      top: size.height * 0.01,
-                                      bottom: size.height * 0.01,
-                                    ),
-                                    child: FlutterRating(
-                                      rating: widget.restroomData["avg_star"]
-                                              ?.toDouble() ??
-                                          0.0,
-                                      size: size.height * 0.05,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                Container(
+                                  height: size.height * 0.07,
+                                  width: size.width * 0.8,
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.02,
+                                  ),
+                                  child: Text(
+                                    widget.restroomData["name"],
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  Container(
-                                    height: size.height * 0.09,
-                                    width: size.width * 0.2,
-                                    padding: EdgeInsets.only(
-                                      left: size.width * 0.07,
-                                      top: size.height * 0.027,
-                                      bottom: size.height * 0.01,
-                                    ),
-                                    child: Text(
-                                      widget.restroomData["avg_star"]
-                                              ?.toStringAsFixed(1) ??
-                                          "0.0",
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                height: size.height * 0.12,
-                                width: size.width * 0.7,
-                                padding: EdgeInsets.only(
-                                  bottom: size.height * 0.01,
                                 ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                Container(
+                                  height: size.height * 0.002,
+                                  width: size.width * 0.8,
+                                  color: const Color.fromRGBO(99, 99, 99, 1),
+                                ),
+                                Row(
                                   children: [
                                     Container(
-                                      height: size.height * 0.06,
-                                      width: size.width * 0.25,
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromRGBO(
-                                            255, 183, 3, 1),
-                                        borderRadius: BorderRadius.circular(20),
+                                      height: size.height * 0.09,
+                                      width: size.width * 0.7,
+                                      padding: EdgeInsets.only(
+                                        left: size.width * 0.1,
+                                        top: size.height * 0.01,
+                                        bottom: size.height * 0.01,
                                       ),
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          boxController.openBox();
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                            const Color.fromRGBO(
-                                                255, 183, 3, 1),
-                                          ),
-                                          shape: MaterialStateProperty.all<
-                                              OutlinedBorder>(
-                                            RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                          ),
-                                        ),
-                                        child: const Icon(
-                                          Icons.reviews,
-                                          color: Colors.black,
-                                          size: 30,
-                                        ),
+                                      child: FlutterRating(
+                                        rating: widget.restroomData["avg_star"]
+                                                ?.toDouble() ??
+                                            0.0,
+                                        size: size.height * 0.05,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                       ),
                                     ),
                                     Container(
-                                      height: size.height * 0.06,
-                                      width: size.width * 0.25,
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromRGBO(
-                                            255, 183, 3, 1),
-                                        borderRadius: BorderRadius.circular(20),
+                                      height: size.height * 0.09,
+                                      width: size.width * 0.2,
+                                      padding: EdgeInsets.only(
+                                        left: size.width * 0.07,
+                                        top: size.height * 0.027,
+                                        bottom: size.height * 0.01,
                                       ),
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.pushNamed(context,
-                                              restroomPageRoute["reportpin"]!,
-                                              arguments: widget.restroomData);
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                            const Color.fromRGBO(
-                                                255, 183, 3, 1),
-                                          ),
-                                          shape: MaterialStateProperty.all<
-                                              OutlinedBorder>(
-                                            RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                          ),
-                                        ),
-                                        child: const Icon(
-                                          Icons.report,
+                                      child: Text(
+                                        widget.restroomData["avg_star"]
+                                                ?.toStringAsFixed(1) ??
+                                            "0.0",
+                                        style: const TextStyle(
                                           color: Colors.black,
-                                          size: 30,
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                              Container(
-                                height: size.height * 0.002,
-                                width: size.width * 0.8,
-                                color: const Color.fromRGBO(99, 99, 99, 1),
-                              ),
-                              const SizedBox(height: 15),
-                              Expanded(
-                                child: Column(
-                                  children: reviewData.map((review) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical:
-                                              10), // เพิ่มระยะห่าง 10 หน่วยด้านบนและด้านล่างของ Cardcomment
-                                      child: Cardcomment(cardData: review),
-                                    );
-                                  }).toList(),
+                                Container(
+                                  height: size.height * 0.12,
+                                  width: size.width * 0.7,
+                                  padding: EdgeInsets.only(
+                                    bottom: size.height * 0.01,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        height: size.height * 0.06,
+                                        width: size.width * 0.25,
+                                        decoration: BoxDecoration(
+                                          color: const Color.fromRGBO(
+                                              255, 183, 3, 1),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            boxController.openBox();
+                                          },
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(
+                                              const Color.fromRGBO(
+                                                  255, 183, 3, 1),
+                                            ),
+                                            shape: MaterialStateProperty.all<
+                                                OutlinedBorder>(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                          ),
+                                          child: const Icon(
+                                            Icons.reviews,
+                                            color: Colors.black,
+                                            size: 30,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: size.height * 0.06,
+                                        width: size.width * 0.25,
+                                        decoration: BoxDecoration(
+                                          color: const Color.fromRGBO(
+                                              255, 183, 3, 1),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pushNamed(context,
+                                                restroomPageRoute["reportpin"]!,
+                                                arguments: widget.restroomData);
+                                          },
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(
+                                              const Color.fromRGBO(
+                                                  255, 183, 3, 1),
+                                            ),
+                                            shape: MaterialStateProperty.all<
+                                                OutlinedBorder>(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                          ),
+                                          child: const Icon(
+                                            Icons.report,
+                                            color: Colors.black,
+                                            size: 30,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Container(
+                                  height: size.height * 0.002,
+                                  width: size.width * 0.8,
+                                  color: const Color.fromRGBO(99, 99, 99, 1),
+                                ),
+                                const SizedBox(height: 15),
+                                Expanded(
+                                  child: Column(
+                                    children: reviewData.map((review) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical:
+                                                10), // เพิ่มระยะห่าง 10 หน่วยด้านบนและด้านล่างของ Cardcomment
+                                        child: Cardcomment(cardData: review),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

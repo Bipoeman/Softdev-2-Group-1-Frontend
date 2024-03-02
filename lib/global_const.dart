@@ -52,11 +52,11 @@ const String dekhorDetailReportRoute = "/dekhor/detailreport";
 const String dekhorDescriptionRoute = "/dekhor/bloggerdescription";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
-const String restroomRoverGetRestroomRoute = "/restroom";
-const String restroomRoverAddOrDeleteRoute = "/restroom/toilet";
-const String restroomRoverGetReviewRoute = "/restroom/review";
-const String restroomRoverEditRoute = "/restroom/edittoilet";
-const String restroomRoverUploadPictureRoute = "/restroom/upload/toilet";
+const String restroomRoverRestroomRoute = "/restroom";
+const String restroomRoverReviewRoute = "/restroom/review";
+const String restroomRoverEditRoute = "/restroom/edit";
+const String restroomRoverUploadToiletPictureRoute = "/restroom/upload";
+const String restroomRoverUploadReviewPictureRoute = "/restroom/upload/review";
 const String pinTheBinReportBinRoute = "/pinthebin/report";
 const String pinTheBinReportPictureBinRoute = "/pinthebin/report/upload";
 
