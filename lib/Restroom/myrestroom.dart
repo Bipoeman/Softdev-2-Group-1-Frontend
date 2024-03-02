@@ -2,35 +2,36 @@ import "dart:convert";
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import "package:latlong2/latlong.dart";
-import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
+import "package:ruam_mitt/Restroom/Component/Navbar.dart";
+import "package:ruam_mitt/Restroom/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
-import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/global_var.dart';
 
-class MyBinPage extends StatefulWidget {
-  const MyBinPage({super.key});
+class MyRestroomPage extends StatefulWidget {
+  const MyRestroomPage({super.key});
 
   @override
-  State<MyBinPage> createState() => _MyBinState();
+  State<MyRestroomPage> createState() => _MyRestroomState();
 }
 
-class _MyBinState extends State<MyBinPage> {
+class _MyRestroomState extends State<MyRestroomPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  dynamic binData = [];
-  dynamic binShow = [];
-  SearchController searchBinController = SearchController();
+  dynamic restroomData = [];
+  dynamic restroomShow = [];
+  SearchController searchRestroomController = SearchController();
   FocusNode focusNode = FocusNode();
   LatLng? centerMark;
-  Future<http.Response> myBinInfo() async {
-    Uri url = Uri.parse("$api$pinTheBinMyBinRoute");
+  Future<http.Response> myRestroomInfo() async {
+    Uri url = Uri.parse("$api$restroomRoverGetRestroomRoute");
     http.Response res =
         await http.get(url, headers: {"Authorization": "Bearer $publicToken"});
     print(res.body);
     return res;
   }
 
-  Future<http.Response> delBin(int id) async {
-    Uri url = Uri.parse("$api$pinTheBinDeleteBinRoute/$id");
+  Future<http.Response> delRestroom(int id) async {
+    Uri url = Uri.parse("$api/$id");
     http.Response res = await http.delete(url);
     print(res.body);
     return res;
@@ -40,16 +41,15 @@ class _MyBinState extends State<MyBinPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print("Init Bin Page");
-    myBinInfo().then((response) {
+    print("Init Restroom Page");
+    myRestroomInfo().then((response) {
       print("Response");
       print(response.body);
       setState(() {
-        binData = jsonDecode(response.body);
-        binShow = binData;
-        print(binShow);
+        restroomData = jsonDecode(response.body);
+        restroomShow = restroomData;
       });
-      // print(binData);
+      // print(restroomData);
     });
   }
 
@@ -62,7 +62,7 @@ class _MyBinState extends State<MyBinPage> {
       trackVisibility: true,
       radius: const Radius.circular(10),
       child: Theme(
-        data: pinTheBinThemeData,
+        data: RestroomThemeData,
         child: Scaffold(
           key: _scaffoldKey,
           body: Stack(children: [
@@ -72,24 +72,25 @@ class _MyBinState extends State<MyBinPage> {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [
-                    Color(0xFFF9957F),
-                    Color(0xFFE69FA1),
-                    Color(0xFFF3F6D1),
+                    Color(0xFFFFE9A6),
+                    Color.fromARGB(255, 251, 183, 65),
+                    Color(0xFFECECEC),
                   ],
                 ),
               ),
             ),
             Column(
-              children: binShow.isEmpty
+              children: restroomShow.isEmpty
                   ? [
                       Center(
                           heightFactor: size.height * 0.02,
-                          child: const Text(
-                            'No Bin Found!',
-                            style: TextStyle(
+                          child: Text(
+                            'No Restroom Found!',
+                            style: GoogleFonts.getFont(
+                              'Sen',
+                              color: const Color(0xFFF77F00),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: const Color(0xFFF77F00),
                             ),
                           ))
                     ]
@@ -103,7 +104,7 @@ class _MyBinState extends State<MyBinPage> {
                             bottom: 20,
                           ),
                           child: Column(
-                            children: binShow.map<Widget>((data) {
+                            children: restroomShow.map<Widget>((data) {
                               return Container(
                                   width: size.width * 0.9,
                                   height: size.height * 0.27,
@@ -129,86 +130,44 @@ class _MyBinState extends State<MyBinPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.baseline,
-                                            textBaseline:
-                                                TextBaseline.alphabetic,
-                                            children: [
-                                              const Text(
-                                                'Name: ',
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  height: 1.0,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Color.fromRGBO(
-                                                      0, 30, 49, 67),
-                                                ),
-                                              ),
-                                              Text(
-                                                '${data["location"]}',
-                                                style: TextStyle(
-                                                    fontFamily: data["location"]
-                                                            .contains(
-                                                      RegExp("[ก-๛]"),
-                                                    )
-                                                        ? "THSarabunPSK"
-                                                        : Theme.of(context)
-                                                            .textTheme
-                                                            .headlineMedium!
-                                                            .fontFamily,
-                                                    fontSize: data["location"]
-                                                            .contains(
-                                                      RegExp("[ก-๛]"),
-                                                    )
-                                                        ? 28
-                                                        : 20,
-                                                    height: data["location"]
-                                                            .contains(
-                                                      RegExp("[ก-๛]"),
-                                                    )
-                                                        ? 0.7
-                                                        : 1.0,
-                                                    fontWeight: data["location"]
-                                                            .contains(
-                                                      RegExp("[ก-๛]"),
-                                                    )
-                                                        ? FontWeight.w700
-                                                        : FontWeight.normal,
-                                                    color: const Color.fromRGBO(
-                                                        0, 30, 49, 67)),
-                                              ),
-                                            ],
+                                          Text(
+                                            'Name: ${data["name"]}',
+                                            style: GoogleFonts.getFont(
+                                              'Sen',
+                                              color: const Color.fromARGB(
+                                                  67, 0, 30, 49),
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w400,
+                                            ),
                                           ),
                                           Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                const Text(
+                                                Text(
                                                   'Type: ',
-                                                  style: TextStyle(
+                                                  style: GoogleFonts.getFont(
+                                                    'Sen',
+                                                    color: const Color.fromARGB(
+                                                        67, 0, 30, 49),
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.w400,
-                                                    color: Color.fromRGBO(
-                                                        0, 30, 49, 67),
                                                   ),
                                                 ),
                                                 Text(
-                                                  '${data["bintype"]["redbin"] ? "Danger\n" : ""}${data["bintype"]["greenbin"] ? "Waste\n" : ""}${data["bintype"]["yellowbin"] ? "Recycle\n" : ""}${data["bintype"]["bluebin"] ? "General" : ""}',
-                                                  style: const TextStyle(
+                                                  '${data["type"]}',
+                                                  style: GoogleFonts.getFont(
+                                                    'Sen',
+                                                    color: const Color.fromARGB(
+                                                        67, 0, 30, 49),
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.w400,
-                                                    color: Color.fromRGBO(
-                                                        0, 30, 49, 67),
                                                   ),
                                                 ),
                                               ]),
                                         ],
                                       ),
                                       Container(
-                                        alignment: Alignment.bottomLeft,
                                         padding: EdgeInsets.only(
                                             top: size.height * 0.18),
                                         child: Row(
@@ -222,10 +181,10 @@ class _MyBinState extends State<MyBinPage> {
                                               onPressed: () {
                                                 Navigator.pushNamed(
                                                   context,
-                                                  pinthebinPageRoute[
-                                                      "editbin"]!,
+                                                  restroomPageRoute[
+                                                      "editrestroom"]!,
                                                   arguments: {
-                                                    'Bininfo': '$data',
+                                                    'Restroominfo': '$data',
                                                   },
                                                 );
                                               },
@@ -243,13 +202,15 @@ class _MyBinState extends State<MyBinPage> {
                                                   builder:
                                                       (BuildContext context) {
                                                     return AlertDialog(
-                                                      title: const Text(
+                                                      title: Text(
                                                         'Confirm Delete',
-                                                        style: TextStyle(
+                                                        style:
+                                                            GoogleFonts.getFont(
+                                                          'Sen',
+                                                          color: Colors.black,
                                                           fontSize: 25,
                                                           fontWeight:
                                                               FontWeight.w500,
-                                                          color: Colors.black,
                                                         ),
                                                       ),
                                                       actions: <Widget>[
@@ -259,15 +220,17 @@ class _MyBinState extends State<MyBinPage> {
                                                                     context)
                                                                 .pop();
                                                           },
-                                                          child: const Text(
+                                                          child: Text(
                                                             'Cancel',
-                                                            style: TextStyle(
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Sen',
+                                                              color: const Color(
+                                                                  0xFF98989A),
                                                               fontSize: 20,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w400,
-                                                              color: Color(
-                                                                  0xFF98989A),
                                                             ),
                                                           ),
                                                         ),
@@ -285,7 +248,7 @@ class _MyBinState extends State<MyBinPage> {
                                                               Navigator.of(
                                                                       context)
                                                                   .pop();
-                                                              delBin(
+                                                              delRestroom(
                                                                   data["id"]);
                                                               Navigator
                                                                   .pushReplacement(
@@ -293,18 +256,21 @@ class _MyBinState extends State<MyBinPage> {
                                                                 MaterialPageRoute(
                                                                     builder:
                                                                         (context) =>
-                                                                            const MyBinPage()),
+                                                                            const MyRestroomPage()),
                                                               );
                                                             },
-                                                            child: const Text(
+                                                            child: Text(
                                                               'Delete',
-                                                              style: TextStyle(
-                                                                  fontSize: 20,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Colors
-                                                                      .white),
+                                                              style: GoogleFonts
+                                                                  .getFont(
+                                                                'Sen',
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                              ),
                                                             ),
                                                           ),
                                                         )
@@ -343,32 +309,32 @@ class _MyBinState extends State<MyBinPage> {
                       )),
                     ],
             ),
-            MyPinTheBinAppBar(scaffoldKey: _scaffoldKey),
-            MyBinSearchBar(
+            RestroomAppBar(scaffoldKey: _scaffoldKey),
+            MyRestroomSearchBar(
               size: size,
-              searchAnchorController: searchBinController,
-              binDataList: binData,
+              searchAnchorController: searchRestroomController,
+              restroomDataList: restroomData,
               focusNode: focusNode,
               parentKey: widget.key,
               onSelected: (selectedValue) {
-                binData.forEach((eachBin) {
-                  if (eachBin['location'] == selectedValue) {
-                    binShow = [eachBin];
+                restroomData.forEach((eachRestroom) {
+                  if (eachRestroom['location'] == selectedValue) {
+                    restroomShow = [eachRestroom];
                   }
                 });
               },
             ),
           ]),
           drawerScrimColor: Colors.transparent,
-          drawer: const BinDrawer(),
+          drawer: const RestroomRoverNavbar(),
         ),
       ),
     );
   }
 }
 
-class MyPinTheBinAppBar extends StatelessWidget {
-  const MyPinTheBinAppBar({
+class RestroomAppBar extends StatelessWidget {
+  const RestroomAppBar({
     super.key,
     required GlobalKey<ScaffoldState> scaffoldKey,
   }) : _scaffoldKey = scaffoldKey;
@@ -386,8 +352,8 @@ class MyPinTheBinAppBar extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: <Color>[
-            Color(0xFFF99680),
-            Color(0xFFF8A88F),
+            Color(0xFFFFB330),
+            Color(0xFFFFE9A6),
           ],
         ),
       ),
@@ -410,7 +376,7 @@ class MyPinTheBinAppBar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Text(
-                "MYBIN",
+                "My Restroom",
                 style: TextStyle(
                   fontSize:
                       Theme.of(context).textTheme.headlineMedium!.fontSize,
@@ -428,12 +394,12 @@ class MyPinTheBinAppBar extends StatelessWidget {
   }
 }
 
-class MyBinSearchBar extends StatefulWidget {
-  const MyBinSearchBar({
+class MyRestroomSearchBar extends StatefulWidget {
+  const MyRestroomSearchBar({
     super.key,
     required this.size,
     required this.searchAnchorController,
-    required this.binDataList,
+    required this.restroomDataList,
     required this.focusNode,
     required this.onSelected,
     this.parentKey,
@@ -441,18 +407,18 @@ class MyBinSearchBar extends StatefulWidget {
 
   final Size size;
   final SearchController searchAnchorController;
-  final List<dynamic> binDataList;
+  final List<dynamic> restroomDataList;
   final FocusNode focusNode;
   final Function(dynamic selectedValue) onSelected;
   final Key? parentKey;
 
   @override
-  State<MyBinSearchBar> createState() => _MyBinSearchBarState();
+  State<MyRestroomSearchBar> createState() => _MyRestroomSearchBarState();
 }
 
-class _MyBinSearchBarState extends State<MyBinSearchBar>
+class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
     with TickerProviderStateMixin {
-  List<dynamic> tempBinData = [];
+  List<dynamic> tempRestroomData = [];
   late Animation<double> animation;
   @override
   void initState() {
@@ -460,7 +426,7 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
 
     super.initState();
     Future.delayed(const Duration(seconds: 1))
-        .then((value) => tempBinData = widget.binDataList);
+        .then((value) => tempRestroomData = widget.restroomDataList);
   }
 
   @override
@@ -474,7 +440,7 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
         height: 60,
         child: SearchAnchor(
           searchController: widget.searchAnchorController,
-          viewHintText: "Enter bin name...",
+          viewHintText: "Enter restroom name...",
           viewBackgroundColor: Colors.white,
           viewLeading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -494,7 +460,7 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
             return SearchBar(
               focusNode: widget.focusNode,
               controller: searchBarController,
-              hintText: "Search bin...",
+              hintText: "Search restroom...",
               textStyle: MaterialStatePropertyAll(
                 TextStyle(
                     fontFamily: searchBarController.text.contains(
@@ -531,7 +497,7 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
                           offset: const Offset(0, 2),
                         )
                       ],
-                      color: const Color(0xFFF9957F),
+                      color: const Color(0xFFFFB330),
                       shape: BoxShape.circle,
                     ),
                     child:
@@ -558,35 +524,35 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
             );
           },
           suggestionsBuilder: (context, suggestionController) {
-            tempBinData = [];
+            tempRestroomData = [];
             String queryText = suggestionController.text;
-            for (var i = 0; i < widget.binDataList.length; i++) {
-              if (widget.binDataList[i]['location'] != null) {
-                if (widget.binDataList[i]['location']
+            for (var i = 0; i < widget.restroomDataList.length; i++) {
+              if (widget.restroomDataList[i]['location'] != null) {
+                if (widget.restroomDataList[i]['location']
                     .toLowerCase()
                     .contains(queryText.toLowerCase())) {
-                  tempBinData.add(widget.binDataList[i]);
-                  // print(tempBinData);
+                  tempRestroomData.add(widget.restroomDataList[i]);
+                  // print(tempRestroomData);
                 } else if (queryText == "") {
                   debugPrint("Blank Query");
-                  tempBinData = widget.binDataList;
+                  tempRestroomData = widget.restroomDataList;
                   // print('3');
                 }
               }
             }
             return List<GestureDetector>.generate(
-              tempBinData.length,
+              tempRestroomData.length,
               (int index) {
                 return GestureDetector(
                   onTap: () {
-                    widget.onSelected(tempBinData[index]['location']);
+                    widget.onSelected(tempRestroomData[index]['location']);
                     Future.delayed(const Duration(milliseconds: 500))
                         .then((value) {
                       widget.focusNode.unfocus();
                       // suggestionController.clear();
                     });
                     suggestionController
-                        .closeView(tempBinData[index]['location']);
+                        .closeView(tempRestroomData[index]['location']);
                   },
                   child: Container(
                     color: Theme.of(context).colorScheme.background,
@@ -601,35 +567,38 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                tempBinData[index]['location'],
+                                tempRestroomData[index]['location'],
                                 style: TextStyle(
-                                    fontFamily:
-                                        tempBinData[index]['location'].contains(
+                                    fontFamily: tempRestroomData[index]
+                                                ['location']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? "THSarabunPSK"
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .labelMedium!
-                                                .fontFamily,
-                                    fontSize:
-                                        tempBinData[index]['location'].contains(
+                                        ? "THSarabunPSK"
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .labelMedium!
+                                            .fontFamily,
+                                    fontSize: tempRestroomData[index]
+                                                ['location']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? 24
-                                            : 16,
-                                    fontWeight:
-                                        tempBinData[index]['location'].contains(
+                                        ? 24
+                                        : 16,
+                                    fontWeight: tempRestroomData[index]
+                                                ['location']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? FontWeight.w700
-                                            : FontWeight.normal),
+                                        ? FontWeight.w700
+                                        : FontWeight.normal),
                               ),
                               Text(
-                                tempBinData[index]['description'],
+                                tempRestroomData[index]['description'],
                                 maxLines: 1,
                                 style: TextStyle(
-                                    fontFamily: tempBinData[index]
+                                    fontFamily: tempRestroomData[index]
                                                 ['description']
                                             .contains(
                                       RegExp("[ก-๛]"),
@@ -639,14 +608,15 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
                                             .textTheme
                                             .labelMedium!
                                             .fontFamily,
-                                    fontSize: tempBinData[index]['description']
+                                    fontSize: tempRestroomData[index]
+                                                ['description']
                                             .contains(
                                       RegExp("[ก-๛]"),
                                     )
                                         ? 22
                                         : 16,
                                     color: Colors.black.withOpacity(0.6),
-                                    fontWeight: tempBinData[index]
+                                    fontWeight: tempRestroomData[index]
                                                 ['description']
                                             .contains(
                                       RegExp("[ก-๛]"),

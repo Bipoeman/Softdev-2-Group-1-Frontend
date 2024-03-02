@@ -5,14 +5,15 @@ import 'package:ruam_mitt/PinTheBin/addbinV2.dart';
 import 'package:ruam_mitt/PinTheBin/editbin.dart';
 import 'package:ruam_mitt/PinTheBin/mybin.dart';
 import 'package:ruam_mitt/PinTheBin/report.dart';
-import 'package:ruam_mitt/Restroom/FindPosition.dart';
-import 'package:ruam_mitt/Restroom/Review.dart';
+import 'package:ruam_mitt/Restroom/myrestroom.dart';
+import 'package:ruam_mitt/Restroom/findposition.dart';
+import 'package:ruam_mitt/Restroom/report_pin.dart';
+import 'package:ruam_mitt/Restroom/review.dart';
 import 'package:ruam_mitt/Restroom/addrestroom.dart';
 import 'package:ruam_mitt/Restroom/report.dart';
 import 'package:ruam_mitt/Restroom/restroom.dart';
 import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
 import 'package:ruam_mitt/RuamMitr/central_v2.dart';
-import 'package:ruam_mitt/RuamMitr/edit_profile.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
@@ -64,19 +65,20 @@ class _SuperAppState extends State<SuperApp> {
       routes: {
         loginPageRoute: (context) => const LoginPage(),
         registerPageRoute: (context) => const RegisterPage(),
-        // ruamMitrPageRoute["home"]!: (context) => const HomePage(),
         ruamMitrPageRoute["home"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
-        // ruamMitrPageRoute["settings"]!: (context) => const SettingsPage(),
-        // ruamMitrPageRoute["profile"]!: (context) => const ProfilePage(),
-        ruamMitrPageRoute["edit-profile"]!: (context) => const EditProfile(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
-        restroomPageRoute["review"]!: (context) => const RestroomRoverReview(),
+        restroomPageRoute["review"]!: (context) => RestroomRoverReview(
+            restroomData: ModalRoute.of(context)!.settings.arguments
+                as Map<String, dynamic>),
         restroomPageRoute["findposition"]!: (context) =>
             const RestroomRoverFindPosition(),
         restroomPageRoute["addrestroom"]!: (context) =>
             const RestroomRoverAddrestroom(),
         restroomPageRoute["report"]!: (context) => const RestroomRoverReport(),
+        restroomPageRoute["reportpin"]!: (context) => RestroomRoverReportPin(restroomData: ModalRoute.of(context)!.settings.arguments
+                as Map<String, dynamic>),
+        restroomPageRoute["edit"]!: (context) => const MyRestroomPage(),
         dinodengzzPageRoute: (context) => const MyGame(),
         tuachuayDekhorPageRoute["home"]!: (context) =>
             const TuachuayDekhorHomePage(),
@@ -136,7 +138,6 @@ class _SuperAppState extends State<SuperApp> {
         },
         tuachuayDekhorPageRoute["admin"]!: (context) =>
             const TuachuayDekhorAdminPage(),
-
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPageV2(),
         pinthebinPageRoute["editbin"]!: (context) => const EditbinPage(),
