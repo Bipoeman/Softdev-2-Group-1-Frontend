@@ -147,7 +147,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                   color: customColors["main"],
                                 ),
                                 Text(
-                                  "Catagories",
+                                  "Categories",
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
