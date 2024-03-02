@@ -134,7 +134,7 @@ class RestroomRoverNavbar extends StatelessWidget {
             ),
             title: Text('Edit pin'),
             onTap: () {
-              Navigator.pushNamed(context, restroomPageRoute["edit"]!);
+              Navigator.pushNamed(context, restroomPageRoute["myrestroom"]!);
             },
           ),
           SizedBox(height: 10),
