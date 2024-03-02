@@ -303,23 +303,29 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                         ),
                                       ),
                                       Container(
-                                        width: size.width,
-                                        height: size.height,
-                                        padding: EdgeInsets.only(
-                                            top: size.height * 0.1,
-                                            left: size.width * 0.4),
-                                        child: data["picture"] == null
-                                            ? Image.asset(
-                                                "assets/images/PinTheBin/bin_null.png",
-                                                width: size.width * 0.4,
-                                                height: size.width * 0.4,
-                                              )
-                                            : Image.network(
-                                                data["picture"],
-                                                width: size.width * 0.4,
-                                                height: size.width * 0.4,
+                                         width: null,
+                                                  height: size.height * 0.4,
+                                          padding: EdgeInsets.only(
+                                              top: size.height * 0.1,
+                                              left: size.width * 0.4),
+                                          child: data["picture"] == null
+                                              ? Image.asset(
+                                                  "assets/images/PinTheBin/bin_null.png",
+                                                  width: size.width * 0.4,
+                                                  height: size.width * 0.4,
+                                                )
+                                              : Expanded(
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                child: Image.network(
+                                                  data["picture"],
+                                                  
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
-                                      )
+                                            )
+                                     
+                                          )
                                     ],
                                   ));
                             }).toList(),

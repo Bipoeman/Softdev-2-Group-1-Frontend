@@ -154,18 +154,21 @@ class _CardpinState extends State<Cardpin> {
                       right: size.width * 0.1,
                     ),
                     child: SizedBox(
-                      height: size.height * 0.21,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.network(
-                          widget.restroomData["picture"] ??
+                                        height: size.height * 0.21,
+
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Image.network(
+                                         widget.restroomData["picture"] ??
                               "https://i.pinimg.com/564x/97/15/0f/97150f3cc7e93677495133ffe6ea77c3.jpg",
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                                          fit: BoxFit.cover,
+                                          
+                                        ),
+                                      ),
+                                    ),
                   ),
                 ),
+
                 Container(
                     height: size.height * 0.1,
                     width: size.width * 0.8,
