@@ -1,4 +1,7 @@
+import "dart:io";
+
 import "package:flutter/material.dart";
+import "package:image_picker/image_picker.dart";
 import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
 import "package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart";
 import 'package:clay_containers/widgets/clay_container.dart';
@@ -17,7 +20,8 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   TextEditingController _ReporttextController = TextEditingController();
-  int remainingCharacters = 80;
+  int remainingCharacters = 0;
+  File? _image;
   @override
   Widget build(BuildContext context) {
     final data = (ModalRoute.of(context)?.settings.arguments ??
@@ -25,26 +29,39 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
     Size size = MediaQuery.of(context).size;
 
     @override
-    void updateRemainingCharacters() {
-      setState(() {
-        remainingCharacters = _ReporttextController.text.length;
-      });
-    }
+  void updateRemainingCharacters() {
+    setState(() {
+      remainingCharacters = _ReporttextController.text.length;
+    });
+  }
 
-    void initState() {
-      // TODO: implement initState
-      super.initState();
-      print("init");
-      _ReporttextController.addListener(updateRemainingCharacters);
-    }
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("init");
+    _ReporttextController.addListener(updateRemainingCharacters);
+  }
+
+  @override
+  void dispose() {
+    _ReporttextController.removeListener(updateRemainingCharacters);
+    _ReporttextController.dispose();
+    super.dispose();
+  }
+
+    Future<void> _getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
     
-    @override
-    void dispose() {
-      _ReporttextController.removeListener(updateRemainingCharacters);
-      _ReporttextController.dispose();
-      super.dispose();
-    }
-
     return Theme(
         data: RestroomThemeData,
         child: Builder(builder: (context) {
@@ -85,7 +102,7 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                               depth: -20,
                               child: Padding(
                                 padding:
-                                    EdgeInsets.only(left: size.width * 0.03,bottom: size.height * 0.005),
+                                    EdgeInsets.only(left: size.width * 0.03,top: size.height * 0.003),
                                 child: Text(
                                   widget.restroomData["name"],
                                   style: TextStyle(
@@ -259,9 +276,10 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                             top: size.height * 0.02, right: size.width * 0.1),
                         child: InkWell(
                           onTap: () {
-                            print("1");
+                            _getImage();
                           },
-                          child: Container(
+                          child: _image == null
+                          ? Container(
                             width: size.width * 0.8,
                             height: size.height * 0.125,
                             decoration: BoxDecoration(
@@ -378,7 +396,20 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                                 ),
                               ],
                             ),
-                          ),
+                          )
+                          :  Padding(
+                                    padding: const EdgeInsets.only(right: 0.5),
+                                    child: Expanded(
+                                      // ใช้ Expanded เพื่อให้รูปภาพขยายตามพื้นที่
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Image.file(
+                                          _image!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                         ),
                       ),
                       Padding(
@@ -387,22 +418,6 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            // ElevatedButton(
-                            //   onPressed: () {},
-                            //   style: ElevatedButton.styleFrom(
-                            //     foregroundColor: Colors.black,
-                            //     backgroundColor: Colors.amber,
-                            //     surfaceTintColor: Colors.white,
-                            //     shape: RoundedRectangleBorder(
-                            //       borderRadius: BorderRadius.circular(40),
-                            //       side: const BorderSide(color: Colors.grey),
-                            //     ),
-                            //   ),
-                            //   child: Text(
-                            //     'Submit',
-                            //     style: Theme.of(context).textTheme.displayLarge,
-                            //   ),
-                            // ),
                             Padding(
                               padding: const EdgeInsets.only(right: 20.0),
                               child: ElevatedButton(

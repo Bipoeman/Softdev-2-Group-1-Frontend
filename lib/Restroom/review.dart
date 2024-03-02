@@ -280,6 +280,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                 ),
               ),
             ),
+            Padding(padding: EdgeInsets.only(top: size.height * 0.035)),
             RestroomAppBar(scaffoldKey: _scaffoldKey),
           ],
         ),

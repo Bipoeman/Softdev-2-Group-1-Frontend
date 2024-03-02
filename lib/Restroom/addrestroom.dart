@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
@@ -25,12 +28,24 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
   final TextEditingController _NametextController = TextEditingController();
   final TextEditingController _DescriptiontextController =
       TextEditingController();
-  int remainingCharacters = 80;
+  int remainingCharacters = 0;
+  File? _image;
   final backgroundColor = const Color(0xFFFFFFFF);
   bool isPressed = true;
   bool isPressedHandicapped = false;
   bool isPressedKid = false;
 
+  Future<void> _getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
 
   final Map<String, bool> _isPressedrestroomtype = {
     'isPressedKid': true,
@@ -50,18 +65,13 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
       remainingCharacters = _DescriptiontextController.text.length;
     });
   }
+
   void initState() {
     // TODO: implement initState
     super.initState();
     print("init");
     _DescriptiontextController.addListener(updateRemainingCharacters);
   }
-
-  // void updateRemainingCharacters() {
-  //   setState(() {
-  //     remainingCharacters = _DescriptiontextController.text.length;
-  //   });
-  // }
 
   @override
   void dispose() {
@@ -242,108 +252,147 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.03,
+                  height: size.height * 0.01,
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  // margin: EdgeInsets.only(left: 30),
-                  width: size.width * 0.84,
-                  height: size.height * 0.1,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                        Color(0xFF292643).withOpacity(0.46),
-                        Color(0xFFF9A58D).withOpacity(0.72),
-                      ],
-                    ),
-                  ),
-                  child: Stack(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(right: size.width * 0.77),
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: size.height * 0.05),
-                          alignment: Alignment.topLeft,
-                          child: Opacity(
-                            opacity: 0.5,
-                            child: Image.asset(
-                                "assets/images/PinTheBin/corner.png"),
-                          ),
-                          width: size.width * 0.035,
-                          height: size.height * 0.035,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: size.width * 0.77),
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: size.height * 0.05),
-                          alignment: Alignment.topLeft,
-                          child: Transform.rotate(
-                            angle: 90 * 3.141592653589793 / 180,
-                            child: Opacity(
-                              opacity: 0.5,
-                              child: Image.asset(
-                                  "assets/images/PinTheBin/corner.png"),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: size.height * 0.02, ),
+                  child: InkWell(
+                    onTap: () {
+                      _getImage();
+                    },
+                    child: _image == null
+                        ? Container(
+                            width: size.width * 0.8,
+                            height: size.height * 0.125,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [
+                                  Color(0xFFFFB432).withOpacity(0.9),
+                                  Color(0xFFFFFCCE).withOpacity(1),
+                                ],
+                              ),
+                            ),
+                            child: Stack(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.005,
+                                    left: size.width * 0.01,
+                                  ),
+                                  child: Container(
+                                    alignment: Alignment.topLeft,
+                                    child: Opacity(
+                                      opacity: 0.5,
+                                      child: Image.asset(
+                                          "assets/images/PinTheBin/corner.png"),
+                                    ),
+                                    width: size.width * 0.035,
+                                    height: size.height * 0.035,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.005,
+                                    left: size.width * 0.75,
+                                  ),
+                                  child: Container(
+                                    alignment: Alignment.topLeft,
+                                    child: Transform.rotate(
+                                      angle: 90 * 3.141592653589793 / 180,
+                                      child: Opacity(
+                                        opacity: 0.5,
+                                        child: Image.asset(
+                                            "assets/images/PinTheBin/corner.png"),
+                                      ),
+                                    ),
+                                    width: size.width * 0.035,
+                                    height: size.height * 0.035,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.085,
+                                    left: size.width * 0.01,
+                                  ),
+                                  child: Container(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Transform.rotate(
+                                      angle: 270 * 3.141592653589793 / 180,
+                                      child: Opacity(
+                                        opacity: 0.5,
+                                        child: Image.asset(
+                                            "assets/images/PinTheBin/corner.png"),
+                                      ),
+                                    ),
+                                    width: size.width * 0.035,
+                                    height: size.height * 0.035,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.085,
+                                    left: size.width * 0.75,
+                                  ),
+                                  child: Container(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Transform.rotate(
+                                      angle: 180 * 3.141592653589793 / 180,
+                                      child: Opacity(
+                                        opacity: 0.5,
+                                        child: Image.asset(
+                                            "assets/images/PinTheBin/corner.png"),
+                                      ),
+                                    ),
+                                    width: size.width * 0.035,
+                                    height: size.height * 0.035,
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: size.height * 0.075),
+                                  child: Container(
+                                    alignment: Alignment.topCenter,
+                                    child: Opacity(
+                                      opacity: 0.4,
+                                      child: Text(
+                                        "Upload picture",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.03,
+                                    left: size.width * 0.35,
+                                  ),
+                                  child: Image.asset(
+                                    "assets/images/PinTheBin/upload.png",
+                                    height: size.height * 0.05,
+                                    color: Color.fromRGBO(255, 255, 255, 0.67),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(right: 0.5),
+                            child: Expanded(
+                              // ใช้ Expanded เพื่อให้รูปภาพขยายตามพื้นที่
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: Image.file(
+                                  _image!,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
                           ),
-                          width: size.width * 0.035,
-                          height: size.height * 0.035,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(
-                            right: size.width * 0.77, top: size.height * 0.05),
-
-                        child: Container(
-                          alignment: Alignment.bottomLeft,
-                          child: Transform.rotate(
-                            angle: 270 * 3.141592653589793 / 180,
-                            child: Opacity(
-                              opacity: 0.5,
-                              child: Image.asset(
-                                  "assets/images/PinTheBin/corner.png"),
-                            ),
-                          ),
-                          width: size.width * 0.035,
-                          height: size.height * 0.035,
-                          // decoration: BoxDecoration(
-                          //     border: Border.all(
-                          //         color: Colors.black, width: 10)),
-                        ),
-                        //),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: size.width * 0.77),
-                        child: Container(
-                          margin: EdgeInsets.only(top: size.height * 0.05),
-                          alignment: Alignment.bottomLeft,
-                          child: Transform.rotate(
-                            angle: 180 * 3.141592653589793 / 180,
-                            child: Opacity(
-                              opacity: 0.5,
-                              child: Image.asset(
-                                  "assets/images/PinTheBin/corner.png"),
-                            ),
-                          ),
-                          width: size.width * 0.035,
-                          height: size.height * 0.035,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: size.height * 0.055, left: size.width * 0.23),
-                        child: Opacity(
-                          opacity: 0.4,
-                          child: Text(
-                            "Upload picture",
-                            style: Theme.of(context).textTheme.displayMedium,
-                          ),
-                        ),
-                      )
-                      // itemSelection(title: 'upload', image: Image.asset("assets/images/PinTheBin/upload.png"), onTap: , context: context)
-                    ],
                   ),
                 ),
                 SizedBox(
@@ -365,7 +414,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                       margin: EdgeInsets.only(top: size.height * 0.02),
                       child: ClayContainer(
                         width: size.width * 0.78,
-                        height: size.height * 0.17,
+                        height: size.height * 0.2,
                         color: Color(0xFFEAEAEA),
                         borderRadius: 30,
                         depth: -20,
@@ -373,8 +422,8 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                           alignment: Alignment.centerRight,
                           children: [
                             TextField(
-                              maxLength: 80,
-                              maxLines: 3,
+                              maxLength: 150,
+                              maxLines: 5,
                               controller: _DescriptiontextController,
                               // inputFormatters: [
                               //   LengthLimitingTextInputFormatter(80),
@@ -383,7 +432,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                 counterText: "",
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(
-                                    left: 16, right: 16, bottom: 25),
+                                    left: 16, right: 16, top: 0),
                                 hintText: 'Write a description...',
                               ),
                             ),
@@ -391,7 +440,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                               top: 1,
                               right: 16.0,
                               child: Text(
-                                '$remainingCharacters/80',
+                                '$remainingCharacters/150',
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 12.0,
@@ -592,7 +641,6 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                         ),
                       ),
                     ),
-                    
                   ],
                 ),
                 Padding(padding: EdgeInsets.only(top: size.height * 0.035)),
