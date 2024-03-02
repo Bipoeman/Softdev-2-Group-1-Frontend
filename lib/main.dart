@@ -56,7 +56,7 @@ class SuperApp extends StatefulWidget {
 class _SuperAppState extends State<SuperApp> {
   @override
   Widget build(BuildContext context) {
-
+    ThemesPortal.getCurrent(context).loadTheme();
     return GetMaterialApp(
       initialRoute: loginPageRoute,
       routes: {
