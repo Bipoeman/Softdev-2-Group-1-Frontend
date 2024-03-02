@@ -264,6 +264,7 @@ class _RegisterPageState extends State<RegisterPage> {
               "Create an account",
               style: TextStyle(
                 color: theme.colorScheme.onPrimary,
+                fontWeight: FontWeight.bold
               ),
             ),
             backgroundColor: theme.colorScheme.primary,

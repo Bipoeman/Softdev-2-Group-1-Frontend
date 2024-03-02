@@ -13,6 +13,9 @@ const String registerPageRoute = "/register";
 const String userDataUpdateRoute = "/user";
 const String userImageUpdateRoute = "/user/upload";
 const String userDataRequestRoute = "/user/id";
+const String userPasswordChangeOTPRoute = "/user/otp";
+const String userPasswordChangeRoute = "/user/changepassword";
+const String userPasswordResetRoute = "/user/reset";
 const String refreshTokenRoute = "/user/refresh";
 const String pinTheBinGetBinRoute = "/pinthebin/bin";
 const String dekhorPosttoprofileRoute = "/dekhor/posttoprofile";
@@ -63,6 +66,7 @@ const Map<String, String> ruamMitrPageRoute = {
   "homev2": "/RuamMitr/homev2",
   "profile": "/RuamMitr/profile",
   "edit-profile": "/RuamMitr/profile/edit",
+  "password-change": "/RuamMitr/password",
   "settings": "/RuamMitr/settings",
   "restroom": "/RuamMitr/restroom",
 };
