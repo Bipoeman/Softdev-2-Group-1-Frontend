@@ -112,19 +112,6 @@ class BinDrawer extends StatelessWidget {
                   const SizedBox(height: 30),
                   itemSelection(
                     context: context,
-                    title: "REPORT",
-                    image: Image.asset(
-                      "assets/images/PinTheBin/report.png",
-                      width: 30,
-                    ),
-                    onTap: () {
-                      Navigator.pushNamed(
-                          context, pinthebinPageRoute["report"]!);
-                    },
-                  ),
-                  const SizedBox(height: 30),
-                  itemSelection(
-                    context: context,
                     title: "RUAMMITR",
                     image: Image.asset(
                       "assets/Logo/ruammitr_logo_for_bin.png",

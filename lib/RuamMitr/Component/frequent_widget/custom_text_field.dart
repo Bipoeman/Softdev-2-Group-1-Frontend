@@ -5,6 +5,7 @@ Widget textField({
   required BuildContext context,
   String? Function(String?)? validator,
   TextEditingController? controller,
+  int? maxLength,
   Icon? icon,
   bool? obscureText,
   TextInputType? inputType,
@@ -19,11 +20,13 @@ Widget textField({
   return Container(
     margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
     child: TextFormField(
+      maxLength: maxLength,
       controller: controller,
       validator: validator,
       keyboardType: inputType,
       obscureText: obscureText ?? false,
       decoration: InputDecoration(
+        counterText: "",
         isDense: true,
         fillColor: theme.colorScheme.background.withOpacity(0.8),
         filled: true,

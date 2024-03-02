@@ -302,7 +302,12 @@ class _LoginPageState extends State<LoginPage> {
                                             fontSize: 11,
                                             color: theme.colorScheme.secondary),
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context,
+                                            ruamMitrPageRoute[
+                                                "password-change"]!);
+                                      },
                                     ),
                                   ],
                                 ),

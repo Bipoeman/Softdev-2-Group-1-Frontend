@@ -6,13 +6,15 @@ const String baseURL = "https://ruammitr.azurewebsites.net";
 // const String api = "http://10.0.2.2:3000";
 // const String api = "http://192.168.56.1:3000";
 const String api = "http://172.20.10.6:3000";
-
-// const String api = "http://10.0.2.2:3000";
 const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
 const String userDataUpdateRoute = "/user";
 const String userImageUpdateRoute = "/user/upload";
 const String userDataRequestRoute = "/user/id";
+const String userPasswordChangeOTPRoute = "/user/otp";
+const String userPasswordChangeRoute = "/user/changepassword";
+const String userPasswordResetRoute = "/user/reset";
+const String userPostIssuetRoute = "/issue";
 const String refreshTokenRoute = "/user/refresh";
 const String pinTheBinGetBinRoute = "/pinthebin/bin";
 const String dekhorPosttoprofileRoute = "/dekhor/posttoprofile";
@@ -62,6 +64,7 @@ const Map<String, String> ruamMitrPageRoute = {
   "homev2": "/RuamMitr/homev2",
   "profile": "/RuamMitr/profile",
   "edit-profile": "/RuamMitr/profile/edit",
+  "password-change": "/RuamMitr/password",
   "settings": "/RuamMitr/settings",
   "restroom": "/RuamMitr/restroom",
 };

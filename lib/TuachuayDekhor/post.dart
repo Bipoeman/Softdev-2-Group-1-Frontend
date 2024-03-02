@@ -54,7 +54,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     deleteposturl = Uri.parse("$api$dekhorDeletePostRoute/$id_post");
     posttoprofile();
     _loadDetail();
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 1), () {
       setState(() {
         showcomment();
       });
