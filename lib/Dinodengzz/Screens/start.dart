@@ -6,11 +6,11 @@ class StartScreen extends StatelessWidget {
   final VoidCallback onSettingPressed;
 
   const StartScreen({
-    Key? key,
+    super.key,
     required this.onLevelSelectionPressed,
     required this.onExitPressed,
     required this.onSettingPressed,
-  }) : super(key: key);
+  });
 
   static const id = 'StartScreen';
 
@@ -20,10 +20,10 @@ class StartScreen extends StatelessWidget {
       body: Stack(
         children: [
           FractionallySizedBox(
-            alignment: Alignment.centerLeft,
-            widthFactor: 2560 / 640, // Adjust the ratio for the left part
+            alignment: Alignment.center,
+            widthFactor: 1,
             child: Image.asset(
-              "assets/images/Background/DinoDengzz Start Screen.png",
+              "assets/images/DinoDengzz Icon/Plain background.png",
               fit: BoxFit.cover,
             ),
           ),
@@ -33,54 +33,26 @@ class StartScreen extends StatelessWidget {
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).size.height * 0.047),
               child: SizedBox(
-                width: MediaQuery.of(context).size.width *
-                    0.4, // Adjust the width of the buttons
+                width: MediaQuery.of(context).size.width * 0.35,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3333,
-                      height: MediaQuery.of(context).size.height *
-                          0.11, // Adjust the height of the buttons
-                      child: ElevatedButton(
-                        onPressed: onLevelSelectionPressed,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          shape: const BeveledRectangleBorder(),
-                        ),
-                        child: null,
-                      ),
+                    CustomIconButton(
+                      imagePath:
+                          "assets/images/DinoDengzz Icon/Start button.png",
+                      onPressed: onLevelSelectionPressed,
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3333,
-                      height: MediaQuery.of(context).size.height *
-                          0.11, // Adjust the height of the buttons
-                      child: ElevatedButton(
-                        onPressed: onSettingPressed,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          shape: const BeveledRectangleBorder(),
-                        ),
-                        child: null,
-                      ),
+                    CustomIconButton(
+                      imagePath:
+                          "assets/images/DinoDengzz Icon/Setting button.png",
+                      onPressed: onSettingPressed,
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3333,
-                      height: MediaQuery.of(context).size.height *
-                          0.11, // Adjust the height of the buttons
-                      child: ElevatedButton(
-                        onPressed: onExitPressed,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          shape: const BeveledRectangleBorder(),
-                        ),
-                        child: null,
-                      ),
+                    CustomIconButton(
+                      imagePath:
+                          "assets/images/DinoDengzz Icon/Exit button.png",
+                      onPressed: onExitPressed,
                     ),
                   ],
                 ),
@@ -88,6 +60,42 @@ class StartScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CustomIconButton extends StatelessWidget {
+  final String imagePath;
+  final VoidCallback onPressed;
+
+  const CustomIconButton({
+    super.key,
+    required this.imagePath,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    double buttonWidth = MediaQuery.of(context).size.width * 0.33;
+    double buttonHeight = MediaQuery.of(context).size.height * 0.11;
+
+    return SizedBox(
+      width: buttonWidth,
+      height: buttonHeight,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.zero,
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          shape: const BeveledRectangleBorder(),
+        ),
+        child: Image.asset(
+          imagePath,
+          fit: BoxFit.contain,
+          alignment: Alignment.center,
+        ),
       ),
     );
   }

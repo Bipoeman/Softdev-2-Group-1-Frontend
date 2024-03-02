@@ -62,6 +62,7 @@ class GameRoutes extends FlameGame
     PauseMenu.id: OverlayRoute(
       (context, game) => PauseMenu(
         onResumePressed: _resumeGame,
+        onRetryPressed: _restartLevel,
         onSettingPressed: () => _routeById(Settings.id),
         onExitPressed: _exitToMainMenu,
       ),
@@ -183,6 +184,7 @@ class GameRoutes extends FlameGame
     _resumeGame();
     FlameAudio.bgm.stop();
     _router.pushReplacementNamed(StartScreen.id);
+    FlameAudio.bgm.play(startGame, volume: masterVolume * bgmVolume);
   }
 
   void showLevelCompleteMenu(int nStars) {
