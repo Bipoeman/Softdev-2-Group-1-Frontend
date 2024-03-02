@@ -108,7 +108,8 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                             child: Column(
                               children: [
                                 Container(
-                                  height: size.height * 0.3,
+                                  
+                                  height: null,
                                   width: size.width * 0.8,
                                   padding: EdgeInsets.only(
                                     left: size.width * 0.01,
@@ -116,9 +117,15 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                     bottom: size.height * 0.01,
                                     right: size.width * 0.01,
                                   ),
-                                  child: Image.network(
-                                    widget.restroomData["picture"] ??
+                                 
+                                  child : ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.network(
+                                      widget.restroomData["picture"] ??
                                         "https://i.pinimg.com/564x/1c/13/1c/1c131cc30f7c203a4833b6983d025b03.jpg",
+                                      fit: BoxFit.cover,
+                                      
+                                    ),
                                   ),
                                 ),
                                 Container(
