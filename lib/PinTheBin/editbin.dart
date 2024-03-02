@@ -13,7 +13,8 @@ import 'package:ruam_mitt/global_const.dart';
 Color colorbackground = const Color(0x00000000);
 
 class EditbinPage extends StatefulWidget {
-  const EditbinPage({super.key});
+  const EditbinPage({super.key, required this.binData});
+  final Map<String, dynamic> binData;
 
   @override
   State<EditbinPage> createState() => _EditbinPageState();
@@ -29,54 +30,59 @@ class _EditbinPageState extends State<EditbinPage> {
     'yellowbin': false,
     'bluebin': false
   };
-  bool isPressedWarning = false;
-  bool isPressedRecycling = false;
-  bool isPressedWaste = false;
-  bool isPressedGeneral = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _LocationstextController =
+        TextEditingController(text: widget.binData['Bininfo']['location']);
+    print(widget.binData['Bininfo']);
+    _DescriptiontextController =
+        TextEditingController(text: widget.binData['Bininfo']['description']);
+
+    _bintype['redbin'] =
+        widget.binData['Bininfo']['bintype']['redbin'] ?? false;
+    _bintype['yellowbin'] =
+        widget.binData['Bininfo']['bintype']['yellowbin'] ?? false;
+    _bintype['greenbin'] =
+        widget.binData['Bininfo']['bintype']['greenbin'] ?? false;
+    _bintype['bluebin'] =
+        widget.binData['Bininfo']['bintype']['bluebin'] ?? false;
+  }
+
+  final url = Uri.parse("$api/pinthebin/bin");
+  void _presstosend() async {
+    await http.post(url, body: {
+      "location": _LocationstextController.text,
+      "description": _DescriptiontextController.text,
+      "bintype": _bintype,
+      "id": widget.binData['Bininfo']['id']
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    Offset distanceWarning = isPressedWarning
+    Offset distanceWarning = _bintype['redbin']!
         ? Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
-    double blurWarning = isPressedWarning ? 5.0 : 5;
+    double blurWarning = _bintype['redbin']! ? 5.0 : 5;
 
-    Offset distanceRecycling = isPressedRecycling
+    Offset distanceRecycling = _bintype['yellowbin']!
         ? Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
-    double blurRecycling = isPressedRecycling ? 5.0 : 5;
+    double blurRecycling = _bintype['yellowbin']! ? 5.0 : 5;
 
-    Offset distanceWaste = isPressedWaste
+    Offset distanceWaste = _bintype['greenbin']!
         ? Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
-    double blurWaste = isPressedWaste ? 5.0 : 5;
+    double blurWaste = _bintype['greenbin']! ? 5.0 : 5;
 
-    Offset distanceGeneral = isPressedGeneral
+    Offset distanceGeneral = _bintype['bluebin']!
         ? Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
-    double blurGeneral = isPressedGeneral ? 5.0 : 5;
-
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    _LocationstextController =
-        TextEditingController(text: arguments['Bininfo']['location']);
-    print(arguments['Bininfo']);
-    _DescriptiontextController =
-        TextEditingController(text: arguments['Bininfo']['description']);
-
-    // _LatitudetextController =
-    //     TextEditingController(text: arguments['Bininfo']['latitude']);
-    final url = Uri.parse("$api/pinthebin/bin");
-    void _presstosend() async {
-      await http.post(url, body: {
-        "location": _LocationstextController.text,
-        "description": _DescriptiontextController.text,
-        //"bintype": _bintype,
-        "id": arguments['Bininfo']['id']
-      });
-    }
+    double blurGeneral = _bintype['bluebin']! ? 5.0 : 5;
 
     return Theme(
       data: ThemeData(
@@ -249,7 +255,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                 borderRadius: 30,
                                 depth: -20,
                                 child: Text(
-                                  'Latitude : ${arguments['Bininfo']['latitude']}',
+                                  'Latitude : ${widget.binData['Bininfo']['latitude']}',
                                 ),
                               ),
                               SizedBox(
@@ -262,7 +268,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                 borderRadius: 30,
                                 depth: -20,
                                 child: Text(
-                                  'Longitude : ${arguments['Bininfo']['longitude']}',
+                                  'Longitude : ${widget.binData['Bininfo']['longitude']}',
                                 ),
                               ),
                             ],
@@ -275,7 +281,7 @@ class _EditbinPageState extends State<EditbinPage> {
                         child: Container(
                           width: size.width * 0.7,
                           height: size.height * 0.15,
-                          child: arguments['Bininfo']['picture'] == null
+                          child: widget.binData['Bininfo']['picture'] == null
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: Image.asset(
@@ -288,7 +294,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   borderRadius: BorderRadius.circular(15),
                                   child: Image.network(
                                     fit: BoxFit.contain,
-                                    arguments['Bininfo']['picture'],
+                                    widget.binData['Bininfo']['picture'],
                                   ),
                                 ),
                         ),
@@ -353,9 +359,9 @@ class _EditbinPageState extends State<EditbinPage> {
                                   onTap: () {
                                     setState(() {
                                       _bintype['redbin'] = !_bintype['redbin']!;
-                                      isPressedWarning = _bintype['redbin']!;
+                                      _bintype['redbin'] = _bintype['redbin']!;
                                     });
-                                    print(_bintype['redbin']);
+                                    print("After: ${_bintype['redbin']}");
                                   },
                                   child: Container(
                                     width: size.width * 0.2,
@@ -368,14 +374,14 @@ class _EditbinPageState extends State<EditbinPage> {
                                           blurRadius: blurWarning,
                                           offset: distanceWarning,
                                           color: Color(0xFFA7A9AF),
-                                          inset: isPressedWarning,
+                                          inset: _bintype['redbin']!,
                                         ),
                                         BoxShadow(
                                           blurRadius: blurWarning,
                                           offset: -distanceWarning,
                                           color: Color.fromARGB(
                                               255, 255, 255, 255),
-                                          inset: isPressedWarning,
+                                          inset: _bintype['redbin']!,
                                         ),
                                       ],
                                     ),
@@ -418,7 +424,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                     setState(() {
                                       _bintype['yellowbin'] =
                                           !_bintype['yellowbin']!;
-                                      isPressedRecycling =
+                                      _bintype['yellowbin'] =
                                           _bintype['yellowbin']!;
                                     });
                                     print(_bintype['yellowbin']);
@@ -434,14 +440,14 @@ class _EditbinPageState extends State<EditbinPage> {
                                           blurRadius: blurRecycling,
                                           offset: distanceRecycling,
                                           color: Color(0xFFA7A9AF),
-                                          inset: isPressedRecycling,
+                                          inset: _bintype['yellowbin']!,
                                         ),
                                         BoxShadow(
                                           blurRadius: blurRecycling,
                                           offset: -distanceRecycling,
                                           color: Color.fromARGB(
                                               255, 255, 255, 255),
-                                          inset: isPressedRecycling,
+                                          inset: _bintype['yellowbin']!,
                                         ),
                                       ],
                                     ),
@@ -482,7 +488,8 @@ class _EditbinPageState extends State<EditbinPage> {
                                     setState(() {
                                       _bintype['greenbin'] =
                                           !_bintype['greenbin']!;
-                                      isPressedWaste = _bintype['greenbin']!;
+                                      _bintype['greenbin'] =
+                                          _bintype['greenbin']!;
                                     });
                                     print(_bintype['greenbin']);
                                   },
@@ -498,14 +505,14 @@ class _EditbinPageState extends State<EditbinPage> {
                                           blurRadius: blurWaste,
                                           offset: distanceWaste,
                                           color: Color(0xFFA7A9AF),
-                                          inset: isPressedWaste,
+                                          inset: _bintype['greenbin']!,
                                         ),
                                         BoxShadow(
                                           blurRadius: blurWaste,
                                           offset: -distanceWaste,
                                           color: Color.fromARGB(
                                               255, 255, 255, 255),
-                                          inset: isPressedWaste,
+                                          inset: _bintype['greenbin']!,
                                         ),
                                       ],
                                     ),
@@ -546,7 +553,8 @@ class _EditbinPageState extends State<EditbinPage> {
                                     setState(() {
                                       _bintype['bluebin'] =
                                           !_bintype['bluebin']!;
-                                      isPressedGeneral = _bintype['bluebin']!;
+                                      _bintype['bluebin'] =
+                                          _bintype['bluebin']!;
                                     });
                                     print(_bintype['bluebin']);
                                   },
@@ -562,14 +570,14 @@ class _EditbinPageState extends State<EditbinPage> {
                                           blurRadius: blurGeneral,
                                           offset: distanceGeneral,
                                           color: Color(0xFFA7A9AF),
-                                          inset: isPressedGeneral,
+                                          inset: _bintype['bluebin']!,
                                         ),
                                         BoxShadow(
                                           blurRadius: blurGeneral,
                                           offset: -distanceGeneral,
                                           color: Color.fromARGB(
                                               255, 255, 255, 255),
-                                          inset: isPressedGeneral,
+                                          inset: _bintype['bluebin']!,
                                         ),
                                       ],
                                     ),

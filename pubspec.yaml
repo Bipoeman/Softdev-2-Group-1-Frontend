@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  quickalert:
   # flutter_map_location_marker: ^8.0.4
   url_launcher: ^6.2.4
   # The following adds the Cupertino Icons font to your application.

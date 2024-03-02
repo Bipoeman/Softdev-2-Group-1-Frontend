@@ -87,7 +87,9 @@ class _SuperAppState extends State<SuperApp> {
             const TuachuayDekhorCleaningPage(),
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPageV2(),
-        pinthebinPageRoute["editbin"]!: (context) => const EditbinPage(),
+        pinthebinPageRoute["editbin"]!: (context) => EditbinPage(
+            binData: ModalRoute.of(context)?.settings.arguments
+                as Map<String, dynamic>),
         pinthebinPageRoute["mybin"]!: (context) => const MyBinPage(),
         pinthebinPageRoute["report"]!: (context) => const ReportPage(),
       },
