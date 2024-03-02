@@ -224,7 +224,11 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.pushNamed(context,
+                                              restroomPageRoute["reportpin"]!,
+                                              arguments: widget.restroomData);
+                                        },
                                         style: ButtonStyle(
                                           backgroundColor:
                                               MaterialStateProperty.all<Color>(

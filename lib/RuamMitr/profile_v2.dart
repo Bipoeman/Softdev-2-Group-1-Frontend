@@ -149,8 +149,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                                 setState(() {});
                               } else if (res.statusCode == 403) {
                                 if (context.mounted) {
-                                  int newTokenStatusReturn =
-                                      await requestNewToken(context);
+                                  // int newTokenStatusReturn =
+                                  await requestNewToken(context);
                                 }
                               }
                             },

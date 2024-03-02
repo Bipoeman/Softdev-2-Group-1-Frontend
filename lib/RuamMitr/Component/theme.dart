@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class ThemeProvider extends ChangeNotifier {
@@ -6,7 +7,8 @@ class ThemeProvider extends ChangeNotifier {
   bool get isDarkMode => _isDarkMode;
   Map<String, Map<String, CustomThemes>> appThemes = _appsThemes;
 
-  CustomThemes? themeFrom(String app) => _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
+  CustomThemes? themeFrom(String app) =>
+      _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
 
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
@@ -36,6 +38,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
           background: const Color.fromRGBO(221, 221, 221, 1),
         ),
         useMaterial3: true,
+        fontFamily: GoogleFonts.getFont("Inter").fontFamily,
       ),
       customColors: {
         "main": const Color.fromRGBO(214, 40, 40, 1),

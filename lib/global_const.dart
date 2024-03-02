@@ -40,10 +40,15 @@ const String dekhorDetailDraftRoute = "/dekhor/detaildraft";
 const String dekhorEditDraftRoute = "/dekhor/editdraft";
 const String dekhorDeleteDraftRoute = "/dekhor/deletedraft";
 const String dekhorReportRoute = "/dekhor/report";
+const String dekhorUpdatePicRoute = "/dekhor/updatepicture";
+const String dekhorUpdatePicDraftRoute = "/dekhor/updatepic";
+const String dekhorDrafttoPostBlogRoute = "/dekhor/drafttopostblog";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
 const String restroomRoverGetRestroomRoute = "/restroom";
 const String restroomRoverGetReviewRoute = "/restroom/review";
+const String pinTheBinReportBinRoute = "/pinthebin/report";
+const String pinTheBinReportPictureBinRoute = "/pinthebin/report/upload";
 
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",
@@ -59,6 +64,7 @@ const Map<String, String> restroomPageRoute = {
   "findposition": "/Restroom/Findposition",
   "addrestroom": "/Restroom/Addrestroom",
   "report": "/Restroom/Report",
+  "reportpin": "/Restroom/ReportPin",
   "edit": "/Restroom/Edit",
 };
 const String dinodengzzPageRoute = "/game";
