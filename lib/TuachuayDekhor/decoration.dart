@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -41,8 +42,11 @@ class _TuachuayDekhorDecorationPageState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"]!,
       body: SafeArea(
         child: Stack(
           children: [
@@ -77,14 +81,14 @@ class _TuachuayDekhorDecorationPageState
                               fontSize: 30,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(0.5),
+                              color: customColors["onContainer"]!.withOpacity(0.5),
                             ),
                           ),
                         ],
                       ),
                     ),
                     Container(
-                      color: const Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"]!,
                       height: 10,
                     ),
                     Padding(
@@ -93,11 +97,18 @@ class _TuachuayDekhorDecorationPageState
                         left: size.width * 0.04,
                       ),
                       child: GestureDetector(
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.arrow_back_outlined),
-                            SizedBox(width: 5),
-                            Text("Back")
+                            Icon(
+                              Icons.arrow_back_outlined,
+                              color: customColors["main"]!,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "Back",
+                              style: TextStyle(color: customColors["main"]!),
+                            ),
                           ],
                         ),
                         onTap: () => Navigator.pop(context),

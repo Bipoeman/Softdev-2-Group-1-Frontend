@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
 import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
