@@ -15,6 +15,7 @@ const String userDataRequestRoute = "/user/id";
 const String userPasswordChangeOTPRoute = "/user/otp";
 const String userPasswordChangeRoute = "/user/changepassword";
 const String userPasswordResetRoute = "/user/reset";
+const String userPostIssuetRoute = "/issue";
 const String refreshTokenRoute = "/user/refresh";
 const String pinTheBinGetBinRoute = "/pinthebin/bin";
 const String dekhorPosttoprofileRoute = "/dekhor/posttoprofile";
