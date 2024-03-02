@@ -400,7 +400,12 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                               ),
                                             ],
                                           ),
-                                          title: const Text("Save draft?"),
+                                          title: Text(
+                                            "Save draft?",
+                                            style: TextStyle(
+                                              color: customColors["onContainer"]!,
+                                            ),
+                                          ),
                                           actionsAlignment: MainAxisAlignment.spaceBetween,
                                           actions: [
                                             Container(

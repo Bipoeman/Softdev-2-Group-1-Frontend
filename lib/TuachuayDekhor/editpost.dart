@@ -332,7 +332,12 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                             size: 50,
                                             color: customColors["main"]!,
                                           ),
-                                          title: const Text("Discard edit?"),
+                                          title: Text(
+                                            "Discard edit?",
+                                            style: TextStyle(
+                                              color: customColors["onContainer"]!,
+                                            ),
+                                          ),
                                           actionsAlignment: MainAxisAlignment.spaceBetween,
                                           actions: [
                                             Container(
