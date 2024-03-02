@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:email_validator/email_validator.dart';
@@ -6,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/frequent_widget/custom_text_field.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:http/http.dart' as http;
 
 class PasswordChangeData {
   late Map<String, bool> isInitiallyBlank;
@@ -27,9 +29,26 @@ class PasswordChangePage extends StatefulWidget {
 
 class _PasswordChangePageState extends State<PasswordChangePage> {
   bool sendOTPEnabled = false;
+  bool isChangePasswordEnabled = false;
   GlobalKey<FormState> changePasswordFormKey = GlobalKey<FormState>();
   PasswordChangeData passwordChangeData =
       PasswordChangeData(["email", "OTP", "password", "confirmPassword"]);
+
+  void validateNewPasswordInputs(String value) {
+    bool noAnyStartStates =
+        passwordChangeData.isInitiallyBlank.values.every((element) {
+      return !element;
+    });
+    if (changePasswordFormKey.currentState!.validate() &&
+        !isChangePasswordEnabled &&
+        noAnyStartStates) {
+      isChangePasswordEnabled = true;
+    } else if (!changePasswordFormKey.currentState!.validate() &&
+        isChangePasswordEnabled) {
+      isChangePasswordEnabled = false;
+    }
+    setState(() {});
+  }
 
   (bool, String) emailChecker(String email) {
     String emailWarning = "";
@@ -65,8 +84,92 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
     return null;
   }
 
+  (bool, String) passwordChecker(String password) {
+    String passwordWarning = "";
+    if (password.length < 8) {
+      passwordWarning += "\n - at least 8 characters.";
+    }
+    if (!RegExp(r'[a-zA-Z]').hasMatch(password)) {
+      passwordWarning += "\n - at least 1 alphabet.";
+    }
+    if (!RegExp(r'[0-9]').hasMatch(password)) {
+      passwordWarning += "\n - at least 1 number.";
+    }
+    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password)) {
+      passwordWarning += "\n - at least 1 special character.";
+    }
+    return (passwordWarning.isNotEmpty, passwordWarning);
+  }
+
+  String? passwordValidator(String? value) {
+    if (passwordChangeData.isInitiallyBlank["password"]! && value!.isEmpty) {
+      return null;
+    }
+    if (passwordChangeData.isInitiallyBlank["password"]!) {
+      passwordChangeData.isInitiallyBlank["password"] = false;
+      setState(() {});
+    }
+
+    var (isPasswordError, passwordMessage) = passwordChecker(value!);
+    if (value.isEmpty) {
+      return "Please enter password.";
+    }
+    if (isPasswordError) {
+      return "Password must have $passwordMessage";
+    }
+    return null;
+  }
+
+  String? confirmPasswordValidator(String? value) {
+    if (passwordChangeData.isInitiallyBlank["confirmPassword"]! &&
+        value!.isEmpty) {
+      return null;
+    }
+    if (passwordChangeData.isInitiallyBlank["confirmPassword"]!) {
+      passwordChangeData.isInitiallyBlank["confirmPassword"] = false;
+      setState(() {});
+    }
+
+    if (value!.isEmpty) {
+      return "Please enter password.";
+    }
+    if (value != passwordChangeData.fieldController['password']!.text) {
+      return "Confirm password and the password does not match.";
+    }
+    return null;
+  }
+
   void requestOTP() async {
-    
+    Uri url = Uri.parse(
+        "$api$userPasswordChangeOTPRoute?email=${passwordChangeData.fieldController['email']!.text}");
+    var otpRes = await http.get(url);
+    print(otpRes.body);
+  }
+
+  void changePassword(BuildContext context) async {
+    Uri url = Uri.parse("$api$userPasswordResetRoute");
+    var response = await http.put(url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          'email': passwordChangeData.fieldController['email']!.text,
+          'otp': passwordChangeData.fieldController['OTP']!.text,
+          'password': passwordChangeData.fieldController['password']!.text,
+        }));
+    var bodyJson = jsonDecode(response.body);
+    if (bodyJson['msg'] == "Password updated successfully") {
+      if (context.mounted) {
+        var snackBar = SnackBar(
+          content: Text(bodyJson['msg']),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        Future.delayed(const Duration(milliseconds: 500)).then((value) {
+          if (context.mounted) {
+            Navigator.pop(context);
+          }
+        });
+      }
+    }
   }
 
   @override
@@ -110,7 +213,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                     padding: const EdgeInsets.all(20),
                     margin: const EdgeInsets.all(30),
                     width: [512.0, size.width * 0.8].reduce(min),
-                    height: size.height * 0.55,
+                    height: size.height * 0.6,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(28),
                       // color: theme.colorScheme.primaryContainer
@@ -142,10 +245,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                                   controller: passwordChangeData
                                       .fieldController['email'],
                                   validator: emailValidator,
-                                  onChanged: (value) {
-                                    changePasswordFormKey.currentState!
-                                        .validate();
-                                  },
+                                  onChanged: validateNewPasswordInputs,
                                 ),
                               ),
                               ElevatedButton(
@@ -165,37 +265,41 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                           textField(
                             labelText: "OTP",
                             context: context,
+                            maxLength: 6,
                             icon: const Icon(Icons.password),
                             controller:
                                 passwordChangeData.fieldController['OTP'],
                             inputType: TextInputType.number,
-                            onChanged: (value) {
-                              changePasswordFormKey.currentState!.validate();
+                            validator: (p0) {
+                              if ((p0 ?? "").length != 6) {
+                                return "OTP Must have length of 6";
+                              } else {
+                                passwordChangeData.isInitiallyBlank['OTP'] =
+                                    false;
+                                return null;
+                              }
                             },
+                            onChanged: validateNewPasswordInputs,
                           ),
                           textField(
-                            labelText: "New password",
-                            context: context,
-                            icon: const Icon(Icons.lock),
                             controller:
                                 passwordChangeData.fieldController['password'],
-                            inputType: TextInputType.visiblePassword,
+                            validator: passwordValidator,
+                            labelText: "Password",
+                            context: context,
                             obscureText: true,
-                            onChanged: (value) {
-                              changePasswordFormKey.currentState!.validate();
-                            },
+                            icon: const Icon(Icons.lock_outline),
+                            onChanged: validateNewPasswordInputs,
                           ),
                           textField(
-                            labelText: "Confirm password",
-                            context: context,
-                            icon: const Icon(Icons.lock),
                             controller: passwordChangeData
                                 .fieldController['confirmPassword'],
-                            inputType: TextInputType.visiblePassword,
+                            validator: confirmPasswordValidator,
+                            labelText: "Confirm Password",
+                            context: context,
                             obscureText: true,
-                            onChanged: (value) {
-                              changePasswordFormKey.currentState!.validate();
-                            },
+                            icon: const Icon(Icons.lock_outline),
+                            onChanged: validateNewPasswordInputs,
                           ),
                           Container(
                             width: double.infinity,
@@ -211,7 +315,11 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                                 ),
                                 foregroundColor: theme.colorScheme.onPrimary,
                               ),
-                              onPressed: null,
+                              onPressed: isChangePasswordEnabled
+                                  ? () async {
+                                      changePassword(context);
+                                    }
+                                  : null,
                               // onPressed: _registerButtonEnabled ? _registerAccount : null,
                               child: const Text("Change Password"),
                             ),

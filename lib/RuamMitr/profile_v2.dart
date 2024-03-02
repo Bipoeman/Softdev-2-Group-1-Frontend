@@ -397,7 +397,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                           print(error);
                           return http.Response("Error", 404);
                         }).then((value) {
-                          print(value.statusCode);
+                          print("Return status Code : ${value.statusCode}");
+                          print("Return body : ${value.body}");
                           setState(() {});
                           if (value.statusCode == 200) {
                             if (value.body == "change profile success") {
