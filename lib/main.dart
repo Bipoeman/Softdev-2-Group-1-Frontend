@@ -5,6 +5,7 @@ import 'package:ruam_mitt/PinTheBin/addbinV2.dart';
 import 'package:ruam_mitt/PinTheBin/editbin.dart';
 import 'package:ruam_mitt/PinTheBin/mybin.dart';
 import 'package:ruam_mitt/PinTheBin/report.dart';
+import 'package:ruam_mitt/Restroom/editrestroom.dart';
 import 'package:ruam_mitt/Restroom/myrestroom.dart';
 import 'package:ruam_mitt/Restroom/findposition.dart';
 import 'package:ruam_mitt/Restroom/report_pin.dart';
@@ -78,9 +79,13 @@ class _SuperAppState extends State<SuperApp> {
         restroomPageRoute["addrestroom"]!: (context) =>
             const RestroomRoverAddrestroom(),
         restroomPageRoute["report"]!: (context) => const RestroomRoverReport(),
-        restroomPageRoute["reportpin"]!: (context) => RestroomRoverReportPin(restroomData: ModalRoute.of(context)!.settings.arguments
+        restroomPageRoute["reportpin"]!: (context) => RestroomRoverReportPin(
+            restroomData: ModalRoute.of(context)!.settings.arguments
                 as Map<String, dynamic>),
-        restroomPageRoute["edit"]!: (context) => const MyRestroomPage(),
+        restroomPageRoute["myrestroom"]!: (context) => const MyRestroomPage(),
+        restroomPageRoute["editrestroom"]!: (context) => EditRestroomPage(
+            restroomData: ModalRoute.of(context)!.settings.arguments
+                as Map<String, dynamic>),
         dinodengzzPageRoute: (context) => const MyGame(),
         tuachuayDekhorPageRoute["home"]!: (context) =>
             const TuachuayDekhorHomePage(),

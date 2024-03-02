@@ -31,7 +31,7 @@ class _MyRestroomState extends State<MyRestroomPage> {
   }
 
   Future<http.Response> delRestroom(int id) async {
-    Uri url = Uri.parse("$api/$id");
+    Uri url = Uri.parse("$api$restroomRoverAddOrDeleteRoute/$id");
     http.Response res = await http.delete(url);
     print(res.body);
     return res;
@@ -183,9 +183,7 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                                   context,
                                                   restroomPageRoute[
                                                       "editrestroom"]!,
-                                                  arguments: {
-                                                    'Restroominfo': '$data',
-                                                  },
+                                                  arguments: data,
                                                 );
                                               },
                                             ),
@@ -245,19 +243,39 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                                           ),
                                                           child: TextButton(
                                                             onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                              delRestroom(
-                                                                  data["id"]);
-                                                              Navigator
-                                                                  .pushReplacement(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            const MyRestroomPage()),
-                                                              );
+                                                              delRestroom(data[
+                                                                      "id"])
+                                                                  .then(
+                                                                      (value) {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                myRestroomInfo()
+                                                                    .then(
+                                                                        (response) {
+                                                                  print(
+                                                                      "Response");
+                                                                  print(response
+                                                                      .body);
+                                                                  setState(() {
+                                                                    restroomData =
+                                                                        jsonDecode(
+                                                                            response.body);
+                                                                    restroomShow =
+                                                                        restroomData;
+                                                                  });
+                                                                });
+                                                              }).onError((error,
+                                                                      stackTrace) {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(const SnackBar(
+                                                                        content:
+                                                                            Text("Failed to delete restroom.")));
+                                                              });
                                                             },
                                                             child: Text(
                                                               'Delete',
@@ -287,7 +305,7 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                         width: size.width,
                                         height: size.height,
                                         padding: EdgeInsets.only(
-                                            top: size.height * 0.05,
+                                            top: size.height * 0.1,
                                             left: size.width * 0.4),
                                         child: data["picture"] == null
                                             ? Image.asset(

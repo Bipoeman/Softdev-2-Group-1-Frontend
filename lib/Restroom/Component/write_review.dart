@@ -70,8 +70,7 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                     children: [
                       CircleAvatar(
                         radius: 25,
-                        backgroundImage: NetworkImage(profileData["profile"] ??
-                            'https://www.pngkey.com/png/full/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png'),
+                        backgroundImage: NetworkImage(profileData["imgPath"]),
                       ),
                       const SizedBox(
                         width: 20,
@@ -124,11 +123,11 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                             // inputFormatters: [
                             //   LengthLimitingTextInputFormatter(80),
                             // ],
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               counterText: "",
                               border: InputBorder.none,
-                              contentPadding:
-                                  EdgeInsets.only(left: 16, right: 16, bottom: 5),
+                              contentPadding: EdgeInsets.only(
+                                  left: 16, right: 16, bottom: 5),
                               hintText: 'Write a review...',
                             ),
                           ),
@@ -147,23 +146,6 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                       ),
                     ),
                   ),
-                  // TextFormField(
-                  //   onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-                  //   cursorColor: Colors.black54,
-                  //   decoration: InputDecoration(
-                  //     filled: true,
-                  //     fillColor: Colors.grey[300],
-                  //     hintText: 'Write a review',
-                  //     border: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(10),
-                  //     ),
-                  //     focusedBorder: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(10),
-                  //       borderSide: const BorderSide(color: Colors.grey),
-                  //     ),
-                  //   ),
-                  //   maxLines: 3,
-                  // ),
                   const SizedBox(
                     height: 10,
                   ),
