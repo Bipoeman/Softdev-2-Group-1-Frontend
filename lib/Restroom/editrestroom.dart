@@ -35,18 +35,20 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   };
 
   Future<void> _updateData() async {
-    if (_image != null) {
-      await _updatePicture(widget.restroomData['id'].toString(), _image);
-    }
     debugPrint("Updating data");
     final url = Uri.parse("$api$restroomRoverEditRoute");
-    await http.post(url, body: {
+    await http.post(url, headers: {
+      "Authorization": "Bearer $publicToken",
+    }, body: {
       "id": widget.restroomData['id'].toString(),
       "name": _nameTextController.text,
       "type": _type,
       "address": _addressTextController.text,
       "for_who": jsonEncode(_forwho)
     }).timeout(Durations.extralong4);
+    if (_image != null) {
+      await _updatePicture(widget.restroomData['id'].toString(), _image);
+    }
   }
 
   Future<void> _getImage() async {
