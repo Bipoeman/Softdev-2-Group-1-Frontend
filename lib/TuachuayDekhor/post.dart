@@ -1,4 +1,3 @@
-import 'package:bottom_bar_matu/components/colors.dart';
 import "package:comment_box/comment/comment.dart";
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
