@@ -155,13 +155,13 @@ class RestroomRoverSearchBar extends StatefulWidget {
 }
 
 class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
-  List<dynamic> tempBinData = [];
+  List<dynamic> tempRestroomData = [];
 
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 1))
-        .then((value) => tempBinData = widget.restroomDataList);
+        .then((value) => tempRestroomData = widget.restroomDataList);
   }
 
   @override
@@ -244,7 +244,7 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
           },
           suggestionsBuilder: (context, suggestionController) {
             debugPrint("Suggestion query : ${suggestionController.text}");
-            tempBinData = [];
+            tempRestroomData = [];
             String queryText = suggestionController.text;
             for (var i = 0; i < widget.restroomDataList.length; i++) {
               if (widget.restroomDataList[i]['name'] != null) {
@@ -252,21 +252,22 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
                 if (widget.restroomDataList[i]['name']
                     .toLowerCase()
                     .contains(queryText.toLowerCase())) {
-                  tempBinData.add(widget.restroomDataList[i]);
-                  print(tempBinData);
+                  tempRestroomData.add(widget.restroomDataList[i]);
+                  print(tempRestroomData);
                 } else if (queryText == "") {
                   debugPrint("Blank Query");
-                  tempBinData = widget.restroomDataList;
+                  tempRestroomData = widget.restroomDataList;
                 }
               }
             }
             return List<GestureDetector>.generate(
-              tempBinData.length,
+              tempRestroomData.length,
               (int index) {
                 return GestureDetector(
                   onTap: () {
                     widget.onSelected(suggestionController.text);
-                    suggestionController.closeView(tempBinData[index]['name']);
+                    suggestionController
+                        .closeView(tempRestroomData[index]['name']);
                   },
                   child: Container(
                     color: Theme.of(context).colorScheme.background,
@@ -281,55 +282,57 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                tempBinData[index]['name'],
+                                tempRestroomData[index]['name'],
                                 style: TextStyle(
-                                    fontFamily:
-                                        tempBinData[index]['name'].contains(
+                                    fontFamily: tempRestroomData[index]['name']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? "THSarabunPSK"
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .labelMedium!
-                                                .fontFamily,
-                                    fontSize:
-                                        tempBinData[index]['name'].contains(
+                                        ? "THSarabunPSK"
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .labelMedium!
+                                            .fontFamily,
+                                    fontSize: tempRestroomData[index]['name']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? 24
-                                            : 16,
-                                    fontWeight:
-                                        tempBinData[index]['name'].contains(
+                                        ? 24
+                                        : 16,
+                                    fontWeight: tempRestroomData[index]['name']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? FontWeight.w700
-                                            : FontWeight.normal),
+                                        ? FontWeight.w700
+                                        : FontWeight.normal),
                               ),
                               Text(
-                                tempBinData[index]['address'],
+                                tempRestroomData[index]['address'],
                                 style: TextStyle(
-                                    fontFamily:
-                                        tempBinData[index]['address'].contains(
+                                    fontFamily: tempRestroomData[index]
+                                                ['address']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? "THSarabunPSK"
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .labelMedium!
-                                                .fontFamily,
-                                    fontSize:
-                                        tempBinData[index]['address'].contains(
+                                        ? "THSarabunPSK"
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .labelMedium!
+                                            .fontFamily,
+                                    fontSize: tempRestroomData[index]['address']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? 22
-                                            : 16,
+                                        ? 22
+                                        : 16,
                                     color: Colors.black.withOpacity(0.6),
-                                    fontWeight:
-                                        tempBinData[index]['address'].contains(
+                                    fontWeight: tempRestroomData[index]
+                                                ['address']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? FontWeight.w700
-                                            : FontWeight.normal),
+                                        ? FontWeight.w700
+                                        : FontWeight.normal),
                               ),
                               Container(
                                 margin: const EdgeInsets.only(top: 5),

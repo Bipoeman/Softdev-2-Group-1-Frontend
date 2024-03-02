@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 
 class RestroomRoverNavbar extends StatelessWidget {
   const RestroomRoverNavbar({
@@ -45,7 +46,7 @@ class RestroomRoverNavbar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -58,8 +59,8 @@ class RestroomRoverNavbar extends StatelessWidget {
             accountName: Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: Text(
-                  'Kasidit sud smart',
-                  style: TextStyle(
+                  profileData["username"],
+                  style: const TextStyle(
                       fontSize: 20,
                       color: Colors.black,
                       fontWeight: FontWeight.bold),
@@ -67,8 +68,7 @@ class RestroomRoverNavbar extends StatelessWidget {
             accountEmail: null,
             currentAccountPicture: CircleAvatar(
               radius: 30, // กำหนดรัศมีของวงกลม
-              backgroundImage:
-                  AssetImage("assets/images/RestroomRover/Kasidit.jpeg"),
+              backgroundImage: NetworkImage(profileData["imgPath"]),
             ),
           ),
           ListTile(

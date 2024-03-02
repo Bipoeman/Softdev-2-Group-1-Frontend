@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
+import 'package:ruam_mitt/global_var.dart';
 
 class Cardcomment extends StatefulWidget {
   const Cardcomment({super.key, required this.cardData});
@@ -41,7 +42,7 @@ class _CardcommentState extends State<Cardcomment> {
                       radius: 25,
                       backgroundImage: NetworkImage(widget.cardData["user_info"]
                               ["profile"] ??
-                          "https://i.pinimg.com/564x/9b/2a/e8/9b2ae82b19caea75419be79b046b2107.jpg"),
+                          "https://api.multiavatar.com/${(widget.cardData["user_info"]["username"] ?? "").replaceAll(" ", "+")}.png"),
                     ),
                     SizedBox(
                       width: size.width * 0.5,

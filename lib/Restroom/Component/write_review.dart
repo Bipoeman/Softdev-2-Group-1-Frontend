@@ -32,8 +32,7 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                     children: [
                       CircleAvatar(
                         radius: 25,
-                        backgroundImage: NetworkImage(profileData["profile"] ??
-                            'https://www.pngkey.com/png/full/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png'),
+                        backgroundImage: NetworkImage(profileData["imgPath"]),
                       ),
                       const SizedBox(
                         width: 20,
@@ -83,7 +82,7 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                         },
                         maxLines: null,
                         // textAlignVertical: TextAlignVertical.center,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 10.0),
@@ -92,23 +91,6 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                       ),
                     ),
                   ),
-                  // TextFormField(
-                  //   onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-                  //   cursorColor: Colors.black54,
-                  //   decoration: InputDecoration(
-                  //     filled: true,
-                  //     fillColor: Colors.grey[300],
-                  //     hintText: 'Write a review',
-                  //     border: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(10),
-                  //     ),
-                  //     focusedBorder: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(10),
-                  //       borderSide: const BorderSide(color: Colors.grey),
-                  //     ),
-                  //   ),
-                  //   maxLines: 3,
-                  // ),
                   const SizedBox(
                     height: 20,
                   ),
