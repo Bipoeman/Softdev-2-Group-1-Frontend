@@ -327,22 +327,26 @@ class _EditbinPageState extends State<EditbinPage> {
                             color: Color.fromRGBO(239, 239, 239, 1),
                             borderRadius: 30,
                             depth: -20,
-                            child: TextField(
-                              maxLength: 80,
-                              maxLines: 3,
-                              controller: _DescriptiontextController,
-                              onChanged: (text) {
-                                print('Typed text: $text');
-                                int remainningCharacters =
-                                    80 - _DescriptiontextController.text.length;
-                                print(
-                                    'Remaining characters: $remainningCharacters');
-                              },
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                              ),
-                              style: const TextStyle(
-                                color: Colors.black,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 13, top: 3, right: 13, bottom: 3),
+                              child: TextField(
+                                maxLength: 80,
+                                maxLines: 3,
+                                controller: _DescriptiontextController,
+                                onChanged: (text) {
+                                  print('Typed text: $text');
+                                  int remainningCharacters = 80 -
+                                      _DescriptiontextController.text.length;
+                                  print(
+                                      'Remaining characters: $remainningCharacters');
+                                },
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                ),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                           ),
