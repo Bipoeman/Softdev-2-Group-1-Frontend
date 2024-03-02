@@ -389,6 +389,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                 child: Image.file(
                                   _image!,
                                   fit: BoxFit.cover,
+                                  width: size.width * 0.8,
                                 ),
                               ),
                             ),

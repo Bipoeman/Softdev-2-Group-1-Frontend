@@ -166,7 +166,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(
                                     left: 16, right: 16, top: 20),
-                                hintText: 'Write a r...',
+                                hintText: 'Write a report...',
                               ),
                             ),
                             Positioned(
