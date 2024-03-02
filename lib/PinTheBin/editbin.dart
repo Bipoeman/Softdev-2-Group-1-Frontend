@@ -614,12 +614,51 @@ class _EditbinPageState extends State<EditbinPage> {
                           Padding(
                             padding: EdgeInsets.only(
                                 left: size.width * 0.17,
-                                top: size.height * 0.78),
+                                top: size.height * 0.76),
                             child: GestureDetector(
                               child: Container(
                                 padding: EdgeInsets.only(
-                                    left: size.width * 0.017,
-                                    top: size.height * 0.01),
+                                    left: size.width * 0.025,
+                                    top: size.height * 0.009),
+                                width: size.width * 0.25,
+                                height: size.height * 0.055,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFF9957F),
+                                  borderRadius: BorderRadius.circular(30),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 5,
+                                      //offset: ,
+                                      color: Color(0xFFA7A9AF),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  'CANCEL',
+                                  style: GoogleFonts.getFont(
+                                    "Sen",
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, pinthebinPageRoute['home']!);
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: size.width * 0.175,
+                                top: size.height * 0.76),
+                            child: GestureDetector(
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                    left: size.width * 0.018,
+                                    top: size.height * 0.008),
                                 width: size.width * 0.25,
                                 height: size.height * 0.055,
                                 decoration: BoxDecoration(
@@ -692,45 +731,6 @@ class _EditbinPageState extends State<EditbinPage> {
                                         ],
                                       );
                                     });
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: size.width * 0.175,
-                                top: size.height * 0.78),
-                            child: GestureDetector(
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                    left: size.width * 0.024,
-                                    top: size.height * 0.01),
-                                width: size.width * 0.25,
-                                height: size.height * 0.055,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFF9957F),
-                                  borderRadius: BorderRadius.circular(30),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 5,
-                                      //offset: ,
-                                      color: Color(0xFFA7A9AF),
-                                    ),
-                                  ],
-                                ),
-                                child: Text(
-                                  'CANCEL',
-                                  style: GoogleFonts.getFont(
-                                    "Sen",
-                                    color: const Color.fromARGB(
-                                        255, 255, 255, 255),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, pinthebinPageRoute['home']!);
                               },
                             ),
                           ),
