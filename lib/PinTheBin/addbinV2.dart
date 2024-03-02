@@ -742,6 +742,45 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                       children: [
                         Padding(
                           padding: EdgeInsets.only(
+                              left: size.width * 0.175,
+                              top: size.height * 0.77),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, pinthebinPageRoute['home']!);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  left: size.width * 0.024,
+                                  top: size.height * 0.01),
+                              width: size.width * 0.25,
+                              height: size.height * 0.055,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFF9957F),
+                                borderRadius: BorderRadius.circular(30),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 5,
+                                    //offset: ,
+                                    color: Color(0xFFA7A9AF),
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                'CANCEL',
+                                style: GoogleFonts.getFont(
+                                  "Sen",
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
                               left: size.width * 0.17, top: size.height * 0.77),
                           child: GestureDetector(
                             onTap: () {
@@ -826,45 +865,6 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                               child: Text(
                                 'ADD',
-                                style: GoogleFonts.getFont(
-                                  "Sen",
-                                  color:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: size.width * 0.175,
-                              top: size.height * 0.77),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, pinthebinPageRoute['home']!);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                  left: size.width * 0.024,
-                                  top: size.height * 0.01),
-                              width: size.width * 0.25,
-                              height: size.height * 0.055,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFF9957F),
-                                borderRadius: BorderRadius.circular(30),
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 5,
-                                    //offset: ,
-                                    color: Color(0xFFA7A9AF),
-                                  ),
-                                ],
-                              ),
-                              child: Text(
-                                'CANCEL',
                                 style: GoogleFonts.getFont(
                                   "Sen",
                                   color:
