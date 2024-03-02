@@ -596,14 +596,14 @@ class _TuachuayDekhorEditDraftPageState
                                       ),
                                       keyboardType: TextInputType.text,
                                       cursorColor:
-                                          Colors.black.withOpacity(0.5),
+                                          customColors["textInput"]!.withOpacity(0.5),
                                       cursorHeight: 18,
                                       decoration: InputDecoration(
-                                        fillColor: Colors.grey.withOpacity(0.3),
+                                        fillColor: customColors["textInput"]!,
                                         filled: true,
                                         labelText: "Write a title",
                                         labelStyle: TextStyle(
-                                          color: Colors.black.withOpacity(0.5),
+                                          color: customColors["label"]!,
                                           fontSize: 14,
                                         ),
                                         border: OutlineInputBorder(
@@ -626,7 +626,7 @@ class _TuachuayDekhorEditDraftPageState
                                       });
                                       boxController.openBox();
                                     },
-                                    icon: const Icon(Icons.preview),
+                                    icon: Icon(Icons.preview, color: customColors["main"]!,),
                                   ),
                                 ],
                               ),
@@ -644,17 +644,17 @@ class _TuachuayDekhorEditDraftPageState
                                   fontSize: 12,
                                 ),
                                 keyboardType: TextInputType.multiline,
-                                cursorColor: Colors.black.withOpacity(0.5),
+                                cursorColor: customColors["textInput"]!.withOpacity(0.5),
                                 cursorHeight: 16,
                                 minLines: 8,
                                 maxLines: 8,
                                 decoration: InputDecoration(
                                   alignLabelWithHint: true,
-                                  fillColor: Colors.grey.withOpacity(0.3),
+                                  fillColor: customColors["textInput"]!,
                                   filled: true,
                                   labelText: "Write a blog",
                                   labelStyle: TextStyle(
-                                    color: Colors.black.withOpacity(0.5),
+                                    color: customColors["label"]!,
                                     fontSize: 12,
                                   ),
                                   border: OutlineInputBorder(
@@ -673,8 +673,8 @@ class _TuachuayDekhorEditDraftPageState
                         right: 0,
                         child: Container(
                           height: size.width * 0.12,
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(0, 48, 73, 1),
+                          decoration: BoxDecoration(
+                            color: customColors["main"]!,
                           ),
                           child: Row(
                             children: [
@@ -682,44 +682,59 @@ class _TuachuayDekhorEditDraftPageState
                                 margin: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
+                                  color: customColors["container"]!,
                                 ),
                                 child: DropdownButton(
                                   underline: const SizedBox(),
                                   padding: const EdgeInsets.only(left: 10),
-                                  hint: const Text(
+                                  hint: Text(
                                     "Select Category",
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: customColors["onContainer"]!,
+                                    ),
                                   ),
-                                  dropdownColor: Colors.white,
-                                  iconEnabledColor: Colors.black,
-                                  items: const [
+                                  dropdownColor: customColors["container"]!,
+                                  iconEnabledColor: customColors["onContainer"]!,
+                                  items: [
                                     DropdownMenuItem(
                                       value: "decoration",
                                       child: Text(
                                         "Decoration",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: customColors["onContainer"]!,
+                                        ),
                                       ),
                                     ),
                                     DropdownMenuItem(
                                       value: "cleaning",
                                       child: Text(
                                         "Cleaning",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: customColors["onContainer"]!,
+                                        ),
                                       ),
                                     ),
                                     DropdownMenuItem(
                                       value: "cooking",
                                       child: Text(
                                         "Cooking",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: customColors["onContainer"]!,
+                                        ),
                                       ),
                                     ),
                                     DropdownMenuItem(
                                       value: "story",
                                       child: Text(
                                         "Story",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: customColors["onContainer"]!,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -738,7 +753,7 @@ class _TuachuayDekhorEditDraftPageState
                                 margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
-                                  color: Colors.grey[200],
+                                  color: customColors["container"]!,
                                 ),
                                 child: Row(
                                   children: [
@@ -747,9 +762,9 @@ class _TuachuayDekhorEditDraftPageState
                                         _getImage();
                                         print("Add image tapped");
                                       },
-                                      child: const Icon(
+                                      child: Icon(
                                         Icons.image,
-                                        color: Color.fromRGBO(0, 48, 73, 1),
+                                        color: customColors["main"]!,
                                         size: 24,
                                       ),
                                     ),
