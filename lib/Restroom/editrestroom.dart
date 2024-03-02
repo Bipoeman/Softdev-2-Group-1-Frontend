@@ -27,6 +27,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   TextEditingController _nameTextController = TextEditingController();
   TextEditingController _addressTextController = TextEditingController();
   File? _image;
+  int _nameLength = 0;
   String _type = restroomTypes.first;
 
   final Map<String, bool> _forwho = {
@@ -88,15 +89,16 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   @override
   void initState() {
     super.initState();
-    _nameTextController =
-        TextEditingController(text: widget.restroomData['name']);
-    _addressTextController =
-        TextEditingController(text: widget.restroomData['address']);
 
     setState(() {
+      _nameTextController =
+          TextEditingController(text: widget.restroomData['name']);
+      _addressTextController =
+          TextEditingController(text: widget.restroomData['address']);
       _forwho["Kid"] = widget.restroomData["for_who"]["Kid"];
       _forwho["Handicapped"] = widget.restroomData["for_who"]["Handicapped"];
       _type = widget.restroomData["type"];
+      _nameLength = _nameTextController.text.length;
     });
   }
 
@@ -187,15 +189,22 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                 borderRadius: 30,
                                 depth: -20,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 5),
+                                  padding: const EdgeInsets.only(
+                                      left: 5, top: 7, right: 5),
                                   child: TextField(
-                                    maxLength: 20,
+                                    maxLength: 15,
                                     controller: _nameTextController,
                                     onChanged: (text) {
+                                      setState(() {
+                                        _nameLength = text.length;
+                                      });
                                       debugPrint('Typed text: $text');
                                     },
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                       isDense: true,
+                                      suffixText:
+                                          '${_nameLength.toString()}/15',
+                                      counterText: "",
                                       border: InputBorder.none,
                                     ),
                                   ),
