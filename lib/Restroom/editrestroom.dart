@@ -36,8 +36,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
 
   Future<void> _updateData() async {
     if (_image != null) {
-      _updatePicture(widget.restroomData['id'].toString(), _image)
-          .timeout(Durations.extralong4);
+      _updatePicture(widget.restroomData['id'].toString(), _image);
     }
     final url = Uri.parse("$api$restroomRoverEditRoute");
     await http.post(url, body: {
@@ -62,7 +61,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   }
 
   Future<http.Response> _updatePicture(id, picture) async {
-    final url = Uri.parse("$api$restroomRoverUploadPictureRoute");
+    final url = Uri.parse("$api$restroomRoverUploadToiletPictureRoute");
     http.MultipartRequest request = http.MultipartRequest('POST', url);
     request.headers.addAll({
       "Authorization": "Bearer $publicToken",

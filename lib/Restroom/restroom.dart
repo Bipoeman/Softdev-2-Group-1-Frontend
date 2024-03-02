@@ -26,7 +26,7 @@ class _RestroomRoverState extends State<RestroomRover> {
   LatLng? centerMark;
   Future<http.Response> getRestroomInfo() async {
     debugPrint("Getting Info");
-    Uri url = Uri.parse("$api$restroomRoverGetRestroomRoute");
+    Uri url = Uri.parse("$api$restroomRoverRestroomRoute");
     http.Response res = await http.get(
       url,
       headers: {
@@ -38,7 +38,7 @@ class _RestroomRoverState extends State<RestroomRover> {
 
   Future<http.Response> getRestroomReview() async {
     debugPrint("Getting Review");
-    Uri url = Uri.parse("$api$restroomRoverGetReviewRoute");
+    Uri url = Uri.parse("$api$restroomRoverReviewRoute");
     http.Response res = await http.get(
       url,
       headers: {
@@ -57,18 +57,17 @@ class _RestroomRoverState extends State<RestroomRover> {
           .toList();
 
       // Combine datas
-      restroomData = decoded[0].map((info) {
-        var founded = decoded[1].singleWhere(
-            (review) => review["id"] == info["id"],
-            orElse: () => null);
-        if (founded != null) {
-          info.addEntries(founded.entries);
-        }
-        return info;
-      }).toList();
-
-      print(restroomData);
-      setState(() {});
+      setState(() {
+        restroomData = decoded[0].map((info) {
+          var founded = decoded[1].singleWhere(
+              (review) => review["id"] == info["id"],
+              orElse: () => null);
+          if (founded != null) {
+            info.addEntries(founded.entries);
+          }
+          return info;
+        }).toList();
+      });
     }).onError((error, stackTrace) {
       ThemeData theme = Theme.of(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -81,7 +80,6 @@ class _RestroomRoverState extends State<RestroomRover> {
         backgroundColor: theme.colorScheme.primary,
       ));
     });
-    ;
     super.initState();
   }
 
