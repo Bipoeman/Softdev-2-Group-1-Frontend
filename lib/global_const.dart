@@ -4,8 +4,10 @@ import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 const String baseURL = "https://ruammitr.azurewebsites.net";
 // const String api = "https://ruammitr.azurewebsites.net/api";
 // const String api = "http://10.0.2.2:3000";
-const String api = "http://192.168.56.1:3000";
-// const String api = "http://172.20.10.6:3000";
+// const String api = "http://192.168.56.1:3000";
+// const String api = "http://172.20.10.6:3000
+
+const String api = "http://10.0.2.2:3000";
 const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
 const String userDataUpdateRoute = "/user";
@@ -50,6 +52,11 @@ const String dekhorDetailReportRoute = "/dekhor/detailreport";
 const String dekhorDescriptionRoute = "/dekhor/bloggerdescription";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
+const String restroomRoverGetRestroomRoute = "/restroom";
+const String restroomRoverGetReviewRoute = "/restroom/review";
+const String pinTheBinReportBinRoute = "/pinthebin/report";
+const String pinTheBinReportPictureBinRoute = "/pinthebin/report/upload";
+
 
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",
@@ -65,6 +72,8 @@ const Map<String, String> restroomPageRoute = {
   "findposition": "/Restroom/Findposition",
   "addrestroom": "/Restroom/Addrestroom",
   "report": "/Restroom/Report",
+  "reportpin": "/Restroom/ReportPin",
+  "edit": "/Restroom/Edit",
 };
 const String dinodengzzPageRoute = "/game";
 const Map<String, String> tuachuayDekhorPageRoute = {

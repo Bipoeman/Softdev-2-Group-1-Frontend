@@ -6,11 +6,13 @@ class PauseMenu extends StatelessWidget {
     this.onResumePressed,
     this.onSettingPressed,
     this.onExitPressed,
+    this.onRetryPressed,
   });
 
   static const id = 'PauseMenu';
 
   final VoidCallback? onResumePressed;
+  final VoidCallback? onRetryPressed;
   final VoidCallback? onSettingPressed;
   final VoidCallback? onExitPressed;
 
@@ -32,6 +34,14 @@ class PauseMenu extends StatelessWidget {
               child: OutlinedButton(
                 onPressed: onResumePressed,
                 child: const Text('Resume'),
+              ),
+            ),
+            const SizedBox(height: 5),
+            SizedBox(
+              width: 150,
+              child: OutlinedButton(
+                onPressed: onRetryPressed,
+                child: const Text('Retry'),
               ),
             ),
             const SizedBox(height: 5),

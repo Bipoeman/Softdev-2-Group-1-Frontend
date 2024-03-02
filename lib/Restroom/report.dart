@@ -1,7 +1,7 @@
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ruam_mitt/Restroom/Component/NavBar.dart';
+import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/Restroom/Component/write_review.dart';
 import 'package:ruam_mitt/Restroom/Component/comment.dart';
@@ -38,137 +38,139 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                     scaffoldKey: _scaffoldKey), // วาง AppBar ไว้ด้านบน
                 Expanded(
                   // ใช้ Expanded เพื่อให้ Row และเนื้อหาด้านล่างมีพื้นที่เท่ากัน
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              padding: EdgeInsets.only(left: 40),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 40),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Container(
+                                padding: EdgeInsets.only(left: 40),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 40),
+                                  child: Text(
+                                    'Topic',
+                                    style:
+                                        Theme.of(context).textTheme.displayMedium,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: size.width * 0.05,
+                            ),
+                            Container(
+                              alignment: Alignment.topRight,
+                              margin: EdgeInsets.only(top: size.height * 0.05),
+                              child: ClayContainer(
+                                width: size.width * 0.6,
+                                height: size.height * 0.032,
+                                color: Color(0xFFEAEAEA),
+                                borderRadius: 30,
+                                depth: -20,
+                                child: TextField(
+                                  controller: _TopictextController,
+                                  onChanged: (text) {
+                                    print('Typed text: $text');
+                                  },
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.5),
+                                    hintText: 'Write a topic...',
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                    
+                        SizedBox(
+                            height:
+                                30), // เพิ่มระยะห่างระหว่าง Row กับเนื้อหาด้านล่าง
+                        // เพิ่มเนื้อหาด้านล่างของ Row ที่นี่
+                        Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Container(
+                                padding: EdgeInsets.only(left: 40),
                                 child: Text(
-                                  'Topic',
+                                  'Description',
                                   style:
                                       Theme.of(context).textTheme.displayMedium,
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            width: size.width * 0.05,
-                          ),
-                          Container(
-                            alignment: Alignment.topRight,
-                            margin: EdgeInsets.only(top: size.height * 0.05),
-                            child: ClayContainer(
-                              width: size.width * 0.6,
-                              height: size.height * 0.032,
-                              color: Color(0xFFEAEAEA),
-                              borderRadius: 30,
-                              depth: -20,
-                              child: TextField(
-                                controller: _TopictextController,
-                                onChanged: (text) {
-                                  print('Typed text: $text');
-                                },
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.5),
-                                  hintText: 'Write a topic...',
+                            Container(
+                              margin: EdgeInsets.only(top: size.height * 0.02),
+                              child: ClayContainer(
+                                width: size.width * 0.78,
+                                height: size.height * 0.3,
+                                color: Color(0xFFEAEAEA),
+                                borderRadius: 30,
+                                depth: -20,
+                                child: TextField(
+                                  controller: _DescriptiontextController,
+                                  onChanged: (text) {
+                                    print('Typed text: $text');
+                                  },
+                                  maxLines: null,
+                                  // textAlignVertical: TextAlignVertical.center,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                                    hintText: 'Write a description...',
+                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-
-                      SizedBox(
-                          height:
-                              30), // เพิ่มระยะห่างระหว่าง Row กับเนื้อหาด้านล่าง
-                      // เพิ่มเนื้อหาด้านล่างของ Row ที่นี่
-                      Column(
-                        children: [
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              padding: EdgeInsets.only(left: 40),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                            height:
+                                size.height * 0.25), // เพิ่มระยะห่างระหว่าง Row กับเนื้อหาด้านล่าง
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.black,
+                                backgroundColor: Colors.amber,
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                  side: const BorderSide(color: Colors.grey),
+                                ),
+                              ),
                               child: Text(
-                                'Description',
-                                style:
-                                    Theme.of(context).textTheme.displayMedium,
+                                'Submit',
+                                style: Theme.of(context).textTheme.displayLarge,
                               ),
                             ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: size.height * 0.02),
-                            child: ClayContainer(
-                              width: size.width * 0.78,
-                              height: size.height * 0.3,
-                              color: Color(0xFFEAEAEA),
-                              borderRadius: 30,
-                              depth: -20,
-                              child: TextField(
-                                controller: _DescriptiontextController,
-                                onChanged: (text) {
-                                  print('Typed text: $text');
-                                },
-                                maxLines: null,
-                                // textAlignVertical: TextAlignVertical.center,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-                                  hintText: 'Write a description...',
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.black,
+                                backgroundColor: Colors.grey[300],
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                  side: const BorderSide(color: Colors.grey),
                                 ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                          height:
-                              size.height * 0.25), // เพิ่มระยะห่างระหว่าง Row กับเนื้อหาด้านล่าง
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.black,
-                              backgroundColor: Colors.amber,
-                              surfaceTintColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                                side: const BorderSide(color: Colors.grey),
+                              child: Text(
+                                "Cancel",
+                                style: Theme.of(context).textTheme.displayLarge,
                               ),
                             ),
-                            child: Text(
-                              'Submit',
-                              style: Theme.of(context).textTheme.displayLarge,
-                            ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.black,
-                              backgroundColor: Colors.grey[300],
-                              surfaceTintColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                                side: const BorderSide(color: Colors.grey),
-                              ),
-                            ),
-                            child: Text(
-                              "Cancel",
-                              style: Theme.of(context).textTheme.displayLarge,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
