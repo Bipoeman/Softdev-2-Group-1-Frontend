@@ -11,16 +11,13 @@ import 'package:http/http.dart' as http;
 class TuachuayDekhorBloggerProfilePage extends StatefulWidget {
   final String username;
 
-  const TuachuayDekhorBloggerProfilePage({Key? key, required this.username})
-      : super(key: key);
+  const TuachuayDekhorBloggerProfilePage({Key? key, required this.username}) : super(key: key);
 
   @override
-  State<TuachuayDekhorBloggerProfilePage> createState() =>
-      _TuachuayDekhorBloggerProfilePageState();
+  State<TuachuayDekhorBloggerProfilePage> createState() => _TuachuayDekhorBloggerProfilePageState();
 }
 
-class _TuachuayDekhorBloggerProfilePageState
-    extends State<TuachuayDekhorBloggerProfilePage> {
+class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBloggerProfilePage> {
   String? description;
   bool isEditing = false;
   bool showMore = false;
@@ -78,10 +75,12 @@ class _TuachuayDekhorBloggerProfilePageState
   @override
   Widget build(BuildContext context) {
     final username = widget.username;
-
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"],
       body: SafeArea(
         child: Stack(
           children: [
@@ -100,11 +99,18 @@ class _TuachuayDekhorBloggerProfilePageState
                         left: size.width * 0.04,
                       ),
                       child: GestureDetector(
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.arrow_back_outlined),
-                            SizedBox(width: 5),
-                            Text("Back")
+                            Icon(
+                              Icons.arrow_back_outlined,
+                              color: customColors["main"]!,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "Back",
+                              style: TextStyle(color: customColors["main"]!),
+                            ),
                           ],
                         ),
                         onTap: () => Navigator.pop(context),
@@ -124,7 +130,7 @@ class _TuachuayDekhorBloggerProfilePageState
                             height: size.width * 0.25,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: const Color.fromRGBO(0, 48, 73, 1),
+                              color: customColors["main"],
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
@@ -138,9 +144,10 @@ class _TuachuayDekhorBloggerProfilePageState
                             padding: EdgeInsets.only(left: size.width * 0.04),
                             child: Text(
                               username,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w400,
+                                color: customColors["main"],
                               ),
                             ),
                           ),
@@ -153,7 +160,13 @@ class _TuachuayDekhorBloggerProfilePageState
                           right: size.width * 0.1,
                           bottom: size.width * 0.05,
                           top: size.width * 0.005),
-                      child: const Text('can\'t edit other\'s description'),
+                      child: Text(
+                        'can\'t edit other\'s description',
+                        style: TextStyle(
+                          color: customColors["onContainer"],
+                          fontSize: 12,
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -163,13 +176,15 @@ class _TuachuayDekhorBloggerProfilePageState
                       child: Container(
                           width: size.width * 0.8,
                           height: size.width * 0.03,
-                          color: const Color.fromRGBO(0, 48, 73, 1)),
+                          color: customColors["main"],
+                        ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
                           left: size.width * 0.1,
                           right: size.width * 0.1,
-                          bottom: size.width * 0.05),
+                          bottom: size.width * 0.05,
+                        ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -250,8 +265,7 @@ class _TuachuayDekhorBloggerProfilePageState
                             direction: Axis.vertical,
                             spacing: 5,
                             children: List.generate(
-                              ((isPostSelected ? post.length : save.length) / 2)
-                                  .ceil(),
+                              ((isPostSelected ? post.length : save.length) / 2).ceil(),
                               (index) {
                                 final actualIndex = index * 2;
                                 if (isPostSelected) {
@@ -277,25 +291,19 @@ class _TuachuayDekhorBloggerProfilePageState
                                   if (actualIndex < save.length) {
                                     return BlogBox(
                                       title: save[actualIndex]['post']['title'],
-                                      name: save[actualIndex]
-                                          ['fullname_blogger'],
-                                      category: save[actualIndex]['post']
-                                          ['category'],
-                                      like:  save[actualIndex]['post']['save'] ?? "0",
+                                      name: save[actualIndex]['fullname_blogger'],
+                                      category: save[actualIndex]['post']['category'],
+                                      like: save[actualIndex]['post']['save'] ?? "0",
                                       image: NetworkImage(
-                                        save[actualIndex]['post']
-                                                    ['image_link'] !=
-                                                "null"
-                                            ? save[actualIndex]['post']
-                                                ['image_link']
+                                        save[actualIndex]['post']['image_link'] != "null"
+                                            ? save[actualIndex]['post']['image_link']
                                             : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                       ),
                                       onPressed: () {
                                         Navigator.pushNamed(
                                           context,
                                           tuachuayDekhorPageRoute['blog']!,
-                                          arguments: save[actualIndex]['post']
-                                              ['id_post'],
+                                          arguments: save[actualIndex]['post']['id_post'],
                                         );
                                       },
                                     );
@@ -337,30 +345,24 @@ class _TuachuayDekhorBloggerProfilePageState
                                   if (actualIndex < save.length) {
                                     return BlogBox(
                                       title: save[actualIndex]['post']['title'],
-                                      name: save[actualIndex]
-                                          ['fullname_blogger'],
-                                      category: save[actualIndex]['post']
-                                          ['category'],
+                                      name: save[actualIndex]['fullname_blogger'],
+                                      category: save[actualIndex]['post']['category'],
                                       like: save[actualIndex]['save'] ?? "0",
                                       image: NetworkImage(
-                                        save[actualIndex]['post']
-                                                    ['image_link'] !=
-                                                "null"
-                                            ? save[actualIndex]['post']
-                                                ['image_link']
+                                        save[actualIndex]['post']['image_link'] != "null"
+                                            ? save[actualIndex]['post']['image_link']
                                             : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                       ),
                                       onPressed: () {
                                         Navigator.pushNamed(
                                           context,
                                           tuachuayDekhorPageRoute['blog']!,
-                                          arguments: save[actualIndex]['post']
-                                              ['id_post'],
+                                          arguments: save[actualIndex]['post']['id_post'],
                                         );
                                       },
                                     );
                                   } else {
-                                    return SizedBox(); // ให้คืนค่า SizedBox() เมื่อไม่มีข้อมูลในลิสต์ save
+                                    return const SizedBox(); // ให้คืนค่า SizedBox() เมื่อไม่มีข้อมูลในลิสต์ save
                                   }
                                 }
                               },
