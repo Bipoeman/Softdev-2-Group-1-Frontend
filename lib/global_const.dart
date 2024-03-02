@@ -47,6 +47,7 @@ const String dekhorDrafttoPostBlogRoute = "/dekhor/drafttopostblog";
 const String dekhorShowReportRoute = "/dekhor/showreport";
 const String dekhorDeleteReportRoute = "/dekhor/deletereport";
 const String dekhorDetailReportRoute = "/dekhor/detailreport";
+const String dekhorDescriptionRoute = "/dekhor/bloggerdescription";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
 

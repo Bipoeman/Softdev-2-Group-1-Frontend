@@ -24,16 +24,17 @@ class TuachuayDekhorBloggerProfilePage extends StatefulWidget {
 
 class _TuachuayDekhorBloggerProfilePageState
     extends State<TuachuayDekhorBloggerProfilePage> {
-  String? description;
   bool isEditing = false;
   bool showMore = false;
   bool isPostSelected = true;
   bool isSaveSelected = false;
   var post = [];
   var save = [];
+  var description = [];
   late String username;
   late Uri posturl;
   late Uri saveurl;
+  late Uri descriptionurl;
 
   @override
   void initState() {
@@ -41,17 +42,25 @@ class _TuachuayDekhorBloggerProfilePageState
     username = widget.username;
     posturl = Uri.parse("$api$dekhorPosttoprofilebloggerRoute/$username");
     saveurl = Uri.parse("$api$dekhorShowSavebloggerRoute/$username");
+    descriptionurl = Uri.parse("$api$dekhorDescriptionRoute/$username");
     postoprofile();
     savepost();
+    descriptionblogger();
     print("Username: $username");
     print("Post URL: $posturl");
     print("Save URL: $saveurl");
   }
 
-  void updateDescription(String value) {
-    setState(() {
-      description = value;
-    });
+  Future<void> descriptionblogger() async {
+    var response = await http.get(descriptionurl);
+    if (response.statusCode == 200) {
+      setState(() {
+        description = jsonDecode(response.body);
+        print(description);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 
   Future<void> postoprofile() async {
@@ -142,20 +151,28 @@ class _TuachuayDekhorBloggerProfilePageState
                               username,
                               style: const TextStyle(
                                 fontSize: 25,
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Padding(
+                    Container(
+                      alignment: Alignment.centerLeft,
                       padding: EdgeInsets.only(
-                          left: size.width * 0.3,
+                          left: size.width * 0.37,
                           right: size.width * 0.1,
                           bottom: size.width * 0.05,
                           top: size.width * 0.005),
-                      child: const Text('can\'t edit other\'s description'),
+                      child: description.isNotEmpty &&
+                              description[0]['description'] != null
+                          ? Text(
+                              description[0]['description'],
+                              style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w400),
+                            )
+                          : SizedBox(),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
