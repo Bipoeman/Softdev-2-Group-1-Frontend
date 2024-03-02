@@ -196,7 +196,7 @@ class _TuachuayDekhorDetailReportPageState
                                                 report[0]['user']['profile'] !=
                                                     null)
                                             ? report[0]['user']['profile']
-                                            : "https://api.multiavatar.com/${report[0]['user']['fullname']}}.png",
+                                            : "https://api.multiavatar.com/${report[0]['user']['fullname']}.png",
                                       ),
                                       fit: BoxFit.cover,
                                     ),
@@ -216,8 +216,8 @@ class _TuachuayDekhorDetailReportPageState
                                     deletepost();
                                     deleteReport();
                                     print("delete");
-                                    Navigator.pushNamed(
-                                        context, tuachuayDekhorPageRoute["admin"]!);
+                                    Navigator.pushNamed(context,
+                                        tuachuayDekhorPageRoute["admin"]!);
                                   },
                                   child: Container(
                                     height: 35,

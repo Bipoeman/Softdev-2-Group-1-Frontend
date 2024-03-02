@@ -19,15 +19,12 @@ class TuachuayDekhorDraftPage extends StatefulWidget {
 class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
   var draft = [];
   final draftposturl = Uri.parse("$api$dekhorPosttoDraftRoute");
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 2), () {
-      setState(() {
-        posttodraft();
-      });
-    });
+    _loadDetail();
   }
 
   Future<void> posttodraft() async {
@@ -41,6 +38,17 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
     } else {
       throw Exception('Failed to load data');
     }
+  }
+
+  Future<void> _loadDetail() async {
+    setState(() {
+      isLoading = true;
+    });
+    await Future.delayed(Duration(seconds: 2), () {});
+    await posttodraft();
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -107,100 +115,36 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                           left: size.width * 0.08,
                           right: size.width * 0.08,
                           top: size.width * 0.05),
-                      child: MasonryGridView.builder(
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        itemCount: draft.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2),
-                        itemBuilder: ((context, index) => BlogBox(
-                              title: draft[index]['title'],
-                              name: draft[index]['user']['fullname'],
-                              category: draft[index]['category'],
-                              like: draft[index]['save'] ?? "0",
-                              image: NetworkImage(
-                                draft[index]['image_link'],
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  tuachuayDekhorPageRoute['editdraft']!,
-                                  arguments: draft[index]['id_draft'],
-                                );
-                              },
-                            )),
-                      ),
-                      // Wrap(
-                      //   direction: Axis.vertical,
-                      //   spacing: 7,
-                      //   children: List.generate(
-                      //     (draft.length / 2).ceil(),
-                      //     (index) {
-                      //       final actualIndex = index * 2;
-                      //       if (actualIndex < draft.length) {
-                      //         return BlogBox(
-                      //           title: draft[actualIndex]['title'],
-                      //           name: draft[actualIndex]['user']
-                      //               ['fullname'],
-                      //           category: draft[actualIndex]['category'],
-                      //           like: "null",
-                      //           image: NetworkImage(
-                      //             draft[actualIndex]['image_link'] !=
-                      //                     "null"
-                      //                 ? draft[actualIndex]['image_link']
-                      //                 : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
-                      //           ),
-                      //           onPressed: () {
-                      //            Navigator.pushNamed(
-                      //               context,
-                      //               tuachuayDekhorPageRoute["editdraft"]!,
-                      //               arguments: draft[actualIndex]['id_draft'],
-                      //             );
-                      //           },
-                      //         );
-                      //       } else {
-                      //         return const SizedBox(); // แสดง SizedBox ถ้าข้อมูลไม่เพียงพอ
-                      //       }
-                      //     },
-                      //   ),
-                      // ),
-                      // Wrap(
-                      //   direction: Axis.vertical,
-                      //   spacing: 7,
-                      //   children: List.generate(
-                      //     (draft.length) ~/ 2,
-                      //     (index) {
-                      //       final actualIndex = index * 2 + 1;
-                      //       if (actualIndex < draft.length) {
-                      //         return BlogBox(
-                      //           title: draft[actualIndex]['title'],
-                      //           name: draft[actualIndex]['user']
-                      //               ['fullname'],
-                      //           category: draft[actualIndex]['category'],
-                      //           like: "null",
-                      //           image: NetworkImage(
-                      //             draft[actualIndex]['image_link'] !=
-                      //                     "null"
-                      //                 ? draft[actualIndex]['image_link']
-                      //                 : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
-                      //           ),
-                      //           onPressed: () {
-                      //             Navigator.pushNamed(
-                      //               context,
-                      //               tuachuayDekhorPageRoute["editdraft"]!,
-                      //               arguments: draft[actualIndex]['id_draft'],
-                      //             );
-                      //           },
-                      //         );
-                      //       } else {
-                      //         return const SizedBox(); // แสดง SizedBox ถ้าข้อมูลไม่เพียงพอ
-                      //       }
-                      //     },
-                      //   ),
-                      // ),
+                      child: isLoading
+                          ? const CircularProgressIndicator(
+                              color: Color.fromRGBO(0, 48, 73, 1),
+                            )
+                          : MasonryGridView.builder(
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              itemCount: draft.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2),
+                              itemBuilder: ((context, index) => BlogBox(
+                                    title: draft[index]['title'],
+                                    name: draft[index]['user']['fullname'],
+                                    category: draft[index]['category'],
+                                    like: draft[index]['save'] ?? "0",
+                                    image: NetworkImage(
+                                      draft[index]['image_link'],
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        tuachuayDekhorPageRoute['editdraft']!,
+                                        arguments: draft[index]['id_draft'],
+                                      );
+                                    },
+                                  )),
+                            ),
                     )
                   ],
                 ),

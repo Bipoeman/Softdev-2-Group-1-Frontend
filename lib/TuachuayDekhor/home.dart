@@ -35,8 +35,8 @@ Widget nodeCatagories(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image(
-                height: 55,
-                width: 55,
+                height: 50,
+                width: 50,
                 fit: BoxFit.cover,
                 image: AssetImage(
                     "assets/images/Icon/TuachuayDekhor_Catagories_$number.png"),

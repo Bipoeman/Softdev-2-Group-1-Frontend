@@ -5,9 +5,9 @@ const String baseURL = "https://ruammitr.azurewebsites.net";
 // const String api = "https://ruammitr.azurewebsites.net/api";
 // const String api = "http://10.0.2.2:3000";
 // const String api = "http://192.168.56.1:3000";
-// const String api = "http://172.20.10.6:3000
+const String api = "http://172.20.10.6:3000";
 
-const String api = "http://10.0.2.2:3000";
+// const String api = "http://10.0.2.2:3000";
 const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
 const String userDataUpdateRoute = "/user";
@@ -56,7 +56,6 @@ const String restroomRoverGetRestroomRoute = "/restroom";
 const String restroomRoverGetReviewRoute = "/restroom/review";
 const String pinTheBinReportBinRoute = "/pinthebin/report";
 const String pinTheBinReportPictureBinRoute = "/pinthebin/report/upload";
-
 
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",
