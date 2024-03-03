@@ -97,16 +97,16 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(219, 255, 192, 136),
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side:
-                BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
-          contentPadding: EdgeInsets.all(24.0),
+          contentPadding: const EdgeInsets.all(24.0),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 206, 63, 89),
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
@@ -131,51 +131,50 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
             ],
           ),
           actions: [
-            Center(
-              child: Column(
-                children: [
-                  Container(
-                    color: Colors.red.withOpacity(0.5),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        "แล้วนายเป็นใคร",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  color: Colors.red.withOpacity(0.5),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      "แล้วนายเป็นใคร",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
-                  SizedBox(height: 8), // Add spacing between buttons
-                  Container(
-                    color: Colors.blue.withOpacity(0.5),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        showThirdDialogFirstlLevel(context, title, contents, 2);
-                      },
-                      child: const Text(
-                        "รู้แล้วละ ขอบคุณ",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+                ),
+                SizedBox(width: 8),
+                Container(
+                  color: Colors.blue.withOpacity(0.5),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      showThirdDialogFirstlLevel(context, title, contents, 2);
+                    },
+                    child: const Text(
+                      "รู้แล้วละ ขอบคุณ",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
-                  SizedBox(height: 8), // Add spacing between buttons
-                  Container(
-                    color: Colors.green.withOpacity(0.5),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        showSecondDialogFirstLevel(context, title, contents, 1);
-                      },
-                      child: const Text(
-                        "ไม่รู้เลย",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+                ),
+                SizedBox(width: 8),
+                Container(
+                  color: Colors.green.withOpacity(0.5),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      showSecondDialogFirstLevel(context, title, contents, 1);
+                    },
+                    child: const Text(
+                      "ไม่รู้เลย",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         );
@@ -194,16 +193,16 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(219, 255, 192, 136),
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side:
-                BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
-          contentPadding: EdgeInsets.all(24.0),
+          contentPadding: const EdgeInsets.all(24.0),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 206, 63, 89),
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
@@ -242,7 +241,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 ),
               ),
             ),
-            SizedBox(width: 8), // Add spacing between buttons
+            const SizedBox(width: 8), // Add spacing between buttons
             Container(
               color: Colors.green.withOpacity(0.5),
               child: TextButton(
@@ -272,16 +271,16 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(219, 255, 192, 136),
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side:
-                BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
-          contentPadding: EdgeInsets.all(24.0),
+          contentPadding: const EdgeInsets.all(24.0),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 206, 63, 89),
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
@@ -340,16 +339,16 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(219, 255, 192, 136),
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side:
-                BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
-          contentPadding: EdgeInsets.all(24.0),
+          contentPadding: const EdgeInsets.all(24.0),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 206, 63, 89),
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
@@ -387,7 +386,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 ),
               ),
             ),
-            SizedBox(width: 8), // Add spacing between buttons
+            const SizedBox(width: 8), // Add spacing between buttons
             Container(
               color: Colors.red.withOpacity(0.5),
               child: TextButton(
@@ -417,16 +416,16 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(219, 255, 192, 136),
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side:
-                BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
-          contentPadding: EdgeInsets.all(24.0),
+          contentPadding: const EdgeInsets.all(24.0),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 206, 63, 89),
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
@@ -465,7 +464,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 ),
               ),
             ),
-            SizedBox(width: 8), // Add spacing between buttons
+            const SizedBox(width: 8), // Add spacing between buttons
             Container(
               color: Colors.green.withOpacity(0.5),
               child: TextButton(
@@ -502,16 +501,16 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(219, 255, 192, 136),
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side:
-                BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
-          contentPadding: EdgeInsets.all(24.0),
+          contentPadding: const EdgeInsets.all(24.0),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 206, 63, 89),
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
@@ -536,51 +535,50 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
             ],
           ),
           actions: [
-            Center(
-              child: Column(
-                children: [
-                  Container(
-                    color: Colors.red.withOpacity(0.5),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        "แล้วสรุปนายเป็นใครกันอะ",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  color: Colors.red.withOpacity(0.5),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      "แล้วสรุปนายเป็นใครกันอะ",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Container(
-                    color: Colors.blue.withOpacity(0.5),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        showSecondDialogThirdLevel(context, title, contents, 1);
-                      },
-                      child: const Text(
-                        "ก็เฉยๆนะ",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  color: Colors.blue.withOpacity(0.5),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      showSecondDialogThirdLevel(context, title, contents, 1);
+                    },
+                    child: const Text(
+                      "ก็เฉยๆนะ",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
-                  SizedBox(height: 8), // Add spacing between buttons
-                  Container(
-                    color: Colors.green.withOpacity(0.5),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        showSecondDialogThirdLevel(context, title, contents, 1);
-                      },
-                      child: const Text(
-                        "กระจอกเกินอะบอกตรง",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  color: Colors.green.withOpacity(0.5),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      showSecondDialogThirdLevel(context, title, contents, 1);
+                    },
+                    child: const Text(
+                      "กระจอกเกินอะบอกตรง",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         );
@@ -599,16 +597,16 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(219, 255, 192, 136),
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side:
-                BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
-          contentPadding: EdgeInsets.all(24.0),
+          contentPadding: const EdgeInsets.all(24.0),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 206, 63, 89),
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
@@ -647,7 +645,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 ),
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Container(
               color: Colors.green.withOpacity(0.5),
               child: TextButton(
@@ -679,16 +677,16 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(219, 255, 192, 136),
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side:
-                BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
-          contentPadding: EdgeInsets.all(24.0),
+          contentPadding: const EdgeInsets.all(24.0),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 206, 63, 89),
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
@@ -725,7 +723,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 ),
               ),
             ),
-            SizedBox(width: 8), // Add spacing between buttons
+            const SizedBox(width: 8), // Add spacing between buttons
             Container(
               color: Colors.green.withOpacity(0.5),
               child: TextButton(
@@ -763,16 +761,16 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(219, 255, 192, 136),
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side:
-                BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
-          contentPadding: EdgeInsets.all(24.0),
+          contentPadding: const EdgeInsets.all(24.0),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 206, 63, 89),
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
@@ -797,55 +795,51 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
             ],
           ),
           actions: [
-            Center(
-              child: Column(
-                children: [
-                  Container(
-                    color: Colors.red.withOpacity(0.5),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        showSecondDialogFourthLevel(
-                            context, title, contents, 1);
-                      },
-                      child: const Text(
-                        "จะบอกยังว่าเป็นใคร",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  color: Colors.red.withOpacity(0.5),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      showSecondDialogFourthLevel(context, title, contents, 1);
+                    },
+                    child: const Text(
+                      "จะบอกยังว่าเป็นใคร",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
-                  SizedBox(height: 8), // Add spacing between buttons
-                  Container(
-                    color: Colors.blue.withOpacity(0.5),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        showSecondDialogFourthLevel(
-                            context, title, contents, 1);
-                      },
-                      child: const Text(
-                        "หมายถึง 2 หรือเปล่า",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+                ),
+                const SizedBox(width: 8), // Add spacing between buttons
+                Container(
+                  color: Colors.blue.withOpacity(0.5),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      showSecondDialogFourthLevel(context, title, contents, 1);
+                    },
+                    child: const Text(
+                      "หมายถึง 2 หรือเปล่า",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
-                  SizedBox(height: 8), // Add spacing between buttons
-                  Container(
-                    color: Colors.green.withOpacity(0.5),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        showSecondDialogFourthLevel(
-                            context, title, contents, 1);
-                      },
-                      child: const Text(
-                        "ง่ายเกิ้น",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+                ),
+                const SizedBox(width: 8), // Add spacing between buttons
+                Container(
+                  color: Colors.green.withOpacity(0.5),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      showSecondDialogFourthLevel(context, title, contents, 1);
+                    },
+                    child: const Text(
+                      "ง่ายเกิ้น",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         );
@@ -864,16 +858,16 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(219, 255, 192, 136),
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side:
-                BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
-          contentPadding: EdgeInsets.all(24.0),
+          contentPadding: const EdgeInsets.all(24.0),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 206, 63, 89),
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
@@ -912,7 +906,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 ),
               ),
             ),
-            SizedBox(width: 8), // Add spacing between buttons
+            const SizedBox(width: 8), // Add spacing between buttons
             Container(
               color: Colors.green.withOpacity(0.5),
               child: TextButton(
@@ -927,7 +921,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 ),
               ),
             ),
-            SizedBox(width: 8), // Add spacing between buttons
+            const SizedBox(width: 8), // Add spacing between buttons
             Container(
               color: Colors.pink.withOpacity(0.5),
               child: TextButton(
@@ -959,16 +953,16 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(219, 255, 192, 136),
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side:
-                BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
-          contentPadding: EdgeInsets.all(24.0),
+          contentPadding: const EdgeInsets.all(24.0),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 206, 63, 89),
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
@@ -1007,7 +1001,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 ),
               ),
             ),
-            SizedBox(width: 8), // Add spacing between buttons
+            const SizedBox(width: 8), // Add spacing between buttons
             Container(
               color: Colors.green.withOpacity(0.5),
               child: TextButton(
@@ -1022,7 +1016,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 ),
               ),
             ),
-            SizedBox(width: 8), // Add spacing between buttons
+            const SizedBox(width: 8), // Add spacing between buttons
             Container(
               color: Colors.pink.withOpacity(0.5),
               child: TextButton(
@@ -1054,16 +1048,16 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(219, 255, 192, 136),
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side:
-                BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
-          contentPadding: EdgeInsets.all(24.0),
+          contentPadding: const EdgeInsets.all(24.0),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 206, 63, 89),
               fontSize: 32.0,
               fontWeight: FontWeight.bold,
@@ -1100,7 +1094,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 ),
               ),
             ),
-            SizedBox(width: 8), // Add spacing between buttons
+            const SizedBox(width: 8), // Add spacing between buttons
             Container(
               color: Colors.green.withOpacity(0.5),
               child: TextButton(
