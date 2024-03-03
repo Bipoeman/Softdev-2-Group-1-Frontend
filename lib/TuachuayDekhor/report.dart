@@ -2,14 +2,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
-import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
 import "package:ruam_mitt/global_const.dart";
 
 class TuachuayDekhorReportPage extends StatefulWidget {
   final int id_post;
   final int id_blogger;
-  const TuachuayDekhorReportPage({super.key, required this.id_post, required this.id_blogger});
+  const TuachuayDekhorReportPage(
+      {super.key, required this.id_post, required this.id_blogger});
 
   @override
   State<TuachuayDekhorReportPage> createState() =>
@@ -145,6 +145,7 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                           style: TextStyle(
                             fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.w300,
+                            color: Colors.grey,
                           ),
                         ),
                       ),
@@ -167,6 +168,7 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                           bottom: size.height * 0.03,
                         ),
                         child: TextFormField(
+                          textInputAction: TextInputAction.next,
                           controller: titleController,
                           cursorColor: Colors.grey[600],
                           style: const TextStyle(
