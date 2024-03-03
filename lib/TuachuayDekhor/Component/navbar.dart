@@ -27,7 +27,8 @@ class NavbarTuachuayDekhor extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     ThemeProvider themeProvider = ThemesPortal.getCurrent(context);
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
     const double navbarHeight = 100;
     const double paddingSize = 30;
@@ -45,6 +46,7 @@ class NavbarTuachuayDekhor extends StatelessWidget {
         ),
       ),
       height: navbarHeight,
+      width: size.width,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -77,7 +79,7 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                 surfaceTintColor: Colors.white,
                 position: RelativeRect.fromLTRB(
                   size.width,
-                  navbarHeight - paddingSize * 0.5,
+                  navbarHeight + paddingSize * 0.5,
                   0,
                   0,
                 ),
@@ -102,7 +104,8 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        Navigator.pushNamed(context, tuachuayDekhorPageRoute["admin"]!);
+                        Navigator.pushNamed(
+                            context, tuachuayDekhorPageRoute["admin"]!);
                       },
                     ),
                   if (profileData['role'] == "User")
@@ -125,7 +128,8 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
+                        Navigator.pushNamed(
+                            context, tuachuayDekhorPageRoute["profile"]!);
                       },
                     ),
                   PopupMenuItem(

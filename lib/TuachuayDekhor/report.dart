@@ -198,7 +198,6 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                           controller: titleController,
                           cursorColor: customColors["textInput"],
                           style: TextStyle(
-                            fontSize: 12,
                             color: customColors["textInput"],
                           ),
                           decoration: InputDecoration(
@@ -235,7 +234,6 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                           maxLines: 5,
                           cursorColor: customColors["textInput"],
                           style: TextStyle(
-                            fontSize: 12,
                             color: customColors["textInput"],
                           ),
                           decoration: InputDecoration(
@@ -257,6 +255,17 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                             minimumSize: const Size(150, 35)),
                         onPressed: () {
                           reportblog();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: customColors["main"],
+                              content: Text(
+                                "Report sent",
+                                style: TextStyle(
+                                  color: customColors["onMain"],
+                                ),
+                              ),
+                            ),
+                          );
                           Navigator.pushNamed(
                               context, tuachuayDekhorPageRoute["home"]!);
                           print("Sending report");
