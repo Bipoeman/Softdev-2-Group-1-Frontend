@@ -8,8 +8,7 @@ class ThemeProvider extends ChangeNotifier {
   bool get isDarkMode => _isDarkMode;
   Map<String, Map<String, CustomThemes>> appThemes = _appsThemes;
 
-  CustomThemes? themeFrom(String app) =>
-      _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
+  CustomThemes? themeFrom(String app) => _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
 
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
@@ -21,7 +20,7 @@ class ThemeProvider extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool("isDarkMode", _isDarkMode);
   }
-  
+
   void loadTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _isDarkMode = prefs.getBool("isDarkMode") ?? false;
@@ -209,7 +208,133 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "background": const Color.fromRGBO(32, 32, 32, 1),
       },
     ),
-  }
+  },
+  "Restroom": {
+    "light": CustomThemes(
+      themeData: ThemeData(
+        fontFamily: "Sen",
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFFFB330),
+          background: const Color(0xFFECECEC),
+        ),
+        textTheme: TextTheme(
+          headlineMedium: const TextStyle(
+            fontSize: 35,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF050505),
+          ),
+          headlineSmall: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xFF050505),
+          ),
+          displaySmall: TextStyle(
+            fontSize: 10,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w800,
+            color: const Color(0xFF050505).withOpacity(1),
+          ),
+          displayMedium: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xFF050505).withOpacity(0.69),
+          ),
+          displayLarge: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF050505),
+          ),
+          titleMedium: TextStyle(
+            fontSize: 20,
+            color: const Color(0xFF050505),
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.white,
+            size: 35,
+          ),
+        ),
+        drawerTheme: const DrawerThemeData(
+          scrimColor: Colors.transparent,
+          backgroundColor: Color(0xFFFFFFFF),
+        ),
+        searchBarTheme: SearchBarThemeData(
+          textStyle: MaterialStatePropertyAll(
+            TextStyle(
+              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ),
+      customColors: {},
+    ),
+    "dark": CustomThemes(
+      themeData: ThemeData(
+        fontFamily: "Sen",
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFFFB330),
+          background: const Color(0xFFECECEC),
+        ),
+        textTheme: TextTheme(
+          headlineMedium: const TextStyle(
+            fontSize: 35,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF050505),
+          ),
+          headlineSmall: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xFF050505),
+          ),
+          displaySmall: TextStyle(
+            fontSize: 10,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w800,
+            color: const Color(0xFF050505).withOpacity(1),
+          ),
+          displayMedium: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xFF050505).withOpacity(0.69),
+          ),
+          displayLarge: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF050505),
+          ),
+          titleMedium: TextStyle(
+            fontSize: 20,
+            color: const Color(0xFF050505),
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.white,
+            size: 35,
+          ),
+        ),
+        drawerTheme: const DrawerThemeData(
+          scrimColor: Colors.transparent,
+          backgroundColor: Color(0xFFFFFFFF),
+        ),
+        searchBarTheme: SearchBarThemeData(
+          textStyle: MaterialStatePropertyAll(
+            TextStyle(
+              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ),
+      customColors: {},
+    ),
+  },
 };
 
 class CustomThemes {
