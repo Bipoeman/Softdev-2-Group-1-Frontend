@@ -112,24 +112,56 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                           child: IntrinsicHeight(
                             child: Column(
                               children: [
-                                Container(
-                                  height: null,
-                                  width: size.width * 0.8,
-                                  padding: EdgeInsets.only(
-                                    left: size.width * 0.01,
-                                    top: size.height * 0.04,
-                                    bottom: size.height * 0.01,
-                                    right: size.width * 0.01,
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: Image.network(
-                                      widget.restroomData["picture"] ??
-                                          "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
+                                SizedBox(height: size.height * 0.08),
+                                widget.restroomData["picture"] == null
+                                    ? SizedBox(
+                                        width: size.width * 0.8,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          child: Image.network(
+                                            widget.restroomData["picture"] ??
+                                                "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      )
+                                    : InkWell(
+                                        onTap: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return Stack(
+                                                  children: [
+                                                    Center(
+                                                        child: SizedBox(
+                                                      width: size.width,
+                                                      height: size.height,
+                                                      child: InteractiveViewer(
+                                                        maxScale: 10,
+                                                        child: Image.network(
+                                                          widget.restroomData[
+                                                              "picture"],
+                                                        ),
+                                                      ),
+                                                    ))
+                                                  ],
+                                                );
+                                              });
+                                        },
+                                        child: SizedBox(
+                                          width: size.width * 0.8,
+                                          height: size.height * 0.3,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            child: Image.network(
+                                              widget.restroomData["picture"],
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                 Container(
                                   height: size.height * 0.07,
                                   width: size.width * 0.8,
@@ -313,7 +345,6 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                 ),
               ),
             ),
-            Padding(padding: EdgeInsets.only(top: size.height * 0.035)),
             RestroomAppBar(scaffoldKey: _scaffoldKey),
           ],
         ),
