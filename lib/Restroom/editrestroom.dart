@@ -38,6 +38,25 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   };
 
   Future<void> _updateData() async {
+    ThemeData theme = Theme.of(context);
+    if (_nameTextController.text.isEmpty) {
+      setState(() {
+        _nameTextController.text = widget.restroomData['name'];
+        nameTextLength = widget.restroomData['name'].length;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Name cannot be empty.",
+            style: TextStyle(
+              color: theme.colorScheme.onPrimary,
+            ),
+          ),
+          backgroundColor: theme.colorScheme.primary,
+        ),
+      );
+      return Future.error("Name cannot be empty.");
+    }
     await requestNewToken(context);
     debugPrint("Updating data");
     final url = Uri.parse(
@@ -165,26 +184,22 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                   children: [
                     RestroomAppBar(scaffoldKey: _scaffoldKey),
                     SingleChildScrollView(
-                      padding: EdgeInsets.only(
-                          top: size.height * 0.03, left: size.width * 0.1),
+                      padding: EdgeInsets.symmetric(
+                          vertical: size.height * 0.025,
+                          horizontal: size.width * 0.05),
                       child: Column(
                         children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Name',
-                                  style:
-                                      Theme.of(context).textTheme.displayMedium,
-                                ),
-                              ),
-                              SizedBox(
-                                width: size.width * 0.05,
+                              Text(
+                                'Name',
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
                               ),
                               ClayContainer(
                                 width: size.width * 0.6,
-                                height: size.height * 0.032,
+                                height: size.height * 0.06,
                                 color: const Color.fromRGBO(239, 239, 239, 1),
                                 borderRadius: 30,
                                 depth: -20,
@@ -203,15 +218,18 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                     counterText: "",
                                     suffixText: "$nameTextLength/20",
                                     contentPadding: const EdgeInsets.only(
-                                        left: 10, right: 10, bottom: 14.5),
+                                        left: 10, right: 10),
                                     border: InputBorder.none,
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
-                          SizedBox(height: size.height * 0.025),
+                          SizedBox(
+                            height: size.height * 0.025,
+                          ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Align(
                                 alignment: Alignment.topLeft,
@@ -221,21 +239,18 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                       Theme.of(context).textTheme.displayMedium,
                                 ),
                               ),
-                              SizedBox(
-                                width: size.width * 0.05,
-                              ),
                               Container(
                                 alignment: Alignment.topRight,
                                 child: ClayContainer(
                                     width: size.width * 0.6,
-                                    height: size.height * 0.04,
+                                    height: size.height * 0.06,
                                     color:
                                         const Color.fromRGBO(239, 239, 239, 1),
                                     borderRadius: 30,
                                     depth: -20,
                                     child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10),
                                         child: DropdownButton(
                                           underline: Container(),
                                           isExpanded: true,
@@ -333,305 +348,249 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                 ),
                               ),
                               SizedBox(height: size.height * 0.015),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 40),
-                                child: ClayContainer(
-                                    width: size.width * 0.8,
-                                    height: size.height * 0.12,
-                                    color:
-                                        const Color.fromRGBO(239, 239, 239, 1),
-                                    borderRadius: 30,
-                                    depth: -20,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 10,
+                              ClayContainer(
+                                  width: size.width * 0.8,
+                                  height: size.height * 0.12,
+                                  color: const Color.fromRGBO(239, 239, 239, 1),
+                                  borderRadius: 30,
+                                  depth: -20,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: TextField(
+                                        maxLength: 80,
+                                        maxLines: null,
+                                        controller: _addressTextController,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.deny(
+                                              RegExp(r"\n"))
+                                        ],
+                                        onChanged: (text) {
+                                          debugPrint('Typed text: $text');
+                                          int remainningCharacters = 80 -
+                                              _addressTextController
+                                                  .text.length;
+                                          debugPrint(
+                                              'Remaining characters: $remainningCharacters');
+                                        },
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                        ),
+                                        style: text_input(
+                                            _addressTextController.text,
+                                            context)),
+                                  )),
+                            ],
+                          ),
+                          SizedBox(height: size.height * 0.05),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _forwho['Kid'] = !_forwho['Kid']!;
+                                      });
+                                      debugPrint(_forwho['Kid'].toString());
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.2,
+                                      height: size.height * 0.1,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color:
+                                            const Color.fromARGB(9, 0, 47, 73),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: blurWarning,
+                                            offset: distanceWarning,
+                                            color: const Color(0xFFA7A9AF),
+                                            inset: _forwho["Kid"]!,
+                                          ),
+                                          BoxShadow(
+                                            blurRadius: blurWarning,
+                                            offset: -distanceWarning,
+                                            color: const Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            inset: _forwho["Kid"]!,
+                                          ),
+                                        ],
                                       ),
-                                      child: Stack(
-                                          alignment: Alignment.centerRight,
-                                          children: [
-                                            TextField(
-                                                maxLength: 80,
-                                                maxLines: null,
-                                                inputFormatters: [
-                                                  FilteringTextInputFormatter
-                                                      .deny(RegExp(r"\n"))
-                                                ],
-                                                controller:
-                                                    _addressTextController,
-                                                onChanged: (text) {
-                                                  debugPrint(
-                                                      'Typed text: $text');
-                                                  int remainningCharacters =
-                                                      80 -
-                                                          _addressTextController
-                                                              .text.length;
-                                                  debugPrint(
-                                                      'Remaining characters: $remainningCharacters');
-                                                },
-                                                decoration:
-                                                    const InputDecoration(
-                                                  border: InputBorder.none,
-                                                ),
-                                                style: text_input(
-                                                    _addressTextController.text,
-                                                    context)),
-                                          ]),
-                                    )),
+                                      child: const Icon(
+                                          Icons.baby_changing_station,
+                                          size: 50),
+                                    ),
+                                  ),
+                                  SizedBox(height: size.height * 0.01),
+                                  Align(
+                                    child: Text('BABIES',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayLarge),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _forwho['Handicapped'] =
+                                            !_forwho['Handicapped']!;
+                                      });
+                                      debugPrint(
+                                          _forwho['Handicapped'].toString());
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.2,
+                                      height: size.height * 0.1,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color:
+                                            const Color.fromARGB(9, 0, 47, 73),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: blurRecycling,
+                                            offset: distanceRecycling,
+                                            color: const Color(0xFFA7A9AF),
+                                            inset: _forwho["Handicapped"]!,
+                                          ),
+                                          BoxShadow(
+                                            blurRadius: blurRecycling,
+                                            offset: -distanceRecycling,
+                                            color: const Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            inset: _forwho["Handicapped"]!,
+                                          ),
+                                        ],
+                                      ),
+                                      child: const Align(
+                                        alignment: Alignment.center,
+                                        child: Icon(Icons.accessible_sharp,
+                                            size: 50),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: size.height * 0.01),
+                                  Text(
+                                    'DISABLED',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayLarge,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                           SizedBox(height: size.height * 0.05),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 40),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  padding:
-                                      EdgeInsets.only(left: size.width * 0.04),
-                                  child: Column(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _forwho['Kid'] = !_forwho['Kid']!;
-                                          });
-                                          debugPrint(_forwho['Kid'].toString());
-                                        },
-                                        child: Container(
-                                          width: size.width * 0.2,
-                                          height: size.height * 0.1,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            color: const Color.fromARGB(
-                                                9, 0, 47, 73),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                blurRadius: blurWarning,
-                                                offset: distanceWarning,
-                                                color: const Color(0xFFA7A9AF),
-                                                inset: _forwho["Kid"]!,
-                                              ),
-                                              BoxShadow(
-                                                blurRadius: blurWarning,
-                                                offset: -distanceWarning,
-                                                color: const Color.fromARGB(
-                                                    255, 255, 255, 255),
-                                                inset: _forwho["Kid"]!,
-                                              ),
-                                            ],
-                                          ),
-                                          child: const Icon(
-                                              Icons.baby_changing_station,
-                                              size: 50),
-                                        ),
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                            top: size.height * 0.01),
-                                        child: Align(
-                                          //padding: const EdgeInsets.only(top: size.height * 0.0),
-                                          child: Text(
-                                            'KID',
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.black,
+                                  backgroundColor: Colors.grey[300],
+                                  surfaceTintColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    side: const BorderSide(color: Colors.grey),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Cancel",
+                                  style:
+                                      Theme.of(context).textTheme.displayLarge,
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                            'Confirm change',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .displayLarge,
+                                                .headlineSmall,
                                           ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: size.width * 0.03,
-                                ),
-                                Container(
-                                  padding:
-                                      EdgeInsets.only(left: size.width * 0.1),
-                                  child: Column(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _forwho['Handicapped'] =
-                                                !_forwho['Handicapped']!;
-                                          });
-                                          debugPrint(_forwho['Handicapped']
-                                              .toString());
-                                        },
-                                        child: Container(
-                                          width: size.width * 0.2,
-                                          height: size.height * 0.1,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            color: const Color.fromARGB(
-                                                9, 0, 47, 73),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                blurRadius: blurRecycling,
-                                                offset: distanceRecycling,
-                                                color: const Color(0xFFA7A9AF),
-                                                inset: _forwho["Handicapped"]!,
+                                          content: const Text(
+                                              'Would you like to confirm the modifications to your restroom information?'),
+                                          actions: [
+                                            MaterialButton(
+                                              color: Colors.red,
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Container(
+                                                width: size.width * 0.2,
+                                                height: size.height * 0.05,
+                                                decoration: BoxDecoration(
+                                                    color: const Color.fromARGB(
+                                                        0, 244, 67, 54),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30)),
+                                                child: const Center(
+                                                    child: Text('Cancel')),
                                               ),
-                                              BoxShadow(
-                                                blurRadius: blurRecycling,
-                                                offset: -distanceRecycling,
-                                                color: const Color.fromARGB(
-                                                    255, 255, 255, 255),
-                                                inset: _forwho["Handicapped"]!,
-                                              ),
-                                            ],
-                                          ),
-                                          child: const Align(
-                                            alignment: Alignment.center,
-                                            child: Icon(Icons.accessible_sharp,
-                                                size: 50),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: size.height * 0.01),
-                                        child: Text(
-                                          'HANDICAPPED',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .displayLarge,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: size.height * 0.05),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 40.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 40.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      foregroundColor: Colors.black,
-                                      backgroundColor: Colors.grey[300],
-                                      surfaceTintColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(40),
-                                        side: const BorderSide(
-                                            color: Colors.grey),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      "Cancel",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayLarge,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 40.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              title: Text(
-                                                'Confirm change',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headlineSmall,
-                                              ),
-                                              content: const Text(
-                                                  'Would you like to confirm the modifications to your restroom information?'),
-                                              actions: [
-                                                MaterialButton(
-                                                  color: Colors.red,
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Container(
-                                                    width: size.width * 0.2,
-                                                    height: size.height * 0.05,
-                                                    decoration: BoxDecoration(
-                                                        color: const Color
-                                                            .fromARGB(
-                                                            0, 244, 67, 54),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30)),
-                                                    child: const Center(
-                                                        child: Text('Cancel')),
-                                                  ),
-                                                ),
-                                                MaterialButton(
-                                                  onPressed: () {
-                                                    _updateData().then(
-                                                        (_) async {
-                                                      Navigator
-                                                          .pushReplacementNamed(
-                                                              context,
-                                                              restroomPageRoute[
-                                                                  "myrestroom"]!);
-                                                    }).onError(
-                                                        (error, stackTrace) {
-                                                      debugPrint(
-                                                          "Failed to update data: $error");
-                                                      Navigator.pop(context);
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                            "Failed to update data.",
-                                                            style: TextStyle(
-                                                              color: theme
-                                                                  .colorScheme
-                                                                  .onPrimary,
-                                                            ),
-                                                          ),
-                                                          backgroundColor: theme
+                                            ),
+                                            MaterialButton(
+                                              onPressed: () {
+                                                _updateData().then((_) async {
+                                                  Navigator
+                                                      .pushReplacementNamed(
+                                                          context,
+                                                          restroomPageRoute[
+                                                              "myrestroom"]!);
+                                                }).onError((error, stackTrace) {
+                                                  debugPrint(
+                                                      "Failed to update data: $error");
+                                                  Navigator.pop(context);
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        "Failed to update data.",
+                                                        style: TextStyle(
+                                                          color: theme
                                                               .colorScheme
-                                                              .primary,
+                                                              .onPrimary,
                                                         ),
-                                                      );
-                                                    });
-                                                  },
-                                                  child: const Text('Confirm'),
-                                                ),
-                                              ],
-                                            );
-                                          });
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      foregroundColor: Colors.black,
-                                      backgroundColor: Colors.amber,
-                                      surfaceTintColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(40),
-                                        side: const BorderSide(
-                                            color: Colors.grey),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      'Submit',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayLarge,
-                                    ),
+                                                      ),
+                                                      backgroundColor: theme
+                                                          .colorScheme.primary,
+                                                    ),
+                                                  );
+                                                });
+                                              },
+                                              child: const Text('Confirm'),
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.black,
+                                  backgroundColor: Colors.amber,
+                                  surfaceTintColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    side: const BorderSide(color: Colors.grey),
                                   ),
                                 ),
-                              ],
-                            ),
+                                child: Text(
+                                  'Submit',
+                                  style:
+                                      Theme.of(context).textTheme.displayLarge,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
