@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:convert';
+import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:ruam_mitt/global_var.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:flutter/services.dart';
 import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/global_const.dart";
@@ -13,17 +15,17 @@ class TuachuayDekhorBloggerProfilePage extends StatefulWidget {
   final String username;
   final String avatarUrl;
 
-  const TuachuayDekhorBloggerProfilePage(
-      {Key? key, required this.username, required this.avatarUrl})
-      : super(key: key);
+  const TuachuayDekhorBloggerProfilePage({
+    super.key,
+    required this.username,
+    required this.avatarUrl,
+  });
 
   @override
-  State<TuachuayDekhorBloggerProfilePage> createState() =>
-      _TuachuayDekhorBloggerProfilePageState();
+  State<TuachuayDekhorBloggerProfilePage> createState() => _TuachuayDekhorBloggerProfilePageState();
 }
 
-class _TuachuayDekhorBloggerProfilePageState
-    extends State<TuachuayDekhorBloggerProfilePage> {
+class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBloggerProfilePage> {
   bool isEditing = false;
   bool showMore = false;
   bool isPostSelected = true;
@@ -90,10 +92,12 @@ class _TuachuayDekhorBloggerProfilePageState
   @override
   Widget build(BuildContext context) {
     final username = widget.username;
-
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"],
       body: SafeArea(
         child: Stack(
           children: [
@@ -112,11 +116,18 @@ class _TuachuayDekhorBloggerProfilePageState
                         left: size.width * 0.04,
                       ),
                       child: GestureDetector(
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.arrow_back_outlined),
-                            SizedBox(width: 5),
-                            Text("Back")
+                            Icon(
+                              Icons.arrow_back_outlined,
+                              color: customColors["main"]!,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "Back",
+                              style: TextStyle(color: customColors["main"]!),
+                            ),
                           ],
                         ),
                         onTap: () => Navigator.pop(context),
@@ -136,7 +147,7 @@ class _TuachuayDekhorBloggerProfilePageState
                             height: size.width * 0.25,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: const Color.fromRGBO(0, 48, 73, 1),
+                              color: customColors["main"],
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
@@ -149,9 +160,10 @@ class _TuachuayDekhorBloggerProfilePageState
                             padding: EdgeInsets.only(left: size.width * 0.04),
                             child: Text(
                               username,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w600,
+                                color: customColors["main"],
                               ),
                             ),
                           ),
@@ -165,12 +177,14 @@ class _TuachuayDekhorBloggerProfilePageState
                           right: size.width * 0.1,
                           bottom: size.width * 0.05,
                           top: size.width * 0.005),
-                      child: description.isNotEmpty &&
-                              description[0]['description'] != null
+                      child: description.isNotEmpty && description[0]['description'] != null
                           ? Text(
                               description[0]['description'],
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w400),
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: customColors["onContainer"],
+                              ),
                             )
                           : SizedBox(),
                     ),
@@ -180,15 +194,17 @@ class _TuachuayDekhorBloggerProfilePageState
                         right: size.width * 0.1,
                       ),
                       child: Container(
-                          width: size.width * 0.8,
-                          height: size.width * 0.03,
-                          color: const Color.fromRGBO(0, 48, 73, 1)),
+                        width: size.width * 0.8,
+                        height: size.width * 0.03,
+                        color: const Color.fromRGBO(0, 48, 73, 1),
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          left: size.width * 0.1,
-                          right: size.width * 0.1,
-                          bottom: size.width * 0.05),
+                        left: size.width * 0.1,
+                        right: size.width * 0.1,
+                        bottom: size.width * 0.05,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -267,9 +283,8 @@ class _TuachuayDekhorBloggerProfilePageState
                               itemCount: post.length,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2),
+                              gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
                               itemBuilder: ((context, index) => BlogBox(
                                     title: post[index]['title'],
                                     name: post[index]['fullname'],
@@ -293,26 +308,24 @@ class _TuachuayDekhorBloggerProfilePageState
                               itemCount: save.length,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2),
-                              itemBuilder: ((context, index) => BlogBox(
-                                    title: save[index]['post']['title'],
-                                    name: save[index]['fullname_blogger'],
-                                    category: save[index]['post']['category'],
-                                    like: save[index]['post']['save'] ?? "0",
-                                    image: NetworkImage(
-                                      save[index]['post']['image_link'],
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        tuachuayDekhorPageRoute['blog']!,
-                                        arguments: save[index]['post']
-                                            ['id_post'],
-                                      );
-                                    },
-                                  )),
+                              gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                              itemBuilder: (context, index) => BlogBox(
+                                title: save[index]['post']['title'],
+                                name: save[index]['fullname_blogger'],
+                                category: save[index]['post']['category'],
+                                like: save[index]['post']['save'] ?? "0",
+                                image: NetworkImage(
+                                  save[index]['post']['image_link'],
+                                ),
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    tuachuayDekhorPageRoute['blog']!,
+                                    arguments: save[index]['post']['id_post'],
+                                  );
+                                },
+                              ),
                             ),
                     ),
                   ],

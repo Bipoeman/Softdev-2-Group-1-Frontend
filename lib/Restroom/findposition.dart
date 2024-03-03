@@ -22,7 +22,7 @@ class _RestroomRoverFindPositionState extends State<RestroomRoverFindPosition> {
   List<dynamic> restroomData = [];
   Future<http.Response> getRestroomInfo() async {
     debugPrint("Getting");
-    Uri url = Uri.parse("$api$restroomRoverGetRestroomRoute");
+    Uri url = Uri.parse("$api$restroomRoverRestroomRoute");
     http.Response res = await http.get(
       url,
       headers: {
