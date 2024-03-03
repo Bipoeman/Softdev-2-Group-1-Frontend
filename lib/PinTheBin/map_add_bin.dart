@@ -3,13 +3,11 @@ import 'dart:convert';
 import "package:flutter/material.dart";
 import 'package:flutter_map/flutter_map.dart';
 import "package:http/http.dart" as http;
-// ignore: depend_on_referenced_packages
 import 'package:latlong2/latlong.dart';
 import 'package:ruam_mitt/global_func.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../global_const.dart';
-import '../global_var.dart';
+import "package:ruam_mitt/global_const.dart";
+import "package:ruam_mitt/global_var.dart";
 
 class BinLocationInfo {
   BinLocationInfo({required this.info, required this.markers});
@@ -84,6 +82,7 @@ class _MapaddBinPageState extends State<MapaddBinPage> {
                 ),
               ),
             );
+            setState(() {});
           }
         },
       );
