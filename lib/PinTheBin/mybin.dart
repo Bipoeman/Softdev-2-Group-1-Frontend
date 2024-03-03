@@ -34,10 +34,8 @@ class _MyBinState extends State<MyBinPage> {
 
   Future<http.Response> delBin(int id) async {
     Uri url = Uri.parse("$api$pinTheBinDeleteBinRoute/$id");
-    http.Response res = await http
+    return await http
         .delete(url, headers: {"Authorization": "Bearer $publicToken"});
-    print(res.body);
-    return res;
   }
 
   @override
@@ -285,12 +283,56 @@ class _MyBinState extends State<MyBinPage> {
                                                                         10),
                                                           ),
                                                           child: TextButton(
-                                                            onPressed: () {
+                                                            onPressed:
+                                                                () async {
                                                               Navigator.of(
                                                                       context)
                                                                   .pop();
-                                                              delBin(
-                                                                  data["id"]);
+                                                              http.Response
+                                                                  res =
+                                                                  await delBin(
+                                                                      data[
+                                                                          "id"]);
+                                                              if (res.statusCode ==
+                                                                  200) {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content:
+                                                                        const Text(
+                                                                      "Delete bin successful.",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                    ),
+                                                                    backgroundColor:
+                                                                        Colors.green[
+                                                                            300],
+                                                                  ),
+                                                                );
+                                                              } else {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  const SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      "Delete bin failed.",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                    ),
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .red,
+                                                                  ),
+                                                                );
+                                                              }
                                                               Navigator
                                                                   .pushReplacement(
                                                                 context,
