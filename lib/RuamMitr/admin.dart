@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:http/http.dart';
@@ -130,6 +131,7 @@ class _AdminPageState extends State<AdminPage> {
                   selectedIssue['title'].toString();
               reportDataDisplay.fieldController['description']!.text =
                   selectedIssue['description'].toString();
+              setState(() {});
             },
             minHeight: 0,
             maxHeight: size.height * 0.8,
@@ -231,6 +233,7 @@ class _AdminPageState extends State<AdminPage> {
                     readOnly: true,
                     controller:
                         reportDataDisplay.fieldController['description'],
+                    maxLines: 4,
                     decoration: InputDecoration(
                       filled: true,
                       isDense: true,
@@ -251,20 +254,80 @@ class _AdminPageState extends State<AdminPage> {
                     ),
                   ),
                   SizedBox(height: size.height * 0.01),
-                  TextFormField(
-                    maxLines: 1,
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.upload),
-                      filled: true,
-                      fillColor: theme.colorScheme.background,
-                      hintText: "The Screenshot",
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(35),
-                      ),
+                  Container(
+                    width: size.width,
+                    height: size.height * 0.3,
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.background,
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    onTap: () async {},
+                    child: selectedIssue['picture'] != null
+                        ? InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Stack(
+                                    children: [
+                                      Center(
+                                        child: Container(
+                                          width: size.width,
+                                          height: size.height,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            child: InteractiveViewer(
+                                              maxScale: 10,
+                                              child: Image.network(
+                                                selectedIssue['picture'],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 30,
+                                        right: 30,
+                                        child: CircleAvatar(
+                                          backgroundColor:
+                                              theme.colorScheme.primary,
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.close,
+                                              color: theme
+                                                  .colorScheme.primaryContainer,
+                                            ),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                  // return AlertDialog(
+                                  //   contentPadding: EdgeInsets.zero,
+                                  //   content: ClipRRect(
+                                  //     borderRadius: BorderRadius.circular(20),
+                                  //     child: InteractiveViewer(
+                                  //       child: Image.network(
+                                  //         selectedIssue['picture'],
+                                  //         fit: BoxFit.cover,
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // );
+                                },
+                              );
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                selectedIssue['picture'],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )
+                        : null,
                   ),
                   SizedBox(height: size.height * 0.025),
                   SizedBox(
@@ -448,7 +511,7 @@ class _ReportCardState extends State<ReportCard> {
         child: Ink(
           padding: const EdgeInsets.symmetric(vertical: 10),
           width: widget.size.width * (570 / 738),
-          height: widget.size.width * (570 / 738) / (570 / 152),
+          height: widget.size.width * (570 / 738) / (570 / 152) * 1.15,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: const Color(0xFFEEEEEE),
@@ -503,7 +566,7 @@ class _ReportCardState extends State<ReportCard> {
                     ],
                   ),
                   SizedBox(
-                    width: widget.size.width * (570 / 738) * 0.7,
+                    width: widget.size.width * (570 / 738) * 0.6,
                     child: Text(
                       "Explanation : ${widget.reportData['description']}",
                       overflow: TextOverflow.ellipsis,
