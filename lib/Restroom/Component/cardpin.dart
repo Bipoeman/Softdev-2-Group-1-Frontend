@@ -88,6 +88,7 @@ class _CardpinState extends State<Cardpin> {
                     right: size.width * 0.1,
                   ),
                   child: Text(widget.restroomData["address"],
+                  overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20 * zoomFactor,

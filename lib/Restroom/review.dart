@@ -145,6 +145,24 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                   ),
                                 ),
                                 Container(
+                                  height: null,
+                                  width: size.width * 0.8,
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.0001,
+                                  ),
+                                  child: Text(
+                                    widget.restroomData["address"],
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w100,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.01,
+                                ),
+                                Container(
                                   height: size.height * 0.002,
                                   width: size.width * 0.8,
                                   color: const Color.fromRGBO(99, 99, 99, 1),

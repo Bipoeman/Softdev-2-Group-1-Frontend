@@ -218,31 +218,31 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                                 alignment: Alignment.centerRight,
                                 children: [
                                   TextField(
-                                    maxLength: 80,
-                                    maxLines: 3,
+                                    maxLength: 200,
+                                    maxLines: 9,
                                     controller: _reportTextController,
                                     // inputFormatters: [
                                     //   LengthLimitingTextInputFormatter(80),
                                     // ],
                                     decoration: const InputDecoration(
-                                      counterText: "",
+                                      // counterText: "",
                                       border: InputBorder.none,
                                       contentPadding: EdgeInsets.only(
                                           left: 16, right: 16, top: 15),
                                       hintText: 'Write a report...',
                                     ),
                                   ),
-                                  Positioned(
-                                    top: 1,
-                                    right: 16.0,
-                                    child: Text(
-                                      '$remainingCharacters/80',
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12.0,
-                                      ),
-                                    ),
-                                  ),
+                                  // Positioned(
+                                  //   top: 1,
+                                  //   right: 16.0,
+                                  //   child: Text(
+                                  //     '$remainingCharacters/80',
+                                  //     style: const TextStyle(
+                                  //       color: Colors.grey,
+                                  //       fontSize: 12.0,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
