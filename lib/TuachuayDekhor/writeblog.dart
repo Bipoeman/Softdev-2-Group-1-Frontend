@@ -662,35 +662,37 @@ class _TuachuayDekhorWriteBlogPageState
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.grey[200],
                           ),
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _getImage();
-                                  print("Add image tapped");
-                                },
-                                child: const Icon(
-                                  Icons.image,
-                                  color: Color.fromRGBO(0, 48, 73, 1),
-                                  size: 24,
+                          child: GestureDetector(
+                            onTap: () {
+                              _getImage();
+                              print("Add image tapped");
+                            },
+                            child: Row(
+                              children: [
+                                const SizedBox(
+                                  child: Icon(
+                                    Icons.image,
+                                    color: Color.fromRGBO(0, 48, 73, 1),
+                                    size: 24,
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(left: 5),
-                                constraints: BoxConstraints(
-                                  maxWidth: size.width * 0.525,
+                                Container(
+                                  margin: const EdgeInsets.only(left: 5),
+                                  constraints: BoxConstraints(
+                                    maxWidth: size.width * 0.51,
+                                  ),
+                                  child: _image == null
+                                      ? const Text(
+                                          "no image selected",
+                                          style: TextStyle(color: Colors.grey),
+                                        )
+                                      : Text(
+                                          _image!.path.split('/').last,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                 ),
-                                child: _image == null
-                                    ? const Text(
-                                        "no image selected",
-                                        style: TextStyle(color: Colors.grey),
-                                      )
-                                    : Text(
-                                        _image!.path.split('/').last,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],

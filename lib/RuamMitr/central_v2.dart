@@ -27,13 +27,14 @@ class HomePageV2 extends StatefulWidget {
 class _HomePageV2State extends State<HomePageV2> {
   int pageIndex = 1;
   PageController pageController = PageController(initialPage: 1);
-  GlobalKey<FormState> reportKey = GlobalKey();
-  GlobalKey<FormFieldState> appSelectKey = GlobalKey();
+  GlobalKey<FormState> reportFormKey = GlobalKey();
+  // GlobalKey<FormFieldState> appSelectKey = GlobalKey();
   TextEditingController titleController = TextEditingController();
   TextEditingController explainationController = TextEditingController();
   TextEditingController imageSelectionController = TextEditingController();
   FocusNode titleFocusNode = FocusNode();
   FocusNode explainationFocusNode = FocusNode();
+  File? imageSelected;
 
   Future<File?> getImage() async {
     final ImagePicker picker = ImagePicker();
@@ -158,7 +159,7 @@ class _HomePageV2State extends State<HomePageV2> {
                   ),
                   SlidingBox(
                     onBoxClose: () {
-                      reportKey.currentState?.reset();
+                      reportFormKey.currentState?.reset();
                     },
                     draggableIcon: Icons.keyboard_arrow_down_rounded,
                     controller: reportBoxController,
@@ -175,7 +176,7 @@ class _HomePageV2State extends State<HomePageV2> {
                         // onChanged: () {
                         //   print("something change in the form");
                         // },
-                        key: reportKey,
+                        key: reportFormKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -207,9 +208,6 @@ class _HomePageV2State extends State<HomePageV2> {
                                               explainationController.text
                                                   .trim()
                                                   .isNotEmpty ||
-                                              appSelectKey
-                                                      .currentState!.value !=
-                                                  null ||
                                               imageSelectionController
                                                   .text.isNotEmpty) {
                                             showDialog(
@@ -229,15 +227,13 @@ class _HomePageV2State extends State<HomePageV2> {
                                                         titleFocusNode
                                                             .unfocus();
                                                       }
-                                                      reportKey.currentState
+                                                      reportFormKey.currentState
                                                           ?.reset();
                                                       imageSelectionController
                                                           .clear();
                                                       titleController.clear();
                                                       explainationController
                                                           .clear();
-                                                      appSelectKey.currentState
-                                                          ?.reset();
                                                       reportBoxController
                                                           .closeBox();
                                                     }
@@ -252,11 +248,10 @@ class _HomePageV2State extends State<HomePageV2> {
                                             if (titleFocusNode.hasFocus) {
                                               titleFocusNode.unfocus();
                                             }
-                                            reportKey.currentState?.reset();
+                                            reportFormKey.currentState?.reset();
                                             imageSelectionController.clear();
                                             titleController.clear();
                                             explainationController.clear();
-                                            appSelectKey.currentState?.reset();
                                             reportBoxController.closeBox();
                                           }
                                           setState(() {});
@@ -304,65 +299,65 @@ class _HomePageV2State extends State<HomePageV2> {
                                 return null;
                               },
                               onChanged: (value) {
-                                reportKey.currentState!.validate();
+                                reportFormKey.currentState!.validate();
                                 setState(() {});
                               },
                             ),
-                            Text(
-                              "App",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily:
-                                    GoogleFonts.getFont("Inter").fontFamily,
-                              ),
-                            ),
-                            SizedBox(height: size.height * 0.01),
-                            DropdownButtonFormField(
-                              key: appSelectKey,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: theme.colorScheme.background,
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                prefixIcon: const Icon(Icons.warning),
-                                hintText: "App",
-                              ),
-                              icon:
-                                  const Icon(Icons.keyboard_arrow_down_rounded),
-                              items: const [
-                                DropdownMenuItem(
-                                  value: "Ruammitr",
-                                  child: Text("Ruammitr"),
-                                ),
-                                DropdownMenuItem(
-                                  value: "Dekhor",
-                                  child: Text("Tuachuy Dekhor"),
-                                ),
-                                DropdownMenuItem(
-                                  value: "Restroom",
-                                  child: Text("Restroom Rover"),
-                                ),
-                                DropdownMenuItem(
-                                  value: "Bin",
-                                  child: Text("Pin The Bin"),
-                                ),
-                                DropdownMenuItem(
-                                  value: "Dinodengzz",
-                                  child: Text("Dinodengzz"),
-                                ),
-                              ],
-                              validator: (value) {
-                                if ((value ?? "").isEmpty) {
-                                  return "Please select app to report";
-                                }
-                                return null;
-                              },
-                              onChanged: (item) {
-                                reportKey.currentState!.validate();
-                              },
-                            ),
+                            // Text(
+                            //   "App",
+                            //   style: TextStyle(
+                            //     fontSize: 18,
+                            //     fontFamily:
+                            //         GoogleFonts.getFont("Inter").fontFamily,
+                            //   ),
+                            // ),
+                            // SizedBox(height: size.height * 0.01),
+                            // DropdownButtonFormField(
+                            //   key: appSelectKey,
+                            //   decoration: InputDecoration(
+                            //     filled: true,
+                            //     fillColor: theme.colorScheme.background,
+                            //     border: OutlineInputBorder(
+                            //       borderSide: BorderSide.none,
+                            //       borderRadius: BorderRadius.circular(50),
+                            //     ),
+                            //     prefixIcon: const Icon(Icons.warning),
+                            //     hintText: "App",
+                            //   ),
+                            //   icon:
+                            //       const Icon(Icons.keyboard_arrow_down_rounded),
+                            //   items: const [
+                            //     DropdownMenuItem(
+                            //       value: "Ruammitr",
+                            //       child: Text("Ruammitr"),
+                            //     ),
+                            //     DropdownMenuItem(
+                            //       value: "Dekhor",
+                            //       child: Text("Tuachuy Dekhor"),
+                            //     ),
+                            //     DropdownMenuItem(
+                            //       value: "Restroom",
+                            //       child: Text("Restroom Rover"),
+                            //     ),
+                            //     DropdownMenuItem(
+                            //       value: "Bin",
+                            //       child: Text("Pin The Bin"),
+                            //     ),
+                            //     DropdownMenuItem(
+                            //       value: "Dinodengzz",
+                            //       child: Text("Dinodengzz"),
+                            //     ),
+                            //   ],
+                            //   validator: (value) {
+                            //     if ((value ?? "").isEmpty) {
+                            //       return "Please select app to report";
+                            //     }
+                            //     return null;
+                            //   },
+                            //   onChanged: (item) {
+                            //     reportFormKey.currentState!.validate();
+                            //   },
+                            // ),
                             SizedBox(height: size.height * 0.01),
                             Text(
                               "Explaniation",
@@ -397,7 +392,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                 return null;
                               },
                               onChanged: (value) {
-                                reportKey.currentState!.validate();
+                                reportFormKey.currentState!.validate();
                               },
                             ),
                             SizedBox(height: size.height * 0.01),
@@ -426,11 +421,11 @@ class _HomePageV2State extends State<HomePageV2> {
                               ),
                               onTap: () async {
                                 // print("Want to upload report picture");
-                                File? imageSelected = await getImage();
+                                imageSelected = await getImage();
                                 if (imageSelected == null) {
                                 } else {
                                   imageSelectionController.text =
-                                      imageSelected.path.split("/").last;
+                                      imageSelected!.path.split("/").last;
                                 }
                               },
                             ),
@@ -449,8 +444,44 @@ class _HomePageV2State extends State<HomePageV2> {
                                   foregroundColor: theme.colorScheme.onPrimary,
                                 ),
                                 child: const Text("Send"),
-                                onPressed: () {
-                                  if (reportKey.currentState!.validate()) {}
+                                onPressed: () async {
+                                  print("Validated");
+                                  if (reportFormKey.currentState!.validate()) {
+                                    Uri url =
+                                        Uri.parse("$api$userPostIssuetRoute");
+                                    http.MultipartRequest request =
+                                        http.MultipartRequest('POST', url);
+                                    request.headers.addAll({
+                                      "Authorization": "Bearer $publicToken",
+                                      "Content-Type": "application/json"
+                                    });
+                                    if (imageSelected != null) {
+                                      request.files.add(
+                                        http.MultipartFile.fromBytes(
+                                          "file",
+                                          File(imageSelected!.path)
+                                              .readAsBytesSync(),
+                                          filename: imageSelected!.path,
+                                        ),
+                                      );
+                                    }
+                                    request.fields['type'] = "ruammitr";
+                                    request.fields['title'] =
+                                        titleController.text;
+                                    request.fields['description'] =
+                                        explainationController.text;
+                                    // print(request.files.first);
+                                    http.StreamedResponse res =
+                                        await request.send();
+                                    http.Response response =
+                                        await http.Response.fromStream(res);
+                                    print(response.body);
+                                    reportFormKey.currentState?.reset();
+                                    imageSelectionController.clear();
+                                    titleController.clear();
+                                    explainationController.clear();
+                                    reportBoxController.closeBox();
+                                  }
                                 },
                               ),
                             ),
@@ -469,8 +500,11 @@ class _HomePageV2State extends State<HomePageV2> {
   }
 
   AlertDialog discardReportConfirm(
-      ThemeData theme, Size size, BuildContext context,
-      {required void onAnswer(bool isConfirm)}) {
+    ThemeData theme,
+    Size size,
+    BuildContext context, {
+    required void onAnswer(bool isConfirm),
+  }) {
     return AlertDialog(
       backgroundColor: theme.colorScheme.primaryContainer,
       surfaceTintColor: theme.colorScheme.primaryContainer,
@@ -503,7 +537,7 @@ class _HomePageV2State extends State<HomePageV2> {
               color: theme.colorScheme.primary,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Center(
+            child: const Center(
               child: Text(
                 "Yes",
                 style: TextStyle(

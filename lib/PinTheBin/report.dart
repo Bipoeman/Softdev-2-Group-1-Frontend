@@ -3,9 +3,11 @@ import "dart:io";
 import "package:http/http.dart" as http;
 import "package:flutter/material.dart";
 import "package:image_picker/image_picker.dart";
+import "package:provider/provider.dart";
 import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
 import "package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart";
 import 'package:clay_containers/widgets/clay_container.dart';
+import "package:ruam_mitt/RuamMitr/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
 import "package:ruam_mitt/global_var.dart";
 
@@ -19,6 +21,7 @@ class ReportPage extends StatefulWidget {
 class _ReportPageState extends State<ReportPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _ReporttextController = TextEditingController();
+  TextEditingController _TitleController = TextEditingController();
   File? _image;
 
   Future<void> _getImage() async {
@@ -33,7 +36,7 @@ class _ReportPageState extends State<ReportPage> {
     });
   }
 
-  Future<http.Response> _sendreport(id, data) async {
+  Future<http.Response> _sendreport(id) async {
     final url = Uri.parse("$api$pinTheBinReportBinRoute");
     print("Report has been sent");
     return await http.post(url, headers: {
@@ -41,7 +44,7 @@ class _ReportPageState extends State<ReportPage> {
     }, body: {
       "binId": id,
       "description": _ReporttextController.text,
-      "header": data,
+      "header": _TitleController.text,
     });
   }
 
@@ -85,9 +88,9 @@ class _ReportPageState extends State<ReportPage> {
                 children: [
                   Row(
                     children: [
-                      Container(
+                      SizedBox(
+                        width: size.width * 0.2,
                         height: size.height * 0.03,
-                        alignment: Alignment.bottomLeft,
                         child: const Text(
                           "Name",
                           style: TextStyle(
@@ -97,150 +100,128 @@ class _ReportPageState extends State<ReportPage> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: size.width * 0.05),
-                        child: ClayContainer(
-                          height: size.height * 0.03,
-                          width: size.width * 0.6,
-                          color: const Color.fromRGBO(239, 239, 239, 1),
-                          borderRadius: 30,
-                          depth: -20,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: size.width * 0.02),
-                            child: Text(
-                              data['Bininfo']["location"],
-                              style: TextStyle(
-                                  fontFamily:
-                                      data['Bininfo']["location"].contains(
-                                    RegExp("[ก-๛]"),
-                                  )
-                                          ? "THSarabunPSK"
-                                          : Theme.of(context)
-                                              .textTheme
-                                              .headlineMedium!
-                                              .fontFamily,
-                                  fontSize:
-                                      data['Bininfo']["location"].contains(
-                                    RegExp("[ก-๛]"),
-                                  )
-                                          ? 22
-                                          : 16,
-                                  fontWeight:
-                                      data['Bininfo']["location"].contains(
-                                    RegExp("[ก-๛]"),
-                                  )
-                                          ? FontWeight.w700
-                                          : FontWeight.normal,
-                                  color: const Color.fromRGBO(0, 30, 49, 67)),
-                            ),
+                      ClayContainer(
+                        height: size.height * 0.03,
+                        width: size.width * 0.6,
+                        color: const Color.fromRGBO(239, 239, 239, 1),
+                        borderRadius: 30,
+                        depth: -20,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: size.width * 0.02),
+                          child: Text(
+                            data['Bininfo']["location"],
+                            style: TextStyle(
+                                fontFamily:
+                                    data['Bininfo']["location"].contains(
+                                  RegExp("[ก-๛]"),
+                                )
+                                        ? "THSarabunPSK"
+                                        : "Sen",
+                                fontSize: data['Bininfo']["location"].contains(
+                                  RegExp("[ก-๛]"),
+                                )
+                                    ? 22
+                                    : 16,
+                                fontWeight:
+                                    data['Bininfo']["location"].contains(
+                                  RegExp("[ก-๛]"),
+                                )
+                                        ? FontWeight.w700
+                                        : FontWeight.normal,
+                                color: const Color.fromRGBO(0, 30, 49, 67)),
                           ),
                         ),
                       ),
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: size.height * 0.02),
-                    child: Container(
-                        alignment: Alignment.topLeft,
-                        child: const Text(
-                          "Position",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromRGBO(0, 30, 49, 67),
-                          ),
-                        )),
-                  ),
-                  Padding(
                     padding: EdgeInsets.only(
-                        top: size.height * 0.01, right: size.width * 0.1),
-                    child: Column(
-                      children: [
-                        ClayContainer(
-                          width: size.width * 0.6,
-                          height: size.height * 0.03,
-                          color: const Color(0xFFEBEBEB),
-                          borderRadius: 30,
-                          depth: -20,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: size.width * 0.02),
-                            child: Text(
-                              "Latitude : ${data['Bininfo']['latitude']}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(0, 30, 49, 67),
+                        top: size.height * 0.03, right: size.width * 0.1),
+                    child: Container(
+                      width: size.width * 0.7,
+                      height: size.height * 0.2,
+                      child: data['Bininfo']['picture'] == null
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.asset(
+                                "assets/images/PinTheBin/bin_null.png",
+                                fit: BoxFit.contain,
+                              ),
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.network(
+                                data['Bininfo']['picture'],
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: size.height * 0.01),
-                        ),
-                        ClayContainer(
-                          width: size.width * 0.6,
-                          height: size.height * 0.03,
-                          color: const Color(0xFFEBEBEB),
-                          borderRadius: 30,
-                          depth: -20,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: size.width * 0.02),
-                            child: Text(
-                              "Longitude : ${data['Bininfo']['longitude']}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(0, 30, 49, 67),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: size.height * 0.02),
-                        ),
-                        SizedBox(
-                          width: size.width * 0.7,
-                          height: size.height * 0.15,
-                          child: data['Bininfo']['picture'] == null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.asset(
-                                    "assets/images/PinTheBin/bin_null.png",
-                                    fit: BoxFit.contain,
-                                  ),
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.network(
-                                    data['Bininfo']['picture'],
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                        )
-                      ],
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: size.height * 0.02),
+                    padding: EdgeInsets.only(top: size.height * 0.04),
                     child: Column(
                       children: [
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child: const Text(
-                            "Report",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(0, 30, 49, 67),
+                        Row(
+                          children: [
+                            SizedBox(
+                              height: size.height * 0.03,
+                              width: size.width * 0.2,
+                              child: const Text(
+                                "Report",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color.fromRGBO(0, 30, 49, 67),
+                                ),
+                              ),
                             ),
-                          ),
+                            ClayContainer(
+                              height: size.height * 0.03,
+                              width: size.width * 0.6,
+                              color: const Color.fromRGBO(239, 239, 239, 1),
+                              borderRadius: 30,
+                              depth: -20,
+                              child: TextField(
+                                cursorHeight: size.height * 0.025,
+                                controller: _TitleController,
+                                onChanged: (text) {
+                                  print('Typed text: $text');
+                                },
+                                maxLength: 20,
+                                decoration: const InputDecoration(
+                                  counterText: "",
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 7, vertical: 5),
+                                  isDense: true,
+                                  border: InputBorder.none,
+                                ),
+                                style: TextStyle(
+                                    fontFamily: _TitleController.text.contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                        ? "THSarabunPSK"
+                                        : "Sen",
+                                    fontSize: _TitleController.text.contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                        ? 22
+                                        : 16,
+                                    fontWeight: _TitleController.text.contains(
+                                      RegExp("[ก-๛]"),
+                                    )
+                                        ? FontWeight.w700
+                                        : FontWeight.normal,
+                                    color: const Color.fromRGBO(0, 30, 49, 67)),
+                              ),
+                            ),
+                          ],
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              top: size.height * 0.01, right: size.width * 0.1),
+                              top: size.height * 0.02, right: size.width * 0.1),
                           child: ClayContainer(
                             width: size.width * 0.7,
-                            height: size.height * 0.125,
+                            height: size.height * 0.15,
                             color: const Color(0xFFEBEBEB),
                             borderRadius: 30,
                             depth: -20,
@@ -259,17 +240,14 @@ class _ReportPageState extends State<ReportPage> {
                                   print('Typed text: $text , ${text.length}');
                                 },
                                 maxLength: 80,
-                                maxLines: 3,
+                                maxLines: 4,
                                 style: TextStyle(
                                     fontFamily:
                                         _ReporttextController.text.contains(
                                       RegExp("[ก-๛]"),
                                     )
                                             ? "THSarabunPSK"
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .headlineMedium!
-                                                .fontFamily,
+                                            : "Sen",
                                     fontSize:
                                         _ReporttextController.text.contains(
                                       RegExp("[ก-๛]"),
@@ -301,7 +279,7 @@ class _ReportPageState extends State<ReportPage> {
                       child: _image == null
                           ? Container(
                               width: size.width * 0.7,
-                              height: size.height * 0.125,
+                              height: size.height * 0.15,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   begin: Alignment.bottomCenter,
@@ -317,7 +295,7 @@ class _ReportPageState extends State<ReportPage> {
                                   Padding(
                                     padding: EdgeInsets.only(
                                       top: size.height * 0.01,
-                                      left: size.width * 0.01,
+                                      left: size.width * 0.02,
                                     ),
                                     child: Container(
                                       alignment: Alignment.topLeft,
@@ -351,8 +329,8 @@ class _ReportPageState extends State<ReportPage> {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(
-                                      top: size.height * 0.08,
-                                      left: size.width * 0.01,
+                                      top: size.height * 0.105,
+                                      left: size.width * 0.02,
                                     ),
                                     child: Container(
                                       alignment: Alignment.bottomLeft,
@@ -370,7 +348,7 @@ class _ReportPageState extends State<ReportPage> {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(
-                                      top: size.height * 0.08,
+                                      top: size.height * 0.105,
                                       left: size.width * 0.65,
                                     ),
                                     child: Container(
@@ -388,17 +366,16 @@ class _ReportPageState extends State<ReportPage> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(
-                                        top: size.height * 0.075),
+                                    padding:
+                                        EdgeInsets.only(top: size.height * 0.1),
                                     child: Container(
                                       alignment: Alignment.topCenter,
-                                      child: Opacity(
-                                        opacity: 0.4,
-                                        child: Text(
-                                          "Upload picture",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelLarge,
+                                      child: const Text(
+                                        "Upload picture",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color.fromRGBO(0, 48, 73, 0.5),
                                         ),
                                       ),
                                     ),
@@ -406,11 +383,11 @@ class _ReportPageState extends State<ReportPage> {
                                   Padding(
                                     padding: EdgeInsets.only(
                                       top: size.height * 0.03,
-                                      left: size.width * 0.3,
+                                      left: size.width * 0.28,
                                     ),
                                     child: Image.asset(
                                       "assets/images/PinTheBin/upload.png",
-                                      height: size.height * 0.05,
+                                      height: size.height * 0.07,
                                       color: const Color.fromRGBO(
                                           255, 255, 255, 0.67),
                                     ),
@@ -473,19 +450,25 @@ class _ReportPageState extends State<ReportPage> {
                                 borderRadius: BorderRadius.circular(30),
                                 onTap: () async {
                                   http.Response res = await _sendreport(
-                                      '${data['Bininfo']["id"]}',
-                                      data['Bininfo']['location']);
+                                      '${data['Bininfo']["id"]}');
                                   print("res : ${res.body}");
-
-                                  res = await _addpicturereport(
-                                      '${jsonDecode(res.body)[0]["id"]}',
-                                      _image!);
-                                  print("response : ${res.body}");
-                                  if (res.statusCode == 200) {
+                                  http.Response? response;
+                                  if (_image != null) {
+                                    response = await _addpicturereport(
+                                        '${jsonDecode(res.body)[0]["id"]}',
+                                        _image!);
+                                    print("response : ${response.body}");
+                                  }
+                                  // res = await _addpicturereport(
+                                  //     '${jsonDecode(res.body)[0]["id"]}',
+                                  //     _image!);
+                                  // print("response : ${res.body}");
+                                  if (res.statusCode == 200 &&
+                                      response?.statusCode != 400) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: const Text(
-                                          "Registration successful.",
+                                          "Report successful.",
                                           style: TextStyle(
                                             color: Colors.black,
                                           ),
@@ -501,7 +484,7 @@ class _ReportPageState extends State<ReportPage> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text(
-                                          "Registration failed.",
+                                          "Report failed.",
                                           style: TextStyle(
                                             color: Colors.black,
                                           ),
