@@ -174,17 +174,17 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                         right: size.width * 0.1,
                       ),
                       child: Container(
-                          width: size.width * 0.8,
-                          height: size.width * 0.03,
-                          color: customColors["main"],
-                        ),
+                        width: size.width * 0.8,
+                        height: size.width * 0.03,
+                        color: customColors["main"],
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          left: size.width * 0.1,
-                          right: size.width * 0.1,
-                          bottom: size.width * 0.05,
-                        ),
+                        left: size.width * 0.1,
+                        right: size.width * 0.1,
+                        bottom: size.width * 0.05,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
