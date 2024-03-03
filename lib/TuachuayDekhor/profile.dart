@@ -188,7 +188,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                             child: Container(
                               width: size.width * 0.8,
                               height: size.width * 0.03,
-                              color: customColors["main"],
+                              color: const Color.fromRGBO(0, 48, 73, 1),
                             ),
                           ),
                           Padding(
