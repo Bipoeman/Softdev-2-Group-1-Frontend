@@ -230,39 +230,44 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    "${displayBinInfo['location']}",
-                                    style: TextStyle(
-                                        shadows: [
-                                          Shadow(
-                                            color: const Color(0xFF46384E)
-                                                .withOpacity(0.4),
-                                            offset: const Offset(0, 2),
-                                            blurRadius: 5,
+                                  SizedBox(
+                                    width: size.width * 0.65 * 0.5,
+                                    child: Text(
+                                      "${displayBinInfo['location']}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          shadows: [
+                                            Shadow(
+                                              color: const Color(0xFF46384E)
+                                                  .withOpacity(0.4),
+                                              offset: const Offset(0, 2),
+                                              blurRadius: 5,
+                                            )
+                                          ],
+                                          color: const Color(0xFF46384E),
+                                          fontFamily: displayBinInfo['location']
+                                                  .contains(
+                                            RegExp("[ก-๛]"),
                                           )
-                                        ],
-                                        color: const Color(0xFF46384E),
-                                        fontFamily:
-                                            displayBinInfo['location'].contains(
-                                          RegExp("[ก-๛]"),
-                                        )
-                                                ? "THSarabunPSK"
-                                                : Theme.of(context)
-                                                    .textTheme
-                                                    .labelMedium!
-                                                    .fontFamily,
-                                        fontSize:
-                                            displayBinInfo['location'].contains(
-                                          RegExp("[ก-๛]"),
-                                        )
-                                                ? 24
-                                                : 18,
-                                        fontWeight:
-                                            displayBinInfo['location'].contains(
-                                          RegExp("[ก-๛]"),
-                                        )
-                                                ? FontWeight.w700
-                                                : FontWeight.w800),
+                                              ? "THSarabunPSK"
+                                              : Theme.of(context)
+                                                  .textTheme
+                                                  .labelMedium!
+                                                  .fontFamily,
+                                          fontSize: displayBinInfo['location']
+                                                  .contains(
+                                            RegExp("[ก-๛]"),
+                                          )
+                                              ? 24
+                                              : 18,
+                                          fontWeight: displayBinInfo['location']
+                                                  .contains(
+                                            RegExp("[ก-๛]"),
+                                          )
+                                              ? FontWeight.w700
+                                              : FontWeight.w800),
+                                    ),
                                   ),
                                   Row(children: [
                                     InkWell(
