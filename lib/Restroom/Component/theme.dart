@@ -7,24 +7,27 @@ ThemeData RestroomThemeData = ThemeData(
     seedColor: const Color(0xFFFFB330),
     background: const Color(0xFFECECEC),
   ),
+
   textTheme: TextTheme(
+    
     headlineMedium: const TextStyle(
       fontSize: 35,
       fontWeight: FontWeight.w800,
-      color: Color.fromARGB(255, 112, 110, 110),
+      color: Color(0xFF050505),
     ),
     headlineSmall: TextStyle(
       fontSize: 30,
+      
+      fontWeight: FontWeight.w500,
+      color: const Color(0xFF050505),
+      
+      
+    ),
+    displaySmall: TextStyle(
+      fontSize: 10,
       overflow: TextOverflow.fade,
       fontWeight: FontWeight.w800,
-      color: const Color(0xFF003049),
-      shadows: [
-        Shadow(
-          blurRadius: 20,
-          offset: const Offset(0, 3),
-          color: const Color(0xFF003049).withOpacity(0.3),
-        ),
-      ],
+      color: const Color(0xFF050505).withOpacity(1),
     ),
     displayMedium: TextStyle(
       fontSize: 20,
@@ -33,9 +36,15 @@ ThemeData RestroomThemeData = ThemeData(
       color: const Color(0xFF050505).withOpacity(0.69),
     ),
     displayLarge: TextStyle(
-      fontSize: 17,
+      fontSize: 20,
       overflow: TextOverflow.fade,
       fontWeight: FontWeight.w700,
+      color: const Color(0xFF050505),
+    ),
+    titleMedium: TextStyle(
+      fontSize: 20,
+      
+     
       color: const Color(0xFF050505),
     ),
   ),

@@ -26,49 +26,58 @@ class _RestroomRoverState extends State<RestroomRover> {
   LatLng? centerMark;
   Future<http.Response> getRestroomInfo() async {
     debugPrint("Getting Info");
-    Uri url = Uri.parse("$api$restroomRoverGetRestroomRoute");
+    Uri url = Uri.parse("$api$restroomRoverRestroomRoute");
     http.Response res = await http.get(
       url,
       headers: {
         "Authorization": publicToken,
       },
     );
+    if (res.statusCode != 200) {
+      return Future.error(
+          res.reasonPhrase ?? "Failed to get restroom information.");
+    }
     return res;
   }
 
   Future<http.Response> getRestroomReview() async {
     debugPrint("Getting Review");
-    Uri url = Uri.parse("$api$restroomRoverGetReviewRoute");
+    Uri url = Uri.parse("$api$restroomRoverReviewRoute");
     http.Response res = await http.get(
       url,
       headers: {
         "Authorization": publicToken,
       },
     );
+    if (res.statusCode != 200) {
+      return Future.error(
+          res.reasonPhrase ?? "Failed to get review information.");
+    }
     return res;
   }
 
   @override
   void initState() {
     debugPrint("Init Restroom Page");
-    Future.wait([getRestroomInfo(), getRestroomReview()]).then((res) {
+    Future.wait([getRestroomInfo(), getRestroomReview()])
+        .timeout(const Duration(seconds: 10))
+        .then((res) {
       var decoded = res
           .map<List<dynamic>>((response) => jsonDecode(response.body))
           .toList();
 
       // Combine datas
-      restroomData = decoded[0].map((info) {
-        var founded = decoded[1].singleWhere(
-            (review) => review["id"] == info["id"],
-            orElse: () => null);
-        if (founded != null) {
-          info.addEntries(founded.entries);
-        }
-        return info;
-      }).toList();
-
-      print(restroomData);
-      setState(() {});
+      setState(() {
+        restroomData = decoded[0].map((info) {
+          var founded = decoded[1].singleWhere(
+              (review) => review["id"] == info["id"],
+              orElse: () => null);
+          if (founded != null) {
+            info.addEntries(founded.entries);
+          }
+          return info;
+        }).toList();
+      });
     }).onError((error, stackTrace) {
       ThemeData theme = Theme.of(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -81,7 +90,6 @@ class _RestroomRoverState extends State<RestroomRover> {
         backgroundColor: theme.colorScheme.primary,
       ));
     });
-    ;
     super.initState();
   }
 
@@ -109,8 +117,8 @@ class _RestroomRoverState extends State<RestroomRover> {
                 focusNode: focusNode,
                 parentKey: widget.key,
                 onSelected: (selectedValue) {
-                  // print("Selected $selectedValue");
                   restroomData.forEach((eachRestroom) {
+                    debugPrint("Selected Value : $selectedValue");
                     if (eachRestroom['name'] == selectedValue) {
                       setState(() {
                         focusNode.unfocus();
@@ -155,13 +163,13 @@ class RestroomRoverSearchBar extends StatefulWidget {
 }
 
 class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
-  List<dynamic> tempBinData = [];
+  List<dynamic> tempRestroomData = [];
 
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 1))
-        .then((value) => tempBinData = widget.restroomDataList);
+        .then((value) => tempRestroomData = widget.restroomDataList);
   }
 
   @override
@@ -244,29 +252,29 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
           },
           suggestionsBuilder: (context, suggestionController) {
             debugPrint("Suggestion query : ${suggestionController.text}");
-            tempBinData = [];
+            tempRestroomData = [];
             String queryText = suggestionController.text;
             for (var i = 0; i < widget.restroomDataList.length; i++) {
               if (widget.restroomDataList[i]['name'] != null) {
-                // print(tempBinData[i]['location'].contains(query));
                 if (widget.restroomDataList[i]['name']
                     .toLowerCase()
                     .contains(queryText.toLowerCase())) {
-                  tempBinData.add(widget.restroomDataList[i]);
-                  print(tempBinData);
+                  tempRestroomData.add(widget.restroomDataList[i]);
+                  debugPrint(tempRestroomData.toString());
                 } else if (queryText == "") {
                   debugPrint("Blank Query");
-                  tempBinData = widget.restroomDataList;
+                  tempRestroomData = widget.restroomDataList;
                 }
               }
             }
             return List<GestureDetector>.generate(
-              tempBinData.length,
+              tempRestroomData.length,
               (int index) {
                 return GestureDetector(
                   onTap: () {
-                    widget.onSelected(suggestionController.text);
-                    suggestionController.closeView(tempBinData[index]['name']);
+                    widget.onSelected(tempRestroomData[index]['name']);
+                    suggestionController
+                        .closeView(tempRestroomData[index]['name']);
                   },
                   child: Container(
                     color: Theme.of(context).colorScheme.background,
@@ -281,55 +289,57 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                tempBinData[index]['name'],
+                                tempRestroomData[index]['name'],
                                 style: TextStyle(
-                                    fontFamily:
-                                        tempBinData[index]['name'].contains(
+                                    fontFamily: tempRestroomData[index]['name']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? "THSarabunPSK"
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .labelMedium!
-                                                .fontFamily,
-                                    fontSize:
-                                        tempBinData[index]['name'].contains(
+                                        ? "THSarabunPSK"
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .labelMedium!
+                                            .fontFamily,
+                                    fontSize: tempRestroomData[index]['name']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? 24
-                                            : 16,
-                                    fontWeight:
-                                        tempBinData[index]['name'].contains(
+                                        ? 24
+                                        : 16,
+                                    fontWeight: tempRestroomData[index]['name']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? FontWeight.w700
-                                            : FontWeight.normal),
+                                        ? FontWeight.w700
+                                        : FontWeight.normal),
                               ),
                               Text(
-                                tempBinData[index]['address'],
+                                tempRestroomData[index]['address'],
                                 style: TextStyle(
-                                    fontFamily:
-                                        tempBinData[index]['address'].contains(
+                                    fontFamily: tempRestroomData[index]
+                                                ['address']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? "THSarabunPSK"
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .labelMedium!
-                                                .fontFamily,
-                                    fontSize:
-                                        tempBinData[index]['address'].contains(
+                                        ? "THSarabunPSK"
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .labelMedium!
+                                            .fontFamily,
+                                    fontSize: tempRestroomData[index]['address']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? 22
-                                            : 16,
+                                        ? 22
+                                        : 16,
                                     color: Colors.black.withOpacity(0.6),
-                                    fontWeight:
-                                        tempBinData[index]['address'].contains(
+                                    fontWeight: tempRestroomData[index]
+                                                ['address']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
-                                            ? FontWeight.w700
-                                            : FontWeight.normal),
+                                        ? FontWeight.w700
+                                        : FontWeight.normal),
                               ),
                               Container(
                                 margin: const EdgeInsets.only(top: 5),

@@ -3,9 +3,12 @@ import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 const String baseURL = "https://ruammitr.azurewebsites.net";
 // const String api = "https://ruammitr.azurewebsites.net/api";
+
+const String api = "http://10.0.2.2:3000";
+// const String api = "http://192.168.1.131:3000";
 // const String api = "http://10.0.2.2:3000";
 // const String api = "http://192.168.56.1:3000";
-const String api = "http://172.20.10.6:3000";
+
 const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
 const String userDataUpdateRoute = "/user";
@@ -16,6 +19,7 @@ const String userPasswordChangeRoute = "/user/changepassword";
 const String userPasswordResetRoute = "/user/reset";
 const String userPostIssuetRoute = "/issue";
 const String refreshTokenRoute = "/user/refresh";
+const String reportRoute = "/issue";
 const String pinTheBinGetBinRoute = "/pinthebin/bin";
 const String dekhorPosttoprofileRoute = "/dekhor/posttoprofile";
 const String dekhorShowSaveRoute = "/dekhor/showsave";
@@ -54,8 +58,12 @@ const String dekhorDetailReportRoute = "/dekhor/detailreport";
 const String dekhorDescriptionRoute = "/dekhor/bloggerdescription";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
-const String restroomRoverGetRestroomRoute = "/restroom";
-const String restroomRoverGetReviewRoute = "/restroom/review";
+const String restroomRoverRestroomRoute = "/restroom";
+const String restroomRoverMyRestroomRoute = "/restroom/mytoilet";
+const String restroomRoverReviewRoute = "/restroom/review";
+const String restroomRoverReportRoute = "/restroom/report";
+const String restroomRoverUploadToiletPictureRoute = "/restroom/upload";
+const String restroomRoverUploadReviewPictureRoute = "/restroom/upload/review";
 const String pinTheBinReportBinRoute = "/pinthebin/report";
 const String pinTheBinReportPictureBinRoute = "/pinthebin/report/upload";
 
@@ -75,7 +83,8 @@ const Map<String, String> restroomPageRoute = {
   "addrestroom": "/Restroom/Addrestroom",
   "report": "/Restroom/Report",
   "reportpin": "/Restroom/ReportPin",
-  "edit": "/Restroom/Edit",
+  "myrestroom": "/Restroom/MyRestroom",
+  "editrestroom": "/Restroom/EditRestroom",
 };
 const String dinodengzzPageRoute = "/game";
 const Map<String, String> tuachuayDekhorPageRoute = {
