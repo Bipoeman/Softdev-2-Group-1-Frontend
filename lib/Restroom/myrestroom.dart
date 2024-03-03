@@ -23,39 +23,62 @@ class _MyRestroomState extends State<MyRestroomPage> {
   FocusNode focusNode = FocusNode();
   LatLng? centerMark;
   Future<http.Response> myRestroomInfo() async {
-    Uri url = Uri.parse("$api$restroomRoverRestroomRoute");
-    http.Response res =
-        await http.get(url, headers: {"Authorization": "Bearer $publicToken"});
-    print(res.body);
+    Uri url = Uri.parse("$api$restroomRoverMyRestroomRoute");
+    http.Response res = await http.get(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }).timeout(const Duration(seconds: 10));
+    debugPrint(res.body);
+    if (res.statusCode != 200) {
+      return Future.error(
+          res.reasonPhrase ?? "Failed to get restroom information.");
+    }
     return res;
   }
 
   Future<http.Response> delRestroom(int id) async {
     Uri url = Uri.parse("$api$restroomRoverRestroomRoute/$id");
-    http.Response res = await http.delete(url);
-    print(res.body);
+    http.Response res = await http.delete(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }).timeout(const Duration(seconds: 10));
+    debugPrint(res.body);
+    if (res.statusCode != 200) {
+      return Future.error(res.reasonPhrase ?? "Failed to delete restroom");
+    }
     return res;
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print("Init Restroom Page");
+    debugPrint("Init Restroom Page");
     myRestroomInfo().then((response) {
-      print("Response");
-      print(response.body);
+      debugPrint("Response");
+      debugPrint(response.body);
       setState(() {
         restroomData = jsonDecode(response.body);
         restroomShow = restroomData;
       });
-      // print(restroomData);
+      // debugPrint(restroomData);
+    }).onError((error, stackTrace) {
+      ThemeData theme = Theme.of(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Failed to get restroom information.",
+            style: TextStyle(
+              color: theme.colorScheme.onPrimary,
+            ),
+          ),
+          backgroundColor: theme.colorScheme.primary,
+        ),
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
     return Scrollbar(
       // thumbVisibility: true,
       thickness: 10,
@@ -254,10 +277,11 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                                                 myRestroomInfo()
                                                                     .then(
                                                                         (response) {
-                                                                  print(
+                                                                  debugPrint(
                                                                       "Response");
-                                                                  print(response
-                                                                      .body);
+                                                                  debugPrint(
+                                                                      response
+                                                                          .body);
                                                                   setState(() {
                                                                     restroomData =
                                                                         jsonDecode(
@@ -273,9 +297,23 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                                                     .pop();
                                                                 ScaffoldMessenger.of(
                                                                         context)
-                                                                    .showSnackBar(const SnackBar(
-                                                                        content:
-                                                                            Text("Failed to delete restroom.")));
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      "Failed to delete restroom.",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: theme
+                                                                            .colorScheme
+                                                                            .onPrimary,
+                                                                      ),
+                                                                    ),
+                                                                    backgroundColor: theme
+                                                                        .colorScheme
+                                                                        .primary,
+                                                                  ),
+                                                                );
                                                               });
                                                             },
                                                             child: Text(
@@ -551,11 +589,11 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
                     .toLowerCase()
                     .contains(queryText.toLowerCase())) {
                   tempRestroomData.add(widget.restroomDataList[i]);
-                  // print(tempRestroomData);
+                  // debugPrint(tempRestroomData);
                 } else if (queryText == "") {
                   debugPrint("Blank Query");
                   tempRestroomData = widget.restroomDataList;
-                  // print('3');
+                  // debugPrint('3');
                 }
               }
             }

@@ -36,21 +36,23 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
 
   Future<void> _updateData() async {
     debugPrint("Updating data");
-    final url = Uri.parse("$api$restroomRoverEditRoute");
-    await http
-        .post(url, headers: {
+    final url = Uri.parse("$api$restroomRoverRestroomRoute");
+    var response = await http
+        .put(url, headers: {
           "Authorization": "Bearer $publicToken",
         }, body: {
-          "id": widget.restroomData['id'].toString(),
           "name": _nameTextController.text,
           "type": _type,
           "address": _addressTextController.text,
           "for_who": jsonEncode(_forwho)
         })
-        .timeout(Durations.extralong4)
+        .timeout(const Duration(seconds: 10))
         .onError((error, stackTrace) {
           return Future.error(error ?? {}, stackTrace);
         });
+    if (response.statusCode != 200) {
+      return Future.error(response.reasonPhrase ?? "Failed to send report");
+    }
     if (_image != null) {
       await _updatePicture(widget.restroomData['id'].toString(), _image)
           .onError((error, stackTrace) {
@@ -87,12 +89,18 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
       ),
     );
     request.fields['id'] = id;
-    http.StreamedResponse response = await request.send();
-    http.Response res = await http.Response.fromStream(response);
-    if (res.statusCode != 200) {
-      throw Exception("Failed to upload picture ${res.body}");
+    try {
+      http.StreamedResponse response =
+          await request.send().timeout(const Duration(seconds: 10));
+      if (response.statusCode != 200) {
+        return Future.error(response.reasonPhrase ?? "Failed to send report");
+      }
+      http.Response res = await http.Response.fromStream(response)
+          .timeout(const Duration(seconds: 10));
+      return res;
+    } catch (e) {
+      return Future.error(e);
     }
-    return res;
   }
 
   @override
@@ -113,6 +121,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
 
     Offset distanceWarning = _forwho["Kid"]!
         ? const Offset(5, 5)
@@ -509,6 +518,13 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                         MaterialButton(
                                           onPressed: () {
                                             _updateData().then((_) async {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                      "Data updated successfully."),
+                                                ),
+                                              );
                                               Navigator.pushReplacementNamed(
                                                   context,
                                                   restroomPageRoute[
@@ -519,9 +535,19 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                                   stackTrace: stackTrace);
                                               Navigator.pop(context);
                                               ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                      content: Text(
-                                                          "Failed to update data.")));
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    "Failed to update data.",
+                                                    style: TextStyle(
+                                                      color: theme.colorScheme
+                                                          .onPrimary,
+                                                    ),
+                                                  ),
+                                                  backgroundColor:
+                                                      theme.colorScheme.primary,
+                                                ),
+                                              );
                                             });
                                           },
                                           child: const Text('Confirm'),

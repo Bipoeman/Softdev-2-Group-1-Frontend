@@ -2,15 +2,13 @@ import 'dart:io';
 
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
-import 'package:ruam_mitt/Restroom/Component/write_review.dart';
-import 'package:ruam_mitt/Restroom/Component/comment.dart';
-import 'package:flutter_rating_native/flutter_rating_native.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
-import 'dart:math';
+import 'package:http/http.dart' as http;
+import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 
 class RestroomRoverReport extends StatefulWidget {
   const RestroomRoverReport({super.key});
@@ -22,30 +20,64 @@ class RestroomRoverReport extends StatefulWidget {
 class _RestroomRoverReportState extends State<RestroomRoverReport> {
   BoxController boxController = BoxController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController _LocationstextController = TextEditingController();
-  TextEditingController _DescriptiontextController = TextEditingController();
-  TextEditingController _TopictextController = TextEditingController();
+  final TextEditingController _descriptionTextController =
+      TextEditingController();
+  final TextEditingController _topicTextController = TextEditingController();
   File? _image;
   int remainingCharacters = 0;
 
-  
   void updateRemainingCharacters() {
     setState(() {
-      remainingCharacters = _DescriptiontextController.text.length;
+      remainingCharacters = _descriptionTextController.text.length;
     });
   }
 
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print("init");
-    _DescriptiontextController.addListener(updateRemainingCharacters);
+  Future<void> _sendReport() async {
+    debugPrint('Send report');
+    final url = Uri.parse("$api$reportRoute");
+    http.MultipartRequest request = http.MultipartRequest('POST', url);
+    request.headers.addAll({
+      "Authorization": "Bearer $publicToken",
+      "Content-Type": "application/json"
+    });
+    if (_image != null) {
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          "file",
+          _image!.readAsBytesSync(),
+          filename: _image!.path,
+        ),
+      );
+    }
+    request.fields['title'] = _topicTextController.text;
+    request.fields['type'] = "restroom";
+    request.fields['description'] = _descriptionTextController.text;
+    try {
+      http.StreamedResponse response =
+          await request.send().timeout(const Duration(seconds: 10));
+      if (response.statusCode != 200) {
+        return Future.error(response.reasonPhrase ?? "Failed to send report");
+      }
+      http.Response res = await http.Response.fromStream(response)
+          .timeout(const Duration(seconds: 10));
+
+      debugPrint("Response: ${res.body}");
+    } catch (e) {
+      return Future.error(e);
+    }
   }
 
-  
+  @override
+  void initState() {
+    super.initState();
+    debugPrint("init");
+    _descriptionTextController.addListener(updateRemainingCharacters);
+  }
+
+  @override
   void dispose() {
-    _DescriptiontextController.removeListener(updateRemainingCharacters);
-    _DescriptiontextController.dispose();
+    _descriptionTextController.removeListener(updateRemainingCharacters);
+    _descriptionTextController.dispose();
     super.dispose();
   }
 
@@ -56,7 +88,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
-        print('No image selected.');
+        debugPrint('No image selected.');
       }
     });
   }
@@ -64,7 +96,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var rating = 2.5;
+    ThemeData theme = Theme.of(context);
     return Theme(
         data: RestroomThemeData,
         child: Builder(builder: (context) {
@@ -84,7 +116,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                             Align(
                               alignment: Alignment.topLeft,
                               child: Container(
-                                padding: EdgeInsets.only(left: 40),
+                                padding: const EdgeInsets.only(left: 40),
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 40),
                                   child: Text(
@@ -105,16 +137,16 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                               child: ClayContainer(
                                 width: size.width * 0.6,
                                 height: size.height * 0.032,
-                                color: Color(0xFFEAEAEA),
+                                color: const Color(0xFFEAEAEA),
                                 borderRadius: 30,
                                 depth: -20,
                                 child: TextField(
                                   maxLength: 17,
-                                  controller: _TopictextController,
+                                  controller: _topicTextController,
                                   onChanged: (text) {
-                                    print('Typed text: $text');
+                                    debugPrint('Typed text: $text');
                                   },
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     counterText: "",
                                     border: InputBorder.none,
                                     contentPadding: EdgeInsets.symmetric(
@@ -127,65 +159,66 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                           ],
                         ),
 
-                        SizedBox(
+                        const SizedBox(
                             height:
                                 30), // เพิ่มระยะห่างระหว่าง Row กับเนื้อหาด้านล่าง
                         // เพิ่มเนื้อหาด้านล่างของ Row ที่นี่
                         Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        padding: EdgeInsets.only(left: 40),
-                        child: Text(
-                          'Report',
-                          style: Theme.of(context).textTheme.displayMedium,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: size.height * 0.02),
-                      child: ClayContainer(
-                        width: size.width * 0.78,
-                        height: size.height * 0.3,
-                        color: Color(0xFFEAEAEA),
-                        borderRadius: 30,
-                        depth: -20,
-                        child: Stack(
-                          alignment: Alignment.centerRight,
                           children: [
-                            TextField(
-                              maxLength: 250,
-                              maxLines: 9,
-                              controller: _DescriptiontextController,
-                              // inputFormatters: [
-                              //   LengthLimitingTextInputFormatter(80),
-                              // ],
-                              decoration: InputDecoration(
-                                counterText: "",
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.only(
-                                    left: 16, right: 16, top: 20),
-                                hintText: 'Write a report...',
-                              ),
-                            ),
-                            Positioned(
-                              top: 1,
-                              right: 16.0,
-                              child: Text(
-                                '$remainingCharacters/250',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12.0,
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 40),
+                                child: Text(
+                                  'Report',
+                                  style:
+                                      Theme.of(context).textTheme.displayMedium,
                                 ),
                               ),
                             ),
+                            Container(
+                              margin: EdgeInsets.only(top: size.height * 0.02),
+                              child: ClayContainer(
+                                width: size.width * 0.78,
+                                height: size.height * 0.3,
+                                color: const Color(0xFFEAEAEA),
+                                borderRadius: 30,
+                                depth: -20,
+                                child: Stack(
+                                  alignment: Alignment.centerRight,
+                                  children: [
+                                    TextField(
+                                      maxLength: 250,
+                                      maxLines: 9,
+                                      controller: _descriptionTextController,
+                                      // inputFormatters: [
+                                      //   LengthLimitingTextInputFormatter(80),
+                                      // ],
+                                      decoration: const InputDecoration(
+                                        counterText: "",
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(
+                                            left: 16, right: 16, top: 20),
+                                        hintText: 'Write a report...',
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 1,
+                                      right: 16.0,
+                                      child: Text(
+                                        '$remainingCharacters/250',
+                                        style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 12.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
                           ],
                         ),
-                      ),
-                    )
-                  ],
-                ),
                         Padding(
                           padding: EdgeInsets.only(
                               top: size.height * 0.05, right: size.width * 0.1),
@@ -204,8 +237,10 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                         begin: Alignment.bottomCenter,
                                         end: Alignment.topCenter,
                                         colors: [
-                                          Color(0xFFFFB432).withOpacity(0.9),
-                                          Color(0xFFFFFCCE).withOpacity(1),
+                                          const Color(0xFFFFB432)
+                                              .withOpacity(0.9),
+                                          const Color(0xFFFFFCCE)
+                                              .withOpacity(1),
                                         ],
                                       ),
                                     ),
@@ -315,14 +350,11 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                   )
                                 : Padding(
                                     padding: const EdgeInsets.only(left: 35),
-                                    child: Expanded(
-                                      // ใช้ Expanded เพื่อให้รูปภาพขยายตามพื้นที่
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Image.file(
-                                          _image!,
-                                          fit: BoxFit.cover,
-                                        ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Image.file(
+                                        _image!,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
@@ -360,7 +392,31 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                             Padding(
                               padding: const EdgeInsets.only(left: 20.0),
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  _sendReport().then((_) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Report sent'),
+                                      ),
+                                    );
+                                    Navigator.pushReplacementNamed(
+                                        context, restroomPageRoute["home"]!);
+                                  }).onError((error, stackTrace) {
+                                    debugPrint("Error: $error");
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Failed to send report',
+                                          style: TextStyle(
+                                            color: theme.colorScheme.onPrimary,
+                                          ),
+                                        ),
+                                        backgroundColor:
+                                            theme.colorScheme.primary,
+                                      ),
+                                    );
+                                  });
+                                },
                                 style: ElevatedButton.styleFrom(
                                   foregroundColor: Colors.black,
                                   backgroundColor: Colors.amber,
@@ -377,10 +433,10 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                 ),
                               ),
                             ),
-                            
                           ],
                         ),
-                        Padding(padding: EdgeInsets.only(top: size.height * 0.035)),
+                        Padding(
+                            padding: EdgeInsets.only(top: size.height * 0.035)),
                       ],
                     ),
                   ),
@@ -388,13 +444,11 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
               ],
             ),
             drawerScrimColor: Colors.transparent,
-            drawer: RestroomRoverNavbar(),
+            drawer: const RestroomRoverNavbar(),
           );
         }));
   }
 }
-
-class _NametextController {}
 
 class RestroomAppBar extends StatelessWidget {
   const RestroomAppBar({
