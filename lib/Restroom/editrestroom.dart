@@ -30,7 +30,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   TextEditingController _addressTextController = TextEditingController();
   File? _image;
   String _type = restroomTypes.first;
-  int remainingCharacters = 0;
+  int addressTextLength = 0;
   int nameTextLength = 0;
   final Map<String, bool> _forwho = {
     'Kid': false,
@@ -127,23 +127,9 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
     }
   }
 
-  void updateRemainingCharacters() {
-    setState(() {
-      remainingCharacters = _addressTextController.text.length;
-    });
-  }
-
-  @override
-  void dispose() {
-    _addressTextController.removeListener(updateRemainingCharacters);
-    _addressTextController.dispose();
-    super.dispose();
-  }
-
   @override
   void initState() {
     super.initState();
-    _addressTextController.addListener(updateRemainingCharacters);
     setState(() {
       _nameTextController =
           TextEditingController(text: widget.restroomData['name']);
@@ -153,6 +139,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
       _forwho["Handicapped"] = widget.restroomData["for_who"]["Handicapped"];
       _type = widget.restroomData["type"];
       nameTextLength = widget.restroomData['name'].length;
+      addressTextLength = widget.restroomData['address'].length;
     });
   }
 
@@ -355,8 +342,8 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                   borderRadius: 30,
                                   depth: -20,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
                                     child: TextField(
                                         maxLength: 80,
                                         maxLines: null,
@@ -366,20 +353,33 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                               RegExp(r"\n"))
                                         ],
                                         onChanged: (text) {
-                                          debugPrint('Typed text: $text');
-                                          int remainningCharacters = 80 -
-                                              _addressTextController
-                                                  .text.length;
-                                          debugPrint(
-                                              'Remaining characters: $remainningCharacters');
+                                          setState(() {
+                                            addressTextLength = text.length;
+                                          });
                                         },
                                         decoration: const InputDecoration(
+                                          counterText: "",
                                           border: InputBorder.none,
                                         ),
                                         style: text_input(
                                             _addressTextController.text,
                                             context)),
                                   )),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        right: size.width * 0.05),
+                                    child: IntrinsicWidth(
+                                      child: Text(
+                                        "$addressTextLength/80",
+                                        style: text_input("", context),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
                             ],
                           ),
                           SizedBox(height: size.height * 0.05),

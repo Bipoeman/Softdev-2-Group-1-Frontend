@@ -49,7 +49,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
   void initState() {
     super.initState();
 
-    getRestroomReview().timeout(Durations.extralong4).then((response) {
+    getRestroomReview().timeout(const Duration(seconds: 10)).then((response) {
       reviewData = jsonDecode(response.body);
       setState(() {});
     }).onError((error, stackTrace) {
