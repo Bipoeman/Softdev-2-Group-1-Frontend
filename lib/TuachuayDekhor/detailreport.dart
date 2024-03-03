@@ -92,8 +92,7 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                           MediaQuery.of(context).padding.top),
                   child: Column(
                     children: [
-                      Container(
-                        color: customColors["main"],
+                      SizedBox(
                         width: size.width,
                         height: size.width * 0.2,
                         child: InkWell(
@@ -157,7 +156,7 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                                     : "No title",
                                 style: TextStyle(
                                   fontSize: 18,
-                                  color: customColors["onMain"],
+                                  color: customColors["onContainer"],
                                 ),
                               ),
                             ),
@@ -179,7 +178,7 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: customColors["onContainer"],
+                                color: customColors["main"],
                               ),
                             ),
                             const SizedBox(width: 10),
@@ -190,7 +189,7 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                                     : "No reason",
                                 style: TextStyle(
                                   fontSize: 18,
-                                  color: customColors["onMain"],
+                                  color: customColors["onContainer"],
                                 ),
                               ),
                             ),
@@ -202,7 +201,7 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                             size.width * 0.1, 0, size.width * 0.1, size.width * 0.04),
                         padding: EdgeInsets.all(size.width * 0.04),
                         decoration: BoxDecoration(
-                          color: customColors["main"],
+                          color: customColors["main"]!.withOpacity(0.5),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
