@@ -58,7 +58,6 @@ class _TuachuaySearchBoxState extends State<TuachuaySearchBox> {
         labelText: "Search for...",
         suffixIconColor: customColors["onMain"]!,
         suffixIcon: Container(
-          margin: const EdgeInsets.only(right: 5),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: customColors["main"]!,
