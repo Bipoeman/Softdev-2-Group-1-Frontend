@@ -248,8 +248,8 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                             ? ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(15),
-                                                child: Image.asset(
-                                                  "assets/images/PinTheBin/bin_null.png",
+                                                child: Image.network(
+                                                  "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
                                                   fit: BoxFit.contain,
                                                 ),
                                               )

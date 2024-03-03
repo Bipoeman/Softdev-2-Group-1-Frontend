@@ -160,7 +160,7 @@ class _CardpinState extends State<Cardpin> {
                                         borderRadius: BorderRadius.circular(15),
                                         child: Image.network(
                                          widget.restroomData["picture"] ??
-                              "https://i.pinimg.com/564x/97/15/0f/97150f3cc7e93677495133ffe6ea77c3.jpg",
+                              "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
                                           fit: BoxFit.cover,
                                           
                                         ),
@@ -168,7 +168,35 @@ class _CardpinState extends State<Cardpin> {
                                     ),
                   ),
                 ),
-
+//                Container(
+//   height: size.height * 0.21,
+//   width: size.width * 0.8,
+//   padding: EdgeInsets.only(
+//     left: size.width * 0.1,
+//     top: size.height * 0.01,
+//     bottom: size.height * 0.01,
+//     right: size.width * 0.1,
+//   ),
+//   child: ClipRRect(
+//     borderRadius: BorderRadius.circular(15), // กำหนดขอบโค้งให้กับรูปภาพ
+//     child: Image.network(
+//       widget.restroomData["picture"] ??
+//           "https://i.pinimg.com/564x/97/15/0f/97150f3cc7e93677495133ffe6ea77c3.jpg",
+//       fit: BoxFit.cover,
+//     ),
+//   ),
+// ),
+//  Container(
+//                     height: size.height * 0.21,
+//                     width: size.width * 0.8,
+//                     padding: EdgeInsets.only(
+//                       left: size.width * 0.1,
+//                       top: size.height * 0.01,
+//                       bottom: size.height * 0.01,
+//                       right: size.width * 0.1,
+//                     ),
+//                     child: Image.network(widget.restroomData["picture"] ??
+//                         "https://i.pinimg.com/564x/97/15/0f/97150f3cc7e93677495133ffe6ea77c3.jpg")),
                 Container(
                     height: size.height * 0.1,
                     width: size.width * 0.8,
