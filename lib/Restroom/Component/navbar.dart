@@ -176,7 +176,10 @@ class RestroomRoverNavbar extends StatelessWidget {
                           color: Colors.black,
                           size: 27.0,
                         )),
-                    title: const Text('Exit'),
+                    title: Text(
+                      'Exit',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                     onTap: () {
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         ruamMitrPageRoute["homev2"]!,
