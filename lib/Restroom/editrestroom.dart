@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import "package:image_picker/image_picker.dart";
 import 'package:http/http.dart' as http;
+import 'package:ruam_mitt/Restroom/Component/font.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -182,6 +183,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                 borderRadius: 30,
                                 depth: -20,
                                 child: TextField(
+                                  style: text_input(_nameTextController.text, context),
                                   maxLength: 20,
                                   controller: _nameTextController,
                                   onChanged: (text) {
@@ -230,7 +232,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                           items: restroomTypes
                                               .map((type) => DropdownMenuItem(
                                                   value: type,
-                                                  child: Text(type)))
+                                                  child: Text(type, style: text_input(type, context),)))
                                               .toList(),
                                           value: _type,
                                           onChanged: (value) {
@@ -329,7 +331,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                     depth: -20,
                                     child: Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 20, bottom: 20),
+                                          left: 10, ),
                                       //               child : Stack(
                                       //   alignment: Alignment.centerRight,
                                       //   children: [
@@ -366,7 +368,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                           children: [
                                             TextField(
                                               maxLength: 80,
-                                              maxLines: 3,
+                                              maxLines: null,
                                               controller:
                                                   _addressTextController,
                                               onChanged: (text) {
@@ -380,9 +382,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                               decoration: const InputDecoration(
                                                 border: InputBorder.none,
                                               ),
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                              ),
+                                              style: text_input(_addressTextController.text, context)
                                             ),
                                             //              Positioned(
                                             //   top: 1,
@@ -406,115 +406,123 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _forwho['Kid'] = !_forwho['Kid']!;
-                                        });
-                                        debugPrint(_forwho['Kid'].toString());
-                                      },
-                                      child: Container(
-                                        width: size.width * 0.2,
-                                        height: size.height * 0.1,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          color: const Color.fromARGB(
-                                              9, 0, 47, 73),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: blurWarning,
-                                              offset: distanceWarning,
-                                              color: const Color(0xFFA7A9AF),
-                                              inset: _forwho["Kid"]!,
-                                            ),
-                                            BoxShadow(
-                                              blurRadius: blurWarning,
-                                              offset: -distanceWarning,
-                                              color: const Color.fromARGB(
-                                                  255, 255, 255, 255),
-                                              inset: _forwho["Kid"]!,
-                                            ),
-                                          ],
-                                        ),
-                                        child: const Icon(
-                                            Icons.baby_changing_station,
-                                            size: 50),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(
-                                          top: size.height * 0.01),
-                                      child: Align(
-                                        //padding: const EdgeInsets.only(top: size.height * 0.0),
-                                        child: Text(
-                                          'Kid',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      left: size.width * 0.04),
+                                  child: Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _forwho['Kid'] = !_forwho['Kid']!;
+                                          });
+                                          debugPrint(_forwho['Kid'].toString());
+                                        },
+                                        child: Container(
+                                          width: size.width * 0.2,
+                                          height: size.height * 0.1,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            color: const Color.fromARGB(
+                                                9, 0, 47, 73),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                blurRadius: blurWarning,
+                                                offset: distanceWarning,
+                                                color: const Color(0xFFA7A9AF),
+                                                inset: _forwho["Kid"]!,
+                                              ),
+                                              BoxShadow(
+                                                blurRadius: blurWarning,
+                                                offset: -distanceWarning,
+                                                color: const Color.fromARGB(
+                                                    255, 255, 255, 255),
+                                                inset: _forwho["Kid"]!,
+                                              ),
+                                            ],
+                                          ),
+                                          child: const Icon(
+                                              Icons.baby_changing_station,
+                                              size: 50),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            top: size.height * 0.01),
+                                        child: Align(
+                                          //padding: const EdgeInsets.only(top: size.height * 0.0),
+                                          child: Text(
+                                            'KID',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .displayLarge,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(
                                   width: size.width * 0.03,
                                 ),
-                                Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _forwho['Handicapped'] =
-                                              !_forwho['Handicapped']!;
-                                        });
-                                        debugPrint(
-                                            _forwho['Handicapped'].toString());
-                                      },
-                                      child: Container(
-                                        width: size.width * 0.2,
-                                        height: size.height * 0.1,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          color: const Color.fromARGB(
-                                              9, 0, 47, 73),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: blurRecycling,
-                                              offset: distanceRecycling,
-                                              color: const Color(0xFFA7A9AF),
-                                              inset: _forwho["Handicapped"]!,
-                                            ),
-                                            BoxShadow(
-                                              blurRadius: blurRecycling,
-                                              offset: -distanceRecycling,
-                                              color: const Color.fromARGB(
-                                                  255, 255, 255, 255),
-                                              inset: _forwho["Handicapped"]!,
-                                            ),
-                                          ],
-                                        ),
-                                        child: const Align(
-                                          alignment: Alignment.center,
-                                          child: Icon(Icons.accessible_sharp,
-                                              size: 50),
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      left: size.width * 0.1),
+                                  child: Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _forwho['Handicapped'] =
+                                                !_forwho['Handicapped']!;
+                                          });
+                                          debugPrint(
+                                              _forwho['Handicapped'].toString());
+                                        },
+                                        child: Container(
+                                          width: size.width * 0.2,
+                                          height: size.height * 0.1,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            color: const Color.fromARGB(
+                                                9, 0, 47, 73),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                blurRadius: blurRecycling,
+                                                offset: distanceRecycling,
+                                                color: const Color(0xFFA7A9AF),
+                                                inset: _forwho["Handicapped"]!,
+                                              ),
+                                              BoxShadow(
+                                                blurRadius: blurRecycling,
+                                                offset: -distanceRecycling,
+                                                color: const Color.fromARGB(
+                                                    255, 255, 255, 255),
+                                                inset: _forwho["Handicapped"]!,
+                                              ),
+                                            ],
+                                          ),
+                                          child: const Align(
+                                            alignment: Alignment.center,
+                                            child: Icon(Icons.accessible_sharp,
+                                                size: 50),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: size.height * 0.01),
-                                      child: Text(
-                                        'HANDICAPPED',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: size.height * 0.01),
+                                        child: Text(
+                                          'HANDICAPPED',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .displayLarge,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

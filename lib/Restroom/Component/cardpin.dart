@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
+import 'package:ruam_mitt/Restroom/Component/font.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,198 +28,181 @@ class _CardpinState extends State<Cardpin> {
     return Theme(
         data: RestroomThemeData,
         child: Builder(builder: (context) {
-          return Container(
-            height: size.height * 0.52,
-            width: size.width * 0.8,
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 255, 255, 255),
-              borderRadius: BorderRadius.circular(35 * zoomFactor),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.1,
-                      top: size.height * 0.03,
-                      bottom: size.height * 0.01,
-                      right: size.width * 0.1,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 150 * zoomFactor,
-                          child: Text(
-                            widget.restroomData["name"],
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.displayMedium,
+          return IntrinsicHeight(
+            child: Container(
+              
+              width: size.width * 0.8,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 255, 255, 255),
+                borderRadius: BorderRadius.circular(35 * zoomFactor),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      padding: EdgeInsets.only(
+                        left: size.width * 0.1,
+                        top: size.height * 0.03,
+                        bottom: size.height * 0.01,
+                        right: size.width * 0.1,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 150 * zoomFactor,
+                            child: Text(
+                              widget.restroomData["name"],
+                              overflow: TextOverflow.ellipsis,
+                              style: name_place(widget.restroomData["name"],context),  
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              widget.restroomData["for_who"]["Handicapped"]
-                                  ? Icon(Icons.accessible_sharp,
-                                      size: 30 * zoomFactor)
-                                  : SizedBox(
-                                      width: 30 * zoomFactor,
-                                      height: 30 * zoomFactor,
-                                    ),
-                              widget.restroomData["for_who"]["Kid"]
-                                  ? Icon(Icons.baby_changing_station,
-                                      size: 30 * zoomFactor)
-                                  : SizedBox(
-                                      width: 30 * zoomFactor,
-                                      height: 30 * zoomFactor,
-                                    ),
-                            ],
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                widget.restroomData["for_who"]["Handicapped"]
+                                    ? Icon(Icons.accessible_sharp,
+                                        size: 30 * zoomFactor)
+                                    : SizedBox(
+                                        width: 30 * zoomFactor,
+                                        height: 30 * zoomFactor,
+                                      ),
+                                widget.restroomData["for_who"]["Kid"]
+                                    ? Icon(Icons.baby_changing_station,
+                                        size: 30 * zoomFactor)
+                                    : SizedBox(
+                                        width: 30 * zoomFactor,
+                                        height: 30 * zoomFactor,
+                                      ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    )),
-                Container(
-                  height: size.height * 0.05,
-                  width: size.width * 0.7,
-                  padding: EdgeInsets.only(
-                    left: size.width * 0.1,
-                    top: size.height * 0.001,
-                    bottom: size.height * 0.01,
-                    right: size.width * 0.1,
-                  ),
-                  child: Text(widget.restroomData["address"],
-                  overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20 * zoomFactor,
-                        fontWeight: FontWeight.w400,
+                        ],
                       )),
-                ),
-                Row(
-                  children: [
-                    Container(
-                      height: size.height * 0.05,
-                      width: size.width * 0.2,
+                  IntrinsicHeight(
+                    child: Container(
+                      
+                      width: size.width * 0.7,
+                      padding: EdgeInsets.only(
+                        left: size.width * 0.1,
+                        top: size.height * 0.001,
+                        bottom: size.height * 0.01,
+                        right: size.width * 0.1,
+                      ),
+                      child: Text(widget.restroomData["address"],
+                      overflow: TextOverflow.ellipsis,
+                          style: text_input(widget.restroomData["address"], context)),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        height: size.height * 0.05,
+                        width: size.width * 0.2,
+                        padding: EdgeInsets.only(
+                          left: size.width * 0.1,
+                          top: size.height * 0.018,
+                        ),
+                        child: Text(
+                            widget.restroomData["avg_star"]?.toStringAsFixed(1) ??
+                                "0.0",
+                            style: text_input(widget.restroomData["address"], context)),
+                      ),
+                      Container(
+                        height: size.height * 0.05,
+                        width: size.width * 0.35,
+                        padding: EdgeInsets.only(
+                          left: size.width * 0.01,
+                          top: size.height * 0.015,
+                          bottom: size.height * 0.01,
+                          right: size.width * 0.01,
+                        ),
+                        child: FlutterRating(
+                          rating:
+                              widget.restroomData["avg_star"]?.toDouble() ?? 0.0,
+                          size: size.height * 0.03,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                        ),
+                      ),
+                      // ),
+                      Container(
+                        height: size.height * 0.05,
+                        width: size.width * 0.15,
+                        padding: EdgeInsets.only(
+                          left: size.width * 0.01,
+                          top: size.height * 0.015,
+                        ),
+                        child: Text("[ ${widget.restroomData["count"] ?? 0} ]",
+                            style: text_input(widget.restroomData["address"], context)),
+                      ),
+                    ],
+                  ),
+                  Center(
+                    child: Padding(
                       padding: EdgeInsets.only(
                         left: size.width * 0.1,
                         top: size.height * 0.01,
-                      ),
-                      child: Text(
-                          widget.restroomData["avg_star"]?.toStringAsFixed(1) ??
-                              "0.0",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 17 * zoomFactor,
-                            fontWeight: FontWeight.w500,
-                          )),
-                    ),
-                    Container(
-                      height: size.height * 0.05,
-                      width: size.width * 0.35,
-                      padding: EdgeInsets.only(
-                        left: size.width * 0.01,
-                        top: size.height * 0.01,
                         bottom: size.height * 0.01,
-                        right: size.width * 0.01,
+                        right: size.width * 0.1,
                       ),
-                      child: FlutterRating(
-                        rating:
-                            widget.restroomData["avg_star"]?.toDouble() ?? 0.0,
-                        size: size.height * 0.03,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                      ),
-                    ),
-                    // ),
-                    Container(
-                      height: size.height * 0.05,
-                      width: size.width * 0.15,
-                      padding: EdgeInsets.only(
-                        left: size.width * 0.01,
-                        top: size.height * 0.01,
-                      ),
-                      child: Text("[ ${widget.restroomData["count"] ?? 0} ]",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 17 * zoomFactor,
-                            fontWeight: FontWeight.w500,
-                          )),
-                    ),
-                  ],
-                ),
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.1,
-                      top: size.height * 0.01,
-                      bottom: size.height * 0.01,
-                      right: size.width * 0.1,
-                    ),
-                    child: SizedBox(
-                                        height: size.height * 0.21,
-
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Image.network(
-                                         widget.restroomData["picture"] ??
-                              "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
-                                          fit: BoxFit.cover,
-                                          
+                      child: SizedBox(
+                                          height: size.height * 0.21,
+            
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(15),
+                                          child: Image.network(
+                                           widget.restroomData["picture"] ??
+                                "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
+                                            fit: BoxFit.cover,
+                                            
+                                          ),
                                         ),
                                       ),
-                                    ),
-                  ),
-                ),
-//                Container(
-//   height: size.height * 0.21,
-//   width: size.width * 0.8,
-//   padding: EdgeInsets.only(
-//     left: size.width * 0.1,
-//     top: size.height * 0.01,
-//     bottom: size.height * 0.01,
-//     right: size.width * 0.1,
-//   ),
-//   child: ClipRRect(
-//     borderRadius: BorderRadius.circular(15), // กำหนดขอบโค้งให้กับรูปภาพ
-//     child: Image.network(
-//       widget.restroomData["picture"] ??
-//           "https://i.pinimg.com/564x/97/15/0f/97150f3cc7e93677495133ffe6ea77c3.jpg",
-//       fit: BoxFit.cover,
-//     ),
-//   ),
-// ),
-//  Container(
-//                     height: size.height * 0.21,
-//                     width: size.width * 0.8,
-//                     padding: EdgeInsets.only(
-//                       left: size.width * 0.1,
-//                       top: size.height * 0.01,
-//                       bottom: size.height * 0.01,
-//                       right: size.width * 0.1,
-//                     ),
-//                     child: Image.network(widget.restroomData["picture"] ??
-//                         "https://i.pinimg.com/564x/97/15/0f/97150f3cc7e93677495133ffe6ea77c3.jpg")),
-                Container(
-                    height: size.height * 0.1,
-                    width: size.width * 0.8,
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.1,
-                      top: size.height * 0.01,
-                      bottom: size.height * 0.01,
-                      right: size.width * 0.1,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          height: size.height * 0.06,
-                          width: size.width * 0.25,
-                          decoration: BoxDecoration(
-                            color: const Color.fromRGBO(255, 183, 3, 1),
-                            borderRadius:
-                                BorderRadius.circular(20 * zoomFactor),
-                          ),
-                          child: ElevatedButton(
+                  ),
+            //                Container(
+            //   height: size.height * 0.21,
+            //   width: size.width * 0.8,
+            //   padding: EdgeInsets.only(
+            //     left: size.width * 0.1,
+            //     top: size.height * 0.01,
+            //     bottom: size.height * 0.01,
+            //     right: size.width * 0.1,
+            //   ),
+            //   child: ClipRRect(
+            //     borderRadius: BorderRadius.circular(15), // กำหนดขอบโค้งให้กับรูปภาพ
+            //     child: Image.network(
+            //       widget.restroomData["picture"] ??
+            //           "https://i.pinimg.com/564x/97/15/0f/97150f3cc7e93677495133ffe6ea77c3.jpg",
+            //       fit: BoxFit.cover,
+            //     ),
+            //   ),
+            // ),
+            //  Container(
+            //                     height: size.height * 0.21,
+            //                     width: size.width * 0.8,
+            //                     padding: EdgeInsets.only(
+            //                       left: size.width * 0.1,
+            //                       top: size.height * 0.01,
+            //                       bottom: size.height * 0.01,
+            //                       right: size.width * 0.1,
+            //                     ),
+            //                     child: Image.network(widget.restroomData["picture"] ??
+            //                         "https://i.pinimg.com/564x/97/15/0f/97150f3cc7e93677495133ffe6ea77c3.jpg")),
+                  Container(
+                      height: size.height * 0.1,
+                      width: size.width * 0.8,
+                      padding: EdgeInsets.only(
+                        left: size.width * 0.1,
+                        top: size.height * 0.01,
+                        bottom: size.height * 0.01,
+                        right: size.width * 0.1,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
                             onPressed: () async {
                               debugPrint("Navigate me");
                               String googleMapUrl =
@@ -230,6 +214,8 @@ class _CardpinState extends State<Cardpin> {
                               }
                             },
                             style: ButtonStyle(
+                              fixedSize: MaterialStateProperty.all<Size>(
+                                  Size(size.width * 0.25, size.height * 0.06)),
                               backgroundColor: MaterialStateProperty.all<Color>(
                                   const Color.fromRGBO(255, 183, 3, 1)),
                               shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -242,19 +228,10 @@ class _CardpinState extends State<Cardpin> {
                             child: Icon(
                               Icons.directions,
                               color: Colors.black,
-                              size: 30 * zoomFactor,
+                              size: 35 * zoomFactor,
                             ),
                           ),
-                        ),
-                        Container(
-                          height: size.height * 0.06,
-                          width: size.width * 0.25,
-                          decoration: BoxDecoration(
-                            color: const Color.fromRGBO(255, 183, 3, 1),
-                            borderRadius:
-                                BorderRadius.circular(20 * zoomFactor),
-                          ),
-                          child: ElevatedButton(
+                          ElevatedButton(
                             onPressed: () {
                               Navigator.pushNamed(
                                       context, restroomPageRoute["review"]!,
@@ -276,13 +253,13 @@ class _CardpinState extends State<Cardpin> {
                             child: Icon(
                               Icons.reviews,
                               color: Colors.black,
-                              size: 30 * zoomFactor,
+                              size: 35 * zoomFactor,
                             ),
                           ),
-                        ),
-                      ],
-                    )),
-              ],
+                        ],
+                      )),
+                ],
+              ),
             ),
           );
         }));

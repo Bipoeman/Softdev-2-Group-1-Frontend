@@ -5,6 +5,7 @@ import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ruam_mitt/Restroom/Component/font.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
@@ -142,8 +143,7 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(profileData["username"],
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                              style: name_place(profileData["username"], context)),
                         ],
                       ),
                     ],
@@ -183,11 +183,12 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                         alignment: Alignment.centerRight,
                         children: [
                           TextField(
+                            style: text_input(_reviewTextController.text, context),
                             maxLength: 150,
                             maxLines: 4,
                             controller: _reviewTextController,
                             decoration: const InputDecoration(
-                              counterText: "",
+                              // counterText: "",
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.only(
                                   left: 16, right: 16, bottom: 5),
@@ -197,17 +198,17 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
                           ),
-                          Positioned(
-                            top: 1,
-                            right: 16.0,
-                            child: Text(
-                              '$remainingCharacters/150',
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          ),
+                          // Positioned(
+                          //   top: 1,
+                          //   right: 16.0,
+                          //   child: Text(
+                          //     '$remainingCharacters/150',
+                          //     style: const TextStyle(
+                          //       color: Colors.grey,
+                          //       fontSize: 12.0,
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

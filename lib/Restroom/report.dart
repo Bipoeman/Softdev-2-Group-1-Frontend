@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ruam_mitt/Restroom/Component/font.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
@@ -140,18 +141,22 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                 color: const Color(0xFFEAEAEA),
                                 borderRadius: 30,
                                 depth: -20,
-                                child: TextField(
-                                  maxLength: 17,
-                                  controller: _topicTextController,
-                                  onChanged: (text) {
-                                    debugPrint('Typed text: $text');
-                                  },
-                                  decoration: const InputDecoration(
-                                    counterText: "",
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 16.0, vertical: 6.5),
-                                    hintText: 'Write a topic...',
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 5, ),
+                                  child: TextField(
+                                    style: text_input(_topicTextController.text,context),
+                                    maxLength: 20,
+                                    controller: _topicTextController,
+                                    onChanged: (text) {
+                                      debugPrint('Typed text: $text');
+                                    },
+                                    decoration: const InputDecoration(
+                                      counterText: "",
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 16.0, vertical: 6.5),
+                                      hintText: 'Write a topic...',
+                                    ),
                                   ),
                                 ),
                               ),
@@ -180,7 +185,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                               margin: EdgeInsets.only(top: size.height * 0.02),
                               child: ClayContainer(
                                 width: size.width * 0.78,
-                                height: size.height * 0.3,
+                                height: size.height * 0.25,
                                 color: const Color(0xFFEAEAEA),
                                 borderRadius: 30,
                                 depth: -20,
@@ -188,6 +193,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                   alignment: Alignment.centerRight,
                                   children: [
                                     TextField(
+                                      style: text_input(_descriptionTextController.text, context),
                                       maxLength: 200,
                                       maxLines: 9,
                                       controller: _descriptionTextController,
@@ -198,7 +204,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                         // counterText: "",
                                         border: InputBorder.none,
                                         contentPadding: EdgeInsets.only(
-                                            left: 16, right: 16, top: 15),
+                                            left: 16, right: 16, bottom: 10,top: 15),
                                         hintText: 'Write a report...',
                                       ),
                                     ),

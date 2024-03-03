@@ -4,6 +4,7 @@ import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import "package:image_picker/image_picker.dart";
 import 'package:clay_containers/widgets/clay_container.dart';
+import "package:ruam_mitt/Restroom/Component/font.dart";
 import "package:ruam_mitt/Restroom/Component/navbar.dart";
 import "package:ruam_mitt/Restroom/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
@@ -210,7 +211,7 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                                 right: size.width * 0.1),
                             child: ClayContainer(
                               width: size.width * 0.82,
-                              height: size.height * 0.3,
+                              height: size.height * 0.25,
                               color: Color(0xFFEAEAEA),
                               borderRadius: 30,
                               depth: -20,
@@ -218,6 +219,7 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                                 alignment: Alignment.centerRight,
                                 children: [
                                   TextField(
+                                    style: text_input(_reportTextController.text, context),
                                     maxLength: 200,
                                     maxLines: 9,
                                     controller: _reportTextController,
@@ -228,7 +230,7 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                                       // counterText: "",
                                       border: InputBorder.none,
                                       contentPadding: EdgeInsets.only(
-                                          left: 16, right: 16, top: 15),
+                                          left: 16, right: 16, bottom: 10,top: 15),
                                       hintText: 'Write a report...',
                                     ),
                                   ),

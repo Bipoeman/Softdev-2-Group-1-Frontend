@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import "package:latlong2/latlong.dart";
 import "package:ruam_mitt/Restroom/Component/Navbar.dart";
+import "package:ruam_mitt/Restroom/Component/font.dart";
 import "package:ruam_mitt/Restroom/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:google_fonts/google_fonts.dart';
@@ -149,47 +150,52 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                   ),
                                   child: Stack(
                                     children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Name: ${data["name"]}',
-                                            overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.getFont(
-                                              'Sen',
-                                              color: const Color.fromARGB(
-                                                  67, 0, 30, 49),
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w400,
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.baseline,
+                                            textBaseline:
+                                                TextBaseline.alphabetic,
+                                                
+                                                children: [
+                                                  Text(
+                                                    'Name: ',
+                                                    style: myrestroom(data["type"], context)
+                                                  ),
+                                                  Text(
+                                                    '${data["name"]}',
+                                                    style: myrestroom(data["name"], context)
+                                                  ),
+                                                ]),
+                                            SizedBox(
+                                              height: size.height * 0.01,
                                             ),
-                                          ),
-                                          Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'Type: ',
-                                                  style: GoogleFonts.getFont(
-                                                    'Sen',
-                                                    color: const Color.fromARGB(
-                                                        67, 0, 30, 49),
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w400,
+                                            Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.baseline,
+                                            textBaseline:
+                                                TextBaseline.alphabetic,
+                                                children: [
+                                                  Text(
+                                                    'Type: ',
+                                                    style: myrestroom(data["type"], context)
                                                   ),
-                                                ),
-                                                Text(
-                                                  '${data["type"]}',
-                                                  style: GoogleFonts.getFont(
-                                                    'Sen',
-                                                    color: const Color.fromARGB(
-                                                        67, 0, 30, 49),
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w400,
+                                                  Text(
+                                                    '${data["type"]}',
+                                                    style: myrestroom(data["type"], context)
                                                   ),
-                                                ),
-                                              ]),
-                                        ],
+                                                ]),
+                                          ],
+                                        ),
                                       ),
                                       Container(
                                         padding: EdgeInsets.only(

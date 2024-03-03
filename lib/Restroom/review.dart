@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/Restroom/Component/font.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/Restroom/Component/write_review.dart';
@@ -137,11 +138,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                   ),
                                   child: Text(
                                     widget.restroomData["name"],
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                    style: name_place(widget.restroomData["name"] ,context)
                                   ),
                                 ),
                                 Container(
@@ -152,11 +149,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                   ),
                                   child: Text(
                                     widget.restroomData["address"],
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w100,
-                                    ),
+                                    style: text_input(widget.restroomData["address"], context)
                                   ),
                                 ),
                                 SizedBox(
@@ -191,18 +184,15 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                       width: size.width * 0.2,
                                       padding: EdgeInsets.only(
                                         left: size.width * 0.07,
-                                        top: size.height * 0.027,
+                                        top: size.height * 0.035,
                                         bottom: size.height * 0.01,
                                       ),
                                       child: Text(
                                         widget.restroomData["avg_star"]
                                                 ?.toStringAsFixed(1) ??
                                             "0.0",
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                        style: name_place(widget.restroomData["avg_star"]
+                                                ?.toStringAsFixed(1), context),
                                       ),
                                     ),
                                   ],

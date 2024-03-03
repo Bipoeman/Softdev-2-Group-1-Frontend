@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
+import 'package:ruam_mitt/Restroom/Component/font.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 
 class Cardcomment extends StatefulWidget {
@@ -58,7 +59,7 @@ class _CardcommentState extends State<Cardcomment> {
                             children: [
                               Text(
                                 widget.cardData["user_info"]["username"],
-                                style: Theme.of(context).textTheme.displaySmall,
+                                style: name_place(widget.cardData["user_info"]["username"],context),
                               ),
                               FlutterRating(
                                 rating: widget.cardData["star"].toDouble(),
@@ -113,7 +114,7 @@ class _CardcommentState extends State<Cardcomment> {
                                   : widget.cardData["comment"])
                               : "",
                           textAlign: TextAlign.start,
-                          style: Theme.of(context).textTheme.displayMedium,
+                          style: text_input(widget.cardData["comment"], context),
                         ),
                       ),
                     ],
