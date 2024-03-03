@@ -32,7 +32,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
   final FocusNode firstFocusNode = FocusNode();
   final FocusNode anotherFocusNode = FocusNode();
   late AnimationController animationController;
-  bool status = true;
+  bool status = false;
   late int id_post;
   late Uri detailurl;
   late Uri editurl;
@@ -167,7 +167,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
     Map<String, Color> customColors = theme.customColors;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"],
       body: SafeArea(
         child: isLoading
             ? Center(
@@ -176,6 +176,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                 ),
               )
             : SlidingBox(
+                color: customColors["background"]!,
                 controller: boxController,
                 physics: const NeverScrollableScrollPhysics(),
                 collapsed: true,
@@ -246,25 +247,65 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                         ),
                         margin: const EdgeInsets.only(bottom: 10),
                         child: IntrinsicHeight(
-                          child: ClipRRect(
-                            child: isLoading
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: customColors["main"]!,
-                                    ),
-                                  )
-                                : (_image.path.split('/').last)
-                                            .split('_')
-                                            .first ==
-                                        "dekhorblog"
-                                    ? Image.network(
-                                        detailpost[0]['image_link'],
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.file(
-                                        _image,
-                                        fit: BoxFit.cover,
+                          child: InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Stack(
+                                    children: [
+                                      Center(
+                                        child: SizedBox(
+                                          width: size.width,
+                                          height: size.height,
+                                          child: InteractiveViewer(
+                                            maxScale: 10,
+                                            child: (_image.path.split('/').last)
+                                                        .split('_')
+                                                        .first ==
+                                                    "dekhorblog"
+                                                ? Image.network(
+                                                    detailpost[0]['image_link'],
+                                                  )
+                                                : Image.file(
+                                                    _image,
+                                                  ),
+                                          ),
+                                        ),
                                       ),
+                                      Positioned(
+                                        bottom: 30,
+                                        right: 30,
+                                        child: CircleAvatar(
+                                          backgroundColor:
+                                              customColors["icon2"]!,
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.close,
+                                              color: customColors["container"]!,
+                                            ),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: (_image.path.split('/').last)
+                                        .split('_')
+                                        .first ==
+                                    "dekhorblog"
+                                ? Image.network(
+                                    detailpost[0]['image_link'],
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.file(
+                                    _image,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                         ),
                       ),
@@ -424,9 +465,9 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                     margin: const EdgeInsets.only(
                                         left: 20, right: 10),
                                     child: RawMaterialButton(
-                                      onPressed: () {
-                                        editblog();
-                                        updatepicture(_image);
+                                      onPressed: () async {
+                                        await editblog();
+                                        await updatepicture(_image);
                                         print("Post tapped");
                                         showDialog(
                                             context: context,
@@ -505,7 +546,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                             Padding(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.02,
-                                left: size.width * 0.12,
+                                left: size.width * 0.08,
                               ),
                               child: Row(
                                 children: [
@@ -518,19 +559,14 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                   ),
                                   Container(
                                     margin: const EdgeInsets.only(left: 20),
-                                    height: 30,
-                                    width: size.width * 0.55,
+                                    width: size.width * 0.6,
                                     child: TextFormField(
                                       textInputAction: TextInputAction.next,
                                       focusNode: firstFocusNode,
                                       controller: markdownTitleController,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                      ),
                                       keyboardType: TextInputType.text,
                                       cursorColor: customColors["textInput"]!
                                           .withOpacity(0.5),
-                                      cursorHeight: 18,
                                       onChanged: (value) {
                                         setState(() {
                                           markdownTitleText = value;
@@ -543,7 +579,6 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                         labelText: "Write a title",
                                         labelStyle: TextStyle(
                                           color: customColors["label"]!,
-                                          fontSize: 14,
                                         ),
                                         border: OutlineInputBorder(
                                           borderRadius:
@@ -568,6 +603,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                     icon: Icon(
                                       Icons.preview,
                                       color: customColors["main"]!,
+                                      size: 30,
                                     ),
                                   ),
                                 ],
@@ -576,21 +612,17 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                             Container(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.02,
-                                left: size.width * 0.2,
+                                left: size.width * 0.16,
                               ),
                               width: size.width * 0.85,
                               child: TextFormField(
                                 focusNode: anotherFocusNode,
                                 controller: markdownContentController,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                ),
                                 keyboardType: TextInputType.multiline,
                                 cursorColor:
                                     customColors["textInput"]!.withOpacity(0.5),
-                                cursorHeight: 16,
-                                minLines: 8,
-                                maxLines: 8,
+                                minLines: 5,
+                                maxLines: 5,
                                 onChanged: (value) {
                                   setState(() {
                                     markdownContentText = value;
@@ -604,7 +636,6 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                   labelText: "Write a blog",
                                   labelStyle: TextStyle(
                                     color: customColors["label"]!,
-                                    fontSize: 12,
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20),
@@ -705,30 +736,32 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                   borderRadius: BorderRadius.circular(5),
                                   color: customColors["container"]!,
                                 ),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        _getImage();
-                                        print("Add image tapped");
-                                      },
-                                      child: Icon(
-                                        Icons.image,
-                                        color: customColors["main"]!,
-                                        size: 24,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    _getImage();
+                                    print("Add image tapped");
+                                  },
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        child: Icon(
+                                          Icons.image,
+                                          color: customColors["main"]!,
+                                          size: 24,
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 5),
-                                      constraints: BoxConstraints(
-                                        maxWidth: size.width * 0.525,
+                                      Container(
+                                        margin: const EdgeInsets.only(left: 5),
+                                        constraints: BoxConstraints(
+                                          maxWidth: size.width * 0.51,
+                                        ),
+                                        child: Text(
+                                          _image.path.split('/').last,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
-                                      child: Text(
-                                        _image.path.split('/').last,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],

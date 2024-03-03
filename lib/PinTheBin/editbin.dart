@@ -58,19 +58,15 @@ class _EditbinPageState extends State<EditbinPage> {
 
   void _presstosend() async {
     final url = Uri.parse("$api$pinTheBineditbinRoute");
-    print("1");
     http.Response res = await http.put(url, headers: {
       "Authorization": "Bearer $publicToken"
     }, body: {
       "location": _LocationstextController.text,
       "description": _DescriptiontextController.text,
       "bintype": jsonEncode(_bintype),
-      //"id": widget.binData['Bininfo']['id']
-      "latitude": _latitude,
-      "longitude": _longitude,
+      "id": "${widget.binData['Bininfo']['id']}"
     });
     print(res.body);
-    print("2");
   }
 
   @override
@@ -161,11 +157,11 @@ class _EditbinPageState extends State<EditbinPage> {
                 key: _scaffoldKey,
                 appBar: AppBar(
                   leading: GestureDetector(
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.menu_rounded),
-                        SizedBox(height: 15)
+                        SizedBox(height: size.height * 0.015),
                       ],
                     ),
                     onTap: () => _scaffoldKey.currentState?.openDrawer(),
@@ -192,8 +188,8 @@ class _EditbinPageState extends State<EditbinPage> {
                         "EDIT",
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
-                      const SizedBox(
-                        height: 15,
+                      SizedBox(
+                        height: size.height * 0.015,
                       )
                     ],
                   ),
@@ -308,11 +304,13 @@ class _EditbinPageState extends State<EditbinPage> {
                                     //fit: BoxFit.fill,
                                   ),
                                 )
+                              // : Container()
                               : ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: Image.network(
-                                    fit: BoxFit.contain,
+                                    // fit: BoxFit.contain,
                                     widget.binData['Bininfo']['picture'],
+                                    fit: BoxFit.contain,
                                   ),
                                 ),
                         ),
@@ -343,27 +341,25 @@ class _EditbinPageState extends State<EditbinPage> {
                             height: size.height * 0.15,
                             color: Color.fromRGBO(239, 239, 239, 1),
                             borderRadius: 30,
-                            depth: -20,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 13, top: 3, right: 13, bottom: 3),
-                              child: TextField(
-                                maxLength: 80,
-                                maxLines: 3,
-                                controller: _DescriptiontextController,
-                                onChanged: (text) {
-                                  print('Typed text: $text');
-                                  int remainningCharacters = 80 -
-                                      _DescriptiontextController.text.length;
-                                  print(
-                                      'Remaining characters: $remainningCharacters');
-                                },
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                ),
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
+                            depth: -15,
+                            child: TextField(
+                              maxLength: 150,
+                              maxLines: 5,
+                              controller: _DescriptiontextController,
+                              onChanged: (text) {
+                                print('Typed text: $text');
+                                int remainningCharacters = 150 -
+                                    _DescriptiontextController.text.length;
+                                print(
+                                    'Remaining characters: $remainningCharacters');
+                              },
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.only(
+                                    top: 13, left: 15, right: 15),
+                              ),
+                              style: const TextStyle(
+                                color: Colors.black,
                               ),
                             ),
                           ),
@@ -476,7 +472,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                     child: Align(
                                       alignment: Alignment.center,
                                       child: Image.asset(
-                                        "assets/images/PinTheBin/recycling-symbol-2.png",
+                                        "assets/images/PinTheBin/recycling.png",
                                         width: size.width * 0.1,
                                         height: size.height * 0.1,
                                       ),
@@ -628,9 +624,10 @@ class _EditbinPageState extends State<EditbinPage> {
                                 top: size.height * 0.76),
                             child: GestureDetector(
                               child: Container(
-                                padding: EdgeInsets.only(
-                                    left: size.width * 0.025,
-                                    top: size.height * 0.009),
+                                alignment: Alignment.center,
+                                // padding: EdgeInsets.only(
+                                //     left: size.width * 0.025,
+                                //     top: size.height * 0.009),
                                 width: size.width * 0.25,
                                 height: size.height * 0.055,
                                 decoration: BoxDecoration(
@@ -650,7 +647,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                     "Sen",
                                     color: const Color.fromARGB(
                                         255, 255, 255, 255),
-                                    fontSize: 20,
+                                    fontSize: 17,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -667,9 +664,10 @@ class _EditbinPageState extends State<EditbinPage> {
                                 top: size.height * 0.76),
                             child: GestureDetector(
                               child: Container(
-                                padding: EdgeInsets.only(
-                                    left: size.width * 0.018,
-                                    top: size.height * 0.008),
+                                alignment: Alignment.center,
+                                // padding: EdgeInsets.only(
+                                //     left: size.width * 0.018,
+                                //     top: size.height * 0.008),
                                 width: size.width * 0.25,
                                 height: size.height * 0.055,
                                 decoration: BoxDecoration(
@@ -689,7 +687,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                     "Sen",
                                     color: const Color.fromARGB(
                                         255, 255, 255, 255),
-                                    fontSize: 20,
+                                    fontSize: 17,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),

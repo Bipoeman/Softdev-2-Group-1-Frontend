@@ -34,7 +34,7 @@ class _TuachuayDekhorWriteBlogPageState
   final FocusNode firstFocusNode = FocusNode();
   final FocusNode anotherFocusNode = FocusNode();
   late AnimationController animationController;
-  bool status = true;
+  bool status = false;
   final writeblogurl = Uri.parse("$api$dekhorWriteBlogRoute");
   var post = [];
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
@@ -160,6 +160,7 @@ class _TuachuayDekhorWriteBlogPageState
       backgroundColor: customColors["background"],
       body: SafeArea(
         child: SlidingBox(
+          color: customColors["background"]!,
           controller: boxController,
           physics: const NeverScrollableScrollPhysics(),
           collapsed: true,
@@ -228,11 +229,53 @@ class _TuachuayDekhorWriteBlogPageState
                   ),
                   margin: const EdgeInsets.only(bottom: 10),
                   child: IntrinsicHeight(
-                    child: ClipRRect(
-                      child: _image == null
-                          ? const Text('No image selected.')
-                          : Image.file(_image!, fit: BoxFit.cover),
-                    ),
+                    child: _image == null
+                        ? const Text('No image selected.')
+                        : InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Stack(
+                                    children: [
+                                      Center(
+                                        child: SizedBox(
+                                          width: size.width,
+                                          height: size.height,
+                                          child: InteractiveViewer(
+                                            maxScale: 10,
+                                            child: Image.file(
+                                              _image!,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 30,
+                                        right: 30,
+                                        child: CircleAvatar(
+                                          backgroundColor:
+                                              customColors["icon2"]!,
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.close,
+                                              color: customColors["container"]!,
+                                            ),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Image.file(
+                              _image!,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                   ),
                 ),
                 Align(
@@ -386,10 +429,6 @@ class _TuachuayDekhorWriteBlogPageState
                                             draft(_image);
                                             Navigator.pop(context);
                                             Navigator.pop(context);
-                                            Navigator.pushNamed(
-                                                context,
-                                                tuachuayDekhorPageRoute[
-                                                    "draft"]!);
                                             print("Draft saved");
                                           },
                                           child: const Text(
@@ -437,7 +476,7 @@ class _TuachuayDekhorWriteBlogPageState
                               margin:
                                   const EdgeInsets.only(left: 20, right: 10),
                               child: RawMaterialButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   if (markdownTitleController.text.isEmpty ||
                                       markdownContentController.text.isEmpty ||
                                       _dropdownValue == null ||
@@ -450,7 +489,7 @@ class _TuachuayDekhorWriteBlogPageState
                                       ),
                                     );
                                   } else {
-                                    writeblog(_image);
+                                    await writeblog(_image);
                                     print("Post tapped");
                                     showDialog(
                                         context: context,
@@ -526,7 +565,7 @@ class _TuachuayDekhorWriteBlogPageState
                       Padding(
                         padding: EdgeInsets.only(
                           top: size.height * 0.02,
-                          left: size.width * 0.12,
+                          left: size.width * 0.08,
                         ),
                         child: Row(
                           children: [
@@ -539,26 +578,20 @@ class _TuachuayDekhorWriteBlogPageState
                             ),
                             Container(
                               margin: const EdgeInsets.only(left: 20),
-                              height: 30,
-                              width: size.width * 0.55,
+                              width: size.width * 0.6,
                               child: TextFormField(
                                 textInputAction: TextInputAction.next,
                                 focusNode: firstFocusNode,
                                 controller: markdownTitleController,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
                                 keyboardType: TextInputType.text,
                                 cursorColor:
                                     customColors["textInput"]!.withOpacity(0.5),
-                                cursorHeight: 18,
                                 decoration: InputDecoration(
                                   fillColor: customColors["textInputContainer"],
                                   filled: true,
                                   labelText: "Write a title",
                                   labelStyle: TextStyle(
                                     color: customColors["label"],
-                                    fontSize: 14,
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(40),
@@ -581,6 +614,7 @@ class _TuachuayDekhorWriteBlogPageState
                               icon: Icon(
                                 Icons.preview,
                                 color: customColors["main"]!,
+                                size: 30,
                               ),
                             ),
                           ],
@@ -589,22 +623,20 @@ class _TuachuayDekhorWriteBlogPageState
                       Container(
                         padding: EdgeInsets.only(
                           top: size.height * 0.02,
-                          left: size.width * 0.2,
+                          left: size.width * 0.16,
                         ),
                         width: size.width * 0.85,
                         child: TextFormField(
                           focusNode: anotherFocusNode,
                           controller: markdownContentController,
                           style: TextStyle(
-                            fontSize: 12,
                             color: customColors["textInput"],
                           ),
                           keyboardType: TextInputType.multiline,
                           cursorColor:
                               customColors["textInput"]!.withOpacity(0.5),
-                          cursorHeight: 16,
-                          minLines: 8,
-                          maxLines: 8,
+                          minLines: 5,
+                          maxLines: 5,
                           decoration: InputDecoration(
                             alignLabelWithHint: true,
                             fillColor: customColors["textInputContainer"],
@@ -612,7 +644,6 @@ class _TuachuayDekhorWriteBlogPageState
                             labelText: "Write a blog",
                             labelStyle: TextStyle(
                               color: customColors["label"],
-                              fontSize: 12,
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
