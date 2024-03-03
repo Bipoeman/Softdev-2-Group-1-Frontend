@@ -540,22 +540,22 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                           height: size.height * 0.15,
                           color: const Color.fromRGBO(239, 239, 239, 1),
                           borderRadius: 30,
-                          depth: -20,
+                          depth: -15,
                           child: TextField(
-                            maxLength: 80,
-                            maxLines: 3,
+                            maxLength: 150,
+                            maxLines: 5,
                             controller: _DescriptiontextController,
                             onChanged: (text) {
-                              print('Typed text: $text');
+                              print('Typed text: $text, ${text.length}');
                               int remainningCharacters =
-                                  80 - _DescriptiontextController.text.length;
+                                  150 - _DescriptiontextController.text.length;
                               print(
                                   'Remaining characters: $remainningCharacters');
                             },
                             decoration: const InputDecoration(
                               border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 13, horizontal: 15),
+                              contentPadding:
+                                  EdgeInsets.only(top: 13, left: 15, right: 15),
                             ),
                             style: const TextStyle(
                               color: Colors.black,
