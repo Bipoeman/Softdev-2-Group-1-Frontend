@@ -157,42 +157,41 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.baseline,
-                                            textBaseline:
-                                                TextBaseline.alphabetic,
-                                                
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.baseline,
+                                                textBaseline:
+                                                    TextBaseline.alphabetic,
                                                 children: [
-                                                  Text(
-                                                    'Name: ',
-                                                    style: myrestroom(data["type"], context)
-                                                  ),
-                                                  Text(
-                                                    '${data["name"]}',
-                                                    style: myrestroom(data["name"], context)
-                                                  ),
+                                                  Text('Name: ',
+                                                      style: myrestroom(
+                                                          data["type"],
+                                                          context)),
+                                                  Text('${data["name"]}',
+                                                      style: myrestroom(
+                                                          data["name"],
+                                                          context)),
                                                 ]),
                                             SizedBox(
                                               height: size.height * 0.01,
                                             ),
                                             Row(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.baseline,
-                                            textBaseline:
-                                                TextBaseline.alphabetic,
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.baseline,
+                                                textBaseline:
+                                                    TextBaseline.alphabetic,
                                                 children: [
-                                                  Text(
-                                                    'Type: ',
-                                                    style: myrestroom(data["type"], context)
-                                                  ),
-                                                  Text(
-                                                    '${data["type"]}',
-                                                    style: myrestroom(data["type"], context)
-                                                  ),
+                                                  Text('Type: ',
+                                                      style: myrestroom(
+                                                          data["type"],
+                                                          context)),
+                                                  Text('${data["type"]}',
+                                                      style: myrestroom(
+                                                          data["type"],
+                                                          context)),
                                                 ]),
                                           ],
                                         ),
@@ -347,31 +346,27 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                         ),
                                       ),
                                       Container(
-                                         width: null,
-                                                  height: size.height * 0.4,
-                                          padding: EdgeInsets.only(
-                                              top: size.height * 0.1,
-                                              left: size.width * 0.4),
-                                          child: data["picture"] == null
-                                              ? 
-                                              Padding(
-                                                padding: const EdgeInsets.only(left: 30.0),
+                                        width: null,
+                                        height: size.height * 0.4,
+                                        padding: EdgeInsets.only(
+                                            top: size.height * 0.1,
+                                            left: size.width * 0.4),
+                                        child: data["picture"] == null
+                                            ? Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 30.0),
                                                 child: Image.network(
-                                                                                         
-                                                                              "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702"),
+                                                    "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702"),
                                               )
-                                              : Expanded(
-                                              child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(10.0),
+                                            : ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
                                                 child: Image.network(
                                                   data["picture"],
-                                                  
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
-                                            )
-                                     
-                                          )
+                                      )
                                     ],
                                   ));
                             }).toList(),

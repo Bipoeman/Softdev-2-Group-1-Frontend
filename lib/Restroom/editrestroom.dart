@@ -2,7 +2,6 @@ import 'dart:convert';
 import "dart:io";
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import "package:image_picker/image_picker.dart";
 import 'package:http/http.dart' as http;
@@ -30,6 +29,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   File? _image;
   String _type = restroomTypes.first;
   int remainingCharacters = 0;
+  int nameTextLength = 0;
   final Map<String, bool> _forwho = {
     'Kid': false,
     'Handicapped': false,
@@ -110,6 +110,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
     });
   }
 
+  @override
   void dispose() {
     _addressTextController.removeListener(updateRemainingCharacters);
     _addressTextController.dispose();
@@ -183,15 +184,20 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                 borderRadius: 30,
                                 depth: -20,
                                 child: TextField(
-                                  style: text_input(_nameTextController.text, context),
+                                  style: text_input(
+                                      _nameTextController.text, context),
                                   maxLength: 20,
                                   controller: _nameTextController,
                                   onChanged: (text) {
+                                    setState(() {
+                                      nameTextLength = text.length;
+                                    });
                                     debugPrint('Typed text: $text');
                                   },
                                   decoration: InputDecoration(
                                     counterText: "",
-                                    contentPadding: EdgeInsets.only(
+                                    suffixText: "$nameTextLength/20",
+                                    contentPadding: const EdgeInsets.only(
                                         left: 10, right: 10, bottom: 14.5),
                                     border: InputBorder.none,
                                   ),
@@ -214,7 +220,6 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                 width: size.width * 0.05,
                               ),
                               Container(
-                                padding: EdgeInsets.only(left: 10),
                                 alignment: Alignment.topRight,
                                 child: ClayContainer(
                                     width: size.width * 0.6,
@@ -232,7 +237,11 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                           items: restroomTypes
                                               .map((type) => DropdownMenuItem(
                                                   value: type,
-                                                  child: Text(type, style: text_input(type, context),)))
+                                                  child: Text(
+                                                    type,
+                                                    style: text_input(
+                                                        type, context),
+                                                  )))
                                               .toList(),
                                           value: _type,
                                           onChanged: (value) {
@@ -252,7 +261,6 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                               alignment: Alignment.bottomCenter,
                               children: [
                                 SizedBox(
-                                    width: size.width * 0.7,
                                     height: size.height * 0.15,
                                     child: _image == null
                                         ? widget.restroomData['picture'] == null
@@ -331,7 +339,8 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                     depth: -20,
                                     child: Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 10, ),
+                                        left: 10,
+                                      ),
                                       //               child : Stack(
                                       //   alignment: Alignment.centerRight,
                                       //   children: [
@@ -367,23 +376,27 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                           alignment: Alignment.centerRight,
                                           children: [
                                             TextField(
-                                              maxLength: 80,
-                                              maxLines: null,
-                                              controller:
-                                                  _addressTextController,
-                                              onChanged: (text) {
-                                                debugPrint('Typed text: $text');
-                                                int remainningCharacters = 80 -
-                                                    _addressTextController
-                                                        .text.length;
-                                                debugPrint(
-                                                    'Remaining characters: $remainningCharacters');
-                                              },
-                                              decoration: const InputDecoration(
-                                                border: InputBorder.none,
-                                              ),
-                                              style: text_input(_addressTextController.text, context)
-                                            ),
+                                                maxLength: 80,
+                                                maxLines: null,
+                                                controller:
+                                                    _addressTextController,
+                                                onChanged: (text) {
+                                                  debugPrint(
+                                                      'Typed text: $text');
+                                                  int remainningCharacters =
+                                                      80 -
+                                                          _addressTextController
+                                                              .text.length;
+                                                  debugPrint(
+                                                      'Remaining characters: $remainningCharacters');
+                                                },
+                                                decoration:
+                                                    const InputDecoration(
+                                                  border: InputBorder.none,
+                                                ),
+                                                style: text_input(
+                                                    _addressTextController.text,
+                                                    context)),
                                             //              Positioned(
                                             //   top: 1,
                                             //   right: 16.0,
@@ -407,8 +420,8 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(
-                                      left: size.width * 0.04),
+                                  padding:
+                                      EdgeInsets.only(left: size.width * 0.04),
                                   child: Column(
                                     children: [
                                       GestureDetector(
@@ -467,8 +480,8 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                   width: size.width * 0.03,
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(
-                                      left: size.width * 0.1),
+                                  padding:
+                                      EdgeInsets.only(left: size.width * 0.1),
                                   child: Column(
                                     children: [
                                       GestureDetector(
@@ -477,8 +490,8 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                             _forwho['Handicapped'] =
                                                 !_forwho['Handicapped']!;
                                           });
-                                          debugPrint(
-                                              _forwho['Handicapped'].toString());
+                                          debugPrint(_forwho['Handicapped']
+                                              .toString());
                                         },
                                         child: Container(
                                           width: size.width * 0.2,
@@ -545,8 +558,8 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                       surfaceTintColor: Colors.white,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(40),
-                                        side:
-                                            const BorderSide(color: Colors.grey),
+                                        side: const BorderSide(
+                                            color: Colors.grey),
                                       ),
                                     ),
                                     child: Text(
@@ -583,19 +596,20 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                                     width: size.width * 0.2,
                                                     height: size.height * 0.05,
                                                     decoration: BoxDecoration(
-                                                        color:
-                                                            const Color.fromARGB(
-                                                                0, 244, 67, 54),
+                                                        color: const Color
+                                                            .fromARGB(
+                                                            0, 244, 67, 54),
                                                         borderRadius:
-                                                            BorderRadius.circular(
-                                                                30)),
+                                                            BorderRadius
+                                                                .circular(30)),
                                                     child: const Center(
                                                         child: Text('Cancel')),
                                                   ),
                                                 ),
                                                 MaterialButton(
                                                   onPressed: () {
-                                                    _updateData().then((_) async {
+                                                    _updateData().then(
+                                                        (_) async {
                                                       Navigator
                                                           .pushReplacementNamed(
                                                               context,
@@ -606,19 +620,30 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                                       debugPrintStack(
                                                           label:
                                                               "Error updating data",
-                                                          stackTrace: stackTrace);
+                                                          stackTrace:
+                                                              stackTrace);
                                                       Navigator.pop(context);
                                                       ScaffoldMessenger.of(
                                                               context)
                                                           .showSnackBar(
-                                                              const SnackBar(
-                                                                  content: Text(
-                                                                      "Failed to update data.")));
+                                                        SnackBar(
+                                                          content: Text(
+                                                            "Failed to update data.",
+                                                            style: TextStyle(
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .onPrimary,
+                                                            ),
+                                                          ),
+                                                          backgroundColor: theme
+                                                              .colorScheme
+                                                              .primary,
+                                                        ),
+                                                      );
                                                     });
                                                   },
                                                   child: const Text('Confirm'),
                                                 ),
-                                                
                                               ],
                                             );
                                           });
@@ -629,8 +654,8 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                       surfaceTintColor: Colors.white,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(40),
-                                        side:
-                                            const BorderSide(color: Colors.grey),
+                                        side: const BorderSide(
+                                            color: Colors.grey),
                                       ),
                                     ),
                                     child: Text(
