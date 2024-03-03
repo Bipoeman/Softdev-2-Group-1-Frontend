@@ -53,15 +53,13 @@ class _SettingsState extends State<Settings> {
             ),
           ),
           Align(
-            alignment: Alignment.bottomCenter,
+            alignment: Alignment.center,
             child: Padding(
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.height * 0.01,
-              ),
+              padding: const EdgeInsets.only(top: 0.2),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.036),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.3),
                   _buildSlider(
                     value: masterVolume,
                     onChanged: (value) {
@@ -73,7 +71,7 @@ class _SettingsState extends State<Settings> {
                       }
                     },
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.069),
                   _buildSlider(
                     value: bgmVolume,
                     onChanged: (value) {
@@ -85,7 +83,7 @@ class _SettingsState extends State<Settings> {
                       }
                     },
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.0323),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.062),
                   _buildSlider(
                     value: sfxVolume,
                     onChanged: (value) {
@@ -97,17 +95,21 @@ class _SettingsState extends State<Settings> {
                       }
                     },
                   ),
-                  IconButton(
-                    onPressed: widget.onBackPressed,
-                    icon: Image.asset(
-                      "assets/images/DinoDengzz Icon/White Back Button.png",
-                    ),
-                    iconSize: MediaQuery.of(context).size.width * 0.00001,
-                    padding: EdgeInsets.all(
-                        MediaQuery.of(context).size.width * 0.00001),
-                  ),
                 ],
               ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            heightFactor: 5.2,
+            child: IconButton(
+              onPressed: widget.onBackPressed,
+              icon: Image.asset(
+                "assets/images/DinoDengzz Icon/White Back Button.png",
+              ),
+              iconSize: MediaQuery.of(context).size.width * 0.00001,
+              padding:
+                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.00001),
             ),
           ),
         ],
