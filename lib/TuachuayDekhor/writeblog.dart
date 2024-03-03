@@ -1,6 +1,11 @@
+import 'dart:io';
 import 'dart:math';
+import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -19,7 +24,7 @@ class TuachuayDekhorWriteBlogPage extends StatefulWidget {
 class _TuachuayDekhorWriteBlogPageState
     extends State<TuachuayDekhorWriteBlogPage>
     with SingleTickerProviderStateMixin {
-  String? _dropdownValue = "null";
+  String? _dropdownValue;
   BoxController boxController = BoxController();
   TextEditingController markdownTitleController = TextEditingController();
   TextEditingController markdownContentController = TextEditingController();
@@ -29,58 +34,92 @@ class _TuachuayDekhorWriteBlogPageState
   final FocusNode anotherFocusNode = FocusNode();
   late AnimationController animationController;
   bool status = true;
-  final writeblogurl = Uri.parse("$api$dekhorWriteBloggerRoute");
+  final writeblogurl = Uri.parse("$api$dekhorWriteBlogRoute");
+  var post = [];
+  final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
+  final draftposturl = Uri.parse('$api$dekhorDraftPostRoute');
+  File? _image;
 
-  Future<void> writeblog() async {
-    var response = await http.post(writeblogurl, headers: {
-      "Authorization": "Bearer $publicToken"
-    }, body: {
-      "title": markdownTitleController.text,
-      "content": markdownContentController.text,
-      "category": _dropdownValue,
-      "image_link": "null"
+  Future<void> _getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
     });
-    if (markdownTitleController.text.isEmpty ||
-        markdownContentController.text.isEmpty) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            surfaceTintColor: Colors.white,
-            iconColor: const Color.fromRGBO(0, 48, 73, 1),
-            icon: const Icon(Icons.close, size: 50),
-            title: const Text("Empty blog."),
-            content:
-                const Text("Please write a title and content before posting."),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text(
-                  "OK",
-                  style: TextStyle(
-                    color: Colors.green,
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    } else {
+  }
+
+  Future<void> writeblog(File? imageFile) async {
+    try {
+      var request = http.MultipartRequest('POST', writeblogurl);
+      request.headers['Authorization'] = 'Bearer $publicToken';
+      request.fields['title'] = markdownTitleController.text;
+      request.fields['content'] = markdownContentController.text;
+      request.fields['category'] = _dropdownValue!;
+      request.fields['fullname'] = profileData['fullname'];
+      request.fields['pathimage'] = imageFile!.path;
+      request.files
+          .add(await http.MultipartFile.fromPath('file', imageFile.path));
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
       if (response.statusCode == 200) {
         status = true;
       } else {
         status = false;
       }
+    } catch (error) {
+      print('Error writing blog: $error');
+    }
+  }
+
+  Future<void> draft(File? imageFile) async {
+    try {
+      var request = http.MultipartRequest('POST', draftposturl);
+      request.headers['Authorization'] = 'Bearer $publicToken';
+      request.fields['title'] = markdownTitleController.text;
+      request.fields['content'] = markdownContentController.text;
+      request.fields['category'] = _dropdownValue!;
+      request.fields['fullname'] = profileData['fullname'];
+      request.fields['pathimage'] = imageFile!.path;
+      request.files
+          .add(await http.MultipartFile.fromPath('file', imageFile.path));
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200) {
+        status = true;
+      } else {
+        status = false;
+      }
+    } catch (error) {
+      print('Error writing blog: $error');
+    }
+  }
+
+  Future<void> posttoprofile() async {
+    var response = await http
+        .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
+    if (response.statusCode == 200) {
+      setState(() {
+        post = jsonDecode(response.body);
+        // print(post);
+      });
+    } else {
+      throw Exception('Failed to load data');
     }
   }
 
   @override
   void initState() {
     super.initState();
+    posttoprofile();
     firstFocusNode.requestFocus();
     animationController = AnimationController(
       vsync: this,
@@ -91,6 +130,8 @@ class _TuachuayDekhorWriteBlogPageState
           Navigator.pop(context);
           markdownTitleController.clear();
           markdownContentController.clear();
+          _dropdownValue = null;
+          _image = null;
           FocusManager.instance.primaryFocus?.unfocus();
           animationController.reset();
           Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
@@ -108,6 +149,8 @@ class _TuachuayDekhorWriteBlogPageState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    markdownTitleText = markdownTitleController.text;
+    markdownContentText = markdownContentController.text;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -117,7 +160,7 @@ class _TuachuayDekhorWriteBlogPageState
           collapsed: true,
           draggable: false,
           minHeight: 0,
-          maxHeight: size.height * 0.75,
+          maxHeight: size.height * 0.9,
           onBoxClose: () => anotherFocusNode.requestFocus(),
           body: Container(
             margin: const EdgeInsets.all(10),
@@ -171,6 +214,19 @@ class _TuachuayDekhorWriteBlogPageState
                     ),
                   ),
                 ),
+                Container(
+                  constraints: BoxConstraints(
+                    maxHeight: size.height * 0.3,
+                  ),
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: IntrinsicHeight(
+                    child: ClipRRect(
+                      child: _image == null
+                          ? const Text('No image selected.')
+                          : Image.file(_image!, fit: BoxFit.cover),
+                    ),
+                  ),
+                ),
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -191,7 +247,7 @@ class _TuachuayDekhorWriteBlogPageState
                     top: 10,
                     bottom: 10,
                   ),
-                  height: size.height * 0.45,
+                  height: size.height * 0.3,
                   child: Scrollbar(
                     child: Markdown(
                       physics: const BouncingScrollPhysics(),
@@ -229,8 +285,9 @@ class _TuachuayDekhorWriteBlogPageState
                             ],
                           ),
                           onTap: () {
-                            if (markdownTitleController.text.isNotEmpty ||
-                                markdownContentController.text.isNotEmpty) {
+                            if (markdownTitleController.text.isNotEmpty &&
+                                markdownContentController.text.isNotEmpty &&
+                                _dropdownValue != null) {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -286,7 +343,7 @@ class _TuachuayDekhorWriteBlogPageState
                                             Navigator.pop(context);
                                           },
                                           child: const Text(
-                                            "Delete",
+                                            "Discard",
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
@@ -300,6 +357,13 @@ class _TuachuayDekhorWriteBlogPageState
                                             color: Colors.green),
                                         child: TextButton(
                                           onPressed: () {
+                                            draft(_image);
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                            Navigator.pushNamed(
+                                                context,
+                                                tuachuayDekhorPageRoute[
+                                                    "draft"]!);
                                             print("Draft saved");
                                           },
                                           child: const Text(
@@ -348,57 +412,71 @@ class _TuachuayDekhorWriteBlogPageState
                                   const EdgeInsets.only(left: 20, right: 10),
                               child: RawMaterialButton(
                                 onPressed: () {
-                                  writeblog();
-                                  print("Post tapped");
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Dialog(
-                                          surfaceTintColor: Colors.white,
-                                          backgroundColor: Colors.white,
-                                          child: SizedBox(
-                                            width: size.width * 0.3,
-                                            height: size.height * 0.3,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                LottieBuilder.asset(
-                                                  status
-                                                      ? "assets/images/Logo/Animation_Success.json"
-                                                      : "assets/images/Logo/Animation_Fail.json",
-                                                  repeat: false,
-                                                  controller:
-                                                      animationController,
-                                                  onLoaded: (composition) {
-                                                    animationController
-                                                            .duration =
-                                                        composition.duration;
-                                                    animationController
-                                                        .forward();
-                                                  },
-                                                ),
-                                                SizedBox(
-                                                    height: size.height * 0.03),
-                                                Align(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
+                                  if (markdownTitleController.text.isEmpty ||
+                                      markdownContentController.text.isEmpty ||
+                                      _dropdownValue == null ||
+                                      _image == null) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text("Please fill in all fields"),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
+                                  } else {
+                                    writeblog(_image);
+                                    print("Post tapped");
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Dialog(
+                                            surfaceTintColor: Colors.white,
+                                            backgroundColor: Colors.white,
+                                            child: SizedBox(
+                                              width: size.width * 0.3,
+                                              height: size.height * 0.3,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  LottieBuilder.asset(
                                                     status
-                                                        ? "Post successful!"
-                                                        : "Post failed!",
-                                                    style: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black,
+                                                        ? "assets/images/Logo/Animation_Success.json"
+                                                        : "assets/images/Logo/Animation_Fail.json",
+                                                    repeat: false,
+                                                    controller:
+                                                        animationController,
+                                                    onLoaded: (composition) {
+                                                      animationController
+                                                              .duration =
+                                                          composition.duration;
+                                                      animationController
+                                                          .forward();
+                                                    },
+                                                  ),
+                                                  SizedBox(
+                                                      height:
+                                                          size.height * 0.03),
+                                                  Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      status
+                                                          ? "Post successful!"
+                                                          : "Post failed!",
+                                                      style: const TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      });
+                                          );
+                                        });
+                                  }
                                 },
                                 fillColor:
                                     const Color.fromRGBO(217, 192, 41, 1),
@@ -577,13 +655,44 @@ class _TuachuayDekhorWriteBlogPageState
                             },
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            print("Add image tapped");
-                          },
-                          icon: const Icon(
-                            Icons.image,
-                            color: Colors.white,
+                        Container(
+                          padding: const EdgeInsets.only(right: 5),
+                          margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.grey[200],
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              _getImage();
+                              print("Add image tapped");
+                            },
+                            child: Row(
+                              children: [
+                                const SizedBox(
+                                  child: Icon(
+                                    Icons.image,
+                                    color: Color.fromRGBO(0, 48, 73, 1),
+                                    size: 24,
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(left: 5),
+                                  constraints: BoxConstraints(
+                                    maxWidth: size.width * 0.51,
+                                  ),
+                                  child: _image == null
+                                      ? const Text(
+                                          "no image selected",
+                                          style: TextStyle(color: Colors.grey),
+                                        )
+                                      : Text(
+                                          _image!.path.split('/').last,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

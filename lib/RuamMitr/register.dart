@@ -255,6 +255,7 @@ class _RegisterPageState extends State<RegisterPage> {
     Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    CustomThemes ruammitrTheme = themes.themeFrom("RuamMitr")!;
     return SafeArea(
       child: Container(
         decoration: ruamMitrBackgroundGradient(themes),
@@ -265,8 +266,8 @@ class _RegisterPageState extends State<RegisterPage> {
             title: Text(
               "Create an account",
               style: TextStyle(
-                color: theme.colorScheme.onPrimary,
-              ),
+                  color: theme.colorScheme.onPrimary,
+                  fontWeight: FontWeight.bold),
             ),
             backgroundColor: theme.colorScheme.primary,
             leading: GestureDetector(
@@ -299,7 +300,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   width: [512.0, size.width * 0.9].reduce(min),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(28),
-                    color: theme.colorScheme.primaryContainer.withOpacity(0.8),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        ruammitrTheme.customColors["oddContainer"]!,
+                        ruammitrTheme.customColors["oddContainer"]!
+                            .withOpacity(0),
+                      ],
+                    ),
                   ),
                   child: Form(
                     key: _formKey,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/search_box.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
-// import 'package:ruam_mitt/RuamMitr/Component/home_v2/central_v2.dart';
 
 class NavbarTuachuayDekhor extends StatelessWidget {
   const NavbarTuachuayDekhor({
@@ -14,16 +13,6 @@ class NavbarTuachuayDekhor extends StatelessWidget {
   final String? avatarUrl;
 
   Widget getAvatar(BuildContext context) {
-    // if (avatarUrl != null) {
-    //   try {
-    //     return CircleAvatar(
-    //       radius: 24,
-    //       backgroundImage: NetworkImage(profileData['imgPath']),
-    //     );
-    //   } catch (e) {
-    //     debugPrint(e.toString());
-    //   }
-    // }
     return CircleAvatar(
       radius: 25,
       backgroundColor: Colors.white.withOpacity(0.5),
@@ -48,8 +37,9 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(10),
                   onTap: () {
-                    Navigator.pushNamed(
-                        context, tuachuayDekhorPageRoute["home"]!);
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        tuachuayDekhorPageRoute["home"]!,
+                        (Route<dynamic> route) => false);
                   },
                   child: const Image(
                     image: AssetImage(
@@ -88,19 +78,34 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                             position:
                                 RelativeRect.fromLTRB(size.width, 102, 0, 0),
                             items: [
-                              PopupMenuItem(
-                                child: const Row(
-                                  children: [
-                                    Icon(Icons.people),
-                                    SizedBox(width: 10),
-                                    Text("Profile"),
-                                  ],
+                              if (profileData['role'] == "Admin")
+                                PopupMenuItem(
+                                  child: const Row(
+                                    children: [
+                                      Icon(Icons.admin_panel_settings),
+                                      SizedBox(width: 10),
+                                      Text("Admin"),
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    Navigator.pushNamed(context,
+                                        tuachuayDekhorPageRoute["admin"]!);
+                                  },
                                 ),
-                                onTap: () {
-                                  Navigator.pushNamed(context,
-                                      tuachuayDekhorPageRoute["profile"]!);
-                                },
-                              ),
+                              if (profileData['role'] == "User")
+                                PopupMenuItem(
+                                  child: const Row(
+                                    children: [
+                                      Icon(Icons.people),
+                                      SizedBox(width: 10),
+                                      Text("Profile"),
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    Navigator.pushNamed(context,
+                                        tuachuayDekhorPageRoute["profile"]!);
+                                  },
+                                ),
                               PopupMenuItem(
                                 child: const Row(
                                   children: [

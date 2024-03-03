@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import "package:flutter/material.dart";
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -45,8 +47,10 @@ class _LoginPageState extends State<LoginPage> {
         );
       } else if (response.statusCode == 200) {
         saveuser();
-        print(response.body);
-        publicToken = response.body;
+        print("Body : ${response.body}");
+        dynamic resJson = json.decode(response.body);
+        publicToken = resJson['accessjwt'];
+        refreshToken = resJson['refreshjwt'];
         isOnceLogin = true;
         Navigator.of(context).pushNamedAndRemoveUntil(
           ruamMitrPageRoute["homev2"]!,
@@ -141,6 +145,7 @@ class _LoginPageState extends State<LoginPage> {
     Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    CustomThemes ruammitrTheme = themes.themeFrom("RuamMitr")!;
     return Container(
       decoration: ruamMitrBackgroundGradient(themes),
       child: Scaffold(
@@ -201,12 +206,14 @@ class _LoginPageState extends State<LoginPage> {
                             // color: theme.colorScheme.primaryContainer
                             // .withOpacity(0.8),
                             gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  theme.colorScheme.primaryContainer,
-                                  Colors.white.withOpacity(0)
-                                ]),
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                ruammitrTheme.customColors["oddContainer"]!,
+                                ruammitrTheme.customColors["oddContainer"]!
+                                    .withOpacity(0),
+                              ],
+                            ),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -284,7 +291,7 @@ class _LoginPageState extends State<LoginPage> {
                                         ),
                                         const Text(
                                           "Remember me",
-                                          style: TextStyle(fontSize: 13),
+                                          style: TextStyle(fontSize: 11),
                                         ),
                                       ],
                                     ),
@@ -292,10 +299,15 @@ class _LoginPageState extends State<LoginPage> {
                                       child: Text(
                                         "Forgot password?",
                                         style: TextStyle(
-                                            fontSize: 13,
+                                            fontSize: 11,
                                             color: theme.colorScheme.secondary),
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context,
+                                            ruamMitrPageRoute[
+                                                "password-change"]!);
+                                      },
                                     ),
                                   ],
                                 ),

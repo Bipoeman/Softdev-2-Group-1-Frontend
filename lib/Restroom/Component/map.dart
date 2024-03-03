@@ -1,38 +1,57 @@
+import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ruam_mitt/Restroom/Component/cardpin.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
-import 'package:ruam_mitt/global_const.dart';
 
 class MapRestroomRover extends StatelessWidget {
-  static final List<Marker> _markers = [
-    const LatLng(13.825605, 100.514476),
-    const LatLng(13.825705, 100.514676),
-    const LatLng(13.825805, 100.514976),
-    const LatLng(45.683, 10.839),
-    const LatLng(45.246, 5.783),
-  ]
-      .map(
-        (markerPosition) => Marker(
-          point: markerPosition,
-          width: 40,
-          height: 40,
-          // alignment: Alignment.topCenter,
-          child: Image.asset("assets/images/RestroomRover/Pinred.png"),
-        ),
-      )
-      .toList();
+  const MapRestroomRover(
+      {super.key, required this.restroomData, this.mapController});
 
-  const MapRestroomRover({super.key});
+  final List<dynamic> restroomData;
+  final MapController? mapController;
+
+  static final Map<String, String> pinImg = {
+    "Free": "assets/images/RestroomRover/Pingreen.png",
+    "Must Paid": "assets/images/RestroomRover/Pinred.png",
+    "Toilet In Stores": "assets/images/RestroomRover/Pinorange3.png",
+  };
 
   @override
   Widget build(BuildContext context) {
+    List<Marker> markers = restroomData.map((restroom) {
+      final String type = restroom["type"];
+      return Marker(
+        point: LatLng(
+          restroom["latitude"].toDouble(),
+          restroom["longitude"].toDouble(),
+        ),
+        width: 50,
+        height: 50,
+        rotate: true,
+        child: type == "Must Paid"
+            ? Image.asset(
+                pinImg[type]!,
+              )
+            : Image.asset(
+                pinImg[type]!,
+                width: type == "Toilet In Stores" ? 50 : 50,
+                height: type == "Toilet In Stores" ? 50 : 50,
+                scale: type == "Toilet In Stores"
+                    ? 5.0
+                    : 5.15 , // ปรับ scale สำหรับ "Free" ให้มีขนาดเท่ากับ "Toilet In Stores"
+              ),
+      );
+    }).toList();
+
     return Stack(
       children: [
         FlutterMap(
+          mapController: mapController,
           options: const MapOptions(
             initialCenter: LatLng(13.825605, 100.514476),
             initialZoom: 15,
@@ -45,26 +64,20 @@ class MapRestroomRover extends StatelessWidget {
             // PopupMarkerLayer(options: options)
             PopupMarkerLayer(
               options: PopupMarkerLayerOptions(
-                markers: _markers,
+                markers: markers,
                 popupDisplayOptions: PopupDisplayOptions(
                     builder: (BuildContext context, Marker marker) {
-                  return Cardpin(marker: marker);
+                  Map<String, dynamic> data = restroomData
+                      .filter((restroom) =>
+                          restroom["latitude"].toDouble() ==
+                              marker.point.latitude &&
+                          restroom["longitude"].toDouble() ==
+                              marker.point.longitude)
+                      .single;
+                  return Cardpin(marker: marker, restroomData: data);
                 }),
               ),
             ),
-            // MarkerLayer(
-
-            //   markers: [
-            //     Marker(
-
-            //       point: LatLng(13.825605, 100.514476),
-            //       width: 50,
-            //       height: 50,
-            //       child: Image.asset("assets/images/RestroomRover/Pinred.png"),
-
-            //     ),
-            //   ],
-            // ),
             RichAttributionWidget(
               attributions: [
                 TextSourceAttribution(
@@ -98,40 +111,6 @@ class MapRestroomRover extends StatelessWidget {
               width: 130,
               height: 130,
             )),
-        Positioned(
-            width: 50,
-            height: 50,
-            bottom: 20,
-            left: 15,
-            child: RawMaterialButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, ruamMitrPageRoute["home"]!);
-                },
-                child: const Image(
-                    image: AssetImage(
-                        "assets/images/RestroomRover/backtohome.png")))),
-        // Positioned(
-        //   bottom: 20,
-        //   left: 5,
-        //   child: SizedBox(
-        //     width: 300,
-        //     height: 400,
-        //     child: Cardpin(), // สร้าง Cardpin ขึ้นมาเป็น StatefulWidget
-        //   ),
-        // ),
-        // Cardpin()
-        // Positioned(
-        //     child: NavbarRestroomRover(),
-        //     ),
-
-        // Positioned(
-        //     top: 20,
-        //     right: 5,
-        //     child: Image.asset(
-        //       "assets/images/RestroomRover/type.png",
-        //       width: 130,
-        //       height: 130,
-        //     ))
       ],
     );
   }

@@ -76,8 +76,8 @@ class _MapPinTheBinState extends State<MapPinTheBin>
             point: LatLng(lattitude, longtitude),
             width: 50,
             height: 50,
-            child:
-                Image.asset("assets/images/RestroomRover/Pinred.png"), //รูปหมุด
+            rotate: true,
+            child: Image.asset("assets/images/PinTheBin/pin.png"), //รูปหมุด
           ),
         );
         markerInfo.info.add(widget.binInfo[index]);
@@ -112,9 +112,9 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                   point: markerInfo.markers[index].point,
                   width: 50,
                   height: 50,
+                  rotate: true,
                   child: GestureDetector(
-                    child:
-                        Image.asset("assets/images/RestroomRover/Pinred.png"),
+                    child: Image.asset("assets/images/PinTheBin/pin.png"),
                     onTap: () {
                       print("position $index : ${widget.binInfo[index]}");
                       binInfoController.openBox();
@@ -300,7 +300,15 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                         "assets/images/PinTheBin/report_bin.png",
                                         height: 22,
                                       ),
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          pinthebinPageRoute["report"]!,
+                                          arguments: {
+                                            'Bininfo': displayBinInfo
+                                          },
+                                        );
+                                      },
                                     ),
                                   ]),
                                 ],
@@ -376,8 +384,8 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                 style: TextStyle(
                                     shadows: [
                                       Shadow(
-                                        color:
-                                            const Color(0xFF46384E).withOpacity(0.4),
+                                        color: const Color(0xFF46384E)
+                                            .withOpacity(0.4),
                                         offset: const Offset(0, 2),
                                         blurRadius: 5,
                                       )

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'dart:math';
-
+import 'dart:convert';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
+import 'package:http/http.dart' as http;
 
 class TuachuayDekhorDraftPage extends StatefulWidget {
   const TuachuayDekhorDraftPage({super.key});
@@ -14,6 +17,40 @@ class TuachuayDekhorDraftPage extends StatefulWidget {
 }
 
 class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
+  var draft = [];
+  final draftposturl = Uri.parse("$api$dekhorPosttoDraftRoute");
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDetail();
+  }
+
+  Future<void> posttodraft() async {
+    var response = await http
+        .get(draftposturl, headers: {"Authorization": "Bearer $publicToken"});
+    if (response.statusCode == 200) {
+      setState(() {
+        draft = jsonDecode(response.body);
+        print(draft);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Future<void> _loadDetail() async {
+    setState(() {
+      isLoading = true;
+    });
+    await Future.delayed(Duration(seconds: 2), () {});
+    await posttodraft();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -72,27 +109,43 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                       height: size.width * 0.02,
                       color: const Color.fromRGBO(0, 48, 73, 1),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(top: size.width * 0.05),
-                      child: Wrap(
-                        spacing: 20,
-                        runSpacing: 20,
-                        children: List.generate(
-                          8,
-                          (index) => BlogBox(
-                            title: "Title",
-                            name: "Name",
-                            like: "Like",
-                            image: const AssetImage(
-                                "assets/images/Icon/TuachuayDekhor_Catagories_1.png"),
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, tuachuayDekhorPageRoute['blog']!);
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom: size.width * 0.05,
+                          left: size.width * 0.08,
+                          right: size.width * 0.08,
+                          top: size.width * 0.05),
+                      child: isLoading
+                          ? const CircularProgressIndicator(
+                              color: Color.fromRGBO(0, 48, 73, 1),
+                            )
+                          : MasonryGridView.builder(
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              itemCount: draft.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2),
+                              itemBuilder: ((context, index) => BlogBox(
+                                    title: draft[index]['title'],
+                                    name: draft[index]['user']['fullname'],
+                                    category: draft[index]['category'],
+                                    like: draft[index]['save'] ?? "0",
+                                    image: NetworkImage(
+                                      draft[index]['image_link'],
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        tuachuayDekhorPageRoute['editdraft']!,
+                                        arguments: draft[index]['id_draft'],
+                                      );
+                                    },
+                                  )),
+                            ),
+                    )
                   ],
                 ),
               ),

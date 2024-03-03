@@ -10,15 +10,20 @@ import 'package:ruam_mitt/Dinodengzz/Screens/levelselect.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/pause.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/setting.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/start.dart';
+import 'package:ruam_mitt/Dinodengzz/Screens/tutorial.dart';
 import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 
 class GameRoutes extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
   List<String> levelNames = ['Level-01', 'Level-02', 'Level-03', 'Level-04'];
-  //static const bgm = 'Over.wav';
-  //static const jumpSfx = 'Deng_Suu.wav';
-  //static const collectSfx = 'Collect.wav';
-  //static const hurtSfx = 'Hurt.wav';
+  String gameOver = 'Over.wav';
+  String startGame = 'Start_Screen.wav';
+  String boss = 'Boss.wav';
+  String gameBGM = 'Bgm.wav';
+  String jumpSfx = 'Deng_Suu.wav';
+  String collectSfx = 'Collect.wav';
+  String hitSfx = 'Hit.wav';
+  String clearSFX = 'Disappear.wav';
   bool playSounds = true;
   late double masterVolume = 1.0;
   late double bgmVolume = 0.6;
@@ -30,17 +35,20 @@ class GameRoutes extends FlameGame
           onLevelSelectionPressed: () => _routeById(LevelSelectionScreen.id),
           onExitPressed: () {
             Flame.device.setPortrait();
-            FlameAudio.audioCache.clearAll();
-            Get.toNamed('/login');
+            FlameAudio.bgm.stop();
+            navigator?.pop(context);
           },
-          onSettingPressed: () => _routeById(Settings.id)),
+          onSettingPressed: () {
+            FlameAudio.bgm.pause();
+            _routeById(Settings.id);
+          }),
     ),
     Settings.id: OverlayRoute(
       (context, game) => Settings(
         onBgmVolumeChanged: onBgmVolumeChanged,
         onMasterVolumeChanged: onMasterVolumeChanged,
         onSfxVolumeChanged: onSfxVolumeChanged,
-        onBackPressed: _popRoute,
+        onBackPressed: _exitToMainMenu,
         masterVolume: masterVolume,
         bgmVolume: bgmVolume,
         sfxVolume: sfxVolume,
@@ -51,24 +59,33 @@ class GameRoutes extends FlameGame
               levelNames: levelNames,
               onLevelSelected: _startLevel,
               onBackPressed: _popRoute,
+              onTutorialPressed: () => _routeById(TutorialScreen.id),
             )),
     PauseMenu.id: OverlayRoute(
       (context, game) => PauseMenu(
         onResumePressed: _resumeGame,
-        onSettingPressed: () => _routeById(Settings.id),
+        onRetryPressed: _restartLevel,
         onExitPressed: _exitToMainMenu,
       ),
     ),
     GameOverScreen.id: OverlayRoute(
       (context, game) => GameOverScreen(
         onRetryPressed: () {
+          FlameAudio.bgm.stop();
           _restartLevel();
         },
         onMainMenuPressed: () {
+          FlameAudio.bgm.stop();
           _exitToMainMenu();
         },
       ),
     ),
+    TutorialScreen.id: OverlayRoute(
+      (context, game) => TutorialScreen(
+        onExit: _popRoute,
+        onPlay: () => _startLevel(1),
+      ),
+    )
   };
 
   late final _routeFactories = <String, Route Function(String)>{
@@ -92,9 +109,14 @@ class GameRoutes extends FlameGame
   Future<void> onLoad() async {
     await Flame.device.setLandscape();
     await Flame.device.fullScreen();
-    //await FlameAudio.audioCache.loadAll([bgm, jumpSfx]);
+    FlameAudio.bgm.initialize();
+    FlameAudio.bgm.play(startGame, volume: masterVolume * bgmVolume);
     await images.loadAllImages();
     await add(_router);
+  }
+
+  void dispose() {
+    FlameAudio.bgm.dispose();
   }
 
   void _routeById(String id) {
@@ -103,10 +125,16 @@ class GameRoutes extends FlameGame
 
   void _popRoute() {
     _router.pop();
+    FlameAudio.bgm.resume();
   }
 
   void _startLevel(int levelIndex) {
     _router.pop();
+    if (levelIndex < levelNames.length - 1) {
+      FlameAudio.bgm.play(gameBGM, volume: masterVolume * bgmVolume);
+    } else {
+      FlameAudio.bgm.play(boss, volume: masterVolume * bgmVolume);
+    }
     _router.pushReplacement(
       Route(
         () => DinoDengzz(
@@ -132,11 +160,16 @@ class GameRoutes extends FlameGame
 
   void _startNextLevel() {
     final gameplay = findByKeyName<DinoDengzz>(DinoDengzz.id);
-
+    FlameAudio.bgm.stop();
     if (gameplay != null) {
       if (gameplay.currentLevel == levelNames.length - 1) {
         _exitToMainMenu();
       } else {
+        if (gameplay.currentLevel < levelNames.length) {
+          FlameAudio.bgm.play(gameBGM, volume: masterVolume * bgmVolume);
+        } else {
+          FlameAudio.bgm.play(boss, volume: masterVolume * bgmVolume);
+        }
         _startLevel(gameplay.currentLevel + 1);
       }
     }
@@ -144,17 +177,21 @@ class GameRoutes extends FlameGame
 
   void pauseGame() {
     _router.pushNamed(PauseMenu.id);
+    FlameAudio.bgm.pause();
     pauseEngine();
   }
 
   void _resumeGame() {
     _router.pop();
+    FlameAudio.bgm.resume();
     resumeEngine();
   }
 
   void _exitToMainMenu() {
     _resumeGame();
+    FlameAudio.bgm.stop();
     _router.pushReplacementNamed(StartScreen.id);
+    FlameAudio.bgm.play(startGame, volume: masterVolume * bgmVolume);
   }
 
   void showLevelCompleteMenu(int nStars) {
@@ -162,12 +199,12 @@ class GameRoutes extends FlameGame
   }
 
   void showRetryMenu() {
+    FlameAudio.bgm.play(gameOver, volume: masterVolume * bgmVolume);
     _router.pushNamed(GameOverScreen.id);
   }
 
   void onMasterVolumeChanged(double volume) {
     masterVolume = (volume / 100);
-    print(masterVolume);
   }
 
   void onBgmVolumeChanged(double volume) {
@@ -176,5 +213,9 @@ class GameRoutes extends FlameGame
 
   void onSfxVolumeChanged(double volume) {
     sfxVolume = (volume / 100);
+  }
+
+  void stopBGMInApp() {
+    FlameAudio.bgm.stop();
   }
 }

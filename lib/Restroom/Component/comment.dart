@@ -1,111 +1,129 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
+import 'package:ruam_mitt/Restroom/Component/font.dart';
+import 'package:ruam_mitt/Restroom/Component/theme.dart';
 
 class Cardcomment extends StatefulWidget {
-  const Cardcomment({super.key});
+  const Cardcomment({super.key, required this.cardData});
+  final Map<String, dynamic> cardData;
 
   @override
   State<Cardcomment> createState() => _CardcommentState();
 }
 
 class _CardcommentState extends State<Cardcomment> {
+  File? compressedImage;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Center(
-        child: Container(
-            height: size.height * 0.3,
-            width: size.width * 0.75,
-            padding: EdgeInsets.only(
-              left: size.width * 0.03,
-              top: size.height * 0.015,
-            ),
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 255, 255, 255),
-              borderRadius: BorderRadius.circular(35),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  width: size.width * 0.85,
-                  height: size.height * 0.1,
-                  padding: const EdgeInsets.only(
-                    left: 0.1,
-                    top: 10,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const CircleAvatar(
-                        radius: 25,
-                        backgroundImage: NetworkImage(
-                            "https://i.pinimg.com/564x/9b/2a/e8/9b2ae82b19caea75419be79b046b2107.jpg"),
-                      ),
-                      SizedBox(
-                        width: size.width * 0.5,
-                        height: size.height * 0.07,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Kitty",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
+    return Theme(
+        data: RestroomThemeData,
+        child: Builder(builder: (context) {
+          return Center(
+            child: Container(
+              height: null,
+              width: size.width * 0.85,
+              padding: EdgeInsets.only(
+                left: size.width * 0.03,
+                top: size.height * 0.015,
+              ),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 255, 255, 255),
+                borderRadius: BorderRadius.circular(35),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    width: size.width * 0.85,
+                    height: size.height * 0.1,
+                    padding: const EdgeInsets.only(
+                      left: 0.1,
+                      top: 10,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        CircleAvatar(
+                          radius: 25,
+                          backgroundImage: NetworkImage(widget
+                                  .cardData["user_info"]["profile"] ??
+                              "https://i.pinimg.com/564x/9b/2a/e8/9b2ae82b19caea75419be79b046b2107.jpg"),
+                        ),
+                        SizedBox(
+                          width: size.width * 0.5,
+                          height: size.height * 0.07,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.cardData["user_info"]["username"],
+                                style: name_place(widget.cardData["user_info"]["username"],context),
                               ),
-                            ),
-                            FlutterRating(
-                              rating: 4,
-                              size: size.height * 0.0255,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                            ),
-                          ],
+                              FlutterRating(
+                                rating: widget.cardData["star"].toDouble(),
+                                size: size.height * 0.0255,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          widget.cardData["picture"] != null
+                              ? SizedBox(
+                                  width: 120, // กำหนดความกว้างที่ต้องการ
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.network(
+                                      widget.cardData["picture"],
+                                      fit: BoxFit.cover,
+                                      scale: 3,
+                                    ),
+                                  ),
+                                )
+
+                              //     SizedBox(
+                              //   height: size.height * 0.12,
+                              //   width: size.width * 0.3,
+                              //   child: Image.network(widget.cardData["picture"]),
+                              // )
+                              : Container(),
+                        ],
+                      ),
+                      Container(
+                        width: size.width * 0.5,
+                        height: null, // เปลี่ยนส่วนนี้เป็นความสูงที่เหมาะสม
+                        padding: EdgeInsets.only(
+                          left: size.width * 0.03,
+                          top: size.height * 0.01,
+                        ),
+                        child: Text(
+                          widget.cardData["comment"] != null
+                              ? (widget.cardData["comment"].length > 150
+                                  ? widget.cardData["comment"]
+                                          .substring(0, 147) +
+                                      "..."
+                                  : widget.cardData["comment"])
+                              : "",
+                          textAlign: TextAlign.start,
+                          style: text_input(widget.cardData["comment"], context),
                         ),
                       ),
                     ],
                   ),
-                ),
-                Container(
-                  width: size.width * 0.85,
-                  height: size.height * 0.05,
-                  padding: EdgeInsets.only(
-                    left: size.width * 0.03,
-                    top: size.height * 0.01,
-                  ),
-                  child: const Text("pun ha tham hai chun terb toe",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                      )),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                        height: size.height * 0.12,
-                        width: size.width * 0.3,
-                        // padding: EdgeInsets.only(
-                        //   bottom: size.height * 0.01,
-                        // ),
-                        child: Image.network(
-                            "https://i.pinimg.com/564x/4a/e8/43/4ae843c10e4fa8ddbfec11071265e383.jpg")),
-                    const IconButton(
-                      onPressed: null,
-                      icon: Icon(Icons.thumb_up_alt_rounded),
-                    ),
-                    const IconButton(
-                      onPressed: null,
-                      icon: Icon(Icons.thumb_down_alt_rounded),
-                    ),
-                  ],
-                )
-              ],
-            )),
-      ),
-    );
+                  Padding(padding: EdgeInsets.only(top: size.height * 0.02)),
+                ],
+              ),
+            ),
+          );
+        }));
   }
 }

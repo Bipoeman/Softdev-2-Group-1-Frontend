@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class BlogBox extends StatelessWidget {
   const BlogBox({
     super.key,
     required this.title,
-    this.category,
+    required this.category,
     required this.name,
     required this.like,
     required this.image,
@@ -13,7 +15,7 @@ class BlogBox extends StatelessWidget {
   final void Function()? onPressed;
   final ImageProvider<Object> image;
   final String title;
-  final String? category;
+  final String category;
   final String name;
   final String like;
   @override
@@ -43,31 +45,18 @@ class BlogBox extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              constraints: const BoxConstraints(maxHeight: 200),
-              clipBehavior: Clip.antiAlias,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(10),
+            IntrinsicHeight(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+                child: Image(
+                  image: image,
+                  fit: BoxFit.cover,
                 ),
               ),
-              child: Image(
-                image: image,
-                fit: BoxFit.cover,
-              ),
             ),
-            // IntrinsicHeight(
-            //   child: ClipRRect(
-            //     borderRadius: const BorderRadius.only(
-            //       topLeft: Radius.circular(10),
-            //       topRight: Radius.circular(10),
-            //     ),
-            //     child: Image(
-            //       image: image,
-            //       fit: BoxFit.cover,
-            //     ),
-            //   ),
-            // ),
             Container(
               padding: const EdgeInsets.only(
                 left: 5,
@@ -86,28 +75,27 @@ class BlogBox extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(right: 8),
-                        constraints: BoxConstraints(
-                          maxWidth: size.width * 0.23,
-                        ),
-                        child: Text(
-                          title,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
+                      Flexible(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          child: Text(
+                            title,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 12),
+                          ),
                         ),
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey[200],
+                          color: Color.fromARGB(255, 232, 232, 232),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: const Padding(
-                          padding: EdgeInsets.only(left: 5, right: 5),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 5, right: 5),
                           child: Text(
-                            "#category",
-                            style: TextStyle(
+                            '#$category',
+                            style: const TextStyle(
                               fontSize: 8,
                             ),
                           ),
@@ -118,8 +106,7 @@ class BlogBox extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: size.width * 0.2,
+                      Flexible(
                         child: Text(
                           name,
                           overflow: TextOverflow.ellipsis,
@@ -127,13 +114,27 @@ class BlogBox extends StatelessWidget {
                               color: Colors.white, fontSize: 10),
                         ),
                       ),
-                      SizedBox(
-                        width: size.width * 0.1,
-                        child: Text(
-                          like,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 7),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons.bookmark_border_rounded,
+                              color: Colors.white,
+                              size: 11,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: size.width * 0.007),
+                              width: size.width * 0.04,
+                              child: Text(
+                                like,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 10),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
