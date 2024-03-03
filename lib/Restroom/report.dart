@@ -155,31 +155,31 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                           alignment: Alignment.centerRight,
                           children: [
                             TextField(
-                              maxLength: 250,
+                              maxLength: 200,
                               maxLines: 9,
                               controller: _DescriptiontextController,
                               // inputFormatters: [
                               //   LengthLimitingTextInputFormatter(80),
                               // ],
                               decoration: InputDecoration(
-                                counterText: "",
+                                
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(
-                                    left: 16, right: 16, top: 20),
+                                    left: 16, right: 16, top: 15),
                                 hintText: 'Write a report...',
                               ),
                             ),
-                            Positioned(
-                              top: 1,
-                              right: 16.0,
-                              child: Text(
-                                '$remainingCharacters/250',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                            ),
+                            // Positioned(
+                            //   top: 1,
+                            //   right: 16.0,
+                            //   child: Text(
+                            //     '$remainingCharacters/250',
+                            //     style: TextStyle(
+                            //       color: Colors.grey,
+                            //       fontSize: 12.0,
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
