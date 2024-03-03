@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ruam_mitt/Restroom/Component/font.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_func.dart';
 import 'package:ruam_mitt/global_var.dart';
 
 class ReviewSlideBar extends StatefulWidget {
@@ -38,6 +39,7 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
   }
 
   Future<void> _postReview() async {
+    await requestNewToken(context);
     debugPrint("post review");
     final url = Uri.parse("$api$restroomRoverReviewRoute");
     var response = await http
@@ -143,7 +145,8 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(profileData["username"],
-                              style: name_place(profileData["username"], context)),
+                              style:
+                                  name_place(profileData["username"], context)),
                         ],
                       ),
                     ],
@@ -183,7 +186,8 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                         alignment: Alignment.centerRight,
                         children: [
                           TextField(
-                            style: text_input(_reviewTextController.text, context),
+                            style:
+                                text_input(_reviewTextController.text, context),
                             maxLength: 150,
                             maxLines: 4,
                             controller: _reviewTextController,
