@@ -170,8 +170,9 @@ class _ReportPageState extends State<ReportPage> {
                       children: [
                         Row(
                           children: [
-                            SizedBox(
-                              height: size.height * 0.03,
+                            Container(
+                              alignment: Alignment.bottomLeft,
+                              height: size.height * 0.05,
                               width: size.width * 0.2,
                               child: const Text(
                                 "Report",
@@ -183,7 +184,7 @@ class _ReportPageState extends State<ReportPage> {
                               ),
                             ),
                             ClayContainer(
-                              height: size.height * 0.03,
+                              height: size.height * 0.05,
                               width: size.width * 0.6,
                               color: const Color.fromRGBO(239, 239, 239, 1),
                               borderRadius: 30,
@@ -196,9 +197,15 @@ class _ReportPageState extends State<ReportPage> {
                                 },
                                 maxLength: 20,
                                 decoration: const InputDecoration(
+                                  labelText: "Title",
+                                  labelStyle: TextStyle(
+                                    color: Color.fromRGBO(0, 30, 49, 0.5),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                  ),
                                   counterText: "",
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 7, vertical: 5),
+                                  contentPadding: EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 10),
                                   isDense: true,
                                   border: InputBorder.none,
                                 ),
@@ -237,38 +244,51 @@ class _ReportPageState extends State<ReportPage> {
                                   top: size.height * 0.01,
                                   left: size.width * 0.02,
                                   right: size.width * 0.02),
-                              child: TextField(
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.zero,
-                                ),
-                                controller: _ReporttextController,
-                                onChanged: (text) {
-                                  print('Typed text: $text , ${text.length}');
-                                },
-                                maxLength: 80,
-                                maxLines: 4,
-                                style: TextStyle(
-                                    fontFamily:
-                                        _ReporttextController.text.contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? "THSarabunPSK"
-                                            : "Sen",
-                                    fontSize:
-                                        _ReporttextController.text.contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? 22
-                                            : 16,
-                                    fontWeight:
-                                        _ReporttextController.text.contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? FontWeight.w700
-                                            : FontWeight.normal,
-                                    color: const Color.fromRGBO(0, 30, 49, 67)),
-                                textInputAction: TextInputAction.done,
+                              child: Stack(
+                                children: [
+                                  TextField(
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.zero,
+                                      alignLabelWithHint: true,
+                                      labelText: "Description",
+                                      labelStyle: TextStyle(
+                                        color: Color.fromRGBO(0, 30, 49, 0.5),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    controller: _ReporttextController,
+                                    onChanged: (text) {
+                                      print(
+                                          'Typed text: $text , ${text.length}');
+                                    },
+                                    maxLength: 80,
+                                    maxLines: 4,
+                                    style: TextStyle(
+                                        fontFamily:
+                                            _ReporttextController.text.contains(
+                                          RegExp("[ก-๛]"),
+                                        )
+                                                ? "THSarabunPSK"
+                                                : "Sen",
+                                        fontSize:
+                                            _ReporttextController.text.contains(
+                                          RegExp("[ก-๛]"),
+                                        )
+                                                ? 22
+                                                : 16,
+                                        fontWeight:
+                                            _ReporttextController.text.contains(
+                                          RegExp("[ก-๛]"),
+                                        )
+                                                ? FontWeight.w700
+                                                : FontWeight.normal,
+                                        color: const Color.fromRGBO(
+                                            0, 30, 49, 67)),
+                                    textInputAction: TextInputAction.done,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
