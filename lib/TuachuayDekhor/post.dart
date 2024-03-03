@@ -65,7 +65,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
 
   void checkSaveStatus() {
     setState(() {
-      isSave = countsavepost.any((element) => element['id_user'] == profileData['id']);
+      isSave = countsavepost
+          .any((element) => element['id_user'] == profileData['id']);
     });
   }
 
@@ -78,7 +79,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
   }
 
   Future<void> posttoprofile() async {
-    var response = await http.get(posturl, headers: {"Authorization": "Bearer $publicToken"});
+    var response = await http
+        .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
       setState(() {
         post = jsonDecode(response.body);
@@ -90,8 +92,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
   }
 
   Future<void> numsave() async {
-    var response =
-        await http.patch(numsaveurl, body: {'save': (countsavepost.length + 1).toString()});
+    var response = await http.patch(numsaveurl,
+        body: {'save': (countsavepost.length + 1).toString()});
     if (response.statusCode == 200) {
       setState(() {
         print(response.body);
@@ -102,8 +104,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
   }
 
   Future<void> delnumsave() async {
-    var response =
-        await http.patch(numsaveurl, body: {'save': (countsavepost.length - 1).toString()});
+    var response = await http.patch(numsaveurl,
+        body: {'save': (countsavepost.length - 1).toString()});
     if (response.statusCode == 200) {
       setState(() {
         print(response.body);
@@ -150,7 +152,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
   }
 
   Future<void> unsave() async {
-    await http.delete(unsaveurl, headers: {"Authorization": "Bearer $publicToken"});
+    await http
+        .delete(unsaveurl, headers: {"Authorization": "Bearer $publicToken"});
   }
 
   Future<void> showcomment() async {
@@ -209,12 +212,13 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     super.dispose();
   }
 
-  Future<dynamic> popUpAlertDialog(
-      Widget icon, String title, Color color, String button, void Function()? onPressed) {
+  Future<dynamic> popUpAlertDialog(Widget icon, String title, Color color,
+      String button, void Function()? onPressed) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+        CustomThemes theme =
+            ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
         Map<String, Color> customColors = theme.customColors;
         return AlertDialog(
           surfaceTintColor: customColors["container"],
@@ -270,7 +274,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
     return Scaffold(
       backgroundColor: customColors["background"],
@@ -344,7 +349,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                       const SizedBox(width: 5),
                                       Text(
                                         "Back",
-                                        style: TextStyle(color: customColors["main"]!),
+                                        style: TextStyle(
+                                            color: customColors["main"]!),
                                       ),
                                     ],
                                   ),
@@ -360,14 +366,17 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                 child: Column(
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         GestureDetector(
                                           onTap: () {
                                             Navigator.pushNamed(
                                               context,
-                                              tuachuayDekhorPageRoute["profileblogger"]!,
-                                              arguments: detailpost[0]['user']['fullname'],
+                                              tuachuayDekhorPageRoute[
+                                                  "profileblogger"]!,
+                                              arguments: detailpost[0]['user']
+                                                  ['fullname'],
                                             );
                                           },
                                           child: Row(
@@ -379,20 +388,24 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                     image: NetworkImage(
-                                                      detailpost[0]['user']['profile'] ??
+                                                      detailpost[0]['user']
+                                                              ['profile'] ??
                                                           "https://api.multiavatar.com/${detailpost[0]['user']['fullname']}.png",
                                                     ),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(width: size.width * 0.04),
+                                              SizedBox(
+                                                  width: size.width * 0.04),
                                               Text(
                                                 detailpost.isNotEmpty
-                                                    ? detailpost[0]['user']['fullname']
+                                                    ? detailpost[0]['user']
+                                                        ['fullname']
                                                     : '',
                                                 style: TextStyle(
-                                                  color: customColors["onContainer"],
+                                                  color: customColors[
+                                                      "onContainer"],
                                                 ),
                                               ),
                                             ],
@@ -406,25 +419,33 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                     width: 30,
                                                     child: RawMaterialButton(
                                                       fillColor: Colors.blue,
-                                                      constraints: const BoxConstraints(
+                                                      constraints:
+                                                          const BoxConstraints(
                                                         minHeight: 30,
                                                         minWidth: 30,
                                                       ),
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(10),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
                                                       ),
                                                       onPressed: () {
                                                         popUpAlertDialog(
-                                                          const Icon(Icons.edit, size: 50),
+                                                          const Icon(Icons.edit,
+                                                              size: 50),
                                                           "Edit post?",
                                                           Colors.blue,
                                                           "Edit",
                                                           () {
-                                                            Navigator.pop(context);
+                                                            Navigator.pop(
+                                                                context);
                                                             Navigator.pushNamed(
                                                               context,
-                                                              tuachuayDekhorPageRoute["editpost"]!,
-                                                              arguments: id_post,
+                                                              tuachuayDekhorPageRoute[
+                                                                  "editpost"]!,
+                                                              arguments:
+                                                                  id_post,
                                                             );
                                                           },
                                                         );
@@ -432,7 +453,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                       },
                                                       child: Icon(
                                                         Icons.edit_outlined,
-                                                        color: customColors["onMain"],
+                                                        color: customColors[
+                                                            "onMain"],
                                                       ),
                                                     ),
                                                   )
@@ -444,33 +466,48 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                     width: 30,
                                                     child: RawMaterialButton(
                                                       fillColor:
-                                                          const Color.fromRGBO(217, 192, 41, 1),
-                                                      constraints: const BoxConstraints(
+                                                          const Color.fromRGBO(
+                                                              217, 192, 41, 1),
+                                                      constraints:
+                                                          const BoxConstraints(
                                                         minHeight: 30,
                                                         minWidth: 30,
                                                       ),
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(10),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
                                                       ),
                                                       onPressed: () {
                                                         popUpAlertDialog(
                                                             Icon(
                                                               Icons.report,
                                                               size: 50,
-                                                              color: customColors["onContainer"],
+                                                              color: customColors[
+                                                                  "onContainer"],
                                                             ),
                                                             "Report post?",
-                                                            const Color.fromRGBO(217, 192, 41, 1),
+                                                            const Color
+                                                                .fromRGBO(217,
+                                                                192, 41, 1),
                                                             "Report", () {
-                                                          Navigator.pop(context);
-                                                          Navigator.pushNamed(context,
-                                                              tuachuayDekhorPageRoute["report"]!,
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator.pushNamed(
+                                                              context,
+                                                              tuachuayDekhorPageRoute[
+                                                                  "report"]!,
                                                               arguments: {
-                                                                'id_post': id_post,
-                                                                'id_blogger': detailpost[0]
-                                                                    ['id_user'],
+                                                                'id_post':
+                                                                    id_post,
+                                                                'id_blogger':
+                                                                    detailpost[
+                                                                            0][
+                                                                        'id_user'],
                                                               });
-                                                          print("report the blog");
+                                                          print(
+                                                              "report the blog");
                                                         });
                                                       },
                                                       child: const Icon(
@@ -484,29 +521,38 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                     width: 30,
                                                     child: RawMaterialButton(
                                                       fillColor: Colors.red,
-                                                      constraints: const BoxConstraints(
+                                                      constraints:
+                                                          const BoxConstraints(
                                                         minHeight: 30,
                                                         minWidth: 30,
                                                       ),
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(10),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
                                                       ),
                                                       onPressed: () {
                                                         popUpAlertDialog(
                                                           Icon(
                                                             Icons.delete,
                                                             size: 50,
-                                                            color: customColors["onContainer"],
+                                                            color: customColors[
+                                                                "onContainer"],
                                                           ),
                                                           "Delete post?",
                                                           Colors.red,
                                                           "Delete",
                                                           () {
                                                             deletepost();
-                                                            print("delete the blog");
-                                                            Navigator.pop(context);
-                                                            Navigator.pop(context);
-                                                            Navigator.pop(context);
+                                                            print(
+                                                                "delete the blog");
+                                                            Navigator.pop(
+                                                                context);
+                                                            Navigator.pop(
+                                                                context);
+                                                            Navigator.pop(
+                                                                context);
                                                             Navigator.pushNamed(
                                                                 context,
                                                                 tuachuayDekhorPageRoute[
@@ -530,20 +576,24 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                     Column(
                                       children: [
                                         Container(
-                                          constraints: const BoxConstraints(maxHeight: 200),
+                                          constraints: const BoxConstraints(
+                                              maxHeight: 200),
                                           clipBehavior: Clip.antiAlias,
                                           decoration: const BoxDecoration(),
                                           child: IntrinsicHeight(
                                             child: ClipRRect(
                                               child: isLoading
                                                   ? Center(
-                                                      child: CircularProgressIndicator(
-                                                        color: customColors["main"]!,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: customColors[
+                                                            "main"]!,
                                                       ),
                                                     )
                                                   : Image(
-                                                      image:
-                                                          NetworkImage(detailpost[0]['image_link']),
+                                                      image: NetworkImage(
+                                                          detailpost[0]
+                                                              ['image_link']),
                                                       fit: BoxFit.cover,
                                                     ),
                                             ),
@@ -562,7 +612,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                     },
                                                     child: Icon(
                                                       Icons.bookmark,
-                                                      color: customColors["icon1"],
+                                                      color:
+                                                          customColors["icon1"],
                                                     ),
                                                   )
                                                 : GestureDetector(
@@ -572,25 +623,48 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                     },
                                                     child: Icon(
                                                       Icons.bookmark_outline,
-                                                      color: customColors["onContainer"],
+                                                      color: customColors[
+                                                          "onContainer"],
                                                     ),
                                                   ),
                                             SizedBox(width: size.width * 0.01),
                                             Text(
                                               "${countsavepost.length}",
                                               style: TextStyle(
-                                                color: customColors["onContainer"],
+                                                color:
+                                                    customColors["onContainer"],
                                               ),
                                             )
                                           ],
                                         ),
                                       ],
                                     ),
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      padding:
+                                          EdgeInsets.fromLTRB(16, 16, 16, 0),
+                                      child: Text(
+                                        detailpost.isNotEmpty
+                                            ? detailpost[0]['title']
+                                            : '',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color:
+                                                customColors["onContainer"]!),
+                                      ),
+                                    ),
+                                    Divider(
+                                      color: customColors["label"]!,
+                                    ),
                                     SizedBox(
                                       child: Markdown(
-                                        physics: const NeverScrollableScrollPhysics(),
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
-                                        data: detailpost.isNotEmpty ? detailpost[0]['content'] : '',
+                                        data: detailpost.isNotEmpty
+                                            ? detailpost[0]['content']
+                                            : '',
                                       ),
                                     ),
                                     SizedBox(height: size.height * 0.02),
@@ -615,17 +689,20 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                         bottom: size.height * 0.02,
                                       ),
                                       child: Column(
-                                        children: List.generate(commentpost.length, (index) {
+                                        children: List.generate(
+                                            commentpost.length, (index) {
                                           return ListTile(
                                             onTap: () {},
                                             leading: CircleAvatar(
                                               backgroundImage: NetworkImage(
-                                                commentpost[index]['user']['profile'] ??
+                                                commentpost[index]['user']
+                                                        ['profile'] ??
                                                     "https://api.multiavatar.com/${commentpost[index]['user']['fullname']}.png",
                                               ),
                                             ),
                                             title: Text(
-                                              commentpost[index]['user']['fullname'],
+                                              commentpost[index]['user']
+                                                  ['fullname'],
                                               style: TextStyle(
                                                 color: customColors["main"],
                                               ),
@@ -634,10 +711,12 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                             subtitle: Text(
                                               commentpost[index]['comment'],
                                               style: TextStyle(
-                                                color: customColors["onContainer"],
+                                                color:
+                                                    customColors["onContainer"],
                                               ),
                                             ),
-                                            visualDensity: const VisualDensity(vertical: -3),
+                                            visualDensity: const VisualDensity(
+                                                vertical: -3),
                                           );
                                         }),
                                       ),
