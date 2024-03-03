@@ -58,19 +58,15 @@ class _EditbinPageState extends State<EditbinPage> {
 
   void _presstosend() async {
     final url = Uri.parse("$api$pinTheBineditbinRoute");
-    print("1");
     http.Response res = await http.put(url, headers: {
       "Authorization": "Bearer $publicToken"
     }, body: {
       "location": _LocationstextController.text,
       "description": _DescriptiontextController.text,
       "bintype": jsonEncode(_bintype),
-      //"id": widget.binData['Bininfo']['id']
-      "latitude": _latitude,
-      "longitude": _longitude,
+      "id": "${widget.binData['Bininfo']['id']}"
     });
     print(res.body);
-    print("2");
   }
 
   @override
@@ -161,11 +157,11 @@ class _EditbinPageState extends State<EditbinPage> {
                 key: _scaffoldKey,
                 appBar: AppBar(
                   leading: GestureDetector(
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.menu_rounded),
-                        SizedBox(height: 15)
+                        SizedBox(height: size.height * 0.015),
                       ],
                     ),
                     onTap: () => _scaffoldKey.currentState?.openDrawer(),
@@ -192,8 +188,8 @@ class _EditbinPageState extends State<EditbinPage> {
                         "EDIT",
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
-                      const SizedBox(
-                        height: 15,
+                      SizedBox(
+                        height: size.height * 0.015,
                       )
                     ],
                   ),
@@ -308,11 +304,13 @@ class _EditbinPageState extends State<EditbinPage> {
                                     //fit: BoxFit.fill,
                                   ),
                                 )
+                              // : Container()
                               : ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: Image.network(
-                                    fit: BoxFit.contain,
+                                    // fit: BoxFit.contain,
                                     widget.binData['Bininfo']['picture'],
+                                    fit: BoxFit.contain,
                                   ),
                                 ),
                         ),
@@ -649,7 +647,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                     "Sen",
                                     color: const Color.fromARGB(
                                         255, 255, 255, 255),
-                                    fontSize: 20,
+                                    fontSize: 17,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -689,7 +687,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                     "Sen",
                                     color: const Color.fromARGB(
                                         255, 255, 255, 255),
-                                    fontSize: 15,
+                                    fontSize: 17,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),

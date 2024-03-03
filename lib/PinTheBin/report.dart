@@ -156,10 +156,10 @@ class _ReportPageState extends State<ReportPage> {
                               ),
                             )
                           : ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
+                              // borderRadius: BorderRadius.circular(15),
                               child: Image.network(
                                 data['Bininfo']['picture'],
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                               ),
                             ),
                     ),
