@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -8,8 +9,7 @@ class TuachuayDekhorAdminPage extends StatefulWidget {
   const TuachuayDekhorAdminPage({Key? key}) : super(key: key);
 
   @override
-  State<TuachuayDekhorAdminPage> createState() =>
-      _TuachuayDekhorAdminPageState();
+  State<TuachuayDekhorAdminPage> createState() => _TuachuayDekhorAdminPageState();
 }
 
 class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
@@ -31,8 +31,7 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
     if (response.statusCode == 200) {
       setState(() {
         report = jsonDecode(response.body);
-        item = List.generate(
-            report.length, (index) => 'Title : ${report[index]['title']}');
+        item = List.generate(report.length, (index) => 'Title : ${report[index]['title']}');
         print(report);
       });
     } else {
@@ -49,8 +48,12 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    bool isDarkMode = ThemesPortal.getCurrent(context).isDarkMode;
+    Map<String, Color> customColors = theme.customColors;
+  
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"],
       body: SafeArea(
         child: SingleChildScrollView(
           child: ConstrainedBox(
@@ -61,30 +64,29 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
             child: Column(
               children: [
                 Container(
-                  color: const Color.fromRGBO(0, 48, 73, 1),
+                  color: customColors["background"],
                   width: size.width,
                   height: size.width * 0.2,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(10),
                     onTap: () {
-                      Navigator.pushNamed(
-                          context, tuachuayDekhorPageRoute["home"]!);
+                      Navigator.pushNamed(context, tuachuayDekhorPageRoute["home"]!);
                     },
-                    child: const Image(
+                    child: Image(
                       image: AssetImage(
-                          "assets/images/Logo/TuachuayDekhor_Dark.png"),
+                        "assets/images/Logo/TuachuayDekhor_${isDarkMode ? "Dark" : "Light"}.png",
+                      ),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                      top: size.width * 0.05, bottom: size.width * 0.05),
-                  child: const Text(
+                  padding: EdgeInsets.only(top: size.width * 0.05, bottom: size.width * 0.05),
+                  child: Text(
                     "ALL REPORTS",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w900,
-                      color: Colors.black,
+                      color: customColors["onContainer"],
                     ),
                   ),
                 ),
@@ -105,8 +107,14 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
                             item.removeAt(index);
                           });
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Item dismissed"),
+                            SnackBar(
+                              backgroundColor: customColors["container"],
+                              content: Text(
+                                "Item dismissed",
+                                style: TextStyle(
+                                  color: customColors["onContainer"],
+                                ),
+                              ),
                             ),
                           );
                         },
@@ -114,11 +122,14 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
                           alignment: Alignment.centerRight,
                           padding: const EdgeInsets.only(right: 10),
                           color: Colors.red,
-                          child: const Icon(Icons.delete),
+                          child: const Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          ),
                         ),
                         child: Container(
                           margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                          color: Colors.grey[300],
+                          color: customColors["container"],
                           child: ListTile(
                             onTap: () {
                               Navigator.pushNamed(
@@ -132,7 +143,8 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
                             },
                             title: Text(
                               currentItem,
-                              style: const TextStyle(
+                              style: TextStyle(
+                                color: customColors["onContainer"],
                                 fontSize: 17,
                                 fontWeight: FontWeight.w500,
                               ),

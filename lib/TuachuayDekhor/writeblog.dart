@@ -8,6 +8,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
@@ -17,12 +18,10 @@ class TuachuayDekhorWriteBlogPage extends StatefulWidget {
   const TuachuayDekhorWriteBlogPage({super.key});
 
   @override
-  State<TuachuayDekhorWriteBlogPage> createState() =>
-      _TuachuayDekhorWriteBlogPageState();
+  State<TuachuayDekhorWriteBlogPage> createState() => _TuachuayDekhorWriteBlogPageState();
 }
 
-class _TuachuayDekhorWriteBlogPageState
-    extends State<TuachuayDekhorWriteBlogPage>
+class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPage>
     with SingleTickerProviderStateMixin {
   String? _dropdownValue;
   BoxController boxController = BoxController();
@@ -62,8 +61,7 @@ class _TuachuayDekhorWriteBlogPageState
       request.fields['category'] = _dropdownValue!;
       request.fields['fullname'] = profileData['fullname'];
       request.fields['pathimage'] = imageFile!.path;
-      request.files
-          .add(await http.MultipartFile.fromPath('file', imageFile.path));
+      request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -87,8 +85,7 @@ class _TuachuayDekhorWriteBlogPageState
       request.fields['category'] = _dropdownValue!;
       request.fields['fullname'] = profileData['fullname'];
       request.fields['pathimage'] = imageFile!.path;
-      request.files
-          .add(await http.MultipartFile.fromPath('file', imageFile.path));
+      request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -104,8 +101,7 @@ class _TuachuayDekhorWriteBlogPageState
   }
 
   Future<void> posttoprofile() async {
-    var response = await http
-        .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
+    var response = await http.get(posturl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
       setState(() {
         post = jsonDecode(response.body);
@@ -151,8 +147,11 @@ class _TuachuayDekhorWriteBlogPageState
     Size size = MediaQuery.of(context).size;
     markdownTitleText = markdownTitleController.text;
     markdownContentText = markdownContentController.text;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"],
       body: SafeArea(
         child: SlidingBox(
           controller: boxController,
@@ -169,36 +168,39 @@ class _TuachuayDekhorWriteBlogPageState
                 Align(
                   alignment: Alignment.topRight,
                   child: GestureDetector(
-                      child: const Icon(Icons.close),
+                      child: Icon(
+                        Icons.close,
+                        color: customColors["main"],
+                      ),
                       onTap: () {
                         boxController.closeBox();
                       }),
                 ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 10),
-                  child: const Text(
+                  child: Text(
                     "Preview",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"],
                     ),
                   ),
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Title :",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"],
                     ),
                   ),
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: customColors["textInputContainer"]!.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   margin: const EdgeInsets.only(
@@ -227,20 +229,20 @@ class _TuachuayDekhorWriteBlogPageState
                     ),
                   ),
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Content :",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"],
                     ),
                   ),
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: customColors["textInputContainer"]!.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   margin: const EdgeInsets.only(
@@ -277,11 +279,18 @@ class _TuachuayDekhorWriteBlogPageState
                           left: size.width * 0.04,
                         ),
                         child: GestureDetector(
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Icon(Icons.arrow_back_outlined),
-                              SizedBox(width: 5),
-                              Text("Back")
+                              Icon(
+                                Icons.arrow_back_outlined,
+                                color: customColors["main"]!,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                "Back",
+                                style: TextStyle(color: customColors["main"]!),
+                              ),
                             ],
                           ),
                           onTap: () {
@@ -292,50 +301,54 @@ class _TuachuayDekhorWriteBlogPageState
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    surfaceTintColor: Colors.white,
-                                    backgroundColor: Colors.white,
+                                    surfaceTintColor: customColors["container"],
+                                    backgroundColor: customColors["container"],
                                     iconPadding: EdgeInsets.zero,
-                                    iconColor:
-                                        const Color.fromRGBO(0, 48, 73, 1),
+                                    iconColor: customColors["main"],
                                     icon: Stack(
                                       children: [
-                                        const Padding(
-                                          padding: EdgeInsets.fromLTRB(
-                                              24, 30, 24, 16),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(24, 30, 24, 16),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              Icon(Icons.note_alt, size: 50),
+                                              Icon(
+                                                Icons.note_alt,
+                                                size: 50,
+                                                color: customColors["main"],
+                                              ),
                                             ],
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 10, right: 10),
+                                          padding: const EdgeInsets.only(top: 10, right: 10),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                            mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               IconButton(
-                                                color: Colors.grey,
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                icon: const Icon(Icons.close),
+                                                color: customColors["main"],
+                                                onPressed: () => Navigator.pop(context),
+                                                icon: Icon(
+                                                  Icons.close,
+                                                  color: customColors["onMain"],
+                                                ),
                                               ),
                                             ],
                                           ),
                                         ),
                                       ],
                                     ),
-                                    title: const Text("Save draft?"),
-                                    actionsAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    title: Text(
+                                      "Save draft?",
+                                      style: TextStyle(
+                                        color: customColors["onContainer"]!,
+                                      ),
+                                    ),
+                                    actionsAlignment: MainAxisAlignment.spaceBetween,
                                     actions: [
                                       Container(
                                         decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                             color: Colors.red),
                                         child: TextButton(
                                           onPressed: () {
@@ -352,8 +365,7 @@ class _TuachuayDekhorWriteBlogPageState
                                       ),
                                       Container(
                                         decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                             color: Colors.green),
                                         child: TextButton(
                                           onPressed: () {
@@ -361,9 +373,7 @@ class _TuachuayDekhorWriteBlogPageState
                                             Navigator.pop(context);
                                             Navigator.pop(context);
                                             Navigator.pushNamed(
-                                                context,
-                                                tuachuayDekhorPageRoute[
-                                                    "draft"]!);
+                                                context, tuachuayDekhorPageRoute["draft"]!);
                                             print("Draft saved");
                                           },
                                           child: const Text(
@@ -393,23 +403,21 @@ class _TuachuayDekhorWriteBlogPageState
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             GestureDetector(
-                              child: const Text(
+                              child: Text(
                                 "DRAFTS",
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(0, 48, 73, 1),
+                                  color: customColors["main"],
                                 ),
                               ),
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, tuachuayDekhorPageRoute["draft"]!);
+                                Navigator.pushNamed(context, tuachuayDekhorPageRoute["draft"]!);
                               },
                             ),
                             Container(
                               width: 70,
-                              margin:
-                                  const EdgeInsets.only(left: 20, right: 10),
+                              margin: const EdgeInsets.only(left: 20, right: 10),
                               child: RawMaterialButton(
                                 onPressed: () {
                                   if (markdownTitleController.text.isEmpty ||
@@ -418,8 +426,7 @@ class _TuachuayDekhorWriteBlogPageState
                                       _image == null) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content:
-                                            Text("Please fill in all fields"),
+                                        content: Text("Please fill in all fields"),
                                         duration: Duration(seconds: 2),
                                       ),
                                     );
@@ -430,44 +437,35 @@ class _TuachuayDekhorWriteBlogPageState
                                         context: context,
                                         builder: (BuildContext context) {
                                           return Dialog(
-                                            surfaceTintColor: Colors.white,
-                                            backgroundColor: Colors.white,
+                                            surfaceTintColor: customColors["container"],
+                                            backgroundColor: customColors["container"],
                                             child: SizedBox(
                                               width: size.width * 0.3,
                                               height: size.height * 0.3,
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
                                                   LottieBuilder.asset(
                                                     status
                                                         ? "assets/images/Logo/Animation_Success.json"
                                                         : "assets/images/Logo/Animation_Fail.json",
                                                     repeat: false,
-                                                    controller:
-                                                        animationController,
+                                                    controller: animationController,
                                                     onLoaded: (composition) {
-                                                      animationController
-                                                              .duration =
+                                                      animationController.duration =
                                                           composition.duration;
-                                                      animationController
-                                                          .forward();
+                                                      animationController.forward();
                                                     },
                                                   ),
-                                                  SizedBox(
-                                                      height:
-                                                          size.height * 0.03),
+                                                  SizedBox(height: size.height * 0.03),
                                                   Align(
                                                     alignment: Alignment.center,
                                                     child: Text(
-                                                      status
-                                                          ? "Post successful!"
-                                                          : "Post failed!",
-                                                      style: const TextStyle(
+                                                      status ? "Post successful!" : "Post failed!",
+                                                      style: TextStyle(
                                                         fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: customColors["onContainer"],
                                                       ),
                                                     ),
                                                   ),
@@ -478,8 +476,7 @@ class _TuachuayDekhorWriteBlogPageState
                                         });
                                   }
                                 },
-                                fillColor:
-                                    const Color.fromRGBO(217, 192, 41, 1),
+                                fillColor: const Color.fromRGBO(217, 192, 41, 1),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
@@ -520,14 +517,14 @@ class _TuachuayDekhorWriteBlogPageState
                                   fontSize: 14,
                                 ),
                                 keyboardType: TextInputType.text,
-                                cursorColor: Colors.black.withOpacity(0.5),
+                                cursorColor: customColors["textInput"]!.withOpacity(0.5),
                                 cursorHeight: 18,
                                 decoration: InputDecoration(
-                                  fillColor: Colors.grey.withOpacity(0.3),
+                                  fillColor: customColors["textInputContainer"],
                                   filled: true,
                                   labelText: "Write a title",
                                   labelStyle: TextStyle(
-                                    color: Colors.black.withOpacity(0.5),
+                                    color: customColors["label"],
                                     fontSize: 14,
                                   ),
                                   border: OutlineInputBorder(
@@ -541,14 +538,15 @@ class _TuachuayDekhorWriteBlogPageState
                               onPressed: () {
                                 FocusManager.instance.primaryFocus?.unfocus();
                                 setState(() {
-                                  markdownTitleText =
-                                      markdownTitleController.text;
-                                  markdownContentText =
-                                      markdownContentController.text;
+                                  markdownTitleText = markdownTitleController.text;
+                                  markdownContentText = markdownContentController.text;
                                 });
                                 boxController.openBox();
                               },
-                              icon: const Icon(Icons.preview),
+                              icon: Icon(
+                                Icons.preview,
+                                color: customColors["main"]!,
+                              ),
                             ),
                           ],
                         ),
@@ -562,21 +560,22 @@ class _TuachuayDekhorWriteBlogPageState
                         child: TextFormField(
                           focusNode: anotherFocusNode,
                           controller: markdownContentController,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
+                            color: customColors["textInput"],
                           ),
                           keyboardType: TextInputType.multiline,
-                          cursorColor: Colors.black.withOpacity(0.5),
+                          cursorColor: customColors["textInput"]!.withOpacity(0.5),
                           cursorHeight: 16,
                           minLines: 8,
                           maxLines: 8,
                           decoration: InputDecoration(
                             alignLabelWithHint: true,
-                            fillColor: Colors.grey.withOpacity(0.3),
+                            fillColor: customColors["textInputContainer"],
                             filled: true,
                             labelText: "Write a blog",
                             labelStyle: TextStyle(
-                              color: Colors.black.withOpacity(0.5),
+                              color: customColors["label"],
                               fontSize: 12,
                             ),
                             border: OutlineInputBorder(
@@ -595,8 +594,8 @@ class _TuachuayDekhorWriteBlogPageState
                   right: 0,
                   child: Container(
                     height: size.width * 0.12,
-                    decoration: const BoxDecoration(
-                      color: Color.fromRGBO(0, 48, 73, 1),
+                    decoration: BoxDecoration(
+                      color: customColors["main"],
                     ),
                     child: Row(
                       children: [
@@ -604,44 +603,59 @@ class _TuachuayDekhorWriteBlogPageState
                           margin: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
+                            color: customColors["container"],
                           ),
                           child: DropdownButton(
                             underline: const SizedBox(),
                             padding: const EdgeInsets.only(left: 10),
-                            hint: const Text(
+                            hint: Text(
                               "Select Category",
-                              style: TextStyle(fontSize: 12),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: customColors["onContainer"]!,
+                              ),
                             ),
-                            dropdownColor: Colors.white,
-                            iconEnabledColor: Colors.black,
-                            items: const [
+                            dropdownColor: customColors["container"],
+                            iconEnabledColor: customColors["onContainer"],
+                            items: [
                               DropdownMenuItem(
                                 value: "decoration",
                                 child: Text(
                                   "Decoration",
-                                  style: TextStyle(fontSize: 12),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: customColors["onContainer"]!,
+                                  ),
                                 ),
                               ),
                               DropdownMenuItem(
                                 value: "cleaning",
                                 child: Text(
                                   "Cleaning",
-                                  style: TextStyle(fontSize: 12),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: customColors["onContainer"]!,
+                                  ),
                                 ),
                               ),
                               DropdownMenuItem(
                                 value: "cooking",
                                 child: Text(
                                   "Cooking",
-                                  style: TextStyle(fontSize: 12),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: customColors["onContainer"]!,
+                                  ),
                                 ),
                               ),
                               DropdownMenuItem(
                                 value: "story",
                                 child: Text(
                                   "Story",
-                                  style: TextStyle(fontSize: 12),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: customColors["onContainer"]!,
+                                  ),
                                 ),
                               ),
                             ],
@@ -660,7 +674,7 @@ class _TuachuayDekhorWriteBlogPageState
                           margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            color: Colors.grey[200],
+                            color: customColors["container"],
                           ),
                           child: GestureDetector(
                             onTap: () {
@@ -669,10 +683,10 @@ class _TuachuayDekhorWriteBlogPageState
                             },
                             child: Row(
                               children: [
-                                const SizedBox(
+                                SizedBox(
                                   child: Icon(
                                     Icons.image,
-                                    color: Color.fromRGBO(0, 48, 73, 1),
+                                    color: customColors["main"],
                                     size: 24,
                                   ),
                                 ),

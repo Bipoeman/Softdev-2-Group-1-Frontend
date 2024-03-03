@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
   bool _isDarkMode = false;
@@ -12,6 +13,18 @@ class ThemeProvider extends ChangeNotifier {
 
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
+    saveTheme();
+    notifyListeners();
+  }
+
+  void saveTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("isDarkMode", _isDarkMode);
+  }
+  
+  void loadTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _isDarkMode = prefs.getBool("isDarkMode") ?? false;
     notifyListeners();
   }
 }
@@ -20,6 +33,10 @@ class ThemesPortal {
   static CustomThemes? appThemeFromContext(BuildContext context, String app) {
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
     return themes.themeFrom(app);
+  }
+
+  static ThemeProvider getCurrent(BuildContext context) {
+    return Provider.of<ThemeProvider>(context);
   }
 }
 
@@ -181,7 +198,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
       ),
       customColors: {
         "main": Colors.white,
-        "onMain": Colors.white,
+        "onMain": const Color.fromRGBO(0, 48, 73, 1),
         "container": const Color.fromRGBO(77, 77, 77, 1),
         "onContainer": Colors.white,
         "textInputContainer": const Color.fromRGBO(84, 84, 84, 1),
@@ -189,7 +206,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "textInput": Colors.white,
         "icon1": const Color.fromRGBO(217, 192, 41, 1),
         "icon2": const Color.fromRGBO(0, 48, 73, 1),
-        "background": Colors.black,
+        "background": const Color.fromRGBO(32, 32, 32, 1),
       },
     ),
   }
