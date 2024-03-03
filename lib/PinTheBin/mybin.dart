@@ -227,7 +227,7 @@ class _MyBinState extends State<MyBinPage> {
                                                   pinthebinPageRoute[
                                                       "editbin"]!,
                                                   arguments: {
-                                                    'Bininfo': '$data',
+                                                    'Bininfo': data,
                                                   },
                                                 );
                                               },

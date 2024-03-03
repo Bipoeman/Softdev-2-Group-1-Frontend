@@ -6,6 +6,7 @@ import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:popup_menu/popup_menu.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BinLocationInfo {
@@ -22,6 +23,27 @@ class MapPinTheBin extends StatefulWidget {
 
   @override
   State<MapPinTheBin> createState() => _MapPinTheBinState();
+}
+
+Widget _showEdit(context, bin) {
+  if ('${bin['user_update']}' == '${profileData['id']}') {
+    print("show");
+    return InkWell(
+      child: Image.asset(
+        "assets/images/PinTheBin/edit_bin_black_white.png",
+        height: 22,
+      ),
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          pinthebinPageRoute["editbin"]!,
+          arguments: {'Bininfo': bin},
+        );
+      },
+    );
+  } else {
+    return Container();
+  }
 }
 
 class _MapPinTheBinState extends State<MapPinTheBin>
@@ -74,10 +96,12 @@ class _MapPinTheBinState extends State<MapPinTheBin>
         markerInfo.markers.add(
           Marker(
             point: LatLng(lattitude, longtitude),
-            width: 50,
-            height: 50,
+            width: 30,
+            height: 30,
             rotate: true,
-            child: Image.asset("assets/images/PinTheBin/pin.png"), //รูปหมุด
+            child: Image.asset(
+              "assets/images/PinTheBin/pin.png",
+            ), //รูปหมุด
           ),
         );
         markerInfo.info.add(widget.binInfo[index]);
@@ -110,11 +134,13 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                 markerInfo.info.length,
                 (index) => Marker(
                   point: markerInfo.markers[index].point,
-                  width: 50,
-                  height: 50,
+                  width: 30,
+                  height: 30,
                   rotate: true,
                   child: GestureDetector(
-                    child: Image.asset("assets/images/PinTheBin/pin.png"),
+                    child: Image.asset(
+                      "assets/images/PinTheBin/pin.png",
+                    ),
                     onTap: () {
                       print("position $index : ${widget.binInfo[index]}");
                       binInfoController.openBox();
@@ -270,21 +296,7 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                     ),
                                   ),
                                   Row(children: [
-                                    InkWell(
-                                      child: Image.asset(
-                                        "assets/images/PinTheBin/edit_bin_black_white.png",
-                                        height: 22,
-                                      ),
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          pinthebinPageRoute["editbin"]!,
-                                          arguments: {
-                                            'Bininfo': displayBinInfo
-                                          },
-                                        );
-                                      },
-                                    ),
+                                    _showEdit(context, displayBinInfo),
                                     InkWell(
                                       child: Image.asset(
                                         "assets/images/PinTheBin/navigate_bin.png",
