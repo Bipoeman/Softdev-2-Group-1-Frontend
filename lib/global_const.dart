@@ -60,6 +60,11 @@ const String restroomRoverGetReviewRoute = "/restroom/review";
 const String pinTheBinReportBinRoute = "/pinthebin/report";
 const String pinTheBinReportPictureBinRoute = "/pinthebin/report/upload";
 
+const String ruammitrIssueRoute = "/issue/ruammitr";
+const String pintheebinIssueRoute = "/issue/pinthebin";
+const String restroomIssueRoute = "/issue/restroom";
+const String dekhorIssueRoute = "/issue/dekhor";
+
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",
   "homev2": "/RuamMitr/homev2",
