@@ -859,7 +859,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                             .headlineSmall,
                                       ),
                                       content: const Text(
-                                          'Would you like to confirm the modifications to your trash bin information?'),
+                                          'Would you like to confirm to add a trash bin at this location?'),
                                       actions: [
                                         MaterialButton(
                                           onPressed: () async {
