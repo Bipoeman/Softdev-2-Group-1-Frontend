@@ -27,7 +27,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
 
   late CameraComponent cam;
   Player player = Player(character: 'Relaxaurus');
-  late double cameraWidth = 640;
+  late double cameraWidth = 660;
   late double cameraHeight;
 
   late JoystickComponent joystick;

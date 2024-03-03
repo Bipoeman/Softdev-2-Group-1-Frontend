@@ -27,7 +27,7 @@ class TutorialScreen extends StatelessWidget {
               maxScale: 4,
               child: Image.asset(
                 "assets/images/DinoDengzz Icon/Tutorial.png",
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               ),
             ),
           ),

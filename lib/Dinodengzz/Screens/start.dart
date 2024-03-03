@@ -24,7 +24,7 @@ class StartScreen extends StatelessWidget {
             widthFactor: 1,
             child: Image.asset(
               "assets/images/DinoDengzz Icon/Plain background.png",
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
           ),
           Align(
