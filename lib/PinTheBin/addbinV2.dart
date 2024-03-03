@@ -814,9 +814,10 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                   context, pinthebinPageRoute['home']!);
                             },
                             child: Container(
-                              padding: EdgeInsets.only(
-                                  left: size.width * 0.024,
-                                  top: size.height * 0.01),
+                              alignment: Alignment.center,
+                              // padding: EdgeInsets.only(
+                              //     left: size.width * 0.024,
+                              //     top: size.height * 0.01),
                               width: size.width * 0.25,
                               height: size.height * 0.055,
                               decoration: BoxDecoration(

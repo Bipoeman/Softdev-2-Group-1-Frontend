@@ -628,9 +628,10 @@ class _EditbinPageState extends State<EditbinPage> {
                                 top: size.height * 0.76),
                             child: GestureDetector(
                               child: Container(
-                                padding: EdgeInsets.only(
-                                    left: size.width * 0.025,
-                                    top: size.height * 0.009),
+                                alignment: Alignment.center,
+                                // padding: EdgeInsets.only(
+                                //     left: size.width * 0.025,
+                                //     top: size.height * 0.009),
                                 width: size.width * 0.25,
                                 height: size.height * 0.055,
                                 decoration: BoxDecoration(
@@ -667,9 +668,10 @@ class _EditbinPageState extends State<EditbinPage> {
                                 top: size.height * 0.76),
                             child: GestureDetector(
                               child: Container(
-                                padding: EdgeInsets.only(
-                                    left: size.width * 0.018,
-                                    top: size.height * 0.008),
+                                alignment: Alignment.center,
+                                // padding: EdgeInsets.only(
+                                //     left: size.width * 0.018,
+                                //     top: size.height * 0.008),
                                 width: size.width * 0.25,
                                 height: size.height * 0.055,
                                 decoration: BoxDecoration(
