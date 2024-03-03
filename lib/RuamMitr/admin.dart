@@ -598,7 +598,7 @@ class _ReportCardState extends State<ReportCard> {
                           SizedBox(
                             width: widget.size.width * (570 / 738) * 0.5,
                             child: Text(
-                              widget.reportData['title'],
+                              widget.reportData['title'] ?? "No title provided",
                               overflow: TextOverflow.ellipsis,
                             ),
                           )
