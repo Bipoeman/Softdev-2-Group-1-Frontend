@@ -40,7 +40,7 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
 
     return Scaffold(

@@ -60,8 +60,7 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
       request.fields['content'] = markdownContentController.text;
       request.fields['category'] = _dropdownValue!;
       request.fields['fullname'] = profileData['fullname'];
-      request.files
-          .add(await http.MultipartFile.fromPath('file', imageFile!.path));
+      request.files.add(await http.MultipartFile.fromPath('file', imageFile!.path));
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -76,7 +75,7 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
     }
   }
 
- Future<void> draft(File? imageFile) async {
+  Future<void> draft(File? imageFile) async {
     try {
       var request = http.MultipartRequest('POST', draftposturl);
       request.headers['Authorization'] = 'Bearer $publicToken';
@@ -84,8 +83,7 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
       request.fields['content'] = markdownContentController.text;
       request.fields['category'] = _dropdownValue!;
       request.fields['fullname'] = profileData['fullname'];
-      request.files
-          .add(await http.MultipartFile.fromPath('file', imageFile!.path));
+      request.files.add(await http.MultipartFile.fromPath('file', imageFile!.path));
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -101,8 +99,7 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
   }
 
   Future<void> posttoprofile() async {
-    var response = await http
-        .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
+    var response = await http.get(posturl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
       setState(() {
         post = jsonDecode(response.body);
@@ -148,8 +145,11 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
     Size size = MediaQuery.of(context).size;
     markdownTitleText = markdownTitleController.text;
     markdownContentText = markdownContentController.text;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"],
       body: SafeArea(
         child: SlidingBox(
           controller: boxController,
@@ -166,36 +166,39 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                 Align(
                   alignment: Alignment.topRight,
                   child: GestureDetector(
-                      child: const Icon(Icons.close),
+                      child: Icon(
+                        Icons.close,
+                        color: customColors["main"],
+                      ),
                       onTap: () {
                         boxController.closeBox();
                       }),
                 ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 10),
-                  child: const Text(
+                  child: Text(
                     "Preview",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"],
                     ),
                   ),
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Title :",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"],
                     ),
                   ),
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: customColors["textInputContainer"]!.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   margin: const EdgeInsets.only(
@@ -205,6 +208,7 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                   height: size.height * 0.075,
                   child: Scrollbar(
                     child: Markdown(
+                      styleSheet: MarkdownStyleSheet.fromTheme(theme.themeData),
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       data: markdownTitleText,
@@ -224,20 +228,20 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                     ),
                   ),
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Content :",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"],
                     ),
                   ),
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: customColors["textInputContainer"]!.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   margin: const EdgeInsets.only(
@@ -247,6 +251,7 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                   height: size.height * 0.3,
                   child: Scrollbar(
                     child: Markdown(
+                      styleSheet: MarkdownStyleSheet.fromTheme(theme.themeData),
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       data: markdownContentText,
@@ -274,11 +279,18 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                           left: size.width * 0.04,
                         ),
                         child: GestureDetector(
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Icon(Icons.arrow_back_outlined),
-                              SizedBox(width: 5),
-                              Text("Back")
+                              Icon(
+                                Icons.arrow_back_outlined,
+                                color: customColors["main"]!,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                "Back",
+                                style: TextStyle(color: customColors["main"]!),
+                              ),
                             ],
                           ),
                           onTap: () {
@@ -289,18 +301,22 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    surfaceTintColor: Colors.white,
-                                    backgroundColor: Colors.white,
+                                    surfaceTintColor: customColors["container"],
+                                    backgroundColor: customColors["container"],
                                     iconPadding: EdgeInsets.zero,
-                                    iconColor: const Color.fromRGBO(0, 48, 73, 1),
+                                    iconColor: customColors["main"],
                                     icon: Stack(
                                       children: [
-                                        const Padding(
-                                          padding: EdgeInsets.fromLTRB(24, 30, 24, 16),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(24, 30, 24, 16),
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              Icon(Icons.note_alt, size: 50),
+                                              Icon(
+                                                Icons.note_alt,
+                                                size: 50,
+                                                color: customColors["main"],
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -310,16 +326,24 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               IconButton(
-                                                color: Colors.grey,
+                                                color: customColors["main"],
                                                 onPressed: () => Navigator.pop(context),
-                                                icon: const Icon(Icons.close),
+                                                icon: Icon(
+                                                  Icons.close,
+                                                  color: customColors["onMain"],
+                                                ),
                                               ),
                                             ],
                                           ),
                                         ),
                                       ],
                                     ),
-                                    title: const Text("Save draft?"),
+                                    title: Text(
+                                      "Save draft?",
+                                      style: TextStyle(
+                                        color: customColors["onContainer"]!,
+                                      ),
+                                    ),
                                     actionsAlignment: MainAxisAlignment.spaceBetween,
                                     actions: [
                                       Container(
@@ -349,9 +373,7 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                             Navigator.pop(context);
                                             Navigator.pop(context);
                                             Navigator.pushNamed(
-                                                context,
-                                                tuachuayDekhorPageRoute[
-                                                    "draft"]!);
+                                                context, tuachuayDekhorPageRoute["draft"]!);
                                             print("Draft saved");
                                           },
                                           child: const Text(
@@ -381,12 +403,12 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             GestureDetector(
-                              child: const Text(
+                              child: Text(
                                 "DRAFTS",
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(0, 48, 73, 1),
+                                  color: customColors["main"],
                                 ),
                               ),
                               onTap: () {
@@ -404,8 +426,7 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                       _image == null) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content:
-                                            Text("Please fill in all fields"),
+                                        content: Text("Please fill in all fields"),
                                         duration: Duration(seconds: 2),
                                       ),
                                     );
@@ -416,44 +437,35 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                         context: context,
                                         builder: (BuildContext context) {
                                           return Dialog(
-                                            surfaceTintColor: Colors.white,
-                                            backgroundColor: Colors.white,
+                                            surfaceTintColor: customColors["container"],
+                                            backgroundColor: customColors["container"],
                                             child: SizedBox(
                                               width: size.width * 0.3,
                                               height: size.height * 0.3,
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
                                                   LottieBuilder.asset(
                                                     status
                                                         ? "assets/images/Logo/Animation_Success.json"
                                                         : "assets/images/Logo/Animation_Fail.json",
                                                     repeat: false,
-                                                    controller:
-                                                        animationController,
+                                                    controller: animationController,
                                                     onLoaded: (composition) {
-                                                      animationController
-                                                              .duration =
+                                                      animationController.duration =
                                                           composition.duration;
-                                                      animationController
-                                                          .forward();
+                                                      animationController.forward();
                                                     },
                                                   ),
-                                                  SizedBox(
-                                                      height:
-                                                          size.height * 0.03),
+                                                  SizedBox(height: size.height * 0.03),
                                                   Align(
                                                     alignment: Alignment.center,
                                                     child: Text(
-                                                      status
-                                                          ? "Post successful!"
-                                                          : "Post failed!",
-                                                      style: const TextStyle(
+                                                      status ? "Post successful!" : "Post failed!",
+                                                      style: TextStyle(
                                                         fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: customColors["onContainer"],
                                                       ),
                                                     ),
                                                   ),
@@ -505,14 +517,14 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                   fontSize: 14,
                                 ),
                                 keyboardType: TextInputType.text,
-                                cursorColor: Colors.black.withOpacity(0.5),
+                                cursorColor: customColors["textInput"]!.withOpacity(0.5),
                                 cursorHeight: 18,
                                 decoration: InputDecoration(
-                                  fillColor: Colors.grey.withOpacity(0.3),
+                                  fillColor: customColors["textInputContainer"],
                                   filled: true,
                                   labelText: "Write a title",
                                   labelStyle: TextStyle(
-                                    color: Colors.black.withOpacity(0.5),
+                                    color: customColors["label"],
                                     fontSize: 14,
                                   ),
                                   border: OutlineInputBorder(
@@ -531,7 +543,10 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                 });
                                 boxController.openBox();
                               },
-                              icon: const Icon(Icons.preview),
+                              icon: Icon(
+                                Icons.preview,
+                                color: customColors["main"]!,
+                              ),
                             ),
                           ],
                         ),
@@ -545,21 +560,22 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                         child: TextFormField(
                           focusNode: anotherFocusNode,
                           controller: markdownContentController,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
+                            color: customColors["textInput"],
                           ),
                           keyboardType: TextInputType.multiline,
-                          cursorColor: Colors.black.withOpacity(0.5),
+                          cursorColor: customColors["textInput"]!.withOpacity(0.5),
                           cursorHeight: 16,
                           minLines: 8,
                           maxLines: 8,
                           decoration: InputDecoration(
                             alignLabelWithHint: true,
-                            fillColor: Colors.grey.withOpacity(0.3),
+                            fillColor: customColors["textInputContainer"],
                             filled: true,
                             labelText: "Write a blog",
                             labelStyle: TextStyle(
-                              color: Colors.black.withOpacity(0.5),
+                              color: customColors["label"],
                               fontSize: 12,
                             ),
                             border: OutlineInputBorder(
@@ -578,8 +594,8 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                   right: 0,
                   child: Container(
                     height: size.width * 0.12,
-                    decoration: const BoxDecoration(
-                      color: Color.fromRGBO(0, 48, 73, 1),
+                    decoration: BoxDecoration(
+                      color: customColors["main"],
                     ),
                     child: Row(
                       children: [
@@ -587,44 +603,59 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                           margin: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
+                            color: customColors["container"],
                           ),
                           child: DropdownButton(
                             underline: const SizedBox(),
                             padding: const EdgeInsets.only(left: 10),
-                            hint: const Text(
+                            hint: Text(
                               "Select Category",
-                              style: TextStyle(fontSize: 12),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: customColors["onContainer"]!,
+                              ),
                             ),
-                            dropdownColor: Colors.white,
-                            iconEnabledColor: Colors.black,
-                            items: const [
+                            dropdownColor: customColors["container"],
+                            iconEnabledColor: customColors["onContainer"],
+                            items: [
                               DropdownMenuItem(
                                 value: "decoration",
                                 child: Text(
                                   "Decoration",
-                                  style: TextStyle(fontSize: 12),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: customColors["onContainer"]!,
+                                  ),
                                 ),
                               ),
                               DropdownMenuItem(
                                 value: "cleaning",
                                 child: Text(
                                   "Cleaning",
-                                  style: TextStyle(fontSize: 12),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: customColors["onContainer"]!,
+                                  ),
                                 ),
                               ),
                               DropdownMenuItem(
                                 value: "cooking",
                                 child: Text(
                                   "Cooking",
-                                  style: TextStyle(fontSize: 12),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: customColors["onContainer"]!,
+                                  ),
                                 ),
                               ),
                               DropdownMenuItem(
                                 value: "story",
                                 child: Text(
                                   "Story",
-                                  style: TextStyle(fontSize: 12),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: customColors["onContainer"]!,
+                                  ),
                                 ),
                               ),
                             ],
@@ -643,7 +674,7 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                           margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            color: Colors.grey[200],
+                            color: customColors["container"],
                           ),
                           child: Row(
                             children: [
@@ -652,9 +683,9 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                   _getImage();
                                   print("Add image tapped");
                                 },
-                                child: const Icon(
+                                child: Icon(
                                   Icons.image,
-                                  color: Color.fromRGBO(0, 48, 73, 1),
+                                  color: customColors["main"],
                                   size: 24,
                                 ),
                               ),
@@ -664,13 +695,18 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                   maxWidth: size.width * 0.525,
                                 ),
                                 child: _image == null
-                                    ? const Text(
+                                    ? Text(
                                         "no image selected",
-                                        style: TextStyle(color: Colors.grey),
+                                        style: TextStyle(
+                                          color: customColors["onContainer"],
+                                        ),
                                       )
                                     : Text(
                                         _image!.path.split('/').last,
                                         overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: customColors["onContainer"],
+                                        ),
                                       ),
                               ),
                             ],

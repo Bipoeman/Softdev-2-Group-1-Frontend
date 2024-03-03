@@ -393,7 +393,10 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                                     IconButton(
                                                       color: customColors["main"]!,
                                                       onPressed: () => Navigator.pop(context),
-                                                      icon: const Icon(Icons.close),
+                                                      icon: Icon(
+                                                        Icons.close,
+                                                        color: customColors["onMain"],
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -625,8 +628,9 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                               child: TextFormField(
                                 focusNode: anotherFocusNode,
                                 controller: markdownContentController,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 12,
+                                  color: customColors["textInput"],
                                 ),
                                 keyboardType: TextInputType.multiline,
                                 cursorColor: customColors["textInput"]!.withOpacity(0.5),
@@ -761,6 +765,9 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                       child: Text(
                                         _image.path.split('/').last,
                                         overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: customColors["onContainer"],
+                                        ),
                                       ),
                                     ),
                                   ],
