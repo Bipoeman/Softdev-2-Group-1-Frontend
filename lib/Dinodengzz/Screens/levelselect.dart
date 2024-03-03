@@ -32,7 +32,7 @@ class LevelSelectionScreen extends StatelessWidget {
           image: DecorationImage(
             image: AssetImage(
                 "assets/images/DinoDengzz Icon/Select Level Screen.png"),
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
         child: Stack(
