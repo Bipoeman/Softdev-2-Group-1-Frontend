@@ -13,8 +13,7 @@ class TuachuayDekhorSearchPage extends StatefulWidget {
   const TuachuayDekhorSearchPage({super.key});
 
   @override
-  State<TuachuayDekhorSearchPage> createState() =>
-      _TuachuayDekhorSearchPageState();
+  State<TuachuayDekhorSearchPage> createState() => _TuachuayDekhorSearchPageState();
 }
 
 class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
@@ -73,8 +72,11 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes customThemes = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = customThemes.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"],
       body: SafeArea(
         child: Stack(
           children: [
@@ -93,11 +95,18 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                         left: size.width * 0.04,
                       ),
                       child: GestureDetector(
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.arrow_back_outlined),
-                            SizedBox(width: 5),
-                            Text("Back")
+                            Icon(
+                              Icons.arrow_back_outlined,
+                              color: customColors["main"]!,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "Back",
+                              style: TextStyle(color: customColors["main"]!),
+                            ),
                           ],
                         ),
                         onTap: () => Navigator.pop(context),
@@ -110,7 +119,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                         top: size.width * 0.03,
                         bottom: size.width * 0.01,
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -118,6 +127,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.w500,
+                              color: customColors["main"],
                             ),
                           ),
                         ],
@@ -136,9 +146,10 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                         children: [
                           Text(
                             savesearch.isNotEmpty ? '"$savesearch"' : ' ',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.w300,
+                              color: customColors["onContainer"],
                             ),
                           ),
                         ],
@@ -147,7 +158,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                     Container(
                       width: size.width * 0.8,
                       height: size.width * 0.03,
-                      color: const Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"],
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -235,34 +246,20 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                             direction: Axis.vertical,
                             spacing: 5,
                             children: List.generate(
-                              (isblog ? allblog.length : allblogger.length)~/ 2
-                                  ,
+                              (isblog ? allblog.length : allblogger.length) ~/ 2,
                               (index) {
                                 final actualIndex = index * 2 + 1;
-                                if (actualIndex <
-                                    (isblog
-                                        ? allblog.length
-                                        : allblogger.length)) {
-                                  final blog =
-                                      isblog ? allblog[actualIndex] : {};
-                                  final blogger =
-                                      isblogger ? allblogger[actualIndex] : {};
-                                  final blogTitle =
-                                      blog['title']?.toString().toLowerCase() ??
-                                          '';
-                                  final bloggerName = (blogger['user'] !=
-                                              null &&
+                                if (actualIndex < (isblog ? allblog.length : allblogger.length)) {
+                                  final blog = isblog ? allblog[actualIndex] : {};
+                                  final blogger = isblogger ? allblogger[actualIndex] : {};
+                                  final blogTitle = blog['title']?.toString().toLowerCase() ?? '';
+                                  final bloggerName = (blogger['user'] != null &&
                                           blogger['user']['fullname'] != null)
-                                      ? blogger['user']['fullname']
-                                          .toString()
-                                          .toLowerCase()
+                                      ? blogger['user']['fullname'].toString().toLowerCase()
                                       : '';
-                                  final searchQueryLowerCase =
-                                      savesearch.toLowerCase();
-                                  if (blogTitle
-                                          .contains(searchQueryLowerCase) ||
-                                      bloggerName
-                                          .contains(searchQueryLowerCase)) {
+                                  final searchQueryLowerCase = savesearch.toLowerCase();
+                                  if (blogTitle.contains(searchQueryLowerCase) ||
+                                      bloggerName.contains(searchQueryLowerCase)) {
                                     if (isblog) {
                                       return BlogBox(
                                         title: blog['title'] ?? '',
@@ -285,8 +282,7 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                     } else if (isblogger) {
                                       print(blogger);
                                       return TuachuayDekhorAvatarViewer(
-                                        username:
-                                            blogger['user']['fullname'] ?? '',
+                                        username: blogger['user']['fullname'] ?? '',
                                         avatarUrl:
                                             "https://api.multiavatar.com/${(blogger['user']['fullname']).replaceAll(" ", "+")}.png",
                                       );
@@ -303,35 +299,20 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                             direction: Axis.vertical,
                             spacing: 5,
                             children: List.generate(
-                              ((isblog ? allblog.length : allblogger.length) /
-                                      2)
-                                  .ceil(),
+                              ((isblog ? allblog.length : allblogger.length) / 2).ceil(),
                               (index) {
-                                final actualIndex = index * 2 ;
-                                if (actualIndex <
-                                    (isblog
-                                        ? allblog.length
-                                        : allblogger.length)) {
-                                  final blog =
-                                      isblog ? allblog[actualIndex] : {};
-                                  final blogger =
-                                      isblogger ? allblogger[actualIndex] : {};
-                                  final blogTitle =
-                                      blog['title']?.toString().toLowerCase() ??
-                                          '';
-                                  final bloggerName = (blogger['user'] !=
-                                              null &&
+                                final actualIndex = index * 2;
+                                if (actualIndex < (isblog ? allblog.length : allblogger.length)) {
+                                  final blog = isblog ? allblog[actualIndex] : {};
+                                  final blogger = isblogger ? allblogger[actualIndex] : {};
+                                  final blogTitle = blog['title']?.toString().toLowerCase() ?? '';
+                                  final bloggerName = (blogger['user'] != null &&
                                           blogger['user']['fullname'] != null)
-                                      ? blogger['user']['fullname']
-                                          .toString()
-                                          .toLowerCase()
+                                      ? blogger['user']['fullname'].toString().toLowerCase()
                                       : '';
-                                  final searchQueryLowerCase =
-                                      savesearch.toLowerCase();
-                                  if (blogTitle
-                                          .contains(searchQueryLowerCase) ||
-                                      bloggerName
-                                          .contains(searchQueryLowerCase)) {
+                                  final searchQueryLowerCase = savesearch.toLowerCase();
+                                  if (blogTitle.contains(searchQueryLowerCase) ||
+                                      bloggerName.contains(searchQueryLowerCase)) {
                                     if (isblog) {
                                       return BlogBox(
                                         title: blog['title'] ?? '',
@@ -344,16 +325,15 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                               : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                         ),
                                         onPressed: () {
-                                          Navigator.pushNamed(context,
-                                              tuachuayDekhorPageRoute['blog']!,
+                                          Navigator.pushNamed(
+                                              context, tuachuayDekhorPageRoute['blog']!,
                                               arguments: blog['id_post']);
                                         },
                                       );
                                     } else if (isblogger) {
                                       print(blogger);
                                       return TuachuayDekhorAvatarViewer(
-                                        username:
-                                            blogger['user']['fullname'] ?? '',
+                                        username: blogger['user']['fullname'] ?? '',
                                         avatarUrl:
                                             "https://api.multiavatar.com/${(blogger['user']['fullname']).replaceAll(" ", "+")}.png",
                                       );
