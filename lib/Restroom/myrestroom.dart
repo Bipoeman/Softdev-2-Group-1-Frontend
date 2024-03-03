@@ -381,11 +381,20 @@ class _MyRestroomState extends State<MyRestroomPage> {
               restroomDataList: restroomData,
               focusNode: focusNode,
               parentKey: widget.key,
-              onSelected: (selectedValue) {
-                restroomData.forEach((eachRestroom) {
-                  if (eachRestroom['location'] == selectedValue) {
-                    restroomShow = [eachRestroom];
-                  }
+              search: (suggestions) {
+                setState(() {
+                  restroomShow =
+                      (restroomData as List<dynamic>).where((restroom) {
+                    for (var suggestion in suggestions) {
+                      // debugPrint(
+                      //     "${suggestion["name"]} == ${restroom["name"]} => ${suggestion["name"] == restroom["name"]}");
+                      if (restroom['name'] == suggestion["name"]) {
+                        return true;
+                      }
+                    }
+                    return false;
+                  }).toList();
+                  debugPrint("Restroom Show: $restroomShow");
                 });
               },
             ),
@@ -466,7 +475,7 @@ class MyRestroomSearchBar extends StatefulWidget {
     required this.searchAnchorController,
     required this.restroomDataList,
     required this.focusNode,
-    required this.onSelected,
+    required this.search,
     this.parentKey,
   });
 
@@ -474,7 +483,7 @@ class MyRestroomSearchBar extends StatefulWidget {
   final SearchController searchAnchorController;
   final List<dynamic> restroomDataList;
   final FocusNode focusNode;
-  final Function(dynamic selectedValue) onSelected;
+  final Function(dynamic suggestions) search;
   final Key? parentKey;
 
   @override
@@ -487,11 +496,8 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
   late Animation<double> animation;
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
-    Future.delayed(const Duration(seconds: 1))
-        .then((value) => tempRestroomData = widget.restroomDataList);
+    tempRestroomData = widget.restroomDataList;
   }
 
   @override
@@ -505,22 +511,6 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
         height: 60,
         child: SearchAnchor(
           searchController: widget.searchAnchorController,
-          viewHintText: "Enter restroom name...",
-          viewBackgroundColor: Colors.white,
-          viewLeading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          viewBuilder: (suggestions) {
-            return Container(
-              color: Colors.white,
-              child: Column(
-                children: suggestions.toList(),
-              ),
-            );
-          },
           builder: (context, searchBarController) {
             return SearchBar(
               focusNode: widget.focusNode,
@@ -570,6 +560,7 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
                   ),
                   onTap: () {
                     widget.focusNode.unfocus();
+                    widget.search(tempRestroomData);
                     debugPrint(searchBarController.text);
                   },
                 )
@@ -579,21 +570,18 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
               onTap: () {
                 searchBarController.openView();
               },
-              onChanged: (query) {
+              onChanged: (value) {
                 searchBarController.openView();
-              },
-              onSubmitted: (value) {
-                widget.focusNode.unfocus();
-                searchBarController.clear();
               },
             );
           },
           suggestionsBuilder: (context, suggestionController) {
             tempRestroomData = [];
             String queryText = suggestionController.text;
+            debugPrint("Query Text: $queryText");
             for (var i = 0; i < widget.restroomDataList.length; i++) {
-              if (widget.restroomDataList[i]['location'] != null) {
-                if (widget.restroomDataList[i]['location']
+              if (widget.restroomDataList[i]['name'] != null) {
+                if (widget.restroomDataList[i]['name']
                     .toLowerCase()
                     .contains(queryText.toLowerCase())) {
                   tempRestroomData.add(widget.restroomDataList[i]);
@@ -605,19 +593,16 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
                 }
               }
             }
+
             return List<GestureDetector>.generate(
               tempRestroomData.length,
               (int index) {
                 return GestureDetector(
                   onTap: () {
-                    widget.onSelected(tempRestroomData[index]['location']);
-                    Future.delayed(const Duration(milliseconds: 500))
-                        .then((value) {
-                      widget.focusNode.unfocus();
-                      // suggestionController.clear();
-                    });
+                    widget.search([tempRestroomData[index]]);
                     suggestionController
-                        .closeView(tempRestroomData[index]['location']);
+                        .closeView(tempRestroomData[index]['name']);
+                    widget.focusNode.unfocus();
                   },
                   child: Container(
                     color: Theme.of(context).colorScheme.background,
@@ -632,10 +617,9 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                tempRestroomData[index]['location'],
+                                tempRestroomData[index]['name'],
                                 style: TextStyle(
-                                    fontFamily: tempRestroomData[index]
-                                                ['location']
+                                    fontFamily: tempRestroomData[index]['name']
                                             .contains(
                                       RegExp("[ก-๛]"),
                                     )
@@ -644,15 +628,13 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
                                             .textTheme
                                             .labelMedium!
                                             .fontFamily,
-                                    fontSize: tempRestroomData[index]
-                                                ['location']
+                                    fontSize: tempRestroomData[index]['name']
                                             .contains(
                                       RegExp("[ก-๛]"),
                                     )
                                         ? 24
                                         : 16,
-                                    fontWeight: tempRestroomData[index]
-                                                ['location']
+                                    fontWeight: tempRestroomData[index]['name']
                                             .contains(
                                       RegExp("[ก-๛]"),
                                     )
@@ -660,11 +642,11 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
                                         : FontWeight.normal),
                               ),
                               Text(
-                                tempRestroomData[index]['description'],
+                                tempRestroomData[index]['address'],
                                 maxLines: 1,
                                 style: TextStyle(
                                     fontFamily: tempRestroomData[index]
-                                                ['description']
+                                                ['address']
                                             .contains(
                                       RegExp("[ก-๛]"),
                                     )
@@ -673,8 +655,7 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
                                             .textTheme
                                             .labelMedium!
                                             .fontFamily,
-                                    fontSize: tempRestroomData[index]
-                                                ['description']
+                                    fontSize: tempRestroomData[index]['address']
                                             .contains(
                                       RegExp("[ก-๛]"),
                                     )
@@ -682,7 +663,7 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
                                         : 16,
                                     color: Colors.black.withOpacity(0.6),
                                     fontWeight: tempRestroomData[index]
-                                                ['description']
+                                                ['address']
                                             .contains(
                                       RegExp("[ก-๛]"),
                                     )
