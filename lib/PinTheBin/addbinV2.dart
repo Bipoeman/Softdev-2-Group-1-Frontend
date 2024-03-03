@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
 import 'package:image_picker/image_picker.dart';
@@ -71,13 +70,15 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
   }
 
   Future<http.Response> _presstosend(LatLng position) async {
-    final url = Uri.parse("$api$pinTheBinAddpicRoute");
-    return await http.post(url, body: {
+    final url = Uri.parse("$api$pinTheBinaddbinRoute");
+    return await http.post(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }, body: {
       "location": _NametextController.text,
       "description": _DescriptiontextController.text,
-      "bintype": _bintype,
-      "latitude": position.latitude,
-      "longitude": position.longitude,
+      "bintype": jsonEncode(_bintype),
+      "latitude": position.latitude.toString(),
+      "longitude": position.longitude.toString(),
     });
   }
 
@@ -866,6 +867,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                               http.Response res =
                                                   await _presstosend(
                                                       _position!);
+                                              print(res.body);
                                               if (_image != null) {
                                                 _sendpic(
                                                     '${jsonDecode(res.body)[0]["id"]}',

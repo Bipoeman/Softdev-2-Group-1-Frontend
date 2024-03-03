@@ -69,7 +69,8 @@ class _SuperAppState extends State<SuperApp> {
         registerPageRoute: (context) => const RegisterPage(),
         ruamMitrPageRoute["home"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
-        ruamMitrPageRoute["password-change"]!: (context) => const PasswordChangePage(),
+        ruamMitrPageRoute["password-change"]!: (context) =>
+            const PasswordChangePage(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => RestroomRoverReview(
             restroomData: ModalRoute.of(context)!.settings.arguments
@@ -128,7 +129,7 @@ class _SuperAppState extends State<SuperApp> {
               username: username, avatarUrl: avatarUrl);
         },
         tuachuayDekhorPageRoute["report"]!: (context) {
-         final args = ModalRoute.of(context)!.settings.arguments
+          final args = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
           final id_post = args['id_post'] as int;
           final id_blogger = args['id_blogger'] as int;
@@ -136,7 +137,7 @@ class _SuperAppState extends State<SuperApp> {
               id_post: id_post, id_blogger: id_blogger);
         },
         tuachuayDekhorPageRoute["detailreport"]!: (context) {
-         final args = ModalRoute.of(context)!.settings.arguments
+          final args = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
           final id_post = args['id_post'] as int;
           final id_report = args['id_report'] as int;

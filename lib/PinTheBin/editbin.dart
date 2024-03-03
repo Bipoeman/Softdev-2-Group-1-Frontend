@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
 import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
@@ -9,6 +11,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
 import 'package:http/http.dart' as http;
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 
 Color colorbackground = const Color(0x00000000);
 
@@ -30,6 +33,8 @@ class _EditbinPageState extends State<EditbinPage> {
     'yellowbin': false,
     'bluebin': false
   };
+  String? _latitude;
+  String? _longitude;
 
   @override
   void initState() {
@@ -39,7 +44,8 @@ class _EditbinPageState extends State<EditbinPage> {
     print(widget.binData['Bininfo']);
     _DescriptiontextController =
         TextEditingController(text: widget.binData['Bininfo']['description']);
-
+    _latitude = '${widget.binData['Bininfo']['latitude']}';
+    _longitude = '${widget.binData['Bininfo']['longitude']}';
     _bintype['redbin'] =
         widget.binData['Bininfo']['bintype']['redbin'] ?? false;
     _bintype['yellowbin'] =
@@ -50,14 +56,21 @@ class _EditbinPageState extends State<EditbinPage> {
         widget.binData['Bininfo']['bintype']['bluebin'] ?? false;
   }
 
-  final url = Uri.parse("$api/pinthebin/bin");
   void _presstosend() async {
-    await http.post(url, body: {
+    final url = Uri.parse("$api$pinTheBineditbinRoute");
+    print("1");
+    http.Response res = await http.put(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }, body: {
       "location": _LocationstextController.text,
       "description": _DescriptiontextController.text,
-      "bintype": _bintype,
-      "id": widget.binData['Bininfo']['id']
+      "bintype": jsonEncode(_bintype),
+      //"id": widget.binData['Bininfo']['id']
+      "latitude": _latitude,
+      "longitude": _longitude,
     });
+    print(res.body);
+    print("2");
   }
 
   @override
