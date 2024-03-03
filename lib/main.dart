@@ -38,6 +38,7 @@ import 'package:ruam_mitt/TuachuayDekhor/profile_blogger.dart';
 import 'package:ruam_mitt/TuachuayDekhor/draft.dart';
 import 'package:ruam_mitt/PinTheBin/home.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 void main() {
@@ -61,6 +62,7 @@ class _SuperAppState extends State<SuperApp> {
   @override
   Widget build(BuildContext context) {
     ThemesPortal.getCurrent(context).loadTheme();
+    currentContext ??= context;
     return GetMaterialApp(
       initialRoute: loginPageRoute,
       routes: {
