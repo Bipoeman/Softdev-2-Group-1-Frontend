@@ -58,19 +58,15 @@ class _EditbinPageState extends State<EditbinPage> {
 
   void _presstosend() async {
     final url = Uri.parse("$api$pinTheBineditbinRoute");
-    print("1");
     http.Response res = await http.put(url, headers: {
       "Authorization": "Bearer $publicToken"
     }, body: {
       "location": _LocationstextController.text,
       "description": _DescriptiontextController.text,
       "bintype": jsonEncode(_bintype),
-      //"id": widget.binData['Bininfo']['id']
-      "latitude": _latitude,
-      "longitude": _longitude,
+      "id": "${widget.binData['Bininfo']['id']}"
     });
     print(res.body);
-    print("2");
   }
 
   @override
@@ -308,11 +304,13 @@ class _EditbinPageState extends State<EditbinPage> {
                                     //fit: BoxFit.fill,
                                   ),
                                 )
+                              // : Container()
                               : ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: Image.network(
-                                    fit: BoxFit.contain,
+                                    // fit: BoxFit.contain,
                                     widget.binData['Bininfo']['picture'],
+                                    fit: BoxFit.contain,
                                   ),
                                 ),
                         ),
