@@ -45,23 +45,20 @@ class _HomePageV2State extends State<HomePageV2> {
     }
     //TO convert Xfile into file
     File file = File(image.path);
-    //print(‘Image picked’);
+    //debugPrint(‘Image picked’);
     return file;
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // print("Home Ruammitr InitState");
+    // debugPrint("Home Ruammitr InitState");
     Uri uri = Uri.parse("$api$userDataRequestRoute");
     setState(() {});
     http.get(uri, headers: {"Authorization": "Bearer $publicToken"}).then(
         (http.Response res) {
       profileData = jsonDecode(res.body);
-
       setState(() {});
-      // print("Requested Data : ${profileData}");
     });
   }
 
@@ -174,7 +171,7 @@ class _HomePageV2State extends State<HomePageV2> {
                       width: size.width,
                       child: Form(
                         // onChanged: () {
-                        //   print("something change in the form");
+                        //   debugPrint("something change in the form");
                         // },
                         key: reportFormKey,
                         child: Column(
@@ -303,61 +300,6 @@ class _HomePageV2State extends State<HomePageV2> {
                                 setState(() {});
                               },
                             ),
-                            // Text(
-                            //   "App",
-                            //   style: TextStyle(
-                            //     fontSize: 18,
-                            //     fontFamily:
-                            //         GoogleFonts.getFont("Inter").fontFamily,
-                            //   ),
-                            // ),
-                            // SizedBox(height: size.height * 0.01),
-                            // DropdownButtonFormField(
-                            //   key: appSelectKey,
-                            //   decoration: InputDecoration(
-                            //     filled: true,
-                            //     fillColor: theme.colorScheme.background,
-                            //     border: OutlineInputBorder(
-                            //       borderSide: BorderSide.none,
-                            //       borderRadius: BorderRadius.circular(50),
-                            //     ),
-                            //     prefixIcon: const Icon(Icons.warning),
-                            //     hintText: "App",
-                            //   ),
-                            //   icon:
-                            //       const Icon(Icons.keyboard_arrow_down_rounded),
-                            //   items: const [
-                            //     DropdownMenuItem(
-                            //       value: "Ruammitr",
-                            //       child: Text("Ruammitr"),
-                            //     ),
-                            //     DropdownMenuItem(
-                            //       value: "Dekhor",
-                            //       child: Text("Tuachuy Dekhor"),
-                            //     ),
-                            //     DropdownMenuItem(
-                            //       value: "Restroom",
-                            //       child: Text("Restroom Rover"),
-                            //     ),
-                            //     DropdownMenuItem(
-                            //       value: "Bin",
-                            //       child: Text("Pin The Bin"),
-                            //     ),
-                            //     DropdownMenuItem(
-                            //       value: "Dinodengzz",
-                            //       child: Text("Dinodengzz"),
-                            //     ),
-                            //   ],
-                            //   validator: (value) {
-                            //     if ((value ?? "").isEmpty) {
-                            //       return "Please select app to report";
-                            //     }
-                            //     return null;
-                            //   },
-                            //   onChanged: (item) {
-                            //     reportFormKey.currentState!.validate();
-                            //   },
-                            // ),
                             SizedBox(height: size.height * 0.01),
                             Text(
                               "Explaniation",
@@ -420,7 +362,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                 ),
                               ),
                               onTap: () async {
-                                // print("Want to upload report picture");
+                                // debugPrint("Want to upload report picture");
                                 imageSelected = await getImage();
                                 if (imageSelected == null) {
                                 } else {
@@ -445,10 +387,10 @@ class _HomePageV2State extends State<HomePageV2> {
                                 ),
                                 child: const Text("Send"),
                                 onPressed: () async {
-                                  print("Validated");
+                                  debugPrint("Validated");
                                   if (reportFormKey.currentState!.validate()) {
                                     Uri url =
-                                        Uri.parse("$api$userPostIssuetRoute");
+                                        Uri.parse("$api$userPostIssueRoute");
                                     http.MultipartRequest request =
                                         http.MultipartRequest('POST', url);
                                     request.headers.addAll({
@@ -470,12 +412,12 @@ class _HomePageV2State extends State<HomePageV2> {
                                         titleController.text;
                                     request.fields['description'] =
                                         explainationController.text;
-                                    // print(request.files.first);
+                                    // debugPrint(request.files.first);
                                     http.StreamedResponse res =
                                         await request.send();
                                     http.Response response =
                                         await http.Response.fromStream(res);
-                                    print(response.body);
+                                    debugPrint(response.body);
                                     reportFormKey.currentState?.reset();
                                     imageSelectionController.clear();
                                     titleController.clear();
