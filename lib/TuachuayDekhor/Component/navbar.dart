@@ -16,16 +16,6 @@ class NavbarTuachuayDekhor extends StatelessWidget {
   final String? avatarUrl;
 
   Widget getAvatar(BuildContext context) {
-    // if (avatarUrl != null) {
-    //   try {
-    //     return CircleAvatar(
-    //       radius: 24,
-    //       backgroundImage: NetworkImage(profileData['imgPath']),
-    //     );
-    //   } catch (e) {
-    //     debugPrint(e.toString());
-    //   }
-    // }
     return CircleAvatar(
       radius: 25,
       backgroundColor: Colors.white.withOpacity(0.5),
@@ -92,31 +82,52 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                   0,
                 ),
                 items: [
-                  PopupMenuItem(
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.people,
-                          color: customColors["onContainer"]!,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "Profile",
-                          style: TextStyle(
+                  if (profileData['role'] == "Admin")
+                    PopupMenuItem(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.admin_panel_settings,
                             color: customColors["onContainer"]!,
                           ),
-                        ),
-                      ],
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Admin",
+                            style: TextStyle(
+                              color: customColors["onContainer"]!,
+                            ),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, tuachuayDekhorPageRoute["admin"]!);
+                      },
                     ),
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        tuachuayDekhorPageRoute["profile"]!,
-                      );
-                    },
-                  ),
+                  if (profileData['role'] == "User")
+                    PopupMenuItem(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.people,
+                            color: customColors["onContainer"]!,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Profile",
+                            style: TextStyle(
+                              color: customColors["onContainer"]!,
+                            ),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
+                      },
+                    ),
                   PopupMenuItem(
                     child: Row(
                       children: [

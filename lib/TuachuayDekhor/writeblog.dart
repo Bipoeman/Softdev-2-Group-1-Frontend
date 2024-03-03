@@ -60,7 +60,8 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
       request.fields['content'] = markdownContentController.text;
       request.fields['category'] = _dropdownValue!;
       request.fields['fullname'] = profileData['fullname'];
-      request.files.add(await http.MultipartFile.fromPath('file', imageFile!.path));
+      request.fields['pathimage'] = imageFile!.path;
+      request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -83,7 +84,8 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
       request.fields['content'] = markdownContentController.text;
       request.fields['category'] = _dropdownValue!;
       request.fields['fullname'] = profileData['fullname'];
-      request.files.add(await http.MultipartFile.fromPath('file', imageFile!.path));
+      request.fields['pathimage'] = imageFile!.path;
+      request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -676,40 +678,37 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                             borderRadius: BorderRadius.circular(5),
                             color: customColors["container"],
                           ),
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _getImage();
-                                  print("Add image tapped");
-                                },
-                                child: Icon(
-                                  Icons.image,
-                                  color: customColors["main"],
-                                  size: 24,
+                          child: GestureDetector(
+                            onTap: () {
+                              _getImage();
+                              print("Add image tapped");
+                            },
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  child: Icon(
+                                    Icons.image,
+                                    color: customColors["main"],
+                                    size: 24,
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(left: 5),
-                                constraints: BoxConstraints(
-                                  maxWidth: size.width * 0.525,
+                                Container(
+                                  margin: const EdgeInsets.only(left: 5),
+                                  constraints: BoxConstraints(
+                                    maxWidth: size.width * 0.51,
+                                  ),
+                                  child: _image == null
+                                      ? const Text(
+                                          "no image selected",
+                                          style: TextStyle(color: Colors.grey),
+                                        )
+                                      : Text(
+                                          _image!.path.split('/').last,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                 ),
-                                child: _image == null
-                                    ? Text(
-                                        "no image selected",
-                                        style: TextStyle(
-                                          color: customColors["onContainer"],
-                                        ),
-                                      )
-                                    : Text(
-                                        _image!.path.split('/').last,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: customColors["onContainer"],
-                                        ),
-                                      ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],

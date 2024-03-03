@@ -36,6 +36,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
   late Uri numsaveurl;
   late Uri deleteposturl;
   bool isLoading = false;
+  bool isLoadingComment = false;
   final commenturl = Uri.parse("$api$dekhorCommentPostRoute");
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
   late bool isSave;
@@ -53,7 +54,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     deleteposturl = Uri.parse("$api$dekhorDeletePostRoute/$id_post");
     posttoprofile();
     _loadDetail();
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(Duration(seconds: 1), () {
       setState(() {
         showcomment();
       });
@@ -203,6 +204,11 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     print(detailpost);
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   Future<dynamic> popUpAlertDialog(
       Widget icon, String title, Color color, String button, void Function()? onPressed) {
     return showDialog(
@@ -274,15 +280,11 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
             isLoading
                 ? Center(
                     child: CircularProgressIndicator(
-                      backgroundColor: customColors["background"]!,
                       color: customColors["main"]!,
                     ),
                   )
                 : CommentBox(
-                    userImage: NetworkImage(
-                      profileData['profile'] ??
-                          "https://api.multiavatar.com/${profileData['fullname']}.png",
-                    ),
+                    userImage: NetworkImage(profileData['imgPath']),
                     labelText: 'Write a comment...',
                     errorText: 'Comment cannot be blank',
                     withBorder: false,
@@ -298,6 +300,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                       ),
                       onPressed: () {
                         if (commentTextController.text.isNotEmpty) {
+                          FocusScope.of(context).unfocus();
                           comment();
                           showcomment();
                         } else {
@@ -376,7 +379,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                     image: NetworkImage(
-                                                      "https://api.multiavatar.com/${detailpost[0]['user']['fullname']}.png",
+                                                      detailpost[0]['user']['profile'] ??
+                                                          "https://api.multiavatar.com/${detailpost[0]['user']['fullname']}.png",
                                                     ),
                                                     fit: BoxFit.cover,
                                                   ),
@@ -450,22 +454,24 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                       ),
                                                       onPressed: () {
                                                         popUpAlertDialog(
-                                                          Icon(
-                                                            Icons.report,
-                                                            size: 50,
-                                                            color: customColors["onContainer"],
-                                                          ),
-                                                          "Report post?",
-                                                          const Color.fromRGBO(217, 192, 41, 1),
-                                                          "Report",
-                                                          () {
-                                                            Navigator.pop(context);
-                                                            Navigator.pushNamed(context,
-                                                                tuachuayDekhorPageRoute["report"]!,
-                                                                arguments: id_post);
-                                                            print("report the blog");
-                                                          },
-                                                        );
+                                                            Icon(
+                                                              Icons.report,
+                                                              size: 50,
+                                                              color: customColors["onContainer"],
+                                                            ),
+                                                            "Report post?",
+                                                            const Color.fromRGBO(217, 192, 41, 1),
+                                                            "Report", () {
+                                                          Navigator.pop(context);
+                                                          Navigator.pushNamed(context,
+                                                              tuachuayDekhorPageRoute["report"]!,
+                                                              arguments: {
+                                                                'id_post': id_post,
+                                                                'id_blogger': detailpost[0]
+                                                                    ['id_user'],
+                                                              });
+                                                          print("report the blog");
+                                                        });
                                                       },
                                                       child: const Icon(
                                                         Icons.report_outlined,
@@ -530,8 +536,10 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                           child: IntrinsicHeight(
                                             child: ClipRRect(
                                               child: isLoading
-                                                  ? const Center(
-                                                      child: CircularProgressIndicator(),
+                                                  ? Center(
+                                                      child: CircularProgressIndicator(
+                                                        color: customColors["main"]!,
+                                                      ),
                                                     )
                                                   : Image(
                                                       image:
@@ -613,7 +621,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                             onTap: () {},
                                             leading: CircleAvatar(
                                               backgroundImage: NetworkImage(
-                                                "https://api.multiavatar.com/${commentpost[index]['user']['fullname']}.png",
+                                                commentpost[index]['user']['profile'] ??
+                                                    "https://api.multiavatar.com/${commentpost[index]['user']['fullname']}.png",
                                               ),
                                             ),
                                             title: Text(

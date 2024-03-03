@@ -4,30 +4,39 @@ import 'dart:convert';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_var.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter/services.dart';
 import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:http/http.dart' as http;
 
 class TuachuayDekhorBloggerProfilePage extends StatefulWidget {
   final String username;
+  final String avatarUrl;
 
-  const TuachuayDekhorBloggerProfilePage({Key? key, required this.username}) : super(key: key);
+  const TuachuayDekhorBloggerProfilePage({
+    super.key,
+    required this.username,
+    required this.avatarUrl,
+  });
 
   @override
   State<TuachuayDekhorBloggerProfilePage> createState() => _TuachuayDekhorBloggerProfilePageState();
 }
 
 class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBloggerProfilePage> {
-  String? description;
   bool isEditing = false;
   bool showMore = false;
   bool isPostSelected = true;
   bool isSaveSelected = false;
   var post = [];
   var save = [];
+  var description = [];
   late String username;
   late Uri posturl;
   late Uri saveurl;
+  late Uri descriptionurl;
 
   @override
   void initState() {
@@ -35,17 +44,25 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
     username = widget.username;
     posturl = Uri.parse("$api$dekhorPosttoprofilebloggerRoute/$username");
     saveurl = Uri.parse("$api$dekhorShowSavebloggerRoute/$username");
+    descriptionurl = Uri.parse("$api$dekhorDescriptionRoute/$username");
     postoprofile();
     savepost();
+    descriptionblogger();
     print("Username: $username");
     print("Post URL: $posturl");
     print("Save URL: $saveurl");
   }
 
-  void updateDescription(String value) {
-    setState(() {
-      description = value;
-    });
+  Future<void> descriptionblogger() async {
+    var response = await http.get(descriptionurl);
+    if (response.statusCode == 200) {
+      setState(() {
+        description = jsonDecode(response.body);
+        print(description);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 
   Future<void> postoprofile() async {
@@ -134,8 +151,7 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  profileData['profile'] ??
-                                      "https://api.multiavatar.com/${username}.png",
+                                  widget.avatarUrl,
                                 ),
                               ),
                             ),
@@ -146,7 +162,7 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                               username,
                               style: TextStyle(
                                 fontSize: 25,
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w600,
                                 color: customColors["main"],
                               ),
                             ),
@@ -154,19 +170,23 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                         ],
                       ),
                     ),
-                    Padding(
+                    Container(
+                      alignment: Alignment.centerLeft,
                       padding: EdgeInsets.only(
-                          left: size.width * 0.3,
+                          left: size.width * 0.37,
                           right: size.width * 0.1,
                           bottom: size.width * 0.05,
                           top: size.width * 0.005),
-                      child: Text(
-                        'can\'t edit other\'s description',
-                        style: TextStyle(
-                          color: customColors["onContainer"],
-                          fontSize: 12,
-                        ),
-                      ),
+                      child: description.isNotEmpty && description[0]['description'] != null
+                          ? Text(
+                              description[0]['description'],
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: customColors["onContainer"],
+                              ),
+                            )
+                          : SizedBox(),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -256,120 +276,57 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                         right: size.width * 0.09,
                         top: size.width * 0.01,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // แสดงข้อมูลในคอลัมน์แรก
-                          Wrap(
-                            direction: Axis.vertical,
-                            spacing: 5,
-                            children: List.generate(
-                              ((isPostSelected ? post.length : save.length) / 2).ceil(),
-                              (index) {
-                                final actualIndex = index * 2;
-                                if (isPostSelected) {
-                                  return BlogBox(
-                                    title: post[actualIndex]['title'],
-                                    name: post[actualIndex]['fullname'],
-                                    category: post[actualIndex]['category'],
-                                    like: post[actualIndex]['save'] ?? "0",
+                      child: isPostSelected
+                          ? MasonryGridView.builder(
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              itemCount: post.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                              itemBuilder: ((context, index) => BlogBox(
+                                    title: post[index]['title'],
+                                    name: post[index]['fullname'],
+                                    category: post[index]['category'],
+                                    like: post[index]['save'] ?? "0",
                                     image: NetworkImage(
-                                      post[actualIndex]['image_link'] != "null"
-                                          ? post[actualIndex]['image_link']
-                                          : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                      post[index]['image_link'],
                                     ),
                                     onPressed: () {
                                       Navigator.pushNamed(
                                         context,
                                         tuachuayDekhorPageRoute['blog']!,
-                                        arguments: post[actualIndex]['id_post'],
+                                        arguments: post[index]['id_post'],
                                       );
                                     },
+                                  )),
+                            )
+                          : MasonryGridView.builder(
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              itemCount: save.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                              itemBuilder: (context, index) => BlogBox(
+                                title: save[index]['post']['title'],
+                                name: save[index]['fullname_blogger'],
+                                category: save[index]['post']['category'],
+                                like: save[index]['post']['save'] ?? "0",
+                                image: NetworkImage(
+                                  save[index]['post']['image_link'],
+                                ),
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    tuachuayDekhorPageRoute['blog']!,
+                                    arguments: save[index]['post']['id_post'],
                                   );
-                                } else {
-                                  if (actualIndex < save.length) {
-                                    return BlogBox(
-                                      title: save[actualIndex]['post']['title'],
-                                      name: save[actualIndex]['fullname_blogger'],
-                                      category: save[actualIndex]['post']['category'],
-                                      like: save[actualIndex]['post']['save'] ?? "0",
-                                      image: NetworkImage(
-                                        save[actualIndex]['post']['image_link'] != "null"
-                                            ? save[actualIndex]['post']['image_link']
-                                            : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          tuachuayDekhorPageRoute['blog']!,
-                                          arguments: save[actualIndex]['post']['id_post'],
-                                        );
-                                      },
-                                    );
-                                  } else {
-                                    return SizedBox(); // ให้คืนค่า SizedBox() เมื่อไม่มีข้อมูลในลิสต์ save
-                                  }
-                                }
-                              },
+                                },
+                              ),
                             ),
-                          ),
-                          // แสดงข้อมูลในคอลัมน์ที่สอง
-                          Wrap(
-                            direction: Axis.vertical,
-                            spacing: 5,
-                            children: List.generate(
-                              (isPostSelected ? post.length : save.length) ~/ 2,
-                              (index) {
-                                final actualIndex = index * 2 + 1;
-                                if (isPostSelected) {
-                                  return BlogBox(
-                                    title: post[actualIndex]['title'],
-                                    name: post[actualIndex]['fullname'],
-                                    category: post[actualIndex]['category'],
-                                    like: post[actualIndex]['save'] ?? "0",
-                                    image: NetworkImage(
-                                      post[actualIndex]['image_link'] != "null"
-                                          ? post[actualIndex]['image_link']
-                                          : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        tuachuayDekhorPageRoute['blog']!,
-                                        arguments: post[actualIndex]['id_post'],
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  if (actualIndex < save.length) {
-                                    return BlogBox(
-                                      title: save[actualIndex]['post']['title'],
-                                      name: save[actualIndex]['fullname_blogger'],
-                                      category: save[actualIndex]['post']['category'],
-                                      like: save[actualIndex]['save'] ?? "0",
-                                      image: NetworkImage(
-                                        save[actualIndex]['post']['image_link'] != "null"
-                                            ? save[actualIndex]['post']['image_link']
-                                            : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          tuachuayDekhorPageRoute['blog']!,
-                                          arguments: save[actualIndex]['post']['id_post'],
-                                        );
-                                      },
-                                    );
-                                  } else {
-                                    return const SizedBox(); // ให้คืนค่า SizedBox() เมื่อไม่มีข้อมูลในลิสต์ save
-                                  }
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ],
                 ),

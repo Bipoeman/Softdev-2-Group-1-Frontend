@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:flutter/widgets.dart';
 
 class BlogBox extends StatelessWidget {
   const BlogBox({
@@ -76,17 +78,13 @@ class BlogBox extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(right: 8),
-                        constraints: BoxConstraints(
-                          maxWidth: size.width * 0.23,
-                        ),
-                        child: Text(
-                          title,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: customColors["onMain"]!,
-                            fontSize: 12,
+                      Flexible(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          child: Text(
+                            title,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: customColors["onMain"], fontSize: 12),
                           ),
                         ),
                       ),
@@ -96,7 +94,7 @@ class BlogBox extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 2, right: 5),
+                          padding: const EdgeInsets.only(left: 5, right: 5),
                           child: Text(
                             '#$category',
                             style: TextStyle(
@@ -111,8 +109,7 @@ class BlogBox extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: size.width * 0.2,
+                      Flexible(
                         child: Text(
                           name,
                           overflow: TextOverflow.ellipsis,
@@ -122,10 +119,7 @@ class BlogBox extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: size.width * 0.03,
-                      ),
-                      Container(
+                      Padding(
                         padding: const EdgeInsets.only(left: 7),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -135,11 +129,9 @@ class BlogBox extends StatelessWidget {
                               color: customColors["onMain"]!,
                               size: 11,
                             ),
-                            SizedBox(
-                              width: size.width * 0.007,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.08,
+                            Container(
+                              margin: EdgeInsets.only(left: size.width * 0.007),
+                              width: size.width * 0.04,
                               child: Text(
                                 like,
                                 overflow: TextOverflow.ellipsis,

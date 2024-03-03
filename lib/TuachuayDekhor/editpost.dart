@@ -35,6 +35,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
   late int id_post;
   late Uri detailurl;
   late Uri editurl;
+  late Uri uppicurl;
   final writeblogurl = Uri.parse("$api$dekhorWriteBlogRoute");
   var detailpost = [];
   var post = [];
@@ -66,7 +67,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
           markdownTitleController.text = detailpost[0]['title'];
           markdownContentController.text = detailpost[0]['content'];
           _dropdownValue = detailpost[0]['category'];
-          _image = File(detailpost[0]['image_link']);
+          _image = File(detailpost[0]['pathimage']);
         });
       }
     });
@@ -82,6 +83,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
     id_post = widget.id_post;
     detailurl = Uri.parse("$api$dekhorDetailPostRoute/$id_post");
     editurl = Uri.parse("$api$dekhorEditPostRoute/$id_post");
+    uppicurl = Uri.parse("$api$dekhorUpdatePicRoute/$id_post");
     _loadDetail();
     firstFocusNode.requestFocus();
     animationController = AnimationController(
@@ -113,16 +115,28 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
     }
   }
 
-  Future<void> editblog(File imageFile) async {
-    try {
-      var request = http.MultipartRequest('PUT', editurl);
-      request.headers['Authorization'] = 'Bearer $publicToken';
-      request.fields['title'] = markdownTitleController.text;
-      request.fields['content'] = markdownContentController.text;
-      request.fields['category'] = _dropdownValue!;
-      request.fields['fullname'] = profileData['fullname'];
-      request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
+  Future<void> editblog() async {
+    var response = await http.put(editurl, headers: {
+      "Authorization": "Bearer $publicToken"
+    }, body: {
+      "title": markdownTitleController.text,
+      "content": markdownContentController.text,
+      "category": _dropdownValue,
+      "fullname": profileData['fullname'],
+      "pathimage": _image.path,
+    });
 
+    if (response.statusCode == 200) {
+      status = true;
+    } else {
+      status = false;
+    }
+  }
+
+  Future<void> updatepicture(File? imageFile) async {
+    try {
+      var request = http.MultipartRequest('PUT', uppicurl);
+      request.files.add(await http.MultipartFile.fromPath('file', imageFile!.path));
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
 
@@ -154,7 +168,6 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
         child: isLoading
             ? Center(
                 child: CircularProgressIndicator(
-                  backgroundColor: customColors["background"]!,
                   color: customColors["main"]!,
                 ),
               )
@@ -235,7 +248,6 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                             child: isLoading
                                 ? Center(
                                     child: CircularProgressIndicator(
-                                      backgroundColor: customColors["background"]!,
                                       color: customColors["main"]!,
                                     ),
                                   )
@@ -398,7 +410,8 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                     margin: const EdgeInsets.only(left: 20, right: 10),
                                     child: RawMaterialButton(
                                       onPressed: () {
-                                        editblog(_image);
+                                        editblog();
+                                        updatepicture(_image);
                                         print("Post tapped");
                                         showDialog(
                                             context: context,

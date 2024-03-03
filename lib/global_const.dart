@@ -3,14 +3,20 @@ import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 const String baseURL = "https://ruammitr.azurewebsites.net";
 // const String api = "https://ruammitr.azurewebsites.net/api";
-// const String api = "http://10.0.2.2:3000";
+const String api = "http://10.0.2.2:3000";
 // const String api = "http://192.168.28.16:3000";
-const String api = "http://localhost:3000";
+// const String api = "http://localhost:3000";
+// const String api = "http://192.168.56.1:3000";
+// const String api = "http://172.20.10.6:3000";
 const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
 const String userDataUpdateRoute = "/user";
 const String userImageUpdateRoute = "/user/upload";
 const String userDataRequestRoute = "/user/id";
+const String userPasswordChangeOTPRoute = "/user/otp";
+const String userPasswordChangeRoute = "/user/changepassword";
+const String userPasswordResetRoute = "/user/reset";
+const String userPostIssuetRoute = "/issue";
 const String refreshTokenRoute = "/user/refresh";
 const String pinTheBinGetBinRoute = "/pinthebin/bin";
 const String dekhorPosttoprofileRoute = "/dekhor/posttoprofile";
@@ -41,14 +47,26 @@ const String dekhorDetailDraftRoute = "/dekhor/detaildraft";
 const String dekhorEditDraftRoute = "/dekhor/editdraft";
 const String dekhorDeleteDraftRoute = "/dekhor/deletedraft";
 const String dekhorReportRoute = "/dekhor/report";
+const String dekhorUpdatePicRoute = "/dekhor/updatepicture";
+const String dekhorUpdatePicDraftRoute = "/dekhor/updatepic";
+const String dekhorDrafttoPostBlogRoute = "/dekhor/drafttopostblog";
+const String dekhorShowReportRoute = "/dekhor/showreport";
+const String dekhorDeleteReportRoute = "/dekhor/deletereport";
+const String dekhorDetailReportRoute = "/dekhor/detailreport";
+const String dekhorDescriptionRoute = "/dekhor/bloggerdescription";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
+const String restroomRoverGetRestroomRoute = "/restroom";
+const String restroomRoverGetReviewRoute = "/restroom/review";
+const String pinTheBinReportBinRoute = "/pinthebin/report";
+const String pinTheBinReportPictureBinRoute = "/pinthebin/report/upload";
 
 const Map<String, String> ruamMitrPageRoute = {
   "home": "/RuamMitr/home",
   "homev2": "/RuamMitr/homev2",
   "profile": "/RuamMitr/profile",
   "edit-profile": "/RuamMitr/profile/edit",
+  "password-change": "/RuamMitr/password",
   "settings": "/RuamMitr/settings",
   "restroom": "/RuamMitr/restroom",
 };
@@ -58,6 +76,8 @@ const Map<String, String> restroomPageRoute = {
   "findposition": "/Restroom/Findposition",
   "addrestroom": "/Restroom/Addrestroom",
   "report": "/Restroom/Report",
+  "reportpin": "/Restroom/ReportPin",
+  "edit": "/Restroom/Edit",
 };
 const String dinodengzzPageRoute = "/game";
 const Map<String, String> tuachuayDekhorPageRoute = {
@@ -77,6 +97,8 @@ const Map<String, String> tuachuayDekhorPageRoute = {
   "cooking": "/TuachuayDekhor/cooking",
   "cleaning": "/TuachuayDekhor/cleaning",
   "report": "/TuachuayDekhor/report",
+  "admin": "/TuachuayDekhor/admin",
+  "detailreport": "/TuachuayDekhor/detailreport",
 };
 const Map<String, String> pinthebinPageRoute = {
   "home": "/PinTheBin/home",
