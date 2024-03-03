@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
 import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
@@ -9,11 +11,13 @@ import 'package:latlong2/latlong.dart';
 import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
 import 'package:http/http.dart' as http;
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 
 Color colorbackground = const Color(0x00000000);
 
 class EditbinPage extends StatefulWidget {
-  const EditbinPage({super.key});
+  const EditbinPage({super.key, required this.binData});
+  final Map<String, dynamic> binData;
 
   @override
   State<EditbinPage> createState() => _EditbinPageState();
@@ -23,30 +27,75 @@ class _EditbinPageState extends State<EditbinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _LocationstextController = TextEditingController();
   TextEditingController _DescriptiontextController = TextEditingController();
+  final Map<String, bool> _bintype = {
+    'redbin': false,
+    'greenbin': false,
+    'yellowbin': false,
+    'bluebin': false
+  };
+  String? _latitude;
+  String? _longitude;
+
+  @override
+  void initState() {
+    super.initState();
+    _LocationstextController =
+        TextEditingController(text: widget.binData['Bininfo']['location']);
+    print(widget.binData['Bininfo']);
+    _DescriptiontextController =
+        TextEditingController(text: widget.binData['Bininfo']['description']);
+    _latitude = '${widget.binData['Bininfo']['latitude']}';
+    _longitude = '${widget.binData['Bininfo']['longitude']}';
+    _bintype['redbin'] =
+        widget.binData['Bininfo']['bintype']['redbin'] ?? false;
+    _bintype['yellowbin'] =
+        widget.binData['Bininfo']['bintype']['yellowbin'] ?? false;
+    _bintype['greenbin'] =
+        widget.binData['Bininfo']['bintype']['greenbin'] ?? false;
+    _bintype['bluebin'] =
+        widget.binData['Bininfo']['bintype']['bluebin'] ?? false;
+  }
+
+  void _presstosend() async {
+    final url = Uri.parse("$api$pinTheBineditbinRoute");
+    print("1");
+    http.Response res = await http.put(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }, body: {
+      "location": _LocationstextController.text,
+      "description": _DescriptiontextController.text,
+      "bintype": jsonEncode(_bintype),
+      //"id": widget.binData['Bininfo']['id']
+      "latitude": _latitude,
+      "longitude": _longitude,
+    });
+    print(res.body);
+    print("2");
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    _LocationstextController =
-        TextEditingController(text: arguments['Bininfo']['location']);
-    print(arguments['Bininfo']);
-    _DescriptiontextController =
-        TextEditingController(text: arguments['Bininfo']['description']);
+    Offset distanceWarning = _bintype['redbin']!
+        ? const Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurWarning = _bintype['redbin']! ? 5.0 : 5;
 
-    // _LatitudetextController =
-    //     TextEditingController(text: arguments['Bininfo']['latitude']);
-    final url = Uri.parse("$api/pinthebin/bin");
-    void _presstosend() async {
-      await http.post(url, body: {
-        "location": _LocationstextController.text,
-        "description": _DescriptiontextController.text,
-        //"bintype": _bintype,
-        "id": arguments['Bininfo']['id']
-      });
-    }
+    Offset distanceRecycling = _bintype['yellowbin']!
+        ? const Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurRecycling = _bintype['yellowbin']! ? 5.0 : 5;
+
+    Offset distanceWaste = _bintype['greenbin']!
+        ? const Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurWaste = _bintype['greenbin']! ? 5.0 : 5;
+
+    Offset distanceGeneral = _bintype['bluebin']!
+        ? const Offset(5, 5)
+        : Offset(size.width * 0.008, size.height * 0.005);
+    double blurGeneral = _bintype['bluebin']! ? 5.0 : 5;
 
     return Theme(
       data: ThemeData(
@@ -80,11 +129,17 @@ class _EditbinPageState extends State<EditbinPage> {
             fontWeight: FontWeight.normal,
             color: const Color(0xFF003049).withOpacity(0.67),
           ),
-          displaySmall: TextStyle(
+          displaySmall: const TextStyle(
             fontSize: 20,
             overflow: TextOverflow.fade,
             fontWeight: FontWeight.w300,
             color: Color.fromARGB(255, 255, 255, 255),
+          ),
+          bodySmall: TextStyle(
+            fontSize: 13.5,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xFF003049).withOpacity(0.45),
           ),
         ),
         appBarTheme: const AppBarTheme(
@@ -151,7 +206,7 @@ class _EditbinPageState extends State<EditbinPage> {
                           Align(
                             alignment: Alignment.topLeft,
                             child: Container(
-                              padding: EdgeInsets.only(left: 20),
+                              padding: const EdgeInsets.only(left: 20),
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 25),
                                 child: Text(
@@ -171,75 +226,80 @@ class _EditbinPageState extends State<EditbinPage> {
                             child: ClayContainer(
                               width: size.width * 0.65,
                               height: size.height * 0.032,
-                              color: Color.fromRGBO(239, 239, 239, 1),
+                              color: const Color.fromRGBO(239, 239, 239, 1),
                               borderRadius: 30,
                               depth: -20,
                               child: TextField(
                                 controller: _LocationstextController,
+                                maxLines: 1,
                                 onChanged: (text) {
                                   print('Typed text: $text');
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: InputBorder.none,
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 1, horizontal: 1),
                                 ),
                               ),
                             ),
                           )
                         ],
                       ),
-                      Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              padding: EdgeInsets.only(left: 20),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 67),
-                                child: Text(
-                                  'Position',
-                                  style:
-                                      Theme.of(context).textTheme.displayMedium,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: size.height * 0.02),
-                          Column(
-                            children: [
-                              ClayContainer(
-                                width: size.width * 0.75,
-                                height: size.height * 0.032,
-                                color: Color.fromRGBO(239, 239, 239, 1),
-                                borderRadius: 30,
-                                depth: -20,
-                                child: Text(
-                                  'Latitude : ${arguments['Bininfo']['latitude']}',
-                                ),
-                              ),
-                              SizedBox(
-                                height: size.height * 0.015,
-                              ),
-                              ClayContainer(
-                                width: size.width * 0.75,
-                                height: size.height * 0.032,
-                                color: Color.fromRGBO(239, 239, 239, 1),
-                                borderRadius: 30,
-                                depth: -20,
-                                child: Text(
-                                  'Longitude : ${arguments['Bininfo']['longitude']}',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                      // Column(
+                      //   children: [
+                      //     Align(
+                      //       alignment: Alignment.topLeft,
+                      //       child: Container(
+                      //         padding: EdgeInsets.only(left: 20),
+                      //         child: Padding(
+                      //           padding: const EdgeInsets.only(top: 67),
+                      //           child: Text(
+                      //             'Position',
+                      //             style:
+                      //                 Theme.of(context).textTheme.displayMedium,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     SizedBox(height: size.height * 0.02),
+                      //     Column(
+                      //       children: [
+                      //         ClayContainer(
+                      //           width: size.width * 0.75,
+                      //           height: size.height * 0.032,
+                      //           color: Color.fromRGBO(239, 239, 239, 1),
+                      //           borderRadius: 30,
+                      //           depth: -20,
+                      //           child: Text(
+                      //             'Latitude : ${widget.binData['Bininfo']['latitude']}',
+                      //           ),
+                      //         ),
+                      //         SizedBox(
+                      //           height: size.height * 0.015,
+                      //         ),
+                      //         ClayContainer(
+                      //           width: size.width * 0.75,
+                      //           height: size.height * 0.032,
+                      //           color: Color.fromRGBO(239, 239, 239, 1),
+                      //           borderRadius: 30,
+                      //           depth: -20,
+                      //           child: Text(
+                      //             'Longitude : ${widget.binData['Bininfo']['longitude']}',
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ],
+                      // ),
                       Padding(
                         padding: EdgeInsets.only(
-                            left: size.width * 0.16, top: size.height * 0.23),
-                        child: Container(
+                            left: size.width * 0.16, top: size.height * 0.085),
+                        child: SizedBox(
                           width: size.width * 0.7,
-                          height: size.height * 0.15,
-                          child: arguments['Bininfo']['picture'] == null
+                          height: size.height * 0.25,
+                          //color: Colors.black,
+                          child: widget.binData['Bininfo']['picture'] == null
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: Image.asset(
@@ -252,7 +312,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   borderRadius: BorderRadius.circular(15),
                                   child: Image.network(
                                     fit: BoxFit.contain,
-                                    arguments['Bininfo']['picture'],
+                                    widget.binData['Bininfo']['picture'],
                                   ),
                                 ),
                         ),
@@ -264,7 +324,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             child: Container(
                               padding: EdgeInsets.only(
                                   left: size.width * 0.05,
-                                  top: size.height * 0.39),
+                                  top: size.height * 0.36),
 
                               // padding: const EdgeInsets.only(
                               //     top: size.height * 0.1),
@@ -284,24 +344,279 @@ class _EditbinPageState extends State<EditbinPage> {
                             color: Color.fromRGBO(239, 239, 239, 1),
                             borderRadius: 30,
                             depth: -20,
-                            child: TextField(
-                              maxLength: 80,
-                              maxLines: 3,
-                              controller: _DescriptiontextController,
-                              onChanged: (text) {
-                                print('Typed text: $text');
-                                int remainningCharacters =
-                                    80 - _DescriptiontextController.text.length;
-                                print(
-                                    'Remaining characters: $remainningCharacters');
-                              },
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                              ),
-                              style: const TextStyle(
-                                color: Colors.black,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 13, top: 3, right: 13, bottom: 3),
+                              child: TextField(
+                                maxLength: 80,
+                                maxLines: 3,
+                                controller: _DescriptiontextController,
+                                onChanged: (text) {
+                                  print('Typed text: $text');
+                                  int remainningCharacters = 80 -
+                                      _DescriptiontextController.text.length;
+                                  print(
+                                      'Remaining characters: $remainningCharacters');
+                                },
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                ),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: size.width * 0.05,
+                                    top: size.height * 0.57),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _bintype['redbin'] = !_bintype['redbin']!;
+                                      _bintype['redbin'] = _bintype['redbin']!;
+                                    });
+                                    print("After: ${_bintype['redbin']}");
+                                  },
+                                  child: Container(
+                                    width: size.width * 0.2,
+                                    height: size.height * 0.13,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: const Color.fromARGB(9, 0, 47, 73),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: blurWarning,
+                                          offset: distanceWarning,
+                                          color: const Color(0xFFA7A9AF),
+                                          inset: _bintype['redbin']!,
+                                        ),
+                                        BoxShadow(
+                                          blurRadius: blurWarning,
+                                          offset: -distanceWarning,
+                                          color: const Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          inset: _bintype['redbin']!,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Image.asset(
+                                        "assets/images/PinTheBin/warning.png",
+                                        width: size.width * 0.1,
+                                        height: size.height * 0.1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: size.width * 0.03,
+                                    top: size.height * 0.01),
+                                child: Align(
+                                  //padding: const EdgeInsets.only(top: size.height * 0.0),
+                                  child: Text(
+                                    'DANGER',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: size.width * 0.03,
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.57),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _bintype['yellowbin'] =
+                                          !_bintype['yellowbin']!;
+                                      _bintype['yellowbin'] =
+                                          _bintype['yellowbin']!;
+                                    });
+                                    print(_bintype['yellowbin']);
+                                  },
+                                  child: Container(
+                                    width: size.width * 0.2,
+                                    height: size.height * 0.13,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: const Color.fromARGB(9, 0, 47, 73),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: blurRecycling,
+                                          offset: distanceRecycling,
+                                          color: const Color(0xFFA7A9AF),
+                                          inset: _bintype['yellowbin']!,
+                                        ),
+                                        BoxShadow(
+                                          blurRadius: blurRecycling,
+                                          offset: -distanceRecycling,
+                                          color: const Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          inset: _bintype['yellowbin']!,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Image.asset(
+                                        "assets/images/PinTheBin/recycling-symbol-2.png",
+                                        width: size.width * 0.1,
+                                        height: size.height * 0.1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.01),
+                                child: Text(
+                                  'RECYCLE',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: size.width * 0.03,
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.57),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _bintype['greenbin'] =
+                                          !_bintype['greenbin']!;
+                                      _bintype['greenbin'] =
+                                          _bintype['greenbin']!;
+                                    });
+                                    print(_bintype['greenbin']);
+                                  },
+                                  child: Container(
+                                    width: size.width * 0.2,
+                                    height: size.height * 0.13,
+                                    //color: Colors.black,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: const Color.fromARGB(9, 0, 47, 73),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: blurWaste,
+                                          offset: distanceWaste,
+                                          color: const Color(0xFFA7A9AF),
+                                          inset: _bintype['greenbin']!,
+                                        ),
+                                        BoxShadow(
+                                          blurRadius: blurWaste,
+                                          offset: -distanceWaste,
+                                          color: const Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          inset: _bintype['greenbin']!,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Image.asset(
+                                        "assets/images/PinTheBin/compost.png",
+                                        width: size.width * 0.1,
+                                        height: size.height * 0.1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.01),
+                                child: Text(
+                                  'WASTE',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: size.width * 0.03,
+                          ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.57),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _bintype['bluebin'] =
+                                          !_bintype['bluebin']!;
+                                      _bintype['bluebin'] =
+                                          _bintype['bluebin']!;
+                                    });
+                                    print(_bintype['bluebin']);
+                                  },
+                                  child: Container(
+                                    width: size.width * 0.2,
+                                    height: size.height * 0.13,
+                                    //color: Colors.black,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: const Color.fromARGB(9, 0, 47, 73),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: blurGeneral,
+                                          offset: distanceGeneral,
+                                          color: const Color(0xFFA7A9AF),
+                                          inset: _bintype['bluebin']!,
+                                        ),
+                                        BoxShadow(
+                                          blurRadius: blurGeneral,
+                                          offset: -distanceGeneral,
+                                          color: const Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          inset: _bintype['bluebin']!,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Image.asset(
+                                        "assets/images/PinTheBin/bin.png",
+                                        width: size.width * 0.1,
+                                        height: size.height * 0.1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.01),
+                                child: Text(
+                                  'GENERAL',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -310,18 +625,57 @@ class _EditbinPageState extends State<EditbinPage> {
                           Padding(
                             padding: EdgeInsets.only(
                                 left: size.width * 0.17,
-                                top: size.height * 0.77),
+                                top: size.height * 0.76),
                             child: GestureDetector(
                               child: Container(
                                 padding: EdgeInsets.only(
-                                    left: size.width * 0.017,
-                                    top: size.height * 0.01),
+                                    left: size.width * 0.025,
+                                    top: size.height * 0.009),
                                 width: size.width * 0.25,
                                 height: size.height * 0.055,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFF547485),
+                                  color: const Color(0xFFF9957F),
                                   borderRadius: BorderRadius.circular(30),
-                                  boxShadow: [
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      blurRadius: 5,
+                                      //offset: ,
+                                      color: Color(0xFFA7A9AF),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  'CANCEL',
+                                  style: GoogleFonts.getFont(
+                                    "Sen",
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, pinthebinPageRoute['home']!);
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: size.width * 0.175,
+                                top: size.height * 0.76),
+                            child: GestureDetector(
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                    left: size.width * 0.018,
+                                    top: size.height * 0.008),
+                                width: size.width * 0.25,
+                                height: size.height * 0.055,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF547485),
+                                  borderRadius: BorderRadius.circular(30),
+                                  boxShadow: const [
                                     BoxShadow(
                                       blurRadius: 5,
                                       //offset: ,
@@ -351,14 +705,16 @@ class _EditbinPageState extends State<EditbinPage> {
                                               .textTheme
                                               .headlineSmall,
                                         ),
-                                        content: Text(
-                                            'yours bin info will changing'),
+                                        content: const Text(
+                                            'Would you like to confirm the modifications to your trash bin information?'),
                                         actions: [
                                           MaterialButton(
                                             onPressed: () {
                                               _presstosend();
+                                              Navigator.pushNamed(context,
+                                                  pinthebinPageRoute['home']!);
                                             },
-                                            child: Text('Confirm'),
+                                            child: const Text('Confirm'),
                                           ),
                                           MaterialButton(
                                             color: Colors.red,
@@ -388,45 +744,6 @@ class _EditbinPageState extends State<EditbinPage> {
                                         ],
                                       );
                                     });
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: size.width * 0.175,
-                                top: size.height * 0.77),
-                            child: GestureDetector(
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                    left: size.width * 0.024,
-                                    top: size.height * 0.01),
-                                width: size.width * 0.25,
-                                height: size.height * 0.055,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFF9957F),
-                                  borderRadius: BorderRadius.circular(30),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 5,
-                                      //offset: ,
-                                      color: Color(0xFFA7A9AF),
-                                    ),
-                                  ],
-                                ),
-                                child: Text(
-                                  'CANCEL',
-                                  style: GoogleFonts.getFont(
-                                    "Sen",
-                                    color: const Color.fromARGB(
-                                        255, 255, 255, 255),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, pinthebinPageRoute['home']!);
                               },
                             ),
                           ),

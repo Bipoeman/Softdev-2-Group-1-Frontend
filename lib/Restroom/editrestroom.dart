@@ -9,6 +9,7 @@ import 'package:ruam_mitt/Restroom/Component/font.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_func.dart';
 import 'package:ruam_mitt/global_var.dart';
 
 Color colorbackground = const Color(0x00000000);
@@ -36,6 +37,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   };
 
   Future<void> _updateData() async {
+    await requestNewToken(context);
     debugPrint("Updating data");
     final url = Uri.parse("$api$restroomRoverRestroomRoute");
     var response = await http
