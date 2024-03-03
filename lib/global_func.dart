@@ -9,8 +9,10 @@ Future<int> requestNewToken(BuildContext context) async {
   Uri url = Uri.parse("$api$refreshTokenRoute");
   http.Response response = await http.get(url, headers: {
     "Content-Type": "application/json",
-    "Authorization": refreshToken
+    "Authorization": "Bearer $refreshToken"
   });
+
+  debugPrint("requestNewToken: ${response.body}");
 
   if (response.statusCode == 200) {
     dynamic resJson = json.decode(response.body);
