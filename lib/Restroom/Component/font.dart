@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-TextStyle text_input(String text, BuildContext context) {
+TextStyle text_input(String text, BuildContext context, {double size = 1.0}) {
   return TextStyle(
     fontFamily: text.contains(
       RegExp("[ก-๛]"),
@@ -11,8 +11,8 @@ TextStyle text_input(String text, BuildContext context) {
     fontSize: text.contains(
       RegExp("[ก-๛]"),
     )
-        ? 24
-        : 16,
+        ? 24 * size
+        : 16 * size,
     fontWeight: text.contains(
       RegExp("[ก-๛]"),
     )
@@ -26,7 +26,7 @@ TextStyle text_input(String text, BuildContext context) {
   );
 }
 
-TextStyle name_place(String text, BuildContext context) {
+TextStyle name_place(String text, BuildContext context, {double size = 1.0}) {
   return TextStyle(
     fontFamily: text.contains(
       RegExp("[ก-๛]"),
@@ -36,9 +36,8 @@ TextStyle name_place(String text, BuildContext context) {
     fontSize: text.contains(
       RegExp("[ก-๛]"),
     )
-        ? 24
-        : 22,
-    
+        ? 24 * size
+        : 22 * size,
     fontWeight: text.contains(
       RegExp("[ก-๛]"),
     )
@@ -52,7 +51,7 @@ TextStyle name_place(String text, BuildContext context) {
   );
 }
 
-TextStyle myrestroom(String text, BuildContext context) {
+TextStyle myrestroom(String text, BuildContext context, {double size = 1.0}) {
   return TextStyle(
     fontFamily: text.contains(
       RegExp("[ก-๛]"),
@@ -62,8 +61,8 @@ TextStyle myrestroom(String text, BuildContext context) {
     fontSize: text.contains(
       RegExp("[ก-๛]"),
     )
-        ? 28.5714286
-        : 20,
+        ? 28.5714286 * size
+        : 20 * size,
     fontWeight: text.contains(
       RegExp("[ก-๛]"),
     )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
@@ -12,8 +13,7 @@ class TuachuayDekhorDraftPage extends StatefulWidget {
   const TuachuayDekhorDraftPage({super.key});
 
   @override
-  State<TuachuayDekhorDraftPage> createState() =>
-      _TuachuayDekhorDraftPageState();
+  State<TuachuayDekhorDraftPage> createState() => _TuachuayDekhorDraftPageState();
 }
 
 class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
@@ -28,8 +28,7 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
   }
 
   Future<void> posttodraft() async {
-    var response = await http
-        .get(draftposturl, headers: {"Authorization": "Bearer $publicToken"});
+    var response = await http.get(draftposturl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
       setState(() {
         draft = jsonDecode(response.body);
@@ -54,8 +53,11 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"]!,
       body: SafeArea(
         child: Stack(
           children: [
@@ -74,11 +76,18 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                         left: size.width * 0.04,
                       ),
                       child: GestureDetector(
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.arrow_back_outlined),
-                            SizedBox(width: 5),
-                            Text("Back")
+                            Icon(
+                              Icons.arrow_back_outlined,
+                              color: customColors["main"]!,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "Back",
+                              style: TextStyle(color: customColors["main"]!),
+                            ),
                           ],
                         ),
                         onTap: () => Navigator.pop(context),
@@ -91,7 +100,7 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                         top: size.width * 0.05,
                         bottom: size.width * 0.05,
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -99,6 +108,7 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.w500,
+                              color: customColors["main"]!,
                             ),
                           ),
                         ],
@@ -107,7 +117,7 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                     Container(
                       width: size.width * 0.8,
                       height: size.width * 0.02,
-                      color: const Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"]!,
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -116,8 +126,8 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                           right: size.width * 0.08,
                           top: size.width * 0.05),
                       child: isLoading
-                          ? const CircularProgressIndicator(
-                              color: Color.fromRGBO(0, 48, 73, 1),
+                          ? CircularProgressIndicator(
+                              color: customColors["main"]!,
                             )
                           : MasonryGridView.builder(
                               mainAxisSpacing: 10,
@@ -125,9 +135,8 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
                               itemCount: draft.length,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2),
+                              gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
                               itemBuilder: ((context, index) => BlogBox(
                                     title: draft[index]['title'],
                                     name: draft[index]['user']['fullname'],

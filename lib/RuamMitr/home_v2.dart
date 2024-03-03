@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/contents.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/services.dart';
-import 'package:ruam_mitt/RuamMitr/Component/search_box.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/Component/ruammitr_report.dart';
 
@@ -80,8 +79,7 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                   clipBehavior: Clip.none,
                   alignment: AlignmentDirectional.topCenter,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 35),
+                    SizedBox(
                       width: [size.width * 0.8, 800.0].reduce(min),
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
@@ -140,11 +138,11 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      width: [300.0, size.width * 0.7].reduce(min),
-                      child: const CustomSearchBox(),
-                    ),
+                    // Container(
+                    //   padding: const EdgeInsets.all(10),
+                    //   width: [300.0, size.width * 0.7].reduce(min),
+                    //   child: const CustomSearchBox(),
+                    // ),
                   ],
                 ),
               ),

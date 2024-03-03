@@ -125,7 +125,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                     borderRadius: BorderRadius.circular(15),
                                     child: Image.network(
                                       widget.restroomData["picture"] ??
-                                        "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
+                                          "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -136,10 +136,10 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                   padding: EdgeInsets.only(
                                     top: size.height * 0.02,
                                   ),
-                                  child: Text(
-                                    widget.restroomData["name"],
-                                    style: name_place(widget.restroomData["name"] ,context)
-                                  ),
+                                  child: Text(widget.restroomData["name"],
+                                      style: name_place(
+                                          widget.restroomData["name"],
+                                          context)),
                                 ),
                                 Container(
                                   height: null,
@@ -147,10 +147,10 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                   padding: EdgeInsets.only(
                                     top: size.height * 0.0001,
                                   ),
-                                  child: Text(
-                                    widget.restroomData["address"],
-                                    style: text_input(widget.restroomData["address"], context)
-                                  ),
+                                  child: Text(widget.restroomData["address"],
+                                      style: text_input(
+                                          widget.restroomData["address"],
+                                          context)),
                                 ),
                                 SizedBox(
                                   height: size.height * 0.01,
@@ -191,8 +191,11 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                         widget.restroomData["avg_star"]
                                                 ?.toStringAsFixed(1) ??
                                             "0.0",
-                                        style: name_place(widget.restroomData["avg_star"]
-                                                ?.toStringAsFixed(1), context),
+                                        style: name_place(
+                                            widget.restroomData["avg_star"]
+                                                    ?.toStringAsFixed(1) ??
+                                                "0.0",
+                                            context),
                                       ),
                                     ),
                                   ],

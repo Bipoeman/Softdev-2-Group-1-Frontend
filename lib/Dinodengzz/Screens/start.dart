@@ -77,7 +77,7 @@ class CustomIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double buttonWidth = MediaQuery.of(context).size.width * 0.33;
+    double buttonWidth = MediaQuery.of(context).size.width * 0.3;
     double buttonHeight = MediaQuery.of(context).size.height * 0.11;
 
     return SizedBox(

@@ -60,8 +60,7 @@ class SuperApp extends StatefulWidget {
 class _SuperAppState extends State<SuperApp> {
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themes = Provider.of<ThemeProvider>(context);
-
+    ThemesPortal.getCurrent(context).loadTheme();
     return GetMaterialApp(
       initialRoute: loginPageRoute,
       routes: {
@@ -73,35 +72,26 @@ class _SuperAppState extends State<SuperApp> {
             const PasswordChangePage(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => RestroomRoverReview(
-            restroomData: ModalRoute.of(context)!.settings.arguments
-                as Map<String, dynamic>),
-        restroomPageRoute["findposition"]!: (context) =>
-            const RestroomRoverFindPosition(),
-        restroomPageRoute["addrestroom"]!: (context) =>
-            const RestroomRoverAddrestroom(),
+              restroomData: ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>,
+            ),
+        restroomPageRoute["findposition"]!: (context) => const RestroomRoverFindPosition(),
+        restroomPageRoute["addrestroom"]!: (context) => const RestroomRoverAddrestroom(),
         restroomPageRoute["report"]!: (context) => const RestroomRoverReport(),
         restroomPageRoute["reportpin"]!: (context) => RestroomRoverReportPin(
-            restroomData: ModalRoute.of(context)!.settings.arguments
-                as Map<String, dynamic>),
+            restroomData: ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>),
         restroomPageRoute["myrestroom"]!: (context) => const MyRestroomPage(),
         restroomPageRoute["editrestroom"]!: (context) => EditRestroomPage(
-            restroomData: ModalRoute.of(context)!.settings.arguments
-                as Map<String, dynamic>),
+            restroomData: ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>),
         dinodengzzPageRoute: (context) => const MyGame(),
-        tuachuayDekhorPageRoute["home"]!: (context) =>
-            const TuachuayDekhorHomePage(),
-        tuachuayDekhorPageRoute["profile"]!: (context) =>
-            const TuachuayDekhorProfilePage(),
-        tuachuayDekhorPageRoute["search"]!: (context) =>
-            const TuachuayDekhorSearchPage(),
+        tuachuayDekhorPageRoute["home"]!: (context) => const TuachuayDekhorHomePage(),
+        tuachuayDekhorPageRoute["profile"]!: (context) => const TuachuayDekhorProfilePage(),
+        tuachuayDekhorPageRoute["search"]!: (context) => const TuachuayDekhorSearchPage(),
         tuachuayDekhorPageRoute["blog"]!: (context) {
           final id_post = ModalRoute.of(context)!.settings.arguments as int;
           return TuachuayDekhorBlogPage(id_post: id_post);
         },
-        tuachuayDekhorPageRoute["blogger"]!: (context) =>
-            const TuachuayDekhorBloggerPage(),
-        tuachuayDekhorPageRoute["writeblog"]!: (context) =>
-            const TuachuayDekhorWriteBlogPage(),
+        tuachuayDekhorPageRoute["blogger"]!: (context) => const TuachuayDekhorBloggerPage(),
+        tuachuayDekhorPageRoute["writeblog"]!: (context) => const TuachuayDekhorWriteBlogPage(),
         tuachuayDekhorPageRoute["editdraft"]!: (context) {
           final id_draft = ModalRoute.of(context)!.settings.arguments as int;
           return TuachuayDekhorEditDraftPage(id_draft: id_draft);
@@ -110,42 +100,34 @@ class _SuperAppState extends State<SuperApp> {
           final id_post = ModalRoute.of(context)!.settings.arguments as int;
           return TuachuayDekhorEditBlogPage(id_post: id_post);
         },
-        tuachuayDekhorPageRoute["draft"]!: (context) =>
-            const TuachuayDekhorDraftPage(),
-        tuachuayDekhorPageRoute["decoration"]!: (context) =>
-            const TuachuayDekhorDecorationPage(),
-        tuachuayDekhorPageRoute["story"]!: (context) =>
-            const TuachuayDekhorStoryPage(),
-        tuachuayDekhorPageRoute["cooking"]!: (context) =>
-            const TuachuayDekhorCookingPage(),
-        tuachuayDekhorPageRoute["cleaning"]!: (context) =>
-            const TuachuayDekhorCleaningPage(),
+        tuachuayDekhorPageRoute["draft"]!: (context) => const TuachuayDekhorDraftPage(),
+        tuachuayDekhorPageRoute["decoration"]!: (context) => const TuachuayDekhorDecorationPage(),
+        tuachuayDekhorPageRoute["story"]!: (context) => const TuachuayDekhorStoryPage(),
+        tuachuayDekhorPageRoute["cooking"]!: (context) => const TuachuayDekhorCookingPage(),
+        tuachuayDekhorPageRoute["cleaning"]!: (context) => const TuachuayDekhorCleaningPage(),
         tuachuayDekhorPageRoute["profileblogger"]!: (context) {
-          final args = ModalRoute.of(context)!.settings.arguments
-              as Map<String, dynamic>;
+          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
           final username = args['username'] as String;
           final avatarUrl = args['avatarUrl'] as String;
-          return TuachuayDekhorBloggerProfilePage(
-              username: username, avatarUrl: avatarUrl);
+          return TuachuayDekhorBloggerProfilePage(username: username, avatarUrl: avatarUrl);
         },
         tuachuayDekhorPageRoute["report"]!: (context) {
-          final args = ModalRoute.of(context)!.settings.arguments
-              as Map<String, dynamic>;
+
+          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
           final id_post = args['id_post'] as int;
           final id_blogger = args['id_blogger'] as int;
-          return TuachuayDekhorReportPage(
-              id_post: id_post, id_blogger: id_blogger);
+          return TuachuayDekhorReportPage(id_post: id_post, id_blogger: id_blogger);
         },
         tuachuayDekhorPageRoute["detailreport"]!: (context) {
-          final args = ModalRoute.of(context)!.settings.arguments
-              as Map<String, dynamic>;
+
+          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
           final id_post = args['id_post'] as int;
           final id_report = args['id_report'] as int;
-          return TuachuayDekhorDetailReportPage(
-              id_post: id_post, id_report: id_report);
+          return TuachuayDekhorDetailReportPage(id_post: id_post, id_report: id_report);
         },
-        tuachuayDekhorPageRoute["admin"]!: (context) =>
-            const TuachuayDekhorAdminPage(),
+        tuachuayDekhorPageRoute["admin"]!: (context) => const TuachuayDekhorAdminPage(),
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPageV2(),
         pinthebinPageRoute["editbin"]!: (context) => EditbinPage(
@@ -155,7 +137,7 @@ class _SuperAppState extends State<SuperApp> {
         pinthebinPageRoute["report"]!: (context) => const ReportPage(),
       },
       title: "RuamMitr - App for Uni Students",
-      theme: themes.themeFrom("RuamMitr")?.themeData,
+      theme: ThemesPortal.appThemeFromContext(context, "RuamMitr")?.themeData,
     );
   }
 }

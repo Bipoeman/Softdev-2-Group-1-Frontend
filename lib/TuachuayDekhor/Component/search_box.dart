@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TuachuaySearchBox extends StatefulWidget {
@@ -22,70 +23,83 @@ class _TuachuaySearchBoxState extends State<TuachuaySearchBox> {
 
   @override
   Widget build(BuildContext context) {
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return TextFormField(
       controller: searchText,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (value) {
         searchText.text.isNotEmpty
-            ? (
-                Navigator.pushNamed(
-                    context, tuachuayDekhorPageRoute["search"]!),
-                savesearchtext()
-              )
+            ? (Navigator.pushNamed(context, tuachuayDekhorPageRoute["search"]!), savesearchtext())
             : ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Please enter a search term"),
-                  duration: Duration(seconds: 2),
+                SnackBar(
+                  backgroundColor: customColors["main"]!,
+                  content: Text(
+                    "Please enter a search term",
+                    style: TextStyle(
+                      color: customColors["onMain"]!,
+                    ),
+                  ),
+                  duration: const Duration(seconds: 2),
                 ),
               );
       },
-      cursorColor: const Color.fromRGBO(0, 48, 73, 1),
+      cursorColor: customColors["main"]!,
       decoration: InputDecoration(
-        fillColor: Colors.white,
+        fillColor: customColors["container"]!,
         filled: true,
         labelStyle: TextStyle(
-          color: Colors.black.withOpacity(0.5),
+          color: customColors["onContainer"]!.withOpacity(0.5),
           fontSize: 14,
         ),
         contentPadding: const EdgeInsets.only(left: 15),
         labelText: "Search for...",
-        suffixIconColor: Colors.white,
+        suffixIconColor: customColors["onMain"]!,
         suffixIcon: Container(
-          margin: const EdgeInsets.all(2),
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Color.fromRGBO(0, 48, 73, 1),
+            color: customColors["main"]!,
           ),
           child: IconButton(
             onPressed: () {
               searchText.text.isNotEmpty
                   ? (
-                      Navigator.pushNamed(
-                          context, tuachuayDekhorPageRoute["search"]!),
+                      Navigator.pushNamed(context, tuachuayDekhorPageRoute["search"]!),
                       savesearchtext()
                     )
                   : ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Please enter a search term"),
-                        duration: Duration(seconds: 2),
+                      SnackBar(
+                        backgroundColor: customColors["main"]!,
+                        content: Text(
+                          "Please enter a search term",
+                          style: TextStyle(
+                            color: customColors["onMain"]!,
+                          ),
+                        ),
+                        duration: const Duration(seconds: 2),
                       ),
                     );
             },
-            icon: const Icon(
+            icon: Icon(
               size: 14,
               Icons.search,
-              color: Colors.white,
+              color: customColors["onMain"]!,
             ),
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40),
-          borderSide: const BorderSide(color: Color.fromRGBO(0, 48, 73, 1)),
+          borderRadius: BorderRadius.circular(100),
+          borderSide: BorderSide(
+            color: customColors["main"]!,
+          ),
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40),
-          borderSide: const BorderSide(color: Color.fromRGBO(0, 48, 73, 1)),
+          borderRadius: BorderRadius.circular(100),
+          borderSide: BorderSide(
+            color: customColors["main"]!,
+          ),
         ),
       ),
     );

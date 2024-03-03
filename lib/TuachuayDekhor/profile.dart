@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_var.dart';
 import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/global_const.dart";
@@ -12,8 +13,7 @@ class TuachuayDekhorProfilePage extends StatefulWidget {
   const TuachuayDekhorProfilePage({super.key});
 
   @override
-  State<TuachuayDekhorProfilePage> createState() =>
-      _TuachuayDekhorProfilePageState();
+  State<TuachuayDekhorProfilePage> createState() => _TuachuayDekhorProfilePageState();
 }
 
 class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
@@ -43,8 +43,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
   }
 
   Future<void> posttoprofile() async {
-    var response = await http
-        .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
+    var response = await http.get(posturl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
       setState(() {
         post = jsonDecode(response.body);
@@ -56,8 +55,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
   }
 
   Future<void> savepost() async {
-    var response = await http
-        .get(saveurl, headers: {"Authorization": "Bearer $publicToken"});
+    var response = await http.get(saveurl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
       setState(() {
         save = jsonDecode(response.body);
@@ -82,8 +80,11 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"],
       body: SafeArea(
         child: Stack(
           children: [
@@ -108,11 +109,18 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                               left: size.width * 0.04,
                             ),
                             child: GestureDetector(
-                              child: const Row(
+                              child: Row(
                                 children: [
-                                  Icon(Icons.arrow_back_outlined),
-                                  SizedBox(width: 5),
-                                  Text("Back")
+                                  Icon(
+                                    Icons.arrow_back_outlined,
+                                    color: customColors["main"]!,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    "Back",
+                                    style: TextStyle(color: customColors["main"]!),
+                                  ),
                                 ],
                               ),
                               onTap: () => Navigator.pop(context),
@@ -132,7 +140,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                   height: size.width * 0.25,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: const Color.fromRGBO(0, 48, 73, 1),
+                                    color: customColors["main"],
                                     image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: NetworkImage(
@@ -143,13 +151,13 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      EdgeInsets.only(left: size.width * 0.04),
+                                  padding: EdgeInsets.only(left: size.width * 0.04),
                                   child: Text(
                                     profileData['fullname'] ?? '',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 25,
                                       fontWeight: FontWeight.w600,
+                                      color: customColors["main"],
                                     ),
                                   ),
                                 ),
@@ -165,8 +173,11 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                 top: size.width * 0.005),
                             child: Text(
                               profileData['description'] ?? '',
-                              style:
-                                  const TextStyle(fontSize: 14,fontWeight: FontWeight.w400),
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: customColors["onContainer"],
+                              ),
                             ),
                           ),
                           Padding(
@@ -175,9 +186,10 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                               right: size.width * 0.1,
                             ),
                             child: Container(
-                                width: size.width * 0.8,
-                                height: size.width * 0.03,
-                                color: const Color.fromRGBO(0, 48, 73, 1)),
+                              width: size.width * 0.8,
+                              height: size.width * 0.03,
+                              color: const Color.fromRGBO(0, 48, 73, 1),
+                            ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
@@ -200,8 +212,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     decoration: BoxDecoration(
                                       color: isPostSelected
                                           ? const Color.fromRGBO(0, 48, 73, 1)
-                                          : const Color.fromRGBO(
-                                              217, 217, 217, 1),
+                                          : const Color.fromRGBO(217, 217, 217, 1),
                                       borderRadius: BorderRadius.circular(2.0),
                                     ),
                                     child: Center(
@@ -209,10 +220,8 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                         'Post',
                                         style: TextStyle(
                                           color: isPostSelected
-                                              ? const Color.fromRGBO(
-                                                  217, 217, 217, 1)
-                                              : const Color.fromRGBO(
-                                                  0, 48, 73, 1),
+                                              ? const Color.fromRGBO(217, 217, 217, 1)
+                                              : const Color.fromRGBO(0, 48, 73, 1),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -232,8 +241,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     decoration: BoxDecoration(
                                       color: isSaveSelected
                                           ? const Color.fromRGBO(0, 48, 73, 1)
-                                          : const Color.fromRGBO(
-                                              217, 217, 217, 1),
+                                          : const Color.fromRGBO(217, 217, 217, 1),
                                       borderRadius: BorderRadius.circular(2.0),
                                     ),
                                     child: Center(
@@ -241,10 +249,8 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                         'Save',
                                         style: TextStyle(
                                           color: isSaveSelected
-                                              ? const Color.fromRGBO(
-                                                  217, 217, 217, 1)
-                                              : const Color.fromRGBO(
-                                                  0, 48, 73, 1),
+                                              ? const Color.fromRGBO(217, 217, 217, 1)
+                                              : const Color.fromRGBO(0, 48, 73, 1),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -266,8 +272,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     mainAxisSpacing: 10,
                                     crossAxisSpacing: 10,
                                     itemCount: post.length,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     gridDelegate:
                                         const SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -293,31 +298,27 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     mainAxisSpacing: 10,
                                     crossAxisSpacing: 10,
                                     itemCount: save.length,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     gridDelegate:
                                         const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2),
-                                    itemBuilder: ((context, index) => BlogBox(
-                                          title: save[index]['post']['title'],
-                                          name: save[index]['fullname_blogger'],
-                                          category: save[index]['post']
-                                              ['category'],
-                                          like: save[index]['post']['save'] ??
-                                              "0",
-                                          image: NetworkImage(
-                                            save[index]['post']['image_link'],
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pushNamed(
-                                              context,
-                                              tuachuayDekhorPageRoute['blog']!,
-                                              arguments: save[index]['post']
-                                                  ['id_post'],
-                                            );
-                                          },
-                                        )),
+                                    itemBuilder: (context, index) => BlogBox(
+                                      title: save[index]['post']['title'],
+                                      name: save[index]['fullname_blogger'],
+                                      category: save[index]['post']['category'],
+                                      like: save[index]['post']['save'] ?? "0",
+                                      image: NetworkImage(
+                                        save[index]['post']['image_link'],
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          tuachuayDekhorPageRoute['blog']!,
+                                          arguments: save[index]['post']['id_post'],
+                                        );
+                                      },
+                                    ),
                                   ),
                           ),
                         ],
