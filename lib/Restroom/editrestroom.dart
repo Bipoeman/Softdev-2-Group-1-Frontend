@@ -441,7 +441,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                       child: Align(
                                         //padding: const EdgeInsets.only(top: size.height * 0.0),
                                         child: Text(
-                                          'BABY',
+                                          'Kid',
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall,
@@ -512,12 +512,12 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                           ),
                           SizedBox(height: size.height * 0.05),
                           Padding(
-                            padding: const EdgeInsets.only(right: 30 ),
+                            padding: const EdgeInsets.only(right: 40.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 20.0),
+                                  padding: const EdgeInsets.only(right: 40.0),
                                   child: ElevatedButton(
                                     onPressed: () {
                                       Navigator.pop(context);
@@ -541,7 +541,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 20.0),
+                                  padding: const EdgeInsets.only(left: 40.0),
                                   child: ElevatedButton(
                                     onPressed: () {
                                       showDialog(
