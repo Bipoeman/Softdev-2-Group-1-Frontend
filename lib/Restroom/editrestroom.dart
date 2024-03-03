@@ -2,6 +2,7 @@ import 'dart:convert';
 import "dart:io";
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
+import 'package:flutter/services.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import "package:image_picker/image_picker.dart";
 import 'package:http/http.dart' as http;
@@ -39,7 +40,8 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   Future<void> _updateData() async {
     await requestNewToken(context);
     debugPrint("Updating data");
-    final url = Uri.parse("$api$restroomRoverRestroomRoute");
+    final url = Uri.parse(
+        "$api$restroomRoverRestroomRoute/${widget.restroomData['id']}");
     var response = await http
         .put(url, headers: {
           "Authorization": "Bearer $publicToken",
@@ -131,6 +133,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
       _forwho["Kid"] = widget.restroomData["for_who"]["Kid"];
       _forwho["Handicapped"] = widget.restroomData["for_who"]["Handicapped"];
       _type = widget.restroomData["type"];
+      nameTextLength = widget.restroomData['name'].length;
     });
   }
 
@@ -343,43 +346,16 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                       padding: const EdgeInsets.only(
                                         left: 10,
                                       ),
-                                      //               child : Stack(
-                                      //   alignment: Alignment.centerRight,
-                                      //   children: [
-                                      //     TextField(
-                                      //       maxLength: 250,
-                                      //       maxLines: 9,
-                                      //       controller: _addressTextController,
-                                      //       // inputFormatters: [
-                                      //       //   LengthLimitingTextInputFormatter(80),
-                                      //       // ],
-                                      //       decoration: InputDecoration(
-                                      //         // counterText: "",
-                                      //         border: InputBorder.none,
-                                      //         contentPadding: EdgeInsets.only(
-                                      //             left: 16, right: 16, top: 20),
-                                      //         // hintText: 'Write a report...',
-                                      //       ),
-                                      //     ),
-                                      //     Positioned(
-                                      //       top: 1,
-                                      //       right: 16.0,
-                                      //       child: Text(
-                                      //         '$remainingCharacters/250',
-                                      //         style: TextStyle(
-                                      //           color: Colors.grey,
-                                      //           fontSize: 12.0,
-                                      //         ),
-                                      //       ),
-                                      //     ),
-                                      //   ],
-                                      // ),
                                       child: Stack(
                                           alignment: Alignment.centerRight,
                                           children: [
                                             TextField(
                                                 maxLength: 80,
                                                 maxLines: null,
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter
+                                                      .deny(RegExp(r"\n"))
+                                                ],
                                                 controller:
                                                     _addressTextController,
                                                 onChanged: (text) {
@@ -399,17 +375,6 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                                 style: text_input(
                                                     _addressTextController.text,
                                                     context)),
-                                            //              Positioned(
-                                            //   top: 1,
-                                            //   right: 16.0,
-                                            //   child: Text(
-                                            //     '$remainingCharacters/80',
-                                            //     style: TextStyle(
-                                            //       color: Colors.grey,
-                                            //       fontSize: 12.0,
-                                            //     ),
-                                            //   ),
-                                            // ),
                                           ]),
                                     )),
                               ),
@@ -587,7 +552,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                                     .headlineSmall,
                                               ),
                                               content: const Text(
-                                                  'Would you like to confirm the modifications to your trash bin information?'),
+                                                  'Would you like to confirm the modifications to your restroom information?'),
                                               actions: [
                                                 MaterialButton(
                                                   color: Colors.red,
@@ -619,11 +584,8 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                                                   "myrestroom"]!);
                                                     }).onError(
                                                         (error, stackTrace) {
-                                                      debugPrintStack(
-                                                          label:
-                                                              "Error updating data",
-                                                          stackTrace:
-                                                              stackTrace);
+                                                      debugPrint(
+                                                          "Failed to update data: $error");
                                                       Navigator.pop(context);
                                                       ScaffoldMessenger.of(
                                                               context)
