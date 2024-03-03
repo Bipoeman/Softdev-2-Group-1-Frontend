@@ -42,7 +42,10 @@ Widget _showEdit(context, bin) {
       },
     );
   } else {
-    return Container();
+    return const SizedBox(
+      height: 22,
+      width: 22,
+    );
   }
 }
 
@@ -219,8 +222,10 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                     width: size.width * 0.65,
                     /*  (404 / 439) are from refrence design */
                     height: (size.width * 0.6) / (404 / 439),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 20),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: size.width * 0.075,
+                      vertical: size.width * 0.05,
+                    ),
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
                       color: Colors.white,
