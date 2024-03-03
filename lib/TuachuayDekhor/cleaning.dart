@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -10,12 +11,10 @@ class TuachuayDekhorCleaningPage extends StatefulWidget {
   const TuachuayDekhorCleaningPage({super.key});
 
   @override
-  State<TuachuayDekhorCleaningPage> createState() =>
-      _TuachuayDekhorCleaningPageState();
+  State<TuachuayDekhorCleaningPage> createState() => _TuachuayDekhorCleaningPageState();
 }
 
-class _TuachuayDekhorCleaningPageState
-    extends State<TuachuayDekhorCleaningPage> {
+class _TuachuayDekhorCleaningPageState extends State<TuachuayDekhorCleaningPage> {
   final cleaningurl = Uri.parse("$api$dekhorPosttocleaningRoute");
   var blog_clean = [];
 
@@ -42,8 +41,11 @@ class _TuachuayDekhorCleaningPageState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"]!,
       body: SafeArea(
         child: Stack(
           children: [
@@ -63,7 +65,8 @@ class _TuachuayDekhorCleaningPageState
                         image: DecorationImage(
                           opacity: 0.3,
                           image: AssetImage(
-                              "assets/images/Background/TuachuayDekhor_Cleaning.jpg"),
+                            "assets/images/Background/TuachuayDekhor_Cleaning.jpg",
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -78,14 +81,14 @@ class _TuachuayDekhorCleaningPageState
                               fontSize: 30,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(0.5),
+                              color: customColors["onContainer"]!.withOpacity(0.5),
                             ),
                           ),
                         ],
                       ),
                     ),
                     Container(
-                      color: const Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"]!,
                       height: 10,
                     ),
                     Padding(
@@ -94,11 +97,18 @@ class _TuachuayDekhorCleaningPageState
                         left: size.width * 0.04,
                       ),
                       child: GestureDetector(
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.arrow_back_outlined),
-                            SizedBox(width: 5),
-                            Text("Back")
+                            Icon(
+                              Icons.arrow_back_outlined,
+                              color: customColors["main"]!,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "Back",
+                              style: TextStyle(color: customColors["main"]!),
+                            ),
                           ],
                         ),
                         onTap: () => Navigator.pop(context),
@@ -124,16 +134,12 @@ class _TuachuayDekhorCleaningPageState
                                 if (actualIndex < blog_clean.length) {
                                   return BlogBox(
                                     title: blog_clean[actualIndex]['title'],
-                                    name: blog_clean[actualIndex]['user']
-                                        ['fullname'],
-                                    category: blog_clean[actualIndex]
-                                        ['category'],
+                                    name: blog_clean[actualIndex]['user']['fullname'],
+                                    category: blog_clean[actualIndex]['category'],
                                     like: blog_clean[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
-                                      blog_clean[actualIndex]['image_link'] !=
-                                              "null"
-                                          ? blog_clean[actualIndex]
-                                              ['image_link']
+                                      blog_clean[actualIndex]['image_link'] != "null"
+                                          ? blog_clean[actualIndex]['image_link']
                                           : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                     ),
                                     onPressed: () {
@@ -160,16 +166,12 @@ class _TuachuayDekhorCleaningPageState
                                 if (actualIndex < blog_clean.length) {
                                   return BlogBox(
                                     title: blog_clean[actualIndex]['title'],
-                                    name: blog_clean[actualIndex]['user']
-                                        ['fullname'],
-                                    category: blog_clean[actualIndex]
-                                        ['category'],
+                                    name: blog_clean[actualIndex]['user']['fullname'],
+                                    category: blog_clean[actualIndex]['category'],
                                     like: blog_clean[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
-                                      blog_clean[actualIndex]['image_link'] !=
-                                              "null"
-                                          ? blog_clean[actualIndex]
-                                              ['image_link']
+                                      blog_clean[actualIndex]['image_link'] != "null"
+                                          ? blog_clean[actualIndex]['image_link']
                                           : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                     ),
                                     onPressed: () {

@@ -3,6 +3,7 @@ import "package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart";
 import "package:ruam_mitt/TuachuayDekhor/Component/avatar.dart";
 import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/TuachuayDekhor/Component/navbar.dart";
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import "dart:math";
 import "package:ruam_mitt/global_const.dart";
 import 'package:http/http.dart' as http;
@@ -19,6 +20,11 @@ class TuachuayDekhorHomePage extends StatefulWidget {
 
 Widget nodeCatagories(
     BuildContext context, String title, String page, String number) {
+  CustomThemes theme =
+      ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+  Map<String, Color> customColors = theme.customColors;
+  Size size = MediaQuery.of(context).size;
+
   return IntrinsicHeight(
     child: IntrinsicWidth(
       child: RawMaterialButton(
@@ -35,8 +41,8 @@ Widget nodeCatagories(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image(
-                height: 50,
-                width: 50,
+                height: size.width * 0.1275,
+                width: size.width * 0.1275,
                 fit: BoxFit.cover,
                 image: AssetImage(
                     "assets/images/Icon/TuachuayDekhor_Catagories_$number.png"),
@@ -46,9 +52,10 @@ Widget nodeCatagories(
               ),
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 13,
+                  color: customColors["onContainer"],
                 ),
               ),
             ],
@@ -104,14 +111,18 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"],
       body: SafeArea(
         child: Stack(
           children: [
             RefreshIndicator(
               displacement: 100,
-              color: const Color.fromRGBO(0, 48, 73, 1),
+              color: customColors["main"],
               onRefresh: randompost,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(
@@ -144,30 +155,34 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                   margin: const EdgeInsets.only(right: 10),
                                   width: 10,
                                   height: 20,
-                                  color: const Color.fromRGBO(0, 48, 73, 1),
+                                  color: customColors["main"],
                                 ),
-                                const Text(
-                                  "Catagories",
+                                Text(
+                                  "Categories",
                                   style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: customColors["main"],
+                                  ),
                                 ),
                               ],
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  nodeCatagories(
-                                      context, "Decoration", "decoration", "1"),
-                                  nodeCatagories(
-                                      context, "Cleaning", "cleaning", "2"),
-                                  nodeCatagories(
-                                      context, "Cooking", "cooking", "3"),
-                                  nodeCatagories(
-                                      context, "Story", "story", "4"),
-                                ],
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    nodeCatagories(context, "Decoration",
+                                        "decoration", "1"),
+                                    nodeCatagories(
+                                        context, "Cleaning", "cleaning", "2"),
+                                    nodeCatagories(
+                                        context, "Cooking", "cooking", "3"),
+                                    nodeCatagories(
+                                        context, "Story", "story", "4"),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -183,13 +198,15 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                   margin: const EdgeInsets.only(right: 10),
                                   width: 10,
                                   height: 20,
-                                  color: const Color.fromRGBO(0, 48, 73, 1),
+                                  color: customColors["main"],
                                 ),
-                                const Text(
+                                Text(
                                   "Blogger",
                                   style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: customColors["main"],
+                                  ),
                                 ),
                               ],
                             ),
@@ -201,11 +218,13 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                       Container(
                                         margin: const EdgeInsets.only(left: 30),
                                         alignment: Alignment.centerLeft,
-                                        child: const Text(
+                                        child: Text(
                                           "Start sharing your experiences",
                                           style: TextStyle(
                                             fontStyle: FontStyle.italic,
                                             fontWeight: FontWeight.w300,
+                                            color: customColors["label"],
+                                            fontSize: 12,
                                           ),
                                         ),
                                       ),
@@ -215,9 +234,10 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                         child: RawMaterialButton(
                                           onPressed: () {
                                             Navigator.pushNamed(
-                                                context,
-                                                tuachuayDekhorPageRoute[
-                                                    "writeblog"]!);
+                                              context,
+                                              tuachuayDekhorPageRoute[
+                                                  "writeblog"]!,
+                                            );
                                           },
                                           fillColor: const Color.fromRGBO(
                                               217, 192, 41, 1),
@@ -230,7 +250,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 10,
                                           ),
-                                          child: const Text("GET START"),
+                                          child: const Text("GET STARTED"),
                                         ),
                                       ),
                                     ],
@@ -285,13 +305,15 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                   margin: const EdgeInsets.only(right: 10),
                                   width: 10,
                                   height: 20,
-                                  color: const Color.fromRGBO(0, 48, 73, 1),
+                                  color: customColors["main"],
                                 ),
-                                const Text(
+                                Text(
                                   "DekHor Recommended",
                                   style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: customColors["main"],
+                                  ),
                                 ),
                               ],
                             ),
@@ -306,22 +328,22 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                 gridDelegate:
                                     const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 2),
-                                itemBuilder: ((context, index) => BlogBox(
-                                      title: blog[index]['title'],
-                                      name: blog[index]['user']['fullname'],
-                                      category: blog[index]['category'],
-                                      like: blog[index]['save'] ?? "0",
-                                      image: NetworkImage(
-                                        blog[index]['image_link'],
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          tuachuayDekhorPageRoute['blog']!,
-                                          arguments: blog[index]['id_post'],
-                                        );
-                                      },
-                                    )),
+                                itemBuilder: (context, index) => BlogBox(
+                                  title: blog[index]['title'],
+                                  name: blog[index]['user']['fullname'],
+                                  category: blog[index]['category'],
+                                  like: blog[index]['save'] ?? "0",
+                                  image: NetworkImage(
+                                    blog[index]['image_link'],
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      tuachuayDekhorPageRoute['blog']!,
+                                      arguments: blog[index]['id_post'],
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ],

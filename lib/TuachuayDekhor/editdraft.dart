@@ -6,6 +6,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
@@ -224,13 +225,17 @@ class _TuachuayDekhorEditDraftPageState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: isLoading
-            ? const Center(
+            ? Center(
                 child: CircularProgressIndicator(
-                  color: Color.fromRGBO(0, 48, 73, 1),
+                  color: customColors["main"]!,
                 ),
               )
             : SlidingBox(
@@ -248,36 +253,41 @@ class _TuachuayDekhorEditDraftPageState
                       Align(
                         alignment: Alignment.topRight,
                         child: GestureDetector(
-                            child: const Icon(Icons.close),
+                            child: Icon(
+                              Icons.close,
+                              color: customColors["main"]!,
+                              size: 20,
+                            ),
                             onTap: () {
                               boxController.closeBox();
                             }),
                       ),
                       Container(
                         margin: const EdgeInsets.only(bottom: 10),
-                        child: const Text(
+                        child: Text(
                           "Preview",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(0, 48, 73, 1),
+                            color: customColors["main"]!,
                           ),
                         ),
                       ),
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Title :",
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(0, 48, 73, 1),
+                            color: customColors["main"]!,
                           ),
                         ),
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.2),
+                          color: customColors["textInputContainer"]!
+                              .withOpacity(0.5),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         margin: const EdgeInsets.only(
@@ -285,11 +295,11 @@ class _TuachuayDekhorEditDraftPageState
                           bottom: 10,
                         ),
                         height: size.height * 0.075,
-                        child: Scrollbar(
-                          child: Markdown(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            data: markdownTitleText,
+                        width: size.width,
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            markdownTitleText,
                           ),
                         ),
                       ),
@@ -301,8 +311,10 @@ class _TuachuayDekhorEditDraftPageState
                         child: IntrinsicHeight(
                           child: ClipRRect(
                             child: isLoading
-                                ? const Center(
-                                    child: CircularProgressIndicator(),
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: customColors["main"]!,
+                                    ),
                                   )
                                 : (_image.path.split('/').last)
                                             .split('_')
@@ -312,24 +324,27 @@ class _TuachuayDekhorEditDraftPageState
                                         detaildraft[0]['image_link'],
                                         fit: BoxFit.cover,
                                       )
-                                    : Image.file(_image, fit: BoxFit.cover),
+                                    : Image.file(
+                                        _image,
+                                        fit: BoxFit.cover,
+                                      ),
                           ),
                         ),
                       ),
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Content :",
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(0, 48, 73, 1),
+                            color: customColors["main"]!,
                           ),
                         ),
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.2),
+                          color: customColors["textInputContainer"]!,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         margin: const EdgeInsets.only(
@@ -366,11 +381,19 @@ class _TuachuayDekhorEditDraftPageState
                                 left: size.width * 0.04,
                               ),
                               child: GestureDetector(
-                                child: const Row(
+                                child: Row(
                                   children: [
-                                    Icon(Icons.arrow_back_outlined),
-                                    SizedBox(width: 5),
-                                    Text("Back")
+                                    Icon(
+                                      Icons.arrow_back_outlined,
+                                      color: customColors["main"]!,
+                                      size: 20,
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      "Back",
+                                      style: TextStyle(
+                                          color: customColors["main"]!),
+                                    ),
                                   ],
                                 ),
                                 onTap: () {
@@ -384,54 +407,73 @@ class _TuachuayDekhorEditDraftPageState
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          surfaceTintColor: Colors.white,
-                                          backgroundColor: Colors.white,
+                                          surfaceTintColor:
+                                              customColors["container"]!,
+                                          backgroundColor:
+                                              customColors["container"]!,
                                           iconPadding: EdgeInsets.zero,
-                                          iconColor: const Color.fromRGBO(
-                                              0, 48, 73, 1),
+                                          iconColor: customColors["main"]!,
                                           icon: Stack(
                                             children: [
-                                              const Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    24, 30, 24, 16),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        24, 30, 24, 16),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
-                                                    Icon(Icons.note_alt,
-                                                        size: 50),
+                                                    Icon(
+                                                      Icons.note_alt,
+                                                      size: 50,
+                                                      color:
+                                                          customColors["main"]!,
+                                                    ),
                                                   ],
                                                 ),
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.only(
-                                                    top: 10, right: 10),
+                                                  top: 10,
+                                                  right: 10,
+                                                ),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.end,
                                                   children: [
                                                     IconButton(
-                                                      color: Colors.grey,
+                                                      color:
+                                                          customColors["main"]!,
                                                       onPressed: () =>
                                                           Navigator.pop(
                                                               context),
-                                                      icon: const Icon(
-                                                          Icons.close),
+                                                      icon: Icon(
+                                                        Icons.close,
+                                                        color: customColors[
+                                                            "onMain"],
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
                                             ],
                                           ),
-                                          title: const Text("Save draft?"),
+                                          title: Text(
+                                            "Save draft?",
+                                            style: TextStyle(
+                                              color:
+                                                  customColors["onContainer"]!,
+                                            ),
+                                          ),
                                           actionsAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           actions: [
                                             Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Colors.red),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: Colors.red,
+                                              ),
                                               child: TextButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
@@ -447,9 +489,10 @@ class _TuachuayDekhorEditDraftPageState
                                             ),
                                             Container(
                                               decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Colors.green),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: Colors.green,
+                                              ),
                                               child: TextButton(
                                                 onPressed: () {
                                                   editdraft();
@@ -458,9 +501,10 @@ class _TuachuayDekhorEditDraftPageState
                                                   Navigator.pop(context);
                                                   Navigator.pop(context);
                                                   Navigator.pushNamed(
-                                                      context,
-                                                      tuachuayDekhorPageRoute[
-                                                          "draft"]!);
+                                                    context,
+                                                    tuachuayDekhorPageRoute[
+                                                        "draft"]!,
+                                                  );
                                                   print("Draft saved");
                                                 },
                                                 child: const Text(
@@ -497,10 +541,8 @@ class _TuachuayDekhorEditDraftPageState
                                       onPressed: () {
                                         deletedraft();
                                         print("Delete draft tapped");
-                                        Navigator.pushNamed(
-                                                context,
-                                                tuachuayDekhorPageRoute[
-                                                    "draft"]!);
+                                        Navigator.pushNamed(context,
+                                            tuachuayDekhorPageRoute["draft"]!);
                                       },
                                       fillColor: Colors.red[900],
                                       shape: RoundedRectangleBorder(
@@ -530,8 +572,10 @@ class _TuachuayDekhorEditDraftPageState
                                             context: context,
                                             builder: (BuildContext context) {
                                               return Dialog(
-                                                surfaceTintColor: Colors.white,
-                                                backgroundColor: Colors.white,
+                                                surfaceTintColor:
+                                                    customColors["container"]!,
+                                                backgroundColor:
+                                                    customColors["container"]!,
                                                 child: SizedBox(
                                                   width: size.width * 0.3,
                                                   height: size.height * 0.3,
@@ -567,12 +611,12 @@ class _TuachuayDekhorEditDraftPageState
                                                           status
                                                               ? "Post successful!"
                                                               : "Post failed!",
-                                                          style:
-                                                              const TextStyle(
+                                                          style: TextStyle(
                                                             fontSize: 20,
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            color: Colors.black,
+                                                            color: customColors[
+                                                                "onContainer"]!,
                                                           ),
                                                         ),
                                                       ),
@@ -624,15 +668,16 @@ class _TuachuayDekhorEditDraftPageState
                                         fontSize: 14,
                                       ),
                                       keyboardType: TextInputType.text,
-                                      cursorColor:
-                                          Colors.black.withOpacity(0.5),
+                                      cursorColor: customColors["textInput"]!
+                                          .withOpacity(0.5),
                                       cursorHeight: 18,
                                       decoration: InputDecoration(
-                                        fillColor: Colors.grey.withOpacity(0.3),
+                                        fillColor:
+                                            customColors["textInputContainer"]!,
                                         filled: true,
                                         labelText: "Write a title",
                                         labelStyle: TextStyle(
-                                          color: Colors.black.withOpacity(0.5),
+                                          color: customColors["label"]!,
                                           fontSize: 14,
                                         ),
                                         border: OutlineInputBorder(
@@ -655,7 +700,10 @@ class _TuachuayDekhorEditDraftPageState
                                       });
                                       boxController.openBox();
                                     },
-                                    icon: const Icon(Icons.preview),
+                                    icon: Icon(
+                                      Icons.preview,
+                                      color: customColors["main"]!,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -669,21 +717,24 @@ class _TuachuayDekhorEditDraftPageState
                               child: TextFormField(
                                 focusNode: anotherFocusNode,
                                 controller: markdownContentController,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 12,
+                                  color: customColors["textInput"],
                                 ),
                                 keyboardType: TextInputType.multiline,
-                                cursorColor: Colors.black.withOpacity(0.5),
+                                cursorColor:
+                                    customColors["textInput"]!.withOpacity(0.5),
                                 cursorHeight: 16,
                                 minLines: 8,
                                 maxLines: 8,
                                 decoration: InputDecoration(
                                   alignLabelWithHint: true,
-                                  fillColor: Colors.grey.withOpacity(0.3),
+                                  fillColor:
+                                      customColors["textInputContainer"]!,
                                   filled: true,
                                   labelText: "Write a blog",
                                   labelStyle: TextStyle(
-                                    color: Colors.black.withOpacity(0.5),
+                                    color: customColors["label"]!,
                                     fontSize: 12,
                                   ),
                                   border: OutlineInputBorder(
@@ -702,8 +753,8 @@ class _TuachuayDekhorEditDraftPageState
                         right: 0,
                         child: Container(
                           height: size.width * 0.12,
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(0, 48, 73, 1),
+                          decoration: BoxDecoration(
+                            color: customColors["main"]!,
                           ),
                           child: Row(
                             children: [
@@ -711,44 +762,60 @@ class _TuachuayDekhorEditDraftPageState
                                 margin: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
+                                  color: customColors["container"]!,
                                 ),
                                 child: DropdownButton(
                                   underline: const SizedBox(),
                                   padding: const EdgeInsets.only(left: 10),
-                                  hint: const Text(
+                                  hint: Text(
                                     "Select Category",
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: customColors["onContainer"]!,
+                                    ),
                                   ),
-                                  dropdownColor: Colors.white,
-                                  iconEnabledColor: Colors.black,
-                                  items: const [
+                                  dropdownColor: customColors["container"]!,
+                                  iconEnabledColor:
+                                      customColors["onContainer"]!,
+                                  items: [
                                     DropdownMenuItem(
                                       value: "decoration",
                                       child: Text(
                                         "Decoration",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: customColors["onContainer"]!,
+                                        ),
                                       ),
                                     ),
                                     DropdownMenuItem(
                                       value: "cleaning",
                                       child: Text(
                                         "Cleaning",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: customColors["onContainer"]!,
+                                        ),
                                       ),
                                     ),
                                     DropdownMenuItem(
                                       value: "cooking",
                                       child: Text(
                                         "Cooking",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: customColors["onContainer"]!,
+                                        ),
                                       ),
                                     ),
                                     DropdownMenuItem(
                                       value: "story",
                                       child: Text(
                                         "Story",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: customColors["onContainer"]!,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -767,7 +834,7 @@ class _TuachuayDekhorEditDraftPageState
                                 margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
-                                  color: Colors.grey[200],
+                                  color: customColors["container"]!,
                                 ),
                                 child: Row(
                                   children: [
@@ -776,9 +843,9 @@ class _TuachuayDekhorEditDraftPageState
                                         _getImage();
                                         print("Add image tapped");
                                       },
-                                      child: const Icon(
+                                      child: Icon(
                                         Icons.image,
-                                        color: Color.fromRGBO(0, 48, 73, 1),
+                                        color: customColors["main"]!,
                                         size: 24,
                                       ),
                                     ),
@@ -790,6 +857,9 @@ class _TuachuayDekhorEditDraftPageState
                                       child: Text(
                                         _image.path.split('/').last,
                                         overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: customColors["onContainer"],
+                                        ),
                                       ),
                                     ),
                                   ],

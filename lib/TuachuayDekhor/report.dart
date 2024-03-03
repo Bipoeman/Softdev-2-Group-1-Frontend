@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:http/http.dart' as http;
 import "package:ruam_mitt/global_const.dart";
 
@@ -37,8 +38,12 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"],
       body: SafeArea(
         child: Stack(
           children: [
@@ -58,11 +63,20 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                   child: Column(
                     children: [
                       GestureDetector(
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.arrow_back_outlined),
-                            SizedBox(width: 5),
-                            Text("Back")
+                            Icon(
+                              Icons.arrow_back_outlined,
+                              color: customColors["main"],
+                              size: 20,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "Back",
+                              style: TextStyle(
+                                color: customColors["main"],
+                              ),
+                            ),
                           ],
                         ),
                         onTap: () {
@@ -72,19 +86,29 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  surfaceTintColor: Colors.white,
-                                  backgroundColor: Colors.white,
-                                  iconColor: const Color.fromRGBO(0, 48, 73, 1),
-                                  icon: const Icon(Icons.report_off, size: 50),
-                                  title: const Text("Discard report?"),
+                                  surfaceTintColor: customColors["background"],
+                                  backgroundColor: customColors["background"],
+                                  iconColor: customColors["main"],
+                                  icon: Icon(
+                                    Icons.report_off,
+                                    size: 50,
+                                    color: customColors["onContainer"],
+                                  ),
+                                  title: Text(
+                                    "Discard report?",
+                                    style: TextStyle(
+                                      color: customColors["onContainer"],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   actionsAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   actions: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.grey,
+                                      ),
                                       child: TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
@@ -125,12 +149,13 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                           }
                         },
                       ),
-                      const SizedBox(
+                      SizedBox(
                         child: Text(
                           "REPORT",
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w900,
+                            color: customColors["main"],
                           ),
                         ),
                       ),
@@ -140,12 +165,12 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                           top: size.height * 0.02,
                           bottom: size.height * 0.03,
                         ),
-                        child: const Text(
+                        child: Text(
                           "Do you want to report this blog?",
                           style: TextStyle(
                             fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.w300,
-                            color: Colors.grey,
+                            color: customColors["onContainer"],
                           ),
                         ),
                       ),
@@ -154,10 +179,11 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                         padding: EdgeInsets.only(
                           bottom: size.height * 0.03,
                         ),
-                        child: const Text(
+                        child: Text(
                           "Yours title :",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
+                            color: customColors["onContainer"],
                           ),
                         ),
                       ),
@@ -170,13 +196,14 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                         child: TextFormField(
                           textInputAction: TextInputAction.next,
                           controller: titleController,
-                          cursorColor: Colors.grey[600],
-                          style: const TextStyle(
+                          cursorColor: customColors["textInput"],
+                          style: TextStyle(
                             fontSize: 12,
+                            color: customColors["textInput"],
                           ),
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.grey[300],
+                            fillColor: customColors["textInputContainer"],
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide.none,
@@ -189,10 +216,11 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                         padding: EdgeInsets.only(
                           bottom: size.height * 0.03,
                         ),
-                        child: const Text(
+                        child: Text(
                           "Yours reason :",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
+                            color: customColors["onContainer"],
                           ),
                         ),
                       ),
@@ -205,13 +233,14 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                         child: TextFormField(
                           controller: reasonController,
                           maxLines: 5,
-                          cursorColor: Colors.grey[600],
-                          style: const TextStyle(
+                          cursorColor: customColors["textInput"],
+                          style: TextStyle(
                             fontSize: 12,
+                            color: customColors["textInput"],
                           ),
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.grey[300],
+                            fillColor: customColors["textInputContainer"],
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide.none,

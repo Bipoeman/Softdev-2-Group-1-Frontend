@@ -40,12 +40,14 @@ class LevelSelectionScreen extends StatelessWidget {
             Align(
               alignment: Alignment.topLeft,
               child: Padding(
-                padding: const EdgeInsets.only(top: 12, left: 1),
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.0015,
+                    left: MediaQuery.of(context).size.width * 0.0015),
                 child: InkWell(
                   onTap: onBackPressed,
-                  child: const CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.transparent,
+                  child: CircleAvatar(
+                    radius: screenWidth * 0.045,
+                    backgroundColor: Color.fromARGB(0, 0, 0, 0),
                   ),
                 ),
               ),
@@ -53,10 +55,12 @@ class LevelSelectionScreen extends StatelessWidget {
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 11, right: 2),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.height * 0.02,
+                    right: MediaQuery.of(context).size.width * 0.01),
                 child: SizedBox(
-                  height: 50,
-                  width: 220,
+                  height: MediaQuery.of(context).size.height * 0.12,
+                  width: MediaQuery.of(context).size.width * 0.3,
                   child: TextButton(
                     onPressed: onTutorialPressed,
                     style: TextButton.styleFrom(

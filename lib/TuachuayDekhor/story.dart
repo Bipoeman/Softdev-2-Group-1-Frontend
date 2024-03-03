@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -10,8 +11,7 @@ class TuachuayDekhorStoryPage extends StatefulWidget {
   const TuachuayDekhorStoryPage({super.key});
 
   @override
-  State<TuachuayDekhorStoryPage> createState() =>
-      _TuachuayDekhorStoryPageState();
+  State<TuachuayDekhorStoryPage> createState() => _TuachuayDekhorStoryPageState();
 }
 
 class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
@@ -40,8 +40,11 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"],
       body: SafeArea(
         child: Stack(
           children: [
@@ -61,7 +64,8 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
                         image: DecorationImage(
                           opacity: 0.3,
                           image: AssetImage(
-                              "assets/images/Background/TuachuayDekhor_Story.jpg"),
+                            "assets/images/Background/TuachuayDekhor_Story.jpg",
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -76,14 +80,14 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
                               fontSize: 30,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(0.5),
+                              color: customColors["onContainer"]!.withOpacity(0.5),
                             ),
                           ),
                         ],
                       ),
                     ),
                     Container(
-                      color: const Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"],
                       height: 10,
                     ),
                     Padding(
@@ -92,11 +96,18 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
                         left: size.width * 0.04,
                       ),
                       child: GestureDetector(
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.arrow_back_outlined),
-                            SizedBox(width: 5),
-                            Text("Back")
+                            Icon(
+                              Icons.arrow_back_outlined,
+                              color: customColors["main"]!,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "Back",
+                              style: TextStyle(color: customColors["main"]!),
+                            ),
                           ],
                         ),
                         onTap: () => Navigator.pop(context),
@@ -122,13 +133,11 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
                                 if (actualIndex < blog_story.length) {
                                   return BlogBox(
                                     title: blog_story[actualIndex]['title'],
-                                    name: blog_story[actualIndex]['user']
-                                        ['fullname'],
+                                    name: blog_story[actualIndex]['user']['fullname'],
                                     category: blog_story[actualIndex]['category'],
                                     like: blog_story[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
-                                      blog_story[actualIndex]['image_link'] !=
-                                              "null"
+                                      blog_story[actualIndex]['image_link'] != "null"
                                           ? blog_story[actualIndex]['image_link']
                                           : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                     ),
@@ -156,13 +165,11 @@ class _TuachuayDekhorStoryPageState extends State<TuachuayDekhorStoryPage> {
                                 if (actualIndex < blog_story.length) {
                                   return BlogBox(
                                     title: blog_story[actualIndex]['title'],
-                                    name: blog_story[actualIndex]['user']
-                                        ['fullname'],
+                                    name: blog_story[actualIndex]['user']['fullname'],
                                     category: blog_story[actualIndex]['category'],
                                     like: blog_story[actualIndex]['save'] ?? "0",
                                     image: NetworkImage(
-                                      blog_story[actualIndex]['image_link'] !=
-                                              "null"
+                                      blog_story[actualIndex]['image_link'] != "null"
                                           ? blog_story[actualIndex]['image_link']
                                           : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                     ),

@@ -23,6 +23,7 @@ class _ReportPageState extends State<ReportPage> {
   TextEditingController _ReporttextController = TextEditingController();
   TextEditingController _TitleController = TextEditingController();
   File? _image;
+  Map<String, dynamic>? _more_info;
 
   Future<void> _getImage() async {
     final picker = ImagePicker();
@@ -44,7 +45,8 @@ class _ReportPageState extends State<ReportPage> {
     }, body: {
       "binId": id,
       "description": _ReporttextController.text,
-      "header": _TitleController.text,
+      "title": _TitleController.text,
+      "more_info": jsonEncode(_more_info),
     });
   }
 
@@ -73,6 +75,11 @@ class _ReportPageState extends State<ReportPage> {
   Widget build(BuildContext context) {
     final data = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
+    _more_info = {
+      "id": data['Bininfo']["id"],
+      "location": data['Bininfo']["location"],
+      "picture": data['Bininfo']["picture"]
+    };
     Size size = MediaQuery.of(context).size;
     return Theme(
       data: pinTheBinThemeData,
@@ -459,10 +466,6 @@ class _ReportPageState extends State<ReportPage> {
                                         _image!);
                                     print("response : ${response.body}");
                                   }
-                                  // res = await _addpicturereport(
-                                  //     '${jsonDecode(res.body)[0]["id"]}',
-                                  //     _image!);
-                                  // print("response : ${res.body}");
                                   if (res.statusCode == 200 &&
                                       response?.statusCode != 400) {
                                     ScaffoldMessenger.of(context).showSnackBar(

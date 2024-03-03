@@ -99,18 +99,20 @@ class _SettingsState extends State<Settings> {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            heightFactor: 5.2,
-            child: IconButton(
-              onPressed: widget.onBackPressed,
-              icon: Image.asset(
-                "assets/images/DinoDengzz Icon/White Back Button.png",
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+              IconButton(
+                onPressed: widget.onBackPressed,
+                icon: Image.asset(
+                  "assets/images/DinoDengzz Icon/White Back Button.png",
+                ),
+                iconSize: MediaQuery.of(context).size.width * 0.03,
+                padding:
+                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
               ),
-              iconSize: MediaQuery.of(context).size.width * 0.00001,
-              padding:
-                  EdgeInsets.all(MediaQuery.of(context).size.width * 0.00001),
-            ),
+            ],
           ),
         ],
       ),

@@ -143,7 +143,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
     Uri url = Uri.parse(
         "$api$userPasswordChangeOTPRoute?email=${passwordChangeData.fieldController['email']!.text}");
     var otpRes = await http.get(url);
-    print(otpRes.body);
+    debugPrint(otpRes.body);
   }
 
   void changePassword(BuildContext context) async {
@@ -254,9 +254,9 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                                     backgroundColor: theme.colorScheme.primary,
                                     padding: EdgeInsets.zero),
                                 onPressed: sendOTPEnabled ? requestOTP : null,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.send,
-                                  color: theme.colorScheme.primaryContainer,
+                                  color: Colors.white,
                                 ),
                               )
                               // Icon(Icons.send)
