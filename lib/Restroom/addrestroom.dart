@@ -12,6 +12,7 @@ import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/Restroom/findposition.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_func.dart';
 import 'package:ruam_mitt/global_var.dart';
 
 List<String> restroomTypes = ["Free", "Must Paid", "Toilet In Stores"];
@@ -41,9 +42,12 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
   };
 
   Future<void> _createPin() async {
+    await requestNewToken(context);
+    // ignore: use_build_context_synchronously
     ThemeData theme = Theme.of(context);
     debugPrint("Sending data");
     if (_position == null || _nameTextController.text.isEmpty) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
