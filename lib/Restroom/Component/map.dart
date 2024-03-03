@@ -1,29 +1,29 @@
 import 'package:bottom_bar_matu/utils/app_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:ruam_mitt/Restroom/Component/cardpin.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:ruam_mitt/global_const.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 
 class MapRestroomRover extends StatelessWidget {
   const MapRestroomRover(
-      {super.key, required this.restroomData, this.mapController});
+      {super.key,
+      required this.restroomData,
+      this.mapController,
+      this.popupController,
+      this.markers});
 
   final List<dynamic> restroomData;
+  final List<Marker>? markers;
   final MapController? mapController;
-
-  static final Map<String, String> pinImg = {
-    "Free": "assets/images/RestroomRover/Pingreen.png",
-    "Must Paid": "assets/images/RestroomRover/Pinred.png",
-    "Toilet In Stores": "assets/images/RestroomRover/Pinorange3.png",
-  };
+  final PopupController? popupController;
 
   @override
   Widget build(BuildContext context) {
-    List<Marker> markers = restroomData.map((restroom) {
+    List<Marker> defaultMarkers = restroomData.map((restroom) {
       final String type = restroom["type"];
       return Marker(
         point: LatLng(
@@ -35,15 +35,15 @@ class MapRestroomRover extends StatelessWidget {
         rotate: true,
         child: type == "Must Paid"
             ? Image.asset(
-                pinImg[type]!,
+                restroomPinImg[type]!,
               )
             : Image.asset(
-                pinImg[type]!,
+                restroomPinImg[type]!,
                 width: type == "Toilet In Stores" ? 50 : 50,
                 height: type == "Toilet In Stores" ? 50 : 50,
                 scale: type == "Toilet In Stores"
                     ? 5.0
-                    : 5.15 , // ปรับ scale สำหรับ "Free" ให้มีขนาดเท่ากับ "Toilet In Stores"
+                    : 5.15, // ปรับ scale สำหรับ "Free" ให้มีขนาดเท่ากับ "Toilet In Stores"
               ),
       );
     }).toList();
@@ -55,6 +55,8 @@ class MapRestroomRover extends StatelessWidget {
           options: const MapOptions(
             initialCenter: LatLng(13.825605, 100.514476),
             initialZoom: 15,
+            minZoom: 10,
+            maxZoom: 20,
           ),
           children: [
             TileLayer(
@@ -64,7 +66,8 @@ class MapRestroomRover extends StatelessWidget {
             // PopupMarkerLayer(options: options)
             PopupMarkerLayer(
               options: PopupMarkerLayerOptions(
-                markers: markers,
+                popupController: popupController,
+                markers: markers ?? defaultMarkers,
                 popupDisplayOptions: PopupDisplayOptions(
                     builder: (BuildContext context, Marker marker) {
                   Map<String, dynamic> data = restroomData
