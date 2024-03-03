@@ -117,8 +117,8 @@ class _RestroomRoverState extends State<RestroomRover> {
                 focusNode: focusNode,
                 parentKey: widget.key,
                 onSelected: (selectedValue) {
-                  // print("Selected $selectedValue");
                   restroomData.forEach((eachRestroom) {
+                    debugPrint("Selected Value : $selectedValue");
                     if (eachRestroom['name'] == selectedValue) {
                       setState(() {
                         focusNode.unfocus();
@@ -256,12 +256,11 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
             String queryText = suggestionController.text;
             for (var i = 0; i < widget.restroomDataList.length; i++) {
               if (widget.restroomDataList[i]['name'] != null) {
-                // print(tempBinData[i]['location'].contains(query));
                 if (widget.restroomDataList[i]['name']
                     .toLowerCase()
                     .contains(queryText.toLowerCase())) {
                   tempRestroomData.add(widget.restroomDataList[i]);
-                  print(tempRestroomData);
+                  debugPrint(tempRestroomData.toString());
                 } else if (queryText == "") {
                   debugPrint("Blank Query");
                   tempRestroomData = widget.restroomDataList;
@@ -273,7 +272,7 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
               (int index) {
                 return GestureDetector(
                   onTap: () {
-                    widget.onSelected(suggestionController.text);
+                    widget.onSelected(tempRestroomData[index]['name']);
                     suggestionController
                         .closeView(tempRestroomData[index]['name']);
                   },
