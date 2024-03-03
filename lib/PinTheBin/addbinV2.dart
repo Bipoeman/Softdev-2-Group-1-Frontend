@@ -666,7 +666,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Image.asset(
-                                      "assets/images/PinTheBin/recycling-symbol-2.png",
+                                      "assets/images/PinTheBin/recycling.png",
                                       width: size.width * 0.1,
                                       height: size.height * 0.1,
                                     ),

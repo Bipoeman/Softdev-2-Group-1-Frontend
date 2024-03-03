@@ -476,7 +476,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                     child: Align(
                                       alignment: Alignment.center,
                                       child: Image.asset(
-                                        "assets/images/PinTheBin/recycling-symbol-2.png",
+                                        "assets/images/PinTheBin/recycling.png",
                                         width: size.width * 0.1,
                                         height: size.height * 0.1,
                                       ),
@@ -691,7 +691,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                     "Sen",
                                     color: const Color.fromARGB(
                                         255, 255, 255, 255),
-                                    fontSize: 20,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
