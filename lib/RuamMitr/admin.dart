@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:http/http.dart';
@@ -39,6 +38,8 @@ class _AdminPageState extends State<AdminPage> {
   ReportData reportDataDisplay =
       ReportData(["username", "title", "app", "description"]);
 
+  bool isAccept = true;
+
   Future<void> getAllIssue() async {
     issueList = [];
     openIssueList = [];
@@ -51,7 +52,7 @@ class _AdminPageState extends State<AdminPage> {
       "Content-Type": "application/json"
     }).then((response) {
       openIssueList = [for (var element in jsonDecode(response.body)) element];
-      print("Open issue request done");
+      debugPrint("Open issue request done");
     });
 
     url = Uri.parse("$api$aceptedIssueRoute");
@@ -62,7 +63,7 @@ class _AdminPageState extends State<AdminPage> {
       aceptedIssueList = [
         for (var element in jsonDecode(response.body)) element
       ];
-      print("Acepted issue request done");
+      debugPrint("Acepted issue request done");
     });
 
     url = Uri.parse("$api$rejectedIssueRoute");
@@ -73,7 +74,7 @@ class _AdminPageState extends State<AdminPage> {
       rejectedIssueList = [
         for (var element in jsonDecode(response.body)) element
       ];
-      print("Rejected issue request done");
+      debugPrint("Rejected issue request done");
       closedIssueList.addAll(aceptedIssueList);
       closedIssueList.addAll(rejectedIssueList);
       issueList.addAll(openIssueList);
@@ -85,7 +86,6 @@ class _AdminPageState extends State<AdminPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getAllIssue();
   }
@@ -131,6 +131,10 @@ class _AdminPageState extends State<AdminPage> {
                   selectedIssue['title'].toString();
               reportDataDisplay.fieldController['description']!.text =
                   selectedIssue['description'].toString();
+              isAccept = (selectedIssue['status'] ?? "accepted") == "accepted"
+                  ? true
+                  : false;
+              debugPrint("$selectedIssue");
               setState(() {});
             },
             minHeight: 0,
@@ -138,7 +142,7 @@ class _AdminPageState extends State<AdminPage> {
             controller: issueDisplayBoxController,
             collapsed: true,
             body: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
+              margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -270,7 +274,7 @@ class _AdminPageState extends State<AdminPage> {
                                   return Stack(
                                     children: [
                                       Center(
-                                        child: Container(
+                                        child: SizedBox(
                                           width: size.width,
                                           height: size.height,
                                           child: ClipRRect(
@@ -304,18 +308,6 @@ class _AdminPageState extends State<AdminPage> {
                                       )
                                     ],
                                   );
-                                  // return AlertDialog(
-                                  //   contentPadding: EdgeInsets.zero,
-                                  //   content: ClipRRect(
-                                  //     borderRadius: BorderRadius.circular(20),
-                                  //     child: InteractiveViewer(
-                                  //       child: Image.network(
-                                  //         selectedIssue['picture'],
-                                  //         fit: BoxFit.cover,
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // );
                                 },
                               );
                             },
@@ -327,24 +319,76 @@ class _AdminPageState extends State<AdminPage> {
                               ),
                             ),
                           )
-                        : null,
+                        : const Center(
+                            child: Text("No image uploaded"),
+                          ),
+                  ),
+                  SizedBox(height: size.height * 0.025),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(width: size.width * 0.025),
+                      Text(
+                        "Reject",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+                        ),
+                      ),
+                      Switch(
+                        value: isAccept,
+                        onChanged: (value) {
+                          setState(() {
+                            isAccept = value;
+                          });
+                        },
+                      ),
+                      Text(
+                        "Accept",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+                        ),
+                      ),
+                      SizedBox(width: size.width * 0.025),
+                    ],
                   ),
                   SizedBox(height: size.height * 0.025),
                   SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: theme.colorScheme.primary,
-                            textStyle: TextStyle(
-                              color: theme.colorScheme.onPrimary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                            foregroundColor: theme.colorScheme.onPrimary,
-                          ),
-                          child: const Text("Send"),
-                          onPressed: () async {})),
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.colorScheme.primary,
+                        textStyle: TextStyle(
+                          color: theme.colorScheme.onPrimary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                        foregroundColor: theme.colorScheme.onPrimary,
+                      ),
+                      child: const Text("Close Issue"),
+                      onPressed: () async {
+                        // selectedIssue['id']
+                        Uri url = Uri.parse("$api$adminAcceptIssueRoute");
+                        Response res = await put(url,
+                            headers: {
+                              "Authorization": "Bearer $publicToken",
+                              "Content-Type": "application/json"
+                            },
+                            body: jsonEncode({
+                              "accept": isAccept,
+                              "issue_id": selectedIssue['id']
+                            }));
+                        // debugPrint(
+                        //     "accpted : ${isAccept} code : ${res.statusCode} body : ${res.body}");
+                        debugPrint(
+                            "accpted : $isAccept code : ${res.statusCode} body : ${res.body}");
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -362,8 +406,9 @@ class _AdminPageState extends State<AdminPage> {
                         theme,
                         selected: issueFocusIndex,
                         onChange: (index) {
-                          issueFocusIndex = index;
-                          setState(() {});
+                          setState(() {
+                            issueFocusIndex = index;
+                          });
                         },
                       ),
                       if (issueFocusIndex == 0)
@@ -401,13 +446,14 @@ class _AdminPageState extends State<AdminPage> {
                           children: List.generate(
                             closedIssueList.length,
                             (index) => ReportCard(
-                                size: size,
-                                theme: theme,
-                                boxController: issueDisplayBoxController,
-                                reportData: closedIssueList[index],
-                                onSelect: (selectedData) {
-                                  selectedIssue = selectedData;
-                                }),
+                              size: size,
+                              theme: theme,
+                              boxController: issueDisplayBoxController,
+                              reportData: closedIssueList[index],
+                              onSelect: (selectedData) {
+                                selectedIssue = selectedData;
+                              },
+                            ),
                           ),
                         ),
                     ],
