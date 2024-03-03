@@ -75,34 +75,47 @@ class _CardcommentState extends State<Cardcomment> {
                       ),
                     ),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            widget.cardData["picture"] != null
-                                ? SizedBox(
-                                    width: 120, // กำหนดความกว้างที่ต้องการ
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: Image.network(
-                                        widget.cardData["picture"],
-                                        fit: BoxFit.cover,
-                                        scale: 3,
-                                      ),
+                        widget.cardData["picture"] != null
+                            ? InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Stack(
+                                        children: [
+                                          Center(
+                                              child: SizedBox(
+                                            width: size.width,
+                                            height: size.height,
+                                            child: InteractiveViewer(
+                                              maxScale: 10,
+                                              child: Image.network(
+                                                widget.cardData["picture"],
+                                              ),
+                                            ),
+                                          ))
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: SizedBox(
+                                  width: size.width * 0.3,
+                                  height: size.height * 0.2,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.network(
+                                      widget.cardData["picture"],
+                                      fit: BoxFit.cover,
                                     ),
-                                  )
-
-                                //     SizedBox(
-                                //   height: size.height * 0.12,
-                                //   width: size.width * 0.3,
-                                //   child: Image.network(widget.cardData["picture"]),
-                                // )
-                                : Container(),
-                          ],
-                        ),
+                                  ),
+                                ),
+                              )
+                            : Container(),
                         Container(
                           width: size.width * 0.5,
-                          height: null, // เปลี่ยนส่วนนี้เป็นความสูงที่เหมาะสม
                           padding: EdgeInsets.only(
                             left: size.width * 0.03,
                             top: size.height * 0.01,

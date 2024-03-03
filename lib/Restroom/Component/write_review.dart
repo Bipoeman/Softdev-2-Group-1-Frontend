@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
   final TextEditingController _reviewTextController = TextEditingController();
   File? _image;
   double _rating = 0.0;
-  int remainingCharacters = 0;
+  int reviewTextLength = 0;
   Future<void> _getImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -97,26 +98,6 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
     }
   }
 
-  void updateRemainingCharacters() {
-    setState(() {
-      remainingCharacters = _reviewTextController.text.length;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    debugPrint("init");
-    _reviewTextController.addListener(updateRemainingCharacters);
-  }
-
-  @override
-  void dispose() {
-    _reviewTextController.removeListener(updateRemainingCharacters);
-    _reviewTextController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -129,7 +110,7 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
               color: Color.fromRGBO(239, 239, 239, 1),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(30),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               child: Column(
                 children: [
                   Row(
@@ -182,40 +163,47 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                       color: const Color(0xFFEAEAEA),
                       borderRadius: 30,
                       depth: -20,
-                      child: Stack(
-                        alignment: Alignment.centerRight,
-                        children: [
-                          TextField(
-                            style:
-                                text_input(_reviewTextController.text, context),
-                            maxLength: 150,
-                            maxLines: 4,
-                            controller: _reviewTextController,
-                            decoration: const InputDecoration(
-                              // counterText: "",
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
-                                  left: 16, right: 16, bottom: 5),
-                              hintText: 'Write a review...',
-                            ),
-                            onTapOutside: (event) {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                            },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: TextField(
+                          style:
+                              text_input(_reviewTextController.text, context),
+                          maxLength: 150,
+                          maxLines: null,
+                          controller: _reviewTextController,
+                          onChanged: (text) {
+                            setState(() {
+                              reviewTextLength = text.length;
+                            });
+                          },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.deny(RegExp(r"\n"))
+                          ],
+                          decoration: const InputDecoration(
+                            counterText: "",
+                            border: InputBorder.none,
+                            hintText: 'Write a review...',
                           ),
-                          // Positioned(
-                          //   top: 1,
-                          //   right: 16.0,
-                          //   child: Text(
-                          //     '$remainingCharacters/150',
-                          //     style: const TextStyle(
-                          //       color: Colors.grey,
-                          //       fontSize: 12.0,
-                          //     ),
-                          //   ),
-                          // ),
-                        ],
+                          onTapOutside: (event) {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                        ),
                       ),
                     ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: size.width * 0.05),
+                        child: IntrinsicWidth(
+                          child: Text(
+                            "$reviewTextLength/150",
+                            style: text_input("", context),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   const SizedBox(
                     height: 10,

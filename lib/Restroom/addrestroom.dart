@@ -30,7 +30,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
   final TextEditingController _nameTextController = TextEditingController();
   final TextEditingController _addressTextController = TextEditingController();
   final backgroundColor = const Color(0xFFFFFFFF);
-  int remainingCharacters = 0;
+  int addressTextLength = 0;
   int nameTextLength = 0;
   File? _image;
   String _type = restroomTypes.first;
@@ -130,26 +130,6 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
     } catch (e) {
       return Future.error(e);
     }
-  }
-
-  void updateRemainingCharacters() {
-    setState(() {
-      remainingCharacters = _addressTextController.text.length;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    debugPrint("init");
-    _addressTextController.addListener(updateRemainingCharacters);
-  }
-
-  @override
-  void dispose() {
-    _addressTextController.removeListener(updateRemainingCharacters);
-    _addressTextController.dispose();
-    super.dispose();
   }
 
   @override
@@ -517,8 +497,8 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                 borderRadius: 30,
                                 depth: -20,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
                                   child: TextField(
                                       maxLength: 80,
                                       maxLines: null,
@@ -528,19 +508,33 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                             RegExp(r"\n"))
                                       ],
                                       onChanged: (text) {
-                                        debugPrint('Typed text: $text');
-                                        int remainningCharacters = 80 -
-                                            _addressTextController.text.length;
-                                        debugPrint(
-                                            'Remaining characters: $remainningCharacters');
+                                        setState(() {
+                                          addressTextLength = text.length;
+                                        });
                                       },
                                       decoration: const InputDecoration(
+                                        counterText: "",
                                         border: InputBorder.none,
                                       ),
                                       style: text_input(
                                           _addressTextController.text,
                                           context)),
                                 )),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(right: size.width * 0.05),
+                                  child: IntrinsicWidth(
+                                    child: Text(
+                                      "$addressTextLength/80",
+                                      style: text_input("", context),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
                           ],
                         ),
                         SizedBox(

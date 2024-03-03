@@ -139,3 +139,9 @@ BoxDecoration ruamMitrBackgroundGradient(ThemeProvider themes) {
     ],
   ));
 }
+
+const Map<String, String> restroomPinImg = <String, String>{
+  "Free": "assets/images/RestroomRover/Pingreen.png",
+  "Must Paid": "assets/images/RestroomRover/Pinred.png",
+  "Toilet In Stores": "assets/images/RestroomRover/Pinorange3.png",
+};
