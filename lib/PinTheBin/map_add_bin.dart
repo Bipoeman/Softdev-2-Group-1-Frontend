@@ -18,14 +18,42 @@ class _MapaddBinPageState extends State<MapaddBinPage> {
   MapController editMapController = MapController();
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
+      floatingActionButton: GestureDetector(
+        child: Container(
+          alignment: Alignment.center,
+          width: size.width * 0.25,
+          height: size.height * 0.05,
+          decoration: BoxDecoration(
+              color: Color(0xFFF9957F),
+              borderRadius: BorderRadius.circular(30)),
+          child: Text(
+            "Confirm",
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
+          ),
+        ),
+        onTap: () {
           Navigator.pop(context, editMapController.camera.center);
         },
       ),
       body: Stack(
         children: [
+          // Padding(
+          //   padding: EdgeInsets.only(top: 30),
+          //   child: InkWell(
+          //     child: Ink(
+          //       width: 100,
+          //       height: 100,
+          //       decoration: BoxDecoration(color: Colors.amber),
+          //       child: Text("Confirm"),
+          //     ),
+          //     onTap: () {
+          //       Navigator.pop(context, editMapController.camera.center);
+          //     },
+          //   ),
+          // ),
           FlutterMap(
             mapController: editMapController,
             options: const MapOptions(
