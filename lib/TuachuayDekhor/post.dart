@@ -588,7 +588,6 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                     ),
                                     SizedBox(
                                       child: Markdown(
-                                        styleSheet: MarkdownStyleSheet.fromTheme(theme.themeData),
                                         physics: const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         data: detailpost.isNotEmpty ? detailpost[0]['content'] : '',

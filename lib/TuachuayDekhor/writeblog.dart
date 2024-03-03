@@ -210,7 +210,6 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                   height: size.height * 0.075,
                   child: Scrollbar(
                     child: Markdown(
-                      styleSheet: MarkdownStyleSheet.fromTheme(theme.themeData),
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       data: markdownTitleText,
@@ -253,7 +252,6 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                   height: size.height * 0.3,
                   child: Scrollbar(
                     child: Markdown(
-                      styleSheet: MarkdownStyleSheet.fromTheme(theme.themeData),
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       data: markdownContentText,

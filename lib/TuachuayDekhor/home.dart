@@ -311,21 +311,21 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                 gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2),
                                 itemBuilder: (context, index) => BlogBox(
-                                      title: blog[index]['title'],
-                                      name: blog[index]['user']['fullname'],
-                                      category: blog[index]['category'],
-                                      like: blog[index]['save'] ?? "0",
-                                      image: NetworkImage(
-                                        blog[index]['image_link'],
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          tuachuayDekhorPageRoute['blog']!,
-                                          arguments: blog[index]['id_post'],
-                                        );
-                                      },
-                                    ),
+                                  title: blog[index]['title'],
+                                  name: blog[index]['user']['fullname'],
+                                  category: blog[index]['category'],
+                                  like: blog[index]['save'] ?? "0",
+                                  image: NetworkImage(
+                                    blog[index]['image_link'],
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      tuachuayDekhorPageRoute['blog']!,
+                                      arguments: blog[index]['id_post'],
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ],

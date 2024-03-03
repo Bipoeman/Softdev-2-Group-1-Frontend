@@ -229,9 +229,6 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                         height: size.height * 0.075,
                         child: Scrollbar(
                           child: Markdown(
-                            styleSheet: MarkdownStyleSheet.fromTheme(
-                              theme.themeData,
-                            ),
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             data: markdownTitleText,
