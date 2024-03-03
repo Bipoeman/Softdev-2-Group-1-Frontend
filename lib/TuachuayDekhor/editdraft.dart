@@ -33,7 +33,7 @@ class _TuachuayDekhorEditDraftPageState
   final FocusNode firstFocusNode = FocusNode();
   final FocusNode anotherFocusNode = FocusNode();
   late AnimationController animationController;
-  bool status = true;
+  bool status = false;
   late int id_draft;
   final writeblogurl = Uri.parse("$api$dekhorWriteBlogRoute");
   final drafttopostbloggurl = Uri.parse("$api$dekhorDrafttoPostBlogRoute");
@@ -601,12 +601,12 @@ class _TuachuayDekhorEditDraftPageState
                                     width: 70,
                                     margin: const EdgeInsets.only(right: 10),
                                     child: RawMaterialButton(
-                                      onPressed: () {
+                                      onPressed: () async {
                                         if (_image.path !=
                                             detaildraft[0]['pathimage']) {
-                                          writeblog(_image);
+                                          await writeblog(_image);
                                         } else {
-                                          drafttopostblog();
+                                          await drafttopostblog();
                                         }
                                         deletedraft();
                                         showDialog(

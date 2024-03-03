@@ -459,7 +459,9 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                   )
                                                 : Container(),
                                             SizedBox(width: size.width * 0.02),
-                                            !isOwner
+                                            (!isOwner &&
+                                                    profileData['role'] !=
+                                                        "Admin")
                                                 ? SizedBox(
                                                     height: 30,
                                                     width: 30,

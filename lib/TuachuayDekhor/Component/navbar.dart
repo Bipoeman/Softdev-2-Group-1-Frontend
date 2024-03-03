@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/search_box.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -66,9 +67,11 @@ class NavbarTuachuayDekhor extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            width: size.width * 0.5,
-            child: const TuachuaySearchBox(),
+          const Flexible(
+            child: Padding(
+              padding: EdgeInsets.only(left: 5, right: 5),
+              child: TuachuaySearchBox(),
+            ),
           ),
           RawMaterialButton(
             shape: const CircleBorder(),

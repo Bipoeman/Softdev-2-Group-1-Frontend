@@ -34,7 +34,7 @@ class _TuachuayDekhorWriteBlogPageState
   final FocusNode firstFocusNode = FocusNode();
   final FocusNode anotherFocusNode = FocusNode();
   late AnimationController animationController;
-  bool status = true;
+  bool status = false;
   final writeblogurl = Uri.parse("$api$dekhorWriteBlogRoute");
   var post = [];
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
@@ -476,7 +476,7 @@ class _TuachuayDekhorWriteBlogPageState
                               margin:
                                   const EdgeInsets.only(left: 20, right: 10),
                               child: RawMaterialButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   if (markdownTitleController.text.isEmpty ||
                                       markdownContentController.text.isEmpty ||
                                       _dropdownValue == null ||
@@ -489,7 +489,7 @@ class _TuachuayDekhorWriteBlogPageState
                                       ),
                                     );
                                   } else {
-                                    writeblog(_image);
+                                    await writeblog(_image);
                                     print("Post tapped");
                                     showDialog(
                                         context: context,

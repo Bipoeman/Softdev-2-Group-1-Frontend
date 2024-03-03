@@ -52,6 +52,7 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
     setState(() {
       isLoading = true;
     });
+    await Future.delayed(Duration(seconds: 1));
     await namereport();
     setState(() {
       isLoading = false;

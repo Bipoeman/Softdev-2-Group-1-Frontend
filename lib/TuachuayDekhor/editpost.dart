@@ -32,7 +32,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
   final FocusNode firstFocusNode = FocusNode();
   final FocusNode anotherFocusNode = FocusNode();
   late AnimationController animationController;
-  bool status = true;
+  bool status = false;
   late int id_post;
   late Uri detailurl;
   late Uri editurl;
@@ -465,9 +465,9 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                     margin: const EdgeInsets.only(
                                         left: 20, right: 10),
                                     child: RawMaterialButton(
-                                      onPressed: () {
-                                        editblog();
-                                        updatepicture(_image);
+                                      onPressed: () async {
+                                        await editblog();
+                                        await updatepicture(_image);
                                         print("Post tapped");
                                         showDialog(
                                             context: context,
