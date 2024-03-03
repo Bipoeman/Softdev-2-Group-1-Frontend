@@ -52,7 +52,6 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     countsaveurl = Uri.parse("$api$dekhorCountsavePostRoute/$id_post");
     numsaveurl = Uri.parse("$api$dekhorNumsavePostRoute/$id_post");
     deleteposturl = Uri.parse("$api$dekhorDeletePostRoute/$id_post");
-    posttoprofile();
     _loadDetail();
     Future.delayed(Duration(seconds: 1), () {
       setState(() {
@@ -199,7 +198,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     setState(() {
       isLoading = true;
     });
-
+    await posttoprofile();
     await detail();
     setState(() {
       isLoading = false;
@@ -581,21 +580,58 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                           clipBehavior: Clip.antiAlias,
                                           decoration: const BoxDecoration(),
                                           child: IntrinsicHeight(
-                                            child: ClipRRect(
-                                              child: isLoading
-                                                  ? Center(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        color: customColors[
-                                                            "main"]!,
-                                                      ),
-                                                    )
-                                                  : Image(
-                                                      image: NetworkImage(
-                                                          detailpost[0]
-                                                              ['image_link']),
-                                                      fit: BoxFit.cover,
-                                                    ),
+                                            child: InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return Stack(
+                                                      children: [
+                                                        Center(
+                                                          child: SizedBox(
+                                                            width: size.width,
+                                                            height: size.height,
+                                                            child:
+                                                                InteractiveViewer(
+                                                              maxScale: 10,
+                                                              child:
+                                                                  Image.network(
+                                                                detailpost[0][
+                                                                    'image_link'],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Positioned(
+                                                          bottom: 30,
+                                                          right: 30,
+                                                          child: CircleAvatar(
+                                                            backgroundColor:
+                                                                customColors[
+                                                                    "icon2"]!,
+                                                            child: IconButton(
+                                                              icon: Icon(
+                                                                Icons.close,
+                                                                color: customColors[
+                                                                    "container"]!,
+                                                              ),
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      context),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: Image(
+                                                image: NetworkImage(
+                                                    detailpost[0]
+                                                        ['image_link']),
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
                                         ),

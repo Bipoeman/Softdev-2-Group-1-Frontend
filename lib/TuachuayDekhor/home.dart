@@ -54,7 +54,7 @@ Widget nodeCatagories(
                 title,
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 13,
+                  fontSize: 12,
                   color: customColors["onContainer"],
                 ),
               ),
@@ -169,20 +169,18 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: [
-                                    nodeCatagories(context, "Decoration",
-                                        "decoration", "1"),
-                                    nodeCatagories(
-                                        context, "Cleaning", "cleaning", "2"),
-                                    nodeCatagories(
-                                        context, "Cooking", "cooking", "3"),
-                                    nodeCatagories(
-                                        context, "Story", "story", "4"),
-                                  ],
-                                ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  nodeCatagories(
+                                      context, "Decoration", "decoration", "1"),
+                                  nodeCatagories(
+                                      context, "Cleaning", "cleaning", "2"),
+                                  nodeCatagories(
+                                      context, "Cooking", "cooking", "3"),
+                                  nodeCatagories(
+                                      context, "Story", "story", "4"),
+                                ],
                               ),
                             ),
                           ],

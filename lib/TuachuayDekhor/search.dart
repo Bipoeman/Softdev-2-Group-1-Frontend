@@ -14,7 +14,8 @@ class TuachuayDekhorSearchPage extends StatefulWidget {
   const TuachuayDekhorSearchPage({super.key});
 
   @override
-  State<TuachuayDekhorSearchPage> createState() => _TuachuayDekhorSearchPageState();
+  State<TuachuayDekhorSearchPage> createState() =>
+      _TuachuayDekhorSearchPageState();
 }
 
 class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
@@ -72,20 +73,28 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
 
   void searchBlog(String search) {
     setState(() {
-      blogSearch =
-          allblog.where((blog) => blog['title'].toString().toLowerCase().contains(search)).toList();
+      blogSearch = allblog
+          .where(
+              (blog) => blog['title'].toString().toLowerCase().contains(search))
+          .toList();
     });
   }
 
   void searchBlogger(String search) {
     setState(() {
       bloggerSearch = allblogger
-          .where((blogger) => blogger['user']['fullname'].toString().toLowerCase().contains(search))
+          .where((blogger) => blogger['user']['fullname']
+              .toString()
+              .toLowerCase()
+              .contains(search))
           .toList();
     });
   }
 
   Future<void> searchData() async {
+    setState(() {
+      isLoading = true;
+    });
     searchBlog(searchQueryLowerCase);
     searchBlogger(searchQueryLowerCase);
     setState(() {
@@ -104,7 +113,8 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CustomThemes customThemes = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes customThemes =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = customThemes.customColors;
 
     return Scaffold(
@@ -143,7 +153,8 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                   const SizedBox(width: 5),
                                   Text(
                                     "Back",
-                                    style: TextStyle(color: customColors["main"]!),
+                                    style:
+                                        TextStyle(color: customColors["main"]!),
                                   ),
                                 ],
                               ),
@@ -218,7 +229,8 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                     decoration: BoxDecoration(
                                       color: isblog
                                           ? const Color.fromRGBO(0, 48, 73, 1)
-                                          : const Color.fromRGBO(217, 217, 217, 1),
+                                          : const Color.fromRGBO(
+                                              217, 217, 217, 1),
                                       borderRadius: BorderRadius.circular(2.0),
                                     ),
                                     child: Center(
@@ -226,8 +238,10 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                         'Blog',
                                         style: TextStyle(
                                           color: isblog
-                                              ? const Color.fromRGBO(217, 217, 217, 1)
-                                              : const Color.fromRGBO(0, 48, 73, 1),
+                                              ? const Color.fromRGBO(
+                                                  217, 217, 217, 1)
+                                              : const Color.fromRGBO(
+                                                  0, 48, 73, 1),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -247,7 +261,8 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                     decoration: BoxDecoration(
                                       color: isblogger
                                           ? const Color.fromRGBO(0, 48, 73, 1)
-                                          : const Color.fromRGBO(217, 217, 217, 1),
+                                          : const Color.fromRGBO(
+                                              217, 217, 217, 1),
                                       borderRadius: BorderRadius.circular(2.0),
                                     ),
                                     child: Center(
@@ -255,8 +270,10 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                         'Blogger',
                                         style: TextStyle(
                                           color: isblogger
-                                              ? const Color.fromRGBO(217, 217, 217, 1)
-                                              : const Color.fromRGBO(0, 48, 73, 1),
+                                              ? const Color.fromRGBO(
+                                                  217, 217, 217, 1)
+                                              : const Color.fromRGBO(
+                                                  0, 48, 73, 1),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -268,8 +285,8 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(
-                              left: size.width * 0.09,
-                              right: size.width * 0.09,
+                              left: size.width * 0.07,
+                              right: size.width * 0.07,
                               bottom: size.width * 0.05,
                               top: size.width * 0.005,
                             ),
@@ -278,25 +295,37 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                     mainAxisSpacing: 10,
                                     crossAxisSpacing: 10,
                                     itemCount: blogSearch.length,
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     gridDelegate:
                                         const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2),
                                     itemBuilder: ((context, index) => BlogBox(
-                                          title: blogSearch[index]['title'] ?? '',
-                                          name: blogSearch[index]['user']?['fullname'] ?? '',
-                                          category: blogSearch[index]['category'] ?? '',
-                                          like: blogSearch[index]['save'] ?? "0",
+                                          title:
+                                              blogSearch[index]['title'] ?? '',
+                                          name: blogSearch[index]['user']
+                                                  ?['fullname'] ??
+                                              '',
+                                          category: blogSearch[index]
+                                                  ['category'] ??
+                                              '',
+                                          like:
+                                              blogSearch[index]['save'] ?? "0",
                                           image: NetworkImage(
-                                            blogSearch[index]['image_link'] != "null"
-                                                ? blogSearch[index]['image_link']
+                                            blogSearch[index]['image_link'] !=
+                                                    "null"
+                                                ? blogSearch[index]
+                                                    ['image_link']
                                                 : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
                                           ),
                                           onPressed: () {
                                             Navigator.pushNamed(
-                                                context, tuachuayDekhorPageRoute['blog']!,
-                                                arguments: blogSearch[index]['id_post']);
+                                                context,
+                                                tuachuayDekhorPageRoute[
+                                                    'blog']!,
+                                                arguments: blogSearch[index]
+                                                    ['id_post']);
                                           },
                                         )),
                                   )
@@ -304,14 +333,19 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                                     mainAxisSpacing: 10,
                                     crossAxisSpacing: 10,
                                     itemCount: bloggerSearch.length,
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     gridDelegate:
                                         const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 3),
-                                    itemBuilder: ((context, index) => TuachuayDekhorAvatarViewer(
-                                          username: bloggerSearch[index]['user']['fullname'] ?? '',
-                                          avatarUrl: bloggerSearch[index]['profile'] ??
+                                    itemBuilder: ((context, index) =>
+                                        TuachuayDekhorAvatarViewer(
+                                          username: bloggerSearch[index]['user']
+                                                  ['fullname'] ??
+                                              '',
+                                          avatarUrl: bloggerSearch[index]
+                                                  ['profile'] ??
                                               "https://api.multiavatar.com/${(bloggerSearch[index]['user']['fullname']).replaceAll(" ", "+")}.png",
                                         )),
                                   ),
