@@ -80,7 +80,7 @@ class AppBox extends StatelessWidget {
                         textAlign: TextAlign.left,
                         overflow: TextOverflow.fade,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: theme.textTheme.titleLarge!.color,
                         ),
