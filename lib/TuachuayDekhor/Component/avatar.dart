@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 class TuachuayDekhorAvatarViewer extends StatelessWidget {
   const TuachuayDekhorAvatarViewer({
-    Key? key,
+    super.key,
     required this.username,
     this.avatarUrl,
-  }) : super(key: key);
+  });
 
   final String? username;
   final String? avatarUrl;
 
   Widget getAvatar(BuildContext context) {
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     if (avatarUrl != null && avatarUrl!.isNotEmpty) {
       try {
         return CircleAvatar(
@@ -29,19 +33,22 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
     if (imgPath != null && imgPath.isNotEmpty) {
       return CircleAvatar(
         radius: 30,
-        backgroundColor: Colors.white.withOpacity(0.5),
+        backgroundColor: customColors["background"]!.withOpacity(0.5),
         backgroundImage: NetworkImage(imgPath),
       );
     }
 
     return CircleAvatar(
       radius: 30,
-      backgroundColor: Colors.white.withOpacity(0.5),
+      backgroundColor: customColors["background"]!.withOpacity(0.5),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+
     return IntrinsicHeight(
       child: IntrinsicWidth(
         child: RawMaterialButton(
@@ -74,16 +81,16 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 5, right: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
-                      color: const Color.fromRGBO(0, 48, 73, 1),
+                      color: customColors["main"],
                     ),
                     height: 24,
                     width: 68.5,
                     child: Text(
                       username ?? "John Doe",
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11,
-                        color: Colors.white,
+                        color: customColors["onMain"],
                         fontWeight: FontWeight.bold,
                       ),
                     ),

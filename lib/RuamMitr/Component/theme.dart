@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
   bool _isDarkMode = false;
   bool get isDarkMode => _isDarkMode;
   Map<String, Map<String, CustomThemes>> appThemes = _appsThemes;
 
-  CustomThemes? themeFrom(String app) =>
-      _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
+  CustomThemes? themeFrom(String app) => _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
 
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
+    saveTheme();
+    notifyListeners();
+  }
+
+  void saveTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("isDarkMode", _isDarkMode);
+  }
+
+  void loadTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _isDarkMode = prefs.getBool("isDarkMode") ?? false;
     notifyListeners();
   }
 }
@@ -20,6 +32,10 @@ class ThemesPortal {
   static CustomThemes? appThemeFromContext(BuildContext context, String app) {
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
     return themes.themeFrom(app);
+  }
+
+  static ThemeProvider getCurrent(BuildContext context) {
+    return Provider.of<ThemeProvider>(context);
   }
 }
 
@@ -181,7 +197,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
       ),
       customColors: {
         "main": Colors.white,
-        "onMain": Colors.white,
+        "onMain": const Color.fromRGBO(0, 48, 73, 1),
         "container": const Color.fromRGBO(77, 77, 77, 1),
         "onContainer": Colors.white,
         "textInputContainer": const Color.fromRGBO(84, 84, 84, 1),
@@ -189,10 +205,136 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "textInput": Colors.white,
         "icon1": const Color.fromRGBO(217, 192, 41, 1),
         "icon2": const Color.fromRGBO(0, 48, 73, 1),
-        "background": Colors.black,
+        "background": const Color.fromRGBO(32, 32, 32, 1),
       },
     ),
-  }
+  },
+  "Restroom": {
+    "light": CustomThemes(
+      themeData: ThemeData(
+        fontFamily: "Sen",
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFFFB330),
+          background: const Color(0xFFECECEC),
+        ),
+        textTheme: TextTheme(
+          headlineMedium: const TextStyle(
+            fontSize: 35,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF050505),
+          ),
+          headlineSmall: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xFF050505),
+          ),
+          displaySmall: TextStyle(
+            fontSize: 10,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w800,
+            color: const Color(0xFF050505).withOpacity(1),
+          ),
+          displayMedium: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xFF050505).withOpacity(0.69),
+          ),
+          displayLarge: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF050505),
+          ),
+          titleMedium: TextStyle(
+            fontSize: 20,
+            color: const Color(0xFF050505),
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.white,
+            size: 35,
+          ),
+        ),
+        drawerTheme: const DrawerThemeData(
+          scrimColor: Colors.transparent,
+          backgroundColor: Color(0xFFFFFFFF),
+        ),
+        searchBarTheme: SearchBarThemeData(
+          textStyle: MaterialStatePropertyAll(
+            TextStyle(
+              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ),
+      customColors: {},
+    ),
+    "dark": CustomThemes(
+      themeData: ThemeData(
+        fontFamily: "Sen",
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFFFB330),
+          background: const Color(0xFFECECEC),
+        ),
+        textTheme: TextTheme(
+          headlineMedium: const TextStyle(
+            fontSize: 35,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF050505),
+          ),
+          headlineSmall: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xFF050505),
+          ),
+          displaySmall: TextStyle(
+            fontSize: 10,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w800,
+            color: const Color(0xFF050505).withOpacity(1),
+          ),
+          displayMedium: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xFF050505).withOpacity(0.69),
+          ),
+          displayLarge: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF050505),
+          ),
+          titleMedium: TextStyle(
+            fontSize: 20,
+            color: const Color(0xFF050505),
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.white,
+            size: 35,
+          ),
+        ),
+        drawerTheme: const DrawerThemeData(
+          scrimColor: Colors.transparent,
+          backgroundColor: Color(0xFFFFFFFF),
+        ),
+        searchBarTheme: SearchBarThemeData(
+          textStyle: MaterialStatePropertyAll(
+            TextStyle(
+              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ),
+      customColors: {},
+    ),
+  },
 };
 
 class CustomThemes {
