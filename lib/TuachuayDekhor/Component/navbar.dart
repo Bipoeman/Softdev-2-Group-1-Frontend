@@ -74,10 +74,10 @@ class NavbarTuachuayDekhor extends StatelessWidget {
               showMenu(
                 context: context,
                 color: customColors["container"]!,
-                surfaceTintColor: Colors.white,
+                surfaceTintColor: customColors["container"],
                 position: RelativeRect.fromLTRB(
                   size.width,
-                  navbarHeight - paddingSize * 0.5,
+                  navbarHeight * 1.5 + paddingSize * 0.25,
                   0,
                   0,
                 ),

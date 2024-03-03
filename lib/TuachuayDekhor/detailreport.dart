@@ -98,7 +98,10 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                         child: InkWell(
                           borderRadius: BorderRadius.circular(10),
                           onTap: () {
-                            Navigator.pushNamed(context, tuachuayDekhorPageRoute["home"]!);
+                            Navigator.popUntil(
+                              context,
+                              (route) => route.settings.name == tuachuayDekhorPageRoute["home"]!,
+                            );
                           },
                           child: Image(
                             image: AssetImage(
@@ -238,7 +241,7 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                                     deletepost();
                                     deleteReport();
                                     print("delete");
-                                    Navigator.pushNamed(context, tuachuayDekhorPageRoute["admin"]!);
+                                    Navigator.pop(context);
                                   },
                                   child: Container(
                                     height: 35,

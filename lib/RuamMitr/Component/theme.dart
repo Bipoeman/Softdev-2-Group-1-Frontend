@@ -277,57 +277,57 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         fontFamily: "Sen",
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFFFFB330),
-          background: const Color(0xFFECECEC),
+          background: const Color.fromARGB(255, 37, 37, 37),
         ),
         textTheme: TextTheme(
           headlineMedium: const TextStyle(
             fontSize: 35,
             fontWeight: FontWeight.w800,
-            color: Color(0xFF050505),
+            color: Color(0xFFECECEC),
           ),
-          headlineSmall: TextStyle(
+          headlineSmall: const TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.w500,
-            color: const Color(0xFF050505),
+            color: Color(0xFFECECEC),
           ),
-          displaySmall: TextStyle(
+          displaySmall: const TextStyle(
             fontSize: 10,
             overflow: TextOverflow.fade,
             fontWeight: FontWeight.w800,
-            color: const Color(0xFF050505).withOpacity(1),
+            color: Color(0xFFECECEC),
           ),
           displayMedium: TextStyle(
             fontSize: 20,
             overflow: TextOverflow.fade,
             fontWeight: FontWeight.normal,
-            color: const Color(0xFF050505).withOpacity(0.69),
+            color: const Color(0xFFECECEC).withOpacity(0.69),
           ),
-          displayLarge: TextStyle(
+          displayLarge: const TextStyle(
             fontSize: 20,
             overflow: TextOverflow.fade,
             fontWeight: FontWeight.w700,
-            color: const Color(0xFF050505),
+            color: Color(0xFFECECEC),
           ),
-          titleMedium: TextStyle(
+          titleMedium: const TextStyle(
             fontSize: 20,
-            color: const Color(0xFF050505),
+            color: Color(0xFFECECEC),
           ),
         ),
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(
-            color: Colors.white,
+            color: Color.fromARGB(255, 69, 69, 69),
             size: 35,
           ),
         ),
         drawerTheme: const DrawerThemeData(
           scrimColor: Colors.transparent,
-          backgroundColor: Color(0xFFFFFFFF),
+          backgroundColor: Color.fromARGB(0, 212, 212, 212),
         ),
         searchBarTheme: SearchBarThemeData(
           textStyle: MaterialStatePropertyAll(
             TextStyle(
               fontFamily: GoogleFonts.getFont("Inter").fontFamily,
-              color: Colors.black,
+              color: const Color.fromARGB(255, 255, 255, 255),
             ),
           ),
         ),

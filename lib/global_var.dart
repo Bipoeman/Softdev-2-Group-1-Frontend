@@ -4,4 +4,4 @@ String publicToken = "";
 String refreshToken = "";
 Map<String, dynamic> profileData = {};
 bool isOnceLogin = false;
-dynamic currentContext;
+BuildContext currentContext = null as dynamic;

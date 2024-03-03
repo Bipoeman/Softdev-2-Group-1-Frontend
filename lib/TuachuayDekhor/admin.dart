@@ -51,7 +51,7 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
     CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     bool isDarkMode = ThemesPortal.getCurrent(context).isDarkMode;
     Map<String, Color> customColors = theme.customColors;
-  
+
     return Scaffold(
       backgroundColor: customColors["background"],
       body: SafeArea(
@@ -64,13 +64,13 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
             child: Column(
               children: [
                 Container(
-                  color: customColors["background"],
+                  color: customColors["container"],
                   width: size.width,
                   height: size.width * 0.2,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(10),
                     onTap: () {
-                      Navigator.pushNamed(context, tuachuayDekhorPageRoute["home"]!);
+                      Navigator.pop(context);
                     },
                     child: Image(
                       image: AssetImage(
