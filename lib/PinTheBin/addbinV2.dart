@@ -872,6 +872,10 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                                 _sendpic(
                                                     '${jsonDecode(res.body)[0]["id"]}',
                                                     _image!);
+                                                Navigator.pushNamed(
+                                                    context,
+                                                    pinthebinPageRoute[
+                                                        'home']!);
                                               }
                                             } else {
                                               ScaffoldMessenger.of(context)

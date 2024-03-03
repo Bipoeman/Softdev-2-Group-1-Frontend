@@ -711,6 +711,8 @@ class _EditbinPageState extends State<EditbinPage> {
                                           MaterialButton(
                                             onPressed: () {
                                               _presstosend();
+                                              Navigator.pushNamed(context,
+                                                  pinthebinPageRoute['home']!);
                                             },
                                             child: const Text('Confirm'),
                                           ),
