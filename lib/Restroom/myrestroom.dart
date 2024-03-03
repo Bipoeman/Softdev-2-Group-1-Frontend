@@ -7,6 +7,7 @@ import "package:ruam_mitt/Restroom/Component/font.dart";
 import "package:ruam_mitt/Restroom/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:google_fonts/google_fonts.dart';
+import "package:ruam_mitt/global_func.dart";
 import 'package:ruam_mitt/global_var.dart';
 
 class MyRestroomPage extends StatefulWidget {
@@ -24,6 +25,7 @@ class _MyRestroomState extends State<MyRestroomPage> {
   FocusNode focusNode = FocusNode();
   LatLng? centerMark;
   Future<http.Response> myRestroomInfo() async {
+    await requestNewToken(context);
     Uri url = Uri.parse("$api$restroomRoverMyRestroomRoute");
     http.Response res = await http.get(url, headers: {
       "Authorization": "Bearer $publicToken"
@@ -37,6 +39,7 @@ class _MyRestroomState extends State<MyRestroomPage> {
   }
 
   Future<http.Response> delRestroom(int id) async {
+    await requestNewToken(context);
     Uri url = Uri.parse("$api$restroomRoverRestroomRoute/$id");
     http.Response res = await http.delete(url, headers: {
       "Authorization": "Bearer $publicToken"
@@ -150,51 +153,43 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                   ),
                                   child: Stack(
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.baseline,
-                                                textBaseline:
-                                                    TextBaseline.alphabetic,
-                                                children: [
-                                                  Text('Name: ',
-                                                      style: myrestroom(
-                                                          data["type"],
-                                                          context)),
-                                                  Text('${data["name"]}',
-                                                      style: myrestroom(
-                                                          data["name"],
-                                                          context)),
-                                                ]),
-                                            SizedBox(
-                                              height: size.height * 0.01,
-                                            ),
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.baseline,
-                                                textBaseline:
-                                                    TextBaseline.alphabetic,
-                                                children: [
-                                                  Text('Type: ',
-                                                      style: myrestroom(
-                                                          data["type"],
-                                                          context)),
-                                                  Text('${data["type"]}',
-                                                      style: myrestroom(
-                                                          data["type"],
-                                                          context)),
-                                                ]),
-                                          ],
-                                        ),
+                                      SizedBox(height: size.height * 0.1),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.baseline,
+                                              textBaseline:
+                                                  TextBaseline.alphabetic,
+                                              children: [
+                                                Text('Name: ',
+                                                    style: myrestroom(
+                                                        "", context)),
+                                                Text(
+                                                  '${data["name"]}',
+                                                  style: myrestroom(
+                                                      data["name"], context),
+                                                ),
+                                              ]),
+                                          SizedBox(
+                                            height: size.height * 0.01,
+                                          ),
+                                          Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.baseline,
+                                              textBaseline:
+                                                  TextBaseline.alphabetic,
+                                              children: [
+                                                Text('Type: ',
+                                                    style: myrestroom(
+                                                        "", context)),
+                                                Text('${data["type"]}',
+                                                    style: myrestroom(
+                                                        data["type"], context)),
+                                              ]),
+                                        ],
                                       ),
                                       Container(
                                         padding: EdgeInsets.only(

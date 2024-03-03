@@ -141,6 +141,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
     _addressTextController.addListener(updateRemainingCharacters);
   }
 
+  @override
   void dispose() {
     _addressTextController.removeListener(updateRemainingCharacters);
     _addressTextController.dispose();
@@ -682,8 +683,15 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                   }).onError((error, stackTrace) {
                                     debugPrint("Error: $error");
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text("Failed to create pin"),
+                                      SnackBar(
+                                        content: Text(
+                                          "Failed to create pin",
+                                          style: TextStyle(
+                                            color: theme.colorScheme.onPrimary,
+                                          ),
+                                        ),
+                                        backgroundColor:
+                                            theme.colorScheme.primary,
                                       ),
                                     );
                                   });
