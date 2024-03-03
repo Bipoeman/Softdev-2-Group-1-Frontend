@@ -54,7 +54,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     deleteposturl = Uri.parse("$api$dekhorDeletePostRoute/$id_post");
     posttoprofile();
     _loadDetail();
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 1), () {
       setState(() {
         showcomment();
       });
@@ -189,6 +189,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     });
     if (response.statusCode == 200) {
       commentTextController.clear();
+      showcomment();
     } else {
       throw Exception('Failed to load data');
     }
@@ -307,7 +308,6 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                         if (commentTextController.text.isNotEmpty) {
                           FocusScope.of(context).unfocus();
                           comment();
-                          showcomment();
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
