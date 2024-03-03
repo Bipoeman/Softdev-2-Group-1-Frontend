@@ -124,7 +124,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                     borderRadius: BorderRadius.circular(15),
                                     child: Image.network(
                                       widget.restroomData["picture"] ??
-                                          "https://i.pinimg.com/564x/1c/13/1c/1c131cc30f7c203a4833b6983d025b03.jpg",
+                                        "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -143,6 +143,24 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
+                                ),
+                                Container(
+                                  height: null,
+                                  width: size.width * 0.8,
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.0001,
+                                  ),
+                                  child: Text(
+                                    widget.restroomData["address"],
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w100,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.01,
                                 ),
                                 Container(
                                   height: size.height * 0.002,

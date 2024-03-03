@@ -164,18 +164,19 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
       child: Builder(
         builder: (context) {
           return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              surfaceTintColor: Colors.transparent,
-              automaticallyImplyLeading: false,
-              flexibleSpace: RestroomAppBar(scaffoldKey: _scaffoldKey),
-            ),
+            
             key: _scaffoldKey,
             body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(15),
+              
+                
                 child: Column(
                   children: [
+                    RestroomAppBar(scaffoldKey: _scaffoldKey),
+                    SingleChildScrollView(
+                      padding: EdgeInsets.only(
+                          top: size.height * 0.03, left: size.width * 0.1),
+                      child: Column(
+                        children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -183,21 +184,27 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                           'Name *',
                           style: Theme.of(context).textTheme.displayMedium,
                         ),
-                        ClayContainer(
-                          width: size.width * 0.65,
-                          height: size.height * 0.06,
-                          color: const Color.fromRGBO(239, 239, 239, 1),
-                          borderRadius: 30,
-                          depth: -20,
-                          child: TextField(
-                            controller: _nameTextController,
-                            onChanged: (text) {
-                              debugPrint('Typed text: $text');
-                            },
-                            decoration: const InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.only(left: 5, right: 5, bottom: 5),
-                              border: InputBorder.none,
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20.0),
+                          child: ClayContainer(
+                            width: size.width * 0.6,
+                            height: size.height * 0.032,
+                            color: const Color.fromRGBO(239, 239, 239, 1),
+                            borderRadius: 30,
+                            depth: -20,
+                            child: TextField(
+                              maxLength: 20,
+                              controller: _nameTextController,
+                              onChanged: (text) {
+                                
+                                debugPrint('Typed text: $text');
+                              },
+                              decoration: const InputDecoration(
+                                counterText: "",
+                                contentPadding:
+                                    EdgeInsets.only(left: 8, right: 5, bottom: 14),
+                                border: InputBorder.none,
+                              ),
                             ),
                           ),
                         )
@@ -207,7 +214,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                       height: size.height * 0.025,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Align(
                           alignment: Alignment.topLeft,
@@ -216,30 +223,33 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                             style: Theme.of(context).textTheme.displayMedium,
                           ),
                         ),
-                        Container(
-                          alignment: Alignment.topRight,
-                          child: ClayContainer(
-                              width: size.width * 0.65,
-                              height: size.height * 0.06,
-                              color: const Color.fromRGBO(239, 239, 239, 1),
-                              borderRadius: 30,
-                              depth: -20,
-                              child: Padding(
-                                  padding: const EdgeInsets.only(left: 5),
-                                  child: DropdownButton(
-                                    underline: Container(),
-                                    isExpanded: true,
-                                    items: restroomTypes
-                                        .map((type) => DropdownMenuItem(
-                                            value: type, child: Text(type)))
-                                        .toList(),
-                                    value: _type,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _type = value ?? restroomTypes.first;
-                                      });
-                                    },
-                                  ))),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Container(
+                            alignment: Alignment.topRight,
+                            child: ClayContainer(
+                                width: size.width * 0.6,
+                                height: size.height * 0.04,
+                                color: const Color.fromRGBO(239, 239, 239, 1),
+                                borderRadius: 30,
+                                depth: -20,
+                                child: Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: DropdownButton(
+                                      underline: Container(),
+                                      isExpanded: true,
+                                      items: restroomTypes
+                                          .map((type) => DropdownMenuItem(
+                                              value: type, child: Text(type)))
+                                          .toList(),
+                                      value: _type,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _type = value ?? restroomTypes.first;
+                                        });
+                                      },
+                                    ))),
+                          ),
                         )
                       ],
                     ),
@@ -300,27 +310,33 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                             ),
                             Column(
                               children: [
-                                ClayContainer(
-                                  width: size.width * 0.6,
-                                  height: size.height * 0.032,
-                                  color: const Color.fromRGBO(239, 239, 239, 1),
-                                  borderRadius: 30,
-                                  depth: -20,
-                                  child: Text(
-                                    'Lat: ${_position?.latitude ?? ()}',
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 20),
+                                  child: ClayContainer(
+                                    width: size.width * 0.55,
+                                    height: size.height * 0.032,
+                                    color: const Color.fromRGBO(239, 239, 239, 1),
+                                    borderRadius: 30,
+                                    depth: -20,
+                                    child: Text(
+                                      'Lat: ${_position?.latitude ?? ()}',
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
                                   height: size.height * 0.02,
                                 ),
-                                ClayContainer(
-                                  width: size.width * 0.6,
-                                  height: size.height * 0.032,
-                                  color: const Color.fromRGBO(239, 239, 239, 1),
-                                  borderRadius: 30,
-                                  depth: -20,
-                                  child: Text(
-                                    'Lng: ${_position?.longitude ?? ()}',
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 20),
+                                  child: ClayContainer(
+                                    width: size.width * 0.55,
+                                    height: size.height * 0.032,
+                                    color: const Color.fromRGBO(239, 239, 239, 1),
+                                    borderRadius: 30,
+                                    depth: -20,
+                                    child: Text(
+                                      'Lng: ${_position?.longitude ?? ()}',
+                                    ),
                                   ),
                                 ),
                               ],
@@ -342,6 +358,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                         },
                         child: _image == null
                             ? Container(
+                              margin: EdgeInsets.only(right: 20),
                                 width: size.width * 0.8,
                                 height: size.height * 0.125,
                                 decoration: BoxDecoration(
@@ -461,15 +478,17 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                 ),
                               )
                             : Padding(
-                                padding: const EdgeInsets.only(right: 0.5),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.file(
-                                    _image!,
-                                    fit: BoxFit.cover,
+                              padding: const EdgeInsets.only(right : 35),
+                              child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.file(
+                                      _image!,
+                                      fit: BoxFit.cover,
+                                      width: size.width * 0.8,
+                                    ),
                                   ),
-                                ),
-                              ),
+                            ),
+                              
                       ),
                     ),
                     SizedBox(
@@ -485,229 +504,232 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                           ),
                         ),
                         SizedBox(height: size.height * 0.015),
-                        ClayContainer(
-                            width: size.width * 0.8,
-                            height: size.height * 0.12,
-                            color: const Color.fromRGBO(239, 239, 239, 1),
-                            borderRadius: 30,
-                            depth: -20,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: TextField(
-                                maxLength: 80,
-                                maxLines: 2,
-                                controller: _addressTextController,
-                                onChanged: (text) {
-                                  debugPrint('Typed text: $text');
-                                  int remainningCharacters =
-                                      80 - _addressTextController.text.length;
-                                  debugPrint(
-                                      'Remaining characters: $remainningCharacters');
-                                },
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                ),
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            )),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  top: size.height * 0.03,
-                                  left: size.width * 0.1),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _forwho['Kid'] = !_forwho['Kid']!;
-                                  });
-                                  debugPrint(_forwho['Kid'].toString());
-                                },
-                                child: Container(
-                                  width: size.width * 0.2,
-                                  height: size.height * 0.1,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: const Color.fromARGB(9, 0, 47, 73),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: blurWarning,
-                                        offset: distanceWarning,
-                                        color: const Color(0xFFA7A9AF),
-                                        inset: _forwho["Kid"]!,
-                                      ),
-                                      BoxShadow(
-                                        blurRadius: blurWarning,
-                                        offset: -distanceWarning,
-                                        color: const Color.fromARGB(
-                                            255, 255, 255, 255),
-                                        inset: _forwho["Kid"]!,
-                                      ),
-                                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(right: 40),
+                          child: ClayContainer(
+                              width: size.width * 0.8,
+                              height: size.height * 0.15,
+                              color: const Color.fromRGBO(239, 239, 239, 1),
+                              borderRadius: 30,
+                              depth: -20,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: TextField(
+                                  maxLength: 80,
+                                  maxLines: 5,
+                                  controller: _addressTextController,
+                                  onChanged: (text) {
+                                    debugPrint('Typed text: $text');
+                                    int remainningCharacters =
+                                        80 - _addressTextController.text.length;
+                                    debugPrint(
+                                        'Remaining characters: $remainningCharacters');
+                                  },
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
                                   ),
-                                  child: const Icon(Icons.baby_changing_station,
-                                      size: 50),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  top: size.height * 0.01,
-                                  left: size.width * 0.1),
-                              child: Text(
-                                'Kid',
-                                style:
-                                    Theme.of(context).textTheme.displayMedium,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: size.width * 0.03,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  top: size.height * 0.03,
-                                  right: size.width * 0.05),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _forwho['Handicapped'] =
-                                        !_forwho['Handicapped']!;
-                                  });
-                                  debugPrint(_forwho['Handicapped'].toString());
-                                },
-                                child: Container(
-                                  width: size.width * 0.2,
-                                  height: size.height * 0.1,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: const Color.fromARGB(9, 0, 47, 73),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: blurRecycling,
-                                        offset: distanceRecycling,
-                                        color: const Color(0xFFA7A9AF),
-                                        inset: _forwho["Handicapped"]!,
-                                      ),
-                                      BoxShadow(
-                                        blurRadius: blurRecycling,
-                                        offset: -distanceRecycling,
-                                        color: const Color.fromARGB(
-                                            255, 255, 255, 255),
-                                        inset: _forwho["Handicapped"]!,
-                                      ),
-                                    ],
-                                  ),
-                                  child: const Align(
-                                    alignment: Alignment.center,
-                                    child:
-                                        Icon(Icons.accessible_sharp, size: 50),
+                                  style: const TextStyle(
+                                    color: Colors.black,
                                   ),
                                 ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  top: size.height * 0.01,
-                                  right: size.width * 0.05),
-                              child: Text(
-                                'Handicapped',
-                                style:
-                                    Theme.of(context).textTheme.displayMedium,
-                              ),
-                            ),
-                          ],
+                              )),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: size.height * 0.03,
+                      height: size.height * 0.05,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.black,
-                              backgroundColor: Colors.grey[300],
-                              surfaceTintColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                                side: const BorderSide(color: Colors.grey),
-                              ),
-                            ),
-                            child: Text(
-                              "Cancel",
-                              style: Theme.of(context).textTheme.displayLarge,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              _createPin().then((_) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Pin created"),
-                                  ),
-                                );
-                                Navigator.pushReplacementNamed(
-                                    context, restroomPageRoute["home"]!);
-                              }).onError((error, stackTrace) {
-                                debugPrint("Error: $error");
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      "Failed to create pin",
-                                      style: TextStyle(
-                                        color: theme.colorScheme.onPrimary,
+                    Padding(
+                            padding: const EdgeInsets.only(right: 40),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _forwho['Kid'] = !_forwho['Kid']!;
+                                        });
+                                        debugPrint(_forwho['Kid'].toString());
+                                      },
+                                      child: Container(
+                                        width: size.width * 0.2,
+                                        height: size.height * 0.1,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          color: const Color.fromARGB(
+                                              9, 0, 47, 73),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              blurRadius: blurWarning,
+                                              offset: distanceWarning,
+                                              color: const Color(0xFFA7A9AF),
+                                              inset: _forwho["Kid"]!,
+                                            ),
+                                            BoxShadow(
+                                              blurRadius: blurWarning,
+                                              offset: -distanceWarning,
+                                              color: const Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                              inset: _forwho["Kid"]!,
+                                            ),
+                                          ],
+                                        ),
+                                        child: const Icon(
+                                            Icons.baby_changing_station,
+                                            size: 50),
                                       ),
                                     ),
-                                    backgroundColor: theme.colorScheme.primary,
-                                  ),
-                                );
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.black,
-                              backgroundColor: Colors.amber,
-                              surfaceTintColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                                side: const BorderSide(color: Colors.grey),
-                              ),
-                            ),
-                            child: Text(
-                              'Submit',
-                              style: Theme.of(context).textTheme.displayLarge,
+                                    Container(
+                                      padding: EdgeInsets.only(
+                                          top: size.height * 0.01),
+                                      child: Align(
+                                        //padding: const EdgeInsets.only(top: size.height * 0.0),
+                                        child: Text(
+                                          'Kid',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: size.width * 0.03,
+                                ),
+                                Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _forwho['Handicapped'] =
+                                              !_forwho['Handicapped']!;
+                                        });
+                                        debugPrint(
+                                            _forwho['Handicapped'].toString());
+                                      },
+                                      child: Container(
+                                        width: size.width * 0.2,
+                                        height: size.height * 0.1,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          color: const Color.fromARGB(
+                                              9, 0, 47, 73),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              blurRadius: blurRecycling,
+                                              offset: distanceRecycling,
+                                              color: const Color(0xFFA7A9AF),
+                                              inset: _forwho["Handicapped"]!,
+                                            ),
+                                            BoxShadow(
+                                              blurRadius: blurRecycling,
+                                              offset: -distanceRecycling,
+                                              color: const Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                              inset: _forwho["Handicapped"]!,
+                                            ),
+                                          ],
+                                        ),
+                                        child: const Align(
+                                          alignment: Alignment.center,
+                                          child: Icon(Icons.accessible_sharp,
+                                              size: 50),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: size.height * 0.01),
+                                      child: Text(
+                                        'HANDICAPPED',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ],
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 40),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 40.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.black,
+                                backgroundColor: Colors.grey[300],
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                  side: const BorderSide(color: Colors.grey),
+                                ),
+                              ),
+                              child: Text(
+                                "Cancel",
+                                style: Theme.of(context).textTheme.displayLarge,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 40.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _createPin().then((_) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Pin created"),
+                                    ),
+                                  );
+                                  Navigator.pushReplacementNamed(
+                                      context, restroomPageRoute["home"]!);
+                                }).onError((error, stackTrace) {
+                                  debugPrint("Error: $error");
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Failed to create pin"),
+                                    ),
+                                  );
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.black,
+                                backgroundColor: Colors.amber,
+                                surfaceTintColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                  side: const BorderSide(color: Colors.grey),
+                                ),
+                              ),
+                              child: Text(
+                                'Submit',
+                                style: Theme.of(context).textTheme.displayLarge,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     Padding(padding: EdgeInsets.only(top: size.height * 0.035)),
                   ],
                 ),
-              ),
-            ),
+              
+            ),],),),
             drawerScrimColor: Colors.transparent,
             drawer: const RestroomRoverNavbar(),
           );

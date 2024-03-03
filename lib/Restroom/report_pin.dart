@@ -210,39 +210,39 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                                 right: size.width * 0.1),
                             child: ClayContainer(
                               width: size.width * 0.82,
-                              height: size.height * 0.17,
-                              color: const Color(0xFFEAEAEA),
+                              height: size.height * 0.3,
+                              color: Color(0xFFEAEAEA),
                               borderRadius: 30,
                               depth: -20,
                               child: Stack(
                                 alignment: Alignment.centerRight,
                                 children: [
                                   TextField(
-                                    maxLength: 80,
-                                    maxLines: 3,
+                                    maxLength: 200,
+                                    maxLines: 9,
                                     controller: _reportTextController,
                                     // inputFormatters: [
                                     //   LengthLimitingTextInputFormatter(80),
                                     // ],
                                     decoration: const InputDecoration(
-                                      counterText: "",
+                                      // counterText: "",
                                       border: InputBorder.none,
                                       contentPadding: EdgeInsets.only(
-                                          left: 16, right: 16, bottom: 25),
+                                          left: 16, right: 16, top: 15),
                                       hintText: 'Write a report...',
                                     ),
                                   ),
-                                  Positioned(
-                                    top: 1,
-                                    right: 16.0,
-                                    child: Text(
-                                      '$remainingCharacters/80',
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12.0,
-                                      ),
-                                    ),
-                                  ),
+                                  // Positioned(
+                                  //   top: 1,
+                                  //   right: 16.0,
+                                  //   child: Text(
+                                  //     '$remainingCharacters/80',
+                                  //     style: const TextStyle(
+                                  //       color: Colors.grey,
+                                  //       fontSize: 12.0,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
