@@ -17,10 +17,12 @@ class TuachuayDekhorEditDraftPage extends StatefulWidget {
   const TuachuayDekhorEditDraftPage({super.key, required this.id_draft});
 
   @override
-  State<TuachuayDekhorEditDraftPage> createState() => _TuachuayDekhorEditDraftPageState();
+  State<TuachuayDekhorEditDraftPage> createState() =>
+      _TuachuayDekhorEditDraftPageState();
 }
 
-class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPage>
+class _TuachuayDekhorEditDraftPageState
+    extends State<TuachuayDekhorEditDraftPage>
     with SingleTickerProviderStateMixin {
   String? _dropdownValue;
   BoxController boxController = BoxController();
@@ -112,7 +114,8 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
       request.fields['content'] = markdownContentController.text;
       request.fields['category'] = _dropdownValue!;
       request.fields['fullname'] = profileData['fullname'];
-      request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
+      request.files
+          .add(await http.MultipartFile.fromPath('file', imageFile.path));
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -169,7 +172,8 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
   Future<void> updatepicture(File? imageFile) async {
     try {
       var request = http.MultipartRequest('PUT', uppicurl);
-      request.files.add(await http.MultipartFile.fromPath('file', imageFile!.path));
+      request.files
+          .add(await http.MultipartFile.fromPath('file', imageFile!.path));
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
 
@@ -196,7 +200,8 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
   }
 
   Future<void> posttoprofile() async {
-    var response = await http.get(posturl, headers: {"Authorization": "Bearer $publicToken"});
+    var response = await http
+        .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
       setState(() {
         post = jsonDecode(response.body);
@@ -220,7 +225,8 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
 
     return Scaffold(
@@ -280,7 +286,8 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: customColors["textInputContainer"]!,
+                          color: customColors["textInputContainer"]!
+                              .withOpacity(0.5),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         margin: const EdgeInsets.only(
@@ -288,11 +295,11 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                           bottom: 10,
                         ),
                         height: size.height * 0.075,
-                        child: Scrollbar(
-                          child: Markdown(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            data: markdownTitleText,
+                        width: size.width,
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            markdownTitleText,
                           ),
                         ),
                       ),
@@ -309,7 +316,10 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                       color: customColors["main"]!,
                                     ),
                                   )
-                                : (_image.path.split('/').last).split('_').first == "dekhorblog"
+                                : (_image.path.split('/').last)
+                                            .split('_')
+                                            .first ==
+                                        "dekhorblog"
                                     ? Image.network(
                                         detaildraft[0]['image_link'],
                                         fit: BoxFit.cover,
@@ -381,34 +391,43 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                     const SizedBox(width: 5),
                                     Text(
                                       "Back",
-                                      style: TextStyle(color: customColors["main"]!),
+                                      style: TextStyle(
+                                          color: customColors["main"]!),
                                     ),
                                   ],
                                 ),
                                 onTap: () {
-                                  if ((markdownTitleController.text != detaildraft[0]['title']) ||
+                                  if ((markdownTitleController.text !=
+                                          detaildraft[0]['title']) ||
                                       (markdownContentController.text !=
                                           detaildraft[0]['content']) ||
-                                      (_dropdownValue != detaildraft[0]['category'])) {
+                                      (_dropdownValue !=
+                                          detaildraft[0]['category'])) {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          surfaceTintColor: customColors["container"]!,
-                                          backgroundColor: customColors["container"]!,
+                                          surfaceTintColor:
+                                              customColors["container"]!,
+                                          backgroundColor:
+                                              customColors["container"]!,
                                           iconPadding: EdgeInsets.zero,
                                           iconColor: customColors["main"]!,
                                           icon: Stack(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.fromLTRB(24, 30, 24, 16),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        24, 30, 24, 16),
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: [
                                                     Icon(
                                                       Icons.note_alt,
                                                       size: 50,
-                                                      color: customColors["main"]!,
+                                                      color:
+                                                          customColors["main"]!,
                                                     ),
                                                   ],
                                                 ),
@@ -419,14 +438,19 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                                   right: 10,
                                                 ),
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
                                                   children: [
                                                     IconButton(
-                                                      color: customColors["main"]!,
-                                                      onPressed: () => Navigator.pop(context),
+                                                      color:
+                                                          customColors["main"]!,
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              context),
                                                       icon: Icon(
                                                         Icons.close,
-                                                        color: customColors["onMain"],
+                                                        color: customColors[
+                                                            "onMain"],
                                                       ),
                                                     ),
                                                   ],
@@ -437,14 +461,17 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                           title: Text(
                                             "Save draft?",
                                             style: TextStyle(
-                                              color: customColors["onContainer"]!,
+                                              color:
+                                                  customColors["onContainer"]!,
                                             ),
                                           ),
-                                          actionsAlignment: MainAxisAlignment.spaceBetween,
+                                          actionsAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           actions: [
                                             Container(
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(10),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
                                                 color: Colors.red,
                                               ),
                                               child: TextButton(
@@ -462,7 +489,8 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                             ),
                                             Container(
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(10),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
                                                 color: Colors.green,
                                               ),
                                               child: TextButton(
@@ -474,7 +502,8 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                                   Navigator.pop(context);
                                                   Navigator.pushNamed(
                                                     context,
-                                                    tuachuayDekhorPageRoute["draft"]!,
+                                                    tuachuayDekhorPageRoute[
+                                                        "draft"]!,
                                                   );
                                                   print("Draft saved");
                                                 },
@@ -506,13 +535,14 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                 children: [
                                   Container(
                                     width: 70,
-                                    margin: const EdgeInsets.only(left: 20, right: 10),
+                                    margin: const EdgeInsets.only(
+                                        left: 20, right: 10),
                                     child: RawMaterialButton(
                                       onPressed: () {
                                         deletedraft();
                                         print("Delete draft tapped");
-                                        Navigator.pushNamed(
-                                            context, tuachuayDekhorPageRoute["draft"]!);
+                                        Navigator.pushNamed(context,
+                                            tuachuayDekhorPageRoute["draft"]!);
                                       },
                                       fillColor: Colors.red[900],
                                       shape: RoundedRectangleBorder(
@@ -531,7 +561,8 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                     margin: const EdgeInsets.only(right: 10),
                                     child: RawMaterialButton(
                                       onPressed: () {
-                                        if (_image.path != detaildraft[0]['pathimage']) {
+                                        if (_image.path !=
+                                            detaildraft[0]['pathimage']) {
                                           writeblog(_image);
                                         } else {
                                           drafttopostblog();
@@ -541,37 +572,51 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                             context: context,
                                             builder: (BuildContext context) {
                                               return Dialog(
-                                                surfaceTintColor: customColors["container"]!,
-                                                backgroundColor: customColors["container"]!,
+                                                surfaceTintColor:
+                                                    customColors["container"]!,
+                                                backgroundColor:
+                                                    customColors["container"]!,
                                                 child: SizedBox(
                                                   width: size.width * 0.3,
                                                   height: size.height * 0.3,
                                                   child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       LottieBuilder.asset(
                                                         status
                                                             ? "assets/images/Logo/Animation_Success.json"
                                                             : "assets/images/Logo/Animation_Fail.json",
                                                         repeat: false,
-                                                        controller: animationController,
-                                                        onLoaded: (composition) {
-                                                          animationController.duration =
-                                                              composition.duration;
-                                                          animationController.forward();
+                                                        controller:
+                                                            animationController,
+                                                        onLoaded:
+                                                            (composition) {
+                                                          animationController
+                                                                  .duration =
+                                                              composition
+                                                                  .duration;
+                                                          animationController
+                                                              .forward();
                                                         },
                                                       ),
-                                                      SizedBox(height: size.height * 0.03),
+                                                      SizedBox(
+                                                          height: size.height *
+                                                              0.03),
                                                       Align(
-                                                        alignment: Alignment.center,
+                                                        alignment:
+                                                            Alignment.center,
                                                         child: Text(
                                                           status
                                                               ? "Post successful!"
                                                               : "Post failed!",
                                                           style: TextStyle(
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.bold,
-                                                            color: customColors["onContainer"]!,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: customColors[
+                                                                "onContainer"]!,
                                                           ),
                                                         ),
                                                       ),
@@ -581,7 +626,8 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                               );
                                             });
                                       },
-                                      fillColor: const Color.fromRGBO(217, 192, 41, 1),
+                                      fillColor:
+                                          const Color.fromRGBO(217, 192, 41, 1),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(20),
                                       ),
@@ -622,10 +668,12 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                         fontSize: 14,
                                       ),
                                       keyboardType: TextInputType.text,
-                                      cursorColor: customColors["textInput"]!.withOpacity(0.5),
+                                      cursorColor: customColors["textInput"]!
+                                          .withOpacity(0.5),
                                       cursorHeight: 18,
                                       decoration: InputDecoration(
-                                        fillColor: customColors["textInputContainer"]!,
+                                        fillColor:
+                                            customColors["textInputContainer"]!,
                                         filled: true,
                                         labelText: "Write a title",
                                         labelStyle: TextStyle(
@@ -633,7 +681,8 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                           fontSize: 14,
                                         ),
                                         border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(40),
+                                          borderRadius:
+                                              BorderRadius.circular(40),
                                           borderSide: BorderSide.none,
                                         ),
                                       ),
@@ -641,10 +690,13 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                   ),
                                   IconButton(
                                     onPressed: () {
-                                      FocusManager.instance.primaryFocus?.unfocus();
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
                                       setState(() {
-                                        markdownTitleText = markdownTitleController.text;
-                                        markdownContentText = markdownContentController.text;
+                                        markdownTitleText =
+                                            markdownTitleController.text;
+                                        markdownContentText =
+                                            markdownContentController.text;
                                       });
                                       boxController.openBox();
                                     },
@@ -670,13 +722,15 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                   color: customColors["textInput"],
                                 ),
                                 keyboardType: TextInputType.multiline,
-                                cursorColor: customColors["textInput"]!.withOpacity(0.5),
+                                cursorColor:
+                                    customColors["textInput"]!.withOpacity(0.5),
                                 cursorHeight: 16,
                                 minLines: 8,
                                 maxLines: 8,
                                 decoration: InputDecoration(
                                   alignLabelWithHint: true,
-                                  fillColor: customColors["textInputContainer"]!,
+                                  fillColor:
+                                      customColors["textInputContainer"]!,
                                   filled: true,
                                   labelText: "Write a blog",
                                   labelStyle: TextStyle(
@@ -721,7 +775,8 @@ class _TuachuayDekhorEditDraftPageState extends State<TuachuayDekhorEditDraftPag
                                     ),
                                   ),
                                   dropdownColor: customColors["container"]!,
-                                  iconEnabledColor: customColors["onContainer"]!,
+                                  iconEnabledColor:
+                                      customColors["onContainer"]!,
                                   items: [
                                     DropdownMenuItem(
                                       value: "decoration",

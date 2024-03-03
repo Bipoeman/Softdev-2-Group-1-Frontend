@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
-import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
 import "package:ruam_mitt/global_const.dart";
 
 class TuachuayDekhorReportPage extends StatefulWidget {
   final int id_post;
   final int id_blogger;
-  const TuachuayDekhorReportPage({super.key, required this.id_post, required this.id_blogger});
+  const TuachuayDekhorReportPage(
+      {super.key, required this.id_post, required this.id_blogger});
 
   @override
-  State<TuachuayDekhorReportPage> createState() => _TuachuayDekhorReportPageState();
+  State<TuachuayDekhorReportPage> createState() =>
+      _TuachuayDekhorReportPageState();
 }
 
 class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
@@ -30,14 +31,15 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
   }
 
   Future<void> reportblog() async {
-    await http
-        .post(reporturl, body: {"title": titleController.text, "reason": reasonController.text});
+    await http.post(reporturl,
+        body: {"title": titleController.text, "reason": reasonController.text});
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
 
     return Scaffold(
@@ -78,7 +80,8 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                           ],
                         ),
                         onTap: () {
-                          if (titleController.text.isNotEmpty || reasonController.text.isNotEmpty) {
+                          if (titleController.text.isNotEmpty ||
+                              reasonController.text.isNotEmpty) {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -98,7 +101,8 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  actionsAlignment: MainAxisAlignment.spaceBetween,
+                                  actionsAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   actions: [
                                     Container(
                                       decoration: BoxDecoration(
@@ -119,7 +123,8 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           color: Colors.red),
                                       child: TextButton(
                                         onPressed: () {
@@ -246,12 +251,14 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.black,
-                            backgroundColor: const Color.fromRGBO(217, 192, 41, 1),
+                            backgroundColor:
+                                const Color.fromRGBO(217, 192, 41, 1),
                             surfaceTintColor: Colors.white,
                             minimumSize: const Size(150, 35)),
                         onPressed: () {
                           reportblog();
-                          Navigator.pushNamed(context, tuachuayDekhorPageRoute["home"]!);
+                          Navigator.pushNamed(
+                              context, tuachuayDekhorPageRoute["home"]!);
                           print("Sending report");
                         },
                         child: const Text(

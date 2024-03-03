@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:convert';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
-import 'package:ruam_mitt/global_var.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/services.dart';
@@ -22,10 +21,12 @@ class TuachuayDekhorBloggerProfilePage extends StatefulWidget {
   });
 
   @override
-  State<TuachuayDekhorBloggerProfilePage> createState() => _TuachuayDekhorBloggerProfilePageState();
+  State<TuachuayDekhorBloggerProfilePage> createState() =>
+      _TuachuayDekhorBloggerProfilePageState();
 }
 
-class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBloggerProfilePage> {
+class _TuachuayDekhorBloggerProfilePageState
+    extends State<TuachuayDekhorBloggerProfilePage> {
   bool isEditing = false;
   bool showMore = false;
   bool isPostSelected = true;
@@ -93,7 +94,8 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
   Widget build(BuildContext context) {
     final username = widget.username;
     Size size = MediaQuery.of(context).size;
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
 
     return Scaffold(
@@ -177,7 +179,8 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                           right: size.width * 0.1,
                           bottom: size.width * 0.05,
                           top: size.width * 0.005),
-                      child: description.isNotEmpty && description[0]['description'] != null
+                      child: description.isNotEmpty &&
+                              description[0]['description'] != null
                           ? Text(
                               description[0]['description'],
                               style: TextStyle(
@@ -272,8 +275,8 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                     Padding(
                       padding: EdgeInsets.only(
                         bottom: size.width * 0.05,
-                        left: size.width * 0.09,
-                        right: size.width * 0.09,
+                        left: size.width * 0.07,
+                        right: size.width * 0.07,
                         top: size.width * 0.01,
                       ),
                       child: isPostSelected
@@ -283,8 +286,9 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                               itemCount: post.length,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2),
+                              gridDelegate:
+                                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2),
                               itemBuilder: ((context, index) => BlogBox(
                                     title: post[index]['title'],
                                     name: post[index]['fullname'],
@@ -308,8 +312,9 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                               itemCount: save.length,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
-                              gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2),
+                              gridDelegate:
+                                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2),
                               itemBuilder: (context, index) => BlogBox(
                                 title: save[index]['post']['title'],
                                 name: save[index]['fullname_blogger'],

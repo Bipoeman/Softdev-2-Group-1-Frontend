@@ -22,7 +22,8 @@ class BlogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
     return Container(
       decoration: BoxDecoration(
@@ -84,7 +85,10 @@ class BlogBox extends StatelessWidget {
                           child: Text(
                             title,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: customColors["onMain"], fontSize: 12),
+                            style: TextStyle(
+                                color: customColors["onMain"],
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -135,7 +139,9 @@ class BlogBox extends StatelessWidget {
                               child: Text(
                                 like,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: customColors["onMain"]!, fontSize: 10),
+                                style: TextStyle(
+                                    color: customColors["onMain"]!,
+                                    fontSize: 10),
                               ),
                             ),
                           ],

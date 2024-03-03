@@ -107,7 +107,7 @@ class _AdminPageState extends State<AdminPage> {
             leading: GestureDetector(
               child: Icon(
                 Icons.arrow_back_ios,
-                color: theme.colorScheme.onPrimary,
+                color: Colors.white,
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -117,7 +117,7 @@ class _AdminPageState extends State<AdminPage> {
             title: Text(
               "Administrator",
               style: TextStyle(
-                color: theme.colorScheme.onPrimary,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -140,6 +140,7 @@ class _AdminPageState extends State<AdminPage> {
             minHeight: 0,
             maxHeight: size.height * 0.8,
             controller: issueDisplayBoxController,
+            color: theme.colorScheme.primaryContainer,
             collapsed: true,
             body: Container(
               margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
@@ -480,9 +481,11 @@ class _AdminPageState extends State<AdminPage> {
         height: size.width * (588 / 738) / (588 / 85),
         width: size.width * (588 / 738),
         padding: const EdgeInsets.symmetric(horizontal: 15),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: Colors.white,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          color: theme.brightness == Brightness.light
+              ? theme.colorScheme.primaryContainer
+              : theme.colorScheme.background,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -560,7 +563,9 @@ class _ReportCardState extends State<ReportCard> {
           height: widget.size.width * (570 / 738) / (570 / 152) * 1.15,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: const Color(0xFFEEEEEE),
+            color: widget.theme.brightness == Brightness.light
+                ? widget.theme.colorScheme.primaryContainer
+                : widget.theme.colorScheme.background,
           ),
           child: Row(
             children: [
@@ -569,11 +574,13 @@ class _ReportCardState extends State<ReportCard> {
                 height: 70,
                 margin: const EdgeInsets.only(left: 10, right: 10),
                 padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
+                decoration: BoxDecoration(
+                  color: widget.theme.brightness == Brightness.light
+                      ? widget.theme.colorScheme.background
+                      : widget.theme.colorScheme.primaryContainer,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.person),
+                child: const Icon(Icons.person, size: 30),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -591,7 +598,7 @@ class _ReportCardState extends State<ReportCard> {
                           SizedBox(
                             width: widget.size.width * (570 / 738) * 0.5,
                             child: Text(
-                              widget.reportData['title'],
+                              widget.reportData['title'] ?? "No title provided",
                               overflow: TextOverflow.ellipsis,
                             ),
                           )

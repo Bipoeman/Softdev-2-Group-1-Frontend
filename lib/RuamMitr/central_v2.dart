@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-import 'package:bottom_bar_matu/bottom_bar_double_bullet/bottom_bar_double_bullet.dart';
-import 'package:bottom_bar_matu/bottom_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +14,7 @@ import 'package:ruam_mitt/RuamMitr/settings_v2.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class HomePageV2 extends StatefulWidget {
   const HomePageV2({super.key});
@@ -97,23 +96,80 @@ class _HomePageV2State extends State<HomePageV2> {
         child: Builder(builder: (context) {
           return Scaffold(
             backgroundColor: Colors.transparent,
-            bottomNavigationBar: BottomBarDoubleBullet(
-              color: theme.colorScheme.primary,
-              backgroundColor: theme.colorScheme.primaryContainer,
-              selectedIndex: pageIndex,
-              items: [
-                BottomBarItem(iconData: Icons.person),
-                BottomBarItem(iconData: Icons.home),
-                BottomBarItem(iconData: Icons.settings),
-              ],
-              onSelect: (index) {
-                pageController.animateToPage(
-                  index,
-                  duration: const Duration(seconds: 1),
-                  curve: const Tanh(),
-                );
-              },
+            bottomNavigationBar: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              color: theme.colorScheme.primaryContainer,
+              child: SalomonBottomBar(
+                currentIndex: pageIndex,
+                onTap: (pageViewSelectedIndex) {
+                  pageController.animateToPage(
+                    pageViewSelectedIndex,
+                    duration: const Duration(seconds: 1),
+                    curve: const Tanh(),
+                  );
+                },
+                selectedItemColor:
+                    theme.colorScheme.brightness == Brightness.light
+                        ? theme.colorScheme.primary
+                        : Colors.white,
+                items: [
+                  SalomonBottomBarItem(
+                    icon: const Icon(Icons.person),
+                    title: const Text("Profile"),
+                  ),
+                  SalomonBottomBarItem(
+                    icon: const Icon(Icons.home),
+                    title: const Text("Home"),
+                  ),
+                  SalomonBottomBarItem(
+                    icon: const Icon(Icons.settings),
+                    title: const Text("Settings"),
+                  ),
+                ],
+              ),
             ),
+            // bottomNavigationBar: BottomBarDoubleBullet(
+            //   color: theme.colorScheme.primary,
+            //   backgroundColor: theme.colorScheme.primaryContainer,
+            //   selectedIndex: pageIndex,
+            //   items: [
+            //     BottomBarItem(iconData: Icons.person),
+            //     BottomBarItem(iconData: Icons.home),
+            //     BottomBarItem(iconData: Icons.settings),
+            //   ],
+            //   onSelect: (pageViewSelectedIndex) {
+            //     print("Select $pageViewSelectedIndex");
+            //     pageController.animateToPage(
+            //       pageViewSelectedIndex,
+            //       duration: const Duration(seconds: 1),
+            //       curve: const Tanh(),
+            //     );
+            //   },
+            // ),
+            // bottomNavigationBar: BottomNavigationBar(
+            //   items: const [
+            //     BottomNavigationBarItem(
+            //       icon: Icon(Icons.person),
+            //       label: "profile",
+            //     ),
+            //     BottomNavigationBarItem(
+            //       icon: Icon(Icons.home),
+            //       label: "home",
+            //     ),
+            //     BottomNavigationBarItem(
+            //       icon: Icon(Icons.settings),
+            //       label: "settings",
+            //     ),
+            //   ],
+            //   currentIndex: pageIndex,
+            //   onTap: (pageViewSelectedIndex) {
+            //     pageController.animateToPage(
+            //       pageViewSelectedIndex,
+            //       duration: const Duration(seconds: 1),
+            //       curve: const Tanh(),
+            //     );
+            //   },
+            // ),
             body: SafeArea(
               child: Column(
                 children: [
@@ -122,6 +178,7 @@ class _HomePageV2State extends State<HomePageV2> {
                       controller: pageController,
                       onPageChanged: (pageChanged) {
                         setState(() => pageIndex = pageChanged);
+                        print("Changed to page $pageChanged");
                       },
                       children: [
                         profileData['fullname'] == null

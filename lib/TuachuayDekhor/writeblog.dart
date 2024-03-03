@@ -18,10 +18,12 @@ class TuachuayDekhorWriteBlogPage extends StatefulWidget {
   const TuachuayDekhorWriteBlogPage({super.key});
 
   @override
-  State<TuachuayDekhorWriteBlogPage> createState() => _TuachuayDekhorWriteBlogPageState();
+  State<TuachuayDekhorWriteBlogPage> createState() =>
+      _TuachuayDekhorWriteBlogPageState();
 }
 
-class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPage>
+class _TuachuayDekhorWriteBlogPageState
+    extends State<TuachuayDekhorWriteBlogPage>
     with SingleTickerProviderStateMixin {
   String? _dropdownValue;
   BoxController boxController = BoxController();
@@ -61,7 +63,8 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
       request.fields['category'] = _dropdownValue!;
       request.fields['fullname'] = profileData['fullname'];
       request.fields['pathimage'] = imageFile!.path;
-      request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
+      request.files
+          .add(await http.MultipartFile.fromPath('file', imageFile.path));
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -85,7 +88,8 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
       request.fields['category'] = _dropdownValue!;
       request.fields['fullname'] = profileData['fullname'];
       request.fields['pathimage'] = imageFile!.path;
-      request.files.add(await http.MultipartFile.fromPath('file', imageFile.path));
+      request.files
+          .add(await http.MultipartFile.fromPath('file', imageFile.path));
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -101,7 +105,8 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
   }
 
   Future<void> posttoprofile() async {
-    var response = await http.get(posturl, headers: {"Authorization": "Bearer $publicToken"});
+    var response = await http
+        .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
       setState(() {
         post = jsonDecode(response.body);
@@ -147,7 +152,8 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
     Size size = MediaQuery.of(context).size;
     markdownTitleText = markdownTitleController.text;
     markdownContentText = markdownContentController.text;
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
 
     return Scaffold(
@@ -208,11 +214,11 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                     bottom: 10,
                   ),
                   height: size.height * 0.075,
-                  child: Scrollbar(
-                    child: Markdown(
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      data: markdownTitleText,
+                  width: size.width,
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      markdownTitleText,
                     ),
                   ),
                 ),
@@ -308,9 +314,11 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                     icon: Stack(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.fromLTRB(24, 30, 24, 16),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              24, 30, 24, 16),
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               Icon(
                                                 Icons.note_alt,
@@ -321,13 +329,16 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(top: 10, right: 10),
+                                          padding: const EdgeInsets.only(
+                                              top: 10, right: 10),
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
                                             children: [
                                               IconButton(
                                                 color: customColors["main"],
-                                                onPressed: () => Navigator.pop(context),
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
                                                 icon: Icon(
                                                   Icons.close,
                                                   color: customColors["onMain"],
@@ -344,11 +355,13 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                         color: customColors["onContainer"]!,
                                       ),
                                     ),
-                                    actionsAlignment: MainAxisAlignment.spaceBetween,
+                                    actionsAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     actions: [
                                       Container(
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                             color: Colors.red),
                                         child: TextButton(
                                           onPressed: () {
@@ -365,7 +378,8 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                       ),
                                       Container(
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                             color: Colors.green),
                                         child: TextButton(
                                           onPressed: () {
@@ -373,7 +387,9 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                             Navigator.pop(context);
                                             Navigator.pop(context);
                                             Navigator.pushNamed(
-                                                context, tuachuayDekhorPageRoute["draft"]!);
+                                                context,
+                                                tuachuayDekhorPageRoute[
+                                                    "draft"]!);
                                             print("Draft saved");
                                           },
                                           child: const Text(
@@ -412,12 +428,14 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                 ),
                               ),
                               onTap: () {
-                                Navigator.pushNamed(context, tuachuayDekhorPageRoute["draft"]!);
+                                Navigator.pushNamed(
+                                    context, tuachuayDekhorPageRoute["draft"]!);
                               },
                             ),
                             Container(
                               width: 70,
-                              margin: const EdgeInsets.only(left: 20, right: 10),
+                              margin:
+                                  const EdgeInsets.only(left: 20, right: 10),
                               child: RawMaterialButton(
                                 onPressed: () {
                                   if (markdownTitleController.text.isEmpty ||
@@ -426,7 +444,8 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                       _image == null) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Please fill in all fields"),
+                                        content:
+                                            Text("Please fill in all fields"),
                                         duration: Duration(seconds: 2),
                                       ),
                                     );
@@ -437,35 +456,47 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                         context: context,
                                         builder: (BuildContext context) {
                                           return Dialog(
-                                            surfaceTintColor: customColors["container"],
-                                            backgroundColor: customColors["container"],
+                                            surfaceTintColor:
+                                                customColors["container"],
+                                            backgroundColor:
+                                                customColors["container"],
                                             child: SizedBox(
                                               width: size.width * 0.3,
                                               height: size.height * 0.3,
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   LottieBuilder.asset(
                                                     status
                                                         ? "assets/images/Logo/Animation_Success.json"
                                                         : "assets/images/Logo/Animation_Fail.json",
                                                     repeat: false,
-                                                    controller: animationController,
+                                                    controller:
+                                                        animationController,
                                                     onLoaded: (composition) {
-                                                      animationController.duration =
+                                                      animationController
+                                                              .duration =
                                                           composition.duration;
-                                                      animationController.forward();
+                                                      animationController
+                                                          .forward();
                                                     },
                                                   ),
-                                                  SizedBox(height: size.height * 0.03),
+                                                  SizedBox(
+                                                      height:
+                                                          size.height * 0.03),
                                                   Align(
                                                     alignment: Alignment.center,
                                                     child: Text(
-                                                      status ? "Post successful!" : "Post failed!",
+                                                      status
+                                                          ? "Post successful!"
+                                                          : "Post failed!",
                                                       style: TextStyle(
                                                         fontSize: 20,
-                                                        fontWeight: FontWeight.bold,
-                                                        color: customColors["onContainer"],
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: customColors[
+                                                            "onContainer"],
                                                       ),
                                                     ),
                                                   ),
@@ -476,7 +507,8 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                         });
                                   }
                                 },
-                                fillColor: const Color.fromRGBO(217, 192, 41, 1),
+                                fillColor:
+                                    const Color.fromRGBO(217, 192, 41, 1),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
@@ -517,7 +549,8 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                                   fontSize: 14,
                                 ),
                                 keyboardType: TextInputType.text,
-                                cursorColor: customColors["textInput"]!.withOpacity(0.5),
+                                cursorColor:
+                                    customColors["textInput"]!.withOpacity(0.5),
                                 cursorHeight: 18,
                                 decoration: InputDecoration(
                                   fillColor: customColors["textInputContainer"],
@@ -538,8 +571,10 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                               onPressed: () {
                                 FocusManager.instance.primaryFocus?.unfocus();
                                 setState(() {
-                                  markdownTitleText = markdownTitleController.text;
-                                  markdownContentText = markdownContentController.text;
+                                  markdownTitleText =
+                                      markdownTitleController.text;
+                                  markdownContentText =
+                                      markdownContentController.text;
                                 });
                                 boxController.openBox();
                               },
@@ -565,7 +600,8 @@ class _TuachuayDekhorWriteBlogPageState extends State<TuachuayDekhorWriteBlogPag
                             color: customColors["textInput"],
                           ),
                           keyboardType: TextInputType.multiline,
-                          cursorColor: customColors["textInput"]!.withOpacity(0.5),
+                          cursorColor:
+                              customColors["textInput"]!.withOpacity(0.5),
                           cursorHeight: 16,
                           minLines: 8,
                           maxLines: 8,
