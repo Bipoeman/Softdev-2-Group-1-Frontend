@@ -44,10 +44,6 @@ ThemeData RestroomThemeData = ThemeData(
       fontWeight: FontWeight.w700,
       color: const Color(0xFF050505),
     ),
-  ).apply(
-    fontFamily: 'H Sarabun PSK', // Apply Thai font
-    displayColor: const Color(0xFF003049),
-    bodyColor: const Color(0xFF003049),
   ),
   appBarTheme: const AppBarTheme(
     iconTheme: IconThemeData(
@@ -68,3 +64,29 @@ ThemeData RestroomThemeData = ThemeData(
     ),
   ),
 );
+
+// TextStyle headlineMedium = TextStyle(
+//                                     fontFamily: tempBinData[index]
+//                                                 ['description']
+//                                             .contains(
+//                                       RegExp("[ก-๛]"),
+//                                     )
+//                                         ? "THSarabunPSK"
+//                                         : Theme.of(context)
+//                                             .textTheme
+//                                             .labelMedium!
+//                                             .fontFamily,
+//                                     fontSize: tempBinData[index]['description']
+//                                             .contains(
+//                                       RegExp("[ก-๛]"),
+//                                     )
+//                                         ? 22
+//                                         : 16,
+//                                     color: Colors.black.withOpacity(0.6),
+//                                     fontWeight: tempBinData[index]
+//                                                 ['description']
+//                                             .contains(
+//                                       RegExp("[ก-๛]"),
+//                                     )
+//                                         ? FontWeight.w700
+//                                         : FontWeight.normal),

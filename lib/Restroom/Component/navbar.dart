@@ -61,6 +61,7 @@ class RestroomRoverNavbar extends StatelessWidget {
                 child: Text(
                   profileData["username"],
                   style: const TextStyle(
+                    fontFamily: "Sen",
                       fontSize: 20,
                       color: Colors.black,
                       fontWeight: FontWeight.bold),
