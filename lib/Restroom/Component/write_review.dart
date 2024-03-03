@@ -47,11 +47,15 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
           "star": _rating.toString(),
           "comment": _reviewTextController.text
         })
-        .timeout(Durations.extralong4)
+        .timeout(const Duration(seconds: 10))
         .onError((error, stackTrace) {
           return Future.error(error ?? {}, stackTrace);
         });
     debugPrint(response.body);
+    if (response.statusCode != 200) {
+      return Future.error(
+          response.reasonPhrase ?? "Failed to get restroom information.");
+    }
     int reviewId = jsonDecode(response.body)["id"];
     if (_image != null) {
       await _uploadPicture(reviewId.toString(), _image)
@@ -76,9 +80,18 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
       ),
     );
     request.fields['id'] = id;
-    http.StreamedResponse response = await request.send();
-    http.Response res = await http.Response.fromStream(response);
-    return res;
+    try {
+      http.StreamedResponse response =
+          await request.send().timeout(const Duration(seconds: 10));
+      if (response.statusCode != 200) {
+        return Future.error(response.reasonPhrase ?? "Failed to send report");
+      }
+      http.Response res = await http.Response.fromStream(response)
+          .timeout(const Duration(seconds: 10));
+      return res;
+    } catch (e) {
+      return Future.error(e);
+    }
   }
 
   void updateRemainingCharacters() {
@@ -104,6 +117,7 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
     return Theme(
         data: RestroomThemeData,
         child: Builder(builder: (context) {
@@ -286,8 +300,16 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                             }).onError((error, stackTrace) {
                               debugPrint(error.toString());
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text("Failed to post review.")));
+                                SnackBar(
+                                  content: Text(
+                                    "Failed to post review.",
+                                    style: TextStyle(
+                                      color: theme.colorScheme.onPrimary,
+                                    ),
+                                  ),
+                                  backgroundColor: theme.colorScheme.primary,
+                                ),
+                              );
                             });
                           },
                           style: ElevatedButton.styleFrom(

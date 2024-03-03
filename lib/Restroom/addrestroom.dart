@@ -38,17 +38,23 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
   };
 
   Future<void> _createPin() async {
-    debugPrint("Updating data");
+    ThemeData theme = Theme.of(context);
+    debugPrint("Sending data");
     if (_position == null || _nameTextController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please fill in all the required fields"),
+        SnackBar(
+          content: Text(
+            "Please fill in all the required fields",
+            style: TextStyle(
+              color: theme.colorScheme.onPrimary,
+            ),
+          ),
+          backgroundColor: theme.colorScheme.primary,
         ),
       );
       return Future.error("Please fill in all the required fields");
     }
     final url = Uri.parse("$api$restroomRoverRestroomRoute");
-    debugPrint(_forwho.toString());
     var response = await http
         .post(url, headers: {
           "Authorization": "Bearer $publicToken",
@@ -60,11 +66,15 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
           "latitude": _position!.latitude.toString(),
           "longitude": _position!.longitude.toString(),
         })
-        .timeout(Durations.extralong4)
+        .timeout(const Duration(seconds: 10))
         .onError((error, stackTrace) {
           return Future.error(error ?? {}, stackTrace);
         });
+
     debugPrint("Response: ${response.body}");
+    if (response.statusCode != 200) {
+      return Future.error(response.reasonPhrase ?? "Failed to add restroom.");
+    }
     int id = jsonDecode(response.body)['id'];
     if (_image != null) {
       await _updatePicture(id.toString(), _image).onError((error, stackTrace) {
@@ -101,12 +111,18 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
       ),
     );
     request.fields['id'] = id;
-    http.StreamedResponse response = await request.send();
-    http.Response res = await http.Response.fromStream(response);
-    if (res.statusCode != 200) {
-      throw Exception("Failed to upload picture ${res.body}");
+    try {
+      http.StreamedResponse response =
+          await request.send().timeout(const Duration(seconds: 10));
+      if (response.statusCode != 200) {
+        return Future.error(response.reasonPhrase ?? "Failed to send report");
+      }
+      http.Response res = await http.Response.fromStream(response)
+          .timeout(const Duration(seconds: 10));
+      return res;
+    } catch (e) {
+      return Future.error(e);
     }
-    return res;
   }
 
   void updateRemainingCharacters() {
@@ -131,6 +147,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
 
     Offset distanceWarning = _forwho["Kid"]!
         ? const Offset(5, 5)

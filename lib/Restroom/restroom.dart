@@ -33,6 +33,10 @@ class _RestroomRoverState extends State<RestroomRover> {
         "Authorization": publicToken,
       },
     );
+    if (res.statusCode != 200) {
+      return Future.error(
+          res.reasonPhrase ?? "Failed to get restroom information.");
+    }
     return res;
   }
 
@@ -45,13 +49,19 @@ class _RestroomRoverState extends State<RestroomRover> {
         "Authorization": publicToken,
       },
     );
+    if (res.statusCode != 200) {
+      return Future.error(
+          res.reasonPhrase ?? "Failed to get review information.");
+    }
     return res;
   }
 
   @override
   void initState() {
     debugPrint("Init Restroom Page");
-    Future.wait([getRestroomInfo(), getRestroomReview()]).then((res) {
+    Future.wait([getRestroomInfo(), getRestroomReview()])
+        .timeout(const Duration(seconds: 10))
+        .then((res) {
       var decoded = res
           .map<List<dynamic>>((response) => jsonDecode(response.body))
           .toList();
