@@ -65,22 +65,22 @@ class _EditbinPageState extends State<EditbinPage> {
     Size size = MediaQuery.of(context).size;
 
     Offset distanceWarning = _bintype['redbin']!
-        ? Offset(5, 5)
+        ? const Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
     double blurWarning = _bintype['redbin']! ? 5.0 : 5;
 
     Offset distanceRecycling = _bintype['yellowbin']!
-        ? Offset(5, 5)
+        ? const Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
     double blurRecycling = _bintype['yellowbin']! ? 5.0 : 5;
 
     Offset distanceWaste = _bintype['greenbin']!
-        ? Offset(5, 5)
+        ? const Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
     double blurWaste = _bintype['greenbin']! ? 5.0 : 5;
 
     Offset distanceGeneral = _bintype['bluebin']!
-        ? Offset(5, 5)
+        ? const Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
     double blurGeneral = _bintype['bluebin']! ? 5.0 : 5;
 
@@ -116,7 +116,7 @@ class _EditbinPageState extends State<EditbinPage> {
             fontWeight: FontWeight.normal,
             color: const Color(0xFF003049).withOpacity(0.67),
           ),
-          displaySmall: TextStyle(
+          displaySmall: const TextStyle(
             fontSize: 20,
             overflow: TextOverflow.fade,
             fontWeight: FontWeight.w300,
@@ -193,7 +193,7 @@ class _EditbinPageState extends State<EditbinPage> {
                           Align(
                             alignment: Alignment.topLeft,
                             child: Container(
-                              padding: EdgeInsets.only(left: 20),
+                              padding: const EdgeInsets.only(left: 20),
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 25),
                                 child: Text(
@@ -213,7 +213,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             child: ClayContainer(
                               width: size.width * 0.65,
                               height: size.height * 0.032,
-                              color: Color.fromRGBO(239, 239, 239, 1),
+                              color: const Color.fromRGBO(239, 239, 239, 1),
                               borderRadius: 30,
                               depth: -20,
                               child: TextField(
@@ -222,7 +222,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                 onChanged: (text) {
                                   print('Typed text: $text');
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   border: InputBorder.none,
                                   isDense: true,
                                   contentPadding: EdgeInsets.symmetric(
@@ -282,7 +282,7 @@ class _EditbinPageState extends State<EditbinPage> {
                       Padding(
                         padding: EdgeInsets.only(
                             left: size.width * 0.16, top: size.height * 0.085),
-                        child: Container(
+                        child: SizedBox(
                           width: size.width * 0.7,
                           height: size.height * 0.25,
                           //color: Colors.black,
@@ -332,7 +332,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             borderRadius: 30,
                             depth: -20,
                             child: Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   left: 13, top: 3, right: 13, bottom: 3),
                               child: TextField(
                                 maxLength: 80,
@@ -377,18 +377,18 @@ class _EditbinPageState extends State<EditbinPage> {
                                     height: size.height * 0.13,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
-                                      color: Color.fromARGB(9, 0, 47, 73),
+                                      color: const Color.fromARGB(9, 0, 47, 73),
                                       boxShadow: [
                                         BoxShadow(
                                           blurRadius: blurWarning,
                                           offset: distanceWarning,
-                                          color: Color(0xFFA7A9AF),
+                                          color: const Color(0xFFA7A9AF),
                                           inset: _bintype['redbin']!,
                                         ),
                                         BoxShadow(
                                           blurRadius: blurWarning,
                                           offset: -distanceWarning,
-                                          color: Color.fromARGB(
+                                          color: const Color.fromARGB(
                                               255, 255, 255, 255),
                                           inset: _bintype['redbin']!,
                                         ),
@@ -443,18 +443,18 @@ class _EditbinPageState extends State<EditbinPage> {
                                     height: size.height * 0.13,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
-                                      color: Color.fromARGB(9, 0, 47, 73),
+                                      color: const Color.fromARGB(9, 0, 47, 73),
                                       boxShadow: [
                                         BoxShadow(
                                           blurRadius: blurRecycling,
                                           offset: distanceRecycling,
-                                          color: Color(0xFFA7A9AF),
+                                          color: const Color(0xFFA7A9AF),
                                           inset: _bintype['yellowbin']!,
                                         ),
                                         BoxShadow(
                                           blurRadius: blurRecycling,
                                           offset: -distanceRecycling,
-                                          color: Color.fromARGB(
+                                          color: const Color.fromARGB(
                                               255, 255, 255, 255),
                                           inset: _bintype['yellowbin']!,
                                         ),
@@ -471,15 +471,12 @@ class _EditbinPageState extends State<EditbinPage> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(top: size.height * 0.01),
-                                  child: Text(
-                                    'RECYCLE',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.01),
+                                child: Text(
+                                  'RECYCLE',
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ),
                             ],
@@ -508,18 +505,18 @@ class _EditbinPageState extends State<EditbinPage> {
                                     //color: Colors.black,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
-                                      color: Color.fromARGB(9, 0, 47, 73),
+                                      color: const Color.fromARGB(9, 0, 47, 73),
                                       boxShadow: [
                                         BoxShadow(
                                           blurRadius: blurWaste,
                                           offset: distanceWaste,
-                                          color: Color(0xFFA7A9AF),
+                                          color: const Color(0xFFA7A9AF),
                                           inset: _bintype['greenbin']!,
                                         ),
                                         BoxShadow(
                                           blurRadius: blurWaste,
                                           offset: -distanceWaste,
-                                          color: Color.fromARGB(
+                                          color: const Color.fromARGB(
                                               255, 255, 255, 255),
                                           inset: _bintype['greenbin']!,
                                         ),
@@ -536,15 +533,12 @@ class _EditbinPageState extends State<EditbinPage> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(top: size.height * 0.01),
-                                  child: Text(
-                                    'WASTE',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.01),
+                                child: Text(
+                                  'WASTE',
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ),
                             ],
@@ -573,18 +567,18 @@ class _EditbinPageState extends State<EditbinPage> {
                                     //color: Colors.black,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
-                                      color: Color.fromARGB(9, 0, 47, 73),
+                                      color: const Color.fromARGB(9, 0, 47, 73),
                                       boxShadow: [
                                         BoxShadow(
                                           blurRadius: blurGeneral,
                                           offset: distanceGeneral,
-                                          color: Color(0xFFA7A9AF),
+                                          color: const Color(0xFFA7A9AF),
                                           inset: _bintype['bluebin']!,
                                         ),
                                         BoxShadow(
                                           blurRadius: blurGeneral,
                                           offset: -distanceGeneral,
-                                          color: Color.fromARGB(
+                                          color: const Color.fromARGB(
                                               255, 255, 255, 255),
                                           inset: _bintype['bluebin']!,
                                         ),
@@ -601,16 +595,12 @@ class _EditbinPageState extends State<EditbinPage> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                //padding: EdgeInsets.only(left: 0),
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(top: size.height * 0.01),
-                                  child: Text(
-                                    'GENERAL',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.01),
+                                child: Text(
+                                  'GENERAL',
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ),
                             ],
@@ -631,9 +621,9 @@ class _EditbinPageState extends State<EditbinPage> {
                                 width: size.width * 0.25,
                                 height: size.height * 0.055,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFFF9957F),
+                                  color: const Color(0xFFF9957F),
                                   borderRadius: BorderRadius.circular(30),
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                       blurRadius: 5,
                                       //offset: ,
@@ -670,9 +660,9 @@ class _EditbinPageState extends State<EditbinPage> {
                                 width: size.width * 0.25,
                                 height: size.height * 0.055,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFF547485),
+                                  color: const Color(0xFF547485),
                                   borderRadius: BorderRadius.circular(30),
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                       blurRadius: 5,
                                       //offset: ,
@@ -702,14 +692,14 @@ class _EditbinPageState extends State<EditbinPage> {
                                               .textTheme
                                               .headlineSmall,
                                         ),
-                                        content: Text(
+                                        content: const Text(
                                             'Would you like to confirm the modifications to your trash bin information?'),
                                         actions: [
                                           MaterialButton(
                                             onPressed: () {
                                               _presstosend();
                                             },
-                                            child: Text('Confirm'),
+                                            child: const Text('Confirm'),
                                           ),
                                           MaterialButton(
                                             color: Colors.red,
