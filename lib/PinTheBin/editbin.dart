@@ -161,11 +161,11 @@ class _EditbinPageState extends State<EditbinPage> {
                 key: _scaffoldKey,
                 appBar: AppBar(
                   leading: GestureDetector(
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.menu_rounded),
-                        SizedBox(height: 15)
+                        SizedBox(height: size.height * 0.015),
                       ],
                     ),
                     onTap: () => _scaffoldKey.currentState?.openDrawer(),
@@ -192,8 +192,8 @@ class _EditbinPageState extends State<EditbinPage> {
                         "EDIT",
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
-                      const SizedBox(
-                        height: 15,
+                      SizedBox(
+                        height: size.height * 0.015,
                       )
                     ],
                   ),
@@ -649,7 +649,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                     "Sen",
                                     color: const Color.fromARGB(
                                         255, 255, 255, 255),
-                                    fontSize: 20,
+                                    fontSize: 17,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -689,7 +689,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                     "Sen",
                                     color: const Color.fromARGB(
                                         255, 255, 255, 255),
-                                    fontSize: 15,
+                                    fontSize: 17,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
