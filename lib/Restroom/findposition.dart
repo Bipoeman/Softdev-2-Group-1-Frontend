@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:flutter_map/flutter_map.dart';
+import "package:ruam_mitt/Restroom/Component/font.dart";
 import 'package:ruam_mitt/Restroom/Component/map.dart';
 import "package:http/http.dart" as http;
 import "package:ruam_mitt/global_const.dart";
@@ -64,13 +65,10 @@ class _RestroomRoverFindPositionState extends State<RestroomRoverFindPosition> {
           onPressed: () {
             Navigator.pop(context, editMapController.camera.center);
           },
-          backgroundColor: Color(0xFFE6E6E6),
+          backgroundColor: const Color(0xFFE6E6E6),
           child: Text(
             "Confirm Location",
-            style: TextStyle(
-              fontSize: 20,
-              color: Color(0xFF000000),
-            ),
+            style: text_input("", context),
           ),
         ),
       ),
