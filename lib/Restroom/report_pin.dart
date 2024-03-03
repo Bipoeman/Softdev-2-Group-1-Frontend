@@ -8,6 +8,7 @@ import "package:ruam_mitt/Restroom/Component/font.dart";
 import "package:ruam_mitt/Restroom/Component/navbar.dart";
 import "package:ruam_mitt/Restroom/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
+import "package:ruam_mitt/global_func.dart";
 import "package:ruam_mitt/global_var.dart";
 
 class RestroomRoverReportPin extends StatefulWidget {
@@ -31,6 +32,7 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
   }
 
   Future<void> _sendReport() async {
+    await requestNewToken(context);
     debugPrint('Send report');
     final url = Uri.parse("$api$restroomRoverReportRoute");
     http.MultipartRequest request = http.MultipartRequest('POST', url);
@@ -219,7 +221,8 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                                 alignment: Alignment.centerRight,
                                 children: [
                                   TextField(
-                                    style: text_input(_reportTextController.text, context),
+                                    style: text_input(
+                                        _reportTextController.text, context),
                                     maxLength: 200,
                                     maxLines: 9,
                                     controller: _reportTextController,
@@ -230,7 +233,10 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                                       // counterText: "",
                                       border: InputBorder.none,
                                       contentPadding: EdgeInsets.only(
-                                          left: 16, right: 16, bottom: 10,top: 15),
+                                          left: 16,
+                                          right: 16,
+                                          bottom: 10,
+                                          top: 15),
                                       hintText: 'Write a report...',
                                     ),
                                   ),

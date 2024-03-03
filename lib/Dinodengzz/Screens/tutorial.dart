@@ -18,12 +18,17 @@ class TutorialScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          FractionallySizedBox(
-            alignment: Alignment.center,
-            widthFactor: 1,
-            child: Image.asset(
-              "assets/images/DinoDengzz Icon/Tutorial.png",
-              fit: BoxFit.cover,
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: InteractiveViewer(
+              boundaryMargin: const EdgeInsets.all(0),
+              minScale: 0.1,
+              maxScale: 4,
+              child: Image.asset(
+                "assets/images/DinoDengzz Icon/Tutorial.png",
+                fit: BoxFit.fill,
+              ),
             ),
           ),
           Align(

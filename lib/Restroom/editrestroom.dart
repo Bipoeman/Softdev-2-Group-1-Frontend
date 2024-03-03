@@ -2,7 +2,7 @@ import 'dart:convert';
 import "dart:io";
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import "package:image_picker/image_picker.dart";
 import 'package:http/http.dart' as http;
@@ -10,6 +10,7 @@ import 'package:ruam_mitt/Restroom/Component/font.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_func.dart';
 import 'package:ruam_mitt/global_var.dart';
 
 Color colorbackground = const Color(0x00000000);
@@ -30,14 +31,36 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   File? _image;
   String _type = restroomTypes.first;
   int remainingCharacters = 0;
+  int nameTextLength = 0;
   final Map<String, bool> _forwho = {
     'Kid': false,
     'Handicapped': false,
   };
 
   Future<void> _updateData() async {
+    ThemeData theme = Theme.of(context);
+    if (_nameTextController.text.isEmpty) {
+      setState(() {
+        _nameTextController.text = widget.restroomData['name'];
+        nameTextLength = widget.restroomData['name'].length;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Name cannot be empty.",
+            style: TextStyle(
+              color: theme.colorScheme.onPrimary,
+            ),
+          ),
+          backgroundColor: theme.colorScheme.primary,
+        ),
+      );
+      return Future.error("Name cannot be empty.");
+    }
+    await requestNewToken(context);
     debugPrint("Updating data");
-    final url = Uri.parse("$api$restroomRoverRestroomRoute");
+    final url = Uri.parse(
+        "$api$restroomRoverRestroomRoute/${widget.restroomData['id']}");
     var response = await http
         .put(url, headers: {
           "Authorization": "Bearer $publicToken",
@@ -110,6 +133,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
     });
   }
 
+  @override
   void dispose() {
     _addressTextController.removeListener(updateRemainingCharacters);
     _addressTextController.dispose();
@@ -128,6 +152,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
       _forwho["Kid"] = widget.restroomData["for_who"]["Kid"];
       _forwho["Handicapped"] = widget.restroomData["for_who"]["Handicapped"];
       _type = widget.restroomData["type"];
+      nameTextLength = widget.restroomData['name'].length;
     });
   }
 
@@ -159,48 +184,52 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                   children: [
                     RestroomAppBar(scaffoldKey: _scaffoldKey),
                     SingleChildScrollView(
-                      padding: EdgeInsets.only(
-                          top: size.height * 0.03, left: size.width * 0.1),
+                      padding: EdgeInsets.symmetric(
+                          vertical: size.height * 0.025,
+                          horizontal: size.width * 0.05),
                       child: Column(
                         children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Name',
-                                  style:
-                                      Theme.of(context).textTheme.displayMedium,
-                                ),
-                              ),
-                              SizedBox(
-                                width: size.width * 0.05,
+                              Text(
+                                'Name',
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
                               ),
                               ClayContainer(
                                 width: size.width * 0.6,
-                                height: size.height * 0.032,
+                                height: size.height * 0.06,
                                 color: const Color.fromRGBO(239, 239, 239, 1),
                                 borderRadius: 30,
                                 depth: -20,
                                 child: TextField(
-                                  style: text_input(_nameTextController.text, context),
+                                  style: text_input(
+                                      _nameTextController.text, context),
                                   maxLength: 20,
                                   controller: _nameTextController,
                                   onChanged: (text) {
+                                    setState(() {
+                                      nameTextLength = text.length;
+                                    });
                                     debugPrint('Typed text: $text');
                                   },
                                   decoration: InputDecoration(
                                     counterText: "",
-                                    contentPadding: EdgeInsets.only(
-                                        left: 10, right: 10, bottom: 14.5),
+                                    suffixText: "$nameTextLength/20",
+                                    contentPadding: const EdgeInsets.only(
+                                        left: 10, right: 10),
                                     border: InputBorder.none,
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
-                          SizedBox(height: size.height * 0.025),
+                          SizedBox(
+                            height: size.height * 0.025,
+                          ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Align(
                                 alignment: Alignment.topLeft,
@@ -210,29 +239,29 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                       Theme.of(context).textTheme.displayMedium,
                                 ),
                               ),
-                              SizedBox(
-                                width: size.width * 0.05,
-                              ),
                               Container(
-                                padding: EdgeInsets.only(left: 10),
                                 alignment: Alignment.topRight,
                                 child: ClayContainer(
                                     width: size.width * 0.6,
-                                    height: size.height * 0.04,
+                                    height: size.height * 0.06,
                                     color:
                                         const Color.fromRGBO(239, 239, 239, 1),
                                     borderRadius: 30,
                                     depth: -20,
                                     child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10),
                                         child: DropdownButton(
                                           underline: Container(),
                                           isExpanded: true,
                                           items: restroomTypes
                                               .map((type) => DropdownMenuItem(
                                                   value: type,
-                                                  child: Text(type, style: text_input(type, context),)))
+                                                  child: Text(
+                                                    type,
+                                                    style: text_input(
+                                                        type, context),
+                                                  )))
                                               .toList(),
                                           value: _type,
                                           onChanged: (value) {
@@ -252,7 +281,6 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                               alignment: Alignment.bottomCenter,
                               children: [
                                 SizedBox(
-                                    width: size.width * 0.7,
                                     height: size.height * 0.15,
                                     child: _image == null
                                         ? widget.restroomData['picture'] == null
@@ -320,457 +348,250 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                 ),
                               ),
                               SizedBox(height: size.height * 0.015),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 40),
-                                child: ClayContainer(
-                                    width: size.width * 0.8,
-                                    height: size.height * 0.12,
-                                    color:
-                                        const Color.fromRGBO(239, 239, 239, 1),
-                                    borderRadius: 30,
-                                    depth: -20,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, ),
-                                      //               child : Stack(
-                                      //   alignment: Alignment.centerRight,
-                                      //   children: [
-                                      //     TextField(
-                                      //       maxLength: 250,
-                                      //       maxLines: 9,
-                                      //       controller: _addressTextController,
-                                      //       // inputFormatters: [
-                                      //       //   LengthLimitingTextInputFormatter(80),
-                                      //       // ],
-                                      //       decoration: InputDecoration(
-                                      //         // counterText: "",
-                                      //         border: InputBorder.none,
-                                      //         contentPadding: EdgeInsets.only(
-                                      //             left: 16, right: 16, top: 20),
-                                      //         // hintText: 'Write a report...',
-                                      //       ),
-                                      //     ),
-                                      //     Positioned(
-                                      //       top: 1,
-                                      //       right: 16.0,
-                                      //       child: Text(
-                                      //         '$remainingCharacters/250',
-                                      //         style: TextStyle(
-                                      //           color: Colors.grey,
-                                      //           fontSize: 12.0,
-                                      //         ),
-                                      //       ),
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                      child: Stack(
-                                          alignment: Alignment.centerRight,
-                                          children: [
-                                            TextField(
-                                              maxLength: 80,
-                                              maxLines: null,
-                                              controller:
-                                                  _addressTextController,
-                                              onChanged: (text) {
-                                                debugPrint('Typed text: $text');
-                                                int remainningCharacters = 80 -
-                                                    _addressTextController
-                                                        .text.length;
-                                                debugPrint(
-                                                    'Remaining characters: $remainningCharacters');
-                                              },
-                                              decoration: const InputDecoration(
-                                                border: InputBorder.none,
-                                              ),
-                                              style: text_input(_addressTextController.text, context)
-                                            ),
-                                            //              Positioned(
-                                            //   top: 1,
-                                            //   right: 16.0,
-                                            //   child: Text(
-                                            //     '$remainingCharacters/80',
-                                            //     style: TextStyle(
-                                            //       color: Colors.grey,
-                                            //       fontSize: 12.0,
-                                            //     ),
-                                            //   ),
-                                            // ),
-                                          ]),
-                                    )),
+                              ClayContainer(
+                                  width: size.width * 0.8,
+                                  height: size.height * 0.12,
+                                  color: const Color.fromRGBO(239, 239, 239, 1),
+                                  borderRadius: 30,
+                                  depth: -20,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: TextField(
+                                        maxLength: 80,
+                                        maxLines: null,
+                                        controller: _addressTextController,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.deny(
+                                              RegExp(r"\n"))
+                                        ],
+                                        onChanged: (text) {
+                                          debugPrint('Typed text: $text');
+                                          int remainningCharacters = 80 -
+                                              _addressTextController
+                                                  .text.length;
+                                          debugPrint(
+                                              'Remaining characters: $remainningCharacters');
+                                        },
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                        ),
+                                        style: text_input(
+                                            _addressTextController.text,
+                                            context)),
+                                  )),
+                            ],
+                          ),
+                          SizedBox(height: size.height * 0.05),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _forwho['Kid'] = !_forwho['Kid']!;
+                                      });
+                                      debugPrint(_forwho['Kid'].toString());
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.2,
+                                      height: size.height * 0.1,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color:
+                                            const Color.fromARGB(9, 0, 47, 73),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: blurWarning,
+                                            offset: distanceWarning,
+                                            color: const Color(0xFFA7A9AF),
+                                            inset: _forwho["Kid"]!,
+                                          ),
+                                          BoxShadow(
+                                            blurRadius: blurWarning,
+                                            offset: -distanceWarning,
+                                            color: const Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            inset: _forwho["Kid"]!,
+                                          ),
+                                        ],
+                                      ),
+                                      child: const Icon(
+                                          Icons.baby_changing_station,
+                                          size: 50),
+                                    ),
+                                  ),
+                                  SizedBox(height: size.height * 0.01),
+                                  Align(
+                                    child: Text('BABIES',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayLarge),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _forwho['Handicapped'] =
+                                            !_forwho['Handicapped']!;
+                                      });
+                                      debugPrint(
+                                          _forwho['Handicapped'].toString());
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.2,
+                                      height: size.height * 0.1,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color:
+                                            const Color.fromARGB(9, 0, 47, 73),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: blurRecycling,
+                                            offset: distanceRecycling,
+                                            color: const Color(0xFFA7A9AF),
+                                            inset: _forwho["Handicapped"]!,
+                                          ),
+                                          BoxShadow(
+                                            blurRadius: blurRecycling,
+                                            offset: -distanceRecycling,
+                                            color: const Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            inset: _forwho["Handicapped"]!,
+                                          ),
+                                        ],
+                                      ),
+                                      child: const Align(
+                                        alignment: Alignment.center,
+                                        child: Icon(Icons.accessible_sharp,
+                                            size: 50),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: size.height * 0.01),
+                                  Text(
+                                    'DISABLED',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayLarge,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                           SizedBox(height: size.height * 0.05),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 40),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.only(
-                                      left: size.width * 0.04),
-                                  child: Column(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _forwho['Kid'] = !_forwho['Kid']!;
-                                          });
-                                          debugPrint(_forwho['Kid'].toString());
-                                        },
-                                        child: Container(
-                                          width: size.width * 0.2,
-                                          height: size.height * 0.1,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            color: const Color.fromARGB(
-                                                9, 0, 47, 73),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                blurRadius: blurWarning,
-                                                offset: distanceWarning,
-                                                color: const Color(0xFFA7A9AF),
-                                                inset: _forwho["Kid"]!,
-                                              ),
-                                              BoxShadow(
-                                                blurRadius: blurWarning,
-                                                offset: -distanceWarning,
-                                                color: const Color.fromARGB(
-                                                    255, 255, 255, 255),
-                                                inset: _forwho["Kid"]!,
-                                              ),
-                                            ],
-                                          ),
-                                          child: const Icon(
-                                              Icons.baby_changing_station,
-                                              size: 50),
-                                        ),
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                            top: size.height * 0.01),
-                                        child: Align(
-                                          //padding: const EdgeInsets.only(top: size.height * 0.0),
-                                          child: Text(
-                                            'KID',
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.black,
+                                  backgroundColor: Colors.grey[300],
+                                  surfaceTintColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    side: const BorderSide(color: Colors.grey),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Cancel",
+                                  style:
+                                      Theme.of(context).textTheme.displayLarge,
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                            'Confirm change',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .displayLarge,
+                                                .headlineSmall,
                                           ),
-                                        ),
-                                      ),
-                                    ],
+                                          content: const Text(
+                                              'Would you like to confirm the modifications to your restroom information?'),
+                                          actions: [
+                                            MaterialButton(
+                                              color: Colors.red,
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Container(
+                                                width: size.width * 0.2,
+                                                height: size.height * 0.05,
+                                                decoration: BoxDecoration(
+                                                    color: const Color.fromARGB(
+                                                        0, 244, 67, 54),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30)),
+                                                child: const Center(
+                                                    child: Text('Cancel')),
+                                              ),
+                                            ),
+                                            MaterialButton(
+                                              onPressed: () {
+                                                _updateData().then((_) async {
+                                                  Navigator
+                                                      .pushReplacementNamed(
+                                                          context,
+                                                          restroomPageRoute[
+                                                              "myrestroom"]!);
+                                                }).onError((error, stackTrace) {
+                                                  debugPrint(
+                                                      "Failed to update data: $error");
+                                                  Navigator.pop(context);
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        "Failed to update data.",
+                                                        style: TextStyle(
+                                                          color: theme
+                                                              .colorScheme
+                                                              .onPrimary,
+                                                        ),
+                                                      ),
+                                                      backgroundColor: theme
+                                                          .colorScheme.primary,
+                                                    ),
+                                                  );
+                                                });
+                                              },
+                                              child: const Text('Confirm'),
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.black,
+                                  backgroundColor: Colors.amber,
+                                  surfaceTintColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40),
+                                    side: const BorderSide(color: Colors.grey),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: size.width * 0.03,
+                                child: Text(
+                                  'Submit',
+                                  style:
+                                      Theme.of(context).textTheme.displayLarge,
                                 ),
-                                Container(
-                                  padding: EdgeInsets.only(
-                                      left: size.width * 0.1),
-                                  child: Column(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _forwho['Handicapped'] =
-                                                !_forwho['Handicapped']!;
-                                          });
-                                          debugPrint(
-                                              _forwho['Handicapped'].toString());
-                                        },
-                                        child: Container(
-                                          width: size.width * 0.2,
-                                          height: size.height * 0.1,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            color: const Color.fromARGB(
-                                                9, 0, 47, 73),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                blurRadius: blurRecycling,
-                                                offset: distanceRecycling,
-                                                color: const Color(0xFFA7A9AF),
-                                                inset: _forwho["Handicapped"]!,
-                                              ),
-                                              BoxShadow(
-                                                blurRadius: blurRecycling,
-                                                offset: -distanceRecycling,
-                                                color: const Color.fromARGB(
-                                                    255, 255, 255, 255),
-                                                inset: _forwho["Handicapped"]!,
-                                              ),
-                                            ],
-                                          ),
-                                          child: const Align(
-                                            alignment: Alignment.center,
-                                            child: Icon(Icons.accessible_sharp,
-                                                size: 50),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: size.height * 0.01),
-                                        child: Text(
-                                          'HANDICAPPED',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .displayLarge,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: size.height * 0.05),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 40.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 40.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      foregroundColor: Colors.black,
-                                      backgroundColor: Colors.grey[300],
-                                      surfaceTintColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(40),
-                                        side:
-                                            const BorderSide(color: Colors.grey),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      "Cancel",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayLarge,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 40.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              title: Text(
-                                                'Confirm change',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headlineSmall,
-                                              ),
-                                              content: const Text(
-                                                  'Would you like to confirm the modifications to your trash bin information?'),
-                                              actions: [
-                                                MaterialButton(
-                                                  color: Colors.red,
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Container(
-                                                    width: size.width * 0.2,
-                                                    height: size.height * 0.05,
-                                                    decoration: BoxDecoration(
-                                                        color:
-                                                            const Color.fromARGB(
-                                                                0, 244, 67, 54),
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                30)),
-                                                    child: const Center(
-                                                        child: Text('Cancel')),
-                                                  ),
-                                                ),
-                                                MaterialButton(
-                                                  onPressed: () {
-                                                    _updateData().then((_) async {
-                                                      Navigator
-                                                          .pushReplacementNamed(
-                                                              context,
-                                                              restroomPageRoute[
-                                                                  "myrestroom"]!);
-                                                    }).onError(
-                                                        (error, stackTrace) {
-                                                      debugPrintStack(
-                                                          label:
-                                                              "Error updating data",
-                                                          stackTrace: stackTrace);
-                                                      Navigator.pop(context);
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              const SnackBar(
-                                                                  content: Text(
-                                                                      "Failed to update data.")));
-                                                    });
-                                                  },
-                                                  child: const Text('Confirm'),
-                                                ),
-                                                
-                                              ],
-                                            );
-                                          });
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      foregroundColor: Colors.black,
-                                      backgroundColor: Colors.amber,
-                                      surfaceTintColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(40),
-                                        side:
-                                            const BorderSide(color: Colors.grey),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      'Submit',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayLarge,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: [
-                          //     GestureDetector(
-                          //       child: Container(
-                          //         padding: EdgeInsets.only(
-                          //             left: size.width * 0.017,
-                          //             top: size.height * 0.01),
-                          //         width: size.width * 0.25,
-                          //         height: size.height * 0.055,
-                          //         decoration: BoxDecoration(
-                          //           color: const Color(0xFF547485),
-                          //           borderRadius: BorderRadius.circular(30),
-                          //           boxShadow: const [
-                          //             BoxShadow(
-                          //               blurRadius: 5,
-                          //               //offset: ,
-                          //               color: Color(0xFFA7A9AF),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //         child: Text(
-                          //           'CHANGE',
-                          //           style: GoogleFonts.getFont(
-                          //             "Sen",
-                          //             color: const Color.fromARGB(
-                          //                 255, 255, 255, 255),
-                          //             fontSize: 20,
-                          //             fontWeight: FontWeight.w600,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       onTap: () {
-                          //         showDialog(
-                          //             context: context,
-                          //             builder: (context) {
-                          //               return AlertDialog(
-                          //                 title: Text(
-                          //                   'Confirm change',
-                          //                   style: Theme.of(context)
-                          //                       .textTheme
-                          //                       .headlineSmall,
-                          //                 ),
-                          //                 content: const Text(
-                          //                     'Would you like to confirm the modifications to your trash bin information?'),
-                          //                 actions: [
-                          //                   MaterialButton(
-                          //                     onPressed: () {
-                          //                       _updateData().then((_) async {
-                          //                         Navigator
-                          //                             .pushReplacementNamed(
-                          //                                 context,
-                          //                                 restroomPageRoute[
-                          //                                     "myrestroom"]!);
-                          //                       }).onError((error, stackTrace) {
-                          //                         debugPrintStack(
-                          //                             label:
-                          //                                 "Error updating data",
-                          //                             stackTrace: stackTrace);
-                          //                         Navigator.pop(context);
-                          //                         ScaffoldMessenger.of(context)
-                          //                             .showSnackBar(const SnackBar(
-                          //                                 content: Text(
-                          //                                     "Failed to update data.")));
-                          //                       });
-                          //                     },
-                          //                     child: const Text('Confirm'),
-                          //                   ),
-                          //                   MaterialButton(
-                          //                     color: Colors.red,
-                          //                     onPressed: () {
-                          //                       Navigator.of(context).pop();
-                          //                     },
-                          //                     child: Container(
-                          //                       width: size.width * 0.2,
-                          //                       height: size.height * 0.05,
-                          //                       decoration: BoxDecoration(
-                          //                           color: const Color.fromARGB(
-                          //                               0, 244, 67, 54),
-                          //                           borderRadius:
-                          //                               BorderRadius.circular(
-                          //                                   30)),
-                          //                       child: const Center(
-                          //                           child: Text('Cancel')),
-                          //                     ),
-                          //                   ),
-                          //                 ],
-                          //               );
-                          //             });
-                          //       },
-                          //     ),
-                          //     SizedBox(width: size.width * 0.25),
-                          //     GestureDetector(
-                          //       child: Container(
-                          //         padding: EdgeInsets.only(
-                          //             left: size.width * 0.024,
-                          //             top: size.height * 0.01),
-                          //         width: size.width * 0.25,
-                          //         height: size.height * 0.055,
-                          //         decoration: BoxDecoration(
-                          //           color: const Color(0xFFF9957F),
-                          //           borderRadius: BorderRadius.circular(30),
-                          //           boxShadow: const [
-                          //             BoxShadow(
-                          //               blurRadius: 5,
-                          //               //offset: ,
-                          //               color: Color(0xFFA7A9AF),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //         child: Text(
-                          //           'CANCEL',
-                          //           style: GoogleFonts.getFont(
-                          //             "Sen",
-                          //             color: const Color.fromARGB(
-                          //                 255, 255, 255, 255),
-                          //             fontSize: 20,
-                          //             fontWeight: FontWeight.w600,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       onTap: () {
-                          //         Navigator.pop(context);
-                          //       },
-                          //     ),
-                          //   ],
-                          // ),
                         ],
                       ),
                     )
