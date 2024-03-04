@@ -14,9 +14,7 @@ class PasswordChangeData {
   late Map<String, TextEditingController> fieldController;
   PasswordChangeData(List<String> fields) {
     isInitiallyBlank = {for (var element in fields) element: true};
-    fieldController = {
-      for (var element in fields) element: TextEditingController()
-    };
+    fieldController = {for (var element in fields) element: TextEditingController()};
   }
 }
 
@@ -35,16 +33,14 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
       PasswordChangeData(["email", "OTP", "password", "confirmPassword"]);
 
   void validateNewPasswordInputs(String value) {
-    bool noAnyStartStates =
-        passwordChangeData.isInitiallyBlank.values.every((element) {
+    bool noAnyStartStates = passwordChangeData.isInitiallyBlank.values.every((element) {
       return !element;
     });
     if (changePasswordFormKey.currentState!.validate() &&
         !isChangePasswordEnabled &&
         noAnyStartStates) {
       isChangePasswordEnabled = true;
-    } else if (!changePasswordFormKey.currentState!.validate() &&
-        isChangePasswordEnabled) {
+    } else if (!changePasswordFormKey.currentState!.validate() && isChangePasswordEnabled) {
       isChangePasswordEnabled = false;
     }
     setState(() {});
@@ -121,8 +117,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
   }
 
   String? confirmPasswordValidator(String? value) {
-    if (passwordChangeData.isInitiallyBlank["confirmPassword"]! &&
-        value!.isEmpty) {
+    if (passwordChangeData.isInitiallyBlank["confirmPassword"]! && value!.isEmpty) {
       return null;
     }
     if (passwordChangeData.isInitiallyBlank["confirmPassword"]!) {
@@ -213,7 +208,6 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                     padding: const EdgeInsets.all(20),
                     margin: const EdgeInsets.all(30),
                     width: [512.0, size.width * 0.8].reduce(min),
-                    height: size.height * 0.6,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(28),
                       // color: theme.colorScheme.primaryContainer
@@ -223,8 +217,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                         end: Alignment.bottomCenter,
                         colors: [
                           ruammitrTheme.customColors["oddContainer"]!,
-                          ruammitrTheme.customColors["oddContainer"]!
-                              .withOpacity(0),
+                          ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
                         ],
                       ),
                     ),
@@ -242,8 +235,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                                   labelText: "Email",
                                   context: context,
                                   icon: const Icon(Icons.email_outlined),
-                                  controller: passwordChangeData
-                                      .fieldController['email'],
+                                  controller: passwordChangeData.fieldController['email'],
                                   validator: emailValidator,
                                   onChanged: validateNewPasswordInputs,
                                 ),
@@ -267,23 +259,20 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                             context: context,
                             maxLength: 6,
                             icon: const Icon(Icons.password),
-                            controller:
-                                passwordChangeData.fieldController['OTP'],
+                            controller: passwordChangeData.fieldController['OTP'],
                             inputType: TextInputType.number,
                             validator: (p0) {
                               if ((p0 ?? "").length != 6) {
                                 return "OTP Must have length of 6";
                               } else {
-                                passwordChangeData.isInitiallyBlank['OTP'] =
-                                    false;
+                                passwordChangeData.isInitiallyBlank['OTP'] = false;
                                 return null;
                               }
                             },
                             onChanged: validateNewPasswordInputs,
                           ),
                           textField(
-                            controller:
-                                passwordChangeData.fieldController['password'],
+                            controller: passwordChangeData.fieldController['password'],
                             validator: passwordValidator,
                             labelText: "Password",
                             context: context,
@@ -292,8 +281,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                             onChanged: validateNewPasswordInputs,
                           ),
                           textField(
-                            controller: passwordChangeData
-                                .fieldController['confirmPassword'],
+                            controller: passwordChangeData.fieldController['confirmPassword'],
                             validator: confirmPasswordValidator,
                             labelText: "Confirm Password",
                             context: context,
@@ -351,8 +339,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
       decoration: InputDecoration(
         fillColor: theme.colorScheme.background,
         filled: true,
-        hintStyle:
-            TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
+        hintStyle: TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
         contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
         hintText: hint,
         prefixIconColor: theme.colorScheme.onBackground,
