@@ -329,7 +329,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  'Address',
+                                  'Description',
                                   style:
                                       Theme.of(context).textTheme.displayMedium,
                                 ),

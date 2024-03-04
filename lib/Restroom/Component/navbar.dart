@@ -43,7 +43,7 @@ class RestroomRoverNavbar extends StatelessWidget {
                     accountName: Container(
                         margin: const EdgeInsets.only(bottom: 15),
                         child: Text(
-                          profileData["username"],
+                          profileData["fullname"],
                           style: Theme.of(context).textTheme.headlineSmall,
                         )),
                     accountEmail: null,
