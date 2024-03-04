@@ -82,7 +82,7 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                 surfaceTintColor: customColors["container"],
                 position: RelativeRect.fromLTRB(
                   size.width,
-                  navbarHeight * 1.5 + paddingSize * 0.25,
+                  navbarHeight + paddingSize * 0.25,
                   0,
                   0,
                 ),
