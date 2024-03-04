@@ -13,7 +13,7 @@ ThemeData RestroomThemeData = ThemeData(
     headlineMedium: const TextStyle(
       fontSize: 35,
       fontWeight: FontWeight.w800,
-      color: Color(0xFF050505),
+      color: Color(0xFF464553),
     ),
     headlineSmall: TextStyle(
       fontSize: 30,
