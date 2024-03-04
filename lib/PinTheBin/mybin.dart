@@ -4,7 +4,6 @@ import "package:http/http.dart" as http;
 import "package:latlong2/latlong.dart";
 import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
 import "package:ruam_mitt/global_const.dart";
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
 import 'package:ruam_mitt/global_var.dart';
 
@@ -27,14 +26,17 @@ class _MyBinState extends State<MyBinPage> {
     http.Response res =
         await http.get(url, headers: {"Authorization": "Bearer $publicToken"});
     print(res.body);
-    return res;
+    if (res.statusCode == 200)
+      return res;
+    else
+      return binData;
   }
 
   Future<http.Response> delBin(int id) async {
     Uri url = Uri.parse("$api$pinTheBinDeleteBinRoute/$id");
-    http.Response res = await http.delete(url);
-    print(res.body);
-    return res;
+    return await http.delete(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }).timeout(const Duration(seconds: 5));
   }
 
   @override
@@ -48,6 +50,7 @@ class _MyBinState extends State<MyBinPage> {
       setState(() {
         binData = jsonDecode(response.body);
         binShow = binData;
+        print(binShow);
       });
       // print(binData);
     });
@@ -84,13 +87,12 @@ class _MyBinState extends State<MyBinPage> {
                   ? [
                       Center(
                           heightFactor: size.height * 0.02,
-                          child: Text(
+                          child: const Text(
                             'No Bin Found!',
-                            style: GoogleFonts.getFont(
-                              'Sen',
-                              color: const Color(0xFFF77F00),
+                            style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
+                              color: const Color(0xFFF77F00),
                             ),
                           ))
                     ]
@@ -108,10 +110,12 @@ class _MyBinState extends State<MyBinPage> {
                               return Container(
                                   width: size.width * 0.9,
                                   height: size.height * 0.27,
-                                  margin: const EdgeInsets.symmetric(vertical: 5.0),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5.0),
                                   padding: const EdgeInsets.all(10.0),
                                   decoration: BoxDecoration(
-                                    color: const Color.fromRGBO(255, 255, 255, 0.6),
+                                    color: const Color.fromRGBO(
+                                        255, 255, 255, 0.6),
                                     borderRadius: BorderRadius.circular(25.0),
                                     boxShadow: const [
                                       BoxShadow(
@@ -128,44 +132,86 @@ class _MyBinState extends State<MyBinPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            'Name: ${data["location"]}',
-                                            style: GoogleFonts.getFont(
-                                              'Sen',
-                                              color:
-                                                  const Color.fromARGB(67, 0, 30, 49),
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w400,
-                                            ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.baseline,
+                                            textBaseline:
+                                                TextBaseline.alphabetic,
+                                            children: [
+                                              const Text(
+                                                'Name: ',
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                  height: 1.0,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color.fromRGBO(
+                                                      0, 30, 49, 67),
+                                                ),
+                                              ),
+                                              Text(
+                                                '${data["location"]}',
+                                                style: TextStyle(
+                                                    fontFamily: data["location"]
+                                                            .contains(
+                                                      RegExp("[ก-๛]"),
+                                                    )
+                                                        ? "THSarabunPSK"
+                                                        : Theme.of(context)
+                                                            .textTheme
+                                                            .headlineMedium!
+                                                            .fontFamily,
+                                                    fontSize: data["location"]
+                                                            .contains(
+                                                      RegExp("[ก-๛]"),
+                                                    )
+                                                        ? 28
+                                                        : 20,
+                                                    height: data["location"]
+                                                            .contains(
+                                                      RegExp("[ก-๛]"),
+                                                    )
+                                                        ? 0.7
+                                                        : 1.0,
+                                                    fontWeight: data["location"]
+                                                            .contains(
+                                                      RegExp("[ก-๛]"),
+                                                    )
+                                                        ? FontWeight.w700
+                                                        : FontWeight.normal,
+                                                    color: const Color.fromRGBO(
+                                                        0, 30, 49, 67)),
+                                              ),
+                                            ],
                                           ),
                                           Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text(
+                                                const Text(
                                                   'Type: ',
-                                                  style: GoogleFonts.getFont(
-                                                    'Sen',
-                                                    color: const Color.fromARGB(
-                                                        67, 0, 30, 49),
+                                                  style: TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.w400,
+                                                    color: Color.fromRGBO(
+                                                        0, 30, 49, 67),
                                                   ),
                                                 ),
                                                 Text(
-                                                  '${data["bintype"]["redbin"] ? "Danger\n" : ""}${data["bintype"]["greenbin"] ? "Waste\n" : ""}${data["bintype"]["yellow"] ? "Recycle\n" : ""}${data["bintype"]["bluebin"] ? "General" : ""}',
-                                                  style: GoogleFonts.getFont(
-                                                    'Sen',
-                                                    color: const Color.fromARGB(
-                                                        67, 0, 30, 49),
+                                                  '${data["bintype"]["redbin"] ? "Danger\n" : ""}${data["bintype"]["greenbin"] ? "Waste\n" : ""}${data["bintype"]["yellowbin"] ? "Recycle\n" : ""}${data["bintype"]["bluebin"] ? "General" : ""}',
+                                                  style: const TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.w400,
+                                                    color: Color.fromRGBO(
+                                                        0, 30, 49, 67),
                                                   ),
                                                 ),
                                               ]),
                                         ],
                                       ),
                                       Container(
+                                        alignment: Alignment.bottomLeft,
                                         padding: EdgeInsets.only(
                                             top: size.height * 0.18),
                                         child: Row(
@@ -182,7 +228,7 @@ class _MyBinState extends State<MyBinPage> {
                                                   pinthebinPageRoute[
                                                       "editbin"]!,
                                                   arguments: {
-                                                    'Bininfo': '$data',
+                                                    'Bininfo': data,
                                                   },
                                                 );
                                               },
@@ -200,15 +246,13 @@ class _MyBinState extends State<MyBinPage> {
                                                   builder:
                                                       (BuildContext context) {
                                                     return AlertDialog(
-                                                      title: Text(
+                                                      title: const Text(
                                                         'Confirm Delete',
-                                                        style:
-                                                            GoogleFonts.getFont(
-                                                          'Sen',
-                                                          color: Colors.black,
+                                                        style: TextStyle(
                                                           fontSize: 25,
                                                           fontWeight:
                                                               FontWeight.w500,
+                                                          color: Colors.black,
                                                         ),
                                                       ),
                                                       actions: <Widget>[
@@ -218,17 +262,15 @@ class _MyBinState extends State<MyBinPage> {
                                                                     context)
                                                                 .pop();
                                                           },
-                                                          child: Text(
+                                                          child: const Text(
                                                             'Cancel',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Sen',
-                                                              color: const Color(
-                                                                  0xFF98989A),
+                                                            style: TextStyle(
                                                               fontSize: 20,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w400,
+                                                              color: Color(
+                                                                  0xFF98989A),
                                                             ),
                                                           ),
                                                         ),
@@ -243,32 +285,68 @@ class _MyBinState extends State<MyBinPage> {
                                                           ),
                                                           child: TextButton(
                                                             onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                              delBin(
-                                                                  data["id"]);
-                                                              Navigator
-                                                                  .pushReplacement(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            const MyBinPage()),
-                                                              );
+                                                              delBin(data["id"])
+                                                                  .then(
+                                                                      (response) {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content:
+                                                                        const Text(
+                                                                      "Delete bin successful.",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                    ),
+                                                                    backgroundColor:
+                                                                        Colors.green[
+                                                                            300],
+                                                                  ),
+                                                                );
+                                                                Navigator
+                                                                    .pushReplacementNamed(
+                                                                  context,
+                                                                  pinthebinPageRoute[
+                                                                      "mybin"]!,
+                                                                );
+                                                              }).onError((error,
+                                                                      stackTrace) {
+                                                                debugPrint(error
+                                                                    .toString());
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  const SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      "Delete bin failed.",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                    ),
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .red,
+                                                                  ),
+                                                                );
+                                                                Navigator.pop(
+                                                                    context);
+                                                              });
                                                             },
-                                                            child: Text(
+                                                            child: const Text(
                                                               'Delete',
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Sen',
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 20,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                              ),
+                                                              style: TextStyle(
+                                                                  fontSize: 20,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .white),
                                                             ),
                                                           ),
                                                         )
@@ -290,7 +368,6 @@ class _MyBinState extends State<MyBinPage> {
                                         child: data["picture"] == null
                                             ? Image.asset(
                                                 "assets/images/PinTheBin/bin_null.png",
-                                                // fit: BoxFit.cover,
                                                 width: size.width * 0.4,
                                                 height: size.width * 0.4,
                                               )
@@ -375,7 +452,7 @@ class MyPinTheBinAppBar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Text(
-                "My Bin",
+                "MYBIN",
                 style: TextStyle(
                   fontSize:
                       Theme.of(context).textTheme.headlineMedium!.fontSize,

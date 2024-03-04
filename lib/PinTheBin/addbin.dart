@@ -2,7 +2,7 @@
 import "package:flutter/material.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
-import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
+//import 'package:ruam_mitt/PinTheBin/navbar.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:http/http.dart' as http;
@@ -86,7 +86,7 @@ class _AddbinPageState extends State<AddbinPage> {
           ),
           Column(
             children: [
-              Align(
+              Container(
                 alignment: Alignment.topLeft,
                 child: Container(
                   padding: const EdgeInsets.only(left: 20),
@@ -104,7 +104,7 @@ class _AddbinPageState extends State<AddbinPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+            
               Container(
                 width: 300,
                 height: 28,
@@ -544,7 +544,7 @@ class _AddbinPageState extends State<AddbinPage> {
           )
         ]),
       ),
-      drawer: const BinDrawer(),
+      //drawer: const NavBar(),
       backgroundColor: Colors.black,
     );
   }

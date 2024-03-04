@@ -10,6 +10,7 @@ import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_func.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 class ProfileWidgetV2 extends StatefulWidget {
   const ProfileWidgetV2({super.key});
@@ -36,6 +37,9 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
+    CustomThemes ruammitrThemeData =
+        ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+    Map<String, Color> customColors = ruammitrThemeData.customColors;
 
     Future<File?> getImage() async {
       final ImagePicker picker = ImagePicker();
@@ -149,8 +153,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                                 setState(() {});
                               } else if (res.statusCode == 403) {
                                 if (context.mounted) {
-                                  int newTokenStatusReturn =
-                                      await requestNewToken(context);
+                                  // int newTokenStatusReturn =
+                                  await requestNewToken(context);
                                 }
                               }
                             },
@@ -292,6 +296,15 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                           }
                         },
                       ),
+                      ListTile(
+                        leading: const Icon(Icons.password),
+                        title: const Text("********"),
+                        trailing: const Icon(Icons.edit),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, ruamMitrPageRoute["password-change"]!);
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -305,6 +318,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
           draggableIconVisible: false,
           maxHeight: size.height * 0.3,
           minHeight: 0,
+          color: customColors["oddContainer"]!,
           draggable: false,
           controller: editProfileController,
           body: Container(
@@ -344,7 +358,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                           borderSide: BorderSide.none,
                         ),
                         filled: true,
-                        fillColor: Theme.of(context).colorScheme.background,
+                        fillColor: customColors["textInputContainer"]!,
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.close),
                           onPressed: () {
@@ -374,6 +388,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                       onPressed: () async {
                         profileData[fieldEditKey] = fieldEditController.text;
                         Uri url = Uri.parse("$api$userDataUpdateRoute");
+                        print(url);
                         await http
                             .put(
                               url,
@@ -383,12 +398,13 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                               },
                               body: json.encode(profileData),
                             )
-                            .timeout(const Duration(seconds: 2))
+                            .timeout(const Duration(seconds: 4))
                             .onError((error, stackTrace) {
                           print(error);
-                          return http.Response("Error", 404);
+                          return http.Response("Error $error", 404);
                         }).then((value) {
-                          print(value.statusCode);
+                          print("Return status Code : ${value.statusCode}");
+                          print("Return body : ${value.body}");
                           setState(() {});
                           if (value.statusCode == 200) {
                             if (value.body == "change profile success") {

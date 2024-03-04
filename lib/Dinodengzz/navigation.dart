@@ -26,6 +26,7 @@ class _GameHomePageState extends State<MyGame> {
   @override
   void dispose() {
     SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+    game.stopBGMInApp();
     super.dispose();
   }
 

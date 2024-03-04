@@ -1,16 +1,18 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/contents.dart';
 import 'package:ruam_mitt/RuamMitr/Component/home/services.dart';
-import 'package:ruam_mitt/RuamMitr/Component/search_box.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
-import 'package:ruam_mitt/RuamMitr/contact_us.dart';
+import 'package:ruam_mitt/RuamMitr/Component/ruammitr_report.dart';
 
 class HomeWidgetV2 extends StatefulWidget {
-  const HomeWidgetV2({super.key});
+  const HomeWidgetV2({super.key, required this.reportBoxController});
+
+  final BoxController reportBoxController;
 
   @override
   State<HomeWidgetV2> createState() => _HomeWidgetV2State();
@@ -61,10 +63,14 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [AvatarViewer(size: size), ContactUs(themeProvider)],
+                  children: [
+                    AvatarViewer(size: size),
+                    reportToUs(themeProvider, widget.reportBoxController)
+                  ],
                 ),
               ),
               Container(
@@ -73,8 +79,7 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                   clipBehavior: Clip.none,
                   alignment: AlignmentDirectional.topCenter,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 35),
+                    SizedBox(
                       width: [size.width * 0.8, 800.0].reduce(min),
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
@@ -84,7 +89,8 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                             end: Alignment.bottomCenter,
                             colors: [
                               ruammitrTheme.customColors["oddContainer"]!,
-                              ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
+                              ruammitrTheme.customColors["oddContainer"]!
+                                  .withOpacity(0),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(20),
@@ -132,11 +138,11 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      width: [300.0, size.width * 0.7].reduce(min),
-                      child: const SearchBox(),
-                    ),
+                    // Container(
+                    //   padding: const EdgeInsets.all(10),
+                    //   width: [300.0, size.width * 0.7].reduce(min),
+                    //   child: const CustomSearchBox(),
+                    // ),
                   ],
                 ),
               ),

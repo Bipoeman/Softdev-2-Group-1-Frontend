@@ -25,10 +25,14 @@ class AppBox extends StatelessWidget {
         //   Image.asset(appIconPath!).image,
         //   size: 50,
         // );
-        return Padding(
+        return Container(
+          height: height * 1,
           padding: const EdgeInsets.symmetric(vertical: 15),
-          child: Image.asset(
-            appIconPath!,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(
+              appIconPath!,
+            ),
           ),
         );
       } catch (_) {}
@@ -73,19 +77,22 @@ class AppBox extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      appName ?? "App",
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.fade,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: theme.textTheme.titleLarge!.color,
+                    SizedBox(
+                      width: width * 0.3,
+                      child: Text(
+                        appName ?? "App",
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.fade,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: theme.textTheme.titleLarge!.color,
+                        ),
                       ),
                     ),
                     Text(
                       appDescription ?? "Description",
-                      overflow: TextOverflow.ellipsis,
+                      overflow: TextOverflow.fade,
                       textAlign: TextAlign.left,
                       style: theme.textTheme.bodySmall,
                     ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
   bool _isDarkMode = false;
@@ -10,6 +12,18 @@ class ThemeProvider extends ChangeNotifier {
 
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
+    saveTheme();
+    notifyListeners();
+  }
+
+  void saveTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("isDarkMode", _isDarkMode);
+  }
+
+  void loadTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _isDarkMode = prefs.getBool("isDarkMode") ?? false;
     notifyListeners();
   }
 }
@@ -18,6 +32,10 @@ class ThemesPortal {
   static CustomThemes? appThemeFromContext(BuildContext context, String app) {
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
     return themes.themeFrom(app);
+  }
+
+  static ThemeProvider getCurrent(BuildContext context) {
+    return Provider.of<ThemeProvider>(context);
   }
 }
 
@@ -36,6 +54,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
           background: const Color.fromRGBO(221, 221, 221, 1),
         ),
         useMaterial3: true,
+        fontFamily: GoogleFonts.getFont("Inter").fontFamily,
       ),
       customColors: {
         "main": const Color.fromRGBO(214, 40, 40, 1),
@@ -178,7 +197,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
       ),
       customColors: {
         "main": Colors.white,
-        "onMain": Colors.white,
+        "onMain": const Color.fromRGBO(0, 48, 73, 1),
         "container": const Color.fromRGBO(77, 77, 77, 1),
         "onContainer": Colors.white,
         "textInputContainer": const Color.fromRGBO(84, 84, 84, 1),
@@ -186,10 +205,158 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "textInput": Colors.white,
         "icon1": const Color.fromRGBO(217, 192, 41, 1),
         "icon2": const Color.fromRGBO(0, 48, 73, 1),
-        "background": Colors.black,
+        "background": const Color.fromRGBO(32, 32, 32, 1),
       },
     ),
-  }
+  },
+  "Restroom": {
+    "light": CustomThemes(
+      themeData: ThemeData(
+        fontFamily: "Sen",
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFFFB330),
+          background: const Color(0xFFECECEC),
+        ),
+        textTheme: TextTheme(
+          headlineMedium: const TextStyle(
+            fontSize: 35,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF050505),
+          ),
+          headlineSmall: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+            color: const Color(0xFF050505),
+          ),
+          displaySmall: TextStyle(
+            fontSize: 10,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w800,
+            color: const Color(0xFF050505).withOpacity(1),
+          ),
+          displayMedium: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xFF050505).withOpacity(0.69),
+          ),
+          displayLarge: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF050505),
+          ),
+          titleMedium: TextStyle(
+            fontSize: 20,
+            color: const Color(0xFF050505),
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.white,
+            size: 35,
+          ),
+        ),
+        drawerTheme: const DrawerThemeData(
+          scrimColor: Colors.transparent,
+          backgroundColor: Color(0xFFFFFFFF),
+        ),
+        searchBarTheme: SearchBarThemeData(
+          textStyle: MaterialStatePropertyAll(
+            TextStyle(
+              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ),
+      customColors: const {
+        "main": Color.fromRGBO(255, 183, 3, 1),
+        "onMain": Colors.black,
+        "container": Color.fromRGBO(228, 228, 228, 1),
+        "onContainer": Colors.black,
+        "textContainer": Color(0xFFECECEC),
+        "label": Color.fromRGBO(158, 158, 158, 1),
+        "text": Colors.black,
+        "icon1": Color.fromRGBO(217, 192, 41, 1),
+        "icon2": Color.fromRGBO(0, 48, 73, 1),
+        "background": Color.fromRGBO(245, 245, 245, 1),
+      },
+    ),
+    "dark": CustomThemes(
+      themeData: ThemeData(
+        fontFamily: "Sen",
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFFFB330),
+          background: const Color.fromARGB(255, 37, 37, 37),
+        ),
+        textTheme: TextTheme(
+          headlineMedium: const TextStyle(
+            fontSize: 35,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFFECECEC),
+          ),
+          headlineSmall: const TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFFECECEC),
+          ),
+          displaySmall: const TextStyle(
+            fontSize: 10,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFFECECEC),
+          ),
+          displayMedium: TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xFFECECEC).withOpacity(0.69),
+          ),
+          displayLarge: const TextStyle(
+            fontSize: 20,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFFECECEC),
+          ),
+          titleMedium: const TextStyle(
+            fontSize: 20,
+            color: Color(0xFFECECEC),
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Color.fromARGB(255, 69, 69, 69),
+            size: 35,
+          ),
+        ),
+        drawerTheme: const DrawerThemeData(
+          scrimColor: Colors.transparent,
+          backgroundColor: Color.fromARGB(0, 212, 212, 212),
+        ),
+        searchBarTheme: SearchBarThemeData(
+          textStyle: MaterialStatePropertyAll(
+            TextStyle(
+              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+              color: const Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
+        ),
+      ),
+      customColors: const {
+        "main": Color.fromRGBO(255, 183, 3, 1),
+        "onMain": Colors.black,
+        "container": Color.fromRGBO(60, 60, 60, 1),
+        "onContainer": Colors.white,
+        "textContainer": Color(0xFFECECEC),
+        "label": Color.fromRGBO(158, 158, 158, 1),
+        "text": Colors.white,
+        "icon1": Color.fromRGBO(217, 192, 41, 1),
+        "icon2": Color.fromRGBO(219, 229, 235, 1),
+        "background": Color.fromRGBO(30, 30, 30, 1),
+      },
+    ),
+  },
 };
 
 class CustomThemes {

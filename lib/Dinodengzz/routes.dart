@@ -10,6 +10,7 @@ import 'package:ruam_mitt/Dinodengzz/Screens/levelselect.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/pause.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/setting.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/start.dart';
+import 'package:ruam_mitt/Dinodengzz/Screens/tutorial.dart';
 import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 
 class GameRoutes extends FlameGame
@@ -35,7 +36,7 @@ class GameRoutes extends FlameGame
           onExitPressed: () {
             Flame.device.setPortrait();
             FlameAudio.bgm.stop();
-            Get.toNamed('/login');
+            navigator?.pop(context);
           },
           onSettingPressed: () {
             FlameAudio.bgm.pause();
@@ -47,7 +48,7 @@ class GameRoutes extends FlameGame
         onBgmVolumeChanged: onBgmVolumeChanged,
         onMasterVolumeChanged: onMasterVolumeChanged,
         onSfxVolumeChanged: onSfxVolumeChanged,
-        onBackPressed: _popRoute,
+        onBackPressed: _exitToMainMenu,
         masterVolume: masterVolume,
         bgmVolume: bgmVolume,
         sfxVolume: sfxVolume,
@@ -58,11 +59,12 @@ class GameRoutes extends FlameGame
               levelNames: levelNames,
               onLevelSelected: _startLevel,
               onBackPressed: _popRoute,
+              onTutorialPressed: () => _routeById(TutorialScreen.id),
             )),
     PauseMenu.id: OverlayRoute(
       (context, game) => PauseMenu(
         onResumePressed: _resumeGame,
-        onSettingPressed: () => _routeById(Settings.id),
+        onRetryPressed: _restartLevel,
         onExitPressed: _exitToMainMenu,
       ),
     ),
@@ -78,6 +80,12 @@ class GameRoutes extends FlameGame
         },
       ),
     ),
+    TutorialScreen.id: OverlayRoute(
+      (context, game) => TutorialScreen(
+        onExit: _popRoute,
+        onPlay: () => _startLevel(1),
+      ),
+    )
   };
 
   late final _routeFactories = <String, Route Function(String)>{
@@ -107,12 +115,17 @@ class GameRoutes extends FlameGame
     await add(_router);
   }
 
+  void dispose() {
+    FlameAudio.bgm.dispose();
+  }
+
   void _routeById(String id) {
     _router.pushNamed(id);
   }
 
   void _popRoute() {
     _router.pop();
+    FlameAudio.bgm.resume();
   }
 
   void _startLevel(int levelIndex) {
@@ -178,6 +191,7 @@ class GameRoutes extends FlameGame
     _resumeGame();
     FlameAudio.bgm.stop();
     _router.pushReplacementNamed(StartScreen.id);
+    FlameAudio.bgm.play(startGame, volume: masterVolume * bgmVolume);
   }
 
   void showLevelCompleteMenu(int nStars) {
@@ -199,5 +213,9 @@ class GameRoutes extends FlameGame
 
   void onSfxVolumeChanged(double volume) {
     sfxVolume = (volume / 100);
+  }
+
+  void stopBGMInApp() {
+    FlameAudio.bgm.stop();
   }
 }

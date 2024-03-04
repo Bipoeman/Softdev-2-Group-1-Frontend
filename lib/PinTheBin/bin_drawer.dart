@@ -34,9 +34,12 @@ class BinDrawer extends StatelessWidget {
           children: [
             Row(
               children: [
-                Image(
-                  image: NetworkImage(profileData['imgPath']),
+                SizedBox(
                   width: size.width * 0.15,
+                  child: CircleAvatar(
+                    radius: 30, // กำหนดรัศมีของวงกลม
+                    backgroundImage: NetworkImage(profileData["imgPath"]),
+                  ),
                 ),
                 SizedBox(width: size.width * 0.01),
                 ConstrainedBox(
@@ -107,19 +110,6 @@ class BinDrawer extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamed(
                           context, pinthebinPageRoute["mybin"]!);
-                    },
-                  ),
-                  const SizedBox(height: 30),
-                  itemSelection(
-                    context: context,
-                    title: "REPORT",
-                    image: Image.asset(
-                      "assets/images/PinTheBin/report.png",
-                      width: 30,
-                    ),
-                    onTap: () {
-                      Navigator.pushNamed(
-                          context, pinthebinPageRoute["report"]!);
                     },
                   ),
                   const SizedBox(height: 30),
@@ -216,17 +206,20 @@ Widget itemSelection({
   required void Function() onTap,
   required BuildContext context,
 }) {
-  return InkWell(
-    onTap: onTap,
-    child: Ink(
-      child: Row(children: [
-        image,
-        const SizedBox(width: 30),
-        Text(
-          title,
-          style: Theme.of(context).textTheme.displayMedium,
-        )
-      ]),
+  return Material(
+    color: Colors.transparent,
+    child: InkWell(
+      onTap: onTap,
+      child: Ink(
+        child: Row(children: [
+          image,
+          const SizedBox(width: 30),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.displayMedium,
+          )
+        ]),
+      ),
     ),
   );
 }

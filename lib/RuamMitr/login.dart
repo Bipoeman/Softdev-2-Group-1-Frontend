@@ -210,7 +210,8 @@ class _LoginPageState extends State<LoginPage> {
                               end: Alignment.bottomCenter,
                               colors: [
                                 ruammitrTheme.customColors["oddContainer"]!,
-                                ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
+                                ruammitrTheme.customColors["oddContainer"]!
+                                    .withOpacity(0),
                               ],
                             ),
                           ),
@@ -224,10 +225,13 @@ class _LoginPageState extends State<LoginPage> {
                                   fillColor: theme.colorScheme.background,
                                   filled: true,
                                   labelStyle: TextStyle(
-                                      color: theme.colorScheme.onBackground.withOpacity(0.5)),
-                                  contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                      color: theme.colorScheme.onBackground
+                                          .withOpacity(0.5)),
+                                  contentPadding:
+                                      const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                   labelText: "Email or Username",
-                                  prefixIconColor: theme.colorScheme.onBackground,
+                                  prefixIconColor:
+                                      theme.colorScheme.onBackground,
                                   prefixIcon: const Icon(Icons.person),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(40),
@@ -243,10 +247,13 @@ class _LoginPageState extends State<LoginPage> {
                                   fillColor: theme.colorScheme.background,
                                   filled: true,
                                   labelStyle: TextStyle(
-                                      color: theme.colorScheme.onBackground.withOpacity(0.5)),
-                                  contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                      color: theme.colorScheme.onBackground
+                                          .withOpacity(0.5)),
+                                  contentPadding:
+                                      const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                   labelText: "Password",
-                                  prefixIconColor: theme.colorScheme.onBackground,
+                                  prefixIconColor:
+                                      theme.colorScheme.onBackground,
                                   prefixIcon: const Icon(Icons.lock_outline),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(40),
@@ -257,7 +264,8 @@ class _LoginPageState extends State<LoginPage> {
                               Align(
                                 alignment: Alignment.center,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
@@ -277,12 +285,13 @@ class _LoginPageState extends State<LoginPage> {
                                               }
                                             });
                                           },
-                                          activeColor: theme.colorScheme.onPrimary,
+                                          activeColor:
+                                              theme.colorScheme.onPrimary,
                                           checkColor: theme.colorScheme.primary,
                                         ),
                                         const Text(
                                           "Remember me",
-                                          style: TextStyle(fontSize: 13),
+                                          style: TextStyle(fontSize: 11),
                                         ),
                                       ],
                                     ),
@@ -290,9 +299,15 @@ class _LoginPageState extends State<LoginPage> {
                                       child: Text(
                                         "Forgot password?",
                                         style: TextStyle(
-                                            fontSize: 13, color: theme.colorScheme.secondary),
+                                            fontSize: 11,
+                                            color: theme.colorScheme.secondary),
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context,
+                                            ruamMitrPageRoute[
+                                                "password-change"]!);
+                                      },
                                     ),
                                   ],
                                 ),
@@ -308,7 +323,8 @@ class _LoginPageState extends State<LoginPage> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
                                     ),
-                                    foregroundColor: theme.colorScheme.onPrimary,
+                                    foregroundColor:
+                                        theme.colorScheme.onPrimary,
                                   ),
                                   child: const Text("Login"),
                                   onPressed: () {
@@ -322,7 +338,8 @@ class _LoginPageState extends State<LoginPage> {
                                   const Text("Don't have an account?"),
                                   TextButton(
                                     onPressed: () {
-                                      Navigator.pushNamed(context, registerPageRoute);
+                                      Navigator.pushNamed(
+                                          context, registerPageRoute);
                                     },
                                     child: Text(
                                       "Create an account",

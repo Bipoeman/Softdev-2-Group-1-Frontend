@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SearchBox extends StatefulWidget {
-  const SearchBox({super.key});
+class CustomSearchBox extends StatefulWidget {
+  const CustomSearchBox({super.key});
 
   @override
-  State<SearchBox> createState() => _SearchBoxState();
+  State<CustomSearchBox> createState() => _SearchBoxState();
 }
 
-class _SearchBoxState extends State<SearchBox> {
+class _SearchBoxState extends State<CustomSearchBox> {
   String searchText = '';
 
   @override

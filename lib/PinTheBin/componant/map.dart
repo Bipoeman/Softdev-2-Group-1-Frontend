@@ -6,6 +6,7 @@ import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:popup_menu/popup_menu.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BinLocationInfo {
@@ -22,6 +23,30 @@ class MapPinTheBin extends StatefulWidget {
 
   @override
   State<MapPinTheBin> createState() => _MapPinTheBinState();
+}
+
+Widget _showEdit(context, bin, width) {
+  if ('${bin['user_update']}' == '${profileData['id']}') {
+    print("show");
+    return InkWell(
+      child: Image.asset(
+        "assets/images/PinTheBin/edit_bin_black_white.png",
+        height: width * 0.06,
+      ),
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          pinthebinPageRoute["editbin"]!,
+          arguments: {'Bininfo': bin},
+        );
+      },
+    );
+  } else {
+    return SizedBox(
+      height: width * 0.06,
+      width: width * 0.06,
+    );
+  }
 }
 
 class _MapPinTheBinState extends State<MapPinTheBin>
@@ -74,10 +99,12 @@ class _MapPinTheBinState extends State<MapPinTheBin>
         markerInfo.markers.add(
           Marker(
             point: LatLng(lattitude, longtitude),
-            width: 50,
-            height: 50,
-            child:
-                Image.asset("assets/images/RestroomRover/Pinred.png"), //รูปหมุด
+            width: 30,
+            height: 30,
+            rotate: true,
+            child: Image.asset(
+              "assets/images/PinTheBin/pin.png",
+            ), //รูปหมุด
           ),
         );
         markerInfo.info.add(widget.binInfo[index]);
@@ -110,11 +137,13 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                 markerInfo.info.length,
                 (index) => Marker(
                   point: markerInfo.markers[index].point,
-                  width: 50,
-                  height: 50,
+                  width: 30,
+                  height: 30,
+                  rotate: true,
                   child: GestureDetector(
-                    child:
-                        Image.asset("assets/images/RestroomRover/Pinred.png"),
+                    child: Image.asset(
+                      "assets/images/PinTheBin/pin.png",
+                    ),
                     onTap: () {
                       print("position $index : ${widget.binInfo[index]}");
                       binInfoController.openBox();
@@ -193,8 +222,10 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                     width: size.width * 0.65,
                     /*  (404 / 439) are from refrence design */
                     height: (size.width * 0.6) / (404 / 439),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 20),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: size.width * 0.07,
+                      vertical: size.width * 0.05,
+                    ),
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -230,60 +261,52 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    "${displayBinInfo['location']}",
-                                    style: TextStyle(
-                                        shadows: [
-                                          Shadow(
-                                            color: const Color(0xFF46384E)
-                                                .withOpacity(0.4),
-                                            offset: const Offset(0, 2),
-                                            blurRadius: 5,
+                                  SizedBox(
+                                    width: size.width * 0.65 * 0.5,
+                                    child: Text(
+                                      "${displayBinInfo['location']}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          shadows: [
+                                            Shadow(
+                                              color: const Color(0xFF46384E)
+                                                  .withOpacity(0.4),
+                                              offset: const Offset(0, 2),
+                                              blurRadius: 5,
+                                            )
+                                          ],
+                                          color: const Color(0xFF46384E),
+                                          fontFamily: displayBinInfo['location']
+                                                  .contains(
+                                            RegExp("[ก-๛]"),
                                           )
-                                        ],
-                                        color: const Color(0xFF46384E),
-                                        fontFamily:
-                                            displayBinInfo['location'].contains(
-                                          RegExp("[ก-๛]"),
-                                        )
-                                                ? "THSarabunPSK"
-                                                : Theme.of(context)
-                                                    .textTheme
-                                                    .labelMedium!
-                                                    .fontFamily,
-                                        fontSize:
-                                            displayBinInfo['location'].contains(
-                                          RegExp("[ก-๛]"),
-                                        )
-                                                ? 24
-                                                : 18,
-                                        fontWeight:
-                                            displayBinInfo['location'].contains(
-                                          RegExp("[ก-๛]"),
-                                        )
-                                                ? FontWeight.w700
-                                                : FontWeight.w800),
+                                              ? "THSarabunPSK"
+                                              : Theme.of(context)
+                                                  .textTheme
+                                                  .labelMedium!
+                                                  .fontFamily,
+                                          fontSize: displayBinInfo['location']
+                                                  .contains(
+                                            RegExp("[ก-๛]"),
+                                          )
+                                              ? 24
+                                              : 18,
+                                          fontWeight: displayBinInfo['location']
+                                                  .contains(
+                                            RegExp("[ก-๛]"),
+                                          )
+                                              ? FontWeight.w700
+                                              : FontWeight.w800),
+                                    ),
                                   ),
                                   Row(children: [
-                                    InkWell(
-                                      child: Image.asset(
-                                        "assets/images/PinTheBin/edit_bin_black_white.png",
-                                        height: 22,
-                                      ),
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          pinthebinPageRoute["editbin"]!,
-                                          arguments: {
-                                            'Bininfo': displayBinInfo
-                                          },
-                                        );
-                                      },
-                                    ),
+                                    _showEdit(
+                                        context, displayBinInfo, size.width),
                                     InkWell(
                                       child: Image.asset(
                                         "assets/images/PinTheBin/navigate_bin.png",
-                                        height: 22,
+                                        height: size.width * 0.06,
                                       ),
                                       onTap: () async {
                                         String googleUrl =
@@ -298,9 +321,17 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                     InkWell(
                                       child: Image.asset(
                                         "assets/images/PinTheBin/report_bin.png",
-                                        height: 22,
+                                        height: size.width * 0.06,
                                       ),
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          pinthebinPageRoute["report"]!,
+                                          arguments: {
+                                            'Bininfo': displayBinInfo
+                                          },
+                                        );
+                                      },
                                     ),
                                   ]),
                                 ],
@@ -376,8 +407,8 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                 style: TextStyle(
                                     shadows: [
                                       Shadow(
-                                        color:
-                                            const Color(0xFF46384E).withOpacity(0.4),
+                                        color: const Color(0xFF46384E)
+                                            .withOpacity(0.4),
                                         offset: const Offset(0, 2),
                                         blurRadius: 5,
                                       )

@@ -1,10 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
+import 'package:flutter/widgets.dart';
 
 class BlogBox extends StatelessWidget {
   const BlogBox({
     super.key,
     required this.title,
-    this.category,
+    required this.category,
     required this.name,
     required this.like,
     required this.image,
@@ -13,12 +16,15 @@ class BlogBox extends StatelessWidget {
   final void Function()? onPressed;
   final ImageProvider<Object> image;
   final String title;
-  final String? category;
+  final String category;
   final String name;
   final String like;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -26,7 +32,7 @@ class BlogBox extends StatelessWidget {
           BoxShadow(
             blurRadius: 5,
             blurStyle: BlurStyle.normal,
-            color: const Color.fromRGBO(0, 48, 73, 1).withOpacity(0.2),
+            color: customColors["main"]!.withOpacity(0.2),
             spreadRadius: 0.05,
             offset: const Offset(4, 4),
           )
@@ -37,46 +43,33 @@ class BlogBox extends StatelessWidget {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
-        fillColor: Colors.white,
+        fillColor: customColors["background"]!,
         constraints: const BoxConstraints(),
         onPressed: onPressed,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              constraints: const BoxConstraints(maxHeight: 200),
-              clipBehavior: Clip.antiAlias,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(10),
+            IntrinsicHeight(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+                child: Image(
+                  image: image,
+                  fit: BoxFit.cover,
                 ),
               ),
-              child: Image(
-                image: image,
-                fit: BoxFit.cover,
-              ),
             ),
-            // IntrinsicHeight(
-            //   child: ClipRRect(
-            //     borderRadius: const BorderRadius.only(
-            //       topLeft: Radius.circular(10),
-            //       topRight: Radius.circular(10),
-            //     ),
-            //     child: Image(
-            //       image: image,
-            //       fit: BoxFit.cover,
-            //     ),
-            //   ),
-            // ),
             Container(
               padding: const EdgeInsets.only(
                 left: 5,
                 right: 5,
               ),
               height: 35,
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(0, 48, 73, 1),
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: customColors["main"]!,
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
@@ -86,29 +79,31 @@ class BlogBox extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(right: 8),
-                        constraints: BoxConstraints(
-                          maxWidth: size.width * 0.23,
-                        ),
-                        child: Text(
-                          title,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
+                      Flexible(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          child: Text(
+                            title,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: customColors["onMain"],
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey[200],
+                          color: customColors["container"]!,
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: const Padding(
-                          padding: EdgeInsets.only(left: 5, right: 5),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 5, right: 5),
                           child: Text(
-                            "#category",
+                            '#$category',
                             style: TextStyle(
                               fontSize: 8,
+                              color: customColors["onContainer"]!,
                             ),
                           ),
                         ),
@@ -118,22 +113,38 @@ class BlogBox extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: size.width * 0.2,
+                      Flexible(
                         child: Text(
                           name,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 10),
+                          style: TextStyle(
+                            color: customColors["onMain"]!,
+                            fontSize: 10,
+                          ),
                         ),
                       ),
-                      SizedBox(
-                        width: size.width * 0.1,
-                        child: Text(
-                          like,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 7),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Icon(
+                              Icons.bookmark_border_rounded,
+                              color: customColors["onMain"]!,
+                              size: 11,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: size.width * 0.007),
+                              width: size.width * 0.04,
+                              child: Text(
+                                like,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: customColors["onMain"]!,
+                                    fontSize: 10),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

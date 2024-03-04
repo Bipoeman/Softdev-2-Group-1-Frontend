@@ -9,7 +9,7 @@
    id="svg5"
    xml:space="preserve"
    inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
-   sodipodi:docname="Logo Bipoe V1.svg"
+   sodipodi:docname="dino_portal.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,9 +24,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.64"
-     inkscape:cx="300"
-     inkscape:cy="-425"
+     inkscape:zoom="1.28"
+     inkscape:cx="136.32813"
+     inkscape:cy="282.8125"
      inkscape:window-width="2560"
      inkscape:window-height="1377"
      inkscape:window-x="1912"
@@ -37,7 +37,10 @@
      class="st2"
      d="m 24.895428,88.631012 c 10.40454,11.809378 33.45257,8.011935 43.04494,2.941375"
      id="path631"
-     style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.09753;stroke-miterlimit:10" /><path
+     style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.09753;stroke-miterlimit:10"
+     inkscape:export-filename="..\..\..\..\..\Documents\Downloads\path631.png"
+     inkscape:export-xdpi="300"
+     inkscape:export-ydpi="300" /><path
      class="st3"
      d="m 12.866548,40.076494 c 0,0 -9.8118701,-17.889661 3.8633,-29.699032 1.73409,-1.4926351 3.46817,-2.8974671 5.72907,-4.2144971 12.6874,-7.3753685 33.18917,-6.03638846 38.87435,-4.587656 6.89246,1.734091 -0.0439,4.214497 -2.89747,4.653508"
      id="path645"
@@ -79,6 +82,9 @@
      d="m 1.0571779,45.608021 c -1.66824002,2.1292 1.11948,6.914409 3.29258,6.431498 1.64628,-0.373158 3.90719,-4.324249 3.73158,-6.651002 -0.1756,-2.414556 -4.87301,-2.524308 -7.02416,0.219504 z"
      id="path633"
      style="fill:#f2d6a8;fill-opacity:1;stroke:#000000;stroke-width:1.09753;stroke-miterlimit:10" /><path
+     style="fill:#af4433;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+     d="M 7.7301377,44.444644 29.97233,53.226726 44.636666,33.372149 37.692578,32.986482 16.918186,37.773387 Z"
+     id="path583" /><path
      class="st1"
      d="M 37.692578,32.986482 C 25.466138,33.579145 14.403088,37.157077 7.7301379,44.444645"
      id="path623"
