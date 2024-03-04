@@ -125,9 +125,9 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(profileData["username"],
+                          Text(profileData["fullname"],
                               style:
-                                  name_place(profileData["username"], context)),
+                                  name_place(profileData["fullname"], context)),
                         ],
                       ),
                     ],

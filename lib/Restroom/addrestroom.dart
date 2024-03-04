@@ -484,7 +484,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                'Address',
+                                'Description',
                                 style:
                                     Theme.of(context).textTheme.displayMedium,
                               ),
