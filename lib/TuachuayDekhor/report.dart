@@ -23,6 +23,8 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
   late int id_post;
   late int id_blogger;
   late Uri reporturl;
+  bool status = false;
+
   void initState() {
     super.initState();
     id_post = widget.id_post;
@@ -31,8 +33,13 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
   }
 
   Future<void> reportblog() async {
-    await http.post(reporturl,
+    var response = await http.post(reporturl,
         body: {"title": titleController.text, "reason": reasonController.text});
+    if (response.statusCode == 200) {
+      status = true;
+    } else {
+      status = false;
+    }
   }
 
   @override
@@ -198,7 +205,6 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                           controller: titleController,
                           cursorColor: customColors["textInput"],
                           style: TextStyle(
-                            fontSize: 12,
                             color: customColors["textInput"],
                           ),
                           decoration: InputDecoration(
@@ -235,7 +241,6 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                           maxLines: 5,
                           cursorColor: customColors["textInput"],
                           style: TextStyle(
-                            fontSize: 12,
                             color: customColors["textInput"],
                           ),
                           decoration: InputDecoration(
@@ -255,10 +260,36 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                                 const Color.fromRGBO(217, 192, 41, 1),
                             surfaceTintColor: Colors.white,
                             minimumSize: const Size(150, 35)),
-                        onPressed: () {
-                          reportblog();
-                          Navigator.pushNamed(
-                              context, tuachuayDekhorPageRoute["home"]!);
+                        onPressed: () async {
+                          await reportblog();
+                          status
+                              ? (
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: customColors["main"],
+                                      content: Text(
+                                        "Report sent successfully",
+                                        style: TextStyle(
+                                          color: customColors["onMain"],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Navigator.pushNamed(
+                                      context, tuachuayDekhorPageRoute["home"]!)
+                                )
+                              : ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor:
+                                        Color.fromRGBO(214, 40, 40, 1),
+                                    content: Text(
+                                      "Report sent failed",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                );
                           print("Sending report");
                         },
                         child: const Text(

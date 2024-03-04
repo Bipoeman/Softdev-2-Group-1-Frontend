@@ -540,22 +540,22 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                           height: size.height * 0.15,
                           color: const Color.fromRGBO(239, 239, 239, 1),
                           borderRadius: 30,
-                          depth: -20,
+                          depth: -15,
                           child: TextField(
-                            maxLength: 80,
-                            maxLines: 3,
+                            maxLength: 150,
+                            maxLines: 5,
                             controller: _DescriptiontextController,
                             onChanged: (text) {
-                              print('Typed text: $text');
+                              print('Typed text: $text, ${text.length}');
                               int remainningCharacters =
-                                  80 - _DescriptiontextController.text.length;
+                                  150 - _DescriptiontextController.text.length;
                               print(
                                   'Remaining characters: $remainningCharacters');
                             },
                             decoration: const InputDecoration(
                               border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 13, horizontal: 15),
+                              contentPadding:
+                                  EdgeInsets.only(top: 13, left: 15, right: 15),
                             ),
                             style: const TextStyle(
                               color: Colors.black,
@@ -666,7 +666,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Image.asset(
-                                      "assets/images/PinTheBin/recycling-symbol-2.png",
+                                      "assets/images/PinTheBin/recycling.png",
                                       width: size.width * 0.1,
                                       height: size.height * 0.1,
                                     ),
@@ -814,9 +814,10 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                   context, pinthebinPageRoute['home']!);
                             },
                             child: Container(
-                              padding: EdgeInsets.only(
-                                  left: size.width * 0.024,
-                                  top: size.height * 0.01),
+                              alignment: Alignment.center,
+                              // padding: EdgeInsets.only(
+                              //     left: size.width * 0.024,
+                              //     top: size.height * 0.01),
                               width: size.width * 0.25,
                               height: size.height * 0.055,
                               decoration: BoxDecoration(
@@ -859,7 +860,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                             .headlineSmall,
                                       ),
                                       content: const Text(
-                                          'Would you like to confirm the modifications to your trash bin information?'),
+                                          'Would you like to confirm to add a trash bin at this location?'),
                                       actions: [
                                         MaterialButton(
                                           onPressed: () async {

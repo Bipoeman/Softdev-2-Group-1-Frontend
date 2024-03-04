@@ -167,10 +167,14 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                                 Text('Name: ',
                                                     style: myrestroom(
                                                         "", context)),
-                                                Text(
-                                                  '${data["name"]}',
-                                                  style: myrestroom(
-                                                      data["name"], context),
+                                                Flexible(
+                                                  child: Text(
+                                                    '${data["name"]}',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: myrestroom(
+                                                        data["name"], context),
+                                                  ),
                                                 ),
                                               ]),
                                           SizedBox(
@@ -185,9 +189,12 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                                 Text('Type: ',
                                                     style: myrestroom(
                                                         "", context)),
-                                                Text('${data["type"]}',
-                                                    style: myrestroom(
-                                                        data["type"], context)),
+                                                Flexible(
+                                                  child: Text('${data["type"]}',
+                                                      style: myrestroom(
+                                                          data["type"],
+                                                          context)),
+                                                ),
                                               ]),
                                         ],
                                       ),

@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
@@ -7,15 +8,18 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class TuachuayDekhorDetailReportPage extends StatefulWidget {
-  const TuachuayDekhorDetailReportPage({super.key, required this.id_post, required this.id_report});
+  const TuachuayDekhorDetailReportPage(
+      {super.key, required this.id_post, required this.id_report});
   final int id_post;
   final int id_report;
 
   @override
-  State<TuachuayDekhorDetailReportPage> createState() => _TuachuayDekhorDetailReportPageState();
+  State<TuachuayDekhorDetailReportPage> createState() =>
+      _TuachuayDekhorDetailReportPageState();
 }
 
-class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailReportPage> {
+class _TuachuayDekhorDetailReportPageState
+    extends State<TuachuayDekhorDetailReportPage> {
   late List<dynamic> report;
   late Uri deleteposturl;
   late Uri deletereporturl;
@@ -71,7 +75,8 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     bool isDarkMode = ThemesPortal.getCurrent(context).isDarkMode;
     Map<String, Color> customColors = theme.customColors;
 
@@ -92,7 +97,8 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                           MediaQuery.of(context).padding.top),
                   child: Column(
                     children: [
-                      SizedBox(
+                      Container(
+                        color: customColors["main"]!,
                         width: size.width,
                         height: size.width * 0.2,
                         child: InkWell(
@@ -105,7 +111,7 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                           },
                           child: Image(
                             image: AssetImage(
-                              "assets/images/Logo/TuachuayDekhor_${isDarkMode ? "Dark" : "Light"}.png",
+                              "assets/images/Logo/TuachuayDekhor_${isDarkMode ? "Light" : "Dark"}.png",
                             ),
                           ),
                         ),
@@ -154,7 +160,8 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                             const SizedBox(width: 10),
                             Flexible(
                               child: Text(
-                                (report.isNotEmpty && report[0]['title'] != null)
+                                (report.isNotEmpty &&
+                                        report[0]['title'] != null)
                                     ? report[0]['title']
                                     : "No title",
                                 style: TextStyle(
@@ -187,7 +194,8 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                             const SizedBox(width: 10),
                             Flexible(
                               child: Text(
-                                (report.isNotEmpty && report[0]['reason'] != null)
+                                (report.isNotEmpty &&
+                                        report[0]['reason'] != null)
                                     ? report[0]['reason']
                                     : "No reason",
                                 style: TextStyle(
@@ -200,11 +208,11 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.fromLTRB(
-                            size.width * 0.1, 0, size.width * 0.1, size.width * 0.04),
+                        margin: EdgeInsets.fromLTRB(size.width * 0.1, 0,
+                            size.width * 0.1, size.width * 0.04),
                         padding: EdgeInsets.all(size.width * 0.04),
                         decoration: BoxDecoration(
-                          color: customColors["main"]!.withOpacity(0.5),
+                          color: customColors["main"]!,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -218,7 +226,9 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                        (report.isNotEmpty && report[0]['user']['profile'] != null)
+                                        (report.isNotEmpty &&
+                                                report[0]['user']['profile'] !=
+                                                    null)
                                             ? report[0]['user']['profile']
                                             : "https://api.multiavatar.com/${report[0]['user']['fullname']}.png",
                                       ),
@@ -228,7 +238,8 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                                 ),
                                 SizedBox(width: size.width * 0.04),
                                 Text(
-                                  (report.isNotEmpty && report[0]['user']['fullname'] != null)
+                                  (report.isNotEmpty &&
+                                          report[0]['user']['fullname'] != null)
                                       ? report[0]['user']['fullname']
                                       : "No name",
                                   style: TextStyle(
@@ -252,7 +263,9 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                                     ),
                                     child: Icon(
                                       Icons.delete,
-                                      color: isDarkMode ? Colors.red[400] : Colors.red[600],
+                                      color: isDarkMode
+                                          ? Colors.red[400]
+                                          : Colors.red[600],
                                     ),
                                   ),
                                 ),
@@ -273,7 +286,9 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                                 const SizedBox(width: 10),
                                 Flexible(
                                   child: Text(
-                                    (report.isNotEmpty && report[0]['detail']['title'] != null)
+                                    (report.isNotEmpty &&
+                                            report[0]['detail']['title'] !=
+                                                null)
                                         ? report[0]['detail']['title']
                                         : "No title",
                                     style: TextStyle(
@@ -292,7 +307,9 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                               child: IntrinsicHeight(
                                 child: Image(
                                   image: NetworkImage(
-                                    (report.isNotEmpty && report[0]['detail']['image_link'] != null)
+                                    (report.isNotEmpty &&
+                                            report[0]['detail']['image_link'] !=
+                                                null)
                                         ? report[0]['detail']['image_link']
                                         : 'no image',
                                   ),
@@ -314,7 +331,9 @@ class _TuachuayDekhorDetailReportPageState extends State<TuachuayDekhorDetailRep
                                 const SizedBox(width: 10),
                                 Flexible(
                                   child: Text(
-                                    (report.isNotEmpty && report[0]['detail']['content'] != null)
+                                    (report.isNotEmpty &&
+                                            report[0]['detail']['content'] !=
+                                                null)
                                         ? report[0]['detail']['content']
                                         : 'no content',
                                     style: TextStyle(

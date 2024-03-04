@@ -33,7 +33,7 @@ class _TuachuayDekhorEditDraftPageState
   final FocusNode firstFocusNode = FocusNode();
   final FocusNode anotherFocusNode = FocusNode();
   late AnimationController animationController;
-  bool status = true;
+  bool status = false;
   late int id_draft;
   final writeblogurl = Uri.parse("$api$dekhorWriteBlogRoute");
   final drafttopostbloggurl = Uri.parse("$api$dekhorDrafttoPostBlogRoute");
@@ -64,7 +64,7 @@ class _TuachuayDekhorEditDraftPageState
     setState(() {
       isLoading = true;
     });
-
+    await posttoprofile();
     await detail().then((_) {
       if (detaildraft.isNotEmpty) {
         setState(() {
@@ -89,7 +89,6 @@ class _TuachuayDekhorEditDraftPageState
     deletedrafturl = Uri.parse("$api$dekhorDeleteDraftRoute/$id_draft");
     uppicurl = Uri.parse("$api$dekhorUpdatePicDraftRoute/$id_draft");
     _loadDetail();
-    posttoprofile();
     firstFocusNode.requestFocus();
     animationController = AnimationController(
       vsync: this,
@@ -230,7 +229,7 @@ class _TuachuayDekhorEditDraftPageState
     Map<String, Color> customColors = theme.customColors;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: customColors["background"],
       body: SafeArea(
         child: isLoading
             ? Center(
@@ -239,6 +238,7 @@ class _TuachuayDekhorEditDraftPageState
                 ),
               )
             : SlidingBox(
+                color: customColors["background"]!,
                 controller: boxController,
                 physics: const NeverScrollableScrollPhysics(),
                 collapsed: true,
@@ -309,25 +309,66 @@ class _TuachuayDekhorEditDraftPageState
                         ),
                         margin: const EdgeInsets.only(bottom: 10),
                         child: IntrinsicHeight(
-                          child: ClipRRect(
-                            child: isLoading
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: customColors["main"]!,
-                                    ),
-                                  )
-                                : (_image.path.split('/').last)
-                                            .split('_')
-                                            .first ==
-                                        "dekhorblog"
-                                    ? Image.network(
-                                        detaildraft[0]['image_link'],
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.file(
-                                        _image,
-                                        fit: BoxFit.cover,
+                          child: InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Stack(
+                                    children: [
+                                      Center(
+                                        child: SizedBox(
+                                          width: size.width,
+                                          height: size.height,
+                                          child: InteractiveViewer(
+                                            maxScale: 10,
+                                            child: (_image.path.split('/').last)
+                                                        .split('_')
+                                                        .first ==
+                                                    "dekhorblog"
+                                                ? Image.network(
+                                                    detaildraft[0]
+                                                        ['image_link'],
+                                                  )
+                                                : Image.file(
+                                                    _image,
+                                                  ),
+                                          ),
+                                        ),
                                       ),
+                                      Positioned(
+                                        bottom: 30,
+                                        right: 30,
+                                        child: CircleAvatar(
+                                          backgroundColor:
+                                              customColors["icon2"]!,
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.close,
+                                              color: customColors["container"]!,
+                                            ),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: (_image.path.split('/').last)
+                                        .split('_')
+                                        .first ==
+                                    "dekhorblog"
+                                ? Image.network(
+                                    detaildraft[0]['image_link'],
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.file(
+                                    _image,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                         ),
                       ),
@@ -560,12 +601,12 @@ class _TuachuayDekhorEditDraftPageState
                                     width: 70,
                                     margin: const EdgeInsets.only(right: 10),
                                     child: RawMaterialButton(
-                                      onPressed: () {
+                                      onPressed: () async {
                                         if (_image.path !=
                                             detaildraft[0]['pathimage']) {
-                                          writeblog(_image);
+                                          await writeblog(_image);
                                         } else {
-                                          drafttopostblog();
+                                          await drafttopostblog();
                                         }
                                         deletedraft();
                                         showDialog(
@@ -645,7 +686,7 @@ class _TuachuayDekhorEditDraftPageState
                             Padding(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.02,
-                                left: size.width * 0.12,
+                                left: size.width * 0.08,
                               ),
                               child: Row(
                                 children: [
@@ -658,19 +699,14 @@ class _TuachuayDekhorEditDraftPageState
                                   ),
                                   Container(
                                     margin: const EdgeInsets.only(left: 20),
-                                    height: 30,
-                                    width: size.width * 0.55,
+                                    width: size.width * 0.6,
                                     child: TextFormField(
                                       textInputAction: TextInputAction.next,
                                       focusNode: firstFocusNode,
                                       controller: markdownTitleController,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                      ),
                                       keyboardType: TextInputType.text,
                                       cursorColor: customColors["textInput"]!
                                           .withOpacity(0.5),
-                                      cursorHeight: 18,
                                       decoration: InputDecoration(
                                         fillColor:
                                             customColors["textInputContainer"]!,
@@ -678,7 +714,6 @@ class _TuachuayDekhorEditDraftPageState
                                         labelText: "Write a title",
                                         labelStyle: TextStyle(
                                           color: customColors["label"]!,
-                                          fontSize: 14,
                                         ),
                                         border: OutlineInputBorder(
                                           borderRadius:
@@ -703,6 +738,7 @@ class _TuachuayDekhorEditDraftPageState
                                     icon: Icon(
                                       Icons.preview,
                                       color: customColors["main"]!,
+                                      size: 30,
                                     ),
                                   ),
                                 ],
@@ -711,22 +747,20 @@ class _TuachuayDekhorEditDraftPageState
                             Container(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.02,
-                                left: size.width * 0.2,
+                                left: size.width * 0.16,
                               ),
                               width: size.width * 0.85,
                               child: TextFormField(
                                 focusNode: anotherFocusNode,
                                 controller: markdownContentController,
                                 style: TextStyle(
-                                  fontSize: 12,
                                   color: customColors["textInput"],
                                 ),
                                 keyboardType: TextInputType.multiline,
                                 cursorColor:
                                     customColors["textInput"]!.withOpacity(0.5),
-                                cursorHeight: 16,
-                                minLines: 8,
-                                maxLines: 8,
+                                minLines: 5,
+                                maxLines: 5,
                                 decoration: InputDecoration(
                                   alignLabelWithHint: true,
                                   fillColor:
@@ -735,7 +769,6 @@ class _TuachuayDekhorEditDraftPageState
                                   labelText: "Write a blog",
                                   labelStyle: TextStyle(
                                     color: customColors["label"]!,
-                                    fontSize: 12,
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20),
@@ -836,33 +869,35 @@ class _TuachuayDekhorEditDraftPageState
                                   borderRadius: BorderRadius.circular(5),
                                   color: customColors["container"]!,
                                 ),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        _getImage();
-                                        print("Add image tapped");
-                                      },
-                                      child: Icon(
-                                        Icons.image,
-                                        color: customColors["main"]!,
-                                        size: 24,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 5),
-                                      constraints: BoxConstraints(
-                                        maxWidth: size.width * 0.525,
-                                      ),
-                                      child: Text(
-                                        _image.path.split('/').last,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: customColors["onContainer"],
+                                child: GestureDetector(
+                                  onTap: () {
+                                    _getImage();
+                                    print("Add image tapped");
+                                  },
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        child: Icon(
+                                          Icons.image,
+                                          color: customColors["main"]!,
+                                          size: 24,
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      Container(
+                                        margin: const EdgeInsets.only(left: 5),
+                                        constraints: BoxConstraints(
+                                          maxWidth: size.width * 0.51,
+                                        ),
+                                        child: Text(
+                                          _image.path.split('/').last,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            color: customColors["onContainer"],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],

@@ -1,7 +1,7 @@
 import "dart:convert";
-import "dart:developer";
 import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
+import "package:flutter_map_marker_popup/flutter_map_marker_popup.dart";
 import "package:latlong2/latlong.dart";
 import "package:ruam_mitt/Restroom/Component/Navbar.dart";
 import 'package:ruam_mitt/Restroom/Component/map.dart';
@@ -19,11 +19,12 @@ class RestroomRover extends StatefulWidget {
 
 class _RestroomRoverState extends State<RestroomRover> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final MapController _mapController = MapController();
+  final PopupController _popupController = PopupController();
   SearchController searchRestroomController = SearchController();
-  MapController mapController = MapController();
   List<dynamic> restroomData = [];
+  List<Marker> markers = [];
   FocusNode focusNode = FocusNode();
-  LatLng? centerMark;
   Future<http.Response> getRestroomInfo() async {
     debugPrint("Getting Info");
     Uri url = Uri.parse("$api$restroomRoverRestroomRoute");
@@ -77,6 +78,18 @@ class _RestroomRoverState extends State<RestroomRover> {
           }
           return info;
         }).toList();
+        markers = restroomData.map((restroom) {
+          return Marker(
+            point: LatLng(
+              restroom["latitude"].toDouble(),
+              restroom["longitude"].toDouble(),
+            ),
+            width: 50,
+            height: 50,
+            rotate: true,
+            child: RestroomMarker(restroomData: restroom),
+          );
+        }).toList();
       });
     }).onError((error, stackTrace) {
       ThemeData theme = Theme.of(context);
@@ -106,7 +119,11 @@ class _RestroomRoverState extends State<RestroomRover> {
               Stack(
                 children: [
                   MapRestroomRover(
-                      restroomData: restroomData, mapController: mapController),
+                    restroomData: restroomData,
+                    mapController: _mapController,
+                    popupController: _popupController,
+                    markers: markers,
+                  ),
                   RestroomAppBar(scaffoldKey: _scaffoldKey),
                 ],
               ),
@@ -117,17 +134,18 @@ class _RestroomRoverState extends State<RestroomRover> {
                 focusNode: focusNode,
                 parentKey: widget.key,
                 onSelected: (selectedValue) {
-                  restroomData.forEach((eachRestroom) {
+                  for (Marker restroom in markers) {
                     debugPrint("Selected Value : $selectedValue");
-                    if (eachRestroom['name'] == selectedValue) {
+                    Map<String, dynamic> data =
+                        (restroom.child as RestroomMarker).restroomData;
+                    if (data['name'] == selectedValue) {
                       setState(() {
-                        focusNode.unfocus();
-                        centerMark = LatLng(eachRestroom['latitude'],
-                            eachRestroom['longitude']);
-                        mapController.move(centerMark!, 15);
+                        LatLng centerMark = restroom.point;
+                        _mapController.move(centerMark, 15);
+                        _popupController.showPopupsOnlyFor([restroom]);
                       });
                     }
-                  });
+                  }
                 },
               ),
             ],
@@ -168,8 +186,9 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1))
-        .then((value) => tempRestroomData = widget.restroomDataList);
+    setState(() {
+      tempRestroomData = widget.restroomDataList;
+    });
   }
 
   @override
@@ -231,7 +250,9 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
                     child:
                         Image.asset("assets/images/PinTheBin/search_icon.png"),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    widget.onSelected(searchBarController.text);
+                  },
                 )
               ],
               backgroundColor:
@@ -240,13 +261,7 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
                 searchBarController.openView();
               },
               onChanged: (query) {
-                debugPrint("Searchbox change");
                 searchBarController.openView();
-              },
-              onSubmitted: (value) {
-                log("Submitted");
-                debugPrint(searchBarController.text);
-                // searchBarController.closeView();
               },
             );
           },
@@ -420,5 +435,27 @@ class RestroomAppBar extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class RestroomMarker extends StatelessWidget {
+  const RestroomMarker({super.key, required this.restroomData});
+  final dynamic restroomData;
+
+  @override
+  Widget build(BuildContext context) {
+    String type = restroomData["type"];
+    return type == "Must Paid"
+        ? Image.asset(
+            restroomPinImg[type]!,
+          )
+        : Image.asset(
+            restroomPinImg[type]!,
+            width: type == "Toilet In Stores" ? 50 : 50,
+            height: type == "Toilet In Stores" ? 50 : 50,
+            scale: type == "Toilet In Stores"
+                ? 5.0
+                : 5.15, // ปรับ scale สำหรับ "Free" ให้มีขนาดเท่ากับ "Toilet In Stores"
+          );
   }
 }

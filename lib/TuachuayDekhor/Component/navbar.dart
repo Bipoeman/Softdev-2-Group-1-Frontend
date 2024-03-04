@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/search_box.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -27,7 +28,8 @@ class NavbarTuachuayDekhor extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     ThemeProvider themeProvider = ThemesPortal.getCurrent(context);
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
     const double navbarHeight = 100;
     const double paddingSize = 30;
@@ -45,6 +47,7 @@ class NavbarTuachuayDekhor extends StatelessWidget {
         ),
       ),
       height: navbarHeight,
+      width: size.width,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -64,9 +67,11 @@ class NavbarTuachuayDekhor extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            width: size.width * 0.5,
-            child: const TuachuaySearchBox(),
+          const Flexible(
+            child: Padding(
+              padding: EdgeInsets.only(left: 5, right: 5),
+              child: TuachuaySearchBox(),
+            ),
           ),
           RawMaterialButton(
             shape: const CircleBorder(),
@@ -102,7 +107,8 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        Navigator.pushNamed(context, tuachuayDekhorPageRoute["admin"]!);
+                        Navigator.pushNamed(
+                            context, tuachuayDekhorPageRoute["admin"]!);
                       },
                     ),
                   if (profileData['role'] == "User")
@@ -125,7 +131,8 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
+                        Navigator.pushNamed(
+                            context, tuachuayDekhorPageRoute["profile"]!);
                       },
                     ),
                   PopupMenuItem(
