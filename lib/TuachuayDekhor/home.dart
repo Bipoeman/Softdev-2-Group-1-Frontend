@@ -36,7 +36,8 @@ Widget nodeCatagories(
           Navigator.pushNamed(context, tuachuayDekhorPageRoute[page]!);
         },
         child: Container(
-          margin: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+          margin: EdgeInsets.fromLTRB(
+              size.width * 0.0375, 10, size.width * 0.0375, 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
