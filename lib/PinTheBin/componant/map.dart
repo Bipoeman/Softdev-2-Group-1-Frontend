@@ -25,13 +25,13 @@ class MapPinTheBin extends StatefulWidget {
   State<MapPinTheBin> createState() => _MapPinTheBinState();
 }
 
-Widget _showEdit(context, bin) {
+Widget _showEdit(context, bin, width) {
   if ('${bin['user_update']}' == '${profileData['id']}') {
     print("show");
     return InkWell(
       child: Image.asset(
         "assets/images/PinTheBin/edit_bin_black_white.png",
-        height: 22,
+        height: width * 0.06,
       ),
       onTap: () {
         Navigator.pushNamed(
@@ -42,9 +42,9 @@ Widget _showEdit(context, bin) {
       },
     );
   } else {
-    return const SizedBox(
-      height: 22,
-      width: 22,
+    return SizedBox(
+      height: width * 0.06,
+      width: width * 0.06,
     );
   }
 }
@@ -223,7 +223,7 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                     /*  (404 / 439) are from refrence design */
                     height: (size.width * 0.6) / (404 / 439),
                     padding: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.075,
+                      horizontal: size.width * 0.07,
                       vertical: size.width * 0.05,
                     ),
                     alignment: Alignment.centerLeft,
@@ -301,11 +301,12 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                     ),
                                   ),
                                   Row(children: [
-                                    _showEdit(context, displayBinInfo),
+                                    _showEdit(
+                                        context, displayBinInfo, size.width),
                                     InkWell(
                                       child: Image.asset(
                                         "assets/images/PinTheBin/navigate_bin.png",
-                                        height: 22,
+                                        height: size.width * 0.06,
                                       ),
                                       onTap: () async {
                                         String googleUrl =
@@ -320,7 +321,7 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                     InkWell(
                                       child: Image.asset(
                                         "assets/images/PinTheBin/report_bin.png",
-                                        height: 22,
+                                        height: size.width * 0.06,
                                       ),
                                       onTap: () {
                                         Navigator.pushNamed(
