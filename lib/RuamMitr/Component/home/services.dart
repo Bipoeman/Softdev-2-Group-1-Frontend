@@ -32,6 +32,7 @@ class ServicesWidget extends StatelessWidget {
             appName: "Restroom",
             width: size.width,
             height: size.height * 0.1,
+            appIconPath: "assets/Logo/restroom_home_logo.png",
             appRoute: () {
               Navigator.popAndPushNamed(context, restroomPageRoute["home"]!);
             },
@@ -50,7 +51,7 @@ class ServicesWidget extends StatelessWidget {
             appName: "DinoDengzz",
             width: size.width,
             height: size.height * 0.1,
-            appIconPath: "assets/Logo/dino_portal_colored_bg.png",
+            appIconPath: "assets/Logo/Dino_Portal_Sakura_bg.png",
             appRoute: () {
               Navigator.pushNamed(context, dinodengzzPageRoute);
             },
