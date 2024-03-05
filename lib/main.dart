@@ -70,8 +70,7 @@ class _SuperAppState extends State<SuperApp> {
         registerPageRoute: (context) => const RegisterPage(),
         ruamMitrPageRoute["home"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
-        ruamMitrPageRoute["password-change"]!: (context) =>
-            const PasswordChangePage(),
+        ruamMitrPageRoute["password-change"]!: (context) => const PasswordChangePage(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => RestroomRoverReview(
               restroomData: ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>,
@@ -114,7 +113,6 @@ class _SuperAppState extends State<SuperApp> {
           return TuachuayDekhorBloggerProfilePage(username: username, avatarUrl: avatarUrl);
         },
         tuachuayDekhorPageRoute["report"]!: (context) {
-
           final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
           final id_post = args['id_post'] as int;
@@ -122,7 +120,6 @@ class _SuperAppState extends State<SuperApp> {
           return TuachuayDekhorReportPage(id_post: id_post, id_blogger: id_blogger);
         },
         tuachuayDekhorPageRoute["detailreport"]!: (context) {
-
           final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
           final id_post = args['id_post'] as int;
@@ -133,8 +130,7 @@ class _SuperAppState extends State<SuperApp> {
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPageV2(),
         pinthebinPageRoute["editbin"]!: (context) => EditbinPage(
-            binData: ModalRoute.of(context)?.settings.arguments
-                as Map<String, dynamic>),
+            binData: ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>),
         pinthebinPageRoute["mybin"]!: (context) => const MyBinPage(),
         pinthebinPageRoute["report"]!: (context) => const ReportPage(),
       },
