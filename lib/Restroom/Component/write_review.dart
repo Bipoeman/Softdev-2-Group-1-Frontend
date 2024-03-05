@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -14,8 +16,8 @@ import 'package:ruam_mitt/global_var.dart';
 
 class ReviewSlideBar extends StatefulWidget {
   const ReviewSlideBar(
-      {super.key, required this.restroomId, required this.closeSlidingBox});
-  final int restroomId;
+      {super.key, required this.restroomData, required this.closeSlidingBox});
+  final Map<String, dynamic> restroomData;
   final Future<void> Function() closeSlidingBox;
 
   @override
@@ -47,7 +49,7 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
         .post(url, headers: {
           "Authorization": "Bearer $publicToken"
         }, body: {
-          "id_toilet": widget.restroomId.toString(),
+          "id_toilet": widget.restroomData["id"].toString(),
           "star": _rating.toString(),
           "comment": _reviewTextController.text
         })
@@ -57,14 +59,14 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
         });
     debugPrint(response.body);
     if (response.statusCode != 200) {
-      return Future.error(
-          response.reasonPhrase ?? "Failed to get restroom information.");
+      return Future.error(response.reasonPhrase ?? "Failed to post review.");
     }
     int reviewId = jsonDecode(response.body)["id"];
     if (_image != null) {
       await _uploadPicture(reviewId.toString(), _image)
-          .onError((error, stackTrace) {
-        return Future.error(error ?? {}, stackTrace);
+          .onError((error, stackTrace) async {
+        await _delReview(reviewId);
+        return Future.error(error ?? "Failed to upload picture.", stackTrace);
       });
     }
   }
@@ -81,6 +83,8 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
         "file",
         File(picture.path).readAsBytesSync(),
         filename: picture.path,
+        contentType:
+            MediaType.parse(lookupMimeType(picture.path) ?? "image/jpeg"),
       ),
     );
     request.fields['id'] = id;
@@ -96,6 +100,19 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
     } catch (e) {
       return Future.error(e);
     }
+  }
+
+  Future<http.Response> _delReview(int id) async {
+    await requestNewToken(context);
+    Uri url = Uri.parse("$api$restroomRoverReviewRoute/$id");
+    http.Response res = await http.delete(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }).timeout(const Duration(seconds: 10));
+    debugPrint(res.body);
+    if (res.statusCode != 200) {
+      return Future.error(res.reasonPhrase ?? "Failed to delete restroom");
+    }
+    return res;
   }
 
   @override
@@ -286,7 +303,15 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                           onPressed: () {
                             _postReview().then((value) {
                               Navigator.pushReplacementNamed(
-                                  context, restroomPageRoute["home"]!);
+                                  context, restroomPageRoute["review"]!,
+                                  arguments: {
+                                    ...widget.restroomData,
+                                    "avg_star":
+                                        (widget.restroomData["avg_star"] +
+                                                _rating) /
+                                            (widget.restroomData["count"] + 1),
+                                    "count": widget.restroomData["count"] + 1,
+                                  });
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text("Review posted.")));

@@ -4,6 +4,7 @@ import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 const String baseURL = "https://ruammitr.azurewebsites.net";
 const String api = "https://ruammitr.azurewebsites.net/api";
 
+// const String api = "http://192.168.1.131:3000";
 // const String api = "http://10.0.2.2:3000";
 // const String api = "http://192.168.28.16:3000";
 // const String api = "http://10.0.2.2:3000";
@@ -66,7 +67,6 @@ const String pinTheBineditbinRoute = "/pinthebin/bin";
 const String restroomRoverRestroomRoute = "/restroom";
 const String restroomRoverMyRestroomRoute = "/restroom/mytoilet";
 const String restroomRoverReviewRoute = "/restroom/review";
-const String restroomRoverReportRoute = "/restroom/report";
 const String restroomRoverUploadToiletPictureRoute = "/restroom/upload";
 const String restroomRoverUploadReviewPictureRoute = "/restroom/upload/review";
 const String pinTheBinReportBinRoute = "/pinthebin/report";

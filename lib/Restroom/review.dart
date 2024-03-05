@@ -96,7 +96,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                   onBoxClose: () =>
                       FocusManager.instance.primaryFocus?.unfocus(),
                   body: ReviewSlideBar(
-                      restroomId: widget.restroomData["id"],
+                      restroomData: widget.restroomData,
                       closeSlidingBox: boxController.closeBox),
                   backdrop: Backdrop(
                     moving: false,
@@ -116,8 +116,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                   ? SizedBox(
                                       width: size.width * 0.8,
                                       child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(15),
+                                        borderRadius: BorderRadius.circular(15),
                                         child: Image.network(
                                           widget.restroomData["picture"] ??
                                               "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
@@ -169,8 +168,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                 ),
                                 child: Text(widget.restroomData["name"],
                                     style: name_place(
-                                        widget.restroomData["name"],
-                                        context)),
+                                        widget.restroomData["name"], context)),
                               ),
                               Container(
                                 height: null,
@@ -247,8 +245,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                       decoration: BoxDecoration(
                                         color: const Color.fromRGBO(
                                             255, 183, 3, 1),
-                                        borderRadius:
-                                            BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: ElevatedButton(
                                         onPressed: () {
@@ -256,8 +253,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                         },
                                         style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all<
-                                                  Color>(
+                                              MaterialStateProperty.all<Color>(
                                             const Color.fromRGBO(
                                                 255, 183, 3, 1),
                                           ),
@@ -282,8 +278,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                       decoration: BoxDecoration(
                                         color: const Color.fromRGBO(
                                             255, 183, 3, 1),
-                                        borderRadius:
-                                            BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: ElevatedButton(
                                         onPressed: () {
@@ -293,8 +288,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                         },
                                         style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all<
-                                                  Color>(
+                                              MaterialStateProperty.all<Color>(
                                             const Color.fromRGBO(
                                                 255, 183, 3, 1),
                                           ),

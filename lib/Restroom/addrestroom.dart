@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
 import 'package:image_picker/image_picker.dart';
@@ -84,15 +86,44 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
     }
     int id = jsonDecode(response.body)['id'];
     if (_image != null) {
-      await _updatePicture(id.toString(), _image).onError((error, stackTrace) {
+      await _updatePicture(id.toString(), _image)
+          .onError((error, stackTrace) async {
+        await _delRestroom(id);
         return Future.error(error ?? {}, stackTrace);
       });
     }
   }
 
   Future<void> _getImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    bool? isCamera = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text("Camera"),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text("gallery "),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (isCamera == null) return;
+    final pickedFile = await ImagePicker()
+        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -100,6 +131,19 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
         debugPrint('No image selected.');
       }
     });
+  }
+
+  Future<http.Response> _delRestroom(int id) async {
+    await requestNewToken(context);
+    Uri url = Uri.parse("$api$restroomRoverRestroomRoute/$id");
+    http.Response res = await http.delete(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }).timeout(const Duration(seconds: 10));
+    debugPrint(res.body);
+    if (res.statusCode != 200) {
+      return Future.error(res.reasonPhrase ?? "Failed to delete restroom");
+    }
+    return res;
   }
 
   Future<http.Response> _updatePicture(id, picture) async {
@@ -115,6 +159,8 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
         "file",
         File(picture.path).readAsBytesSync(),
         filename: picture.path,
+        contentType:
+            MediaType.parse(lookupMimeType(picture.path) ?? "image/jpeg"),
       ),
     );
     request.fields['id'] = id;

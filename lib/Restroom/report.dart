@@ -25,13 +25,6 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
       TextEditingController();
   final TextEditingController _topicTextController = TextEditingController();
   File? _image;
-  int remainingCharacters = 0;
-
-  void updateRemainingCharacters() {
-    setState(() {
-      remainingCharacters = _descriptionTextController.text.length;
-    });
-  }
 
   Future<void> _sendReport() async {
     debugPrint('Send report');
@@ -68,23 +61,36 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    debugPrint("init");
-    _descriptionTextController.addListener(updateRemainingCharacters);
-  }
-
-  @override
-  void dispose() {
-    _descriptionTextController.removeListener(updateRemainingCharacters);
-    _descriptionTextController.dispose();
-    super.dispose();
-  }
-
   Future<void> _getImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    bool? isCamera = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text("Camera"),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text("gallery "),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (isCamera == null) return;
+    final pickedFile = await ImagePicker()
+        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -142,9 +148,12 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                 borderRadius: 30,
                                 depth: -20,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 5, ),
+                                  padding: const EdgeInsets.only(
+                                    bottom: 5,
+                                  ),
                                   child: TextField(
-                                    style: text_input(_topicTextController.text,context),
+                                    style: text_input(
+                                        _topicTextController.text, context),
                                     maxLength: 20,
                                     controller: _topicTextController,
                                     onChanged: (text) {
@@ -193,7 +202,9 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                   alignment: Alignment.centerRight,
                                   children: [
                                     TextField(
-                                      style: text_input(_descriptionTextController.text, context),
+                                      style: text_input(
+                                          _descriptionTextController.text,
+                                          context),
                                       maxLength: 200,
                                       maxLines: 9,
                                       controller: _descriptionTextController,
@@ -204,7 +215,10 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                         // counterText: "",
                                         border: InputBorder.none,
                                         contentPadding: EdgeInsets.only(
-                                            left: 16, right: 16, bottom: 10,top: 15),
+                                            left: 16,
+                                            right: 16,
+                                            bottom: 10,
+                                            top: 15),
                                         hintText: 'Write a report...',
                                       ),
                                     ),
