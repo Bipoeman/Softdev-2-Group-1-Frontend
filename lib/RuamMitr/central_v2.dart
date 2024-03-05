@@ -66,18 +66,7 @@ class _HomePageV2State extends State<HomePageV2> {
     Size size = MediaQuery.of(context).size;
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
     ThemeData theme = themes.themeFrom("RuamMitr")!.themeData;
-    // ThemeData theme = Theme.of(context);
     BoxController reportBoxController = BoxController();
-    // String avatarTextBackgroundColorString = theme.colorScheme.primaryContainer
-    //     .toString()
-    //     .replaceAll("Color(", "")
-    //     .replaceAll(")", "")+
-    //     .substring(4);
-    // String avatarTextColorString = theme.colorScheme.onPrimaryContainer
-    //     .toString()
-    //     .replaceAll("Color(", "")
-    //     .replaceAll(")", "")
-    //     .substring(4);
     var nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
     if (profileData['profile'] != null) {
       profileData['imgPath'] = "${profileData['profile']}#$nowParam";
@@ -85,10 +74,6 @@ class _HomePageV2State extends State<HomePageV2> {
       profileData['imgPath'] =
           "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}.png";
     }
-    // profileData['imgPath'] = "${profileData['profile']}" ??
-    //     // "https://ui-avatars.com/api/?background=$avatarTextBackgroundColorString&color=$avatarTextColorString&size=512&name=${profileData['fullname'].replaceAll(" ", "+")}";
-    //     "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}.png";
-
     return Container(
       decoration: ruamMitrBackgroundGradient(themes),
       child: Theme(
