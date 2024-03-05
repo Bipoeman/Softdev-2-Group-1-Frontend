@@ -3,9 +3,7 @@ import 'dart:math';
 import 'dart:convert';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter/services.dart';
 import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:http/http.dart' as http;
@@ -208,7 +206,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                       color: customColors["onContainer"],
                                     ),
                                   )
-                                : SizedBox(),
+                                : const SizedBox(),
                           ),
                           Padding(
                             padding: EdgeInsets.only(

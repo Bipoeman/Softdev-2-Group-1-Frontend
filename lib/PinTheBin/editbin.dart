@@ -156,7 +156,7 @@ class _EditbinPageState extends State<EditbinPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.menu_rounded),
+                        const Icon(Icons.menu_rounded),
                         SizedBox(height: size.height * 0.015),
                       ],
                     ),
@@ -335,7 +335,7 @@ class _EditbinPageState extends State<EditbinPage> {
                           ClayContainer(
                             width: size.width * 0.8,
                             height: size.height * 0.15,
-                            color: Color.fromRGBO(239, 239, 239, 1),
+                            color: const Color.fromRGBO(239, 239, 239, 1),
                             borderRadius: 30,
                             depth: -15,
                             child: TextField(

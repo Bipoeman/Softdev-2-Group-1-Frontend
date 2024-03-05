@@ -502,7 +502,7 @@ class _HomePageV2State extends State<HomePageV2> {
     ThemeData theme,
     Size size,
     BuildContext context, {
-    required void onAnswer(bool isConfirm),
+    required void Function(bool isConfirm) onAnswer,
   }) {
     return AlertDialog(
       backgroundColor: theme.colorScheme.primaryContainer,

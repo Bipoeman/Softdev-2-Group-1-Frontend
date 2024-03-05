@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:http/http.dart' as http;
@@ -25,6 +24,7 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
   late Uri reporturl;
   bool status = false;
 
+  @override
   void initState() {
     super.initState();
     id_post = widget.id_post;

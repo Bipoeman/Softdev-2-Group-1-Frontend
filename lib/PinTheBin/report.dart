@@ -18,8 +18,8 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPageState extends State<ReportPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController _ReporttextController = TextEditingController();
-  TextEditingController _TitleController = TextEditingController();
+  final TextEditingController _ReporttextController = TextEditingController();
+  final TextEditingController _TitleController = TextEditingController();
   File? _image;
   Map<String, dynamic>? _more_info;
 
@@ -142,7 +142,7 @@ class _ReportPageState extends State<ReportPage> {
                   Padding(
                     padding: EdgeInsets.only(
                         top: size.height * 0.03, right: size.width * 0.1),
-                    child: Container(
+                    child: SizedBox(
                       width: size.width * 0.7,
                       height: size.height * 0.2,
                       child: data['Bininfo']['picture'] == null
