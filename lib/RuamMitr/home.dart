@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
-      bottomNavigationBar: MainNavigator(pageIndex: 1),
+      bottomNavigationBar: const MainNavigator(pageIndex: 1),
       body: SafeArea(
         child: profileData['fullname'] == null
             ? const Center(

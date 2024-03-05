@@ -1,5 +1,4 @@
 import "package:comment_box/comment/comment.dart";
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import "package:flutter_markdown/flutter_markdown.dart";
 import "package:ruam_mitt/TuachuayDekhor/Component/navbar.dart";
@@ -7,8 +6,6 @@ import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter/widgets.dart';
-import 'package:flutter/services.dart';
 import "package:ruam_mitt/global_const.dart";
 
 class TuachuayDekhorBlogPage extends StatefulWidget {
@@ -53,7 +50,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
     numsaveurl = Uri.parse("$api$dekhorNumsavePostRoute/$id_post");
     deleteposturl = Uri.parse("$api$dekhorDeletePostRoute/$id_post");
     _loadDetail();
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         showcomment();
       });
@@ -680,7 +677,7 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                     Container(
                                       alignment: Alignment.centerLeft,
                                       padding:
-                                          EdgeInsets.fromLTRB(16, 16, 16, 0),
+                                          const EdgeInsets.fromLTRB(16, 16, 16, 0),
                                       child: Text(
                                         detailpost.isNotEmpty
                                             ? detailpost[0]['title']

@@ -47,7 +47,7 @@ class LevelSelectionScreen extends StatelessWidget {
                   onTap: onBackPressed,
                   child: CircleAvatar(
                     radius: screenWidth * 0.045,
-                    backgroundColor: Color.fromARGB(0, 0, 0, 0),
+                    backgroundColor: const Color.fromARGB(0, 0, 0, 0),
                   ),
                 ),
               ),

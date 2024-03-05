@@ -105,7 +105,7 @@ class _AdminPageState extends State<AdminPage> {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             leading: GestureDetector(
-              child: Icon(
+              child: const Icon(
                 Icons.arrow_back_ios,
                 color: Colors.white,
               ),
@@ -114,7 +114,7 @@ class _AdminPageState extends State<AdminPage> {
               },
             ),
             backgroundColor: theme.colorScheme.primary,
-            title: Text(
+            title: const Text(
               "Administrator",
               style: TextStyle(
                 color: Colors.white,
