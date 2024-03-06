@@ -29,10 +29,10 @@ class _HomePageV2State extends State<HomePageV2> {
   GlobalKey<FormState> reportFormKey = GlobalKey();
   // GlobalKey<FormFieldState> appSelectKey = GlobalKey();
   TextEditingController titleController = TextEditingController();
-  TextEditingController explainationController = TextEditingController();
+  TextEditingController explanationController = TextEditingController();
   TextEditingController imageSelectionController = TextEditingController();
   FocusNode titleFocusNode = FocusNode();
-  FocusNode explainationFocusNode = FocusNode();
+  FocusNode explanationFocusNode = FocusNode();
   File? imageSelected;
 
   Future<File?> getImage() async {
@@ -244,7 +244,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                           if (titleController.text
                                                   .trim()
                                                   .isNotEmpty ||
-                                              explainationController.text
+                                              explanationController.text
                                                   .trim()
                                                   .isNotEmpty ||
                                               imageSelectionController
@@ -256,9 +256,9 @@ class _HomePageV2State extends State<HomePageV2> {
                                                       theme, size, context,
                                                       onAnswer: (isConfirm) {
                                                     if (isConfirm) {
-                                                      if (explainationFocusNode
+                                                      if (explanationFocusNode
                                                           .hasFocus) {
-                                                        explainationFocusNode
+                                                        explanationFocusNode
                                                             .unfocus();
                                                       }
                                                       if (titleFocusNode
@@ -271,7 +271,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                                       imageSelectionController
                                                           .clear();
                                                       titleController.clear();
-                                                      explainationController
+                                                      explanationController
                                                           .clear();
                                                       reportBoxController
                                                           .closeBox();
@@ -280,9 +280,8 @@ class _HomePageV2State extends State<HomePageV2> {
                                                   });
                                                 });
                                           } else {
-                                            if (explainationFocusNode
-                                                .hasFocus) {
-                                              explainationFocusNode.unfocus();
+                                            if (explanationFocusNode.hasFocus) {
+                                              explanationFocusNode.unfocus();
                                             }
                                             if (titleFocusNode.hasFocus) {
                                               titleFocusNode.unfocus();
@@ -290,7 +289,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                             reportFormKey.currentState?.reset();
                                             imageSelectionController.clear();
                                             titleController.clear();
-                                            explainationController.clear();
+                                            explanationController.clear();
                                             reportBoxController.closeBox();
                                           }
                                           setState(() {});
@@ -344,7 +343,7 @@ class _HomePageV2State extends State<HomePageV2> {
                             ),
                             SizedBox(height: size.height * 0.01),
                             Text(
-                              "Explaniation",
+                              "Explanation",
                               style: TextStyle(
                                 fontSize: 18,
                                 fontFamily:
@@ -353,8 +352,8 @@ class _HomePageV2State extends State<HomePageV2> {
                             ),
                             SizedBox(height: size.height * 0.01),
                             TextFormField(
-                              focusNode: explainationFocusNode,
-                              controller: explainationController,
+                              focusNode: explanationFocusNode,
+                              controller: explanationController,
 
                               // minLines: 1,
                               maxLines: 4,
@@ -453,7 +452,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                     request.fields['title'] =
                                         titleController.text;
                                     request.fields['description'] =
-                                        explainationController.text;
+                                        explanationController.text;
                                     // debugPrint(request.files.first);
                                     http.StreamedResponse res =
                                         await request.send();
@@ -463,7 +462,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                     reportFormKey.currentState?.reset();
                                     imageSelectionController.clear();
                                     titleController.clear();
-                                    explainationController.clear();
+                                    explanationController.clear();
                                     reportBoxController.closeBox();
                                   }
                                 },

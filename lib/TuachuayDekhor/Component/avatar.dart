@@ -7,14 +7,15 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
   const TuachuayDekhorAvatarViewer({
     super.key,
     required this.username,
-    this.avatarUrl,
+    required this.avatarUrl,
   });
 
   final String? username;
   final String? avatarUrl;
 
   Widget getAvatar(BuildContext context) {
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
 
     if (avatarUrl != null && avatarUrl!.isNotEmpty) {
@@ -46,7 +47,8 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
 
     return IntrinsicHeight(
