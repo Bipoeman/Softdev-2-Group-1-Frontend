@@ -58,7 +58,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
           print('Error compressing image');
         }
       }
-      return null; // Return null if there's an error or user cancels image picking
+      return null;
     }
 
     return Stack(
