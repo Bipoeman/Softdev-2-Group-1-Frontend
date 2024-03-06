@@ -22,6 +22,7 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
       try {
         return CircleAvatar(
           radius: 30,
+          backgroundColor: const Color.fromARGB(255, 218, 218, 218),
           backgroundImage: NetworkImage(avatarUrl!),
         );
       } catch (e) {
