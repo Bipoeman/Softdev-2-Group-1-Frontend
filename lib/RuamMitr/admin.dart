@@ -83,19 +83,6 @@ class _AdminPageState extends State<AdminPage> {
       issueList.addAll(aceptedIssueList);
       issueList.addAll(rejectedIssueList);
     });
-    // for (int issueIndex = 0; issueIndex < issueList.length; issueIndex++) {
-    //   for (var eachUser in alluserData) {
-    //     print(issueList[issueIndex]['id']);
-    //     if (issueList[issueIndex]['id'] == eachUser['id']) {
-    //       issueList[issueIndex]['profilePicture'] = eachUser['profile'];
-    //       issueList[issueIndex]['fullname'] = eachUser['fullname'];
-    //       alluserData.remove(eachUser);
-    //     }
-    //   }
-    // }
-    // for( var issue in issueList){
-    //   print("issue $issue");
-    // }
     setState(() {});
   }
 
