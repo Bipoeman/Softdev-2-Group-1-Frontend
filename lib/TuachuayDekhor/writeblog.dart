@@ -11,6 +11,7 @@ import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class TuachuayDekhorWriteBlogPage extends StatefulWidget {
   const TuachuayDekhorWriteBlogPage({super.key});
@@ -43,13 +44,22 @@ class _TuachuayDekhorWriteBlogPageState
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
+    if (pickedFile != null) {
+      var result =
+          await FlutterImageCompress.compressAndGetFile(
+        pickedFile.path,
+        pickedFile.path + '_compressed.jpg',
+        quality: 30,
+    );
+
+      setState(() {
+        if (result != null){
+          _image = File(result.path);
+        } else {
+          print('Error compressing image');
+        }
+      });
+    }
   }
 
   Future<void> writeblog(File? imageFile) async {
