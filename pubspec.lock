@@ -66,7 +66,7 @@ packages:
     source: hosted
     version: "4.0.3"
   audioplayers_darwin:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: audioplayers_darwin
       sha256: "3034e99a6df8d101da0f5082dcca0a2a99db62ab1d4ddb3277bed3f6f81afe08"
