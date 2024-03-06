@@ -371,8 +371,13 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                               context,
                                               tuachuayDekhorPageRoute[
                                                   "profileblogger"]!,
-                                              arguments: detailpost[0]['user']
-                                                  ['fullname'],
+                                              arguments: {
+                                                'username': detailpost[0]
+                                                    ['user']['fullname'],
+                                                'avatarUrl': detailpost[0]
+                                                        ['user']['profile'] ??
+                                                    "https://api.multiavatar.com/${detailpost[0]['user']['fullname']}.png",
+                                              },
                                             );
                                           },
                                           child: Row(
@@ -676,8 +681,8 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                     ),
                                     Container(
                                       alignment: Alignment.centerLeft,
-                                      padding:
-                                          const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 16, 16, 0),
                                       child: Text(
                                         detailpost.isNotEmpty
                                             ? detailpost[0]['title']
