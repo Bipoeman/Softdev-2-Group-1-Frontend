@@ -69,7 +69,8 @@ class MapRestroomRover extends StatelessWidget {
                 popupController: popupController,
                 markers: markers ?? defaultMarkers,
                 popupDisplayOptions: PopupDisplayOptions(
-                    animation: const PopupAnimation.fade(),
+                    animation: const PopupAnimation.fade(
+                        duration: Duration(milliseconds: 150)),
                     builder: (BuildContext context, Marker marker) {
                       Map<String, dynamic> data = restroomData
                           .filter((restroom) =>
