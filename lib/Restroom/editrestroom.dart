@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 import 'package:ruam_mitt/Restroom/Component/font.dart';
+import 'package:ruam_mitt/Restroom/Component/loading_screen.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -573,7 +574,10 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                             ),
                                             MaterialButton(
                                               onPressed: () {
+                                                showRestroomLoadingScreen(
+                                                    context);
                                                 _updateData().then((_) async {
+                                                  Navigator.pop(context);
                                                   Navigator
                                                       .pushReplacementNamed(
                                                           context,
@@ -582,7 +586,11 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                                 }).onError((error, stackTrace) {
                                                   debugPrint(
                                                       "Failed to update data: $error");
-                                                  Navigator.pop(context);
+                                                  Navigator.popUntil(
+                                                      context,
+                                                      ModalRoute.withName(
+                                                          restroomPageRoute[
+                                                              "editrestroom"]!));
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                     SnackBar(

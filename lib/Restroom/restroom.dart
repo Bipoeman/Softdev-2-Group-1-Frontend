@@ -4,6 +4,7 @@ import "package:flutter_map/flutter_map.dart";
 import "package:flutter_map_marker_popup/flutter_map_marker_popup.dart";
 import "package:latlong2/latlong.dart";
 import "package:ruam_mitt/Restroom/Component/Navbar.dart";
+import "package:ruam_mitt/Restroom/Component/loading_screen.dart";
 import 'package:ruam_mitt/Restroom/Component/map.dart';
 import "package:http/http.dart" as http;
 import "package:ruam_mitt/Restroom/Component/theme.dart";
@@ -60,6 +61,7 @@ class _RestroomRoverState extends State<RestroomRover> {
   @override
   void initState() {
     debugPrint("Init Restroom Page");
+    showRestroomLoadingScreen(context);
     Future.wait([getRestroomInfo(), getRestroomReview()])
         .timeout(const Duration(seconds: 10))
         .then((res) {
@@ -91,7 +93,9 @@ class _RestroomRoverState extends State<RestroomRover> {
           );
         }).toList();
       });
+      Navigator.pop(context);
     }).onError((error, stackTrace) {
+      Navigator.pop(context);
       ThemeData theme = Theme.of(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(

@@ -8,6 +8,7 @@ import "package:image_picker/image_picker.dart";
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:mime/mime.dart";
 import "package:ruam_mitt/Restroom/Component/font.dart";
+import "package:ruam_mitt/Restroom/Component/loading_screen.dart";
 import "package:ruam_mitt/Restroom/Component/navbar.dart";
 import "package:ruam_mitt/Restroom/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
@@ -392,7 +393,9 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                           ),
                           ElevatedButton(
                             onPressed: () {
+                              showRestroomLoadingScreen(context);
                               _sendReport().then((value) {
+                                Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Report sent"),
@@ -401,6 +404,7 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                                 Navigator.pop(context);
                               }).onError((error, stackTrace) {
                                 debugPrint("Error: $error");
+                                Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(

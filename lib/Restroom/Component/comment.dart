@@ -79,7 +79,7 @@ class _CardcommentState extends State<Cardcomment> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         widget.cardData["picture"] != null
-                            ? InteractiveImage(
+                            ? RestroomInteractiveImage(
                                 picture: widget.cardData["picture"])
                             : Container(),
                         Container(

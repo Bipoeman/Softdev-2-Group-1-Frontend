@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class InteractiveImage extends StatelessWidget {
-  const InteractiveImage(
+class RestroomInteractiveImage extends StatelessWidget {
+  const RestroomInteractiveImage(
       {super.key, required this.picture, this.width, this.height});
   final String picture;
   final double? width;

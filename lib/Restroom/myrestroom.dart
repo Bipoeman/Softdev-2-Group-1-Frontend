@@ -4,6 +4,7 @@ import "package:http/http.dart" as http;
 import "package:latlong2/latlong.dart";
 import "package:ruam_mitt/Restroom/Component/Navbar.dart";
 import "package:ruam_mitt/Restroom/Component/font.dart";
+import "package:ruam_mitt/Restroom/Component/loading_screen.dart";
 import "package:ruam_mitt/Restroom/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:google_fonts/google_fonts.dart';
@@ -55,6 +56,7 @@ class _MyRestroomState extends State<MyRestroomPage> {
   void initState() {
     super.initState();
     debugPrint("Init Restroom Page");
+    showRestroomLoadingScreen(context);
     myRestroomInfo().then((response) {
       debugPrint("Response");
       debugPrint(response.body);
@@ -62,8 +64,10 @@ class _MyRestroomState extends State<MyRestroomPage> {
         restroomData = jsonDecode(response.body);
         restroomShow = restroomData;
       });
+      Navigator.pop(context);
       // debugPrint(restroomData);
     }).onError((error, stackTrace) {
+      Navigator.pop(context);
       ThemeData theme = Theme.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -274,13 +278,12 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                                           ),
                                                           child: TextButton(
                                                             onPressed: () {
+                                                              showRestroomLoadingScreen(
+                                                                  context);
                                                               delRestroom(data[
                                                                       "id"])
                                                                   .then(
                                                                       (value) {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
                                                                 myRestroomInfo()
                                                                     .then(
                                                                         (response) {
@@ -296,12 +299,18 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                                                     restroomShow =
                                                                         restroomData;
                                                                   });
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                  Navigator.pop(
+                                                                      context);
                                                                 });
                                                               }).onError((error,
                                                                       stackTrace) {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
+                                                                Navigator.popUntil(
+                                                                    context,
+                                                                    ModalRoute.withName(
+                                                                        restroomPageRoute[
+                                                                            "myrestroom"]!));
                                                                 ScaffoldMessenger.of(
                                                                         context)
                                                                     .showSnackBar(
@@ -360,12 +369,15 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                                 child: Image.network(
                                                     "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702"),
                                               )
-                                            : ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                                child: Image.network(
-                                                  data["picture"],
-                                                  fit: BoxFit.cover,
+                                            : Center(
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                  child: Image.network(
+                                                    data["picture"],
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                               ),
                                       )

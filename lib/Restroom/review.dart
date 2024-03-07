@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Restroom/Component/font.dart';
 import 'package:ruam_mitt/Restroom/Component/interactive_image.dart';
+import 'package:ruam_mitt/Restroom/Component/loading_screen.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/Restroom/Component/write_review.dart';
@@ -49,13 +50,16 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
   @override
   void initState() {
     super.initState();
-
+    showRestroomLoadingScreen(context);
     getRestroomReview().timeout(const Duration(seconds: 10)).then((response) {
-      reviewData = jsonDecode(response.body);
-      setState(() {});
+      setState(() {
+        reviewData = jsonDecode(response.body);
+      });
+      Navigator.pop(context);
     }).onError((error, stackTrace) {
       debugPrint(error.toString());
       debugPrint(stackTrace.toString());
+      Navigator.pop(context);
       ThemeData theme = Theme.of(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
@@ -125,7 +129,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                         ),
                                       ),
                                     )
-                                  : InteractiveImage(
+                                  : RestroomInteractiveImage(
                                       picture: widget.restroomData["picture"],
                                       width: size.width * 0.8,
                                       height: size.height * 0.2,
