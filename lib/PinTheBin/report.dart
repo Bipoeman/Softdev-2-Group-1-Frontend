@@ -21,9 +21,16 @@ class ReportPage extends StatefulWidget {
 class _ReportPageState extends State<ReportPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _ReporttextController = TextEditingController();
-  TextEditingController _TitleController = TextEditingController();
   File? _image;
   Map<String, dynamic>? _more_info;
+  String dropdownvalue = '--Title--';
+  var items = [
+    '--Title--',
+    'Item 2',
+    'Item 3',
+    'Item 4',
+    'Item 5',
+  ];
 
   Future<void> _getImage() async {
     final picker = ImagePicker();
@@ -45,7 +52,7 @@ class _ReportPageState extends State<ReportPage> {
     }, body: {
       "binId": id,
       "description": _ReporttextController.text,
-      "title": _TitleController.text,
+      "title": dropdownvalue,
       "more_info": jsonEncode(_more_info),
     });
   }
@@ -189,43 +196,36 @@ class _ReportPageState extends State<ReportPage> {
                               color: const Color.fromRGBO(239, 239, 239, 1),
                               borderRadius: 30,
                               depth: -20,
-                              child: TextField(
-                                cursorHeight: size.height * 0.025,
-                                controller: _TitleController,
-                                onChanged: (text) {
-                                  print('Typed text: $text');
+                              child: DropdownButton(
+                                padding: EdgeInsets.only(
+                                    left: size.width * 0.02,
+                                    right: size.width * 0.02),
+                                value: dropdownvalue,
+                                dropdownColor:
+                                    const Color.fromRGBO(239, 239, 239, 1),
+                                icon: const Icon(Icons.keyboard_arrow_down),
+                                iconSize: size.width * 0.06,
+                                items: items.map((String items) {
+                                  return DropdownMenuItem(
+                                    value: items,
+                                    child: SizedBox(
+                                        width: size.width * 0.5,
+                                        child: Text(
+                                          items,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color:
+                                                Color.fromRGBO(0, 30, 49, 67),
+                                          ),
+                                        )),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    dropdownvalue = newValue!;
+                                  });
                                 },
-                                maxLength: 20,
-                                decoration: const InputDecoration(
-                                  labelText: "Title",
-                                  labelStyle: TextStyle(
-                                    color: Color.fromRGBO(0, 30, 49, 0.5),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12,
-                                  ),
-                                  counterText: "",
-                                  contentPadding: EdgeInsets.only(
-                                      left: 10, right: 10, bottom: 10),
-                                  isDense: true,
-                                  border: InputBorder.none,
-                                ),
-                                style: TextStyle(
-                                    fontFamily: _TitleController.text.contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? "THSarabunPSK"
-                                        : "Sen",
-                                    fontSize: _TitleController.text.contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? 22
-                                        : 16,
-                                    fontWeight: _TitleController.text.contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? FontWeight.w700
-                                        : FontWeight.normal,
-                                    color: const Color.fromRGBO(0, 30, 49, 67)),
                               ),
                             ),
                           ],
