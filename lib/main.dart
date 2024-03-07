@@ -32,6 +32,7 @@ import 'package:ruam_mitt/TuachuayDekhor/home.dart';
 import 'package:ruam_mitt/TuachuayDekhor/post.dart';
 import 'package:ruam_mitt/TuachuayDekhor/profile.dart';
 import 'package:ruam_mitt/TuachuayDekhor/report.dart';
+import 'package:ruam_mitt/TuachuayDekhor/reportapp.dart';
 import 'package:ruam_mitt/TuachuayDekhor/search.dart';
 import 'package:ruam_mitt/TuachuayDekhor/story.dart';
 import 'package:ruam_mitt/TuachuayDekhor/writeblog.dart';
@@ -139,20 +140,22 @@ class _SuperAppState extends State<SuperApp> {
           final args = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
 
-          final idPost = args['id_post'] as int;
-          final idBlogger = args['id_blogger'] as int;
+          final id_post = args['id_post'] as int;
+          final id_blogger = args['id_blogger'] as int;
           return TuachuayDekhorReportPage(
-              id_post: idPost, id_blogger: idBlogger);
+              id_post: id_post, id_blogger: id_blogger);
         },
         tuachuayDekhorPageRoute["detailreport"]!: (context) {
           final args = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
 
-          final idPost = args['id_post'] as int;
-          final idReport = args['id_report'] as int;
+          final id_post = args['id_post'] as int;
+          final id_report = args['id_report'] as int;
           return TuachuayDekhorDetailReportPage(
-              id_post: idPost, id_report: idReport);
+              id_post: id_post, id_report: id_report);
         },
+        tuachuayDekhorPageRoute["reportapp"]!: (context) =>
+            const TuachuayDekhorReportAppPage(),
         tuachuayDekhorPageRoute["admin"]!: (context) =>
             const TuachuayDekhorAdminPage(),
         pinthebinPageRoute["home"]!: (context) => const BinPage(),

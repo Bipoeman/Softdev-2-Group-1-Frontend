@@ -2,20 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
 import 'package:ruam_mitt/Restroom/Component/font.dart';
+import 'package:ruam_mitt/Restroom/Component/interactive_image.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Cardpin extends StatefulWidget {
+class Cardpin extends StatelessWidget {
   const Cardpin({super.key, required this.marker, required this.restroomData});
   final Marker marker;
   final Map<String, dynamic> restroomData;
 
-  @override
-  State<Cardpin> createState() => _CardpinState();
-}
-
-class _CardpinState extends State<Cardpin> {
   @override
   Widget build(BuildContext context) {
     MapController mapController = MapController.of(context);
@@ -51,10 +47,9 @@ class _CardpinState extends State<Cardpin> {
                           SizedBox(
                             width: 150 * zoomFactor,
                             child: Text(
-                              widget.restroomData["name"],
+                              restroomData["name"],
                               overflow: TextOverflow.ellipsis,
-                              style: name_place(
-                                  widget.restroomData["name"], context,
+                              style: name_place(restroomData["name"], context,
                                   size: zoomFactor),
                             ),
                           ),
@@ -62,14 +57,14 @@ class _CardpinState extends State<Cardpin> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                widget.restroomData["for_who"]["Handicapped"]
+                                restroomData["for_who"]["Handicapped"]
                                     ? Icon(Icons.accessible_sharp,
                                         size: 30 * zoomFactor)
                                     : SizedBox(
                                         width: 30 * zoomFactor,
                                         height: 30 * zoomFactor,
                                       ),
-                                widget.restroomData["for_who"]["Kid"]
+                                restroomData["for_who"]["Kid"]
                                     ? Icon(Icons.baby_changing_station,
                                         size: 30 * zoomFactor)
                                     : SizedBox(
@@ -90,10 +85,9 @@ class _CardpinState extends State<Cardpin> {
                         bottom: size.height * 0.01,
                         right: size.width * 0.1,
                       ),
-                      child: Text(widget.restroomData["address"],
+                      child: Text(restroomData["address"],
                           overflow: TextOverflow.ellipsis,
-                          style: text_input(
-                              widget.restroomData["address"], context,
+                          style: text_input(restroomData["address"], context,
                               size: zoomFactor)),
                     ),
                   ),
@@ -101,40 +95,30 @@ class _CardpinState extends State<Cardpin> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                          widget.restroomData["avg_star"]?.toStringAsFixed(1) ??
-                              "0.0",
-                          style: text_input(
-                              widget.restroomData["address"], context,
+                          restroomData["avg_star"]?.toStringAsFixed(1) ?? "0.0",
+                          style: text_input(restroomData["address"], context,
                               size: zoomFactor)),
                       SizedBox(
                         height: size.height * 0.05,
                         width: size.width * 0.35,
                         child: FlutterRating(
-                          rating: widget.restroomData["avg_star"]?.toDouble() ??
-                              0.0,
+                          rating: restroomData["avg_star"]?.toDouble() ?? 0.0,
                           size: size.height * 0.03,
                           mainAxisAlignment: MainAxisAlignment.center,
                         ),
                       ),
                       // ),
-                      Text("[ ${widget.restroomData["count"] ?? 0} ]",
-                          style: text_input(
-                              widget.restroomData["address"], context,
+                      Text("[ ${restroomData["count"] ?? 0} ]",
+                          style: text_input(restroomData["address"], context,
                               size: zoomFactor)),
                     ],
                   ),
                   Center(
-                    child: Container(
-                      padding: EdgeInsets.all(10 * zoomFactor),
+                    child: RestroomInteractiveImage(
+                      picture: restroomData["picture"] ??
+                          "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
                       height: size.height * 0.21,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.network(
-                          widget.restroomData["picture"] ??
-                              "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      borderRadius: 15 * zoomFactor,
                     ),
                   ),
                   Row(
@@ -144,7 +128,7 @@ class _CardpinState extends State<Cardpin> {
                         onPressed: () async {
                           debugPrint("Navigate me");
                           String googleMapUrl =
-                              'https://www.google.com/maps/search/?api=1&query=${widget.marker.point.latitude},${widget.marker.point.longitude}';
+                              'https://www.google.com/maps/search/?api=1&query=${marker.point.latitude},${marker.point.longitude}';
                           Uri googleUrl = Uri.parse(googleMapUrl);
                           if (!await launchUrl(googleUrl)) {
                             throw Exception('Could not launch $googleMapUrl');
@@ -168,11 +152,8 @@ class _CardpinState extends State<Cardpin> {
                       ElevatedButton(
                         onPressed: () {
                           Navigator.pushNamed(
-                                  context, restroomPageRoute["review"]!,
-                                  arguments: widget.restroomData)
-                              .then((value) {
-                            setState(() {});
-                          });
+                              context, restroomPageRoute["review"]!,
+                              arguments: restroomData);
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize:
