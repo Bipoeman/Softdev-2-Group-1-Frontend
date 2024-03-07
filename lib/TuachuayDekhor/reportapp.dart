@@ -42,37 +42,41 @@ class _TuachuayDekhorReportAppPageState
   }
 
   Future<void> _sendReport() async {
-    if (titleKey.currentState!.validate() &&
-        explanationKey.currentState!.validate()) {
-      Uri url = Uri.parse("$api$userPostIssueRoute");
-      http.MultipartRequest request = http.MultipartRequest('POST', url);
-      request.headers.addAll({
-        "Authorization": "Bearer $publicToken",
-        "Content-Type": "application/json"
-      });
-      if (imageSelected != null) {
-        request.files.add(
-          http.MultipartFile.fromBytes(
-            "file",
-            File(imageSelected!.path).readAsBytesSync(),
-            filename: imageSelected!.path,
-            contentType: MediaType.parse(
-                lookupMimeType(imageSelected!.path) ?? "image/jpeg"),
-          ),
-        );
+    try {
+      if (titleKey.currentState!.validate() &&
+          explanationKey.currentState!.validate()) {
+        Uri url = Uri.parse("$api$userPostIssueRoute");
+        http.MultipartRequest request = http.MultipartRequest('POST', url);
+        request.headers.addAll({
+          "Authorization": "Bearer $publicToken",
+          "Content-Type": "application/json"
+        });
+        if (imageSelected != null) {
+          request.files.add(
+            http.MultipartFile.fromBytes(
+              "file",
+              File(imageSelected!.path).readAsBytesSync(),
+              filename: imageSelected!.path,
+              contentType: MediaType.parse(
+                  lookupMimeType(imageSelected!.path) ?? "image/jpeg"),
+            ),
+          );
+        }
+        request.fields['type'] = "dekhor";
+        request.fields['title'] = titleController.text;
+        request.fields['description'] = explanationController.text;
+        http.StreamedResponse res = await request.send();
+        debugPrint(res.statusCode.toString());
+        http.Response response = await http.Response.fromStream(res);
+        debugPrint(response.body);
+        if (response.statusCode == 200) {
+          status = true;
+        } else {
+          status = false;
+        }
       }
-      request.fields['type'] = "dekhor";
-      request.fields['title'] = titleController.text;
-      request.fields['description'] = explanationController.text;
-      http.StreamedResponse res = await request.send();
-      debugPrint(res.statusCode.toString());
-      http.Response response = await http.Response.fromStream(res);
-      debugPrint(response.body);
-      if (response.statusCode == 200) {
-        status = true;
-      } else {
-        status = false;
-      }
+    } catch (e) {
+      print(e);
     }
   }
 
