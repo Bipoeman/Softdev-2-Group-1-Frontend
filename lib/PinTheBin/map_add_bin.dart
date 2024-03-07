@@ -99,9 +99,9 @@ class _MapaddBinPageState extends State<MapaddBinPage> {
           width: size.width * 0.25,
           height: size.height * 0.05,
           decoration: BoxDecoration(
-              color: Color(0xFFF9957F),
+              color: const Color(0xFFF9957F),
               borderRadius: BorderRadius.circular(30)),
-          child: Text(
+          child: const Text(
             "Confirm",
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),

@@ -1,8 +1,11 @@
 import "package:flutter/material.dart";
 import 'package:flutter_map/flutter_map.dart';
+import "package:latlong2/latlong.dart";
 import "package:ruam_mitt/Restroom/Component/font.dart";
+import "package:ruam_mitt/Restroom/Component/loading_screen.dart";
 import 'package:ruam_mitt/Restroom/Component/map.dart';
 import "package:http/http.dart" as http;
+import "package:ruam_mitt/Restroom/restroom.dart";
 import "package:ruam_mitt/global_const.dart";
 import "package:ruam_mitt/global_var.dart";
 import "dart:convert";
@@ -21,6 +24,7 @@ class _RestroomRoverFindPositionState extends State<RestroomRoverFindPosition> {
   // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   MapController editMapController = MapController();
   List<dynamic> restroomData = [];
+  List<Marker> markers = [];
   Future<http.Response> getRestroomInfo() async {
     debugPrint("Getting");
     Uri url = Uri.parse("$api$restroomRoverRestroomRoute");
@@ -34,13 +38,70 @@ class _RestroomRoverFindPositionState extends State<RestroomRoverFindPosition> {
     return res;
   }
 
+  Future<http.Response> getRestroomReview() async {
+    debugPrint("Getting Review");
+    Uri url = Uri.parse("$api$restroomRoverReviewRoute");
+    http.Response res = await http.get(
+      url,
+      headers: {
+        "Authorization": publicToken,
+      },
+    );
+    if (res.statusCode != 200) {
+      return Future.error(
+          res.reasonPhrase ?? "Failed to get review information.");
+    }
+    return res;
+  }
+
   @override
   void initState() {
     debugPrint("Init Restroom Page");
-    getRestroomInfo().then((response) {
-      restroomData = jsonDecode(response.body);
-      Future.delayed(const Duration(milliseconds: 500))
-          .then((value) => setState(() {}));
+    showRestroomLoadingScreen(context);
+    Future.wait([getRestroomInfo(), getRestroomReview()])
+        .timeout(const Duration(seconds: 10))
+        .then((res) {
+      var decoded = res
+          .map<List<dynamic>>((response) => jsonDecode(response.body))
+          .toList();
+
+      // Combine datas
+      setState(() {
+        restroomData = decoded[0].map((info) {
+          var founded = decoded[1].singleWhere(
+              (review) => review["id"] == info["id"],
+              orElse: () => null);
+          if (founded != null) {
+            info.addEntries(founded.entries);
+          }
+          return info;
+        }).toList();
+        markers = restroomData.map((restroom) {
+          return Marker(
+            point: LatLng(
+              restroom["latitude"].toDouble(),
+              restroom["longitude"].toDouble(),
+            ),
+            width: 50,
+            height: 50,
+            rotate: true,
+            child: RestroomMarker(restroomData: restroom),
+          );
+        }).toList();
+      });
+      Navigator.pop(context);
+    }).onError((error, stackTrace) {
+      Navigator.pop(context);
+      ThemeData theme = Theme.of(context);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "Failed to fetch data",
+          style: TextStyle(
+            color: theme.colorScheme.onPrimary,
+          ),
+        ),
+        backgroundColor: theme.colorScheme.primary,
+      ));
     });
     super.initState();
   }

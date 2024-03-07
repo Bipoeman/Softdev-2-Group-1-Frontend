@@ -43,7 +43,7 @@ class RestroomRoverNavbar extends StatelessWidget {
                     accountName: Container(
                         margin: const EdgeInsets.only(bottom: 15),
                         child: Text(
-                          profileData["username"],
+                          profileData["fullname"],
                           style: Theme.of(context).textTheme.headlineSmall,
                         )),
                     accountEmail: null,
@@ -75,7 +75,8 @@ class RestroomRoverNavbar extends StatelessWidget {
                     onTap: () {
                       // เมื่อเลือกรายการเมนู
                       // ปิดเมนูสไลด์
-                      Navigator.pushNamed(context, restroomPageRoute["home"]!);
+                      Navigator.pushReplacementNamed(
+                          context, restroomPageRoute["home"]!);
                       // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
                     },
                   ),
@@ -99,7 +100,7 @@ class RestroomRoverNavbar extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     onTap: () {
-                      Navigator.pushNamed(
+                      Navigator.pushReplacementNamed(
                           context, restroomPageRoute["addrestroom"]!);
                     },
                   ),
@@ -125,7 +126,7 @@ class RestroomRoverNavbar extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     onTap: () {
-                      Navigator.pushNamed(
+                      Navigator.pushReplacementNamed(
                           context, restroomPageRoute["myrestroom"]!);
                     },
                   ),
@@ -152,7 +153,7 @@ class RestroomRoverNavbar extends StatelessWidget {
                     onTap: () {
                       // เมื่อเลือกรายการเมนู
                       // ปิดเมนูสไลด์
-                      Navigator.pushNamed(
+                      Navigator.pushReplacementNamed(
                           context, restroomPageRoute["report"]!);
                       // สามารถเพิ่มโค้ดเมนูเมื่อเลือกรายการได้ที่นี่
                     },
@@ -183,7 +184,7 @@ class RestroomRoverNavbar extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         ruamMitrPageRoute["homev2"]!,
-                        (route) => false,
+                        ModalRoute.withName(ruamMitrPageRoute["homev2"]!),
                       );
                     },
                   ),

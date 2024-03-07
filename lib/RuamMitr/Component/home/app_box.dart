@@ -25,10 +25,14 @@ class AppBox extends StatelessWidget {
         //   Image.asset(appIconPath!).image,
         //   size: 50,
         // );
-        return Padding(
+        return Container(
+          height: height * 1,
           padding: const EdgeInsets.symmetric(vertical: 15),
-          child: Image.asset(
-            appIconPath!,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(
+              appIconPath!,
+            ),
           ),
         );
       } catch (_) {}

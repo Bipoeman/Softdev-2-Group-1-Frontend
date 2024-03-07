@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 TextStyle text_input(String text, BuildContext context, {double size = 1.0}) {
   return TextStyle(
@@ -41,7 +40,7 @@ TextStyle name_place(String text, BuildContext context, {double size = 1.0}) {
     fontWeight: text.contains(
       RegExp("[ก-๛]"),
     )
-        ? FontWeight.w700
+        ? FontWeight.w900
         : FontWeight.w700,
     height: text.contains(
       RegExp("[ก-๛]"),

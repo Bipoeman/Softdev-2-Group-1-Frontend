@@ -26,16 +26,18 @@ class _MyBinState extends State<MyBinPage> {
     http.Response res =
         await http.get(url, headers: {"Authorization": "Bearer $publicToken"});
     print(res.body);
-    if (res.statusCode == 200)
+    if (res.statusCode == 200) {
       return res;
-    else
+    } else {
       return binData;
+    }
   }
 
   Future<http.Response> delBin(int id) async {
     Uri url = Uri.parse("$api$pinTheBinDeleteBinRoute/$id");
-    return await http
-        .delete(url, headers: {"Authorization": "Bearer $publicToken"});
+    return await http.delete(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }).timeout(const Duration(seconds: 5));
   }
 
   @override
@@ -91,7 +93,7 @@ class _MyBinState extends State<MyBinPage> {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: const Color(0xFFF77F00),
+                              color: Color(0xFFF77F00),
                             ),
                           ))
                     ]
@@ -283,18 +285,10 @@ class _MyBinState extends State<MyBinPage> {
                                                                         10),
                                                           ),
                                                           child: TextButton(
-                                                            onPressed:
-                                                                () async {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                              http.Response
-                                                                  res =
-                                                                  await delBin(
-                                                                      data[
-                                                                          "id"]);
-                                                              if (res.statusCode ==
-                                                                  200) {
+                                                            onPressed: () {
+                                                              delBin(data["id"])
+                                                                  .then(
+                                                                      (response) {
                                                                 ScaffoldMessenger.of(
                                                                         context)
                                                                     .showSnackBar(
@@ -313,7 +307,16 @@ class _MyBinState extends State<MyBinPage> {
                                                                             300],
                                                                   ),
                                                                 );
-                                                              } else {
+                                                                Navigator
+                                                                    .pushReplacementNamed(
+                                                                  context,
+                                                                  pinthebinPageRoute[
+                                                                      "mybin"]!,
+                                                                );
+                                                              }).onError((error,
+                                                                      stackTrace) {
+                                                                debugPrint(error
+                                                                    .toString());
                                                                 ScaffoldMessenger.of(
                                                                         context)
                                                                     .showSnackBar(
@@ -332,15 +335,9 @@ class _MyBinState extends State<MyBinPage> {
                                                                             .red,
                                                                   ),
                                                                 );
-                                                              }
-                                                              Navigator
-                                                                  .pushReplacement(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            const MyBinPage()),
-                                                              );
+                                                                Navigator.pop(
+                                                                    context);
+                                                              });
                                                             },
                                                             child: const Text(
                                                               'Delete',
