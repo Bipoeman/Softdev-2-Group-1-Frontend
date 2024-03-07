@@ -299,10 +299,11 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                                                     restroomShow =
                                                                         restroomData;
                                                                   });
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                  Navigator.pop(
-                                                                      context);
+                                                                  Navigator.popUntil(
+                                                                      context,
+                                                                      ModalRoute
+                                                                          .withName(
+                                                                              restroomPageRoute["myrestroom"]!));
                                                                 });
                                                               }).onError((error,
                                                                       stackTrace) {
@@ -617,7 +618,13 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
                     widget.search([tempRestroomData[index]]);
                     suggestionController
                         .closeView(tempRestroomData[index]['name']);
-                    widget.focusNode.unfocus();
+                    Future.delayed(const Duration(milliseconds: 500))
+                        .then((value) {
+                      debugPrint(
+                          "Selected focus ? ${widget.focusNode.hasFocus}");
+                      widget.focusNode.unfocus();
+                      suggestionController.clear();
+                    });
                   },
                   child: Container(
                     color: Theme.of(context).colorScheme.background,

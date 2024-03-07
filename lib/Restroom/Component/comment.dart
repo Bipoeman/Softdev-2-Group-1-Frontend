@@ -80,7 +80,10 @@ class _CardcommentState extends State<Cardcomment> {
                       children: [
                         widget.cardData["picture"] != null
                             ? RestroomInteractiveImage(
-                                picture: widget.cardData["picture"])
+                                picture: widget.cardData["picture"],
+                                width: size.width * 0.3,
+                                height: size.height * 0.2,
+                              )
                             : Container(),
                         Container(
                           width: size.width * 0.5,

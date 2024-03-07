@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 
 class RestroomInteractiveImage extends StatelessWidget {
   const RestroomInteractiveImage(
-      {super.key, required this.picture, this.width, this.height});
+      {super.key,
+      required this.picture,
+      this.width,
+      this.height,
+      this.borderRadius});
   final String picture;
   final double? width;
   final double? height;
+  final double? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +52,10 @@ class RestroomInteractiveImage extends StatelessWidget {
         );
       },
       child: SizedBox(
-        width: width == null ? size.width * 0.3 : width!,
-        height: height == null ? size.height * 0.2 : height!,
+        width: width,
+        height: height,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(borderRadius ?? 20),
           child: Image.network(
             picture,
             fit: BoxFit.cover,

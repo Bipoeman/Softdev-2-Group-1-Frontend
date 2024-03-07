@@ -145,7 +145,8 @@ class _RestroomRoverState extends State<RestroomRover> {
                     if (data['name'] == selectedValue) {
                       setState(() {
                         LatLng centerMark = restroom.point;
-                        _mapController.move(centerMark, 15);
+                        _mapController.move(centerMark, 15,
+                            offset: Offset(0, size.height / 4));
                         _popupController.showPopupsOnlyFor([restroom]);
                       });
                     }
@@ -294,6 +295,13 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
                     widget.onSelected(tempRestroomData[index]['name']);
                     suggestionController
                         .closeView(tempRestroomData[index]['name']);
+                    Future.delayed(const Duration(milliseconds: 500))
+                        .then((value) {
+                      debugPrint(
+                          "Selected focus ? ${widget.focusNode.hasFocus}");
+                      widget.focusNode.unfocus();
+                      suggestionController.clear();
+                    });
                   },
                   child: Container(
                     color: Theme.of(context).colorScheme.background,
