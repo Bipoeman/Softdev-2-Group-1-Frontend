@@ -7,20 +7,22 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
   const TuachuayDekhorAvatarViewer({
     super.key,
     required this.username,
-    this.avatarUrl,
+    required this.avatarUrl,
   });
 
   final String? username;
   final String? avatarUrl;
 
   Widget getAvatar(BuildContext context) {
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
 
     if (avatarUrl != null && avatarUrl!.isNotEmpty) {
       try {
         return CircleAvatar(
           radius: 30,
+          backgroundColor: const Color.fromARGB(255, 218, 218, 218),
           backgroundImage: NetworkImage(avatarUrl!),
         );
       } catch (e) {
@@ -46,7 +48,8 @@ class TuachuayDekhorAvatarViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
 
     return IntrinsicHeight(

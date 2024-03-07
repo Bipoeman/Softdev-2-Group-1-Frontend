@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/search_box.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
-import 'dart:ui';
 // import 'package:ruam_mitt/RuamMitr/Component/home_v2/central_v2.dart';
 
 class NavbarTuachuayDekhor extends StatelessWidget {
@@ -135,18 +133,42 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                             context, tuachuayDekhorPageRoute["profile"]!);
                       },
                     ),
+                  if (profileData['role'] == "User")
+                    PopupMenuItem(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.report,
+                            color: customColors["icon1"]!,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Report",
+                            style: TextStyle(
+                              color: customColors["icon1"]!,
+                            ),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, tuachuayDekhorPageRoute["reportapp"]!);
+                      },
+                    ),
                   PopupMenuItem(
-                    child: Row(
+                    child: const Row(
                       children: [
                         Icon(
                           Icons.logout,
-                          color: customColors["onContainer"]!,
+                          color: Colors.red,
                         ),
-                        const SizedBox(width: 10),
+                        SizedBox(width: 10),
                         Text(
                           "RuamMitr",
                           style: TextStyle(
-                            color: customColors["onContainer"]!,
+                            color: Colors.red,
                           ),
                         ),
                       ],

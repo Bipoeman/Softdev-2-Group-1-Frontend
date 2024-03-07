@@ -315,7 +315,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
           ],
         ),
         drawerScrimColor: Colors.transparent,
-        drawer: RestroomRoverNavbar(),
+        drawer: const RestroomRoverNavbar(),
       ),
     );
   }

@@ -2,7 +2,7 @@ import "dart:convert";
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import "package:latlong2/latlong.dart";
-import "package:ruam_mitt/Restroom/Component/Navbar.dart";
+import "package:ruam_mitt/Restroom/Component/navbar.dart";
 import "package:ruam_mitt/Restroom/Component/font.dart";
 import "package:ruam_mitt/Restroom/Component/loading_screen.dart";
 import "package:ruam_mitt/Restroom/Component/theme.dart";

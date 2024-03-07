@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
-      bottomNavigationBar: MainNavigator(pageIndex: 0),
+      bottomNavigationBar: const MainNavigator(pageIndex: 0),
       body: SafeArea(
         child: profileData['fullname'] == null
             ? const Center(

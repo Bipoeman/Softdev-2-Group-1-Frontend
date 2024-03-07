@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
-import 'package:flutter/widgets.dart';
 
 class BlogBox extends StatelessWidget {
   const BlogBox({
@@ -49,17 +47,33 @@ class BlogBox extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IntrinsicHeight(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: size.width * 0.23,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10), // มุมซ้ายบน
+                      topRight: Radius.circular(10), // มุมขวาบน
+                    ),
+                    color: Color.fromARGB(255, 215, 213, 213),
+                  ),
                 ),
-                child: Image(
-                  image: image,
-                  fit: BoxFit.cover,
+                IntrinsicHeight(
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                    child: Image(
+                      image: image,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
             Container(
               padding: const EdgeInsets.only(

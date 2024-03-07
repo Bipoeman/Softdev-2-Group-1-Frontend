@@ -3,10 +3,8 @@ import 'dart:io';
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
 import 'package:image_picker/image_picker.dart';
-import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
-import 'package:neumorphic_button/neumorphic_button.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
@@ -115,12 +113,12 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
     double blurRecycling = isPressedRecycling ? 5.0 : 5;
 
     Offset distanceWaste = isPressedWaste
-        ? Offset(5, 5)
+        ? const Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
     double blurWaste = isPressedWaste ? 5.0 : 5;
 
     Offset distanceGeneral = isPressedGeneral
-        ? Offset(5, 5)
+        ? const Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
     double blurGeneral = isPressedGeneral ? 5.0 : 5;
     return Theme(
@@ -232,7 +230,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Align(
                           alignment: Alignment.topLeft,
                           child: Container(
-                            padding: EdgeInsets.only(left: 20),
+                            padding: const EdgeInsets.only(left: 20),
                             child: Padding(
                               padding: const EdgeInsets.only(top: 25),
                               child: Text(

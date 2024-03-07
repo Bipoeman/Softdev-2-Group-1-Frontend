@@ -19,6 +19,7 @@ class AdminPage extends StatefulWidget {
 class ReportData {
   late Map<String, bool> isInitiallyBlank;
   late Map<String, TextEditingController> fieldController;
+  late Map<String, dynamic> userData;
   ReportData(List<String> fields) {
     isInitiallyBlank = {for (var element in fields) element: true};
     fieldController = {
@@ -39,6 +40,7 @@ class _AdminPageState extends State<AdminPage> {
       ReportData(["username", "title", "app", "description"]);
 
   bool isAccept = true;
+
 
   Future<void> getAllIssue() async {
     issueList = [];
@@ -105,7 +107,7 @@ class _AdminPageState extends State<AdminPage> {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             leading: GestureDetector(
-              child: Icon(
+              child: const Icon(
                 Icons.arrow_back_ios,
                 color: Colors.white,
               ),
@@ -114,7 +116,7 @@ class _AdminPageState extends State<AdminPage> {
               },
             ),
             backgroundColor: theme.colorScheme.primary,
-            title: Text(
+            title: const Text(
               "Administrator",
               style: TextStyle(
                 color: Colors.white,
@@ -126,7 +128,7 @@ class _AdminPageState extends State<AdminPage> {
             onBoxOpen: () {
               // ["username", "title", "app", "description"]
               reportDataDisplay.fieldController['username']!.text =
-                  selectedIssue['user_id'].toString();
+                  selectedIssue['id'].toString();
               reportDataDisplay.fieldController['title']!.text =
                   selectedIssue['title'].toString();
               reportDataDisplay.fieldController['description']!.text =
