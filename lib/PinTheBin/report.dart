@@ -152,21 +152,59 @@ class _ReportPageState extends State<ReportPage> {
                     child: SizedBox(
                       width: size.width * 0.7,
                       height: size.height * 0.2,
-                      child: data['Bininfo']['picture'] == null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: Image.asset(
-                                "assets/images/PinTheBin/bin_null.png",
-                                fit: BoxFit.contain,
-                              ),
-                            )
-                          : ClipRRect(
-                              // borderRadius: BorderRadius.circular(15),
-                              child: Image.network(
-                                data['Bininfo']['picture'],
-                                fit: BoxFit.contain,
-                              ),
-                            ),
+                      child: InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Stack(
+                                  children: [
+                                    Center(
+                                        child: SizedBox(
+                                      width: size.width,
+                                      height: size.height,
+                                      child: InteractiveViewer(
+                                        maxScale: 10,
+                                        child:
+                                            data['Bininfo']['picture'] == null
+                                                ? Image.asset(
+                                                    "assets/images/PinTheBin/bin_null.png",
+                                                    fit: BoxFit.contain,
+                                                  )
+                                                : Image.network(
+                                                    data['Bininfo']['picture'],
+                                                  ),
+                                      ),
+                                    )),
+                                    Align(
+                                      alignment: Alignment.topRight,
+                                      child: IconButton(
+                                        icon: const Icon(
+                                          Icons.close,
+                                          size: 30,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: ClipRRect(
+                            child: data['Bininfo']['picture'] == null
+                                ? Image.asset(
+                                    "assets/images/PinTheBin/bin_null.png",
+                                    fit: BoxFit.contain,
+                                  )
+                                : Image.network(
+                                    data['Bininfo']['picture'],
+                                    fit: BoxFit.contain,
+                                  ),
+                          )),
                     ),
                   ),
                   Padding(
@@ -219,6 +257,7 @@ class _ReportPageState extends State<ReportPage> {
                                         )),
                                   );
                                 }).toList(),
+                                borderRadius: BorderRadius.circular(30),
                                 onChanged: (String? newValue) {
                                   setState(() {
                                     dropdownvalue = newValue!;
@@ -443,7 +482,7 @@ class _ReportPageState extends State<ReportPage> {
                             child: InkWell(
                               borderRadius: BorderRadius.circular(30),
                               onTap: () {
-                                Navigator.pushNamed(
+                                Navigator.pushReplacementNamed(
                                   context,
                                   pinthebinPageRoute["home"]!,
                                 );
@@ -497,7 +536,7 @@ class _ReportPageState extends State<ReportPage> {
                                         backgroundColor: Colors.green[300],
                                       ),
                                     );
-                                    Navigator.pushNamed(
+                                    Navigator.pushReplacementNamed(
                                       context,
                                       pinthebinPageRoute["home"]!,
                                     );
