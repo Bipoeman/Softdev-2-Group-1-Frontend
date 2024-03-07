@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_native/flutter_rating_native.dart';
 import 'package:ruam_mitt/Restroom/Component/font.dart';
+import 'package:ruam_mitt/Restroom/Component/interactive_image.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 
 class Cardcomment extends StatefulWidget {
@@ -78,41 +79,8 @@ class _CardcommentState extends State<Cardcomment> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         widget.cardData["picture"] != null
-                            ? InkWell(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Stack(
-                                        children: [
-                                          Center(
-                                              child: SizedBox(
-                                            width: size.width,
-                                            height: size.height,
-                                            child: InteractiveViewer(
-                                              maxScale: 10,
-                                              child: Image.network(
-                                                widget.cardData["picture"],
-                                              ),
-                                            ),
-                                          ))
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                child: SizedBox(
-                                  width: size.width * 0.3,
-                                  height: size.height * 0.2,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Image.network(
-                                      widget.cardData["picture"],
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              )
+                            ? InteractiveImage(
+                                picture: widget.cardData["picture"])
                             : Container(),
                         Container(
                           width: size.width * 0.5,
