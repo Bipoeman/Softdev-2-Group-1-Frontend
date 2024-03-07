@@ -18,10 +18,17 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPageState extends State<ReportPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final TextEditingController _ReporttextController = TextEditingController();
-  final TextEditingController _TitleController = TextEditingController();
+  TextEditingController _ReporttextController = TextEditingController();
   File? _image;
   Map<String, dynamic>? _more_info;
+  String dropdownvalue = '--Title--';
+  var items = [
+    '--Title--',
+    'Item 2',
+    'Item 3',
+    'Item 4',
+    'Item 5',
+  ];
 
   Future<void> _getImage() async {
     final picker = ImagePicker();
@@ -43,7 +50,7 @@ class _ReportPageState extends State<ReportPage> {
     }, body: {
       "binId": id,
       "description": _ReporttextController.text,
-      "title": _TitleController.text,
+      "title": dropdownvalue,
       "more_info": jsonEncode(_more_info),
     });
   }
@@ -145,21 +152,59 @@ class _ReportPageState extends State<ReportPage> {
                     child: SizedBox(
                       width: size.width * 0.7,
                       height: size.height * 0.2,
-                      child: data['Bininfo']['picture'] == null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: Image.asset(
-                                "assets/images/PinTheBin/bin_null.png",
-                                fit: BoxFit.contain,
-                              ),
-                            )
-                          : ClipRRect(
-                              // borderRadius: BorderRadius.circular(15),
-                              child: Image.network(
-                                data['Bininfo']['picture'],
-                                fit: BoxFit.contain,
-                              ),
-                            ),
+                      child: InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Stack(
+                                  children: [
+                                    Center(
+                                        child: SizedBox(
+                                      width: size.width,
+                                      height: size.height,
+                                      child: InteractiveViewer(
+                                        maxScale: 10,
+                                        child:
+                                            data['Bininfo']['picture'] == null
+                                                ? Image.asset(
+                                                    "assets/images/PinTheBin/bin_null.png",
+                                                    fit: BoxFit.contain,
+                                                  )
+                                                : Image.network(
+                                                    data['Bininfo']['picture'],
+                                                  ),
+                                      ),
+                                    )),
+                                    Align(
+                                      alignment: Alignment.topRight,
+                                      child: IconButton(
+                                        icon: const Icon(
+                                          Icons.close,
+                                          size: 30,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: ClipRRect(
+                            child: data['Bininfo']['picture'] == null
+                                ? Image.asset(
+                                    "assets/images/PinTheBin/bin_null.png",
+                                    fit: BoxFit.contain,
+                                  )
+                                : Image.network(
+                                    data['Bininfo']['picture'],
+                                    fit: BoxFit.contain,
+                                  ),
+                          )),
                     ),
                   ),
                   Padding(
@@ -187,43 +232,37 @@ class _ReportPageState extends State<ReportPage> {
                               color: const Color.fromRGBO(239, 239, 239, 1),
                               borderRadius: 30,
                               depth: -20,
-                              child: TextField(
-                                cursorHeight: size.height * 0.025,
-                                controller: _TitleController,
-                                onChanged: (text) {
-                                  print('Typed text: $text');
+                              child: DropdownButton(
+                                padding: EdgeInsets.only(
+                                    left: size.width * 0.02,
+                                    right: size.width * 0.02),
+                                value: dropdownvalue,
+                                dropdownColor:
+                                    const Color.fromRGBO(239, 239, 239, 1),
+                                icon: const Icon(Icons.keyboard_arrow_down),
+                                iconSize: size.width * 0.06,
+                                items: items.map((String items) {
+                                  return DropdownMenuItem(
+                                    value: items,
+                                    child: SizedBox(
+                                        width: size.width * 0.5,
+                                        child: Text(
+                                          items,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color:
+                                                Color.fromRGBO(0, 30, 49, 67),
+                                          ),
+                                        )),
+                                  );
+                                }).toList(),
+                                borderRadius: BorderRadius.circular(30),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    dropdownvalue = newValue!;
+                                  });
                                 },
-                                maxLength: 20,
-                                decoration: const InputDecoration(
-                                  labelText: "Title",
-                                  labelStyle: TextStyle(
-                                    color: Color.fromRGBO(0, 30, 49, 0.5),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12,
-                                  ),
-                                  counterText: "",
-                                  contentPadding: EdgeInsets.only(
-                                      left: 10, right: 10, bottom: 10),
-                                  isDense: true,
-                                  border: InputBorder.none,
-                                ),
-                                style: TextStyle(
-                                    fontFamily: _TitleController.text.contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? "THSarabunPSK"
-                                        : "Sen",
-                                    fontSize: _TitleController.text.contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? 22
-                                        : 16,
-                                    fontWeight: _TitleController.text.contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? FontWeight.w700
-                                        : FontWeight.normal,
-                                    color: const Color.fromRGBO(0, 30, 49, 67)),
                               ),
                             ),
                           ],
@@ -443,7 +482,7 @@ class _ReportPageState extends State<ReportPage> {
                             child: InkWell(
                               borderRadius: BorderRadius.circular(30),
                               onTap: () {
-                                Navigator.pushNamed(
+                                Navigator.pushReplacementNamed(
                                   context,
                                   pinthebinPageRoute["home"]!,
                                 );
@@ -497,7 +536,7 @@ class _ReportPageState extends State<ReportPage> {
                                         backgroundColor: Colors.green[300],
                                       ),
                                     );
-                                    Navigator.pushNamed(
+                                    Navigator.pushReplacementNamed(
                                       context,
                                       pinthebinPageRoute["home"]!,
                                     );
