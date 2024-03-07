@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart' show DateFormat;
@@ -45,13 +46,19 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
       final ImagePicker picker = ImagePicker();
       // Pick an image
       XFile? image = await picker.pickImage(source: ImageSource.gallery);
-      if (image == null) {
-        return null;
+      if (image != null) {
+        var result = await FlutterImageCompress.compressAndGetFile(
+          image.path,
+          image.path + '_compressed.jpg',
+          quality: 30,
+        );
+        if (result != null) {
+          return File(result.path);
+        } else {
+          print('Error compressing image');
+        }
       }
-      //TO convert Xfile into file
-      File file = File(image.path);
-      //print(‘Image picked’);
-      return file;
+      return null;
     }
 
     return Stack(

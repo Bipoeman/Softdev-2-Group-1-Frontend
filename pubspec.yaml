@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_image_compress: ^2.1.0
+  path_provider: ^2.1.2 
   quickalert:
   # flutter_map_location_marker: ^8.0.4
   url_launcher: ^6.2.4
@@ -81,7 +83,6 @@ dependencies:
 flutter_icons:
   android: true
   image_path: "assets/Logo/appLogoCircle.png"
-
 
 dev_dependencies:
   flutter_test:

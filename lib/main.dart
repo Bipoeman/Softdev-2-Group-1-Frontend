@@ -32,6 +32,7 @@ import 'package:ruam_mitt/TuachuayDekhor/home.dart';
 import 'package:ruam_mitt/TuachuayDekhor/post.dart';
 import 'package:ruam_mitt/TuachuayDekhor/profile.dart';
 import 'package:ruam_mitt/TuachuayDekhor/report.dart';
+import 'package:ruam_mitt/TuachuayDekhor/reportapp.dart';
 import 'package:ruam_mitt/TuachuayDekhor/search.dart';
 import 'package:ruam_mitt/TuachuayDekhor/story.dart';
 import 'package:ruam_mitt/TuachuayDekhor/writeblog.dart';
@@ -75,7 +76,8 @@ class _SuperAppState extends State<SuperApp> {
         registerPageRoute: (context) => const RegisterPage(),
         ruamMitrPageRoute["home"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
-        ruamMitrPageRoute["password-change"]!: (context) => const PasswordChangePage(),
+        ruamMitrPageRoute["password-change"]!: (context) =>
+            const PasswordChangePage(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => RestroomRoverReview(
               restroomData: ModalRoute.of(context)!.settings.arguments
@@ -135,25 +137,32 @@ class _SuperAppState extends State<SuperApp> {
               username: username, avatarUrl: avatarUrl);
         },
         tuachuayDekhorPageRoute["report"]!: (context) {
-          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
 
           final id_post = args['id_post'] as int;
           final id_blogger = args['id_blogger'] as int;
-          return TuachuayDekhorReportPage(id_post: id_post, id_blogger: id_blogger);
+          return TuachuayDekhorReportPage(
+              id_post: id_post, id_blogger: id_blogger);
         },
         tuachuayDekhorPageRoute["detailreport"]!: (context) {
-          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
 
           final id_post = args['id_post'] as int;
           final id_report = args['id_report'] as int;
-          return TuachuayDekhorDetailReportPage(id_post: id_post, id_report: id_report);
+          return TuachuayDekhorDetailReportPage(
+              id_post: id_post, id_report: id_report);
         },
+        tuachuayDekhorPageRoute["reportapp"]!: (context) =>
+            const TuachuayDekhorReportAppPage(),
         tuachuayDekhorPageRoute["admin"]!: (context) =>
             const TuachuayDekhorAdminPage(),
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPageV2(),
         pinthebinPageRoute["editbin"]!: (context) => EditbinPage(
-            binData: ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>),
+            binData: ModalRoute.of(context)?.settings.arguments
+                as Map<String, dynamic>),
         pinthebinPageRoute["mybin"]!: (context) => const MyBinPage(),
         pinthebinPageRoute["report"]!: (context) => const ReportPage(),
       },

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
@@ -51,13 +52,22 @@ class _TuachuayDekhorEditDraftPageState
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
+    if (pickedFile != null) {
+      var result =
+          await FlutterImageCompress.compressAndGetFile(
+        pickedFile.path,
+        pickedFile.path + '_compressed.jpg',
+        quality: 20,
+    );
+
+      setState(() {
+        if (result != null){
+          _image = File(result.path);
+        } else {
+          print('Error compressing image');
+        }
+      });
+    }
   }
 
   Future<void> _loadDetail() async {
