@@ -4,6 +4,7 @@ import "package:http/http.dart" as http;
 import "package:latlong2/latlong.dart";
 import "package:ruam_mitt/Restroom/Component/navbar.dart";
 import "package:ruam_mitt/Restroom/Component/font.dart";
+import "package:ruam_mitt/Restroom/Component/loading_screen.dart";
 import "package:ruam_mitt/Restroom/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:google_fonts/google_fonts.dart';
@@ -27,11 +28,13 @@ class _MyRestroomState extends State<MyRestroomPage> {
   Future<http.Response> myRestroomInfo() async {
     await requestNewToken(context);
     Uri url = Uri.parse("$api$restroomRoverMyRestroomRoute");
-    http.Response res = await http.get(url,
-        headers: {"Authorization": "Bearer $publicToken"}).timeout(const Duration(seconds: 10));
+    http.Response res = await http.get(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }).timeout(const Duration(seconds: 10));
     debugPrint(res.body);
     if (res.statusCode != 200) {
-      return Future.error(res.reasonPhrase ?? "Failed to get restroom information.");
+      return Future.error(
+          res.reasonPhrase ?? "Failed to get restroom information.");
     }
     return res;
   }
@@ -39,8 +42,9 @@ class _MyRestroomState extends State<MyRestroomPage> {
   Future<http.Response> delRestroom(int id) async {
     await requestNewToken(context);
     Uri url = Uri.parse("$api$restroomRoverRestroomRoute/$id");
-    http.Response res = await http.delete(url,
-        headers: {"Authorization": "Bearer $publicToken"}).timeout(const Duration(seconds: 10));
+    http.Response res = await http.delete(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }).timeout(const Duration(seconds: 10));
     debugPrint(res.body);
     if (res.statusCode != 200) {
       return Future.error(res.reasonPhrase ?? "Failed to delete restroom");
@@ -52,6 +56,7 @@ class _MyRestroomState extends State<MyRestroomPage> {
   void initState() {
     super.initState();
     debugPrint("Init Restroom Page");
+    showRestroomLoadingScreen(context);
     myRestroomInfo().then((response) {
       debugPrint("Response");
       debugPrint(response.body);
@@ -59,8 +64,10 @@ class _MyRestroomState extends State<MyRestroomPage> {
         restroomData = jsonDecode(response.body);
         restroomShow = restroomData;
       });
+      Navigator.pop(context);
       // debugPrint(restroomData);
     }).onError((error, stackTrace) {
+      Navigator.pop(context);
       ThemeData theme = Theme.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -132,14 +139,17 @@ class _MyRestroomState extends State<MyRestroomPage> {
                               return Container(
                                   width: size.width * 0.9,
                                   height: size.height * 0.27,
-                                  margin: const EdgeInsets.symmetric(vertical: 5.0),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5.0),
                                   padding: const EdgeInsets.all(10.0),
                                   decoration: BoxDecoration(
-                                    color: const Color.fromRGBO(255, 255, 255, 0.6),
+                                    color: const Color.fromRGBO(
+                                        255, 255, 255, 0.6),
                                     borderRadius: BorderRadius.circular(25.0),
                                     boxShadow: const [
                                       BoxShadow(
-                                        color: Color.fromRGBO(126, 120, 120, 0.247),
+                                        color: Color.fromRGBO(
+                                            126, 120, 120, 0.247),
                                         offset: Offset(0, 4),
                                         blurRadius: 4,
                                       ),
@@ -149,18 +159,25 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                     children: [
                                       SizedBox(height: size.height * 0.1),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
-                                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                                              textBaseline: TextBaseline.alphabetic,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.baseline,
+                                              textBaseline:
+                                                  TextBaseline.alphabetic,
                                               children: [
-                                                Text('Name: ', style: myrestroom("", context)),
+                                                Text('Name: ',
+                                                    style: myrestroom(
+                                                        "", context)),
                                                 Flexible(
                                                   child: Text(
                                                     '${data["name"]}',
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: myrestroom(data["name"], context),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: myrestroom(
+                                                        data["name"], context),
                                                   ),
                                                 ),
                                               ]),
@@ -168,19 +185,26 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                             height: size.height * 0.01,
                                           ),
                                           Row(
-                                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                                              textBaseline: TextBaseline.alphabetic,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.baseline,
+                                              textBaseline:
+                                                  TextBaseline.alphabetic,
                                               children: [
-                                                Text('Type: ', style: myrestroom("", context)),
+                                                Text('Type: ',
+                                                    style: myrestroom(
+                                                        "", context)),
                                                 Flexible(
                                                   child: Text('${data["type"]}',
-                                                      style: myrestroom(data["type"], context)),
+                                                      style: myrestroom(
+                                                          data["type"],
+                                                          context)),
                                                 ),
                                               ]),
                                         ],
                                       ),
                                       Container(
-                                        padding: EdgeInsets.only(top: size.height * 0.18),
+                                        padding: EdgeInsets.only(
+                                            top: size.height * 0.18),
                                         child: Row(
                                           children: [
                                             IconButton(
@@ -192,7 +216,8 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                               onPressed: () {
                                                 Navigator.pushNamed(
                                                   context,
-                                                  restroomPageRoute["editrestroom"]!,
+                                                  restroomPageRoute[
+                                                      "editrestroom"]!,
                                                   arguments: data,
                                                 );
                                               },
@@ -207,75 +232,118 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                               onPressed: () {
                                                 showDialog(
                                                   context: context,
-                                                  builder: (BuildContext context) {
+                                                  builder:
+                                                      (BuildContext context) {
                                                     return AlertDialog(
                                                       title: Text(
                                                         'Confirm Delete',
-                                                        style: GoogleFonts.getFont(
+                                                        style:
+                                                            GoogleFonts.getFont(
                                                           'Sen',
                                                           color: Colors.black,
                                                           fontSize: 25,
-                                                          fontWeight: FontWeight.w500,
+                                                          fontWeight:
+                                                              FontWeight.w500,
                                                         ),
                                                       ),
                                                       actions: <Widget>[
                                                         TextButton(
                                                           onPressed: () {
-                                                            Navigator.of(context).pop();
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
                                                           },
                                                           child: Text(
                                                             'Cancel',
-                                                            style: GoogleFonts.getFont(
+                                                            style: GoogleFonts
+                                                                .getFont(
                                                               'Sen',
-                                                              color: const Color(0xFF98989A),
+                                                              color: const Color(
+                                                                  0xFF98989A),
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight.w400,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
                                                             ),
                                                           ),
                                                         ),
                                                         Container(
-                                                          decoration: BoxDecoration(
+                                                          decoration:
+                                                              BoxDecoration(
                                                             color: Colors.red,
-                                                            borderRadius: BorderRadius.circular(10),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
                                                           ),
                                                           child: TextButton(
                                                             onPressed: () {
-                                                              delRestroom(data["id"]).then((value) {
-                                                                Navigator.of(context).pop();
-                                                                myRestroomInfo().then((response) {
-                                                                  debugPrint("Response");
-                                                                  debugPrint(response.body);
+                                                              showRestroomLoadingScreen(
+                                                                  context);
+                                                              delRestroom(data[
+                                                                      "id"])
+                                                                  .then(
+                                                                      (value) {
+                                                                myRestroomInfo()
+                                                                    .then(
+                                                                        (response) {
+                                                                  debugPrint(
+                                                                      "Response");
+                                                                  debugPrint(
+                                                                      response
+                                                                          .body);
                                                                   setState(() {
                                                                     restroomData =
-                                                                        jsonDecode(response.body);
-                                                                    restroomShow = restroomData;
+                                                                        jsonDecode(
+                                                                            response.body);
+                                                                    restroomShow =
+                                                                        restroomData;
                                                                   });
+                                                                  Navigator.popUntil(
+                                                                      context,
+                                                                      ModalRoute
+                                                                          .withName(
+                                                                              restroomPageRoute["myrestroom"]!));
                                                                 });
-                                                              }).onError((error, stackTrace) {
-                                                                Navigator.of(context).pop();
-                                                                ScaffoldMessenger.of(context)
+                                                              }).onError((error,
+                                                                      stackTrace) {
+                                                                Navigator.popUntil(
+                                                                    context,
+                                                                    ModalRoute.withName(
+                                                                        restroomPageRoute[
+                                                                            "myrestroom"]!));
+                                                                ScaffoldMessenger.of(
+                                                                        context)
                                                                     .showSnackBar(
                                                                   SnackBar(
-                                                                    content: Text(
+                                                                    content:
+                                                                        Text(
                                                                       "Failed to delete restroom.",
-                                                                      style: TextStyle(
+                                                                      style:
+                                                                          TextStyle(
                                                                         color: theme
-                                                                            .colorScheme.onPrimary,
+                                                                            .colorScheme
+                                                                            .onPrimary,
                                                                       ),
                                                                     ),
-                                                                    backgroundColor:
-                                                                        theme.colorScheme.primary,
+                                                                    backgroundColor: theme
+                                                                        .colorScheme
+                                                                        .primary,
                                                                   ),
                                                                 );
                                                               });
                                                             },
                                                             child: Text(
                                                               'Delete',
-                                                              style: GoogleFonts.getFont(
+                                                              style: GoogleFonts
+                                                                  .getFont(
                                                                 'Sen',
-                                                                color: Colors.white,
+                                                                color: Colors
+                                                                    .white,
                                                                 fontSize: 20,
-                                                                fontWeight: FontWeight.w400,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
                                                               ),
                                                             ),
                                                           ),
@@ -293,18 +361,24 @@ class _MyRestroomState extends State<MyRestroomPage> {
                                         width: null,
                                         height: size.height * 0.4,
                                         padding: EdgeInsets.only(
-                                            top: size.height * 0.1, left: size.width * 0.4),
+                                            top: size.height * 0.1,
+                                            left: size.width * 0.4),
                                         child: data["picture"] == null
                                             ? Padding(
-                                                padding: const EdgeInsets.only(left: 30.0),
+                                                padding: const EdgeInsets.only(
+                                                    left: 30.0),
                                                 child: Image.network(
                                                     "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702"),
                                               )
-                                            : ClipRRect(
-                                                borderRadius: BorderRadius.circular(10.0),
-                                                child: Image.network(
-                                                  data["picture"],
-                                                  fit: BoxFit.cover,
+                                            : Center(
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                  child: Image.network(
+                                                    data["picture"],
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                               ),
                                       )
@@ -325,7 +399,8 @@ class _MyRestroomState extends State<MyRestroomPage> {
               parentKey: widget.key,
               search: (suggestions) {
                 setState(() {
-                  restroomShow = (restroomData as List<dynamic>).where((restroom) {
+                  restroomShow =
+                      (restroomData as List<dynamic>).where((restroom) {
                     for (var suggestion in suggestions) {
                       // debugPrint(
                       //     "${suggestion["name"]} == ${restroom["name"]} => ${suggestion["name"] == restroom["name"]}");
@@ -361,8 +436,8 @@ class RestroomAppBar extends StatelessWidget {
     return Container(
       height: 130,
       decoration: const BoxDecoration(
-        borderRadius:
-            BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -393,8 +468,10 @@ class RestroomAppBar extends StatelessWidget {
               Text(
                 "My Restroom",
                 style: TextStyle(
-                  fontSize: Theme.of(context).textTheme.headlineMedium!.fontSize,
-                  fontWeight: Theme.of(context).textTheme.headlineMedium!.fontWeight,
+                  fontSize:
+                      Theme.of(context).textTheme.headlineMedium!.fontSize,
+                  fontWeight:
+                      Theme.of(context).textTheme.headlineMedium!.fontWeight,
                   color: Theme.of(context).textTheme.headlineMedium!.color,
                 ),
               ),
@@ -429,7 +506,8 @@ class MyRestroomSearchBar extends StatefulWidget {
   State<MyRestroomSearchBar> createState() => _MyRestroomSearchBarState();
 }
 
-class _MyRestroomSearchBarState extends State<MyRestroomSearchBar> with TickerProviderStateMixin {
+class _MyRestroomSearchBarState extends State<MyRestroomSearchBar>
+    with TickerProviderStateMixin {
   List<dynamic> tempRestroomData = [];
   late Animation<double> animation;
   @override
@@ -493,7 +571,8 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar> with TickerPr
                       color: const Color(0xFFFFB330),
                       shape: BoxShape.circle,
                     ),
-                    child: Image.asset("assets/images/PinTheBin/search_icon.png"),
+                    child:
+                        Image.asset("assets/images/PinTheBin/search_icon.png"),
                   ),
                   onTap: () {
                     widget.focusNode.unfocus();
@@ -502,7 +581,8 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar> with TickerPr
                   },
                 )
               ],
-              backgroundColor: const MaterialStatePropertyAll(Color(0xFFECECEC)),
+              backgroundColor:
+                  const MaterialStatePropertyAll(Color(0xFFECECEC)),
               onTap: () {
                 searchBarController.openView();
               },
@@ -536,8 +616,15 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar> with TickerPr
                 return GestureDetector(
                   onTap: () {
                     widget.search([tempRestroomData[index]]);
-                    suggestionController.closeView(tempRestroomData[index]['name']);
-                    widget.focusNode.unfocus();
+                    suggestionController
+                        .closeView(tempRestroomData[index]['name']);
+                    Future.delayed(const Duration(milliseconds: 500))
+                        .then((value) {
+                      debugPrint(
+                          "Selected focus ? ${widget.focusNode.hasFocus}");
+                      widget.focusNode.unfocus();
+                      suggestionController.clear();
+                    });
                   },
                   child: Container(
                     color: Theme.of(context).colorScheme.background,
@@ -554,17 +641,23 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar> with TickerPr
                               Text(
                                 tempRestroomData[index]['name'],
                                 style: TextStyle(
-                                    fontFamily: tempRestroomData[index]['name'].contains(
+                                    fontFamily: tempRestroomData[index]['name']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
                                         ? "THSarabunPSK"
-                                        : Theme.of(context).textTheme.labelMedium!.fontFamily,
-                                    fontSize: tempRestroomData[index]['name'].contains(
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .labelMedium!
+                                            .fontFamily,
+                                    fontSize: tempRestroomData[index]['name']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
                                         ? 24
                                         : 16,
-                                    fontWeight: tempRestroomData[index]['name'].contains(
+                                    fontWeight: tempRestroomData[index]['name']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
                                         ? FontWeight.w700
@@ -574,18 +667,26 @@ class _MyRestroomSearchBarState extends State<MyRestroomSearchBar> with TickerPr
                                 tempRestroomData[index]['address'],
                                 maxLines: 1,
                                 style: TextStyle(
-                                    fontFamily: tempRestroomData[index]['address'].contains(
+                                    fontFamily: tempRestroomData[index]
+                                                ['address']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
                                         ? "THSarabunPSK"
-                                        : Theme.of(context).textTheme.labelMedium!.fontFamily,
-                                    fontSize: tempRestroomData[index]['address'].contains(
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .labelMedium!
+                                            .fontFamily,
+                                    fontSize: tempRestroomData[index]['address']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
                                         ? 22
                                         : 16,
                                     color: Colors.black.withOpacity(0.6),
-                                    fontWeight: tempRestroomData[index]['address'].contains(
+                                    fontWeight: tempRestroomData[index]
+                                                ['address']
+                                            .contains(
                                       RegExp("[ก-๛]"),
                                     )
                                         ? FontWeight.w700

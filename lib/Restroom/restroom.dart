@@ -3,7 +3,8 @@ import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
 import "package:flutter_map_marker_popup/flutter_map_marker_popup.dart";
 import "package:latlong2/latlong.dart";
-import "package:ruam_mitt/Restroom/Component/navbar.dart";
+import "package:ruam_mitt/Restroom/Component/Navbar.dart";
+import "package:ruam_mitt/Restroom/Component/loading_screen.dart";
 import 'package:ruam_mitt/Restroom/Component/map.dart';
 import "package:http/http.dart" as http;
 import "package:ruam_mitt/Restroom/Component/theme.dart";
@@ -60,6 +61,7 @@ class _RestroomRoverState extends State<RestroomRover> {
   @override
   void initState() {
     debugPrint("Init Restroom Page");
+    showRestroomLoadingScreen(context);
     Future.wait([getRestroomInfo(), getRestroomReview()])
         .timeout(const Duration(seconds: 10))
         .then((res) {
@@ -91,7 +93,9 @@ class _RestroomRoverState extends State<RestroomRover> {
           );
         }).toList();
       });
+      Navigator.pop(context);
     }).onError((error, stackTrace) {
+      Navigator.pop(context);
       ThemeData theme = Theme.of(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
@@ -141,7 +145,8 @@ class _RestroomRoverState extends State<RestroomRover> {
                     if (data['name'] == selectedValue) {
                       setState(() {
                         LatLng centerMark = restroom.point;
-                        _mapController.move(centerMark, 15);
+                        _mapController.move(centerMark, 15,
+                            offset: Offset(0, size.height / 4));
                         _popupController.showPopupsOnlyFor([restroom]);
                       });
                     }
@@ -290,6 +295,13 @@ class _RestroomRoverSearchBarState extends State<RestroomRoverSearchBar> {
                     widget.onSelected(tempRestroomData[index]['name']);
                     suggestionController
                         .closeView(tempRestroomData[index]['name']);
+                    Future.delayed(const Duration(milliseconds: 500))
+                        .then((value) {
+                      debugPrint(
+                          "Selected focus ? ${widget.focusNode.hasFocus}");
+                      widget.focusNode.unfocus();
+                      suggestionController.clear();
+                    });
                   },
                   child: Container(
                     color: Theme.of(context).colorScheme.background,
