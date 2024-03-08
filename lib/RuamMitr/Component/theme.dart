@@ -220,6 +220,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
       themeData: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromRGBO(0, 48, 73, 1),
+          primary: const Color.fromRGBO(0, 48, 73, 1),
           secondary: Colors.blue,
           background: Colors.white,
           brightness: Brightness.light,
@@ -252,6 +253,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
       themeData: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.white,
+          primary: Colors.white,
           secondary: Colors.blue,
           background: const Color.fromRGBO(32, 32, 32, 1),
           brightness: Brightness.dark,
@@ -286,6 +288,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
       themeData: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromRGBO(255, 179, 48, 1),
+          primary: const Color.fromRGBO(255, 179, 48, 1),
           secondary: Colors.blue,
           background: const Color(0xFFECECEC),
           brightness: Brightness.light,
@@ -294,7 +297,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
       ),
       customColors: const {
         "main": Color.fromRGBO(255, 179, 48, 1),
-        "onMain": Colors.black,
+        "onMain": Colors.white,
         "container": Color.fromRGBO(228, 228, 228, 1),
         "onContainer": Colors.black,
         "oddContainer": Color.fromRGBO(228, 228, 228, 1),
@@ -317,6 +320,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
       themeData: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromRGBO(255, 179, 48, 1),
+          primary: const Color.fromRGBO(255, 179, 48, 1),
           secondary: Colors.blue,
           background: const Color.fromARGB(255, 37, 37, 37),
           brightness: Brightness.dark,
@@ -332,7 +336,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "onOddContainer": Colors.white,
         "evenContainer": Color.fromRGBO(66, 66, 66, 1),
         "onEvenContainer": Colors.white,
-        "textInputContainer": Color(0xFFECECEC),
+        "textInputContainer": Color.fromRGBO(80, 80, 80, 1),
         "label": Color.fromRGBO(158, 158, 158, 1),
         "textInput": Colors.white,
         "icon": Colors.white,

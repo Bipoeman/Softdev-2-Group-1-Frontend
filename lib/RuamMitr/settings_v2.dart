@@ -281,7 +281,14 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                       ),
                       foregroundColor: theme.colorScheme.onPrimary,
                     ),
-                    child: const Text("Logout"),
+                    child: Text(
+                      "Logout",
+                      style: TextStyle(
+                        color: theme.colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
                     onPressed: () async {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       await prefs.setBool("isChecked", false);
