@@ -7,12 +7,23 @@ class ThemeProvider extends ChangeNotifier {
   bool _isDarkMode = false;
   bool get isDarkMode => _isDarkMode;
   Map<String, Map<String, CustomThemes>> appThemes = _appsThemes;
+  Map<String, String> themeForApp = {
+    "RuamMitr": "RuamMitr",
+    "PinTheBin": "PinTheBin",
+    "TuachuayDekhor": "TuachuayDekhor",
+    "Restroom": "Restroom",
+  };
 
-  CustomThemes? themeFrom(String app) => _appsThemes[app]?[_isDarkMode ? "dark" : "light"];
+  CustomThemes? themeFrom(String app) => _appsThemes[themeForApp[app]]?[_isDarkMode ? "dark" : "light"];
 
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
     saveTheme();
+    notifyListeners();
+  }
+
+  void changeAppTheme(String app, String appTheme) {
+    themeForApp[app] = appTheme;
     notifyListeners();
   }
 
@@ -36,6 +47,11 @@ class ThemesPortal {
 
   static ThemeProvider getCurrent(BuildContext context) {
     return Provider.of<ThemeProvider>(context);
+  }
+
+  static void changeThemeColor(BuildContext context, String app, String appTheme) {
+    ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    themes.changeAppTheme(app, appTheme);
   }
 }
 
