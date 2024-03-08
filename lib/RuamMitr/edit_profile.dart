@@ -13,9 +13,7 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
-    ThemeData ruammitrThemeData = themes.themeFrom("RuamMitr")!.themeData;
     Size size = MediaQuery.of(context).size;
     return Theme(
       data: ThemeData(

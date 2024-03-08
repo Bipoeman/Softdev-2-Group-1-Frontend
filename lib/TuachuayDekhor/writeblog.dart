@@ -39,6 +39,7 @@ class _TuachuayDekhorWriteBlogPageState
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
   final draftposturl = Uri.parse('$api$dekhorDraftPostRoute');
   File? _image;
+  bool selectBarVisible = false;
 
   Future<void> _getImageGallery() async {
     final picker = ImagePicker();
@@ -240,6 +241,78 @@ class _TuachuayDekhorWriteBlogPageState
     } else {
       Navigator.pop(context);
     }
+  }
+
+  Widget selectBar() {
+    Size size = MediaQuery.of(context).size;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 100),
+      bottom: selectBarVisible ? 0 : -size.height * 0.12,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+          color: customColors["main"]!,
+        ),
+        width: size.width,
+        height: size.height * 0.08,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              width: size.width * 0.485,
+              height: size.height * 0.08,
+              decoration: BoxDecoration(
+                color: customColors["main"]!,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  selectBarVisible = false;
+                  _getImageCamera();
+                  print("Add image tapped");
+                },
+                icon: Icon(
+                  Icons.camera_alt,
+                  color: customColors["onMain"]!,
+                  size: 30,
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: customColors["onMain"]!,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              height: size.height * 0.06,
+              width: 3,
+            ),
+            Container(
+              width: size.width * 0.485,
+              height: size.height * 0.08,
+              decoration: BoxDecoration(
+                color: customColors["main"]!,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  selectBarVisible = false;
+                  _getImageGallery();
+                  print("Add image tapped");
+                },
+                icon: Icon(
+                  Icons.image,
+                  color: customColors["onMain"]!,
+                  size: 30,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -611,7 +684,13 @@ class _TuachuayDekhorWriteBlogPageState
                               margin: const EdgeInsets.only(left: 20),
                               width: size.width * 0.6,
                               child: TextFormField(
+                                onTap: () {
+                                  selectBarVisible = false;
+                                },
                                 textInputAction: TextInputAction.next,
+                                onEditingComplete: () {
+                                  anotherFocusNode.requestFocus();
+                                },
                                 focusNode: firstFocusNode,
                                 controller: markdownTitleController,
                                 keyboardType: TextInputType.text,
@@ -658,6 +737,9 @@ class _TuachuayDekhorWriteBlogPageState
                         ),
                         width: size.width * 0.85,
                         child: TextFormField(
+                          onTap: () {
+                            selectBarVisible = false;
+                          },
                           focusNode: anotherFocusNode,
                           controller: markdownContentController,
                           style: TextStyle(
@@ -688,10 +770,9 @@ class _TuachuayDekhorWriteBlogPageState
                 ),
                 Positioned(
                   bottom: 0,
-                  left: 0,
-                  right: 0,
                   child: Container(
                     height: size.width * 0.12,
+                    width: size.width,
                     decoration: BoxDecoration(
                       color: customColors["main"],
                     ),
@@ -776,8 +857,7 @@ class _TuachuayDekhorWriteBlogPageState
                           ),
                           child: GestureDetector(
                             onTap: () {
-                              _getImageGallery();
-                              print("Add image tapped");
+                              selectBarVisible = true;
                             },
                             child: Row(
                               children: [
@@ -812,6 +892,7 @@ class _TuachuayDekhorWriteBlogPageState
                   ),
                 ),
                 const NavbarTuachuayDekhor(),
+                selectBar(),
               ],
             ),
           ),

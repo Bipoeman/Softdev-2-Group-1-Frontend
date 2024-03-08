@@ -26,8 +26,7 @@ class NavbarTuachuayDekhor extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     ThemeProvider themeProvider = ThemesPortal.getCurrent(context);
-    CustomThemes theme =
-        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
     const double navbarHeight = 100;
     const double paddingSize = 30;
@@ -105,8 +104,7 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, tuachuayDekhorPageRoute["admin"]!);
+                        Navigator.pushNamed(context, tuachuayDekhorPageRoute["admin"]!);
                       },
                     ),
                   if (profileData['role'] == "User")
@@ -129,32 +127,30 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, tuachuayDekhorPageRoute["profile"]!);
+                        Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
                       },
                     ),
                   if (profileData['role'] == "User")
                     PopupMenuItem(
-                      child: Row(
+                      child: const Row(
                         children: [
                           Icon(
                             Icons.report,
-                            color: customColors["icon1"]!,
+                            color: Color.fromRGBO(217, 192, 41, 1),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 10,
                           ),
                           Text(
                             "Report",
                             style: TextStyle(
-                              color: customColors["icon1"]!,
+                              color: Color.fromRGBO(217, 192, 41, 1),
                             ),
                           ),
                         ],
                       ),
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, tuachuayDekhorPageRoute["reportapp"]!);
+                        Navigator.pushNamed(context, tuachuayDekhorPageRoute["reportapp"]!);
                       },
                     ),
                   PopupMenuItem(

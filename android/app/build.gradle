@@ -29,7 +29,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.softwaredev2.ruam_mitt"
+    namespace "com.example.ruam_mitt"
     // compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
     compileSdkVersion 34

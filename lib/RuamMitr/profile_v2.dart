@@ -38,8 +38,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
-    CustomThemes ruammitrThemeData =
-        ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+    CustomThemes ruammitrThemeData = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
     Map<String, Color> customColors = ruammitrThemeData.customColors;
 
     Future<File?> getImage() async {
@@ -78,8 +77,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                   children: [
                     Positioned(
                       top: -[size.width * 0.6, 300.0].reduce(min),
-                      left: size.width * 0.5 -
-                          [size.width * 0.6, 300.0].reduce(min),
+                      left: size.width * 0.5 - [size.width * 0.6, 300.0].reduce(min),
                       child: CustomPaint(
                         painter: HalfCirclePainter(
                           color: theme.colorScheme.primary,
@@ -96,8 +94,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                           width: 175,
                           height: 175,
                           margin: EdgeInsets.only(
-                            top: [size.width * 0.6, 300.0].reduce(min) -
-                                175 * 0.6,
+                            top: [size.width * 0.6, 300.0].reduce(min) - 175 * 0.6,
                           ),
                           padding: const EdgeInsets.all(30),
                           decoration: BoxDecoration(
@@ -130,8 +127,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                               File? imageSelectedFile = await getImage();
                               if (imageSelectedFile == null) return;
                               Uri url = Uri.parse("$api$userImageUpdateRoute");
-                              http.MultipartRequest request =
-                                  http.MultipartRequest('POST', url);
+                              http.MultipartRequest request = http.MultipartRequest('POST', url);
                               request.headers.addAll({
                                 "Authorization": "Bearer $publicToken",
                                 "Content-Type": "application/json"
@@ -139,21 +135,17 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                               request.files.add(
                                 http.MultipartFile.fromBytes(
                                   "file",
-                                  File(imageSelectedFile.path)
-                                      .readAsBytesSync(),
+                                  File(imageSelectedFile.path).readAsBytesSync(),
                                   filename: imageSelectedFile.path,
                                 ),
                               );
 
                               // print(request.files.first);
-                              http.StreamedResponse response =
-                                  await request.send();
-                              http.Response res =
-                                  await http.Response.fromStream(response);
+                              http.StreamedResponse response = await request.send();
+                              http.Response res = await http.Response.fromStream(response);
                               if (res.statusCode == 200) {
                                 dynamic responseJson = json.decode(res.body);
-                                var nowParam = DateFormat('yyyyddMMHHmm')
-                                    .format(DateTime.now());
+                                var nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
                                 print(nowParam);
                                 profileData['imgPath'] =
                                     "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}#$nowParam";
@@ -231,8 +223,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                           setState(() {
                             fieldToEditDisplayText = "Email";
                             fieldEditKey = "email";
-                            fieldEditController.text =
-                                profileData[fieldEditKey];
+                            fieldEditController.text = profileData[fieldEditKey];
                           });
                           if (editProfileController.isBoxOpen) {
                             editProfileController.closeBox();
@@ -253,8 +244,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                         title: Text(profileData['birthday'] ?? "Not provided"),
                         trailing: const Icon(Icons.edit),
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, ruamMitrPageRoute['edit-profile']!);
+                          Navigator.pushNamed(context, ruamMitrPageRoute['edit-profile']!);
                         },
                       ),
                       const Divider(
@@ -273,8 +263,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                             () {
                               fieldToEditDisplayText = "Phone Number";
                               fieldEditKey = "phonenum";
-                              fieldEditController.text =
-                                  profileData[fieldEditKey] ?? "";
+                              fieldEditController.text = profileData[fieldEditKey] ?? "";
                             },
                           );
                           if (editProfileController.isBoxOpen) {
@@ -286,15 +275,13 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                       ),
                       ListTile(
                         leading: const Icon(Icons.edit_document),
-                        title: Text(profileData['description'] ??
-                            "Edit your desciption"),
+                        title: Text(profileData['description'] ?? "Edit your desciption"),
                         trailing: const Icon(Icons.edit),
                         onTap: () {
                           setState(() {
                             fieldToEditDisplayText = "Description";
                             fieldEditKey = "description";
-                            fieldEditController.text =
-                                profileData[fieldEditKey] ?? "";
+                            fieldEditController.text = profileData[fieldEditKey] ?? "";
                           });
                           if (editProfileController.isBoxOpen) {
                             editProfileController.closeBox();
@@ -308,8 +295,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                         title: const Text("********"),
                         trailing: const Icon(Icons.edit),
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, ruamMitrPageRoute["password-change"]!);
+                          Navigator.pushNamed(context, ruamMitrPageRoute["password-change"]!);
                         },
                       ),
                     ],
@@ -330,8 +316,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
           controller: editProfileController,
           body: Container(
             // margin: EdgeInsets.only(bottom: 71),
-            padding: const EdgeInsets.only(
-                left: 20.0, right: 20, top: 10, bottom: 71),
+            padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 71),
             child: SizedBox(
               height: size.height * 0.28,
               child: Column(
@@ -358,8 +343,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                       focusNode: profileEditFocusNode,
                       controller: fieldEditController,
                       decoration: InputDecoration(
-                        hintText:
-                            "Enter your ${fieldToEditDisplayText.toLowerCase()}",
+                        hintText: "Enter your ${fieldToEditDisplayText.toLowerCase()}",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide.none,
