@@ -125,7 +125,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
     double blurGeneral = isPressedGeneral ? 5.0 : 5;
     return Theme(
       data: ThemeData(
-        fontFamily: "Sen",
+        fontFamily: "Kodchasan",
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFFF9957F),
           background: const Color(0xFFFFFFFF),
@@ -909,7 +909,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               child: Text(
                                 'ADD',
                                 style: GoogleFonts.getFont(
-                                  "Sen",
+                                  "Kodchasan",
                                   color:
                                       const Color.fromARGB(255, 255, 255, 255),
                                   fontSize: 20,
@@ -946,7 +946,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               child: Text(
                                 'CANCEL',
                                 style: GoogleFonts.getFont(
-                                  "Sen",
+                                  "Kodchasan",
                                   color:
                                       const Color.fromARGB(255, 255, 255, 255),
                                   fontSize: 20,
