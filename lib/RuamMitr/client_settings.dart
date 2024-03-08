@@ -21,40 +21,47 @@ class _ClientSettingsPageState extends State<ClientSettingsPage> {
       decoration: BoxDecoration(
         gradient: backgroundGradient(context, "RuamMitr"),
       ),
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 75.0,
-          title: Text(
-            "Settings",
-            style: TextStyle(color: theme.colorScheme.onPrimary, fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: theme.colorScheme.primary,
-          leading: GestureDetector(
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: theme.colorScheme.onPrimary,
+      child: Theme(
+        data: theme,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            toolbarHeight: 75.0,
+            title: Text(
+              "Settings",
+              style: TextStyle(color: theme.colorScheme.onPrimary, fontWeight: FontWeight.bold),
             ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          elevation: 0,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(15),
-            ),
-          ),
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            physics: const RangeMaintainingScrollPhysics(),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: size.height - MediaQuery.of(context).padding.top - 75,
+            backgroundColor: theme.colorScheme.primary,
+            leading: GestureDetector(
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: theme.colorScheme.onPrimary,
               ),
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 50),
-                child: const ClientSettingsWidget(),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            elevation: 0,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(15),
+              ),
+            ),
+          ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              physics: const RangeMaintainingScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: size.height - MediaQuery.of(context).padding.top - 75,
+                ),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 50),
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    child: const ClientSettingsWidget(),
+                  ),
+                ),
               ),
             ),
           ),

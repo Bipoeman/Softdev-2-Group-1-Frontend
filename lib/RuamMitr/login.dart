@@ -99,7 +99,8 @@ class _LoginPageState extends State<LoginPage> {
 
   clearPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    await prefs.remove("emailoruser");
+    await prefs.remove("password");
   }
 
   loadData() async {
@@ -156,13 +157,19 @@ class _LoginPageState extends State<LoginPage> {
               constraints: BoxConstraints(
                 minHeight: size.height - MediaQuery.of(context).padding.top,
               ),
-              child: Center(
+              child: Container(
+                alignment: Alignment.topCenter,
                 child: Stack(
-                  alignment: AlignmentDirectional.topEnd,
+                  alignment: AlignmentDirectional.topCenter,
                   children: [
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        Padding(
+                          padding: EdgeInsets.all(
+                            size.height * 0.05,
+                          ),
+                        ),
                         Container(
                           alignment: Alignment.center,
                           margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
