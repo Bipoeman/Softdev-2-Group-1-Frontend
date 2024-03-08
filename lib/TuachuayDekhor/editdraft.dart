@@ -47,27 +47,120 @@ class _TuachuayDekhorEditDraftPageState
   late Uri uppicurl;
   bool isLoading = false;
   late File _image;
+  bool selectBarVisible = false;
 
-  Future<void> _getImage() async {
+  Future<void> _getImageGallery() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      var result =
-          await FlutterImageCompress.compressAndGetFile(
+      var result = await FlutterImageCompress.compressAndGetFile(
         pickedFile.path,
-        pickedFile.path + '_compressed.jpg',
-        quality: 20,
-    );
+        '${pickedFile.path}_compressed.jpg',
+        quality: 40,
+      );
 
       setState(() {
-        if (result != null){
+        if (result != null) {
           _image = File(result.path);
         } else {
           print('Error compressing image');
         }
       });
     }
+  }
+
+  Future<void> _getImageCamera() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      var result = await FlutterImageCompress.compressAndGetFile(
+        pickedFile.path,
+        '${pickedFile.path}_compressed.jpg',
+        quality: 40,
+      );
+
+      setState(() {
+        if (result != null) {
+          _image = File(result.path);
+        } else {
+          print('Error compressing image');
+        }
+      });
+    }
+  }
+
+  Widget selectBar() {
+    Size size = MediaQuery.of(context).size;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 100),
+      bottom: selectBarVisible ? 0 : -size.height * 0.12,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+          color: customColors["main"]!,
+        ),
+        width: size.width,
+        height: size.height * 0.08,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              width: size.width * 0.485,
+              height: size.height * 0.08,
+              decoration: BoxDecoration(
+                color: customColors["main"]!,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  selectBarVisible = false;
+                  _getImageCamera();
+                  print("Add image tapped");
+                },
+                icon: Icon(
+                  Icons.camera_alt,
+                  color: customColors["onMain"]!,
+                  size: 30,
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: customColors["onMain"]!,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              height: size.height * 0.06,
+              width: 3,
+            ),
+            Container(
+              width: size.width * 0.485,
+              height: size.height * 0.08,
+              decoration: BoxDecoration(
+                color: customColors["main"]!,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  selectBarVisible = false;
+                  _getImageGallery();
+                  print("Add image tapped");
+                },
+                icon: Icon(
+                  Icons.image,
+                  color: customColors["onMain"]!,
+                  size: 30,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _loadDetail() async {
@@ -223,6 +316,115 @@ class _TuachuayDekhorEditDraftPageState
 
   Future<void> deletedraft() async {
     await http.delete(deletedrafturl);
+  }
+
+  void onBackPressed(Map<String, Color> customColors) {
+    if ((markdownTitleController.text != detaildraft[0]['title']) ||
+        (markdownContentController.text != detaildraft[0]['content']) ||
+        (_dropdownValue != detaildraft[0]['category'])) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            surfaceTintColor: customColors["container"]!,
+            backgroundColor: customColors["container"]!,
+            iconPadding: EdgeInsets.zero,
+            iconColor: customColors["main"]!,
+            icon: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 30, 24, 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.note_alt,
+                        size: 50,
+                        color: customColors["main"]!,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10,
+                    right: 10,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        color: customColors["main"]!,
+                        onPressed: () => Navigator.pop(context),
+                        icon: Icon(
+                          Icons.close,
+                          color: customColors["label"],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            title: Text(
+              "Save draft?",
+              style: TextStyle(
+                color: customColors["onContainer"]!,
+              ),
+            ),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actions: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.red,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    "Discard",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.green,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    editdraft();
+                    updatepicture(_image);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pushNamed(
+                      context,
+                      tuachuayDekhorPageRoute["draft"]!,
+                    );
+                    print("Draft saved");
+                  },
+                  child: const Text(
+                    "Draft",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -431,149 +633,32 @@ class _TuachuayDekhorEditDraftPageState
                                 top: size.height * 0.12,
                                 left: size.width * 0.04,
                               ),
-                              child: GestureDetector(
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.arrow_back_outlined,
-                                      color: customColors["main"]!,
-                                      size: 20,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      "Back",
-                                      style: TextStyle(
-                                          color: customColors["main"]!),
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  if ((markdownTitleController.text !=
-                                          detaildraft[0]['title']) ||
-                                      (markdownContentController.text !=
-                                          detaildraft[0]['content']) ||
-                                      (_dropdownValue !=
-                                          detaildraft[0]['category'])) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          surfaceTintColor:
-                                              customColors["container"]!,
-                                          backgroundColor:
-                                              customColors["container"]!,
-                                          iconPadding: EdgeInsets.zero,
-                                          iconColor: customColors["main"]!,
-                                          icon: Stack(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        24, 30, 24, 16),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.note_alt,
-                                                      size: 50,
-                                                      color:
-                                                          customColors["main"]!,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 10,
-                                                  right: 10,
-                                                ),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    IconButton(
-                                                      color:
-                                                          customColors["main"]!,
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              context),
-                                                      icon: Icon(
-                                                        Icons.close,
-                                                        color: customColors[
-                                                            "onMain"],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          title: Text(
-                                            "Save draft?",
-                                            style: TextStyle(
-                                              color:
-                                                  customColors["onContainer"]!,
-                                            ),
-                                          ),
-                                          actionsAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          actions: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: Colors.red,
-                                              ),
-                                              child: TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text(
-                                                  "Discard",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: Colors.green,
-                                              ),
-                                              child: TextButton(
-                                                onPressed: () {
-                                                  editdraft();
-                                                  updatepicture(_image);
-                                                  Navigator.pop(context);
-                                                  Navigator.pop(context);
-                                                  Navigator.pop(context);
-                                                  Navigator.pushNamed(
-                                                    context,
-                                                    tuachuayDekhorPageRoute[
-                                                        "draft"]!,
-                                                  );
-                                                  print("Draft saved");
-                                                },
-                                                child: const Text(
-                                                  "Draft",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  } else {
-                                    Navigator.pop(context);
+                              child: PopScope(
+                                canPop: false,
+                                onPopInvoked: (bool didPop) {
+                                  if (didPop) {
+                                    return;
                                   }
+                                  onBackPressed(customColors);
                                 },
+                                child: GestureDetector(
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.arrow_back_outlined,
+                                        color: customColors["main"]!,
+                                        size: 20,
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        "Back",
+                                        style: TextStyle(
+                                            color: customColors["main"]!),
+                                      ),
+                                    ],
+                                  ),
+                                  onTap: () => onBackPressed(customColors),
+                                ),
                               ),
                             ),
                             Padding(
@@ -711,7 +796,13 @@ class _TuachuayDekhorEditDraftPageState
                                     margin: const EdgeInsets.only(left: 20),
                                     width: size.width * 0.6,
                                     child: TextFormField(
+                                      onTap: () {
+                                        selectBarVisible = false;
+                                      },
                                       textInputAction: TextInputAction.next,
+                                      onEditingComplete: () {
+                                        anotherFocusNode.requestFocus();
+                                      },
                                       focusNode: firstFocusNode,
                                       controller: markdownTitleController,
                                       keyboardType: TextInputType.text,
@@ -761,6 +852,9 @@ class _TuachuayDekhorEditDraftPageState
                               ),
                               width: size.width * 0.85,
                               child: TextFormField(
+                                onTap: () {
+                                  selectBarVisible = false;
+                                },
                                 focusNode: anotherFocusNode,
                                 controller: markdownContentController,
                                 style: TextStyle(
@@ -792,10 +886,9 @@ class _TuachuayDekhorEditDraftPageState
                       ),
                       Positioned(
                         bottom: 0,
-                        left: 0,
-                        right: 0,
                         child: Container(
                           height: size.width * 0.12,
+                          width: size.width,
                           decoration: BoxDecoration(
                             color: customColors["main"]!,
                           ),
@@ -881,8 +974,7 @@ class _TuachuayDekhorEditDraftPageState
                                 ),
                                 child: GestureDetector(
                                   onTap: () {
-                                    _getImage();
-                                    print("Add image tapped");
+                                    selectBarVisible = true;
                                   },
                                   child: Row(
                                     children: [
@@ -915,6 +1007,7 @@ class _TuachuayDekhorEditDraftPageState
                         ),
                       ),
                       const NavbarTuachuayDekhor(),
+                      selectBar(),
                     ],
                   ),
                 ),

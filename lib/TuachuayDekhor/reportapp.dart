@@ -42,37 +42,109 @@ class _TuachuayDekhorReportAppPageState
   }
 
   Future<void> _sendReport() async {
-    if (titleKey.currentState!.validate() &&
-        explanationKey.currentState!.validate()) {
-      Uri url = Uri.parse("$api$userPostIssueRoute");
-      http.MultipartRequest request = http.MultipartRequest('POST', url);
-      request.headers.addAll({
-        "Authorization": "Bearer $publicToken",
-        "Content-Type": "application/json"
-      });
-      if (imageSelected != null) {
-        request.files.add(
-          http.MultipartFile.fromBytes(
-            "file",
-            File(imageSelected!.path).readAsBytesSync(),
-            filename: imageSelected!.path,
-            contentType: MediaType.parse(
-                lookupMimeType(imageSelected!.path) ?? "image/jpeg"),
-          ),
-        );
+    try {
+      if (titleKey.currentState!.validate() &&
+          explanationKey.currentState!.validate()) {
+        Uri url = Uri.parse("$api$userPostIssueRoute");
+        http.MultipartRequest request = http.MultipartRequest('POST', url);
+        request.headers.addAll({
+          "Authorization": "Bearer $publicToken",
+          "Content-Type": "application/json"
+        });
+        if (imageSelected != null) {
+          request.files.add(
+            http.MultipartFile.fromBytes(
+              "file",
+              File(imageSelected!.path).readAsBytesSync(),
+              filename: imageSelected!.path,
+              contentType: MediaType.parse(
+                  lookupMimeType(imageSelected!.path) ?? "image/jpeg"),
+            ),
+          );
+        }
+        request.fields['type'] = "dekhor";
+        request.fields['title'] = titleController.text;
+        request.fields['description'] = explanationController.text;
+        http.StreamedResponse res = await request.send();
+        debugPrint(res.statusCode.toString());
+        http.Response response = await http.Response.fromStream(res);
+        debugPrint(response.body);
+        if (response.statusCode == 200) {
+          status = true;
+        } else {
+          status = false;
+        }
       }
-      request.fields['type'] = "dekhor";
-      request.fields['title'] = titleController.text;
-      request.fields['description'] = explanationController.text;
-      http.StreamedResponse res = await request.send();
-      debugPrint(res.statusCode.toString());
-      http.Response response = await http.Response.fromStream(res);
-      debugPrint(response.body);
-      if (response.statusCode == 200) {
-        status = true;
-      } else {
-        status = false;
-      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void onBackPressed(Map<String, Color> customColors) {
+    if (titleController.text.isNotEmpty ||
+        explanationController.text.isNotEmpty ||
+        imageSelected != null) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            surfaceTintColor: customColors["background"],
+            backgroundColor: customColors["background"],
+            iconColor: customColors["main"],
+            icon: Icon(
+              Icons.report_off,
+              size: 50,
+              color: customColors["onContainer"],
+            ),
+            title: Text(
+              "Discard report?",
+              style: TextStyle(
+                color: customColors["onContainer"],
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actions: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10), color: Colors.red),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    print("Discard report");
+                  },
+                  child: const Text(
+                    "Discard",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      Navigator.pop(context);
     }
   }
 
@@ -104,95 +176,33 @@ class _TuachuayDekhorReportAppPageState
                     ),
                     child: Column(
                       children: [
-                        GestureDetector(
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.arrow_back_outlined,
-                                color: customColors["main"],
-                                size: 20,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                "Back",
-                                style: TextStyle(
-                                  color: customColors["main"],
-                                ),
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            if (titleController.text.isNotEmpty ||
-                                explanationController.text.isNotEmpty ||
-                                imageSelected != null) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    surfaceTintColor:
-                                        customColors["background"],
-                                    backgroundColor: customColors["background"],
-                                    iconColor: customColors["main"],
-                                    icon: Icon(
-                                      Icons.report_off,
-                                      size: 50,
-                                      color: customColors["onContainer"],
-                                    ),
-                                    title: Text(
-                                      "Discard report?",
-                                      style: TextStyle(
-                                        color: customColors["onContainer"],
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    actionsAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    actions: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.grey,
-                                        ),
-                                        child: TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text(
-                                            "Cancel",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Colors.red),
-                                        child: TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            Navigator.pop(context);
-                                            print("Discard report");
-                                          },
-                                          child: const Text(
-                                            "Discard",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            } else {
-                              Navigator.pop(context);
+                        PopScope(
+                          canPop: false,
+                          onPopInvoked: (bool didPop) {
+                            if (didPop) {
+                              return;
                             }
+                            onBackPressed(customColors);
                           },
+                          child: GestureDetector(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.arrow_back_outlined,
+                                  color: customColors["main"],
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  "Back",
+                                  style: TextStyle(
+                                    color: customColors["main"],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onTap: () => onBackPressed(customColors),
+                          ),
                         ),
                         SizedBox(
                           child: Text(
