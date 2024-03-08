@@ -8,6 +8,8 @@ import "package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart";
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:ruam_mitt/global_const.dart";
 import "package:ruam_mitt/global_var.dart";
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
 
 class ReportPage extends StatefulWidget {
   const ReportPage({super.key});
@@ -70,16 +72,6 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   Future<void> _sendreport() async {
-    // final url = Uri.parse("$api$pinTheBinReportBinRoute");
-    // print("Report has been sent");
-    // return await http.post(url, headers: {
-    //   "Authorization": "Bearer $publicToken"
-    // }, body: {
-    //   "binId": id,
-    //   "description": _ReporttextController.text,
-    //   "title": dropdownvalue,
-    //   "more_info": jsonEncode(_more_info),
-    // });
     debugPrint('Send report');
     final url = Uri.parse("$api$reportRoute");
     http.MultipartRequest request = http.MultipartRequest('POST', url);
@@ -93,6 +85,8 @@ class _ReportPageState extends State<ReportPage> {
           "file",
           _image!.readAsBytesSync(),
           filename: _image!.path,
+          contentType:
+              MediaType.parse(lookupMimeType(_image!.path) ?? "image/jpeg"),
         ),
       );
     }
@@ -114,27 +108,6 @@ class _ReportPageState extends State<ReportPage> {
       return Future.error(e);
     }
   }
-
-  // Future<http.Response> _addpicturereport(id, picture) async {
-  //   final url = Uri.parse("$api$pinTheBinReportPictureBinRoute");
-  //   print("Report has been sent");
-  //   http.MultipartRequest request = http.MultipartRequest('POST', url);
-  //   request.headers.addAll({
-  //     "Authorization": "Bearer $publicToken",
-  //     "Content-Type": "application/json"
-  //   });
-  //   request.files.add(
-  //     http.MultipartFile.fromBytes(
-  //       "file",
-  //       File(picture.path).readAsBytesSync(),
-  //       filename: picture.path,
-  //     ),
-  //   );
-  //   request.fields['id'] = id;
-  //   http.StreamedResponse response = await request.send();
-  //   http.Response res = await http.Response.fromStream(response);
-  //   return res;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -542,19 +515,43 @@ class _ReportPageState extends State<ReportPage> {
                             child: InkWell(
                               borderRadius: BorderRadius.circular(30),
                               onTap: () {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  pinthebinPageRoute["home"]!,
-                                );
+                                _sendreport().then((_) {
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: const Text(
+                                          'Report sent',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.green[300]),
+                                  );
+                                  Navigator.pushReplacementNamed(
+                                      context, restroomPageRoute["home"]!);
+                                }).onError((error, stackTrace) {
+                                  debugPrint("Error: $error");
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                          'Failed to send report',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.red),
+                                  );
+                                });
                               },
                               child: Ink(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
-                                  color: const Color(0xFFF79F8A),
+                                  color: const Color(0xFF547485),
                                 ),
                                 child: const Center(
                                   child: Text(
-                                    "CANCEL",
+                                    "SUBMIT",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
@@ -573,83 +570,19 @@ class _ReportPageState extends State<ReportPage> {
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(30),
                                 onTap: () {
-                                  // http.Response res = await _sendreport(
-                                  //     '${data['Bininfo']["id"]}');
-                                  // print("res : ${res.body}");
-                                  // http.Response? response;
-                                  // if (_image != null) {
-                                  //   response = await _addpicturereport(
-                                  //       '${jsonDecode(res.body)[0]["id"]}',
-                                  //       _image!);
-                                  //   print("response : ${response.body}");
-                                  // }
-                                  // if (res.statusCode == 200 &&
-                                  //     response?.statusCode != 400) {
-                                  //   ScaffoldMessenger.of(context).showSnackBar(
-                                  //     SnackBar(
-                                  //       content: const Text(
-                                  //         "Report successful.",
-                                  //         style: TextStyle(
-                                  //           color: Colors.black,
-                                  //         ),
-                                  //       ),
-                                  //       backgroundColor: Colors.green[300],
-                                  //     ),
-                                  //   );
-                                  //   Navigator.pushReplacementNamed(
-                                  //     context,
-                                  //     pinthebinPageRoute["home"]!,
-                                  //   );
-                                  // } else {
-                                  //   ScaffoldMessenger.of(context).showSnackBar(
-                                  //     const SnackBar(
-                                  //       content: Text(
-                                  //         "Report failed.",
-                                  //         style: TextStyle(
-                                  //           color: Colors.black,
-                                  //         ),
-                                  //       ),
-                                  //       backgroundColor: Colors.red,
-                                  //     ),
-                                  //   );
-                                  // }
-                                  _sendreport().then((_) {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: const Text(
-                                            'Report sent',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          backgroundColor: Colors.green[300]),
-                                    );
-                                    Navigator.pushReplacementNamed(
-                                        context, restroomPageRoute["home"]!);
-                                  }).onError((error, stackTrace) {
-                                    debugPrint("Error: $error");
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text(
-                                            'Failed to send report',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          backgroundColor: Colors.red),
-                                    );
-                                  });
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    pinthebinPageRoute["home"]!,
+                                  );
                                 },
                                 child: Ink(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
-                                    color: const Color(0xFF547485),
+                                    color: const Color(0xFFF79F8A),
                                   ),
                                   child: const Center(
                                     child: Text(
-                                      "SUMMIT",
+                                      "CANCEL",
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
