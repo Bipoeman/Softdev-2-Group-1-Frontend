@@ -186,15 +186,20 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
               leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color: theme.colorScheme.primaryContainer,
+                  color: theme.colorScheme.onPrimary,
                 ),
                 onPressed: () => Navigator.pop(context),
               ),
               title: Text(
                 "Change your password",
                 style: TextStyle(
-                  color: theme.colorScheme.primaryContainer,
+                  color: theme.colorScheme.onPrimary,
                   fontWeight: FontWeight.bold,
+                ),
+              ),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(15),
                 ),
               ),
             ),

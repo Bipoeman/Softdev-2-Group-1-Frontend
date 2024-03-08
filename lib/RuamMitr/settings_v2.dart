@@ -55,7 +55,7 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
     List<String> appList = themeProvider.themeForApp.keys.toList();
 
     return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
+      physics: const RangeMaintainingScrollPhysics(),
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minHeight: size.height -
