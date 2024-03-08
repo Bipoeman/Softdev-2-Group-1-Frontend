@@ -14,7 +14,8 @@ class ThemeProvider extends ChangeNotifier {
     "Restroom": "Restroom",
   };
 
-  CustomThemes? themeFrom(String app) => _appsThemes[themeForApp[app]]?[_isDarkMode ? "dark" : "light"];
+  CustomThemes? themeFrom(String app) =>
+      _appsThemes[themeForApp[app]]?[_isDarkMode ? "dark" : "light"];
 
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
@@ -24,6 +25,20 @@ class ThemeProvider extends ChangeNotifier {
 
   void changeAppTheme(String app, String appTheme) {
     themeForApp[app] = appTheme;
+    saveThemeColor(app, appTheme);
+    notifyListeners();
+  }
+
+  void saveThemeColor(String app, String appTheme) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(app, appTheme);
+  }
+
+  void loadThemeColor() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    themeForApp.forEach((key, value) {
+      themeForApp[key] = prefs.getString(key) ?? key;
+    });
     notifyListeners();
   }
 
@@ -50,7 +65,7 @@ class ThemesPortal {
   }
 
   static void changeThemeColor(BuildContext context, String app, String appTheme) {
-    ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    ThemeProvider themes = Provider.of<ThemeProvider>(context, listen: false);
     themes.changeAppTheme(app, appTheme);
   }
 }
@@ -72,25 +87,25 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         useMaterial3: true,
         fontFamily: GoogleFonts.getFont("Inter").fontFamily,
       ),
-      customColors: {
-        "main": const Color.fromRGBO(214, 40, 40, 1),
+      customColors: const {
+        "main": Color.fromRGBO(214, 40, 40, 1),
         "onMain": Colors.white,
-        "container": const Color.fromRGBO(238, 238, 238, 1),
+        "container": Color.fromRGBO(238, 238, 238, 1),
         "onContainer": Colors.black,
-        "oddContainer": const Color.fromRGBO(238, 238, 238, 1),
+        "oddContainer": Color.fromRGBO(238, 238, 238, 1),
         "onOddContainer": Colors.black,
         "evenContainer": Colors.white,
         "onEvenContainer": Colors.black,
-        "textInputContainer": const Color.fromRGBO(221, 221, 221, 1),
-        "label": const Color.fromRGBO(84, 84, 84, 1),
+        "textInputContainer": Color.fromRGBO(221, 221, 221, 1),
+        "label": Color.fromRGBO(84, 84, 84, 1),
         "textInput": Colors.black,
         "icon": Colors.black,
-        "icon1": const Color.fromRGBO(214, 40, 40, 1),
+        "icon1": Color.fromRGBO(214, 40, 40, 1),
         "icon2": Colors.white,
-        "background": const Color.fromRGBO(221, 221, 221, 1),
-        "backgroundStart": const Color(0xFFF8C4C4),
-        "backgroundEnd": const Color.fromRGBO(224, 224, 224, 1),
-        "hyperlink": const Color.fromRGBO(0, 167, 190, 1),
+        "background": Color.fromRGBO(221, 221, 221, 1),
+        "backgroundStart": Color(0xFFF8C4C4),
+        "backgroundEnd": Color.fromRGBO(224, 224, 224, 1),
+        "hyperlink": Color.fromRGBO(0, 167, 190, 1),
       },
     ),
     "dark": CustomThemes(
@@ -106,26 +121,27 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
           background: const Color.fromARGB(255, 19, 19, 19),
         ),
         useMaterial3: true,
+        fontFamily: GoogleFonts.getFont("Inter").fontFamily,
       ),
-      customColors: {
-        "main": const Color.fromRGBO(214, 40, 40, 1),
+      customColors: const {
+        "main": Color.fromRGBO(214, 40, 40, 1),
         "onMain": Colors.white,
-        "container": const Color.fromRGBO(77, 77, 77, 1),
+        "container": Color.fromRGBO(77, 77, 77, 1),
         "onContainer": Colors.white,
-        "oddContainer": const Color.fromRGBO(77, 77, 77, 1),
+        "oddContainer": Color.fromRGBO(77, 77, 77, 1),
         "onOddContainer": Colors.white,
-        "evenContainer": const Color.fromRGBO(66, 66, 66, 1),
+        "evenContainer": Color.fromRGBO(66, 66, 66, 1),
         "onEvenContainer": Colors.white,
-        "textInputContainer": const Color.fromRGBO(84, 84, 84, 1),
-        "label": const Color.fromRGBO(221, 221, 221, 1),
+        "textInputContainer": Color.fromRGBO(84, 84, 84, 1),
+        "label": Color.fromRGBO(221, 221, 221, 1),
         "textInput": Colors.white,
         "icon": Colors.white,
-        "icon1": const Color.fromRGBO(214, 40, 40, 1),
+        "icon1": Color.fromRGBO(214, 40, 40, 1),
         "icon2": Colors.white,
-        "background": const Color.fromARGB(255, 19, 19, 19),
-        "backgroundStart": const Color.fromRGBO(67, 49, 49, 1),
-        "backgroundEnd": const Color.fromRGBO(61, 61, 61, 1),
-        "hyperlink": const Color.fromRGBO(0, 200, 212, 1),
+        "background": Color.fromARGB(255, 19, 19, 19),
+        "backgroundStart": Color.fromRGBO(67, 49, 49, 1),
+        "backgroundEnd": Color.fromARGB(255, 73, 60, 60),
+        "hyperlink": Color.fromRGBO(0, 200, 212, 1),
       },
     ),
   },
@@ -137,32 +153,31 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
           brightness: Brightness.light,
           primary: const Color(0xFFf77f00),
           onPrimary: Colors.white,
-          primaryContainer: Colors.black,
-          onPrimaryContainer: Colors.black,
           secondary: Colors.blue,
           background: Colors.white,
         ),
         useMaterial3: true,
+        fontFamily: GoogleFonts.getFont("Inter").fontFamily,
       ),
-      customColors: {
-        "main": const Color(0xFFf77f00),
+      customColors: const {
+        "main": Color(0xFFf77f00),
         "onMain": Colors.white,
-        "container": const Color.fromRGBO(238, 238, 238, 1),
+        "container": Color.fromRGBO(238, 238, 238, 1),
         "onContainer": Colors.black,
-        "oddContainer": const Color.fromRGBO(238, 238, 238, 1),
+        "oddContainer": Color.fromRGBO(238, 238, 238, 1),
         "onOddContainer": Colors.black,
         "evenContainer": Colors.white,
         "onEvenContainer": Colors.black,
-        "textInputContainer": const Color.fromRGBO(221, 221, 221, 1),
-        "label": const Color.fromRGBO(84, 84, 84, 1),
+        "textInputContainer": Color.fromRGBO(221, 221, 221, 1),
+        "label": Color.fromRGBO(84, 84, 84, 1),
         "textInput": Colors.black,
         "icon": Colors.black,
-        "icon1": const Color(0xFFf77f00),
+        "icon1": Color(0xFFf77f00),
         "icon2": Colors.black,
         "background": Colors.white,
-        "backgroundStart": const Color.fromARGB(255, 247, 204, 155),
-        "backgroundEnd": const Color.fromRGBO(224, 224, 224, 1),
-        "hyperlink": const Color.fromRGBO(0, 167, 190, 1),
+        "backgroundStart": Color.fromARGB(255, 247, 204, 155),
+        "backgroundEnd": Color.fromRGBO(224, 224, 224, 1),
+        "hyperlink": Color.fromRGBO(0, 167, 190, 1),
       },
     ),
     "dark": CustomThemes(
@@ -172,32 +187,31 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
           brightness: Brightness.dark,
           primary: const Color(0xFFf77f00),
           onPrimary: Colors.white,
-          primaryContainer: const Color.fromARGB(255, 46, 46, 46),
-          onPrimaryContainer: Colors.white,
           secondary: Colors.blue,
           background: const Color.fromARGB(255, 19, 19, 19),
         ),
         useMaterial3: true,
+        fontFamily: GoogleFonts.getFont("Inter").fontFamily,
       ),
-      customColors: {
-        "main": const Color(0xFFf77f00),
+      customColors: const {
+        "main": Color(0xFFf77f00),
         "onMain": Colors.white,
-        "container": const Color.fromRGBO(77, 77, 77, 1),
+        "container": Color.fromRGBO(77, 77, 77, 1),
         "onContainer": Colors.white,
-        "oddContainer": const Color.fromRGBO(77, 77, 77, 1),
+        "oddContainer": Color.fromRGBO(77, 77, 77, 1),
         "onOddContainer": Colors.white,
-        "evenContainer": const Color.fromRGBO(66, 66, 66, 1),
+        "evenContainer": Color.fromRGBO(66, 66, 66, 1),
         "onEvenContainer": Colors.white,
-        "textInputContainer": const Color.fromRGBO(84, 84, 84, 1),
-        "label": const Color.fromRGBO(221, 221, 221, 1),
+        "textInputContainer": Color.fromRGBO(84, 84, 84, 1),
+        "label": Color.fromRGBO(221, 221, 221, 1),
         "textInput": Colors.white,
         "icon": Colors.white,
-        "icon1": const Color(0xFFf77f00),
+        "icon1": Color(0xFFf77f00),
         "icon2": Colors.white,
-        "background": const Color.fromARGB(255, 19, 19, 19),
-        "backgroundStart": const Color.fromARGB(255, 107, 83, 59),
-        "backgroundEnd": const Color.fromRGBO(61, 61, 61, 1),
-        "hyperlink": const Color.fromRGBO(0, 200, 212, 1),
+        "background": Color.fromARGB(255, 19, 19, 19),
+        "backgroundStart": Color.fromARGB(255, 107, 83, 59),
+        "backgroundEnd": Color.fromARGB(255, 94, 78, 66),
+        "hyperlink": Color.fromRGBO(0, 200, 212, 1),
       },
     ),
   },
@@ -211,26 +225,27 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
           brightness: Brightness.light,
         ),
         useMaterial3: true,
+        fontFamily: GoogleFonts.getFont("Inter").fontFamily,
       ),
-      customColors: {
-        "main": const Color.fromRGBO(0, 48, 73, 1),
+      customColors: const {
+        "main": Color.fromRGBO(0, 48, 73, 1),
         "onMain": Colors.white,
-        "container": const Color.fromRGBO(240, 240, 240, 1),
+        "container": Color.fromRGBO(240, 240, 240, 1),
         "onContainer": Colors.black,
-        "oddContainer": const Color.fromRGBO(238, 238, 238, 1),
+        "oddContainer": Color.fromRGBO(238, 238, 238, 1),
         "onOddContainer": Colors.black,
         "evenContainer": Colors.white,
         "onEvenContainer": Colors.black,
-        "textInputContainer": const Color.fromRGBO(221, 221, 221, 1),
-        "label": const Color.fromRGBO(84, 84, 84, 1),
+        "textInputContainer": Color.fromRGBO(221, 221, 221, 1),
+        "label": Color.fromRGBO(84, 84, 84, 1),
         "textInput": Colors.black,
         "icon": Colors.black,
-        "icon1": const Color.fromRGBO(217, 192, 41, 1),
-        "icon2": const Color.fromRGBO(0, 48, 73, 1),
+        "icon1": Color.fromRGBO(217, 192, 41, 1),
+        "icon2": Color.fromRGBO(0, 48, 73, 1),
         "background": Colors.white,
-        "backgroundStart": const Color.fromARGB(255, 189, 221, 249),
-        "backgroundEnd": const Color.fromRGBO(224, 224, 224, 1),
-        "hyperlink": const Color.fromRGBO(0, 167, 190, 1),
+        "backgroundStart": Color.fromARGB(255, 189, 221, 249),
+        "backgroundEnd": Color.fromRGBO(224, 224, 224, 1),
+        "hyperlink": Color.fromRGBO(0, 167, 190, 1),
       },
     ),
     "dark": CustomThemes(
@@ -242,94 +257,43 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
+        fontFamily: GoogleFonts.getFont("Inter").fontFamily,
       ),
-      customColors: {
+      customColors: const {
         "main": Colors.white,
-        "onMain": const Color.fromRGBO(0, 48, 73, 1),
-        "container": const Color.fromRGBO(77, 77, 77, 1),
+        "onMain": Color.fromRGBO(0, 48, 73, 1),
+        "container": Color.fromRGBO(77, 77, 77, 1),
         "onContainer": Colors.white,
-        "oddContainer": const Color.fromRGBO(77, 77, 77, 1),
+        "oddContainer": Color.fromRGBO(77, 77, 77, 1),
         "onOddContainer": Colors.white,
-        "evenContainer": const Color.fromRGBO(66, 66, 66, 1),
+        "evenContainer": Color.fromRGBO(66, 66, 66, 1),
         "onEvenContainer": Colors.white,
-        "textInputContainer": const Color.fromRGBO(84, 84, 84, 1),
-        "label": const Color.fromRGBO(221, 221, 221, 1),
+        "textInputContainer": Color.fromRGBO(84, 84, 84, 1),
+        "label": Color.fromRGBO(221, 221, 221, 1),
         "textInput": Colors.white,
         "icon": Colors.white,
-        "icon1": const Color.fromRGBO(217, 192, 41, 1),
-        "icon2": const Color.fromRGBO(0, 48, 73, 1),
-        "background": const Color.fromRGBO(32, 32, 32, 1),
-        "backgroundStart": const Color.fromRGBO(0, 48, 73, 1),
-        "backgroundEnd": const Color.fromRGBO(61, 61, 61, 1),
-        "hyperlink": const Color.fromRGBO(0, 200, 212, 1),
+        "icon1": Color.fromRGBO(217, 192, 41, 1),
+        "icon2": Color.fromRGBO(0, 48, 73, 1),
+        "background": Color.fromRGBO(32, 32, 32, 1),
+        "backgroundStart": Color.fromRGBO(0, 48, 73, 1),
+        "backgroundEnd": Color.fromRGBO(52, 68, 83, 1),
+        "hyperlink": Color.fromRGBO(0, 200, 212, 1),
       },
     ),
   },
   "Restroom": {
     "light": CustomThemes(
       themeData: ThemeData(
-        fontFamily: "Sen",
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFFFB330),
+          seedColor: const Color.fromRGBO(255, 179, 48, 1),
           secondary: Colors.blue,
           background: const Color(0xFFECECEC),
           brightness: Brightness.light,
         ),
-        textTheme: TextTheme(
-          headlineMedium: const TextStyle(
-            fontSize: 35,
-            fontWeight: FontWeight.w800,
-            color: Color(0xFF050505),
-          ),
-          headlineSmall: const TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF050505),
-          ),
-          displaySmall: TextStyle(
-            fontSize: 10,
-            overflow: TextOverflow.fade,
-            fontWeight: FontWeight.w800,
-            color: const Color(0xFF050505).withOpacity(1),
-          ),
-          displayMedium: TextStyle(
-            fontSize: 20,
-            overflow: TextOverflow.fade,
-            fontWeight: FontWeight.normal,
-            color: const Color(0xFF050505).withOpacity(0.69),
-          ),
-          displayLarge: const TextStyle(
-            fontSize: 20,
-            overflow: TextOverflow.fade,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF050505),
-          ),
-          titleMedium: const TextStyle(
-            fontSize: 20,
-            color: Color(0xFF050505),
-          ),
-        ),
-        appBarTheme: const AppBarTheme(
-          iconTheme: IconThemeData(
-            color: Colors.white,
-            size: 35,
-          ),
-        ),
-        drawerTheme: const DrawerThemeData(
-          scrimColor: Colors.transparent,
-          backgroundColor: Color(0xFFFFFFFF),
-        ),
-        searchBarTheme: SearchBarThemeData(
-          textStyle: MaterialStatePropertyAll(
-            TextStyle(
-              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
-              color: Colors.black,
-            ),
-          ),
-        ),
+        fontFamily: GoogleFonts.getFont("Inter").fontFamily,
       ),
       customColors: const {
-        "main": Color.fromRGBO(255, 183, 3, 1),
+        "main": Color.fromRGBO(255, 179, 48, 1),
         "onMain": Colors.black,
         "container": Color.fromRGBO(228, 228, 228, 1),
         "onContainer": Colors.black,
@@ -351,68 +315,16 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
     ),
     "dark": CustomThemes(
       themeData: ThemeData(
-        fontFamily: "Sen",
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFFFB330),
+          seedColor: const Color.fromRGBO(255, 179, 48, 1),
           secondary: Colors.blue,
           background: const Color.fromARGB(255, 37, 37, 37),
           brightness: Brightness.dark,
         ),
-        textTheme: TextTheme(
-          headlineMedium: const TextStyle(
-            fontSize: 35,
-            fontWeight: FontWeight.w800,
-            color: Color(0xFFECECEC),
-          ),
-          headlineSmall: const TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFFECECEC),
-          ),
-          displaySmall: const TextStyle(
-            fontSize: 10,
-            overflow: TextOverflow.fade,
-            fontWeight: FontWeight.w800,
-            color: Color(0xFFECECEC),
-          ),
-          displayMedium: TextStyle(
-            fontSize: 20,
-            overflow: TextOverflow.fade,
-            fontWeight: FontWeight.normal,
-            color: const Color(0xFFECECEC).withOpacity(0.69),
-          ),
-          displayLarge: const TextStyle(
-            fontSize: 20,
-            overflow: TextOverflow.fade,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFFECECEC),
-          ),
-          titleMedium: const TextStyle(
-            fontSize: 20,
-            color: Color(0xFFECECEC),
-          ),
-        ),
-        appBarTheme: const AppBarTheme(
-          iconTheme: IconThemeData(
-            color: Color.fromARGB(255, 69, 69, 69),
-            size: 35,
-          ),
-        ),
-        drawerTheme: const DrawerThemeData(
-          scrimColor: Colors.transparent,
-          backgroundColor: Color.fromARGB(0, 212, 212, 212),
-        ),
-        searchBarTheme: SearchBarThemeData(
-          textStyle: MaterialStatePropertyAll(
-            TextStyle(
-              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
-              color: const Color.fromARGB(255, 255, 255, 255),
-            ),
-          ),
-        ),
+        fontFamily: GoogleFonts.getFont("Inter").fontFamily,
       ),
       customColors: const {
-        "main": Color.fromRGBO(255, 183, 3, 1),
+        "main": Color.fromRGBO(255, 179, 48, 1),
         "onMain": Colors.black,
         "container": Color.fromRGBO(60, 60, 60, 1),
         "onContainer": Colors.white,
@@ -427,8 +339,8 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "icon1": Color.fromRGBO(217, 192, 41, 1),
         "icon2": Color.fromRGBO(219, 229, 235, 1),
         "background": Color.fromRGBO(30, 30, 30, 1),
-        "backgroundStart": Color.fromRGBO(125, 67, 0, 1),
-        "backgroundEnd": Color.fromRGBO(61, 61, 61, 1),
+        "backgroundStart": Color.fromRGBO(81, 63, 43, 1),
+        "backgroundEnd": Color.fromRGBO(85, 78, 67, 1),
         "hyperlink": Color.fromRGBO(0, 200, 212, 1),
       },
     ),
