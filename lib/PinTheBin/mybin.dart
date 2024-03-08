@@ -257,24 +257,6 @@ class _MyBinState extends State<MyBinPage> {
                                                         ),
                                                       ),
                                                       actions: <Widget>[
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                          child: const Text(
-                                                            'Cancel',
-                                                            style: TextStyle(
-                                                              fontSize: 20,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              color: Color(
-                                                                  0xFF98989A),
-                                                            ),
-                                                          ),
-                                                        ),
                                                         Container(
                                                           decoration:
                                                               BoxDecoration(
@@ -286,61 +268,12 @@ class _MyBinState extends State<MyBinPage> {
                                                           ),
                                                           child: TextButton(
                                                             onPressed: () {
-                                                              delBin(data["id"])
-                                                                  .then(
-                                                                      (response) {
-                                                                ScaffoldMessenger.of(
-                                                                        context)
-                                                                    .showSnackBar(
-                                                                  SnackBar(
-                                                                    content:
-                                                                        const Text(
-                                                                      "Delete bin successful.",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                      ),
-                                                                    ),
-                                                                    backgroundColor:
-                                                                        Colors.green[
-                                                                            300],
-                                                                  ),
-                                                                );
-                                                                Navigator
-                                                                    .pushReplacementNamed(
-                                                                  context,
-                                                                  pinthebinPageRoute[
-                                                                      "mybin"]!,
-                                                                );
-                                                              }).onError((error,
-                                                                      stackTrace) {
-                                                                debugPrint(error
-                                                                    .toString());
-                                                                ScaffoldMessenger.of(
-                                                                        context)
-                                                                    .showSnackBar(
-                                                                  const SnackBar(
-                                                                    content:
-                                                                        Text(
-                                                                      "Delete bin failed.",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                      ),
-                                                                    ),
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .red,
-                                                                  ),
-                                                                );
-                                                                Navigator.pop(
-                                                                    context);
-                                                              });
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
                                                             },
                                                             child: const Text(
-                                                              'Delete',
+                                                              'Cancel',
                                                               style: TextStyle(
                                                                   fontSize: 20,
                                                                   fontWeight:
@@ -349,6 +282,71 @@ class _MyBinState extends State<MyBinPage> {
                                                                   color: Colors
                                                                       .white),
                                                             ),
+                                                          ),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            delBin(data["id"])
+                                                                .then(
+                                                                    (response) {
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                SnackBar(
+                                                                  content:
+                                                                      const Text(
+                                                                    "Delete bin successful.",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                  ),
+                                                                  backgroundColor:
+                                                                      Colors.green[
+                                                                          300],
+                                                                ),
+                                                              );
+                                                              Navigator
+                                                                  .pushReplacementNamed(
+                                                                context,
+                                                                pinthebinPageRoute[
+                                                                    "mybin"]!,
+                                                              );
+                                                            }).onError((error,
+                                                                    stackTrace) {
+                                                              debugPrint(error
+                                                                  .toString());
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                const SnackBar(
+                                                                  content: Text(
+                                                                    "Delete bin failed.",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                  ),
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .red,
+                                                                ),
+                                                              );
+                                                              Navigator.pop(
+                                                                  context);
+                                                            });
+                                                          },
+                                                          child: const Text(
+                                                            'Delete',
+                                                            style: TextStyle(
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                color: Colors
+                                                                    .black54),
                                                           ),
                                                         )
                                                       ],
