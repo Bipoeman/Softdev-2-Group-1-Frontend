@@ -123,7 +123,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
     double blurGeneral = isPressedGeneral ? 5.0 : 5;
     return Theme(
       data: ThemeData(
-        fontFamily: "Sen",
+        fontFamily: "Kodchasan",
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFFF9957F),
           background: const Color(0xFFFFFFFF),
@@ -567,8 +567,9 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Column(
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, top: 460),
+                              padding: EdgeInsets.only(
+                                  left: size.width * 0.05,
+                                  top: size.height * 0.6),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -579,7 +580,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
-                                  height: size.height * 0.13,
+                                  height: size.height * 0.1,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     color: const Color.fromARGB(9, 0, 47, 73),
@@ -611,9 +612,10 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 38),
+                              padding: EdgeInsets.only(left: size.width * 0.05),
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 8),
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.015),
                                 child: Text(
                                   'DANGER',
                                   style:
@@ -629,7 +631,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 460),
+                              padding: EdgeInsets.only(top: size.height * 0.6),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -641,7 +643,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
-                                  height: size.height * 0.13,
+                                  height: size.height * 0.1,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     color: const Color.fromARGB(9, 0, 47, 73),
@@ -673,7 +675,8 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 8),
+                              padding:
+                                  EdgeInsets.only(top: size.height * 0.015),
                               child: Text(
                                 'RECYCLE',
                                 style: Theme.of(context).textTheme.displaySmall,
@@ -687,7 +690,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 460),
+                              padding: EdgeInsets.only(top: size.height * 0.6),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -699,7 +702,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
-                                  height: size.height * 0.13,
+                                  height: size.height * 0.1,
                                   //color: Colors.black,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
@@ -732,7 +735,8 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 8),
+                              padding:
+                                  EdgeInsets.only(top: size.height * 0.015),
                               child: Text(
                                 'WASTE',
                                 style: Theme.of(context).textTheme.displaySmall,
@@ -746,7 +750,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 460),
+                              padding: EdgeInsets.only(top: size.height * 0.6),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -757,7 +761,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
-                                  height: size.height * 0.13,
+                                  height: size.height * 0.1,
                                   //color: Colors.black,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
@@ -790,7 +794,8 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 8),
+                              padding:
+                                  EdgeInsets.only(top: size.height * 0.015),
                               child: Text(
                                 'GENERAL',
                                 style: Theme.of(context).textTheme.displaySmall,
@@ -805,46 +810,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Padding(
                           padding: EdgeInsets.only(
                               left: size.width * 0.175,
-                              top: size.height * 0.77),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, pinthebinPageRoute['home']!);
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              // padding: EdgeInsets.only(
-                              //     left: size.width * 0.024,
-                              //     top: size.height * 0.01),
-                              width: size.width * 0.25,
-                              height: size.height * 0.055,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF9957F),
-                                borderRadius: BorderRadius.circular(30),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    blurRadius: 5,
-                                    //offset: ,
-                                    color: Color(0xFFA7A9AF),
-                                  ),
-                                ],
-                              ),
-                              child: Text(
-                                'CANCEL',
-                                style: GoogleFonts.getFont(
-                                  "Sen",
-                                  color:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: size.width * 0.17, top: size.height * 0.77),
+                              top: size.height * 0.76),
                           child: GestureDetector(
                             onTap: () {
                               showDialog(
@@ -941,7 +907,44 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               child: Text(
                                 'ADD',
                                 style: GoogleFonts.getFont(
-                                  "Sen",
+                                  "Kodchasan",
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: size.width * 0.17,
+                              top: size.height * 0.755),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, pinthebinPageRoute['home']!);
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: size.width * 0.25,
+                              height: size.height * 0.055,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF9957F),
+                                borderRadius: BorderRadius.circular(30),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    blurRadius: 5,
+                                    //offset: ,
+                                    color: Color(0xFFA7A9AF),
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                'CANCEL',
+                                style: GoogleFonts.getFont(
+                                  "Kodchasan",
                                   color:
                                       const Color.fromARGB(255, 255, 255, 255),
                                   fontSize: 20,

@@ -368,7 +368,7 @@ class _EditbinPageState extends State<EditbinPage> {
                               Padding(
                                 padding: EdgeInsets.only(
                                     left: size.width * 0.05,
-                                    top: size.height * 0.57),
+                                    top: size.height * 0.58),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -379,7 +379,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   },
                                   child: Container(
                                     width: size.width * 0.2,
-                                    height: size.height * 0.13,
+                                    height: size.height * 0.1,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
                                       color: const Color.fromARGB(9, 0, 47, 73),
@@ -432,7 +432,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.only(top: size.height * 0.57),
+                                    EdgeInsets.only(top: size.height * 0.58),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -445,7 +445,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   },
                                   child: Container(
                                     width: size.width * 0.2,
-                                    height: size.height * 0.13,
+                                    height: size.height * 0.1,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
                                       color: const Color.fromARGB(9, 0, 47, 73),
@@ -493,7 +493,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.only(top: size.height * 0.57),
+                                    EdgeInsets.only(top: size.height * 0.58),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -506,7 +506,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   },
                                   child: Container(
                                     width: size.width * 0.2,
-                                    height: size.height * 0.13,
+                                    height: size.height * 0.1,
                                     //color: Colors.black,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
@@ -555,7 +555,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.only(top: size.height * 0.57),
+                                    EdgeInsets.only(top: size.height * 0.58),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -568,7 +568,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   },
                                   child: Container(
                                     width: size.width * 0.2,
-                                    height: size.height * 0.13,
+                                    height: size.height * 0.1,
                                     //color: Colors.black,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
@@ -621,49 +621,6 @@ class _EditbinPageState extends State<EditbinPage> {
                             child: GestureDetector(
                               child: Container(
                                 alignment: Alignment.center,
-                                // padding: EdgeInsets.only(
-                                //     left: size.width * 0.025,
-                                //     top: size.height * 0.009),
-                                width: size.width * 0.25,
-                                height: size.height * 0.055,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFF9957F),
-                                  borderRadius: BorderRadius.circular(30),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      blurRadius: 5,
-                                      //offset: ,
-                                      color: Color(0xFFA7A9AF),
-                                    ),
-                                  ],
-                                ),
-                                child: Text(
-                                  'CANCEL',
-                                  style: GoogleFonts.getFont(
-                                    "Sen",
-                                    color: const Color.fromARGB(
-                                        255, 255, 255, 255),
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, pinthebinPageRoute['home']!);
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: size.width * 0.175,
-                                top: size.height * 0.76),
-                            child: GestureDetector(
-                              child: Container(
-                                alignment: Alignment.center,
-                                // padding: EdgeInsets.only(
-                                //     left: size.width * 0.018,
-                                //     top: size.height * 0.008),
                                 width: size.width * 0.25,
                                 height: size.height * 0.055,
                                 decoration: BoxDecoration(
@@ -738,6 +695,43 @@ class _EditbinPageState extends State<EditbinPage> {
                                         ],
                                       );
                                     });
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: size.width * 0.175,
+                                top: size.height * 0.76),
+                            child: GestureDetector(
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: size.width * 0.25,
+                                height: size.height * 0.055,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFF9957F),
+                                  borderRadius: BorderRadius.circular(30),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      blurRadius: 5,
+                                      //offset: ,
+                                      color: Color(0xFFA7A9AF),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  'CANCEL',
+                                  style: GoogleFonts.getFont(
+                                    "Sen",
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, pinthebinPageRoute['home']!);
                               },
                             ),
                           ),
