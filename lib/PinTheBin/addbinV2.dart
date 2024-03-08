@@ -2,14 +2,17 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mime/mime.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
 import 'package:http/http.dart' as http;
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_func.dart';
 import "package:ruam_mitt/global_var.dart";
 
 class AddbinPageV2 extends StatefulWidget {
@@ -35,20 +38,93 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
   File? _image;
 
   Future<void> _getImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    bool? isCamera = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text("Camera"),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text("gallery "),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (isCamera == null) return;
+    final pickedFile = await ImagePicker()
+        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
-        print('No image selected.');
+        debugPrint('No image selected.');
       }
     });
   }
 
+  Future<void> _addPin() async {
+    await requestNewToken(context);
+    debugPrint("Sending data");
+    final url = Uri.parse("$api$pinTheBinaddbinRoute");
+    var response = await http
+        .post(url, headers: {
+          "Authorization": "Bearer $publicToken",
+        }, body: {
+          "location": _NametextController.text,
+          "description": _DescriptiontextController.text,
+          "bintype": jsonEncode(_bintype),
+          "latitude": _position!.latitude.toString(),
+          "longitude": _position!.longitude.toString(),
+        })
+        .timeout(const Duration(seconds: 10))
+        .onError((error, stackTrace) {
+          return Future.error(error ?? {}, stackTrace);
+        });
+
+    debugPrint("Response: ${response.body}");
+    if (response.statusCode != 200) {
+      return Future.error(response.reasonPhrase ?? "Failed to add bin.");
+    }
+    int id = jsonDecode(response.body)[0]['id'];
+    print("ID: $id");
+    if (_image != null) {
+      await _sendpic(id.toString(), _image).onError((error, stackTrace) async {
+        await _delPin(id);
+        return Future.error(error ?? {}, stackTrace);
+      });
+    }
+  }
+
+  Future<http.Response> _delPin(int id) async {
+    await requestNewToken(context);
+    Uri url = Uri.parse("$api$pinTheBinDeleteBinRoute/$id");
+    http.Response res = await http.delete(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }).timeout(const Duration(seconds: 10));
+    debugPrint(res.body);
+    if (res.statusCode != 200) {
+      return Future.error(res.reasonPhrase ?? "Failed to delete bin");
+    }
+    return res;
+  }
+
   Future<http.Response> _sendpic(id, picture) async {
+    debugPrint("Updating picture");
     final url = Uri.parse("$api$pinTheBinAddpicRoute");
-    print("Report has been sent");
     http.MultipartRequest request = http.MultipartRequest('POST', url);
     request.headers.addAll({
       "Authorization": "Bearer $publicToken",
@@ -59,25 +135,23 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
         "file",
         File(picture.path).readAsBytesSync(),
         filename: picture.path,
+        contentType:
+            MediaType.parse(lookupMimeType(picture.path) ?? "image/jpeg"),
       ),
     );
     request.fields['id'] = id;
-    http.StreamedResponse response = await request.send();
-    http.Response res = await http.Response.fromStream(response);
-    return res;
-  }
-
-  Future<http.Response> _presstosend(LatLng position) async {
-    final url = Uri.parse("$api$pinTheBinaddbinRoute");
-    return await http.post(url, headers: {
-      "Authorization": "Bearer $publicToken"
-    }, body: {
-      "location": _NametextController.text,
-      "description": _DescriptiontextController.text,
-      "bintype": jsonEncode(_bintype),
-      "latitude": position.latitude.toString(),
-      "longitude": position.longitude.toString(),
-    });
+    try {
+      http.StreamedResponse response =
+          await request.send().timeout(const Duration(seconds: 10));
+      if (response.statusCode != 200) {
+        return Future.error(response.reasonPhrase ?? "Failed to send report");
+      }
+      http.Response res = await http.Response.fromStream(response)
+          .timeout(const Duration(seconds: 10));
+      return res;
+    } catch (e) {
+      return Future.error(e);
+    }
   }
 
   final Map<String, bool> _bintype = {
@@ -828,33 +902,58 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                       actions: [
                                         MaterialButton(
                                           onPressed: () async {
-                                            if (_position != null) {
-                                              http.Response res =
-                                                  await _presstosend(
-                                                      _position!);
-                                              print(res.body);
-                                              if (_image != null) {
-                                                _sendpic(
-                                                    '${jsonDecode(res.body)[0]["id"]}',
-                                                    _image!);
-                                                Navigator.pushNamed(
-                                                    context,
-                                                    pinthebinPageRoute[
-                                                        'home']!);
-                                              }
-                                            } else {
+                                            if (_position == null ||
+                                                _NametextController
+                                                    .text.isEmpty) {
+                                              // ignore: use_build_context_synchronously
+                                              Navigator.pop(context);
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                const SnackBar(
+                                                SnackBar(
                                                   content: Text(
-                                                    "Please pin the position.",
+                                                    "Please pin the position and fill in the name.",
                                                     style: TextStyle(
-                                                      color: Colors.white,
+                                                      color: Colors.black,
                                                     ),
                                                   ),
                                                   backgroundColor: Colors.red,
                                                 ),
                                               );
+                                            } else {
+                                              _addPin().then((_) {
+                                                Navigator.pop(context);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: const Text(
+                                                      "Pin created",
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                    backgroundColor:
+                                                        Colors.green[300],
+                                                  ),
+                                                );
+                                                Navigator.pushReplacementNamed(
+                                                    context,
+                                                    restroomPageRoute["home"]!);
+                                              }).onError((error, stackTrace) {
+                                                debugPrint("Error: $error");
+                                                Navigator.pop(context);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text(
+                                                      "Failed to create pin",
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                    backgroundColor: Colors.red,
+                                                  ),
+                                                );
+                                              });
                                             }
                                           },
                                           child: const Text('Confirm'),

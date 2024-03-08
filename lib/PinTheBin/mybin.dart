@@ -37,7 +37,7 @@ class _MyBinState extends State<MyBinPage> {
     Uri url = Uri.parse("$api$pinTheBinDeleteBinRoute/$id");
     return await http.delete(url, headers: {
       "Authorization": "Bearer $publicToken"
-    }).timeout(const Duration(seconds: 5));
+    }).timeout(const Duration(seconds: 10));
   }
 
   @override
