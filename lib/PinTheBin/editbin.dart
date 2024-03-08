@@ -372,7 +372,7 @@ class _EditbinPageState extends State<EditbinPage> {
                               Padding(
                                 padding: EdgeInsets.only(
                                     left: size.width * 0.05,
-                                    top: size.height * 0.57),
+                                    top: size.height * 0.58),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -383,7 +383,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   },
                                   child: Container(
                                     width: size.width * 0.2,
-                                    height: size.height * 0.13,
+                                    height: size.height * 0.1,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
                                       color: const Color.fromARGB(9, 0, 47, 73),
@@ -436,7 +436,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.only(top: size.height * 0.57),
+                                    EdgeInsets.only(top: size.height * 0.58),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -449,7 +449,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   },
                                   child: Container(
                                     width: size.width * 0.2,
-                                    height: size.height * 0.13,
+                                    height: size.height * 0.1,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
                                       color: const Color.fromARGB(9, 0, 47, 73),
@@ -497,7 +497,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.only(top: size.height * 0.57),
+                                    EdgeInsets.only(top: size.height * 0.58),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -510,7 +510,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   },
                                   child: Container(
                                     width: size.width * 0.2,
-                                    height: size.height * 0.13,
+                                    height: size.height * 0.1,
                                     //color: Colors.black,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
@@ -559,7 +559,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.only(top: size.height * 0.57),
+                                    EdgeInsets.only(top: size.height * 0.58),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -572,7 +572,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   },
                                   child: Container(
                                     width: size.width * 0.2,
-                                    height: size.height * 0.13,
+                                    height: size.height * 0.1,
                                     //color: Colors.black,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
