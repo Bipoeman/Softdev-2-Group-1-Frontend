@@ -25,7 +25,6 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
     ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
-    CustomThemes customTheme = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
 
     return SingleChildScrollView(
       physics: const RangeMaintainingScrollPhysics(),

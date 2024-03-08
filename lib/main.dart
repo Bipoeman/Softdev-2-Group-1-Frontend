@@ -19,6 +19,7 @@ import 'package:ruam_mitt/RuamMitr/central_v2.dart';
 import 'package:ruam_mitt/RuamMitr/change_password.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
+import 'package:ruam_mitt/RuamMitr/client_settings.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
 import 'package:ruam_mitt/TuachuayDekhor/admin.dart';
 import 'package:ruam_mitt/TuachuayDekhor/blogger.dart';
@@ -75,6 +76,7 @@ class _SuperAppState extends State<SuperApp> {
       routes: {
         loginPageRoute: (context) => const LoginPage(),
         registerPageRoute: (context) => const RegisterPage(),
+        clientSettingsPageRoute: (context) => const ClientSettingsPage(),
         ruamMitrPageRoute["home"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["password-change"]!: (context) => const PasswordChangePage(),
