@@ -20,11 +20,35 @@ class SettingsWidgetV2 extends StatefulWidget {
 }
 
 class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
+  DropdownMenuItem<String> buildMenuItem(BuildContext context, String app) {
+    ThemeData theme = ThemesPortal.getCurrent(context).appThemes[app]!["light"]!.themeData;
+    return DropdownMenuItem(
+      value: app,
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            color: theme.colorScheme.primary,
+          ),
+          const SizedBox(
+            width: 25,
+          ),
+          Text(
+            app,
+            style: theme.textTheme.bodyLarge,
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    List<String> appList = themeProvider.themeForApp.keys.toList();
 
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
@@ -40,8 +64,7 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
             Column(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                  padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -49,6 +72,42 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                       reportToUs(themeProvider, widget.reportBoxController)
                     ],
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.19),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        color: theme.colorScheme.primary,
+                        width: size.height * 0.03,
+                        height: size.height * 0.03,
+                      ),
+                      SizedBox(width: size.width * 0.02),
+                      Text(
+                        "All Apps",
+                        style: TextStyle(
+                          fontSize: theme.textTheme.titleLarge!.fontSize,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      "Toggle Dark Mode",
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                    Switch(
+                      value: themeProvider.isDarkMode,
+                      onChanged: (value) {
+                        themeProvider.toggleTheme();
+                      },
+                    ),
+                  ],
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width * 0.19),
@@ -75,13 +134,15 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      "Toggle Theme",
+                      "Change Theme",
                       style: theme.textTheme.bodyLarge,
                     ),
-                    Switch(
-                      value: themeProvider.isDarkMode,
+                    DropdownButton(
+                      items: List.generate(appList.length, (index) {
+                        return buildMenuItem(context, appList[index]);
+                      }),
                       onChanged: (value) {
-                        themeProvider.toggleTheme();
+                        ThemesPortal.changeThemeColor(context, "RuamMitr", value!);
                       },
                     ),
                   ],
@@ -144,8 +205,7 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                     ),
                     child: const Text("Logout"),
                     onPressed: () async {
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
                       await prefs.setBool("isChecked", false);
                       await prefs.setString("password", "");
                       isOnceLogin = true;
