@@ -20,11 +20,39 @@ class SettingsWidgetV2 extends StatefulWidget {
 }
 
 class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
+  DropdownMenuItem<String> buildMenuItem(BuildContext context, String app) {
+    ThemeData theme = ThemesPortal.getCurrent(context).appThemes[app]!["light"]!.themeData;
+    CustomThemes currentTheme = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+    return DropdownMenuItem(
+      value: app,
+      child: Row(
+        children: [
+          Container(
+            width: 25,
+            height: 25,
+            color: theme.colorScheme.primary,
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          Text(
+            app,
+            style: theme.textTheme.bodyLarge!.copyWith(
+              color: currentTheme.customColors["onContainer"],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    CustomThemes customTheme = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+    List<String> appList = themeProvider.themeForApp.keys.toList();
 
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
@@ -38,10 +66,10 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                  padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -50,41 +78,152 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.19),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                SizedBox(
+                  width: [size.width * 0.9, 300.0].reduce(min),
+                  child: Column(
                     children: [
-                      Container(
-                        color: theme.colorScheme.primary,
-                        width: size.height * 0.03,
-                        height: size.height * 0.03,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            color: theme.colorScheme.primary,
+                            width: size.height * 0.03,
+                            height: size.height * 0.03,
+                          ),
+                          SizedBox(width: size.width * 0.02),
+                          Text(
+                            "All Apps",
+                            style: TextStyle(
+                              fontSize: theme.textTheme.titleLarge!.fontSize,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: size.width * 0.02),
-                      Text(
-                        "RuamMitr",
-                        style: TextStyle(
-                          fontSize: theme.textTheme.titleLarge!.fontSize,
-                          fontWeight: FontWeight.bold,
+                      Container(
+                        margin: const EdgeInsets.only(left: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Dark Mode",
+                              style: theme.textTheme.bodyLarge,
+                            ),
+                            Switch(
+                              value: themeProvider.isDarkMode,
+                              onChanged: (value) {
+                                themeProvider.toggleTheme();
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      "Toggle Theme",
-                      style: theme.textTheme.bodyLarge,
-                    ),
-                    Switch(
-                      value: themeProvider.isDarkMode,
-                      onChanged: (value) {
-                        themeProvider.toggleTheme();
-                      },
-                    ),
-                  ],
+                SizedBox(
+                  width: [size.width * 0.9, 300.0].reduce(min),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            color: ThemesPortal.getCurrent(context)
+                                .appThemes["RuamMitr"]!["light"]!
+                                .themeData
+                                .colorScheme
+                                .primary,
+                            width: size.height * 0.03,
+                            height: size.height * 0.03,
+                          ),
+                          SizedBox(width: size.width * 0.02),
+                          Text(
+                            "RuamMitr",
+                            style: TextStyle(
+                              fontSize: theme.textTheme.titleLarge!.fontSize,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Themes",
+                              style: theme.textTheme.bodyLarge,
+                            ),
+                            DropdownButton(
+                              dropdownColor: customTheme.customColors["container"]!,
+                              borderRadius: BorderRadius.circular(20),
+                              items: List.generate(appList.length, (index) {
+                                return buildMenuItem(context, appList[index]);
+                              }),
+                              value: ThemesPortal.getCurrent(context).themeForApp["RuamMitr"],
+                              onChanged: (value) {
+                                ThemesPortal.changeThemeColor(context, "RuamMitr", value!);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: [size.width * 0.9, 300.0].reduce(min),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            color: ThemesPortal.getCurrent(context)
+                                .appThemes["TuachuayDekhor"]!["light"]!
+                                .themeData
+                                .colorScheme
+                                .primary,
+                            width: size.height * 0.03,
+                            height: size.height * 0.03,
+                          ),
+                          SizedBox(width: size.width * 0.02),
+                          Text(
+                            "Dekhor",
+                            style: TextStyle(
+                              fontSize: theme.textTheme.titleLarge!.fontSize,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Themes",
+                              style: theme.textTheme.bodyLarge,
+                            ),
+                            DropdownButton(
+                              dropdownColor: customTheme.customColors["container"]!,
+                              borderRadius: BorderRadius.circular(20),
+                              items: List.generate(appList.length, (index) {
+                                return buildMenuItem(context, appList[index]);
+                              }),
+                              value: ThemesPortal.getCurrent(context).themeForApp["TuachuayDekhor"],
+                              onChanged: (value) {
+                                ThemesPortal.changeThemeColor(context, "TuachuayDekhor", value!);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 // if (profileData['role'] == "User")
                 //   Padding(
@@ -144,8 +283,7 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                     ),
                     child: const Text("Logout"),
                     onPressed: () async {
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
                       await prefs.setBool("isChecked", false);
                       await prefs.setString("password", "");
                       isOnceLogin = true;
