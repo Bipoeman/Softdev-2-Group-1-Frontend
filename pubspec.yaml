@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+2
+version: 1.0.0+3
 
 environment:
   sdk: ">=3.2.3 <4.0.0"
@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_image_compress: ^2.1.0
-  path_provider: ^2.1.2 
+  path_provider: ^2.1.2
   quickalert:
   # flutter_map_location_marker: ^8.0.4
   url_launcher: ^6.2.4
@@ -165,6 +165,17 @@ flutter:
           weight: 700
         - asset: assets/fonts/THSarabun-Italic.ttf
         - asset: assets/fonts/THSarabun-BoldItalic.ttf
+    - family: Kodchasan
+      fonts:
+        - asset: assets/fonts/Kodchasan-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Kodchasan-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Kodchasan-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Kodchasan-Bold.ttf
+          weight: 700
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
