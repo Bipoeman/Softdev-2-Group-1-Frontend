@@ -10,6 +10,10 @@
 	<string>Older devices need location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Can I have location always</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

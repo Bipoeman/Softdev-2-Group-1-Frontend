@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ruam_mitt/Restroom/Component/font.dart';
 import 'package:ruam_mitt/Restroom/Component/loading_screen.dart';
@@ -92,13 +93,22 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
     if (isCamera == null) return;
     final pickedFile = await ImagePicker()
         .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        debugPrint('No image selected.');
-      }
-    });
+    if (pickedFile != null) {
+      var result = await FlutterImageCompress.compressAndGetFile(
+        pickedFile.path,
+        '${pickedFile.path}_compressed.jpg',
+        quality: 40,
+      );
+      setState(() {
+        if (result != null) {
+          _image = File(result.path);
+        } else {
+          debugPrint('Compresstion error.');
+        }
+      });
+    } else {
+      debugPrint('No image selected.');
+    }
   }
 
   @override

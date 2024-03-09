@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
@@ -8,6 +9,7 @@ import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:ruam_mitt/Restroom/Component/font.dart';
 import 'package:ruam_mitt/Restroom/Component/loading_screen.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
@@ -58,15 +60,25 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
     );
 
     if (isCamera == null) return;
-    final pickedFile = await ImagePicker()
-        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        debugPrint('No image selected.');
-      }
-    });
+    final pickedFile = await ImagePicker().pickImage(
+        source: isCamera ? ImageSource.camera : ImageSource.gallery);
+
+    if (pickedFile != null) {
+      var result = await FlutterImageCompress.compressAndGetFile(
+        pickedFile.path,
+        '${pickedFile.path}_compressed.jpg',
+        quality: 40,
+      );
+      setState(() {
+        if (result != null) {
+          _image = File(result.path);
+        } else {
+          debugPrint('Compresstion error.');
+        }
+      });
+    } else {
+      debugPrint('No image selected.');
+    }
   }
 
   Future<void> _postReview() async {
