@@ -110,9 +110,9 @@ class _AvatarCustomPageState extends State<AvatarCustomPage> {
                           var theController = FluttermojiController();
                           theController.getFluttermojiOptions().then((value) {
                             theController.selectedOptions = value;
-                            print(theController.getFluttermojiFromOptions());
+                            Navigator.pop(context,
+                                theController.getFluttermojiFromOptions());
                           });
-                          Navigator.pop(context);
                         },
                       ),
                     ),

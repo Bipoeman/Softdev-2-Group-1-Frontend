@@ -3,7 +3,7 @@ import 'package:fluttermoji/fluttermoji.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/frequent_widget/custom_text_field.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
-import 'package:ruam_mitt/RuamMitr/avatar-custom.dart';
+import 'package:ruam_mitt/RuamMitr/avatar_custom.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:http/http.dart' as http;
 import 'package:email_validator/email_validator.dart';
@@ -361,13 +361,14 @@ class _RegisterPageState extends State<RegisterPage> {
                           onChanged: validateRegisterInputs,
                         ),
                         InkWell(
-                          onTap: () {
-                            Navigator.push(
+                          onTap: () async {
+                            String selectedAvatarString = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const AvatarCustomPage(),
                               ),
                             );
+                            print(selectedAvatarString);
                           },
                           child: Container(
                             margin: const EdgeInsets.only(top: 30),
