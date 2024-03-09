@@ -909,10 +909,10 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               child: Text(
                                 'ADD',
                                 style: GoogleFonts.getFont(
-                                  "Kodchasan",
+                                  "Sen",
                                   color:
                                       const Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -946,10 +946,10 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               child: Text(
                                 'CANCEL',
                                 style: GoogleFonts.getFont(
-                                  "Kodchasan",
+                                  "Sen",
                                   color:
                                       const Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

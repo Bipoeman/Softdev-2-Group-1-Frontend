@@ -95,7 +95,7 @@ class _EditbinPageState extends State<EditbinPage> {
 
     return Theme(
       data: ThemeData(
-        fontFamily: "Sen",
+        fontFamily: "Kodchasan",
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFFF9957F),
           background: const Color(0xFFFFFFFF),

@@ -41,8 +41,8 @@ class _BinPageState extends State<BinPage> {
         "Authorization": publicToken,
       },
     );
-    if (res.statusCode == 403){
-      if (context.mounted){
+    if (res.statusCode == 403) {
+      if (context.mounted) {
         await requestNewToken(context);
         return await getBinInfo();
       }
