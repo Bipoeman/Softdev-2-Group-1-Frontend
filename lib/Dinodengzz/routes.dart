@@ -3,18 +3,25 @@ import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/gameover.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/levelcomplete.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/levelselect.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/pause.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/setting.dart';
+import 'package:ruam_mitt/Dinodengzz/Screens/space_gameover.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/start.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/tutorial.dart';
 import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
+import 'package:ruam_mitt/Dinodengzz/spacedengzz.dart';
 
 class GameRoutes extends FlameGame
-    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
+    with
+        HasKeyboardHandlerComponents,
+        DragCallbacks,
+        HasCollisionDetection,
+        PanDetector {
   List<String> levelNames = ['Level-01', 'Level-02', 'Level-03', 'Level-04'];
   String gameOver = 'Over.wav';
   String startGame = 'Start_Screen.wav';
@@ -34,8 +41,8 @@ class GameRoutes extends FlameGame
       (context, game) => StartScreen(
           onLevelSelectionPressed: () => _routeById(LevelSelectionScreen.id),
           onExitPressed: () {
-            Flame.device.setPortrait();
             FlameAudio.bgm.stop();
+            Flame.device.setPortraitUpOnly();
             navigator?.pop(context);
           },
           onSettingPressed: () {
@@ -48,7 +55,7 @@ class GameRoutes extends FlameGame
         onBgmVolumeChanged: onBgmVolumeChanged,
         onMasterVolumeChanged: onMasterVolumeChanged,
         onSfxVolumeChanged: onSfxVolumeChanged,
-        onBackPressed: _exitToMainMenu,
+        onBackPressed: _startBoss /*_exitToMainMenu*/,
         masterVolume: masterVolume,
         bgmVolume: bgmVolume,
         sfxVolume: sfxVolume,
@@ -73,6 +80,18 @@ class GameRoutes extends FlameGame
         onRetryPressed: () {
           FlameAudio.bgm.stop();
           _restartLevel();
+        },
+        onMainMenuPressed: () {
+          FlameAudio.bgm.stop();
+          _exitToMainMenu();
+        },
+      ),
+    ),
+    SpaceGameOverScreen.id: OverlayRoute(
+      (context, game) => SpaceGameOverScreen(
+        onRetryPressed: () {
+          FlameAudio.bgm.stop();
+          _startBoss();
         },
         onMainMenuPressed: () {
           FlameAudio.bgm.stop();
@@ -149,10 +168,28 @@ class GameRoutes extends FlameGame
     );
   }
 
+  void _startBoss() {
+    _router.pop();
+    _router.pushReplacement(
+      Route(
+        () => SpaceDengzz(
+          onPausePressed: pauseGame,
+          onLevelCompleted: showLevelCompleteMenu,
+          onGameOver: showRetryMenuvertical,
+          key: ComponentKey.named(SpaceDengzz.id),
+        ),
+      ),
+      name: SpaceDengzz.id,
+    );
+  }
+
   void _restartLevel() {
     final gameplay = findByKeyName<DinoDengzz>(DinoDengzz.id);
-
-    if (gameplay != null) {
+    final bossplay = findByKeyName<SpaceDengzz>(SpaceDengzz.id);
+    if (bossplay != null) {
+      _startBoss();
+      resumeEngine();
+    } else if (gameplay != null) {
       _startLevel(gameplay.currentLevel);
       resumeEngine();
     }
@@ -187,9 +224,10 @@ class GameRoutes extends FlameGame
     resumeEngine();
   }
 
-  void _exitToMainMenu() {
+  Future<void> _exitToMainMenu() async {
     _resumeGame();
     FlameAudio.bgm.stop();
+    await Flame.device.setLandscape();
     _router.pushReplacementNamed(StartScreen.id);
     FlameAudio.bgm.play(startGame, volume: masterVolume * bgmVolume);
   }
@@ -201,6 +239,11 @@ class GameRoutes extends FlameGame
   void showRetryMenu() {
     FlameAudio.bgm.play(gameOver, volume: masterVolume * bgmVolume);
     _router.pushNamed(GameOverScreen.id);
+  }
+
+  void showRetryMenuvertical() {
+    //FlameAudio.bgm.play(gameOver, volume: masterVolume * bgmVolume);
+    _router.pushNamed(SpaceGameOverScreen.id);
   }
 
   void onMasterVolumeChanged(double volume) {

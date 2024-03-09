@@ -33,7 +33,7 @@ class Saw extends SpriteAnimationComponent
   @override
   FutureOr<void> onLoad() {
     priority = 1;
-    add(CircleHitbox());
+    add(CircleHitbox(isSolid: true));
 
     if (isVertical) {
       rangeNeg = position.y - offNeg * tileSize;
