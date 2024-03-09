@@ -81,6 +81,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   mime:
   http_parser:
+  fluttermoji: ^1.0.2
 
 flutter_icons:
   android: true

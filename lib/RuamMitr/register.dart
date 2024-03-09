@@ -20,6 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final confirmpasswordTextController = TextEditingController();
+  String selectedAvatarString = "";
   var _registerButtonEnabled = false;
   final _formKey = GlobalKey<FormState>();
   final _isEmptyFromStart = {
@@ -218,26 +219,26 @@ class _RegisterPageState extends State<RegisterPage> {
             style: TextStyle(
               color: theme.colorScheme.onPrimary,
             ),
+            backgroundColor: theme.colorScheme.primary,
           ),
-          backgroundColor: theme.colorScheme.primary,
-        ),
-      );
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        loginPageRoute,
-        (route) => false,
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "Registration failed.",
-            style: TextStyle(
-              color: theme.colorScheme.onPrimary,
+        );
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          loginPageRoute,
+          (route) => false,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Registration failed.",
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary,
+              ),
             ),
+            backgroundColor: theme.colorScheme.primary,
           ),
-          backgroundColor: theme.colorScheme.primary,
-        ),
-      );
+        );
+      }
     }
   }
 
