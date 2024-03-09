@@ -16,6 +16,7 @@ class ServicesWidget extends StatelessWidget {
         children: [
           AppBox(
             appName: "Dekhor",
+            appDescription: "A community's portal for Uni student",
             width: size.width,
             height: size.height * 0.1,
             appIconPath: "assets/Logo/dekhor_portal_color.png",
@@ -30,6 +31,7 @@ class ServicesWidget extends StatelessWidget {
           // ),
           AppBox(
             appName: "Restroom",
+            appDescription: "Use the restroom with confidence",
             width: size.width,
             height: size.height * 0.1,
             appIconPath: "assets/Logo/restroom_home_logo.png",
@@ -39,6 +41,7 @@ class ServicesWidget extends StatelessWidget {
           ),
           AppBox(
             appName: "PinTheBin",
+            appDescription: "Properly dispose your trash",
             width: size.width,
             height: size.height * 0.1,
             appIconPath: "assets/Logo/bin_portal_color.png",
@@ -48,7 +51,8 @@ class ServicesWidget extends StatelessWidget {
             },
           ),
           AppBox(
-            appName: "DinoDengzz",
+            appName: "Dinodengzz",
+            appDescription: "A musicwriter who barely able to make a game",
             width: size.width,
             height: size.height * 0.1,
             appIconPath: "assets/Logo/Dino_Portal_Sakura_bg.png",

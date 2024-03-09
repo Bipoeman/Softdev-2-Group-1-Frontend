@@ -2,7 +2,7 @@ import "dart:convert";
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import "package:latlong2/latlong.dart";
-import "package:ruam_mitt/Restroom/Component/loading_screen.dart";
+import "package:ruam_mitt/PinTheBin/componant/loading.dart";
 import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
@@ -46,6 +46,7 @@ class _MyBinState extends State<MyBinPage> {
     // TODO: implement initState
     super.initState();
     print("Init Bin Page");
+    showLoadingScreen(context);
     myBinInfo().then((response) {
       print("Response");
       print(response.body);
@@ -53,6 +54,7 @@ class _MyBinState extends State<MyBinPage> {
         binData = jsonDecode(response.body);
         binShow = binData;
         print(binShow);
+        Navigator.pop(context);
       });
       // print(binData);
     });
@@ -88,7 +90,7 @@ class _MyBinState extends State<MyBinPage> {
               children: binShow.isEmpty
                   ? [
                       Center(
-                          heightFactor: size.height * 0.02,
+                          heightFactor: size.height * 0.015,
                           child: Text(
                             'No Bin Found!',
                             style: TextStyle(
@@ -266,6 +268,8 @@ class _MyBinState extends State<MyBinPage> {
                                                         ),
                                                         TextButton(
                                                           onPressed: () {
+                                                            showLoadingScreen(
+                                                                context);
                                                             delBin(data["id"])
                                                                 .then(
                                                                     (response) {
@@ -287,14 +291,19 @@ class _MyBinState extends State<MyBinPage> {
                                                                           300],
                                                                 ),
                                                               );
-                                                              Navigator
-                                                                  .pushReplacementNamed(
-                                                                context,
-                                                                pinthebinPageRoute[
-                                                                    "mybin"]!,
-                                                              );
+
+                                                              Navigator.popUntil(
+                                                                  context,
+                                                                  ModalRoute.withName(
+                                                                      pinthebinPageRoute[
+                                                                          "mybin"]!));
                                                             }).onError((error,
                                                                     stackTrace) {
+                                                              Navigator.popUntil(
+                                                                  context,
+                                                                  ModalRoute.withName(
+                                                                      pinthebinPageRoute[
+                                                                          "mybin"]!));
                                                               debugPrint(error
                                                                   .toString());
                                                               ScaffoldMessenger

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'dart:math';
 
+import 'package:ruam_mitt/global_const.dart';
+
 class ClientSettingsWidget extends StatelessWidget {
   const ClientSettingsWidget({super.key});
 

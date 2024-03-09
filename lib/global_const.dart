@@ -64,6 +64,7 @@ const String dekhorDescriptionRoute = "/dekhor/bloggerdescription";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
 const String pinTheBinAddpicRoute = "/pinthebin/bin/upload";
+const String pinTheBinEditpicRoute = "/pinthebin/bin/upload";
 const String pinTheBinaddbinRoute = "/pinthebin/bin";
 const String pinTheBineditbinRoute = "/pinthebin/bin";
 const String restroomRoverRestroomRoute = "/restroom";
@@ -146,7 +147,8 @@ BoxDecoration ruamMitrBackgroundGradient(ThemeProvider themes) {
 }
 
 LinearGradient backgroundGradient(BuildContext context, String themeName) {
-  CustomThemes customTheme = ThemesPortal.appThemeFromContext(context, themeName)!;
+  CustomThemes customTheme =
+      ThemesPortal.appThemeFromContext(context, themeName)!;
   return LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
