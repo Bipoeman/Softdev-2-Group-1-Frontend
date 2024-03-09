@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:clay_containers/widgets/clay_container.dart';
+import 'package:clay_containers/widgets/clay_text.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
@@ -133,6 +134,12 @@ class _EditbinPageState extends State<EditbinPage> {
             fontWeight: FontWeight.normal,
             color: const Color(0xFF003049).withOpacity(0.45),
           ),
+          bodyMedium: TextStyle(
+            fontSize: 13.5,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xFF003049),
+          ),
         ),
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(
@@ -180,12 +187,58 @@ class _EditbinPageState extends State<EditbinPage> {
                   ),
                   title: Column(
                     children: [
-                      Text(
-                        "EDIT",
-                        style: Theme.of(context).textTheme.headlineMedium,
+                      Stack(
+                        children: [
+                          ClayContainer(
+                              width: size.width * 0.7,
+                              height: size.height * 0.08,
+                              borderRadius: 30,
+                              depth: -20,
+                              color: Color(0xFFF99680),
+                              surfaceColor: Color.fromARGB(116, 109, 68, 58),
+                              // surfaceColor: Color.fromARGB(147, 249, 150, 128),
+                              // surfaceColor:
+                              //     const Color.fromARGB(255, 138, 112, 112),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: size.height * 0.005,
+                                    left: size.width * 0.155),
+                                child: ClayText(
+                                  'EDIT BIN',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
+
+                                  emboss: true,
+                                  //size: 20,
+                                  color: Color(0xFFF8A88F),
+                                  textColor: Color(0xFF003049),
+                                  //color: Color.fromARGB(255, 234, 134, 41),
+                                  depth: -100,
+                                  //spread: 5,
+                                ),
+                              )),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: size.height * 0.055,
+                                left: size.width * 0.18),
+                            child: Container(
+                              //color: Color(0xFFF99680),
+                              child: ClayText(
+                                'P  I  N  T  H  E  B  I  N',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                color: Color(0xFF003049),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        height: size.height * 0.015,
+                      // Text(
+                      //   "ADD BIN",
+                      //   style: Theme.of(context).textTheme.headlineMedium,
+                      // ),
+                      const SizedBox(
+                        height: 15,
                       )
                     ],
                   ),
