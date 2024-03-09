@@ -90,7 +90,6 @@ const Map<String, String> ruamMitrPageRoute = {
   "password-change": "/RuamMitr/password",
   "settings": "/RuamMitr/settings",
   "restroom": "/RuamMitr/restroom",
-  "create-avatar": "/RuamMitr/create-avatar",
 };
 const Map<String, String> restroomPageRoute = {
   "home": "/Restroom/home",
