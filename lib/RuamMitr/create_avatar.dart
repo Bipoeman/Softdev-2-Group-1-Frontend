@@ -167,17 +167,70 @@ class _CreateAvatarPageState extends State<CreateAvatarPage> {
                             customTheme: customTheme,
                             title: "Fluttermoji",
                             description: "Let you customize your avatar.",
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: customTheme.customColors["main"]!,
+                                  content: Text(
+                                    "This feature is not available yet.",
+                                    style: TextStyle(
+                                      color: customTheme.customColors["onMain"]!,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20,
+                                      fontFamily:
+                                          customTheme.themeData.textTheme.bodyLarge!.fontFamily,
+                                    ),
+                                  ),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            },
                           ),
                           inkWellBox(
                             customTheme: customTheme,
                             title: "Al-Generate",
                             description: "Let AI generate your avatar.",
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: customTheme.customColors["main"]!,
+                                  content: Text(
+                                    "This feature is not available yet.",
+                                    style: TextStyle(
+                                      color: customTheme.customColors["onMain"]!,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20,
+                                      fontFamily:
+                                          customTheme.themeData.textTheme.bodyLarge!.fontFamily,
+                                    ),
+                                  ),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            },
                           ),
                           inkWellBox(
                             customTheme: customTheme,
                             title: "Upload",
                             description: "Let you upload your avatar.",
-                            onTap: () {},
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: customTheme.customColors["main"]!,
+                                  content: Text(
+                                    "This feature is not available yet.",
+                                    style: TextStyle(
+                                      color: customTheme.customColors["onMain"]!,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20,
+                                      fontFamily:
+                                          customTheme.themeData.textTheme.bodyLarge!.fontFamily,
+                                    ),
+                                  ),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            },
                           ),
                           Center(
                             child: TextButton(
