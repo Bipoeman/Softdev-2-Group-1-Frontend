@@ -22,6 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final confirmpasswordTextController = TextEditingController();
+  String selectedAvatarString = "";
   var _registerButtonEnabled = false;
   final _formKey = GlobalKey<FormState>();
   final _isEmptyFromStart = {
@@ -210,35 +211,36 @@ class _RegisterPageState extends State<RegisterPage> {
         'password': passwordTextController.text,
       },
     );
-
-    if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "Registration successful.",
-            style: TextStyle(
-              color: theme.colorScheme.onPrimary,
+    if (context.mounted) {
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Registration successful.",
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary,
+              ),
             ),
+            backgroundColor: theme.colorScheme.primary,
           ),
-          backgroundColor: theme.colorScheme.primary,
-        ),
-      );
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        loginPageRoute,
-        (route) => false,
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "Registration failed.",
-            style: TextStyle(
-              color: theme.colorScheme.onPrimary,
+        );
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          loginPageRoute,
+          (route) => false,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Registration failed.",
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary,
+              ),
             ),
+            backgroundColor: theme.colorScheme.primary,
           ),
-          backgroundColor: theme.colorScheme.primary,
-        ),
-      );
+        );
+      }
     }
   }
 
@@ -362,13 +364,13 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         InkWell(
                           onTap: () async {
-                            String selectedAvatarString = await Navigator.push(
+                            selectedAvatarString = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const AvatarCustomPage(),
                               ),
                             );
-                            print(selectedAvatarString);
+                            debugPrint(selectedAvatarString);
                           },
                           child: Container(
                             margin: const EdgeInsets.only(top: 30),
