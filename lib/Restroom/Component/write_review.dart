@@ -162,237 +162,232 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
     return Theme(
         data: RestroomThemeData,
         child: Builder(builder: (context) {
-          return Container(
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(239, 239, 239, 1),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 25,
-                        backgroundImage: NetworkImage(profileData["imgPath"]),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(profileData["fullname"],
-                              style:
-                                  name_place(profileData["fullname"], context)),
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundImage: NetworkImage(profileData["imgPath"]),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(profileData["fullname"],
+                            style:
+                                name_place(profileData["fullname"], context)),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                RatingBar.builder(
+                  glow: false,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  itemBuilder: (context, _) => const Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  initialRating: _rating,
+                  onRatingUpdate: (rating) {
+                    setState(() {
+                      _rating = rating;
+                    });
+                    debugPrint(_rating.toString());
+                  },
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: size.height * 0.02),
+                  child: ClayContainer(
+                    width: size.width * 0.85,
+                    height: size.height * 0.17,
+                    color: const Color(0xFFEAEAEA),
+                    borderRadius: 30,
+                    depth: -20,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: TextField(
+                        style:
+                            text_input(_reviewTextController.text, context),
+                        maxLength: 150,
+                        maxLines: null,
+                        controller: _reviewTextController,
+                        onChanged: (text) {
+                          setState(() {
+                            reviewTextLength = text.length;
+                          });
+                        },
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r"\n"))
                         ],
+                        decoration: const InputDecoration(
+                          counterText: "",
+                          border: InputBorder.none,
+                          hintText: 'Write a review...',
+                        ),
+                        onTapOutside: (event) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  RatingBar.builder(
-                    glow: false,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    itemPadding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    itemBuilder: (context, _) => const Icon(
-                      Icons.star,
-                      color: Colors.amber,
                     ),
-                    initialRating: _rating,
-                    onRatingUpdate: (rating) {
-                      setState(() {
-                        _rating = rating;
-                      });
-                      debugPrint(_rating.toString());
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: size.width * 0.05),
+                      child: IntrinsicWidth(
+                        child: Text(
+                          "$reviewTextLength/150",
+                          style: text_input("", context),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: size.height * 0.02,
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      _getImage();
                     },
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: size.height * 0.02),
-                    child: ClayContainer(
-                      width: size.width * 0.85,
-                      height: size.height * 0.17,
-                      color: const Color(0xFFEAEAEA),
-                      borderRadius: 30,
-                      depth: -20,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: TextField(
-                          style:
-                              text_input(_reviewTextController.text, context),
-                          maxLength: 150,
-                          maxLines: null,
-                          controller: _reviewTextController,
-                          onChanged: (text) {
-                            setState(() {
-                              reviewTextLength = text.length;
-                            });
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.deny(RegExp(r"\n"))
-                          ],
-                          decoration: const InputDecoration(
-                            counterText: "",
-                            border: InputBorder.none,
-                            hintText: 'Write a review...',
-                          ),
-                          onTapOutside: (event) {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: size.width * 0.05),
-                        child: IntrinsicWidth(
-                          child: Text(
-                            "$reviewTextLength/150",
-                            style: text_input("", context),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: size.height * 0.02,
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        _getImage();
-                      },
-                      child: _image == null
-                          ? Container(
-                              padding: const EdgeInsets.only(right: 10),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(40),
-                                border: Border.all(color: Colors.grey),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20, right: 10, top: 10, bottom: 10),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(Icons.camera_alt),
-                                    const SizedBox(width: 10),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 5),
-                                      child: Text(
-                                        'Add Photo',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .displayLarge,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          : ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: Image.file(
-                                _image!,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 25),
-                        child: ElevatedButton(
-                          onPressed: widget.closeSlidingBox,
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.black,
-                            backgroundColor: Colors.grey[300],
-                            surfaceTintColor: Colors.white,
-                            shape: RoundedRectangleBorder(
+                    child: _image == null
+                        ? Container(
+                            padding: const EdgeInsets.only(right: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
                               borderRadius: BorderRadius.circular(40),
-                              side: const BorderSide(color: Colors.grey),
+                              border: Border.all(color: Colors.grey),
                             ),
-                          ),
-                          child: Text(
-                            "Cancel",
-                            style: Theme.of(context).textTheme.displayLarge,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            showRestroomLoadingScreen(context);
-                            _postReview().then((value) {
-                              Navigator.pop(context);
-                              Navigator.pushReplacementNamed(
-                                  context, restroomPageRoute["review"]!,
-                                  arguments: {
-                                    ...widget.restroomData,
-                                    "avg_star": (widget
-                                                .restroomData["avg_star"] ??
-                                            0 + _rating) /
-                                        (widget.restroomData["count"] ?? 0 + 1),
-                                    "count":
-                                        widget.restroomData["count"] ?? 0 + 1,
-                                  });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text("Review posted.")));
-                            }).onError((error, stackTrace) {
-                              debugPrint(error.toString());
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    "Failed to post review.",
-                                    style: TextStyle(
-                                      color: theme.colorScheme.onPrimary,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20, right: 10, top: 10, bottom: 10),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.camera_alt),
+                                  const SizedBox(width: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      'Add Photo',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayLarge,
                                     ),
                                   ),
-                                  backgroundColor: theme.colorScheme.primary,
-                                ),
-                              );
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.black,
-                            backgroundColor: Colors.amber,
-                            surfaceTintColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
-                              side: const BorderSide(color: Colors.grey),
+                                ],
+                              ),
+                            ),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.file(
+                              _image!,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          child: Text(
-                            'Submit',
-                            style: Theme.of(context).textTheme.displayLarge,
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 25),
+                      child: ElevatedButton(
+                        onPressed: widget.closeSlidingBox,
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.black,
+                          backgroundColor: Colors.grey[300],
+                          surfaceTintColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                            side: const BorderSide(color: Colors.grey),
                           ),
                         ),
+                        child: Text(
+                          "Cancel",
+                          style: Theme.of(context).textTheme.displayLarge,
+                        ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          showRestroomLoadingScreen(context);
+                          _postReview().then((value) {
+                            Navigator.pop(context);
+                            Navigator.pushReplacementNamed(
+                                context, restroomPageRoute["review"]!,
+                                arguments: {
+                                  ...widget.restroomData,
+                                  "avg_star": (widget
+                                              .restroomData["avg_star"] ??
+                                          0 + _rating) /
+                                      (widget.restroomData["count"] ?? 0 + 1),
+                                  "count":
+                                      widget.restroomData["count"] ?? 0 + 1,
+                                });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Review posted.")));
+                          }).onError((error, stackTrace) {
+                            debugPrint(error.toString());
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  "Failed to post review.",
+                                  style: TextStyle(
+                                    color: theme.colorScheme.onPrimary,
+                                  ),
+                                ),
+                                backgroundColor: theme.colorScheme.primary,
+                              ),
+                            );
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.black,
+                          backgroundColor: Colors.amber,
+                          surfaceTintColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                            side: const BorderSide(color: Colors.grey),
+                          ),
+                        ),
+                        child: Text(
+                          'Submit',
+                          style: Theme.of(context).textTheme.displayLarge,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           );
         }));
