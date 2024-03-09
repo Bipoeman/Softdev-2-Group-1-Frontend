@@ -23,18 +23,18 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
   bool isEditing = false;
   bool showMore = false;
   bool isPostSelected = true;
-  bool isSaveSelected = false;
+  bool isSavedSelected = false;
   var post = [];
-  var save = [];
+  var saved = [];
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
-  final saveurl = Uri.parse("$api$dekhorShowSaveRoute");
+  final savedurl = Uri.parse("$api$dekhorShowSaveRoute");
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
     _loadDetail();
-    savepost();
+    savedpost();
   }
 
   void updateDescription(String value) {
@@ -56,13 +56,13 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
     }
   }
 
-  Future<void> savepost() async {
+  Future<void> savedpost() async {
     var response = await http
-        .get(saveurl, headers: {"Authorization": "Bearer $publicToken"});
+        .get(savedurl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
       setState(() {
-        save = jsonDecode(response.body);
-        print(save);
+        saved = jsonDecode(response.body);
+        print(saved);
       });
     } else {
       throw Exception('Failed to load data');
@@ -209,7 +209,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                   onTap: () {
                                     setState(() {
                                       isPostSelected = true;
-                                      isSaveSelected = false;
+                                      isSavedSelected = false;
                                     });
                                   },
                                   child: Container(
@@ -241,14 +241,14 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                   onTap: () {
                                     setState(() {
                                       isPostSelected = false;
-                                      isSaveSelected = true;
+                                      isSavedSelected = true;
                                     });
                                   },
                                   child: Container(
                                     width: size.width * 0.4,
                                     height: size.width * 0.1,
                                     decoration: BoxDecoration(
-                                      color: isSaveSelected
+                                      color: isSavedSelected
                                           ? const Color.fromRGBO(0, 48, 73, 1)
                                           : const Color.fromRGBO(
                                               217, 217, 217, 1),
@@ -256,9 +256,9 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        'Save',
+                                        'Saved',
                                         style: TextStyle(
-                                          color: isSaveSelected
+                                          color: isSavedSelected
                                               ? const Color.fromRGBO(
                                                   217, 217, 217, 1)
                                               : const Color.fromRGBO(
@@ -310,7 +310,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                 : MasonryGridView.builder(
                                     mainAxisSpacing: 10,
                                     crossAxisSpacing: 10,
-                                    itemCount: save.length,
+                                    itemCount: saved.length,
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
@@ -318,18 +318,18 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                         const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2),
                                     itemBuilder: (context, index) => BlogBox(
-                                      title: save[index]['post']['title'],
-                                      name: save[index]['fullname_blogger'],
-                                      category: save[index]['post']['category'],
-                                      like: save[index]['post']['save'] ?? "0",
+                                      title: saved[index]['post']['title'],
+                                      name: saved[index]['fullname_blogger'],
+                                      category: saved[index]['post']['category'],
+                                      like: saved[index]['post']['save'] ?? "0",
                                       image: NetworkImage(
-                                        save[index]['post']['image_link'],
+                                        saved[index]['post']['image_link'],
                                       ),
                                       onPressed: () {
                                         Navigator.pushNamed(
                                           context,
                                           tuachuayDekhorPageRoute['blog']!,
-                                          arguments: save[index]['post']
+                                          arguments: saved[index]['post']
                                               ['id_post'],
                                         );
                                       },

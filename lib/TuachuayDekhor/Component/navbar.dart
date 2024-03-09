@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/search_box.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
-import 'dart:ui';
 // import 'package:ruam_mitt/RuamMitr/Component/home_v2/central_v2.dart';
 
 class NavbarTuachuayDekhor extends StatelessWidget {
@@ -28,8 +26,7 @@ class NavbarTuachuayDekhor extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     ThemeProvider themeProvider = ThemesPortal.getCurrent(context);
-    CustomThemes theme =
-        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
     const double navbarHeight = 100;
     const double paddingSize = 30;
@@ -107,8 +104,7 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, tuachuayDekhorPageRoute["admin"]!);
+                        Navigator.pushNamed(context, tuachuayDekhorPageRoute["admin"]!);
                       },
                     ),
                   if (profileData['role'] == "User")
@@ -131,22 +127,44 @@ class NavbarTuachuayDekhor extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, tuachuayDekhorPageRoute["profile"]!);
+                        Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
+                      },
+                    ),
+                  if (profileData['role'] == "User")
+                    PopupMenuItem(
+                      child: const Row(
+                        children: [
+                          Icon(
+                            Icons.report,
+                            color: Color.fromRGBO(217, 192, 41, 1),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Report",
+                            style: TextStyle(
+                              color: Color.fromRGBO(217, 192, 41, 1),
+                            ),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, tuachuayDekhorPageRoute["reportapp"]!);
                       },
                     ),
                   PopupMenuItem(
-                    child: Row(
+                    child: const Row(
                       children: [
                         Icon(
                           Icons.logout,
-                          color: customColors["onContainer"]!,
+                          color: Colors.red,
                         ),
-                        const SizedBox(width: 10),
+                        SizedBox(width: 10),
                         Text(
                           "RuamMitr",
                           style: TextStyle(
-                            color: customColors["onContainer"]!,
+                            color: Colors.red,
                           ),
                         ),
                       ],

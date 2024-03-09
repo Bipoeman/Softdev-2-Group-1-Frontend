@@ -15,11 +15,11 @@ ThemeData RestroomThemeData = ThemeData(
       fontWeight: FontWeight.w800,
       color: Color(0xFF464553),
     ),
-    headlineSmall: TextStyle(
+    headlineSmall: const TextStyle(
       fontSize: 30,
       
       fontWeight: FontWeight.w500,
-      color: const Color(0xFF050505),
+      color: Color(0xFF050505),
       
       
     ),
@@ -35,17 +35,17 @@ ThemeData RestroomThemeData = ThemeData(
       fontWeight: FontWeight.normal,
       color: const Color(0xFF050505).withOpacity(0.69),
     ),
-    displayLarge: TextStyle(
+    displayLarge: const TextStyle(
       fontSize: 20,
       overflow: TextOverflow.fade,
       fontWeight: FontWeight.w700,
-      color: const Color(0xFF050505),
+      color: Color(0xFF050505),
     ),
-    titleMedium: TextStyle(
+    titleMedium: const TextStyle(
       fontSize: 20,
       
      
-      color: const Color(0xFF050505),
+      color: Color(0xFF050505),
     ),
   ),
   appBarTheme: const AppBarTheme(

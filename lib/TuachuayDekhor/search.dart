@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
@@ -291,64 +293,87 @@ class _TuachuayDekhorSearchPageState extends State<TuachuayDekhorSearchPage> {
                               top: size.width * 0.005,
                             ),
                             child: isblog
-                                ? MasonryGridView.builder(
-                                    mainAxisSpacing: 10,
-                                    crossAxisSpacing: 10,
-                                    itemCount: blogSearch.length,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    gridDelegate:
-                                        const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2),
-                                    itemBuilder: ((context, index) => BlogBox(
-                                          title:
-                                              blogSearch[index]['title'] ?? '',
-                                          name: blogSearch[index]['user']
-                                                  ?['fullname'] ??
-                                              '',
-                                          category: blogSearch[index]
-                                                  ['category'] ??
-                                              '',
-                                          like:
-                                              blogSearch[index]['save'] ?? "0",
-                                          image: NetworkImage(
-                                            blogSearch[index]['image_link'] !=
-                                                    "null"
-                                                ? blogSearch[index]
-                                                    ['image_link']
-                                                : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                ? blogSearch.isEmpty
+                                    ? Center(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                            top: size.width * 0.05,
                                           ),
-                                          onPressed: () {
-                                            Navigator.pushNamed(
-                                                context,
-                                                tuachuayDekhorPageRoute[
-                                                    'blog']!,
-                                                arguments: blogSearch[index]
-                                                    ['id_post']);
-                                          },
-                                        )),
-                                  )
-                                : MasonryGridView.builder(
-                                    mainAxisSpacing: 10,
-                                    crossAxisSpacing: 10,
-                                    itemCount: bloggerSearch.length,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    gridDelegate:
-                                        const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 3),
-                                    itemBuilder: ((context, index) =>
-                                        TuachuayDekhorAvatarViewer(
-                                          username: bloggerSearch[index]['user']
-                                                  ['fullname'] ??
-                                              '',
-                                          avatarUrl: bloggerSearch[index]
-                                                  ['profile'] ??
-                                              "https://api.multiavatar.com/${(bloggerSearch[index]['user']['fullname']).replaceAll(" ", "+")}.png",
-                                        )),
-                                  ),
+                                          child:
+                                              const Text("No results found."),
+                                        ),
+                                      )
+                                    : MasonryGridView.builder(
+                                        mainAxisSpacing: 10,
+                                        crossAxisSpacing: 10,
+                                        itemCount: blogSearch.length,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        gridDelegate:
+                                            const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 2),
+                                        itemBuilder: ((context, index) =>
+                                            BlogBox(
+                                              title: blogSearch[index]
+                                                      ['title'] ??
+                                                  '',
+                                              name: blogSearch[index]['user']
+                                                      ?['fullname'] ??
+                                                  '',
+                                              category: blogSearch[index]
+                                                      ['category'] ??
+                                                  '',
+                                              like: blogSearch[index]['save'] ??
+                                                  "0",
+                                              image: NetworkImage(
+                                                blogSearch[index]
+                                                            ['image_link'] !=
+                                                        "null"
+                                                    ? blogSearch[index]
+                                                        ['image_link']
+                                                    : "https://cdn-icons-png.freepik.com/512/6114/6114045.png",
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                    context,
+                                                    tuachuayDekhorPageRoute[
+                                                        'blog']!,
+                                                    arguments: blogSearch[index]
+                                                        ['id_post']);
+                                              },
+                                            )),
+                                      )
+                                : bloggerSearch.isEmpty
+                                    ? Center(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                            top: size.width * 0.05,
+                                          ),
+                                          child:
+                                              const Text("No results found."),
+                                        ),
+                                      )
+                                    : MasonryGridView.builder(
+                                        mainAxisSpacing: 10,
+                                        crossAxisSpacing: 10,
+                                        itemCount: bloggerSearch.length,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        gridDelegate:
+                                            const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 3),
+                                        itemBuilder: ((context, index) =>
+                                            TuachuayDekhorAvatarViewer(
+                                              username: bloggerSearch[index]
+                                                      ['user']['fullname'] ??
+                                                  '',
+                                              avatarUrl: bloggerSearch[index]
+                                                      ['profile'] ??
+                                                  "https://api.multiavatar.com/${(bloggerSearch[index]['user']['fullname']).replaceAll(" ", "+")}.png",
+                                            )),
+                                      ),
                           ),
                         ],
                       ),

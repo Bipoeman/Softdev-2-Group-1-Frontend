@@ -29,10 +29,10 @@ class _HomePageV2State extends State<HomePageV2> {
   GlobalKey<FormState> reportFormKey = GlobalKey();
   // GlobalKey<FormFieldState> appSelectKey = GlobalKey();
   TextEditingController titleController = TextEditingController();
-  TextEditingController explainationController = TextEditingController();
+  TextEditingController explanationController = TextEditingController();
   TextEditingController imageSelectionController = TextEditingController();
   FocusNode titleFocusNode = FocusNode();
-  FocusNode explainationFocusNode = FocusNode();
+  FocusNode explanationFocusNode = FocusNode();
   File? imageSelected;
 
   Future<File?> getImage() async {
@@ -54,8 +54,7 @@ class _HomePageV2State extends State<HomePageV2> {
     // debugPrint("Home Ruammitr InitState");
     Uri uri = Uri.parse("$api$userDataRequestRoute");
     setState(() {});
-    http.get(uri, headers: {"Authorization": "Bearer $publicToken"}).then(
-        (http.Response res) {
+    http.get(uri, headers: {"Authorization": "Bearer $publicToken"}).then((http.Response res) {
       profileData = jsonDecode(res.body);
       setState(() {});
     });
@@ -66,29 +65,27 @@ class _HomePageV2State extends State<HomePageV2> {
     Size size = MediaQuery.of(context).size;
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
     ThemeData theme = themes.themeFrom("RuamMitr")!.themeData;
-    // ThemeData theme = Theme.of(context);
     BoxController reportBoxController = BoxController();
-    // String avatarTextBackgroundColorString = theme.colorScheme.primaryContainer
-    //     .toString()
-    //     .replaceAll("Color(", "")
-    //     .replaceAll(")", "")+
-    //     .substring(4);
-    // String avatarTextColorString = theme.colorScheme.onPrimaryContainer
-    //     .toString()
-    //     .replaceAll("Color(", "")
-    //     .replaceAll(")", "")
-    //     .substring(4);
     var nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
     if (profileData['profile'] != null) {
       profileData['imgPath'] = "${profileData['profile']}#$nowParam";
     } else {
       profileData['imgPath'] =
           "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}.png";
+      // Uri uri = Uri.parse("$api$userImageUpdateRoute");
+      // http.MultipartRequest request = http.MultipartRequest('POST', uri);
+      // request.headers.addAll({
+      //   "Authorization": "Bearer $publicToken",
+      //   "Content-Type": "application/json"
+      // });
+      // request.files.add(
+      //   http.MultipartFile.fromBytes(
+      //     "file",
+      //     File(profileData['imgPath']).readAsBytesSync(),
+      //     filename: profileData['imgPath'],
+      //   ),
+      // );
     }
-    // profileData['imgPath'] = "${profileData['profile']}" ??
-    //     // "https://ui-avatars.com/api/?background=$avatarTextBackgroundColorString&color=$avatarTextColorString&size=512&name=${profileData['fullname'].replaceAll(" ", "+")}";
-    //     "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}.png";
-
     return Container(
       decoration: ruamMitrBackgroundGradient(themes),
       child: Theme(
@@ -108,10 +105,9 @@ class _HomePageV2State extends State<HomePageV2> {
                     curve: const Tanh(),
                   );
                 },
-                selectedItemColor:
-                    theme.colorScheme.brightness == Brightness.light
-                        ? theme.colorScheme.primary
-                        : Colors.white,
+                selectedItemColor: theme.colorScheme.brightness == Brightness.light
+                    ? theme.colorScheme.primary
+                    : Colors.white,
                 items: [
                   SalomonBottomBarItem(
                     icon: const Icon(Icons.person),
@@ -204,10 +200,8 @@ class _HomePageV2State extends State<HomePageV2> {
                                   ],
                                 ),
                               )
-                            : HomeWidgetV2(
-                                reportBoxController: reportBoxController),
-                        SettingsWidgetV2(
-                            reportBoxController: reportBoxController)
+                            : HomeWidgetV2(reportBoxController: reportBoxController),
+                        SettingsWidgetV2(reportBoxController: reportBoxController)
                       ],
                     ),
                   ),
@@ -238,66 +232,46 @@ class _HomePageV2State extends State<HomePageV2> {
                               margin: const EdgeInsets.symmetric(vertical: 20),
                               child: Center(
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       "Report",
                                       style: TextStyle(
-                                          fontSize: Theme.of(context)
-                                              .textTheme
-                                              .headlineSmall
-                                              ?.fontSize,
-                                          fontFamily:
-                                              GoogleFonts.getFont("Inter")
-                                                  .fontFamily,
+                                          fontSize:
+                                              Theme.of(context).textTheme.headlineSmall?.fontSize,
+                                          fontFamily: GoogleFonts.getFont("Inter").fontFamily,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Center(
                                       child: IconButton(
                                         onPressed: () {
-                                          if (titleController.text
-                                                  .trim()
-                                                  .isNotEmpty ||
-                                              explainationController.text
-                                                  .trim()
-                                                  .isNotEmpty ||
-                                              imageSelectionController
-                                                  .text.isNotEmpty) {
+                                          if (titleController.text.trim().isNotEmpty ||
+                                              explanationController.text.trim().isNotEmpty ||
+                                              imageSelectionController.text.isNotEmpty) {
                                             showDialog(
                                                 context: context,
                                                 builder: (context) {
-                                                  return discardReportConfirm(
-                                                      theme, size, context,
+                                                  return discardReportConfirm(theme, size, context,
                                                       onAnswer: (isConfirm) {
                                                     if (isConfirm) {
-                                                      if (explainationFocusNode
-                                                          .hasFocus) {
-                                                        explainationFocusNode
-                                                            .unfocus();
+                                                      if (explanationFocusNode.hasFocus) {
+                                                        explanationFocusNode.unfocus();
                                                       }
-                                                      if (titleFocusNode
-                                                          .hasFocus) {
-                                                        titleFocusNode
-                                                            .unfocus();
+                                                      if (titleFocusNode.hasFocus) {
+                                                        titleFocusNode.unfocus();
                                                       }
-                                                      reportFormKey.currentState
-                                                          ?.reset();
-                                                      imageSelectionController
-                                                          .clear();
+                                                      reportFormKey.currentState?.reset();
+                                                      imageSelectionController.clear();
                                                       titleController.clear();
-                                                      explainationController
-                                                          .clear();
-                                                      reportBoxController
-                                                          .closeBox();
+                                                      explanationController.clear();
+                                                      reportBoxController.closeBox();
                                                     }
                                                     Navigator.pop(context);
                                                   });
                                                 });
                                           } else {
-                                            if (explainationFocusNode
-                                                .hasFocus) {
-                                              explainationFocusNode.unfocus();
+                                            if (explanationFocusNode.hasFocus) {
+                                              explanationFocusNode.unfocus();
                                             }
                                             if (titleFocusNode.hasFocus) {
                                               titleFocusNode.unfocus();
@@ -305,7 +279,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                             reportFormKey.currentState?.reset();
                                             imageSelectionController.clear();
                                             titleController.clear();
-                                            explainationController.clear();
+                                            explanationController.clear();
                                             reportBoxController.closeBox();
                                           }
                                           setState(() {});
@@ -321,8 +295,7 @@ class _HomePageV2State extends State<HomePageV2> {
                               "Title",
                               style: TextStyle(
                                 fontSize: 18,
-                                fontFamily:
-                                    GoogleFonts.getFont("Inter").fontFamily,
+                                fontFamily: GoogleFonts.getFont("Inter").fontFamily,
                               ),
                             ),
                             SizedBox(height: size.height * 0.01),
@@ -359,17 +332,16 @@ class _HomePageV2State extends State<HomePageV2> {
                             ),
                             SizedBox(height: size.height * 0.01),
                             Text(
-                              "Explaniation",
+                              "Explanation",
                               style: TextStyle(
                                 fontSize: 18,
-                                fontFamily:
-                                    GoogleFonts.getFont("Inter").fontFamily,
+                                fontFamily: GoogleFonts.getFont("Inter").fontFamily,
                               ),
                             ),
                             SizedBox(height: size.height * 0.01),
                             TextFormField(
-                              focusNode: explainationFocusNode,
-                              controller: explainationController,
+                              focusNode: explanationFocusNode,
+                              controller: explanationController,
 
                               // minLines: 1,
                               maxLines: 4,
@@ -399,8 +371,7 @@ class _HomePageV2State extends State<HomePageV2> {
                               "Upload Photo (Not Required)",
                               style: TextStyle(
                                 fontSize: 18,
-                                fontFamily:
-                                    GoogleFonts.getFont("Inter").fontFamily,
+                                fontFamily: GoogleFonts.getFont("Inter").fontFamily,
                               ),
                             ),
                             SizedBox(height: size.height * 0.01),
@@ -446,8 +417,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                 onPressed: () async {
                                   debugPrint("Validated");
                                   if (reportFormKey.currentState!.validate()) {
-                                    Uri url =
-                                        Uri.parse("$api$userPostIssueRoute");
+                                    Uri url = Uri.parse("$api$userPostIssueRoute");
                                     http.MultipartRequest request =
                                         http.MultipartRequest('POST', url);
                                     request.headers.addAll({
@@ -458,27 +428,22 @@ class _HomePageV2State extends State<HomePageV2> {
                                       request.files.add(
                                         http.MultipartFile.fromBytes(
                                           "file",
-                                          File(imageSelected!.path)
-                                              .readAsBytesSync(),
+                                          File(imageSelected!.path).readAsBytesSync(),
                                           filename: imageSelected!.path,
                                         ),
                                       );
                                     }
                                     request.fields['type'] = "ruammitr";
-                                    request.fields['title'] =
-                                        titleController.text;
-                                    request.fields['description'] =
-                                        explainationController.text;
+                                    request.fields['title'] = titleController.text;
+                                    request.fields['description'] = explanationController.text;
                                     // debugPrint(request.files.first);
-                                    http.StreamedResponse res =
-                                        await request.send();
-                                    http.Response response =
-                                        await http.Response.fromStream(res);
+                                    http.StreamedResponse res = await request.send();
+                                    http.Response response = await http.Response.fromStream(res);
                                     debugPrint(response.body);
                                     reportFormKey.currentState?.reset();
                                     imageSelectionController.clear();
                                     titleController.clear();
-                                    explainationController.clear();
+                                    explanationController.clear();
                                     reportBoxController.closeBox();
                                   }
                                 },
@@ -502,7 +467,7 @@ class _HomePageV2State extends State<HomePageV2> {
     ThemeData theme,
     Size size,
     BuildContext context, {
-    required void onAnswer(bool isConfirm),
+    required void Function(bool isConfirm) onAnswer,
   }) {
     return AlertDialog(
       backgroundColor: theme.colorScheme.primaryContainer,

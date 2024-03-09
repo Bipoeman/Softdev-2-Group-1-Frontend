@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Restroom/Component/font.dart';
+import 'package:ruam_mitt/Restroom/Component/interactive_image.dart';
+import 'package:ruam_mitt/Restroom/Component/loading_screen.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/Restroom/Component/write_review.dart';
@@ -48,13 +50,16 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
   @override
   void initState() {
     super.initState();
-
+    showRestroomLoadingScreen(context);
     getRestroomReview().timeout(const Duration(seconds: 10)).then((response) {
-      reviewData = jsonDecode(response.body);
-      setState(() {});
+      setState(() {
+        reviewData = jsonDecode(response.body);
+      });
+      Navigator.pop(context);
     }).onError((error, stackTrace) {
       debugPrint(error.toString());
       debugPrint(stackTrace.toString());
+      Navigator.pop(context);
       ThemeData theme = Theme.of(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
@@ -96,7 +101,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                   onBoxClose: () =>
                       FocusManager.instance.primaryFocus?.unfocus(),
                   body: ReviewSlideBar(
-                      restroomId: widget.restroomData["id"],
+                      restroomData: widget.restroomData,
                       closeSlidingBox: boxController.closeBox),
                   backdrop: Backdrop(
                     moving: false,
@@ -116,8 +121,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                   ? SizedBox(
                                       width: size.width * 0.8,
                                       child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(15),
+                                        borderRadius: BorderRadius.circular(15),
                                         child: Image.network(
                                           widget.restroomData["picture"] ??
                                               "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
@@ -125,41 +129,10 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                         ),
                                       ),
                                     )
-                                  : InkWell(
-                                      onTap: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return Stack(
-                                                children: [
-                                                  Center(
-                                                      child: SizedBox(
-                                                    width: size.width,
-                                                    height: size.height,
-                                                    child: InteractiveViewer(
-                                                      maxScale: 10,
-                                                      child: Image.network(
-                                                        widget.restroomData[
-                                                            "picture"],
-                                                      ),
-                                                    ),
-                                                  ))
-                                                ],
-                                              );
-                                            });
-                                      },
-                                      child: SizedBox(
-                                        width: size.width * 0.8,
-                                        height: size.height * 0.3,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: Image.network(
-                                            widget.restroomData["picture"],
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
+                                  : RestroomInteractiveImage(
+                                      picture: widget.restroomData["picture"],
+                                      width: size.width * 0.8,
+                                      height: size.height * 0.2,
                                     ),
                               Container(
                                 height: size.height * 0.07,
@@ -169,8 +142,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                 ),
                                 child: Text(widget.restroomData["name"],
                                     style: name_place(
-                                        widget.restroomData["name"],
-                                        context)),
+                                        widget.restroomData["name"], context)),
                               ),
                               Container(
                                 height: null,
@@ -247,8 +219,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                       decoration: BoxDecoration(
                                         color: const Color.fromRGBO(
                                             255, 183, 3, 1),
-                                        borderRadius:
-                                            BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: ElevatedButton(
                                         onPressed: () {
@@ -256,8 +227,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                         },
                                         style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all<
-                                                  Color>(
+                                              MaterialStateProperty.all<Color>(
                                             const Color.fromRGBO(
                                                 255, 183, 3, 1),
                                           ),
@@ -282,8 +252,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                       decoration: BoxDecoration(
                                         color: const Color.fromRGBO(
                                             255, 183, 3, 1),
-                                        borderRadius:
-                                            BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: ElevatedButton(
                                         onPressed: () {
@@ -293,8 +262,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                         },
                                         style: ButtonStyle(
                                           backgroundColor:
-                                              MaterialStateProperty.all<
-                                                  Color>(
+                                              MaterialStateProperty.all<Color>(
                                             const Color.fromRGBO(
                                                 255, 183, 3, 1),
                                           ),
@@ -347,7 +315,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
           ],
         ),
         drawerScrimColor: Colors.transparent,
-        drawer: RestroomRoverNavbar(),
+        drawer: const RestroomRoverNavbar(),
       ),
     );
   }

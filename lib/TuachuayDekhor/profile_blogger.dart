@@ -3,9 +3,7 @@ import 'dart:math';
 import 'dart:convert';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter/services.dart';
 import "package:ruam_mitt/TuachuayDekhor/Component/blog_box.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:http/http.dart' as http;
@@ -30,13 +28,13 @@ class _TuachuayDekhorBloggerProfilePageState
   bool isEditing = false;
   bool showMore = false;
   bool isPostSelected = true;
-  bool isSaveSelected = false;
+  bool isSavedSelected = false;
   var post = [];
-  var save = [];
+  var saved = [];
   var description = [];
   late String username;
   late Uri posturl;
-  late Uri saveurl;
+  late Uri savedurl;
   late Uri descriptionurl;
   bool isLoading = true;
 
@@ -45,12 +43,12 @@ class _TuachuayDekhorBloggerProfilePageState
     super.initState();
     username = widget.username;
     posturl = Uri.parse("$api$dekhorPosttoprofilebloggerRoute/$username");
-    saveurl = Uri.parse("$api$dekhorShowSavebloggerRoute/$username");
+    savedurl = Uri.parse("$api$dekhorShowSavebloggerRoute/$username");
     descriptionurl = Uri.parse("$api$dekhorDescriptionRoute/$username");
     searchData();
     print("Username: $username");
     print("Post URL: $posturl");
-    print("Save URL: $saveurl");
+    print("Save URL: $savedurl");
   }
 
   Future<void> descriptionblogger() async {
@@ -77,12 +75,12 @@ class _TuachuayDekhorBloggerProfilePageState
     }
   }
 
-  Future<void> savepost() async {
-    var response = await http.get(saveurl);
+  Future<void> savedpost() async {
+    var response = await http.get(savedurl);
     if (response.statusCode == 200) {
       setState(() {
-        save = jsonDecode(response.body);
-        print(save);
+        saved = jsonDecode(response.body);
+        print(saved);
       });
     } else {
       throw Exception('Failed to load data');
@@ -94,7 +92,7 @@ class _TuachuayDekhorBloggerProfilePageState
       isLoading = true;
     });
     await posttoprofile();
-    await savepost();
+    await savedpost();
     await descriptionblogger();
     setState(() {
       isLoading = false;
@@ -208,7 +206,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                       color: customColors["onContainer"],
                                     ),
                                   )
-                                : SizedBox(),
+                                : const SizedBox(),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
@@ -234,7 +232,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                   onTap: () {
                                     setState(() {
                                       isPostSelected = true;
-                                      isSaveSelected = false;
+                                      isSavedSelected = false;
                                     });
                                   },
                                   child: Container(
@@ -266,14 +264,14 @@ class _TuachuayDekhorBloggerProfilePageState
                                   onTap: () {
                                     setState(() {
                                       isPostSelected = false;
-                                      isSaveSelected = true;
+                                      isSavedSelected = true;
                                     });
                                   },
                                   child: Container(
                                     width: size.width * 0.4,
                                     height: size.width * 0.1,
                                     decoration: BoxDecoration(
-                                      color: isSaveSelected
+                                      color: isSavedSelected
                                           ? const Color.fromRGBO(0, 48, 73, 1)
                                           : const Color.fromRGBO(
                                               217, 217, 217, 1),
@@ -281,9 +279,9 @@ class _TuachuayDekhorBloggerProfilePageState
                                     ),
                                     child: Center(
                                       child: Text(
-                                        'Save',
+                                        'Saved',
                                         style: TextStyle(
-                                          color: isSaveSelected
+                                          color: isSavedSelected
                                               ? const Color.fromRGBO(
                                                   217, 217, 217, 1)
                                               : const Color.fromRGBO(
@@ -335,7 +333,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                 : MasonryGridView.builder(
                                     mainAxisSpacing: 10,
                                     crossAxisSpacing: 10,
-                                    itemCount: save.length,
+                                    itemCount: saved.length,
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
@@ -343,18 +341,19 @@ class _TuachuayDekhorBloggerProfilePageState
                                         const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2),
                                     itemBuilder: (context, index) => BlogBox(
-                                      title: save[index]['post']['title'],
-                                      name: save[index]['fullname_blogger'],
-                                      category: save[index]['post']['category'],
-                                      like: save[index]['post']['save'] ?? "0",
+                                      title: saved[index]['post']['title'],
+                                      name: saved[index]['fullname_blogger'],
+                                      category: saved[index]['post']
+                                          ['category'],
+                                      like: saved[index]['post']['save'] ?? "0",
                                       image: NetworkImage(
-                                        save[index]['post']['image_link'],
+                                        saved[index]['post']['image_link'],
                                       ),
                                       onPressed: () {
                                         Navigator.pushNamed(
                                           context,
                                           tuachuayDekhorPageRoute['blog']!,
-                                          arguments: save[index]['post']
+                                          arguments: saved[index]['post']
                                               ['id_post'],
                                         );
                                       },

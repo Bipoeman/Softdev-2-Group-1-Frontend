@@ -19,11 +19,10 @@ class AdminPage extends StatefulWidget {
 class ReportData {
   late Map<String, bool> isInitiallyBlank;
   late Map<String, TextEditingController> fieldController;
+  late Map<String, dynamic> userData;
   ReportData(List<String> fields) {
     isInitiallyBlank = {for (var element in fields) element: true};
-    fieldController = {
-      for (var element in fields) element: TextEditingController()
-    };
+    fieldController = {for (var element in fields) element: TextEditingController()};
   }
 }
 
@@ -35,8 +34,7 @@ class _AdminPageState extends State<AdminPage> {
   List<Map<String, dynamic>> rejectedIssueList = [];
   List<Map<String, dynamic>> closedIssueList = [];
   Map<String, dynamic> selectedIssue = {};
-  ReportData reportDataDisplay =
-      ReportData(["username", "title", "app", "description"]);
+  ReportData reportDataDisplay = ReportData(["username", "title", "app", "description"]);
 
   bool isAccept = true;
 
@@ -47,33 +45,26 @@ class _AdminPageState extends State<AdminPage> {
     rejectedIssueList = [];
     closedIssueList = [];
     Uri url = Uri.parse("$api$allIssueRoute");
-    await get(url, headers: {
-      "Authorization": "Bearer $publicToken",
-      "Content-Type": "application/json"
-    }).then((response) {
+    await get(url,
+            headers: {"Authorization": "Bearer $publicToken", "Content-Type": "application/json"})
+        .then((response) {
       openIssueList = [for (var element in jsonDecode(response.body)) element];
       debugPrint("Open issue request done");
     });
 
     url = Uri.parse("$api$aceptedIssueRoute");
-    await get(url, headers: {
-      "Authorization": "Bearer $publicToken",
-      "Content-Type": "application/json"
-    }).then((response) {
-      aceptedIssueList = [
-        for (var element in jsonDecode(response.body)) element
-      ];
+    await get(url,
+            headers: {"Authorization": "Bearer $publicToken", "Content-Type": "application/json"})
+        .then((response) {
+      aceptedIssueList = [for (var element in jsonDecode(response.body)) element];
       debugPrint("Acepted issue request done");
     });
 
     url = Uri.parse("$api$rejectedIssueRoute");
-    await get(url, headers: {
-      "Authorization": "Bearer $publicToken",
-      "Content-Type": "application/json"
-    }).then((response) {
-      rejectedIssueList = [
-        for (var element in jsonDecode(response.body)) element
-      ];
+    await get(url,
+            headers: {"Authorization": "Bearer $publicToken", "Content-Type": "application/json"})
+        .then((response) {
+      rejectedIssueList = [for (var element in jsonDecode(response.body)) element];
       debugPrint("Rejected issue request done");
       closedIssueList.addAll(aceptedIssueList);
       closedIssueList.addAll(rejectedIssueList);
@@ -96,6 +87,7 @@ class _AdminPageState extends State<AdminPage> {
     ThemeData theme = Theme.of(context);
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
     BoxController issueDisplayBoxController = BoxController();
+    CustomThemes customThemes = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
 
     return Theme(
       data: theme,
@@ -107,7 +99,7 @@ class _AdminPageState extends State<AdminPage> {
             leading: GestureDetector(
               child: Icon(
                 Icons.arrow_back_ios,
-                color: Colors.white,
+                color: customThemes.customColors["onMain"],
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -117,23 +109,24 @@ class _AdminPageState extends State<AdminPage> {
             title: Text(
               "Administrator",
               style: TextStyle(
-                color: Colors.white,
+                color: customThemes.customColors["onMain"],
                 fontWeight: FontWeight.bold,
+              ),
+            ),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(15),
               ),
             ),
           ),
           body: SlidingBox(
             onBoxOpen: () {
               // ["username", "title", "app", "description"]
-              reportDataDisplay.fieldController['username']!.text =
-                  selectedIssue['user_id'].toString();
-              reportDataDisplay.fieldController['title']!.text =
-                  selectedIssue['title'].toString();
+              reportDataDisplay.fieldController['username']!.text = selectedIssue['id'].toString();
+              reportDataDisplay.fieldController['title']!.text = selectedIssue['title'].toString();
               reportDataDisplay.fieldController['description']!.text =
                   selectedIssue['description'].toString();
-              isAccept = (selectedIssue['status'] ?? "accepted") == "accepted"
-                  ? true
-                  : false;
+              isAccept = (selectedIssue['status'] ?? "accepted") == "accepted" ? true : false;
               debugPrint("$selectedIssue");
               setState(() {});
             },
@@ -153,10 +146,7 @@ class _AdminPageState extends State<AdminPage> {
                       Text(
                         "User reports",
                         style: TextStyle(
-                          fontSize: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.fontSize,
+                          fontSize: Theme.of(context).textTheme.headlineSmall?.fontSize,
                           fontFamily: GoogleFonts.getFont("Inter").fontFamily,
                           fontWeight: FontWeight.bold,
                         ),
@@ -236,8 +226,7 @@ class _AdminPageState extends State<AdminPage> {
                   SizedBox(height: size.height * 0.01),
                   TextFormField(
                     readOnly: true,
-                    controller:
-                        reportDataDisplay.fieldController['description'],
+                    controller: reportDataDisplay.fieldController['description'],
                     maxLines: 4,
                     decoration: InputDecoration(
                       filled: true,
@@ -279,8 +268,7 @@ class _AdminPageState extends State<AdminPage> {
                                           width: size.width,
                                           height: size.height,
                                           child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
+                                            borderRadius: BorderRadius.circular(20),
                                             child: InteractiveViewer(
                                               maxScale: 10,
                                               child: Image.network(
@@ -294,16 +282,13 @@ class _AdminPageState extends State<AdminPage> {
                                         bottom: 30,
                                         right: 30,
                                         child: CircleAvatar(
-                                          backgroundColor:
-                                              theme.colorScheme.primary,
+                                          backgroundColor: theme.colorScheme.primary,
                                           child: IconButton(
                                             icon: Icon(
                                               Icons.close,
-                                              color: theme
-                                                  .colorScheme.primaryContainer,
+                                              color: theme.colorScheme.primaryContainer,
                                             ),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
+                                            onPressed: () => Navigator.pop(context),
                                           ),
                                         ),
                                       )
@@ -379,10 +364,8 @@ class _AdminPageState extends State<AdminPage> {
                               "Authorization": "Bearer $publicToken",
                               "Content-Type": "application/json"
                             },
-                            body: jsonEncode({
-                              "accept": isAccept,
-                              "issue_id": selectedIssue['id']
-                            }));
+                            body:
+                                jsonEncode({"accept": isAccept, "issue_id": selectedIssue['id']}));
                         // debugPrint(
                         //     "accpted : ${isAccept} code : ${res.statusCode} body : ${res.body}");
                         debugPrint(
@@ -470,11 +453,7 @@ class _AdminPageState extends State<AdminPage> {
 
   Center adminIssueBar(Size size, ThemeData theme,
       {required Function(int index) onChange, required int selected}) {
-    List<String> issueStringList = [
-      "All Issues",
-      "Open Issues",
-      "Closed Issues"
-    ];
+    List<String> issueStringList = ["All Issues", "Open Issues", "Closed Issues"];
     return Center(
       child: Container(
         margin: const EdgeInsets.only(top: 50, bottom: 40),

@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class TuachuayDekhorAdminPage extends StatefulWidget {
-  const TuachuayDekhorAdminPage({Key? key}) : super(key: key);
+  const TuachuayDekhorAdminPage({super.key});
 
   @override
   State<TuachuayDekhorAdminPage> createState() =>
@@ -43,8 +43,8 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
   }
 
   Future<void> deleteReport(int index) async {
-    var id_report = report[index]['id_report'];
-    var deleteurl = Uri.parse("$api$dekhorDeleteReportRoute/$id_report");
+    var idReport = report[index]['id_report'];
+    var deleteurl = Uri.parse("$api$dekhorDeleteReportRoute/$idReport");
     await http.delete(deleteurl);
   }
 
@@ -52,7 +52,7 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
     setState(() {
       isLoading = true;
     });
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     await namereport();
     setState(() {
       isLoading = false;

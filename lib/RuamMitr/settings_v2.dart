@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +6,7 @@ import 'package:ruam_mitt/RuamMitr/Component/avatar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/admin.dart';
 import 'package:ruam_mitt/RuamMitr/Component/ruammitr_report.dart';
+import 'package:ruam_mitt/RuamMitr/Component/client_settings.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,7 +27,7 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
     return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
+      physics: const RangeMaintainingScrollPhysics(),
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minHeight: size.height -
@@ -38,10 +38,10 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                  padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -50,42 +50,7 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.19),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        color: theme.colorScheme.primary,
-                        width: size.height * 0.03,
-                        height: size.height * 0.03,
-                      ),
-                      SizedBox(width: size.width * 0.02),
-                      Text(
-                        "RuamMitr",
-                        style: TextStyle(
-                          fontSize: theme.textTheme.titleLarge!.fontSize,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      "Toggle Theme",
-                      style: theme.textTheme.bodyLarge,
-                    ),
-                    Switch(
-                      value: themeProvider.isDarkMode,
-                      onChanged: (value) {
-                        themeProvider.toggleTheme();
-                      },
-                    ),
-                  ],
-                ),
+                const ClientSettingsWidget(),
                 // if (profileData['role'] == "User")
                 //   Padding(
                 //     padding:
@@ -142,10 +107,16 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                       ),
                       foregroundColor: theme.colorScheme.onPrimary,
                     ),
-                    child: const Text("Logout"),
+                    child: Text(
+                      "Logout",
+                      style: TextStyle(
+                        color: theme.colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
                     onPressed: () async {
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
                       await prefs.setBool("isChecked", false);
                       await prefs.setString("password", "");
                       isOnceLogin = true;

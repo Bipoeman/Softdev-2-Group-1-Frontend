@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:ruam_mitt/TuachuayDekhor/Component/navbar.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:http/http.dart' as http;
@@ -25,6 +24,7 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
   late Uri reporturl;
   bool status = false;
 
+  @override
   void initState() {
     super.initState();
     id_post = widget.id_post;
@@ -39,6 +39,72 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
       status = true;
     } else {
       status = false;
+    }
+  }
+
+  void onBackPressed(Map<String, Color> customColors) {
+    if (titleController.text.isNotEmpty || reasonController.text.isNotEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            surfaceTintColor: customColors["background"],
+            backgroundColor: customColors["background"],
+            iconColor: customColors["main"],
+            icon: Icon(
+              Icons.report_off,
+              size: 50,
+              color: customColors["onContainer"],
+            ),
+            title: Text(
+              "Discard report?",
+              style: TextStyle(
+                color: customColors["onContainer"],
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actions: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10), color: Colors.red),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    print("Discard report");
+                  },
+                  child: const Text(
+                    "Discard",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      Navigator.pop(context);
     }
   }
 
@@ -69,92 +135,33 @@ class _TuachuayDekhorReportPageState extends State<TuachuayDekhorReportPage> {
                   ),
                   child: Column(
                     children: [
-                      GestureDetector(
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.arrow_back_outlined,
-                              color: customColors["main"],
-                              size: 20,
-                            ),
-                            const SizedBox(width: 5),
-                            Text(
-                              "Back",
-                              style: TextStyle(
-                                color: customColors["main"],
-                              ),
-                            ),
-                          ],
-                        ),
-                        onTap: () {
-                          if (titleController.text.isNotEmpty ||
-                              reasonController.text.isNotEmpty) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  surfaceTintColor: customColors["background"],
-                                  backgroundColor: customColors["background"],
-                                  iconColor: customColors["main"],
-                                  icon: Icon(
-                                    Icons.report_off,
-                                    size: 50,
-                                    color: customColors["onContainer"],
-                                  ),
-                                  title: Text(
-                                    "Discard report?",
-                                    style: TextStyle(
-                                      color: customColors["onContainer"],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  actionsAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  actions: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.grey,
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text(
-                                          "Cancel",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.red),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                          print("Discard report");
-                                        },
-                                        child: const Text(
-                                          "Discard",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          } else {
-                            Navigator.pop(context);
+                      PopScope(
+                        canPop: false,
+                        onPopInvoked: (bool didPop) {
+                          if (didPop) {
+                            return;
                           }
+                          onBackPressed(customColors);
                         },
+                        child: GestureDetector(
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_back_outlined,
+                                color: customColors["main"],
+                                size: 20,
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                "Back",
+                                style: TextStyle(
+                                  color: customColors["main"],
+                                ),
+                              ),
+                            ],
+                          ),
+                          onTap: () => onBackPressed(customColors),
+                        ),
                       ),
                       SizedBox(
                         child: Text(

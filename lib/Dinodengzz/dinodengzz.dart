@@ -146,7 +146,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                     ),
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Container(
                   color: Colors.blue.withOpacity(0.5),
                   child: TextButton(
@@ -160,7 +160,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                     ),
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Container(
                   color: Colors.green.withOpacity(0.5),
                   child: TextButton(
