@@ -41,8 +41,8 @@ class _BinPageState extends State<BinPage> {
         "Authorization": publicToken,
       },
     );
-    if (res.statusCode == 403){
-      if (context.mounted){
+    if (res.statusCode == 403) {
+      if (context.mounted) {
         await requestNewToken(context);
         return await getBinInfo();
       }
@@ -214,10 +214,12 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar>
             },
           ),
           viewBuilder: (suggestions) {
-            return Container(
-              color: Colors.white,
-              child: Column(
-                children: suggestions.toList(),
+            return SingleChildScrollView(
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  children: suggestions.toList(),
+                ),
               ),
             );
           },
@@ -226,23 +228,8 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar>
               focusNode: widget.focusNode,
               controller: searchBarController,
               hintText: "Search bin...",
-              textStyle: MaterialStatePropertyAll(
-                TextStyle(
-                    fontFamily: searchBarController.text.contains(
-                      RegExp("[ก-๛]"),
-                    )
-                        ? "THSarabunPSK"
-                        : Theme.of(context).textTheme.labelMedium!.fontFamily,
-                    fontSize: searchBarController.text.contains(
-                      RegExp("[ก-๛]"),
-                    )
-                        ? 22
-                        : 18,
-                    fontWeight: searchBarController.text.contains(
-                      RegExp("[ก-๛]"),
-                    )
-                        ? FontWeight.w700
-                        : FontWeight.normal),
+              textStyle: const MaterialStatePropertyAll(
+                TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
               ),
               padding: const MaterialStatePropertyAll(
                 EdgeInsets.only(left: 15, right: 6),
@@ -345,57 +332,17 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar>
                             children: [
                               Text(
                                 tempBinData[index]['location'],
-                                style: TextStyle(
-                                    fontFamily:
-                                        tempBinData[index]['location'].contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? "THSarabunPSK"
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .labelMedium!
-                                                .fontFamily,
-                                    fontSize:
-                                        tempBinData[index]['location'].contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? 24
-                                            : 16,
-                                    fontWeight:
-                                        tempBinData[index]['location'].contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? FontWeight.w700
-                                            : FontWeight.normal),
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal),
                               ),
                               Text(
                                 tempBinData[index]['description'],
                                 maxLines: 1,
                                 style: TextStyle(
-                                    fontFamily: tempBinData[index]
-                                                ['description']
-                                            .contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? "THSarabunPSK"
-                                        : Theme.of(context)
-                                            .textTheme
-                                            .labelMedium!
-                                            .fontFamily,
-                                    fontSize: tempBinData[index]['description']
-                                            .contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? 22
-                                        : 16,
+                                    fontSize: 16,
                                     color: Colors.black.withOpacity(0.6),
-                                    fontWeight: tempBinData[index]
-                                                ['description']
-                                            .contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? FontWeight.w700
-                                        : FontWeight.normal),
+                                    fontWeight: FontWeight.normal),
                               ),
                               Container(
                                 margin: const EdgeInsets.only(top: 5),
