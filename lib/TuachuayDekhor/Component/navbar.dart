@@ -59,7 +59,7 @@ class NavbarTuachuayDekhor extends StatelessWidget {
               },
               child: Image(
                 image: AssetImage(
-                  "assets/images/Logo/TuachuayDekhor_${themeProvider.isDarkMode ? "Dark" : "Light"}.png",
+                  "assets/images/Logo/TuachuayDekhor_${themeProvider.isDarkMode("TuachuayDekhor") ? "Dark" : "Light"}.png",
                 ),
               ),
             ),

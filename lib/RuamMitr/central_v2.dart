@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -60,6 +61,75 @@ class _HomePageV2State extends State<HomePageV2> {
     });
   }
 
+  void _showConfirmExit() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        CustomThemes customTheme = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+        ThemeData theme = customTheme.themeData;
+        Map<String, Color> customColors = customTheme.customColors;
+        return AlertDialog(
+          backgroundColor: customColors["evenContainer"],
+          surfaceTintColor: customColors["evenContainer"],
+          title: Text(
+            "Exit?",
+            style: theme.textTheme.headlineLarge!.copyWith(
+              color: customColors["onEvenContainer"],
+            ),
+          ),
+          content: Text(
+            "Do you want to exit the app?",
+            style: theme.textTheme.bodyLarge!.copyWith(
+              color: customColors["onEvenContainer"],
+            ),
+          ),
+          actions: [
+            InkWell(
+              onTap: () => Navigator.pop(context),
+              borderRadius: BorderRadius.circular(10),
+              child: Ink(
+                width: 75,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    "No",
+                    style: theme.textTheme.titleLarge!.copyWith(
+                      color: customColors["onEvenContainer"],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () => SystemNavigator.pop(),
+              borderRadius: BorderRadius.circular(10),
+              child: Ink(
+                width: 75,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    "Yes",
+                    style: theme.textTheme.titleLarge!.copyWith(
+                      color: customColors["onEvenContainer"],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -86,379 +156,394 @@ class _HomePageV2State extends State<HomePageV2> {
       //   ),
       // );
     }
-    return Container(
-      decoration: ruamMitrBackgroundGradient(themes),
-      child: Theme(
-        data: theme,
-        child: Builder(builder: (context) {
-          return Scaffold(
-            backgroundColor: Colors.transparent,
-            bottomNavigationBar: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              color: theme.colorScheme.primaryContainer,
-              child: SalomonBottomBar(
-                currentIndex: pageIndex,
-                onTap: (pageViewSelectedIndex) {
-                  pageController.animateToPage(
-                    pageViewSelectedIndex,
-                    duration: const Duration(seconds: 1),
-                    curve: const Tanh(),
-                  );
-                },
-                selectedItemColor: theme.colorScheme.brightness == Brightness.light
-                    ? theme.colorScheme.primary
-                    : Colors.white,
-                items: [
-                  SalomonBottomBarItem(
-                    icon: const Icon(Icons.person),
-                    title: const Text("Profile"),
-                  ),
-                  SalomonBottomBarItem(
-                    icon: const Icon(Icons.home),
-                    title: const Text("Home"),
-                  ),
-                  SalomonBottomBarItem(
-                    icon: const Icon(Icons.settings),
-                    title: const Text("Settings"),
-                  ),
-                ],
-              ),
-            ),
-            // bottomNavigationBar: BottomBarDoubleBullet(
-            //   color: theme.colorScheme.primary,
-            //   backgroundColor: theme.colorScheme.primaryContainer,
-            //   selectedIndex: pageIndex,
-            //   items: [
-            //     BottomBarItem(iconData: Icons.person),
-            //     BottomBarItem(iconData: Icons.home),
-            //     BottomBarItem(iconData: Icons.settings),
-            //   ],
-            //   onSelect: (pageViewSelectedIndex) {
-            //     print("Select $pageViewSelectedIndex");
-            //     pageController.animateToPage(
-            //       pageViewSelectedIndex,
-            //       duration: const Duration(seconds: 1),
-            //       curve: const Tanh(),
-            //     );
-            //   },
-            // ),
-            // bottomNavigationBar: BottomNavigationBar(
-            //   items: const [
-            //     BottomNavigationBarItem(
-            //       icon: Icon(Icons.person),
-            //       label: "profile",
-            //     ),
-            //     BottomNavigationBarItem(
-            //       icon: Icon(Icons.home),
-            //       label: "home",
-            //     ),
-            //     BottomNavigationBarItem(
-            //       icon: Icon(Icons.settings),
-            //       label: "settings",
-            //     ),
-            //   ],
-            //   currentIndex: pageIndex,
-            //   onTap: (pageViewSelectedIndex) {
-            //     pageController.animateToPage(
-            //       pageViewSelectedIndex,
-            //       duration: const Duration(seconds: 1),
-            //       curve: const Tanh(),
-            //     );
-            //   },
-            // ),
-            body: SafeArea(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: PageView(
-                      controller: pageController,
-                      onPageChanged: (pageChanged) {
-                        setState(() => pageIndex = pageChanged);
-                        print("Changed to page $pageChanged");
-                      },
-                      children: [
-                        profileData['fullname'] == null
-                            ? const Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    CircularProgressIndicator(),
-                                    Divider(),
-                                    Text("Loading user data"),
-                                  ],
-                                ),
-                              )
-                            : const ProfileWidgetV2(),
-                        profileData['fullname'] == null
-                            ? const Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    CircularProgressIndicator(),
-                                    Divider(),
-                                    Text("Loading user data"),
-                                  ],
-                                ),
-                              )
-                            : HomeWidgetV2(reportBoxController: reportBoxController),
-                        SettingsWidgetV2(reportBoxController: reportBoxController)
-                      ],
-                    ),
-                  ),
-                  SlidingBox(
-                    onBoxClose: () {
-                      reportFormKey.currentState?.reset();
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) {
+          return;
+        }
+        _showConfirmExit();
+      },
+      child: Container(
+        decoration: ruamMitrBackgroundGradient(themes),
+        child: Theme(
+          data: theme,
+          child: Builder(
+            builder: (context) {
+              return Scaffold(
+                backgroundColor: Colors.transparent,
+                bottomNavigationBar: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  color: theme.colorScheme.primaryContainer,
+                  child: SalomonBottomBar(
+                    currentIndex: pageIndex,
+                    onTap: (pageViewSelectedIndex) {
+                      pageController.animateToPage(
+                        pageViewSelectedIndex,
+                        duration: const Duration(seconds: 1),
+                        curve: const Tanh(),
+                      );
                     },
-                    draggableIcon: Icons.keyboard_arrow_down_rounded,
-                    controller: reportBoxController,
-                    collapsed: true,
-                    draggable: false,
-                    draggableIconVisible: true,
-                    minHeight: 0,
-                    maxHeight: size.height * 0.6,
-                    color: theme.colorScheme.primaryContainer,
-                    body: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      width: size.width,
-                      child: Form(
-                        // onChanged: () {
-                        //   debugPrint("something change in the form");
-                        // },
-                        key: reportFormKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    selectedItemColor: theme.colorScheme.brightness == Brightness.light
+                        ? theme.colorScheme.primary
+                        : Colors.white,
+                    items: [
+                      SalomonBottomBarItem(
+                        icon: const Icon(Icons.person),
+                        title: const Text("Profile"),
+                      ),
+                      SalomonBottomBarItem(
+                        icon: const Icon(Icons.home),
+                        title: const Text("Home"),
+                      ),
+                      SalomonBottomBarItem(
+                        icon: const Icon(Icons.settings),
+                        title: const Text("Settings"),
+                      ),
+                    ],
+                  ),
+                ),
+                // bottomNavigationBar: BottomBarDoubleBullet(
+                //   color: theme.colorScheme.primary,
+                //   backgroundColor: theme.colorScheme.primaryContainer,
+                //   selectedIndex: pageIndex,
+                //   items: [
+                //     BottomBarItem(iconData: Icons.person),
+                //     BottomBarItem(iconData: Icons.home),
+                //     BottomBarItem(iconData: Icons.settings),
+                //   ],
+                //   onSelect: (pageViewSelectedIndex) {
+                //     print("Select $pageViewSelectedIndex");
+                //     pageController.animateToPage(
+                //       pageViewSelectedIndex,
+                //       duration: const Duration(seconds: 1),
+                //       curve: const Tanh(),
+                //     );
+                //   },
+                // ),
+                // bottomNavigationBar: BottomNavigationBar(
+                //   items: const [
+                //     BottomNavigationBarItem(
+                //       icon: Icon(Icons.person),
+                //       label: "profile",
+                //     ),
+                //     BottomNavigationBarItem(
+                //       icon: Icon(Icons.home),
+                //       label: "home",
+                //     ),
+                //     BottomNavigationBarItem(
+                //       icon: Icon(Icons.settings),
+                //       label: "settings",
+                //     ),
+                //   ],
+                //   currentIndex: pageIndex,
+                //   onTap: (pageViewSelectedIndex) {
+                //     pageController.animateToPage(
+                //       pageViewSelectedIndex,
+                //       duration: const Duration(seconds: 1),
+                //       curve: const Tanh(),
+                //     );
+                //   },
+                // ),
+                body: SafeArea(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: PageView(
+                          controller: pageController,
+                          onPageChanged: (pageChanged) {
+                            setState(() => pageIndex = pageChanged);
+                            print("Changed to page $pageChanged");
+                          },
                           children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 20),
-                              child: Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Report",
-                                      style: TextStyle(
-                                          fontSize:
-                                              Theme.of(context).textTheme.headlineSmall?.fontSize,
-                                          fontFamily: GoogleFonts.getFont("Inter").fontFamily,
-                                          fontWeight: FontWeight.bold),
+                            profileData['fullname'] == null
+                                ? const Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CircularProgressIndicator(),
+                                        Divider(),
+                                        Text("Loading user data"),
+                                      ],
                                     ),
-                                    Center(
-                                      child: IconButton(
-                                        onPressed: () {
-                                          if (titleController.text.trim().isNotEmpty ||
-                                              explanationController.text.trim().isNotEmpty ||
-                                              imageSelectionController.text.isNotEmpty) {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return discardReportConfirm(theme, size, context,
-                                                      onAnswer: (isConfirm) {
-                                                    if (isConfirm) {
-                                                      if (explanationFocusNode.hasFocus) {
-                                                        explanationFocusNode.unfocus();
-                                                      }
-                                                      if (titleFocusNode.hasFocus) {
-                                                        titleFocusNode.unfocus();
-                                                      }
-                                                      reportFormKey.currentState?.reset();
-                                                      imageSelectionController.clear();
-                                                      titleController.clear();
-                                                      explanationController.clear();
-                                                      reportBoxController.closeBox();
-                                                    }
-                                                    Navigator.pop(context);
-                                                  });
-                                                });
-                                          } else {
-                                            if (explanationFocusNode.hasFocus) {
-                                              explanationFocusNode.unfocus();
-                                            }
-                                            if (titleFocusNode.hasFocus) {
-                                              titleFocusNode.unfocus();
-                                            }
-                                            reportFormKey.currentState?.reset();
-                                            imageSelectionController.clear();
-                                            titleController.clear();
-                                            explanationController.clear();
-                                            reportBoxController.closeBox();
-                                          }
-                                          setState(() {});
-                                        },
-                                        icon: const Icon(Icons.close),
-                                      ),
+                                  )
+                                : const ProfileWidgetV2(),
+                            profileData['fullname'] == null
+                                ? const Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CircularProgressIndicator(),
+                                        Divider(),
+                                        Text("Loading user data"),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "Title",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: GoogleFonts.getFont("Inter").fontFamily,
-                              ),
-                            ),
-                            SizedBox(height: size.height * 0.01),
-                            TextFormField(
-                              maxLength: 30,
-                              focusNode: titleFocusNode,
-                              controller: titleController,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: theme.colorScheme.background,
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                prefixIcon: const Icon(Icons.title),
-                                counterText: "",
-                                suffixIcon: titleController.text.isNotEmpty
-                                    ? GestureDetector(
-                                        onTap: titleController.clear,
-                                        child: const Icon(Icons.clear))
-                                    : null,
-                                hintText: "Title",
-                              ),
-                              validator: (value) {
-                                if ((value ?? "").isEmpty) {
-                                  return "Report must have topic";
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                reportFormKey.currentState!.validate();
-                                setState(() {});
-                              },
-                            ),
-                            SizedBox(height: size.height * 0.01),
-                            Text(
-                              "Explanation",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: GoogleFonts.getFont("Inter").fontFamily,
-                              ),
-                            ),
-                            SizedBox(height: size.height * 0.01),
-                            TextFormField(
-                              focusNode: explanationFocusNode,
-                              controller: explanationController,
-
-                              // minLines: 1,
-                              maxLines: 4,
-                              maxLength: 200,
-                              decoration: InputDecoration(
-                                filled: true,
-                                isDense: true,
-                                contentPadding: const EdgeInsets.all(6),
-                                fillColor: theme.colorScheme.background,
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              validator: (value) {
-                                if ((value ?? "").isEmpty) {
-                                  return "Please explain about the report";
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                reportFormKey.currentState!.validate();
-                              },
-                            ),
-                            SizedBox(height: size.height * 0.01),
-                            Text(
-                              "Upload Photo (Not Required)",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: GoogleFonts.getFont("Inter").fontFamily,
-                              ),
-                            ),
-                            SizedBox(height: size.height * 0.01),
-                            TextFormField(
-                              maxLines: 1,
-                              readOnly: true,
-                              controller: imageSelectionController,
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.upload),
-                                filled: true,
-                                fillColor: theme.colorScheme.background,
-                                hintText: "Upload Your Screenshot",
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(35),
-                                ),
-                              ),
-                              onTap: () async {
-                                // debugPrint("Want to upload report picture");
-                                imageSelected = await getImage();
-                                if (imageSelected == null) {
-                                } else {
-                                  imageSelectionController.text =
-                                      imageSelected!.path.split("/").last;
-                                }
-                              },
-                            ),
-                            SizedBox(height: size.height * 0.025),
-                            SizedBox(
-                              width: double.infinity,
-                              height: 50,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: theme.colorScheme.primary,
-                                  textStyle: TextStyle(
-                                    color: theme.colorScheme.onPrimary,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                  foregroundColor: theme.colorScheme.onPrimary,
-                                ),
-                                child: const Text("Send"),
-                                onPressed: () async {
-                                  debugPrint("Validated");
-                                  if (reportFormKey.currentState!.validate()) {
-                                    Uri url = Uri.parse("$api$userPostIssueRoute");
-                                    http.MultipartRequest request =
-                                        http.MultipartRequest('POST', url);
-                                    request.headers.addAll({
-                                      "Authorization": "Bearer $publicToken",
-                                      "Content-Type": "application/json"
-                                    });
-                                    if (imageSelected != null) {
-                                      request.files.add(
-                                        http.MultipartFile.fromBytes(
-                                          "file",
-                                          File(imageSelected!.path).readAsBytesSync(),
-                                          filename: imageSelected!.path,
-                                        ),
-                                      );
-                                    }
-                                    request.fields['type'] = "ruammitr";
-                                    request.fields['title'] = titleController.text;
-                                    request.fields['description'] = explanationController.text;
-                                    // debugPrint(request.files.first);
-                                    http.StreamedResponse res = await request.send();
-                                    http.Response response = await http.Response.fromStream(res);
-                                    debugPrint(response.body);
-                                    reportFormKey.currentState?.reset();
-                                    imageSelectionController.clear();
-                                    titleController.clear();
-                                    explanationController.clear();
-                                    reportBoxController.closeBox();
-                                  }
-                                },
-                              ),
-                            ),
+                                  )
+                                : HomeWidgetV2(reportBoxController: reportBoxController),
+                            SettingsWidgetV2(reportBoxController: reportBoxController)
                           ],
                         ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        }),
+                      SlidingBox(
+                        onBoxClose: () {
+                          reportFormKey.currentState?.reset();
+                        },
+                        draggableIcon: Icons.keyboard_arrow_down_rounded,
+                        controller: reportBoxController,
+                        collapsed: true,
+                        draggable: false,
+                        draggableIconVisible: true,
+                        minHeight: 0,
+                        maxHeight: size.height * 0.6,
+                        color: theme.colorScheme.primaryContainer,
+                        body: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          width: size.width,
+                          child: Form(
+                            // onChanged: () {
+                            //   debugPrint("something change in the form");
+                            // },
+                            key: reportFormKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.symmetric(vertical: 20),
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Report",
+                                          style: TextStyle(
+                                              fontSize: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineSmall
+                                                  ?.fontSize,
+                                              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Center(
+                                          child: IconButton(
+                                            onPressed: () {
+                                              if (titleController.text.trim().isNotEmpty ||
+                                                  explanationController.text.trim().isNotEmpty ||
+                                                  imageSelectionController.text.isNotEmpty) {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return discardReportConfirm(
+                                                          theme, size, context,
+                                                          onAnswer: (isConfirm) {
+                                                        if (isConfirm) {
+                                                          if (explanationFocusNode.hasFocus) {
+                                                            explanationFocusNode.unfocus();
+                                                          }
+                                                          if (titleFocusNode.hasFocus) {
+                                                            titleFocusNode.unfocus();
+                                                          }
+                                                          reportFormKey.currentState?.reset();
+                                                          imageSelectionController.clear();
+                                                          titleController.clear();
+                                                          explanationController.clear();
+                                                          reportBoxController.closeBox();
+                                                        }
+                                                        Navigator.pop(context);
+                                                      });
+                                                    });
+                                              } else {
+                                                if (explanationFocusNode.hasFocus) {
+                                                  explanationFocusNode.unfocus();
+                                                }
+                                                if (titleFocusNode.hasFocus) {
+                                                  titleFocusNode.unfocus();
+                                                }
+                                                reportFormKey.currentState?.reset();
+                                                imageSelectionController.clear();
+                                                titleController.clear();
+                                                explanationController.clear();
+                                                reportBoxController.closeBox();
+                                              }
+                                              setState(() {});
+                                            },
+                                            icon: const Icon(Icons.close),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "Title",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+                                  ),
+                                ),
+                                SizedBox(height: size.height * 0.01),
+                                TextFormField(
+                                  maxLength: 30,
+                                  focusNode: titleFocusNode,
+                                  controller: titleController,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: theme.colorScheme.background,
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    prefixIcon: const Icon(Icons.title),
+                                    counterText: "",
+                                    suffixIcon: titleController.text.isNotEmpty
+                                        ? GestureDetector(
+                                            onTap: titleController.clear,
+                                            child: const Icon(Icons.clear))
+                                        : null,
+                                    hintText: "Title",
+                                  ),
+                                  validator: (value) {
+                                    if ((value ?? "").isEmpty) {
+                                      return "Report must have topic";
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (value) {
+                                    reportFormKey.currentState!.validate();
+                                    setState(() {});
+                                  },
+                                ),
+                                SizedBox(height: size.height * 0.01),
+                                Text(
+                                  "Explanation",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+                                  ),
+                                ),
+                                SizedBox(height: size.height * 0.01),
+                                TextFormField(
+                                  focusNode: explanationFocusNode,
+                                  controller: explanationController,
+
+                                  // minLines: 1,
+                                  maxLines: 4,
+                                  maxLength: 200,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.all(6),
+                                    fillColor: theme.colorScheme.background,
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if ((value ?? "").isEmpty) {
+                                      return "Please explain about the report";
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (value) {
+                                    reportFormKey.currentState!.validate();
+                                  },
+                                ),
+                                SizedBox(height: size.height * 0.01),
+                                Text(
+                                  "Upload Photo (Not Required)",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+                                  ),
+                                ),
+                                SizedBox(height: size.height * 0.01),
+                                TextFormField(
+                                  maxLines: 1,
+                                  readOnly: true,
+                                  controller: imageSelectionController,
+                                  decoration: InputDecoration(
+                                    prefixIcon: const Icon(Icons.upload),
+                                    filled: true,
+                                    fillColor: theme.colorScheme.background,
+                                    hintText: "Upload Your Screenshot",
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.circular(35),
+                                    ),
+                                  ),
+                                  onTap: () async {
+                                    // debugPrint("Want to upload report picture");
+                                    imageSelected = await getImage();
+                                    if (imageSelected == null) {
+                                    } else {
+                                      imageSelectionController.text =
+                                          imageSelected!.path.split("/").last;
+                                    }
+                                  },
+                                ),
+                                SizedBox(height: size.height * 0.025),
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: theme.colorScheme.primary,
+                                      textStyle: TextStyle(
+                                        color: theme.colorScheme.onPrimary,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                      foregroundColor: theme.colorScheme.onPrimary,
+                                    ),
+                                    child: const Text("Send"),
+                                    onPressed: () async {
+                                      debugPrint("Validated");
+                                      if (reportFormKey.currentState!.validate()) {
+                                        Uri url = Uri.parse("$api$userPostIssueRoute");
+                                        http.MultipartRequest request =
+                                            http.MultipartRequest('POST', url);
+                                        request.headers.addAll({
+                                          "Authorization": "Bearer $publicToken",
+                                          "Content-Type": "application/json"
+                                        });
+                                        if (imageSelected != null) {
+                                          request.files.add(
+                                            http.MultipartFile.fromBytes(
+                                              "file",
+                                              File(imageSelected!.path).readAsBytesSync(),
+                                              filename: imageSelected!.path,
+                                            ),
+                                          );
+                                        }
+                                        request.fields['type'] = "ruammitr";
+                                        request.fields['title'] = titleController.text;
+                                        request.fields['description'] = explanationController.text;
+                                        // debugPrint(request.files.first);
+                                        http.StreamedResponse res = await request.send();
+                                        http.Response response =
+                                            await http.Response.fromStream(res);
+                                        debugPrint(response.body);
+                                        reportFormKey.currentState?.reset();
+                                        imageSelectionController.clear();
+                                        titleController.clear();
+                                        explanationController.clear();
+                                        reportBoxController.closeBox();
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }

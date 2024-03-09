@@ -73,7 +73,7 @@ class ClientSettingsWidget extends StatelessWidget {
                       style: theme.textTheme.bodyLarge,
                     ),
                     Switch(
-                      value: themeProvider.isDarkMode,
+                      value: themeProvider.globalDarkMode,
                       onChanged: (value) {
                         themeProvider.toggleTheme();
                       },
@@ -109,6 +109,24 @@ class ClientSettingsWidget extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Dark Mode",
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                    Switch(
+                      value: themeProvider.isDarkMode("RuamMitr"),
+                      onChanged: (value) {
+                        themeProvider.toggleThemeForApp("RuamMitr");
+                      },
+                    ),
+                  ],
+                ),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 30),
@@ -161,6 +179,24 @@ class ClientSettingsWidget extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Dark Mode",
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                    Switch(
+                      value: themeProvider.isDarkMode("TuachuayDekhor"),
+                      onChanged: (value) {
+                        themeProvider.toggleThemeForApp("TuachuayDekhor");
+                      },
+                    ),
+                  ],
+                ),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 30),
