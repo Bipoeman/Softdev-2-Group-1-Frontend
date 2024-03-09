@@ -71,6 +71,7 @@ class _HomePageV2State extends State<HomePageV2> {
         return AlertDialog(
           backgroundColor: customColors["evenContainer"],
           surfaceTintColor: customColors["evenContainer"],
+          elevation: 4,
           title: Text(
             "Exit?",
             style: theme.textTheme.headlineLarge!.copyWith(

@@ -25,14 +25,14 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
     ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    CustomThemes customTheme = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+    Map<String, Color> customColor = customTheme.customColors;
 
     return SingleChildScrollView(
       physics: const RangeMaintainingScrollPhysics(),
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          minHeight: size.height -
-              [size.width * 0.4, 100.0].reduce(min) -
-              MediaQuery.of(context).padding.top,
+          minHeight: size.height - MediaQuery.of(context).padding.top - 100,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,10 +88,37 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                         ),
                       );
                     },
-                    icon: Image.asset(
-                      "assets/images/Ruammitr/admin_page_icon.png",
-                      height: size.height * 0.07,
+                    icon: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(5),
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: customColor['main']!,
+                        borderRadius: BorderRadius.circular(7.5),
+                      ),
+                      child: Icon(
+                        Icons.admin_panel_settings,
+                        size: 30,
+                        shadows: [
+                          const BoxShadow(
+                            color: Colors.black38,
+                            spreadRadius: 12.0,
+                            blurRadius: 12.0,
+                          ),
+                          BoxShadow(
+                            color: customColor['main']!,
+                            spreadRadius: 12.0,
+                            blurRadius: 12.0,
+                          ),
+                        ],
+                        color: customColor['onMain']!,
+                      ),
                     ),
+                    // Image.asset(
+                    //   "assets/images/Ruammitr/admin_page_icon.png",
+                    //   height: size.height * 0.07,
+                    // ),
                   ),
                 Container(
                   width: [size.width * 0.6, 300.0].reduce(min),

@@ -224,6 +224,119 @@ class ClientSettingsWidget extends StatelessWidget {
             ],
           ),
         ),
+        Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          width: [size.width * 0.9, 300.0].reduce(min),
+          child: const Divider(
+            height: 4,
+            thickness: 1,
+            color: Color.fromARGB(44, 109, 108, 108),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          width: [size.width * 0.9, 300.0].reduce(min),
+          height: 50,
+          child: InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  CustomThemes customTheme = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+                  ThemeData theme = customTheme.themeData;
+                  Map<String, Color> customColors = customTheme.customColors;
+                  return AlertDialog(
+                    backgroundColor: customColors["evenContainer"],
+                    surfaceTintColor: customColors["evenContainer"],
+                    elevation: 4,
+                    title: Text(
+                      "Reset?",
+                      style: theme.textTheme.headlineLarge!.copyWith(
+                        color: customColors["onEvenContainer"],
+                      ),
+                    ),
+                    content: Text(
+                      "Do you want to reset all settings to default values?",
+                      style: theme.textTheme.bodyLarge!.copyWith(
+                        color: customColors["onEvenContainer"],
+                      ),
+                    ),
+                    actions: [
+                      InkWell(
+                        onTap: () => Navigator.pop(context),
+                        borderRadius: BorderRadius.circular(10),
+                        child: Ink(
+                          width: 75,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "No",
+                              style: theme.textTheme.titleLarge!.copyWith(
+                                color: customColors["onEvenContainer"],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                          themeProvider.resetAllSettings(context);
+                        },
+                        borderRadius: BorderRadius.circular(10),
+                        child: Ink(
+                          width: 75,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Yes",
+                              style: theme.textTheme.titleLarge!.copyWith(
+                                color: customColors["onEvenContainer"],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            borderRadius: BorderRadius.circular(15),
+            child: Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.only(left: 10),
+              decoration: BoxDecoration(
+                color: customTheme.customColors["container"]!.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.restore,
+                    color: customTheme.customColors["onContainer"]!,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    "Reset All Settings to Default",
+                    style: theme.textTheme.titleLarge!.copyWith(
+                      color: customTheme.customColors["onContainer"]!,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

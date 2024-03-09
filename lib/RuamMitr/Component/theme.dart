@@ -15,13 +15,29 @@ class ThemeProvider extends ChangeNotifier {
   };
   Map<String, bool> appDarkMode = {
     "RuamMitr": false,
-    "PinTheBin": false,
     "TuachuayDekhor": false,
-    "Restroom": false,
   };
 
   CustomThemes? themeFrom(String app) =>
       _appsThemes[themeForApp[app]]?[appDarkMode[app]! ? "dark" : "light"];
+
+  void resetAllSettings(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (!context.mounted) {
+      return;
+    }
+    globalDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    await prefs.remove("Global-DarkMode");
+    appDarkMode.forEach((app, _) {
+      appDarkMode[app] = globalDarkMode;
+      prefs.remove("$app-DarkMode");
+    });
+    themeForApp.forEach((app, _) {
+      themeForApp[app] = app;
+      prefs.remove("$app-ThemeColor");
+    });
+    notifyListeners();
+  }
 
   void toggleTheme() {
     globalDarkMode = !globalDarkMode;
@@ -34,11 +50,11 @@ class ThemeProvider extends ChangeNotifier {
 
   void toggleThemeForApp(String app) {
     appDarkMode[app] = !appDarkMode[app]!;
+    bool appDarkModeValue = appDarkMode[app]!;
     Iterable<bool> darkModeValues = appDarkMode.values;
-    if (darkModeValues.every((element) => element)) {
-      globalDarkMode = true;
-    } else if (darkModeValues.every((element) => !element)) {
-      globalDarkMode = false;
+    if (darkModeValues.every((element) => element == appDarkModeValue)) {
+      debugPrint("All apps are ${appDarkModeValue ? "dark" : "light"}");
+      globalDarkMode = appDarkModeValue;
     }
     saveTheme();
     notifyListeners();
