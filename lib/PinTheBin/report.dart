@@ -26,10 +26,12 @@ class _ReportPageState extends State<ReportPage> {
   String dropdownvalue = '--Title--';
   var items = [
     '--Title--',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
+    'Damage or lost issue',
+    'Incorrect information',
+    'Navigation problems',
+    'lost information',
+    'Disturbance',
+    'Others',
   ];
 
   Future<void> _getImage() async {
@@ -155,25 +157,10 @@ class _ReportPageState extends State<ReportPage> {
                           padding: EdgeInsets.only(left: size.width * 0.02),
                           child: Text(
                             data['Bininfo']["location"],
-                            style: TextStyle(
-                                fontFamily:
-                                    data['Bininfo']["location"].contains(
-                                  RegExp("[ก-๛]"),
-                                )
-                                        ? "THSarabunPSK"
-                                        : "Sen",
-                                fontSize: data['Bininfo']["location"].contains(
-                                  RegExp("[ก-๛]"),
-                                )
-                                    ? 22
-                                    : 16,
-                                fontWeight:
-                                    data['Bininfo']["location"].contains(
-                                  RegExp("[ก-๛]"),
-                                )
-                                        ? FontWeight.w700
-                                        : FontWeight.normal,
-                                color: const Color.fromRGBO(0, 30, 49, 67)),
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: Color.fromRGBO(0, 30, 49, 67)),
                           ),
                         ),
                       ),
@@ -335,27 +322,10 @@ class _ReportPageState extends State<ReportPage> {
                                     },
                                     maxLength: 80,
                                     maxLines: 4,
-                                    style: TextStyle(
-                                        fontFamily:
-                                            _ReporttextController.text.contains(
-                                          RegExp("[ก-๛]"),
-                                        )
-                                                ? "THSarabunPSK"
-                                                : "Sen",
-                                        fontSize:
-                                            _ReporttextController.text.contains(
-                                          RegExp("[ก-๛]"),
-                                        )
-                                                ? 22
-                                                : 16,
-                                        fontWeight:
-                                            _ReporttextController.text.contains(
-                                          RegExp("[ก-๛]"),
-                                        )
-                                                ? FontWeight.w700
-                                                : FontWeight.normal,
-                                        color: const Color.fromRGBO(
-                                            0, 30, 49, 67)),
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                        color: Color.fromRGBO(0, 30, 49, 67)),
                                     textInputAction: TextInputAction.done,
                                   ),
                                 ],
@@ -515,34 +485,59 @@ class _ReportPageState extends State<ReportPage> {
                             child: InkWell(
                               borderRadius: BorderRadius.circular(30),
                               onTap: () {
-                                _sendreport().then((_) {
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: const Text(
-                                          'Report sent',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        backgroundColor: Colors.green[300]),
-                                  );
-                                  Navigator.pushReplacementNamed(
-                                      context, restroomPageRoute["home"]!);
-                                }).onError((error, stackTrace) {
-                                  debugPrint("Error: $error");
-                                  Navigator.pop(context);
+                                if (dropdownvalue == "--Title--") {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text(
-                                          'Failed to send report',
+                                          'Please select title',
                                           style: TextStyle(
                                             color: Colors.black,
                                           ),
                                         ),
                                         backgroundColor: Colors.red),
                                   );
-                                });
+                                  return;
+                                } else if (_ReporttextController.text.isEmpty) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                          'Please fill in the description',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.red),
+                                  );
+                                } else {
+                                  _sendreport().then((_) {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: const Text(
+                                            'Report sent',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          backgroundColor: Colors.green[300]),
+                                    );
+                                    Navigator.pushReplacementNamed(
+                                        context, restroomPageRoute["home"]!);
+                                  }).onError((error, stackTrace) {
+                                    debugPrint("Error: $error");
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                            'Failed to send report',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          backgroundColor: Colors.red),
+                                    );
+                                  });
+                                }
                               },
                               child: Ink(
                                 decoration: BoxDecoration(

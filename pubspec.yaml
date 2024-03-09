@@ -166,7 +166,7 @@ flutter:
         - asset: assets/fonts/THSarabun-Italic.ttf
         - asset: assets/fonts/THSarabun-BoldItalic.ttf
     - family: Kodchasan
-      fonts: 
+      fonts:
         - asset: assets/fonts/Kodchasan-Regular.ttf
           weight: 400
         - asset: assets/fonts/Kodchasan-Medium.ttf
@@ -175,7 +175,7 @@ flutter:
           weight: 600
         - asset: assets/fonts/Kodchasan-Bold.ttf
           weight: 700
-        
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
