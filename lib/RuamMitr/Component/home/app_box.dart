@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 class AppBox extends StatelessWidget {
   const AppBox({
@@ -53,6 +54,7 @@ class AppBox extends StatelessWidget {
   @override
   Widget build(context) {
     ThemeData theme = Theme.of(context);
+    CustomThemes customTheme = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
     return InkWell(
       onTap: appRoute ??
           () {
@@ -63,7 +65,7 @@ class AppBox extends StatelessWidget {
         width: width,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          color: theme.colorScheme.primaryContainer,
+          color: customTheme.customColors["container"],
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
@@ -90,11 +92,14 @@ class AppBox extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
-                      appDescription ?? "Description",
-                      overflow: TextOverflow.fade,
-                      textAlign: TextAlign.left,
-                      style: theme.textTheme.bodySmall,
+                    SizedBox(
+                      width: width * 0.3,
+                      child: Text(
+                        appDescription ?? "Description",
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.left,
+                        style: theme.textTheme.bodySmall,
+                      ),
                     ),
                   ],
                 ),

@@ -19,6 +19,7 @@ import 'package:ruam_mitt/RuamMitr/central_v2.dart';
 import 'package:ruam_mitt/RuamMitr/change_password.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
 import 'package:ruam_mitt/RuamMitr/register.dart';
+import 'package:ruam_mitt/RuamMitr/client_settings.dart';
 import 'package:ruam_mitt/Dinodengzz/navigation.dart';
 import 'package:ruam_mitt/TuachuayDekhor/admin.dart';
 import 'package:ruam_mitt/TuachuayDekhor/blogger.dart';
@@ -67,13 +68,16 @@ class SuperApp extends StatefulWidget {
 class _SuperAppState extends State<SuperApp> {
   @override
   Widget build(BuildContext context) {
-    ThemesPortal.getCurrent(context).loadTheme();
+    ThemeProvider themeProvider = ThemesPortal.getCurrent(context);
+    themeProvider.loadTheme(context);
+    themeProvider.loadThemeColor();
     currentContext = context;
     return GetMaterialApp(
       initialRoute: loginPageRoute,
       routes: {
         loginPageRoute: (context) => const LoginPage(),
         registerPageRoute: (context) => const RegisterPage(),
+        clientSettingsPageRoute: (context) => const ClientSettingsPage(),
         ruamMitrPageRoute["home"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["homev2"]!: (context) => const HomePageV2(),
         ruamMitrPageRoute["password-change"]!: (context) =>
@@ -140,19 +144,19 @@ class _SuperAppState extends State<SuperApp> {
           final args = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
 
-          final id_post = args['id_post'] as int;
-          final id_blogger = args['id_blogger'] as int;
+          final idPost = args['id_post'] as int;
+          final idBlogger = args['id_blogger'] as int;
           return TuachuayDekhorReportPage(
-              id_post: id_post, id_blogger: id_blogger);
+              id_post: idPost, id_blogger: idBlogger);
         },
         tuachuayDekhorPageRoute["detailreport"]!: (context) {
           final args = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
 
-          final id_post = args['id_post'] as int;
-          final id_report = args['id_report'] as int;
+          final idPost = args['id_post'] as int;
+          final idReport = args['id_report'] as int;
           return TuachuayDekhorDetailReportPage(
-              id_post: id_post, id_report: id_report);
+              id_post: idPost, id_report: idReport);
         },
         tuachuayDekhorPageRoute["reportapp"]!: (context) =>
             const TuachuayDekhorReportAppPage(),

@@ -99,7 +99,8 @@ class _LoginPageState extends State<LoginPage> {
 
   clearPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    await prefs.remove("emailoruser");
+    await prefs.remove("password");
   }
 
   loadData() async {
@@ -145,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
     Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
     ThemeProvider themes = Provider.of<ThemeProvider>(context);
-    CustomThemes ruammitrTheme = themes.themeFrom("RuamMitr")!;
+    CustomThemes ruammitrTheme = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
     return Container(
       decoration: ruamMitrBackgroundGradient(themes),
       child: Scaffold(
@@ -156,16 +157,22 @@ class _LoginPageState extends State<LoginPage> {
               constraints: BoxConstraints(
                 minHeight: size.height - MediaQuery.of(context).padding.top,
               ),
-              child: Center(
+              child: Container(
+                alignment: Alignment.topCenter,
                 child: Stack(
-                  alignment: AlignmentDirectional.topEnd,
+                  alignment: AlignmentDirectional.topCenter,
                   children: [
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        Padding(
+                          padding: EdgeInsets.all(
+                            size.height * 0.05,
+                          ),
+                        ),
                         Container(
                           alignment: Alignment.center,
-                          margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+                          margin: EdgeInsets.fromLTRB(0, size.height * 0.01, 0, 0),
                           height: [150.0, size.width * 0.5].reduce(min),
                           width: [150.0, size.width * 0.5].reduce(min),
                           decoration: const BoxDecoration(
@@ -210,8 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                               end: Alignment.bottomCenter,
                               colors: [
                                 ruammitrTheme.customColors["oddContainer"]!,
-                                ruammitrTheme.customColors["oddContainer"]!
-                                    .withOpacity(0),
+                                ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
                               ],
                             ),
                           ),
@@ -225,13 +231,10 @@ class _LoginPageState extends State<LoginPage> {
                                   fillColor: theme.colorScheme.background,
                                   filled: true,
                                   labelStyle: TextStyle(
-                                      color: theme.colorScheme.onBackground
-                                          .withOpacity(0.5)),
-                                  contentPadding:
-                                      const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                      color: theme.colorScheme.onBackground.withOpacity(0.5)),
+                                  contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                   labelText: "Email or Username",
-                                  prefixIconColor:
-                                      theme.colorScheme.onBackground,
+                                  prefixIconColor: theme.colorScheme.onBackground,
                                   prefixIcon: const Icon(Icons.person),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(40),
@@ -247,13 +250,10 @@ class _LoginPageState extends State<LoginPage> {
                                   fillColor: theme.colorScheme.background,
                                   filled: true,
                                   labelStyle: TextStyle(
-                                      color: theme.colorScheme.onBackground
-                                          .withOpacity(0.5)),
-                                  contentPadding:
-                                      const EdgeInsets.fromLTRB(30, 0, 5, 0),
+                                      color: theme.colorScheme.onBackground.withOpacity(0.5)),
+                                  contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
                                   labelText: "Password",
-                                  prefixIconColor:
-                                      theme.colorScheme.onBackground,
+                                  prefixIconColor: theme.colorScheme.onBackground,
                                   prefixIcon: const Icon(Icons.lock_outline),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(40),
@@ -264,8 +264,7 @@ class _LoginPageState extends State<LoginPage> {
                               Align(
                                 alignment: Alignment.center,
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
@@ -285,8 +284,7 @@ class _LoginPageState extends State<LoginPage> {
                                               }
                                             });
                                           },
-                                          activeColor:
-                                              theme.colorScheme.onPrimary,
+                                          activeColor: theme.colorScheme.onPrimary,
                                           checkColor: theme.colorScheme.primary,
                                         ),
                                         const Text(
@@ -299,14 +297,11 @@ class _LoginPageState extends State<LoginPage> {
                                       child: Text(
                                         "Forgot password?",
                                         style: TextStyle(
-                                            fontSize: 11,
-                                            color: theme.colorScheme.secondary),
+                                            fontSize: 11, color: theme.colorScheme.secondary),
                                       ),
                                       onPressed: () {
                                         Navigator.pushNamed(
-                                            context,
-                                            ruamMitrPageRoute[
-                                                "password-change"]!);
+                                            context, ruamMitrPageRoute["password-change"]!);
                                       },
                                     ),
                                   ],
@@ -323,8 +318,7 @@ class _LoginPageState extends State<LoginPage> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
                                     ),
-                                    foregroundColor:
-                                        theme.colorScheme.onPrimary,
+                                    foregroundColor: theme.colorScheme.onPrimary,
                                   ),
                                   child: const Text("Login"),
                                   onPressed: () {
@@ -338,8 +332,7 @@ class _LoginPageState extends State<LoginPage> {
                                   const Text("Don't have an account?"),
                                   TextButton(
                                     onPressed: () {
-                                      Navigator.pushNamed(
-                                          context, registerPageRoute);
+                                      Navigator.pushNamed(context, registerPageRoute);
                                     },
                                     child: Text(
                                       "Create an account",
@@ -355,11 +348,33 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                    Positioned(
+                    Container(
+                      alignment: Alignment.topRight,
+                      margin: const EdgeInsets.fromLTRB(0, 20, 20, 0),
                       child: IconButton(
-                        icon: Image.asset("assets/Menu/Buttons/Play.png"),
+                        icon: Image.asset(
+                          "assets/Menu/Buttons/Play.png",
+                          height: 25,
+                        ),
                         onPressed: () {
                           Navigator.pushNamed(context, dinodengzzPageRoute);
+                        },
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      margin: const EdgeInsets.fromLTRB(20, 20, 0, 0),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.settings,
+                          color: ruammitrTheme.customColors["icon"],
+                          size: 25,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            clientSettingsPageRoute,
+                          );
                         },
                       ),
                     ),

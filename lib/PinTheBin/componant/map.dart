@@ -26,7 +26,8 @@ class MapPinTheBin extends StatefulWidget {
 }
 
 Widget _showEdit(context, bin, width) {
-  if ('${bin['user_update']}' == '${profileData['id']}') {
+  if ('${bin['user_update']}' == '${profileData['id']}' ||
+      profileData['role'] == "admin") {
     print("show");
     return InkWell(
       child: Image.asset(
@@ -205,376 +206,417 @@ class _MapPinTheBinState extends State<MapPinTheBin>
               options: PopupMarkerLayerOptions(
                 markers: markerInfo.markers,
                 popupDisplayOptions: PopupDisplayOptions(
+                    animation: const PopupAnimation.fade(
+                        duration: Duration(milliseconds: 150)),
                     builder: (BuildContext context, Marker marker) {
-                  Map<String, dynamic> displayBinInfo = {};
-                  for (int i = 0; i < markerInfo.markers.length; i++) {
-                    if (markerInfo.markers[i].point.latitude ==
-                            marker.point.latitude &&
-                        markerInfo.markers[i].point.longitude ==
-                            marker.point.longitude) {
-                      displayBinInfo = markerInfo.info[i];
-                      break;
-                    }
-                  }
-                  // print(displayBinInfo['bintype']);
-                  return AnimatedContainer(
-                    duration: const Duration(seconds: 1),
-                    width: size.width * 0.65,
-                    /*  (404 / 439) are from refrence design */
-                    height: (size.width * 0.6) / (404 / 439),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.07,
-                      vertical: size.width * 0.05,
-                    ),
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    child: ShaderMask(
-                      shaderCallback: (Rect rect) {
-                        return const LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.transparent, Colors.white],
-                          //set stops as par your requirement
-                          stops: [0.0, 0.05], // 50% transparent, 50% white
-                        ).createShader(rect);
-                      },
-                      child: ShaderMask(
-                        shaderCallback: (Rect rect) {
-                          return const LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            colors: [Colors.transparent, Colors.white],
-                            //set stops as par your requirement
-                            stops: [0.0, 0.05], // 50% transparent, 50% white
-                          ).createShader(rect);
-                        },
-                        child: SingleChildScrollView(
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                      Map<String, dynamic> displayBinInfo = {};
+                      for (int i = 0; i < markerInfo.markers.length; i++) {
+                        if (markerInfo.markers[i].point.latitude ==
+                                marker.point.latitude &&
+                            markerInfo.markers[i].point.longitude ==
+                                marker.point.longitude) {
+                          displayBinInfo = markerInfo.info[i];
+                          break;
+                        }
+                      }
+                      // print(displayBinInfo['bintype']);
+                      return AnimatedContainer(
+                        duration: const Duration(seconds: 1),
+                        width: size.width * 0.65,
+                        /*  (404 / 439) are from refrence design */
+                        height: (size.width * 0.6) / (404 / 439),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: size.width * 0.07,
+                          vertical: size.width * 0.05,
+                        ),
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: ShaderMask(
+                          shaderCallback: (Rect rect) {
+                            return const LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [Colors.transparent, Colors.white],
+                              //set stops as par your requirement
+                              stops: [0.0, 0.05], // 50% transparent, 50% white
+                            ).createShader(rect);
+                          },
+                          child: ShaderMask(
+                            shaderCallback: (Rect rect) {
+                              return const LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [Colors.transparent, Colors.white],
+                                //set stops as par your requirement
+                                stops: [
+                                  0.0,
+                                  0.05
+                                ], // 50% transparent, 50% white
+                              ).createShader(rect);
+                            },
+                            child: SingleChildScrollView(
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  SizedBox(
-                                    width: size.width * 0.65 * 0.5,
-                                    child: Text(
-                                      "${displayBinInfo['location']}",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          shadows: [
-                                            Shadow(
-                                              color: const Color(0xFF46384E)
-                                                  .withOpacity(0.4),
-                                              offset: const Offset(0, 2),
-                                              blurRadius: 5,
-                                            )
-                                          ],
-                                          color: const Color(0xFF46384E),
-                                          fontFamily: displayBinInfo['location']
-                                                  .contains(
-                                            RegExp("[ก-๛]"),
-                                          )
-                                              ? "THSarabunPSK"
-                                              : Theme.of(context)
-                                                  .textTheme
-                                                  .labelMedium!
-                                                  .fontFamily,
-                                          fontSize: displayBinInfo['location']
-                                                  .contains(
-                                            RegExp("[ก-๛]"),
-                                          )
-                                              ? 24
-                                              : 18,
-                                          fontWeight: displayBinInfo['location']
-                                                  .contains(
-                                            RegExp("[ก-๛]"),
-                                          )
-                                              ? FontWeight.w700
-                                              : FontWeight.w800),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        width: size.width * 0.65 * 0.5,
+                                        child: Text(
+                                          "${displayBinInfo['location']}",
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                              shadows: [
+                                                Shadow(
+                                                  color: const Color(0xFF46384E)
+                                                      .withOpacity(0.4),
+                                                  offset: const Offset(0, 2),
+                                                  blurRadius: 5,
+                                                )
+                                              ],
+                                              color: const Color(0xFF46384E),
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w800),
+                                        ),
+                                      ),
+                                      Row(children: [
+                                        _showEdit(context, displayBinInfo,
+                                            size.width),
+                                        InkWell(
+                                          child: Image.asset(
+                                            "assets/images/PinTheBin/navigate_bin.png",
+                                            height: size.width * 0.06,
+                                          ),
+                                          onTap: () async {
+                                            String googleUrl =
+                                                'https://www.google.com/maps/search/?api=1&query=${marker.point.latitude},${marker.point.longitude}';
+                                            Uri url = Uri.parse(googleUrl);
+                                            if (!await launchUrl(url)) {
+                                              throw Exception(
+                                                  'Could not launch $googleUrl');
+                                            }
+                                          },
+                                        ),
+                                        InkWell(
+                                          child: Image.asset(
+                                            "assets/images/PinTheBin/report_bin.png",
+                                            height: size.width * 0.06,
+                                          ),
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                              context,
+                                              pinthebinPageRoute["report"]!,
+                                              arguments: {
+                                                'Bininfo': displayBinInfo
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      ]),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Center(
+                                    child: SizedBox(
+                                      width: size.width * 0.4,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: AspectRatio(
+                                          aspectRatio: 289 / 211,
+                                          child:
+                                              // displayBinInfo['picture'] == null
+                                              //     ? Image.asset(
+                                              //         "assets/images/PinTheBin/bin_null.png",
+                                              //         fit: BoxFit.contain,
+                                              //       )
+                                              //     : Image.network(
+                                              //         displayBinInfo['picture'],
+                                              //         fit: BoxFit.cover,
+                                              //       ),
+                                              InkWell(
+                                                  onTap: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return Stack(
+                                                          children: [
+                                                            Center(
+                                                                child: SizedBox(
+                                                              width: size.width,
+                                                              height:
+                                                                  size.height,
+                                                              child:
+                                                                  InteractiveViewer(
+                                                                maxScale: 10,
+                                                                child: displayBinInfo[
+                                                                            'picture'] ==
+                                                                        null
+                                                                    ? Image
+                                                                        .asset(
+                                                                        "assets/images/PinTheBin/bin_null.png",
+                                                                        fit: BoxFit
+                                                                            .contain,
+                                                                      )
+                                                                    : Image
+                                                                        .network(
+                                                                        displayBinInfo[
+                                                                            'picture'],
+                                                                      ),
+                                                              ),
+                                                            )),
+                                                            Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topRight,
+                                                              child: IconButton(
+                                                                icon:
+                                                                    const Icon(
+                                                                  Icons.close,
+                                                                  size: 30,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                                onPressed: () {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                },
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  child: ClipRRect(
+                                                    child: displayBinInfo[
+                                                                'picture'] ==
+                                                            null
+                                                        ? Image.asset(
+                                                            "assets/images/PinTheBin/bin_null.png",
+                                                            fit: BoxFit.contain,
+                                                          )
+                                                        : Image.network(
+                                                            displayBinInfo[
+                                                                'picture'],
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                  )),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  Row(children: [
-                                    _showEdit(
-                                        context, displayBinInfo, size.width),
-                                    InkWell(
-                                      child: Image.asset(
-                                        "assets/images/PinTheBin/navigate_bin.png",
-                                        height: size.width * 0.06,
-                                      ),
-                                      onTap: () async {
-                                        String googleUrl =
-                                            'https://www.google.com/maps/search/?api=1&query=${marker.point.latitude},${marker.point.longitude}';
-                                        Uri url = Uri.parse(googleUrl);
-                                        if (!await launchUrl(url)) {
-                                          throw Exception(
-                                              'Could not launch $googleUrl');
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: List.generate(
+                                      displayBinInfo['bintype'].keys.length,
+                                      (index) {
+                                        List<Color> binColors = [
+                                          Colors.red,
+                                          Colors.green,
+                                          Colors.yellow,
+                                          Colors.blue,
+                                        ];
+                                        var keys =
+                                            displayBinInfo['bintype'].keys;
+                                        print(displayBinInfo['bintype']
+                                            [keys.elementAt(index)]);
+                                        if (displayBinInfo['bintype']
+                                                [keys.elementAt(index)] ==
+                                            true) {
+                                          return Container(
+                                            margin:
+                                                const EdgeInsets.only(left: 8),
+                                            width: 15,
+                                            height: 15,
+                                            decoration: BoxDecoration(
+                                              color: binColors[index],
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.3),
+                                                  offset: const Offset(0, 2),
+                                                  blurRadius: 2,
+                                                  spreadRadius: 1,
+                                                )
+                                              ],
+                                              border: Border.all(
+                                                color: const Color(0xFFECECEC),
+                                                width: 1.5,
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          return Container();
                                         }
                                       },
                                     ),
-                                    InkWell(
-                                      child: Image.asset(
-                                        "assets/images/PinTheBin/report_bin.png",
-                                        height: size.width * 0.06,
-                                      ),
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          pinthebinPageRoute["report"]!,
-                                          arguments: {
-                                            'Bininfo': displayBinInfo
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ]),
+                                  ),
+                                  Text(
+                                    "${displayBinInfo['description']}",
+                                    style: TextStyle(
+                                        shadows: [
+                                          Shadow(
+                                            color: const Color(0xFF46384E)
+                                                .withOpacity(0.4),
+                                            offset: const Offset(0, 2),
+                                            blurRadius: 5,
+                                          )
+                                        ],
+                                        color: const Color(0xFF46384E),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400),
+                                  ),
                                 ],
                               ),
-                              const SizedBox(height: 5),
-                              Center(
-                                child: SizedBox(
-                                  width: size.width * 0.4,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: AspectRatio(
-                                      aspectRatio: 289 / 211,
-                                      child: displayBinInfo['picture'] == null
-                                          ? Image.asset(
-                                              "assets/images/PinTheBin/bin_null.png",
-                                              fit: BoxFit.contain,
-                                            )
-                                          : Image.network(
-                                              displayBinInfo['picture'],
-                                              fit: BoxFit.cover,
-                                            ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 5),
-                              Row(
-                                children: List.generate(
-                                  displayBinInfo['bintype'].keys.length,
-                                  (index) {
-                                    List<Color> binColors = [
-                                      Colors.red,
-                                      Colors.green,
-                                      Colors.yellow,
-                                      Colors.blue,
-                                    ];
-                                    var keys = displayBinInfo['bintype'].keys;
-                                    print(displayBinInfo['bintype']
-                                        [keys.elementAt(index)]);
-                                    if (displayBinInfo['bintype']
-                                            [keys.elementAt(index)] ==
-                                        true) {
-                                      return Container(
-                                        margin: const EdgeInsets.only(left: 8),
-                                        width: 15,
-                                        height: 15,
-                                        decoration: BoxDecoration(
-                                          color: binColors[index],
-                                          shape: BoxShape.circle,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.black.withOpacity(0.3),
-                                              offset: const Offset(0, 2),
-                                              blurRadius: 2,
-                                              spreadRadius: 1,
-                                            )
-                                          ],
-                                          border: Border.all(
-                                            color: const Color(0xFFECECEC),
-                                            width: 1.5,
-                                          ),
-                                        ),
-                                      );
-                                    } else {
-                                      return Container();
-                                    }
-                                  },
-                                ),
-                              ),
-                              Text(
-                                "${displayBinInfo['description']}",
-                                style: TextStyle(
-                                    shadows: [
-                                      Shadow(
-                                        color: const Color(0xFF46384E)
-                                            .withOpacity(0.4),
-                                        offset: const Offset(0, 2),
-                                        blurRadius: 5,
-                                      )
-                                    ],
-                                    color: const Color(0xFF46384E),
-                                    fontFamily:
-                                        displayBinInfo['location'].contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? "THSarabunPSK"
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .labelMedium!
-                                                .fontFamily,
-                                    fontSize:
-                                        displayBinInfo['location'].contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? 20
-                                            : 16,
-                                    fontWeight:
-                                        displayBinInfo['location'].contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? FontWeight.w400
-                                            : FontWeight.w400),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                }),
+                      );
+                    }),
               ),
             ),
           ],
         ),
-        SlidingBox(
-          draggableIcon: Icons.keyboard_arrow_down_sharp,
-          draggableIconBackColor: Colors.transparent,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          color: Colors.black.withOpacity(0.8),
-          collapsed: true,
-          controller: binInfoController,
-          maxHeight: size.height * 0.8,
-          minHeight: 0,
-          animationCurve: Curves.easeInOutQuart,
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: size.height * 0.03,
-                      bottom: size.height * 0.03,
-                    ),
-                    width: size.width * 0.7,
-                    height: size.height * 0.4,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: widget.binInfo[selectedIndex]['picture'] == null
-                        ? Image.asset(
-                            "assets/images/PinTheBin/bin_null.png",
-                            fit: BoxFit.cover,
-                          )
-                        : Image.network(
-                            widget.binInfo[selectedIndex]['picture']),
-                  ),
-                ),
-                GestureDetector(
-                  child: Container(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Icon(Icons.more_horiz,
-                            color: Colors.white, size: 40, key: popKey)
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    PopupMenu popupMenu = PopupMenu(
-                      onClickMenu: onPopupClick,
-                      context: context,
-                      items: [
-                        MenuItem(
-                          title: 'Edit',
-                          image: const Icon(Icons.edit, color: Colors.white),
-                        ),
-                        MenuItem(
-                          title: 'Navigate',
-                          image: const Icon(
-                            Icons.location_on_outlined,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    );
-                    popupMenu.show(widgetKey: popKey);
-                  },
-                ),
-                const Text(
-                  "Location",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: TextField(
-                    maxLines: null,
-                    controller: locationTextController,
-                    enabled: false,
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.9),
-                    ),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                  ),
-                ),
-                const Text(
-                  "Description",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: TextField(
-                    maxLines: null,
-                    controller: descriptionTextController,
-                    enabled: false,
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.9),
-                    ),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        )
+
+        // SlidingBox(
+        //   draggableIcon: Icons.keyboard_arrow_down_sharp,
+        //   draggableIconBackColor: Colors.transparent,
+        //   borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        //   color: Colors.black.withOpacity(0.8),
+        //   collapsed: true,
+        //   controller: binInfoController,
+        //   maxHeight: size.height * 0.8,
+        //   minHeight: 0,
+        //   animationCurve: Curves.easeInOutQuart,
+        //   body: SingleChildScrollView(
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Center(
+        //           child: Container(
+        //             margin: EdgeInsets.only(
+        //               top: size.height * 0.03,
+        //               bottom: size.height * 0.03,
+        //             ),
+        //             width: size.width * 0.7,
+        //             height: size.height * 0.4,
+        //             decoration: BoxDecoration(
+        //               color: Colors.white,
+        //               borderRadius: BorderRadius.circular(20),
+        //             ),
+        //             // child: widget.binInfo[selectedIndex]['picture'] == null
+        //             //     ? Image.asset(
+        //             //         "assets/images/PinTheBin/bin_null.png",
+        //             //         fit: BoxFit.cover,
+        //             //       )
+        //             //     : Image.network(
+        //             //         widget.binInfo[selectedIndex]['picture']),
+        //           ),
+        //         ),
+        //         GestureDetector(
+        //           child: Container(
+        //             padding: const EdgeInsets.only(right: 20),
+        //             child: Row(
+        //               mainAxisAlignment: MainAxisAlignment.end,
+        //               children: [
+        //                 Icon(Icons.more_horiz,
+        //                     color: Colors.white, size: 40, key: popKey)
+        //               ],
+        //             ),
+        //           ),
+        //           onTap: () {
+        //             PopupMenu popupMenu = PopupMenu(
+        //               onClickMenu: onPopupClick,
+        //               context: context,
+        //               items: [
+        //                 MenuItem(
+        //                   title: 'Edit',
+        //                   image: const Icon(Icons.edit, color: Colors.white),
+        //                 ),
+        //                 MenuItem(
+        //                   title: 'Navigate',
+        //                   image: const Icon(
+        //                     Icons.location_on_outlined,
+        //                     color: Colors.white,
+        //                   ),
+        //                 ),
+        //               ],
+        //             );
+        //             popupMenu.show(widgetKey: popKey);
+        //           },
+        //         ),
+        //         const Text(
+        //           "Location",
+        //           textAlign: TextAlign.left,
+        //           style: TextStyle(
+        //             color: Colors.white,
+        //             fontSize: 22,
+        //             fontWeight: FontWeight.bold,
+        //           ),
+        //         ),
+        //         Container(
+        //           padding:
+        //               const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        //           child: TextField(
+        //             maxLines: null,
+        //             controller: locationTextController,
+        //             enabled: false,
+        //             style: TextStyle(
+        //               color: Colors.black.withOpacity(0.9),
+        //             ),
+        //             decoration: InputDecoration(
+        //               border: OutlineInputBorder(
+        //                 borderRadius: BorderRadius.circular(15),
+        //                 borderSide: BorderSide.none,
+        //               ),
+        //               filled: true,
+        //               fillColor: Colors.white,
+        //             ),
+        //           ),
+        //         ),
+        //         const Text(
+        //           "Description",
+        //           style: TextStyle(
+        //             color: Colors.white,
+        //             fontSize: 22,
+        //             fontWeight: FontWeight.bold,
+        //           ),
+        //         ),
+        //         Container(
+        //           padding:
+        //               const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        //           child: TextField(
+        //             maxLines: null,
+        //             controller: descriptionTextController,
+        //             enabled: false,
+        //             style: TextStyle(
+        //               color: Colors.black.withOpacity(0.9),
+        //             ),
+        //             decoration: InputDecoration(
+        //               border: OutlineInputBorder(
+        //                 borderRadius: BorderRadius.circular(15),
+        //                 borderSide: BorderSide.none,
+        //               ),
+        //               filled: true,
+        //               fillColor: Colors.white,
+        //             ),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // )
       ],
     );
   }

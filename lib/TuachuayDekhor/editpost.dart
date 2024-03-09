@@ -44,16 +44,20 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
   final posturl = Uri.parse("$api$dekhorPosttoprofileRoute");
   bool isLoading = false;
   late File _image;
+  bool selectBarVisible = false;
 
-  Future<void> _getImage() async {
+  Future<void> _getImageGallery() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 40,
+    );
 
     if (pickedFile != null) {
       var result = await FlutterImageCompress.compressAndGetFile(
         pickedFile.path,
         '${pickedFile.path}_compressed.jpg',
-        quality: 40,
+        quality: 80,
       );
 
       setState(() {
@@ -64,6 +68,102 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
         }
       });
     }
+  }
+
+  Future<void> _getImageCamera() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 40,
+    );
+
+    if (pickedFile != null) {
+      var result = await FlutterImageCompress.compressAndGetFile(
+        pickedFile.path,
+        '${pickedFile.path}_compressed.jpg',
+        quality: 70,
+      );
+
+      setState(() {
+        if (result != null) {
+          _image = File(result.path);
+        } else {
+          print('Error compressing image');
+        }
+      });
+    }
+  }
+
+  Widget selectBar() {
+    Size size = MediaQuery.of(context).size;
+    CustomThemes theme =
+        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    Map<String, Color> customColors = theme.customColors;
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 100),
+      bottom: selectBarVisible ? 0 : -size.height * 0.12,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+          color: customColors["main"]!,
+        ),
+        width: size.width,
+        height: size.height * 0.08,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              width: size.width * 0.485,
+              height: size.height * 0.08,
+              decoration: BoxDecoration(
+                color: customColors["main"]!,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  selectBarVisible = false;
+                  _getImageCamera();
+                  print("Add image tapped");
+                },
+                icon: Icon(
+                  Icons.camera_alt,
+                  color: customColors["onMain"]!,
+                  size: 30,
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: customColors["onMain"]!,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              height: size.height * 0.06,
+              width: 3,
+            ),
+            Container(
+              width: size.width * 0.485,
+              height: size.height * 0.08,
+              decoration: BoxDecoration(
+                color: customColors["main"]!,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  selectBarVisible = false;
+                  _getImageGallery();
+                  print("Add image tapped");
+                },
+                icon: Icon(
+                  Icons.image,
+                  color: customColors["onMain"]!,
+                  size: 30,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _loadDetail() async {
@@ -571,7 +671,13 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                     margin: const EdgeInsets.only(left: 20),
                                     width: size.width * 0.6,
                                     child: TextFormField(
+                                      onTap: () {
+                                        selectBarVisible = false;
+                                      },
                                       textInputAction: TextInputAction.next,
+                                      onEditingComplete: () {
+                                        anotherFocusNode.requestFocus();
+                                      },
                                       focusNode: firstFocusNode,
                                       controller: markdownTitleController,
                                       keyboardType: TextInputType.text,
@@ -626,6 +732,9 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                               ),
                               width: size.width * 0.85,
                               child: TextFormField(
+                                onTap: () {
+                                  selectBarVisible = false;
+                                },
                                 focusNode: anotherFocusNode,
                                 controller: markdownContentController,
                                 keyboardType: TextInputType.multiline,
@@ -659,10 +768,9 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                       ),
                       Positioned(
                         bottom: 0,
-                        left: 0,
-                        right: 0,
                         child: Container(
                           height: size.width * 0.12,
+                          width: size.width,
                           decoration: BoxDecoration(
                             color: customColors["main"]!,
                           ),
@@ -748,8 +856,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                 ),
                                 child: GestureDetector(
                                   onTap: () {
-                                    _getImage();
-                                    print("Add image tapped");
+                                    selectBarVisible = true;
                                   },
                                   child: Row(
                                     children: [
@@ -779,6 +886,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                         ),
                       ),
                       const NavbarTuachuayDekhor(),
+                      selectBar(),
                     ],
                   ),
                 ),

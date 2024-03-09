@@ -1,0 +1,35 @@
+import 'package:flame/components.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/space_bullet.dart';
+import 'package:ruam_mitt/Dinodengzz/routes.dart';
+
+class BulletManager extends Component with HasGameRef<GameRoutes> {
+  late Timer bullet;
+  late Vector2 position;
+  BulletManager(this.position) : super() {
+    bullet = Timer(1.5, onTick: _shootNormal, repeat: false);
+  }
+
+  void _shootNormal() {
+    Bullet normalBullet = Bullet();
+    normalBullet.position = position;
+    add(normalBullet);
+  }
+
+  @override
+  void onMount() {
+    super.onMount();
+    bullet.start();
+  }
+
+  @override
+  void onRemove() {
+    super.onRemove();
+    bullet.stop();
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    bullet.update(dt);
+  }
+}

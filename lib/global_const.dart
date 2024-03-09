@@ -14,6 +14,7 @@ const String api = "https://softwaredev2.ddns.net";
 
 const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
+const String clientSettingsPageRoute = "/client_settings";
 const String userDataUpdateRoute = "/user";
 const String userImageUpdateRoute = "/user/upload";
 const String userDataRequestRoute = "/user/id";
@@ -63,6 +64,7 @@ const String dekhorDescriptionRoute = "/dekhor/bloggerdescription";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
 const String pinTheBinAddpicRoute = "/pinthebin/bin/upload";
+const String pinTheBinEditpicRoute = "/pinthebin/bin/upload";
 const String pinTheBinaddbinRoute = "/pinthebin/bin";
 const String pinTheBineditbinRoute = "/pinthebin/bin";
 const String restroomRoverRestroomRoute = "/restroom";
@@ -132,15 +134,29 @@ const Map<String, String> pinthebinPageRoute = {
 
 BoxDecoration ruamMitrBackgroundGradient(ThemeProvider themes) {
   return BoxDecoration(
-      gradient: LinearGradient(
-    // stops: const [-0.5, 0.8],
+    gradient: LinearGradient(
+      // stops: const [-0.5, 0.8],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        themes.themeFrom("RuamMitr")!.customColors["backgroundStart"]!,
+        themes.themeFrom("RuamMitr")!.customColors["backgroundEnd"]!
+      ],
+    ),
+  );
+}
+
+LinearGradient backgroundGradient(BuildContext context, String themeName) {
+  CustomThemes customTheme =
+      ThemesPortal.appThemeFromContext(context, themeName)!;
+  return LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      themes.themeFrom("RuamMitr")!.customColors["backgroundStart"]!,
-      themes.themeFrom("RuamMitr")!.customColors["backgroundEnd"]!
+      customTheme.customColors["backgroundStart"]!,
+      customTheme.customColors["backgroundEnd"]!
     ],
-  ));
+  );
 }
 
 const Map<String, String> restroomPinImg = <String, String>{
