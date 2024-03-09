@@ -1,3 +1,5 @@
+import 'package:clay_containers/constants.dart';
+import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -263,159 +265,167 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                  Stack(
                                     children: [
-                                      SizedBox(
-                                        width: size.width * 0.65 * 0.5,
-                                        child: Text(
-                                          "${displayBinInfo['location']}",
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              shadows: [
-                                                Shadow(
-                                                  color: const Color(0xFF46384E)
-                                                      .withOpacity(0.4),
-                                                  offset: const Offset(0, 2),
-                                                  blurRadius: 5,
-                                                )
-                                              ],
-                                              color: const Color(0xFF46384E),
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w800),
-                                        ),
-                                      ),
-                                      Row(children: [
-                                        _showEdit(context, displayBinInfo,
-                                            size.width),
-                                        InkWell(
-                                          child: Image.asset(
-                                            "assets/images/PinTheBin/navigate_bin.png",
-                                            height: size.width * 0.06,
-                                          ),
-                                          onTap: () async {
-                                            String googleUrl =
-                                                'https://www.google.com/maps/search/?api=1&query=${marker.point.latitude},${marker.point.longitude}';
-                                            Uri url = Uri.parse(googleUrl);
-                                            if (!await launchUrl(url)) {
-                                              throw Exception(
-                                                  'Could not launch $googleUrl');
-                                            }
-                                          },
-                                        ),
-                                        InkWell(
-                                          child: Image.asset(
-                                            "assets/images/PinTheBin/report_bin.png",
-                                            height: size.width * 0.06,
-                                          ),
-                                          onTap: () {
-                                            Navigator.pushNamed(
-                                              context,
-                                              pinthebinPageRoute["report"]!,
-                                              arguments: {
-                                                'Bininfo': displayBinInfo
-                                              },
-                                            );
-                                          },
-                                        ),
-                                      ]),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Center(
-                                    child: SizedBox(
-                                      width: size.width * 0.4,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: AspectRatio(
-                                          aspectRatio: 289 / 211,
-                                          child:
-                                              // displayBinInfo['picture'] == null
-                                              //     ? Image.asset(
-                                              //         "assets/images/PinTheBin/bin_null.png",
-                                              //         fit: BoxFit.contain,
-                                              //       )
-                                              //     : Image.network(
-                                              //         displayBinInfo['picture'],
-                                              //         fit: BoxFit.cover,
-                                              //       ),
-                                              InkWell(
-                                                  onTap: () {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return Stack(
-                                                          children: [
-                                                            Center(
-                                                                child: SizedBox(
-                                                              width: size.width,
-                                                              height:
-                                                                  size.height,
-                                                              child:
-                                                                  InteractiveViewer(
-                                                                maxScale: 10,
-                                                                child: displayBinInfo[
-                                                                            'picture'] ==
-                                                                        null
-                                                                    ? Image
-                                                                        .asset(
-                                                                        "assets/images/PinTheBin/bin_null.png",
-                                                                        fit: BoxFit
-                                                                            .contain,
-                                                                      )
-                                                                    : Image
-                                                                        .network(
-                                                                        displayBinInfo[
-                                                                            'picture'],
-                                                                      ),
-                                                              ),
-                                                            )),
-                                                            Align(
-                                                              alignment:
-                                                                  Alignment
-                                                                      .topRight,
-                                                              child: IconButton(
-                                                                icon:
-                                                                    const Icon(
-                                                                  Icons.close,
-                                                                  size: 30,
-                                                                  color: Colors
-                                                                      .white,
+                                      Center(
+                                        child: SizedBox(
+                                          width: size.width * 0.4,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            child: AspectRatio(
+                                              aspectRatio: 289 / 211,
+                                              child:
+                                                  // displayBinInfo['picture'] == null
+                                                  //     ? Image.asset(
+                                                  //         "assets/images/PinTheBin/bin_null.png",
+                                                  //         fit: BoxFit.contain,
+                                                  //       )
+                                                  //     : Image.network(
+                                                  //         displayBinInfo['picture'],
+                                                  //         fit: BoxFit.cover,
+                                                  //       ),
+                                                  InkWell(
+                                                      onTap: () {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return Stack(
+                                                              children: [
+                                                                Center(
+                                                                    child:
+                                                                        SizedBox(
+                                                                  width: size
+                                                                      .width,
+                                                                  height: size
+                                                                      .height,
+                                                                  child:
+                                                                      InteractiveViewer(
+                                                                    maxScale:
+                                                                        10,
+                                                                    child: displayBinInfo['picture'] ==
+                                                                            null
+                                                                        ? Image
+                                                                            .asset(
+                                                                            "assets/images/PinTheBin/bin_null.png",
+                                                                            fit:
+                                                                                BoxFit.contain,
+                                                                          )
+                                                                        : Image
+                                                                            .network(
+                                                                            displayBinInfo['picture'],
+                                                                          ),
+                                                                  ),
+                                                                )),
+                                                                Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .topRight,
+                                                                  child:
+                                                                      IconButton(
+                                                                    icon:
+                                                                        const Icon(
+                                                                      Icons
+                                                                          .close,
+                                                                      size: 30,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                  ),
                                                                 ),
-                                                                onPressed: () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                },
-                                                              ),
-                                                            ),
-                                                          ],
+                                                              ],
+                                                            );
+                                                          },
                                                         );
                                                       },
-                                                    );
-                                                  },
-                                                  child: ClipRRect(
-                                                    child: displayBinInfo[
-                                                                'picture'] ==
-                                                            null
-                                                        ? Image.asset(
-                                                            "assets/images/PinTheBin/bin_null.png",
-                                                            fit: BoxFit.contain,
-                                                          )
-                                                        : Image.network(
-                                                            displayBinInfo[
-                                                                'picture'],
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                  )),
+                                                      child: ClipRRect(
+                                                        child: displayBinInfo[
+                                                                    'picture'] ==
+                                                                null
+                                                            ? Image.asset(
+                                                                "assets/images/PinTheBin/bin_null.png",
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              )
+                                                            : Image.network(
+                                                                displayBinInfo[
+                                                                    'picture'],
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                      )),
+                                            ),
+                                          ),
                                         ),
                                       ),
+                                    ],
+                                  ),
+
+                                  //     Row(children: [
+                                  //       _showEdit(context, displayBinInfo,
+                                  //           size.width),
+                                  //       InkWell(
+                                  //         child: Image.asset(
+                                  //           "assets/images/PinTheBin/navigate_bin.png",
+                                  //           height: size.width * 0.06,
+                                  //         ),
+                                  //         onTap: () async {
+                                  //           String googleUrl =
+                                  //               'https://www.google.com/maps/search/?api=1&query=${marker.point.latitude},${marker.point.longitude}';
+                                  //           Uri url = Uri.parse(googleUrl);
+                                  //           if (!await launchUrl(url)) {
+                                  //             throw Exception(
+                                  //                 'Could not launch $googleUrl');
+                                  //           }
+                                  //         },
+                                  //       ),
+                                  //       InkWell(
+                                  //         child: Image.asset(
+                                  //           "assets/images/PinTheBin/report_bin.png",
+                                  //           height: size.width * 0.06,
+                                  //         ),
+                                  //         onTap: () {
+                                  //           Navigator.pushNamed(
+                                  //             context,
+                                  //             pinthebinPageRoute["report"]!,
+                                  //             arguments: {
+                                  //               'Bininfo': displayBinInfo
+                                  //             },
+                                  //           );
+                                  //         },
+                                  //       ),
+                                  //     ]),
+                                  //   ],
+                                  // ),
+                                  SizedBox(height: size.height * 0.013),
+                                  SizedBox(
+                                    width: size.width * 0.65 * 0.5,
+                                    child: Text(
+                                      "${displayBinInfo['location']}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          shadows: [
+                                            Shadow(
+                                              color: const Color(0xFF46384E)
+                                                  .withOpacity(0.4),
+                                              offset: const Offset(0, 2),
+                                              blurRadius: 5,
+                                            )
+                                          ],
+                                          color: const Color(0xFF46384E),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w800),
                                     ),
                                   ),
-                                  const SizedBox(height: 5),
+                                  SizedBox(height: size.height * 0.013),
                                   Row(
                                     children: List.generate(
                                       displayBinInfo['bintype'].keys.length,
@@ -462,6 +472,9 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                       },
                                     ),
                                   ),
+                                  SizedBox(
+                                    height: size.height * 0.013,
+                                  ),
                                   Text(
                                     "${displayBinInfo['description']}",
                                     style: TextStyle(
@@ -476,6 +489,104 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                         color: const Color(0xFF46384E),
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400),
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.013,
+                                  ),
+                                  Stack(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: size.height * 0.01,
+                                            left: size.width * 0.16,
+                                            bottom: size.height * 0.025),
+                                        child: Row(
+                                          children: [
+                                            ClayContainer(
+                                              width: size.width * 0.1,
+                                              height: size.height * 0.053,
+
+                                              color: Color.fromARGB(255, 255,
+                                                  255, 255), //0xFFE1CFCF
+                                              surfaceColor: Color(0xFFE1CFCF),
+                                              borderRadius: 10,
+                                              depth: 20,
+                                              curveType: CurveType.convex,
+
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: size.height * 0.01,
+                                                ),
+                                                child: InkWell(
+                                                  child: Image.asset(
+                                                    "assets/images/PinTheBin/navigate_bin.png",
+                                                    height: size.height * 0.1,
+                                                    width: size.width * 0.1,
+                                                  ),
+                                                  onTap: () async {
+                                                    String googleUrl =
+                                                        'https://www.google.com/maps/search/?api=1&query=${marker.point.latitude},${marker.point.longitude}';
+                                                    Uri url =
+                                                        Uri.parse(googleUrl);
+                                                    if (!await launchUrl(url)) {
+                                                      throw Exception(
+                                                          'Could not launch $googleUrl');
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: size.width * 0.025),
+                                            ClayContainer(
+                                              width: size.width * 0.1,
+                                              height: size.height * 0.053,
+
+                                              color: Color.fromARGB(255, 255,
+                                                  255, 255), //0xFFE1CFCF
+                                              surfaceColor: Color(0xFFE1CFCF),
+                                              borderRadius: 10,
+                                              depth: 20,
+                                              curveType: CurveType.convex,
+                                              child: _showEdit(context,
+                                                  displayBinInfo, size.width),
+                                            ),
+                                            SizedBox(width: size.width * 0.025),
+                                            ClayContainer(
+                                              width: size.width * 0.1,
+                                              height: size.height * 0.053,
+
+                                              color: Color.fromARGB(255, 255,
+                                                  255, 255), //0xFFE1CFCF
+                                              surfaceColor: Color(0xFFE1CFCF),
+                                              borderRadius: 10,
+                                              depth: 20,
+                                              curveType: CurveType.convex,
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: size.height * 0.01),
+                                                child: InkWell(
+                                                  child: Image.asset(
+                                                    "assets/images/PinTheBin/report_bin.png",
+                                                    height: size.width * 0.06,
+                                                  ),
+                                                  onTap: () {
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      pinthebinPageRoute[
+                                                          "report"]!,
+                                                      arguments: {
+                                                        'Bininfo':
+                                                            displayBinInfo
+                                                      },
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ],
                               ),
