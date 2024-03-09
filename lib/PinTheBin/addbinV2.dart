@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:clay_containers/widgets/clay_container.dart';
+import 'package:clay_containers/widgets/clay_text.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
@@ -286,10 +287,56 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                   ),
                   title: Column(
                     children: [
-                      Text(
-                        "ADD BIN",
-                        style: Theme.of(context).textTheme.headlineMedium,
+                      Stack(
+                        children: [
+                          ClayContainer(
+                              width: size.width * 0.7,
+                              height: size.height * 0.08,
+                              borderRadius: 30,
+                              depth: -20,
+                              color: Color(0xFFF99680),
+                              surfaceColor: Color.fromARGB(116, 109, 68, 58),
+                              // surfaceColor: Color.fromARGB(147, 249, 150, 128),
+                              // surfaceColor:
+                              //     const Color.fromARGB(255, 138, 112, 112),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: size.height * 0.005,
+                                    left: size.width * 0.155),
+                                child: ClayText(
+                                  'ADD BIN',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
+
+                                  emboss: true,
+                                  //size: 20,
+                                  color: Color(0xFFF8A88F),
+                                  textColor: Color(0xFF003049),
+                                  //color: Color.fromARGB(255, 234, 134, 41),
+                                  depth: -100,
+                                  //spread: 5,
+                                ),
+                              )),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: size.height * 0.055,
+                                left: size.width * 0.18),
+                            child: Container(
+                              //color: Color(0xFFF99680),
+                              child: ClayText(
+                                'P  I  N  T  H  E  B  I  N',
+                                style: Theme.of(context).textTheme.displaySmall,
+                                color: Color(0xFF003049),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
+                      // Text(
+                      //   "ADD BIN",
+                      //   style: Theme.of(context).textTheme.headlineMedium,
+                      // ),
                       const SizedBox(
                         height: 15,
                       )
@@ -1006,10 +1053,10 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               child: Text(
                                 'ADD',
                                 style: GoogleFonts.getFont(
-                                  "Kodchasan",
+                                  "Sen",
                                   color:
                                       const Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -1043,10 +1090,10 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               child: Text(
                                 'CANCEL',
                                 style: GoogleFonts.getFont(
-                                  "Kodchasan",
+                                  "Sen",
                                   color:
                                       const Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
