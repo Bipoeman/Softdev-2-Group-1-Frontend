@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData pinTheBinThemeData = ThemeData(
-  fontFamily: "Sen",
+  fontFamily: "Kodchasan",
   colorScheme: ColorScheme.fromSeed(
     seedColor: const Color(0xFFF9957F),
     background: const Color(0xFFFFFFFF),

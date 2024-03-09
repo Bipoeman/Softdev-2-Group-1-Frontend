@@ -69,7 +69,7 @@ class _SuperAppState extends State<SuperApp> {
   @override
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = ThemesPortal.getCurrent(context);
-    themeProvider.loadTheme();
+    themeProvider.loadTheme(context);
     themeProvider.loadThemeColor();
     currentContext = context;
     return GetMaterialApp(

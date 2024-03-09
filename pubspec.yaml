@@ -81,6 +81,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   mime:
   http_parser:
+  fluttermoji: ^1.0.2
 
 flutter_icons:
   android: true
@@ -162,7 +163,7 @@ flutter:
         - asset: assets/fonts/THSarabun-Italic.ttf
         - asset: assets/fonts/THSarabun-BoldItalic.ttf
     - family: Kodchasan
-      fonts: 
+      fonts:
         - asset: assets/fonts/Kodchasan-Regular.ttf
           weight: 400
         - asset: assets/fonts/Kodchasan-Medium.ttf
@@ -171,6 +172,7 @@ flutter:
           weight: 600
         - asset: assets/fonts/Kodchasan-Bold.ttf
           weight: 700
+
     - family: Kanit
       fonts:
         - asset: assets/fonts/Kanit-Regular.ttf

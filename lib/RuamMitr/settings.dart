@@ -63,7 +63,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       style: theme.textTheme.titleLarge,
                     ),
                     Switch(
-                      value: themeProvider.isDarkMode,
+                      value: themeProvider.isDarkMode("RuamMitr"),
                       onChanged: (value) {
                         themeProvider.toggleTheme();
                       },
