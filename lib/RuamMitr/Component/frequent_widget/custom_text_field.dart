@@ -9,6 +9,8 @@ Widget textField({
   Icon? icon,
   bool? obscureText,
   TextInputType? inputType,
+  bool? readOnly = false,
+  bool? enabled = true,
   void Function(String)? onChanged,
   void Function()? onTap,
   void Function(PointerDownEvent)? onTapOutside,
@@ -20,6 +22,8 @@ Widget textField({
   return Container(
     margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
     child: TextFormField(
+      enabled: enabled ?? true,
+      readOnly: readOnly ?? false,
       maxLength: maxLength,
       controller: controller,
       validator: validator,
