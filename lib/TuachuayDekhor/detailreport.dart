@@ -75,7 +75,7 @@ class _TuachuayDekhorDetailReportPageState
     Size size = MediaQuery.of(context).size;
     CustomThemes theme =
         ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
-    bool isDarkMode = ThemesPortal.getCurrent(context).isDarkMode;
+    bool isDarkMode = ThemesPortal.getCurrent(context).isDarkMode("TuachuayDekhor");
     Map<String, Color> customColors = theme.customColors;
 
     return Scaffold(

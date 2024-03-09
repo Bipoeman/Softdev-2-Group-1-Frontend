@@ -172,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         Container(
                           alignment: Alignment.center,
-                          margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+                          margin: EdgeInsets.fromLTRB(0, size.height * 0.01, 0, 0),
                           height: [150.0, size.width * 0.5].reduce(min),
                           width: [150.0, size.width * 0.5].reduce(min),
                           decoration: const BoxDecoration(
