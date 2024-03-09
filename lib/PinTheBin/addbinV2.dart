@@ -9,6 +9,7 @@ import 'package:mime/mime.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:ruam_mitt/PinTheBin/componant/loading.dart';
 import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
 import 'package:http/http.dart' as http;
 import 'package:ruam_mitt/global_const.dart';
@@ -901,15 +902,13 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                           'Would you like to confirm to add a trash bin at this location?'),
                                       actions: [
                                         MaterialButton(
-                                          onPressed: () async {
+                                          onPressed: () {
                                             if (_position == null ||
                                                 _NametextController
                                                     .text.isEmpty) {
-                                              // ignore: use_build_context_synchronously
-                                              Navigator.pop(context);
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                SnackBar(
+                                                const SnackBar(
                                                   content: Text(
                                                     "Please pin the position and fill in the name.",
                                                     style: TextStyle(
@@ -919,41 +918,9 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                                   backgroundColor: Colors.red,
                                                 ),
                                               );
+                                              Navigator.of(context).pop(false);
                                             } else {
-                                              _addPin().then((_) {
-                                                Navigator.pop(context);
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: const Text(
-                                                      "Pin created",
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                    backgroundColor:
-                                                        Colors.green[300],
-                                                  ),
-                                                );
-                                                Navigator.pushReplacementNamed(
-                                                    context,
-                                                    restroomPageRoute["home"]!);
-                                              }).onError((error, stackTrace) {
-                                                debugPrint("Error: $error");
-                                                Navigator.pop(context);
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  const SnackBar(
-                                                    content: Text(
-                                                      "Failed to create pin",
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                    backgroundColor: Colors.red,
-                                                  ),
-                                                );
-                                              });
+                                              Navigator.pop(context, true);
                                             }
                                           },
                                           child: const Text('Confirm'),
@@ -961,7 +928,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                         MaterialButton(
                                           color: Colors.red,
                                           onPressed: () {
-                                            Navigator.of(context).pop();
+                                            Navigator.of(context).pop(false);
                                           },
                                           child: Container(
                                             padding: EdgeInsets.only(
@@ -984,6 +951,47 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                         ),
                                       ],
                                     );
+                                  }).then((confirm) => {
+                                    if (confirm)
+                                      {
+                                        showLoadingScreen(context),
+                                        _addPin().then((_) {
+                                          print("Completed");
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: const Text(
+                                                "Pin created",
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              backgroundColor:
+                                                  Colors.green[300],
+                                            ),
+                                          );
+
+                                          Navigator.pushReplacementNamed(
+                                              context,
+                                              pinthebinPageRoute["home"]!);
+                                        }).onError((error, stackTrace) {
+                                          debugPrint("Error: $error");
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                "Failed to create pin",
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
+                                        })
+                                      }
                                   });
                             },
                             child: Container(
