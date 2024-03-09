@@ -1056,52 +1056,63 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
             ],
           ),
           actions: [
-            Container(
-              color: Colors.blue.withOpacity(0.5),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  showFourthDialogFourthLevel(
-                      context, title, contents, index + 1);
-                },
-                child: const Text(
-                  "ทำไมชื่อคุ้นๆจังนะ",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  color: Colors.blue.withOpacity(0.5),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      showFourthDialogFourthLevel(
+                          context, title, contents, index + 1);
+                    },
+                    child: const Text(
+                      "ทำไมชื่อคุ้นๆจังนะ",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Kanit',
+                          fontSize: 20),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Container(
-              color: Colors.green.withOpacity(0.5),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  showFourthDialogFourthLevel(
-                      context, title, contents, index + 1);
-                },
-                child: const Text(
-                  "ไม่กลัวเลยจริงดิ",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                const SizedBox(width: 8),
+                Container(
+                  color: Colors.green.withOpacity(0.5),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      showFourthDialogFourthLevel(
+                          context, title, contents, index + 1);
+                    },
+                    child: const Text(
+                      "ไม่กลัวเลยจริงดิ",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Kanit',
+                          fontSize: 20),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Container(
-              color: Colors.pink.withOpacity(0.5),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  showFourthDialogFourthLevel(
-                      context, title, contents, index + 1);
-                },
-                child: const Text(
-                  "โอโห้ PATRICK",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                const SizedBox(width: 8),
+                Container(
+                  color: Colors.pink.withOpacity(0.5),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      showFourthDialogFourthLevel(
+                          context, title, contents, index + 1);
+                    },
+                    child: const Text(
+                      "โอโห้ PATRICK",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Kanit',
+                          fontSize: 20),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ],
         );

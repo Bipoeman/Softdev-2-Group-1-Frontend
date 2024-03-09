@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/space_bullet.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/space_kuayteaw.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/space_player.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 enum State { run }
@@ -26,6 +29,7 @@ class Enemy extends SpriteAnimationGroupComponent
     add(RectangleHitbox(
       position: Vector2(4, 6),
       size: Vector2(24, 22),
+      isSolid: true,
     ));
     _loadAllAnimations();
     return super.onLoad();
@@ -36,6 +40,14 @@ class Enemy extends SpriteAnimationGroupComponent
     super.update(dt);
     position += Vector2(0, 1) * _speed * dt;
     if (position.y > game.size.y) {
+      removeFromParent();
+    }
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    if (other is Bullet || other is Kuayteaw) {
       removeFromParent();
     }
   }

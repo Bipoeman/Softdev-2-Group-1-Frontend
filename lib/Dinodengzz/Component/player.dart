@@ -81,6 +81,7 @@ class Player extends SpriteAnimationGroupComponent
     add(RectangleHitbox(
       position: Vector2(hitbox.offsetX, hitbox.offsetY),
       size: Vector2(hitbox.width, hitbox.height),
+      isSolid: true,
     ));
     return super.onLoad();
   }
@@ -280,10 +281,11 @@ class Player extends SpriteAnimationGroupComponent
     FlameAudio.play(game.hitSfx, volume: game.masterVolume * game.sfxVolume);
     gotHit = true;
     current = PlayerState.hit;
-    remainingLives--;
 
     await animationTicker?.completed;
     animationTicker?.reset();
+
+    remainingLives--;
 
     if (remainingLives <= 0) {
       isGameOver = true;

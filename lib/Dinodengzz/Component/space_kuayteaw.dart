@@ -7,13 +7,11 @@ import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 enum State { shoot }
 
-class Bullet extends SpriteAnimationGroupComponent
+class Kuayteaw extends SpriteAnimationGroupComponent
     with HasGameRef<GameRoutes>, CollisionCallbacks {
-  Bullet({
-    super.position,
-  });
+  Kuayteaw();
 
-  final double _speed = 250;
+  final double _speed = 300;
   late final SpriteAnimation shootAnimation;
 
   Vector2 direction = Vector2(0, -1);
@@ -22,15 +20,16 @@ class Bullet extends SpriteAnimationGroupComponent
   FutureOr<void> onLoad() {
     add(RectangleHitbox(
       position: Vector2(0, 0),
-      size: Vector2(16, 16),
+      size: Vector2(game.size.x * 0.69, game.size.y * 0.069),
       isSolid: true,
     ));
     _loadAllAnimations();
+    position = Vector2(game.size.x / 2 - 32, game.size.y * 0.8);
     return super.onLoad();
   }
 
   void _loadAllAnimations() {
-    shootAnimation = _spriteAnimation(4);
+    shootAnimation = _spriteAnimation(1);
 
     animations = {
       State.shoot: shootAnimation,
@@ -41,18 +40,14 @@ class Bullet extends SpriteAnimationGroupComponent
 
   SpriteAnimation _spriteAnimation(int amount) {
     return SpriteAnimation.fromFrameData(
-        game.images.fromCache(
-            'Main Characters/Player_charged_donut_shot (16 x 16).png'),
+        game.images.fromCache('Background/Kuayteaw.png'),
         SpriteAnimationData.sequenced(
-            amount: amount, stepTime: 0.05, textureSize: Vector2.all(16)));
+            amount: amount, stepTime: 0.05, textureSize: Vector2.all(64)));
   }
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    if (other is Enemy) {
-      removeFromParent();
-    }
   }
 
   @override

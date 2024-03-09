@@ -3,12 +3,14 @@ import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/gameover.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/levelcomplete.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/levelselect.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/pause.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/setting.dart';
+import 'package:ruam_mitt/Dinodengzz/Screens/space_gameover.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/start.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/tutorial.dart';
 import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
@@ -39,8 +41,8 @@ class GameRoutes extends FlameGame
       (context, game) => StartScreen(
           onLevelSelectionPressed: () => _routeById(LevelSelectionScreen.id),
           onExitPressed: () {
-            Flame.device.setPortrait();
             FlameAudio.bgm.stop();
+            Flame.device.setPortraitUpOnly();
             navigator?.pop(context);
           },
           onSettingPressed: () {
@@ -78,6 +80,18 @@ class GameRoutes extends FlameGame
         onRetryPressed: () {
           FlameAudio.bgm.stop();
           _restartLevel();
+        },
+        onMainMenuPressed: () {
+          FlameAudio.bgm.stop();
+          _exitToMainMenu();
+        },
+      ),
+    ),
+    SpaceGameOverScreen.id: OverlayRoute(
+      (context, game) => SpaceGameOverScreen(
+        onRetryPressed: () {
+          FlameAudio.bgm.stop();
+          _startBoss();
         },
         onMainMenuPressed: () {
           FlameAudio.bgm.stop();
@@ -161,7 +175,7 @@ class GameRoutes extends FlameGame
         () => SpaceDengzz(
           onPausePressed: pauseGame,
           onLevelCompleted: showLevelCompleteMenu,
-          onGameOver: showRetryMenu,
+          onGameOver: showRetryMenuvertical,
           key: ComponentKey.named(SpaceDengzz.id),
         ),
       ),
@@ -225,6 +239,11 @@ class GameRoutes extends FlameGame
   void showRetryMenu() {
     FlameAudio.bgm.play(gameOver, volume: masterVolume * bgmVolume);
     _router.pushNamed(GameOverScreen.id);
+  }
+
+  void showRetryMenuvertical() {
+    //FlameAudio.bgm.play(gameOver, volume: masterVolume * bgmVolume);
+    _router.pushNamed(SpaceGameOverScreen.id);
   }
 
   void onMasterVolumeChanged(double volume) {

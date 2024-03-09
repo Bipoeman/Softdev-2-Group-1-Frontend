@@ -3,14 +3,15 @@ import 'package:ruam_mitt/Dinodengzz/Component/space_bullet.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 class BulletManager extends Component with HasGameRef<GameRoutes> {
-  late final Vector2 position;
   late Timer bullet;
+  late Vector2 position;
   BulletManager(this.position) : super() {
-    bullet = Timer(1.5, onTick: _shootNormal, repeat: true);
+    bullet = Timer(1.5, onTick: _shootNormal, repeat: false);
   }
 
   void _shootNormal() {
-    Bullet normalBullet = Bullet(position: position);
+    Bullet normalBullet = Bullet();
+    normalBullet.position = position;
     add(normalBullet);
   }
 

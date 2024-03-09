@@ -4,6 +4,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/space_enemy.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 enum State {
@@ -13,7 +14,7 @@ enum State {
 }
 
 class SpacePlayer extends SpriteAnimationGroupComponent
-    with HasGameRef<GameRoutes>, DragCallbacks {
+    with HasGameRef<GameRoutes>, DragCallbacks, CollisionCallbacks {
   SpacePlayer({
     super.position,
   });
@@ -23,16 +24,19 @@ class SpacePlayer extends SpriteAnimationGroupComponent
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation hitAnimation;
   final double _speed = 200;
+  int remainingLives = 3;
+  bool isImmune = false; // New property to track immunity state
+  Timer? immunityTimer; // Timer to control immunity duration
 
   CustomHitBox hitbox = CustomHitBox(
-    offsetX: 12,
-    offsetY: 4,
-    width: 16,
-    height: 28,
+    offsetX: 0,
+    offsetY: 0,
+    width: 32,
+    height: 32,
   );
   @override
   FutureOr<void> onLoad() {
-    //debugMode = true;
+    debugMode = true;
     _loadAllAnimations();
     add(RectangleHitbox(
       position: Vector2(hitbox.offsetX, hitbox.offsetY),
@@ -87,5 +91,27 @@ class SpacePlayer extends SpriteAnimationGroupComponent
   void onDragEnd(DragEndEvent event) {
     setMoveDirection(Vector2.zero());
     super.onDragEnd(event);
+  }
+
+  @override
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (!isImmune && other is Enemy) _respawn();
+    super.onCollisionStart(intersectionPoints, other);
+  }
+
+  void _respawn() async {
+    //FlameAudio.play(game.hitSfx, volume: game.masterVolume * game.sfxVolume);
+    remainingLives--;
+    current = State.hit;
+    isImmune = true;
+    if (remainingLives <= 0) {
+      game.showRetryMenuvertical();
+    }
+    await Future.delayed(const Duration(seconds: 1));
+    isImmune = false;
+
+    await animationTicker?.completed;
+    animationTicker?.reset();
   }
 }
