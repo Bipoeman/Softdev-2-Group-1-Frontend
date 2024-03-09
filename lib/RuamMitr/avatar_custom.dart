@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:fluttermoji/fluttermoji.dart';
 import 'package:provider/provider.dart';
@@ -108,6 +107,11 @@ class _AvatarCustomPageState extends State<AvatarCustomPage> {
                         ),
                         child: const Text("Done"),
                         onPressed: () {
+                          var theController = FluttermojiController();
+                          theController.getFluttermojiOptions().then((value) {
+                            theController.selectedOptions = value;
+                            print(theController.getFluttermojiFromOptions());
+                          });
                           Navigator.pop(context);
                         },
                       ),
