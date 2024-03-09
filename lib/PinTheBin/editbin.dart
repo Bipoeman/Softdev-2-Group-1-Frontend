@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:clay_containers/widgets/clay_text.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:http/http.dart' as http;
@@ -32,6 +34,46 @@ class _EditbinPageState extends State<EditbinPage> {
   };
   String? _latitude;
   String? _longitude;
+  File? _image;
+
+  Future<void> _getImage() async {
+    bool? isCamera = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text("Camera"),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text("gallery "),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (isCamera == null) return;
+    final pickedFile = await ImagePicker()
+        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        debugPrint('No image selected.');
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -189,38 +231,41 @@ class _EditbinPageState extends State<EditbinPage> {
                     children: [
                       Stack(
                         children: [
-                          ClayContainer(
-                              width: size.width * 0.7,
-                              height: size.height * 0.08,
-                              borderRadius: 30,
-                              depth: -20,
-                              color: Color(0xFFF99680),
-                              surfaceColor: Color.fromARGB(116, 109, 68, 58),
-                              // surfaceColor: Color.fromARGB(147, 249, 150, 128),
-                              // surfaceColor:
-                              //     const Color.fromARGB(255, 138, 112, 112),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: size.height * 0.005,
-                                    left: size.width * 0.155),
-                                child: ClayText(
-                                  'EDIT BIN',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium,
+                          Padding(
+                            padding: EdgeInsets.only(top: size.height * 0.022),
+                            child: ClayContainer(
+                                width: size.width * 0.7,
+                                height: size.height * 0.08,
+                                borderRadius: 30,
+                                depth: -20,
+                                color: Color(0xFFF99680),
+                                surfaceColor: Color.fromARGB(116, 109, 68, 58),
+                                // surfaceColor: Color.fromARGB(147, 249, 150, 128),
+                                // surfaceColor:
+                                //     const Color.fromARGB(255, 138, 112, 112),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: size.height * 0.005,
+                                      left: size.width * 0.155),
+                                  child: ClayText(
+                                    'EDIT BIN',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium,
 
-                                  emboss: true,
-                                  //size: 20,
-                                  color: Color(0xFFF8A88F),
-                                  textColor: Color(0xFF003049),
-                                  //color: Color.fromARGB(255, 234, 134, 41),
-                                  depth: -100,
-                                  //spread: 5,
-                                ),
-                              )),
+                                    emboss: true,
+                                    //size: 20,
+                                    color: Color(0xFFF8A88F),
+                                    textColor: Color(0xFF003049),
+                                    //color: Color.fromARGB(255, 234, 134, 41),
+                                    depth: -100,
+                                    //spread: 5,
+                                  ),
+                                )),
+                          ),
                           Padding(
                             padding: EdgeInsets.only(
-                                top: size.height * 0.055,
+                                top: size.height * 0.075,
                                 left: size.width * 0.18),
                             child: Container(
                               //color: Color(0xFFF99680),
@@ -340,29 +385,90 @@ class _EditbinPageState extends State<EditbinPage> {
                       Padding(
                         padding: EdgeInsets.only(
                             left: size.width * 0.16, top: size.height * 0.085),
-                        child: SizedBox(
-                          width: size.width * 0.7,
-                          height: size.height * 0.25,
-                          //color: Colors.black,
-                          child: widget.binData['Bininfo']['picture'] == null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.asset(
-                                    fit: BoxFit.contain,
-                                    "assets/images/PinTheBin/bin_null.png",
-                                    //fit: BoxFit.fill,
-                                  ),
-                                )
-                              // : Container()
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.network(
-                                    // fit: BoxFit.contain,
-                                    widget.binData['Bininfo']['picture'],
-                                    fit: BoxFit.contain,
+                        child: GestureDetector(
+                          child: Stack(
+                            fit: StackFit.loose,
+                            //alignment: Alignment.bottomCenter,
+                            children: [
+                              SizedBox(
+                                  height: size.height * 0.25,
+                                  width: size.width * 0.7,
+                                  child: _image == null
+                                      ? widget.binData['Bininfo']['picture'] ==
+                                              null
+                                          ? ClipRRect(
+                                              //BorderRadius.circular(15),
+                                              child: Image.network(
+                                                "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
+                                                fit: BoxFit.contain,
+                                              ),
+                                            )
+                                          : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: Image.network(
+                                                widget.binData['Bininfo']
+                                                    ['picture'],
+                                                fit: BoxFit.contain,
+                                              ),
+                                            )
+                                      : ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          child: Image.file(
+                                            _image!,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        )),
+                              IntrinsicWidth(
+                                child: Container(
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10)),
+                                      color: Colors.black.withOpacity(0.2)),
+                                  child: const Row(
+                                    children: [
+                                      Text('Upload',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      Icon(
+                                        Icons.upload_file,
+                                        color: Colors.white,
+                                      ),
+                                    ],
                                   ),
                                 ),
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            _getImage();
+                          },
                         ),
+                        // child: SizedBox(
+                        //   width: size.width * 0.7,
+                        //   height: size.height * 0.25,
+                        //   //color: Colors.black,
+                        //   child: widget.binData['Bininfo']['picture'] == null
+                        //       ? ClipRRect(
+                        //           borderRadius: BorderRadius.circular(15),
+                        //           child: Image.asset(
+                        //             fit: BoxFit.contain,
+                        //             "assets/images/PinTheBin/bin_null.png",
+                        //             //fit: BoxFit.fill,
+                        //           ),
+                        //         )
+                        //       // : Container()
+                        //       : ClipRRect(
+                        //           borderRadius: BorderRadius.circular(15),
+                        //           child: Image.network(
+                        //             // fit: BoxFit.contain,
+                        //             widget.binData['Bininfo']['picture'],
+                        //             fit: BoxFit.contain,
+                        //           ),
+                        //         ),
+                        // ),
                       ),
                       Column(
                         children: [
