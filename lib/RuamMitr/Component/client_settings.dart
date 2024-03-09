@@ -249,6 +249,7 @@ class ClientSettingsWidget extends StatelessWidget {
                   return AlertDialog(
                     backgroundColor: customColors["evenContainer"],
                     surfaceTintColor: customColors["evenContainer"],
+                    shadowColor: Colors.black38,
                     elevation: 4,
                     title: Text(
                       "Reset?",

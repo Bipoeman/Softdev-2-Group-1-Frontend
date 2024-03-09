@@ -143,18 +143,88 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                       ),
                     ),
                     onPressed: () async {
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      await prefs.setBool("isChecked", false);
-                      await prefs.setString("password", "");
-                      isOnceLogin = true;
-                      publicToken = "";
-                      profileData = {};
-                      if (context.mounted) {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          loginPageRoute,
-                          (Route<dynamic> route) => false,
-                        );
-                      }
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          CustomThemes customTheme =
+                              ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+                          ThemeData theme = customTheme.themeData;
+                          Map<String, Color> customColors = customTheme.customColors;
+                          return AlertDialog(
+                            backgroundColor: customColors["evenContainer"],
+                            surfaceTintColor: customColors["evenContainer"],
+                            shadowColor: Colors.black38,
+                            elevation: 4,
+                            title: Text(
+                              "Logout?",
+                              style: theme.textTheme.headlineLarge!.copyWith(
+                                color: customColors["onEvenContainer"],
+                              ),
+                            ),
+                            content: Text(
+                              "Do you want to logout?",
+                              style: theme.textTheme.bodyLarge!.copyWith(
+                                color: customColors["onEvenContainer"],
+                              ),
+                            ),
+                            actions: [
+                              InkWell(
+                                onTap: () => Navigator.pop(context),
+                                borderRadius: BorderRadius.circular(10),
+                                child: Ink(
+                                  width: 75,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "No",
+                                      style: theme.textTheme.titleLarge!.copyWith(
+                                        color: customColors["onEvenContainer"],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () async {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  await prefs.setBool("isChecked", false);
+                                  await prefs.setString("password", "");
+                                  isOnceLogin = true;
+                                  publicToken = "";
+                                  profileData = {};
+                                  if (context.mounted) {
+                                    Navigator.of(context).pushNamedAndRemoveUntil(
+                                      loginPageRoute,
+                                      (Route<dynamic> route) => false,
+                                    );
+                                  }
+                                },
+                                borderRadius: BorderRadius.circular(10),
+                                child: Ink(
+                                  width: 75,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Yes",
+                                      style: theme.textTheme.titleLarge!.copyWith(
+                                        color: customColors["onEvenContainer"],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
                   ),
                 ),
