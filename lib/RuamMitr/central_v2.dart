@@ -146,19 +146,6 @@ class _HomePageV2State extends State<HomePageV2> {
     } else {
       profileData['imgPath'] =
           "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}.png";
-      // Uri uri = Uri.parse("$api$userImageUpdateRoute");
-      // http.MultipartRequest request = http.MultipartRequest('POST', uri);
-      // request.headers.addAll({
-      //   "Authorization": "Bearer $publicToken",
-      //   "Content-Type": "application/json"
-      // });
-      // request.files.add(
-      //   http.MultipartFile.fromBytes(
-      //     "file",
-      //     File(profileData['imgPath']).readAsBytesSync(),
-      //     filename: profileData['imgPath'],
-      //   ),
-      // );
     }
     return PopScope(
       canPop: false,

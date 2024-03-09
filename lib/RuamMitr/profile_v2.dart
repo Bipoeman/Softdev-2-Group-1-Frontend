@@ -34,6 +34,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
   FocusNode profileEditFocusNode = FocusNode();
   TextEditingController fieldEditController = TextEditingController();
   late AnimationController animationController;
+  BuildContext? dialogContext;
 
   @override
   void initState() {
@@ -458,6 +459,53 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                     );
                     // debugPrint(selectedAvatarString);
                     if (context.mounted) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          dialogContext = context;
+                          return AlertDialog(
+                            content: SizedBox(
+                              height: size.height * 0.4,
+                              child: Center(
+                                child: globalStatus == "loading"
+                                    ? LottieBuilder.asset(
+                                        "assets/images/Logo/Animation_loading.json",
+                                        repeat: true,
+                                        controller: animationController,
+                                        onLoaded: (composition) {
+                                          animationController.duration =
+                                              composition.duration;
+                                          animationController.forward();
+                                        },
+                                      )
+                                    : globalStatus == "success"
+                                        ? LottieBuilder.asset(
+                                            "assets/images/Logo/Animation_Success.json",
+                                            repeat: true,
+                                            controller: animationController,
+                                            onLoaded: (composition) {
+                                              animationController.duration =
+                                                  composition.duration;
+                                              animationController.forward();
+                                            },
+                                          )
+                                        : globalStatus == "fail"
+                                            ? LottieBuilder.asset(
+                                                "assets/images/Logo/Animation_Fail.json",
+                                                repeat: true,
+                                                controller: animationController,
+                                                onLoaded: (composition) {
+                                                  animationController.duration =
+                                                      composition.duration;
+                                                  animationController.forward();
+                                                },
+                                              )
+                                            : Container(),
+                              ),
+                            ),
+                          );
+                        },
+                      );
                       final pictureInfo = await vg.loadPicture(
                           SvgStringLoader(selectedAvatarString), context);
                       final image = await pictureInfo.picture.toImage(275, 275);
@@ -490,7 +538,16 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                           dynamic responseJson = json.decode(res.body);
                           profileData['imgPath'] =
                               "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}";
-                          setState(() {});
+                          setState(() {
+                            globalStatus = "success";
+                            animationController.reset();
+                          });
+                          await Future.delayed(
+                              const Duration(milliseconds: 1500));
+                          globalStatus = "idle";
+                          if (dialogContext?.mounted ?? false) {
+                            Navigator.pop(dialogContext!);
+                          }
                         } else if (res.statusCode == 403) {
                           if (context.mounted) {
                             // int newTokenStatusReturn =
@@ -658,6 +715,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                                                                   response
                                                                       .bodyBytes;
                                                             });
+                                                            globalStatus =
+                                                                "idle";
                                                           },
                                                         ),
                                                       ),
@@ -773,6 +832,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                                                               Navigator.pop(
                                                                   context);
                                                             }
+                                                            globalStatus =
+                                                                "idle";
                                                           },
                                                         ),
                                                       ),
