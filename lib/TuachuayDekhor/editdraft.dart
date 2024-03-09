@@ -49,15 +49,18 @@ class _TuachuayDekhorEditDraftPageState
   late File _image;
   bool selectBarVisible = false;
 
-  Future<void> _getImageGallery() async {
+   Future<void> _getImageGallery() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 40,
+    );
 
     if (pickedFile != null) {
       var result = await FlutterImageCompress.compressAndGetFile(
         pickedFile.path,
         '${pickedFile.path}_compressed.jpg',
-        quality: 40,
+        quality: 80,
       );
 
       setState(() {
@@ -72,13 +75,16 @@ class _TuachuayDekhorEditDraftPageState
 
   Future<void> _getImageCamera() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 40,
+    );
 
     if (pickedFile != null) {
       var result = await FlutterImageCompress.compressAndGetFile(
         pickedFile.path,
         '${pickedFile.path}_compressed.jpg',
-        quality: 40,
+        quality: 70,
       );
 
       setState(() {

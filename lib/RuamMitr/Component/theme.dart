@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  bool _isDarkMode = false;
-  bool get isDarkMode => _isDarkMode;
+  bool isDarkMode(String app) => appDarkMode[app]!;
+  bool globalDarkMode = false;
   Map<String, Map<String, CustomThemes>> appThemes = _appsThemes;
   Map<String, String> themeForApp = {
     "RuamMitr": "RuamMitr",
@@ -13,12 +13,49 @@ class ThemeProvider extends ChangeNotifier {
     "TuachuayDekhor": "TuachuayDekhor",
     "Restroom": "Restroom",
   };
+  Map<String, bool> appDarkMode = {
+    "RuamMitr": false,
+    "TuachuayDekhor": false,
+  };
 
   CustomThemes? themeFrom(String app) =>
-      _appsThemes[themeForApp[app]]?[_isDarkMode ? "dark" : "light"];
+      _appsThemes[themeForApp[app]]?[appDarkMode[app]! ? "dark" : "light"];
+
+  void resetAllSettings(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (!context.mounted) {
+      return;
+    }
+    globalDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    await prefs.remove("Global-DarkMode");
+    appDarkMode.forEach((app, _) {
+      appDarkMode[app] = globalDarkMode;
+      prefs.remove("$app-DarkMode");
+    });
+    themeForApp.forEach((app, _) {
+      themeForApp[app] = app;
+      prefs.remove("$app-ThemeColor");
+    });
+    notifyListeners();
+  }
 
   void toggleTheme() {
-    _isDarkMode = !_isDarkMode;
+    globalDarkMode = !globalDarkMode;
+    appDarkMode.forEach((app, _) {
+      appDarkMode[app] = globalDarkMode;
+    });
+    saveTheme();
+    notifyListeners();
+  }
+
+  void toggleThemeForApp(String app) {
+    appDarkMode[app] = !appDarkMode[app]!;
+    bool appDarkModeValue = appDarkMode[app]!;
+    Iterable<bool> darkModeValues = appDarkMode.values;
+    if (darkModeValues.every((element) => element == appDarkModeValue)) {
+      debugPrint("All apps are ${appDarkModeValue ? "dark" : "light"}");
+      globalDarkMode = appDarkModeValue;
+    }
     saveTheme();
     notifyListeners();
   }
@@ -31,25 +68,35 @@ class ThemeProvider extends ChangeNotifier {
 
   void saveThemeColor(String app, String appTheme) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(app, appTheme);
+    await prefs.setString("$app-ThemeColor", appTheme);
   }
 
   void loadThemeColor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    themeForApp.forEach((key, value) {
-      themeForApp[key] = prefs.getString(key) ?? key;
+    themeForApp.forEach((app, _) {
+      themeForApp[app] = prefs.getString("$app-ThemeColor") ?? app;
     });
     notifyListeners();
   }
 
   void saveTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool("isDarkMode", _isDarkMode);
+    appDarkMode.forEach((app, darkMode) async {
+      await prefs.setBool("$app-DarkMode", darkMode);
+    });
+    await prefs.setBool("Global-DarkMode", globalDarkMode);
   }
 
-  void loadTheme() async {
+  void loadTheme(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _isDarkMode = prefs.getBool("isDarkMode") ?? false;
+    if (!context.mounted) {
+      return;
+    }
+    globalDarkMode = prefs.getBool("Global-DarkMode") ??
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
+    appDarkMode.forEach((app, _) {
+      appDarkMode[app] = prefs.getBool("$app-DarkMode") ?? globalDarkMode;
+    });
     notifyListeners();
   }
 }

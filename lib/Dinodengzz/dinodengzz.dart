@@ -152,7 +152,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                   child: TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      showThirdDialogFirstlLevel(context, title, contents, 2);
+                      showThirdDialogFirstLevel(context, title, contents, 2);
                     },
                     child: const Text(
                       "รู้แล้วละ ขอบคุณ",
@@ -232,7 +232,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogFirstlLevel(
+                  showThirdDialogFirstLevel(
                       context, title, contents, index + 1);
                 },
                 child: const Text(
@@ -260,7 +260,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
     );
   }
 
-  void showThirdDialogFirstlLevel(
+  void showThirdDialogFirstLevel(
       BuildContext context, String title, List<String> contents, int index) {
     if (index >= contents.length) {
       return; // Reached the end
@@ -455,7 +455,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogFirstlLevel(
+                  showThirdDialogFirstLevel(
                       context, title, contents, index + 1);
                 },
                 child: const Text(
@@ -636,7 +636,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogThirdlLevel(
+                  showThirdDialogThirdLevel(
                       context, title, contents, index + 1);
                 },
                 child: const Text(
@@ -651,7 +651,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogThirdlLevel(
+                  showThirdDialogThirdLevel(
                       context, title, contents, index + 1);
                 },
                 child: const Text(
@@ -666,7 +666,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
     );
   }
 
-  void showThirdDialogThirdlLevel(
+  void showThirdDialogThirdLevel(
       BuildContext context, String title, List<String> contents, int index) {
     if (index >= contents.length) {
       return;
@@ -897,7 +897,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogFourthlLevel(
+                  showThirdDialogFourthLevel(
                       context, title, contents, index + 1);
                 },
                 child: const Text(
@@ -912,7 +912,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogFourthlLevel(
+                  showThirdDialogFourthLevel(
                       context, title, contents, index + 1);
                 },
                 child: const Text(
@@ -927,7 +927,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogFourthlLevel(
+                  showThirdDialogFourthLevel(
                       context, title, contents, index + 1);
                 },
                 child: const Text(
@@ -942,7 +942,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
     );
   }
 
-  void showThirdDialogFourthlLevel(
+  void showThirdDialogFourthLevel(
       BuildContext context, String title, List<String> contents, int index) {
     if (index >= contents.length) {
       return; // Reached the end
@@ -992,7 +992,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showFourthDialogFourthlLevel(
+                  showFourthDialogFourthLevel(
                       context, title, contents, index + 1);
                 },
                 child: const Text(
@@ -1001,13 +1001,13 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 ),
               ),
             ),
-            const SizedBox(width: 8), // Add spacing between buttons
+            const SizedBox(width: 8),
             Container(
               color: Colors.green.withOpacity(0.5),
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showFourthDialogFourthlLevel(
+                  showFourthDialogFourthLevel(
                       context, title, contents, index + 1);
                 },
                 child: const Text(
@@ -1016,13 +1016,13 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 ),
               ),
             ),
-            const SizedBox(width: 8), // Add spacing between buttons
+            const SizedBox(width: 8),
             Container(
               color: Colors.pink.withOpacity(0.5),
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showFourthDialogFourthlLevel(
+                  showFourthDialogFourthLevel(
                       context, title, contents, index + 1);
                 },
                 child: const Text(
@@ -1037,10 +1037,10 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
     );
   }
 
-  void showFourthDialogFourthlLevel(
+  void showFourthDialogFourthLevel(
       BuildContext context, String title, List<String> contents, int index) {
     if (index >= contents.length) {
-      return; // Reached the end
+      return;
     }
 
     showDialog(
@@ -1094,7 +1094,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 ),
               ),
             ),
-            const SizedBox(width: 8), // Add spacing between buttons
+            const SizedBox(width: 8),
             Container(
               color: Colors.green.withOpacity(0.5),
               child: TextButton(

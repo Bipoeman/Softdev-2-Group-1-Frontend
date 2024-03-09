@@ -283,30 +283,8 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                                 )
                                               ],
                                               color: const Color(0xFF46384E),
-                                              fontFamily:
-                                                  displayBinInfo['location']
-                                                          .contains(
-                                                RegExp("[ก-๛]"),
-                                              )
-                                                      ? "THSarabunPSK"
-                                                      : Theme.of(context)
-                                                          .textTheme
-                                                          .labelMedium!
-                                                          .fontFamily,
-                                              fontSize:
-                                                  displayBinInfo['location']
-                                                          .contains(
-                                                RegExp("[ก-๛]"),
-                                              )
-                                                      ? 24
-                                                      : 18,
-                                              fontWeight:
-                                                  displayBinInfo['location']
-                                                          .contains(
-                                                RegExp("[ก-๛]"),
-                                              )
-                                                      ? FontWeight.w700
-                                                      : FontWeight.w800),
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w800),
                                         ),
                                       ),
                                       Row(children: [
@@ -496,27 +474,8 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                           )
                                         ],
                                         color: const Color(0xFF46384E),
-                                        fontFamily:
-                                            displayBinInfo['location'].contains(
-                                          RegExp("[ก-๛]"),
-                                        )
-                                                ? "THSarabunPSK"
-                                                : Theme.of(context)
-                                                    .textTheme
-                                                    .labelMedium!
-                                                    .fontFamily,
-                                        fontSize:
-                                            displayBinInfo['location'].contains(
-                                          RegExp("[ก-๛]"),
-                                        )
-                                                ? 20
-                                                : 16,
-                                        fontWeight:
-                                            displayBinInfo['location'].contains(
-                                          RegExp("[ก-๛]"),
-                                        )
-                                                ? FontWeight.w400
-                                                : FontWeight.w400),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400),
                                   ),
                                 ],
                               ),
