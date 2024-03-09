@@ -117,6 +117,7 @@ flutter:
     - assets/images/Background/
     - assets/images/Traps/Saw/
     - assets/images/HUD/
+    - assets/images/Boss/Projectiles/
     - assets/images/Logo/
     - assets/images/Icon/
     - assets/images/Items/Checkpoints/Checkpoint/
@@ -175,7 +176,10 @@ flutter:
           weight: 600
         - asset: assets/fonts/Kodchasan-Bold.ttf
           weight: 700
-        
+    - family: Kanit
+      fonts:
+        - asset: assets/fonts/Kanit-Regular.ttf
+      
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -6,10 +6,11 @@ import 'package:ruam_mitt/Dinodengzz/Component/pause_button.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 class Hud extends PositionComponent with HasGameReference<GameRoutes> {
-  Hud(this.camHeight);
+  Hud(this.camWidth, this.camHeight);
 
   final JumpButton _jumpButton = JumpButton();
   final PauseButton _pauseButton = PauseButton();
+  final double camWidth;
   final double camHeight;
   late bool hasJumped = false;
   late double horizontalMovement = 0;
@@ -37,8 +38,8 @@ class Hud extends PositionComponent with HasGameReference<GameRoutes> {
   @override
   Future<void> onLoad() async {
     _life.position.setValues(24, 24);
-    _jumpButton.position.setValues(576, camHeight - 104);
-    _pauseButton.position.setValues(588, 12);
+    _jumpButton.position.setValues(camWidth - 84, camHeight - 104);
+    _pauseButton.position.setValues(camWidth - 72, 12);
     joystick.position.setValues(72, camHeight - 104);
     addAll([_life, _jumpButton, _pauseButton, joystick]);
   }

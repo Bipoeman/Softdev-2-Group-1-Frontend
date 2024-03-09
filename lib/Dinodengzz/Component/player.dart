@@ -27,10 +27,10 @@ enum PlayerState {
 class Player extends SpriteAnimationGroupComponent
     with HasGameRef<GameRoutes>, KeyboardHandler, CollisionCallbacks {
   String character;
-  BuildContext? context; // Declare context as a late variable
+  BuildContext? context;
   Player({
     this.character = 'Relaxaurus',
-    position, // Add context to the constructor parameters
+    position,
   }) : super(position: position);
 
   final double stepTime = 0.025;
