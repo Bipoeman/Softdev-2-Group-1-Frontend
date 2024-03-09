@@ -1,7 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:ruam_mitt/global_const.dart';
-import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'dart:math';
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart' show DateFormat;
+import 'package:image_picker/image_picker.dart';
+import 'package:ruam_mitt/global_func.dart';
+import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 class CreateAvatarPage extends StatefulWidget {
   const CreateAvatarPage({super.key});
@@ -15,32 +23,46 @@ class _CreateAvatarPageState extends State<CreateAvatarPage> {
     required CustomThemes customTheme,
     String? title,
     String? description,
-    Function()? onTap,
+    void Function()? onTap,
   }) {
     return Container(
-      height: 150,
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      height: 80,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        color: customTheme.customColors["evenContainer"],
+        borderRadius: BorderRadius.circular(15),
+        color: customTheme.customColors["evenContainer"]!.withOpacity(0.5),
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(25),
-        onTap: onTap,
+        borderRadius: BorderRadius.circular(15),
+        onTap: onTap ?? () {},
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.fromLTRB(15, 10, 10, 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title ?? "What's Your Title?",
-                    style: customTheme.themeData.textTheme.titleLarge,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: customTheme.customColors["onEvenContainer"],
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontFamily: customTheme.themeData.textTheme.bodyLarge!.fontFamily,
+                    ),
                   ),
                   Text(
                     description ?? "Describe your object.",
-                    style: customTheme.themeData.textTheme.bodyLarge,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: customTheme.customColors["onEvenContainer"],
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      fontFamily: customTheme.themeData.textTheme.bodyLarge!.fontFamily,
+                    ),
                   ),
                 ],
               ),
@@ -53,6 +75,25 @@ class _CreateAvatarPageState extends State<CreateAvatarPage> {
         ),
       ),
     );
+  }
+
+  Future<File?> getImage() async {
+    final ImagePicker picker = ImagePicker();
+    // Pick an image
+    XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      var result = await FlutterImageCompress.compressAndGetFile(
+        image.path,
+        image.path + '_compressed.jpg',
+        quality: 30,
+      );
+      if (result != null) {
+        return File(result.path);
+      } else {
+        print('Error compressing image');
+      }
+    }
+    return null;
   }
 
   @override
@@ -73,7 +114,10 @@ class _CreateAvatarPageState extends State<CreateAvatarPage> {
             toolbarHeight: 75.0,
             title: Text(
               "Choose Your Avatar",
-              style: TextStyle(color: theme.colorScheme.onPrimary, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             backgroundColor: theme.colorScheme.primary,
             leading: GestureDetector(
@@ -133,6 +177,7 @@ class _CreateAvatarPageState extends State<CreateAvatarPage> {
                             customTheme: customTheme,
                             title: "Upload",
                             description: "Let you upload your avatar.",
+                            onTap: () {},
                           ),
                           Center(
                             child: TextButton(

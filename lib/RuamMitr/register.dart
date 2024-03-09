@@ -208,8 +208,9 @@ class _RegisterPageState extends State<RegisterPage> {
         'password': passwordTextController.text,
       },
     );
-
+    if (!context.mounted) return;
     if (response.statusCode == 200) {
+      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
