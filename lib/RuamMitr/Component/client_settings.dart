@@ -340,40 +340,6 @@ class ClientSettingsWidget extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          width: [size.width * 0.9, 300.0].reduce(min),
-          height: 50,
-          child: InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, ruamMitrPageRoute["create-avatar"]!);
-            },
-            borderRadius: BorderRadius.circular(15),
-            child: Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(left: 10),
-              decoration: BoxDecoration(
-                color: customTheme.customColors["container"]!.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.person_search,
-                    color: customTheme.customColors["onContainer"]!,
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    "Create Your Avatar",
-                    style: theme.textTheme.titleLarge!.copyWith(
-                      color: customTheme.customColors["onContainer"]!,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }
