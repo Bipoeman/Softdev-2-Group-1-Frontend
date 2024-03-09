@@ -528,6 +528,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fluttermoji:
+    dependency: "direct main"
+    description:
+      name: fluttermoji
+      sha256: c33d4b26eeee3c80b377d0cbe1efdaa21dca07d2fd8a25feeecb1381ffabb1b9
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   geolocator:
     dependency: "direct main"
     description:

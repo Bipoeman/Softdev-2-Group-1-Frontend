@@ -64,7 +64,8 @@ class ThemesPortal {
     return Provider.of<ThemeProvider>(context);
   }
 
-  static void changeThemeColor(BuildContext context, String app, String appTheme) {
+  static void changeThemeColor(
+      BuildContext context, String app, String appTheme) {
     ThemeProvider themes = Provider.of<ThemeProvider>(context, listen: false);
     themes.changeAppTheme(app, appTheme);
   }
@@ -86,6 +87,13 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         ),
         useMaterial3: true,
         fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xffcb2e23),
+          titleTextStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
       ),
       customColors: const {
         "main": Color.fromRGBO(214, 40, 40, 1),
@@ -122,6 +130,13 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         ),
         useMaterial3: true,
         fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xffcb2e23),
+          titleTextStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
       ),
       customColors: const {
         "main": Color.fromRGBO(214, 40, 40, 1),
