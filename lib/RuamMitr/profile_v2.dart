@@ -1,12 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart' show DateFormat;
+import 'package:lottie/lottie.dart';
+import 'package:ruam_mitt/RuamMitr/avatar_custom.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_func.dart';
 import 'package:ruam_mitt/global_var.dart';
@@ -20,27 +25,44 @@ class ProfileWidgetV2 extends StatefulWidget {
   State<ProfileWidgetV2> createState() => _ProfileWidgetV2State();
 }
 
-class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
+class _ProfileWidgetV2State extends State<ProfileWidgetV2>
+    with TickerProviderStateMixin {
   BoxController editProfileController = BoxController();
+  BoxController editImageProfileBoxController = BoxController();
   String fieldToEditDisplayText = "";
   String fieldEditKey = "";
   FocusNode profileEditFocusNode = FocusNode();
   TextEditingController fieldEditController = TextEditingController();
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    animationController = AnimationController(vsync: this);
+    animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        animationController.reset();
+      }
+    });
+  }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     fieldEditController.dispose();
+    animationController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
-    CustomThemes ruammitrThemeData = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+    CustomThemes ruammitrThemeData =
+        ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
     Map<String, Color> customColors = ruammitrThemeData.customColors;
-
+    String globalStatus = "idle";
     Future<File?> getImage() async {
       final ImagePicker picker = ImagePicker();
       // Pick an image
@@ -48,13 +70,13 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
       if (image != null) {
         var result = await FlutterImageCompress.compressAndGetFile(
           image.path,
-          image.path + '_compressed.jpg',
+          '${image.path}_compressed.jpg',
           quality: 30,
         );
         if (result != null) {
           return File(result.path);
         } else {
-          print('Error compressing image');
+          debugPrint('Error compressing image');
         }
       }
       return null;
@@ -77,7 +99,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                   children: [
                     Positioned(
                       top: -[size.width * 0.6, 300.0].reduce(min),
-                      left: size.width * 0.5 - [size.width * 0.6, 300.0].reduce(min),
+                      left: size.width * 0.5 -
+                          [size.width * 0.6, 300.0].reduce(min),
                       child: CustomPaint(
                         painter: HalfCirclePainter(
                           color: theme.colorScheme.primary,
@@ -94,7 +117,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                           width: 175,
                           height: 175,
                           margin: EdgeInsets.only(
-                            top: [size.width * 0.6, 300.0].reduce(min) - 175 * 0.6,
+                            top: [size.width * 0.6, 300.0].reduce(min) -
+                                175 * 0.6,
                           ),
                           padding: const EdgeInsets.all(30),
                           decoration: BoxDecoration(
@@ -124,38 +148,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                               ),
                             ),
                             onTap: () async {
-                              File? imageSelectedFile = await getImage();
-                              if (imageSelectedFile == null) return;
-                              Uri url = Uri.parse("$api$userImageUpdateRoute");
-                              http.MultipartRequest request = http.MultipartRequest('POST', url);
-                              request.headers.addAll({
-                                "Authorization": "Bearer $publicToken",
-                                "Content-Type": "application/json"
-                              });
-                              request.files.add(
-                                http.MultipartFile.fromBytes(
-                                  "file",
-                                  File(imageSelectedFile.path).readAsBytesSync(),
-                                  filename: imageSelectedFile.path,
-                                ),
-                              );
-
-                              // print(request.files.first);
-                              http.StreamedResponse response = await request.send();
-                              http.Response res = await http.Response.fromStream(response);
-                              if (res.statusCode == 200) {
-                                dynamic responseJson = json.decode(res.body);
-                                var nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
-                                print(nowParam);
-                                profileData['imgPath'] =
-                                    "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}#$nowParam";
-                                setState(() {});
-                              } else if (res.statusCode == 403) {
-                                if (context.mounted) {
-                                  // int newTokenStatusReturn =
-                                  await requestNewToken(context);
-                                }
-                              }
+                              editImageProfileBoxController.openBox();
                             },
                           ),
                         ),
@@ -223,28 +216,14 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                           setState(() {
                             fieldToEditDisplayText = "Email";
                             fieldEditKey = "email";
-                            fieldEditController.text = profileData[fieldEditKey];
+                            fieldEditController.text =
+                                profileData[fieldEditKey];
                           });
                           if (editProfileController.isBoxOpen) {
                             editProfileController.closeBox();
                           } else {
                             editProfileController.openBox();
                           }
-                        },
-                      ),
-                      const Divider(
-                        height: 4,
-                        thickness: 1,
-                        indent: 20,
-                        endIndent: 0,
-                        color: Color.fromARGB(44, 109, 108, 108),
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.calendar_month_outlined),
-                        title: Text(profileData['birthday'] ?? "Not provided"),
-                        trailing: const Icon(Icons.edit),
-                        onTap: () {
-                          Navigator.pushNamed(context, ruamMitrPageRoute['edit-profile']!);
                         },
                       ),
                       const Divider(
@@ -263,7 +242,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                             () {
                               fieldToEditDisplayText = "Phone Number";
                               fieldEditKey = "phonenum";
-                              fieldEditController.text = profileData[fieldEditKey] ?? "";
+                              fieldEditController.text =
+                                  profileData[fieldEditKey] ?? "";
                             },
                           );
                           if (editProfileController.isBoxOpen) {
@@ -273,15 +253,24 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                           }
                         },
                       ),
+                      const Divider(
+                        height: 4,
+                        thickness: 1,
+                        indent: 20,
+                        endIndent: 0,
+                        color: Color.fromARGB(44, 109, 108, 108),
+                      ),
                       ListTile(
                         leading: const Icon(Icons.edit_document),
-                        title: Text(profileData['description'] ?? "Edit your desciption"),
+                        title: Text(profileData['description'] ??
+                            "Edit your desciption"),
                         trailing: const Icon(Icons.edit),
                         onTap: () {
                           setState(() {
                             fieldToEditDisplayText = "Description";
                             fieldEditKey = "description";
-                            fieldEditController.text = profileData[fieldEditKey] ?? "";
+                            fieldEditController.text =
+                                profileData[fieldEditKey] ?? "";
                           });
                           if (editProfileController.isBoxOpen) {
                             editProfileController.closeBox();
@@ -290,12 +279,20 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                           }
                         },
                       ),
+                      const Divider(
+                        height: 4,
+                        thickness: 1,
+                        indent: 20,
+                        endIndent: 0,
+                        color: Color.fromARGB(44, 109, 108, 108),
+                      ),
                       ListTile(
                         leading: const Icon(Icons.password),
                         title: const Text("********"),
                         trailing: const Icon(Icons.edit),
                         onTap: () {
-                          Navigator.pushNamed(context, ruamMitrPageRoute["password-change"]!);
+                          Navigator.pushNamed(
+                              context, ruamMitrPageRoute["password-change"]!);
                         },
                       ),
                     ],
@@ -306,6 +303,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
           ),
         ),
         SlidingBox(
+          onBoxOpen: () => editImageProfileBoxController.closeBox(),
           physics: const NeverScrollableScrollPhysics(),
           collapsed: true,
           draggableIconVisible: false,
@@ -316,7 +314,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
           controller: editProfileController,
           body: Container(
             // margin: EdgeInsets.only(bottom: 71),
-            padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 71),
+            padding: const EdgeInsets.only(
+                left: 20.0, right: 20, top: 10, bottom: 71),
             child: SizedBox(
               height: size.height * 0.28,
               child: Column(
@@ -343,7 +342,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                       focusNode: profileEditFocusNode,
                       controller: fieldEditController,
                       decoration: InputDecoration(
-                        hintText: "Enter your ${fieldToEditDisplayText.toLowerCase()}",
+                        hintText:
+                            "Enter your ${fieldToEditDisplayText.toLowerCase()}",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide.none,
@@ -379,7 +379,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                       onPressed: () async {
                         profileData[fieldEditKey] = fieldEditController.text;
                         Uri url = Uri.parse("$api$userDataUpdateRoute");
-                        print(url);
+                        debugPrint("$url");
                         await http
                             .put(
                               url,
@@ -391,11 +391,12 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
                             )
                             .timeout(const Duration(seconds: 4))
                             .onError((error, stackTrace) {
-                          print(error);
+                          debugPrint("$error");
                           return http.Response("Error $error", 404);
                         }).then((value) {
-                          print("Return status Code : ${value.statusCode}");
-                          print("Return body : ${value.body}");
+                          debugPrint(
+                              "Return status Code : ${value.statusCode}");
+                          debugPrint("Return body : ${value.body}");
                           setState(() {});
                           if (value.statusCode == 200) {
                             if (value.body == "change profile success") {
@@ -413,7 +414,426 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> {
               ),
             ),
           ),
-        )
+        ),
+        SlidingBox(
+          onBoxOpen: () => editProfileController.closeBox(),
+          physics: const NeverScrollableScrollPhysics(),
+          collapsed: true,
+          draggableIconVisible: false,
+          maxHeight: size.height * 0.4,
+          minHeight: 0,
+          color: customColors["oddContainer"]!,
+          draggable: false,
+          controller: editImageProfileBoxController,
+          body: Container(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Edit your profile image...",
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        editImageProfileBoxController.closeBox();
+                      },
+                    ),
+                  ],
+                ),
+                const Divider(),
+                ListTile(
+                  title: const Text("Customize your avatar"),
+                  tileColor: Colors.white,
+                  trailing: const Icon(Icons.edit),
+                  onTap: () async {
+                    String selectedAvatarString = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AvatarCustomPage(),
+                      ),
+                    );
+                    // debugPrint(selectedAvatarString);
+                    if (context.mounted) {
+                      final pictureInfo = await vg.loadPicture(
+                          SvgStringLoader(selectedAvatarString), context);
+                      final image = await pictureInfo.picture.toImage(275, 275);
+                      final byteData =
+                          await image.toByteData(format: ImageByteFormat.png);
+                      final pngBytes = byteData!.buffer.asUint8List();
+                      if (context.mounted) {
+                        Uri url = Uri.parse("$api$userImageUpdateRoute");
+                        http.MultipartRequest request =
+                            http.MultipartRequest('POST', url);
+                        request.headers.addAll({
+                          "Authorization": "Bearer $publicToken",
+                          "Content-Type": "application/json"
+                        });
+                        request.files.add(
+                          http.MultipartFile.fromBytes(
+                            "file",
+                            pngBytes,
+                            filename: "${profileData['fullname']}_generate",
+                          ),
+                        );
+                        // print(request.files.first);
+                        setState(() {
+                          globalStatus = "loading";
+                        });
+                        http.StreamedResponse response = await request.send();
+                        http.Response res =
+                            await http.Response.fromStream(response);
+                        if (res.statusCode == 200) {
+                          dynamic responseJson = json.decode(res.body);
+                          profileData['imgPath'] =
+                              "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}";
+                          setState(() {});
+                        } else if (res.statusCode == 403) {
+                          if (context.mounted) {
+                            // int newTokenStatusReturn =
+                            await requestNewToken(context);
+                          }
+                        }
+
+                        debugPrint(res.body);
+                        editImageProfileBoxController.closeBox();
+                      }
+                    }
+                  },
+                ),
+                const Divider(),
+                ListTile(
+                  // Generate new avatar
+                  title: const Text("Generate new avatar"),
+                  tileColor: Colors.white,
+                  trailing: const Icon(Icons.repeat_rounded),
+                  onTap: () async {
+                    Uri url = Uri.parse(
+                        "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}.png");
+                    http.Response response = await http.get(url);
+
+                    // debugPrint(response.bodyBytes);
+                    Uint8List imageRequested = response.bodyBytes;
+                    if (context.mounted) {
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: SizedBox(
+                              height: size.height * 0.5,
+                              child: Center(
+                                child: globalStatus == "loading"
+                                    ? LottieBuilder.asset(
+                                        "assets/images/Logo/Animation_loading.json",
+                                        repeat: true,
+                                        controller: animationController,
+                                        onLoaded: (composition) {
+                                          animationController.duration =
+                                              composition.duration;
+                                          animationController.forward();
+                                        },
+                                      )
+                                    : globalStatus == "success"
+                                        ? LottieBuilder.asset(
+                                            "assets/images/Logo/Animation_Success.json",
+                                            repeat: true,
+                                            controller: animationController,
+                                            onLoaded: (composition) {
+                                              animationController.duration =
+                                                  composition.duration;
+                                              animationController.forward();
+                                            },
+                                          )
+                                        : globalStatus == "fail"
+                                            ? LottieBuilder.asset(
+                                                "assets/images/Logo/Animation_Fail.json",
+                                                repeat: true,
+                                                controller: animationController,
+                                                onLoaded: (composition) {
+                                                  animationController.duration =
+                                                      composition.duration;
+                                                  animationController.forward();
+                                                },
+                                              )
+                                            : Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Image.memory(
+                                                    imageRequested,
+                                                    frameBuilder: (context,
+                                                        child,
+                                                        frame,
+                                                        wasSynchronouslyLoaded) {
+                                                      if (wasSynchronouslyLoaded) {
+                                                        return child;
+                                                      }
+                                                      return AnimatedSwitcher(
+                                                        duration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    200),
+                                                        child: frame != null
+                                                            ? child
+                                                            : const SizedBox(
+                                                                height: 60,
+                                                                width: 60,
+                                                                child: CircularProgressIndicator(
+                                                                    strokeWidth:
+                                                                        6),
+                                                              ),
+                                                      );
+                                                    },
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: size.width * 0.7,
+                                                        height: 50,
+                                                        child: ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                theme
+                                                                    .colorScheme
+                                                                    .primary,
+                                                            textStyle:
+                                                                TextStyle(
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .onPrimary,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 20,
+                                                            ),
+                                                            foregroundColor:
+                                                                theme
+                                                                    .colorScheme
+                                                                    .onPrimary,
+                                                          ),
+                                                          child: const Text(
+                                                              "Generate"),
+                                                          onPressed: () async {
+                                                            String
+                                                                generateRandomString(
+                                                                    int len) {
+                                                              var r = Random();
+                                                              const chars =
+                                                                  'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+                                                              return List.generate(
+                                                                  len,
+                                                                  (index) => chars[
+                                                                      r.nextInt(
+                                                                          chars
+                                                                              .length)]).join();
+                                                            }
+
+                                                            Uri url = Uri.parse(
+                                                                "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}+${generateRandomString(10)}.png");
+                                                            setState(() =>
+                                                                (globalStatus =
+                                                                    "loading"));
+                                                            http.Response
+                                                                response =
+                                                                await http
+                                                                    .get(url);
+                                                            if (response
+                                                                    .statusCode ==
+                                                                200) {
+                                                              setState(() =>
+                                                                  (globalStatus =
+                                                                      "idle"));
+                                                            } else {
+                                                              setState(() =>
+                                                                  (globalStatus =
+                                                                      "fail"));
+                                                            }
+                                                            setState(() {
+                                                              imageRequested =
+                                                                  response
+                                                                      .bodyBytes;
+                                                            });
+                                                          },
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 10),
+                                                      SizedBox(
+                                                        width: size.width * 0.7,
+                                                        height: 50,
+                                                        child: ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                theme
+                                                                    .colorScheme
+                                                                    .primary,
+                                                            textStyle:
+                                                                TextStyle(
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .onPrimary,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 20,
+                                                            ),
+                                                            foregroundColor:
+                                                                theme
+                                                                    .colorScheme
+                                                                    .onPrimary,
+                                                          ),
+                                                          child: const Text(
+                                                              "Save"),
+                                                          onPressed: () async {
+                                                            Uri url = Uri.parse(
+                                                                "$api$userImageUpdateRoute");
+                                                            http.MultipartRequest
+                                                                request =
+                                                                http.MultipartRequest(
+                                                                    'POST',
+                                                                    url);
+                                                            request.headers
+                                                                .addAll({
+                                                              "Authorization":
+                                                                  "Bearer $publicToken",
+                                                              "Content-Type":
+                                                                  "application/json"
+                                                            });
+                                                            request.files.add(
+                                                              http.MultipartFile
+                                                                  .fromBytes(
+                                                                "file",
+                                                                imageRequested,
+                                                                filename:
+                                                                    "${profileData['fullname']}_generate",
+                                                              ),
+                                                            );
+
+                                                            // print(request.files.first);
+                                                            setState(() =>
+                                                                (globalStatus =
+                                                                    "loading"));
+                                                            http.StreamedResponse
+                                                                response =
+                                                                await request
+                                                                    .send();
+                                                            http.Response res =
+                                                                await http
+                                                                        .Response
+                                                                    .fromStream(
+                                                                        response);
+                                                            if (res.statusCode ==
+                                                                200) {
+                                                              setState(() =>
+                                                                  (globalStatus =
+                                                                      "success"));
+                                                              animationController
+                                                                  .reset();
+                                                              await Future.delayed(
+                                                                  const Duration(
+                                                                      seconds:
+                                                                          1));
+                                                            } else {
+                                                              setState(() =>
+                                                                  (globalStatus =
+                                                                      "fail"));
+                                                            }
+                                                            if (res.statusCode ==
+                                                                200) {
+                                                              dynamic
+                                                                  responseJson =
+                                                                  json.decode(
+                                                                      res.body);
+                                                              profileData[
+                                                                      'imgPath'] =
+                                                                  "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}";
+                                                              setState(() {});
+                                                            } else if (res
+                                                                    .statusCode ==
+                                                                403) {
+                                                              if (context
+                                                                  .mounted) {
+                                                                // int newTokenStatusReturn =
+                                                                await requestNewToken(
+                                                                    context);
+                                                              }
+                                                            }
+                                                            debugPrint(
+                                                                res.body);
+                                                            if (context
+                                                                .mounted) {
+                                                              editImageProfileBoxController
+                                                                  .closeBox();
+                                                              Navigator.pop(
+                                                                  context);
+                                                            }
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
+                const Divider(),
+                ListTile(
+                  title: const Text("Choose your image"),
+                  tileColor: Colors.white,
+                  trailing: const Icon(Icons.image),
+                  onTap: () async {
+                    File? imageSelectedFile = await getImage();
+                    if (imageSelectedFile == null) return;
+                    Uri url = Uri.parse("$api$userImageUpdateRoute");
+                    http.MultipartRequest request =
+                        http.MultipartRequest('POST', url);
+                    request.headers.addAll({
+                      "Authorization": "Bearer $publicToken",
+                      "Content-Type": "application/json"
+                    });
+                    request.files.add(
+                      http.MultipartFile.fromBytes(
+                        "file",
+                        File(imageSelectedFile.path).readAsBytesSync(),
+                        filename: imageSelectedFile.path,
+                      ),
+                    );
+                    // print(request.files.first);
+                    http.StreamedResponse response = await request.send();
+                    http.Response res =
+                        await http.Response.fromStream(response);
+                    if (res.statusCode == 200) {
+                      dynamic responseJson = json.decode(res.body);
+                      var nowParam =
+                          DateFormat('yyyyddMMHHmm').format(DateTime.now());
+                      print(nowParam);
+                      profileData['imgPath'] =
+                          "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}#$nowParam";
+                      setState(() {});
+                    } else if (res.statusCode == 403) {
+                      if (context.mounted) {
+                        // int newTokenStatusReturn =
+                        await requestNewToken(context);
+                      }
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
