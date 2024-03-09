@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Restroom/Component/font.dart';
+import 'package:ruam_mitt/Restroom/Component/interactive_image.dart';
+import 'package:ruam_mitt/Restroom/Component/loading_screen.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/Restroom/Component/write_review.dart';
@@ -48,13 +50,16 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
   @override
   void initState() {
     super.initState();
-
+    showRestroomLoadingScreen(context);
     getRestroomReview().timeout(const Duration(seconds: 10)).then((response) {
-      reviewData = jsonDecode(response.body);
-      setState(() {});
+      setState(() {
+        reviewData = jsonDecode(response.body);
+      });
+      Navigator.pop(context);
     }).onError((error, stackTrace) {
       debugPrint(error.toString());
       debugPrint(stackTrace.toString());
+      Navigator.pop(context);
       ThemeData theme = Theme.of(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
@@ -124,41 +129,10 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
                                         ),
                                       ),
                                     )
-                                  : InkWell(
-                                      onTap: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return Stack(
-                                                children: [
-                                                  Center(
-                                                      child: SizedBox(
-                                                    width: size.width,
-                                                    height: size.height,
-                                                    child: InteractiveViewer(
-                                                      maxScale: 10,
-                                                      child: Image.network(
-                                                        widget.restroomData[
-                                                            "picture"],
-                                                      ),
-                                                    ),
-                                                  ))
-                                                ],
-                                              );
-                                            });
-                                      },
-                                      child: SizedBox(
-                                        width: size.width * 0.8,
-                                        height: size.height * 0.3,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: Image.network(
-                                            widget.restroomData["picture"],
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
+                                  : RestroomInteractiveImage(
+                                      picture: widget.restroomData["picture"],
+                                      width: size.width * 0.8,
+                                      height: size.height * 0.2,
                                     ),
                               Container(
                                 height: size.height * 0.07,
@@ -341,7 +315,7 @@ class _RestroomRoverReviewState extends State<RestroomRoverReview> {
           ],
         ),
         drawerScrimColor: Colors.transparent,
-        drawer: RestroomRoverNavbar(),
+        drawer: const RestroomRoverNavbar(),
       ),
     );
   }

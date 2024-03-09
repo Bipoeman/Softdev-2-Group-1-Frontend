@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ruam_mitt/Restroom/Component/font.dart';
+import 'package:ruam_mitt/Restroom/Component/loading_screen.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_func.dart';
@@ -30,8 +31,35 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
   double _rating = 0.0;
   int reviewTextLength = 0;
   Future<void> _getImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    bool? isCamera = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text("Camera"),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text("gallery "),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (isCamera == null) return;
+    final pickedFile = await ImagePicker()
+        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -301,22 +329,26 @@ class _ReviewSlideBarState extends State<ReviewSlideBar> {
                         padding: const EdgeInsets.only(left: 25),
                         child: ElevatedButton(
                           onPressed: () {
+                            showRestroomLoadingScreen(context);
                             _postReview().then((value) {
+                              Navigator.pop(context);
                               Navigator.pushReplacementNamed(
                                   context, restroomPageRoute["review"]!,
                                   arguments: {
                                     ...widget.restroomData,
-                                    "avg_star":
-                                        (widget.restroomData["avg_star"] +
-                                                _rating) /
-                                            (widget.restroomData["count"] + 1),
-                                    "count": widget.restroomData["count"] + 1,
+                                    "avg_star": (widget
+                                                .restroomData["avg_star"] ??
+                                            0 + _rating) /
+                                        (widget.restroomData["count"] ?? 0 + 1),
+                                    "count":
+                                        widget.restroomData["count"] ?? 0 + 1,
                                   });
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text("Review posted.")));
                             }).onError((error, stackTrace) {
                               debugPrint(error.toString());
+                              Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(

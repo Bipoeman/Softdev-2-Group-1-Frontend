@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:ruam_mitt/Restroom/Component/font.dart';
+import 'package:ruam_mitt/Restroom/Component/loading_screen.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/Restroom/findposition.dart';
@@ -308,7 +309,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    LatLng getPosResult = await Navigator.push(
+                                    LatLng? getPosResult = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
@@ -716,7 +717,9 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                               padding: const EdgeInsets.only(left: 40.0),
                               child: ElevatedButton(
                                 onPressed: () {
+                                  showRestroomLoadingScreen(context);
                                   _createPin().then((_) {
+                                    Navigator.pop(context);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text("Pin created"),
@@ -726,6 +729,7 @@ class _RestroomRoverAddrestroomState extends State<RestroomRoverAddrestroom> {
                                         context, restroomPageRoute["home"]!);
                                   }).onError((error, stackTrace) {
                                     debugPrint("Error: $error");
+                                    Navigator.pop(context);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(

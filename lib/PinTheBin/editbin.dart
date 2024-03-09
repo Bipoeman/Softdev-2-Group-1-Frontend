@@ -2,13 +2,9 @@ import 'dart:convert';
 
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
-import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
-import 'package:neumorphic_button/neumorphic_button.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
 import 'package:http/http.dart' as http;
 import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
@@ -160,7 +156,7 @@ class _EditbinPageState extends State<EditbinPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.menu_rounded),
+                        const Icon(Icons.menu_rounded),
                         SizedBox(height: size.height * 0.015),
                       ],
                     ),
@@ -339,7 +335,7 @@ class _EditbinPageState extends State<EditbinPage> {
                           ClayContainer(
                             width: size.width * 0.8,
                             height: size.height * 0.15,
-                            color: Color.fromRGBO(239, 239, 239, 1),
+                            color: const Color.fromRGBO(239, 239, 239, 1),
                             borderRadius: 30,
                             depth: -15,
                             child: TextField(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/PinTheBin/addbinV2.dart';
@@ -31,6 +32,7 @@ import 'package:ruam_mitt/TuachuayDekhor/home.dart';
 import 'package:ruam_mitt/TuachuayDekhor/post.dart';
 import 'package:ruam_mitt/TuachuayDekhor/profile.dart';
 import 'package:ruam_mitt/TuachuayDekhor/report.dart';
+import 'package:ruam_mitt/TuachuayDekhor/reportapp.dart';
 import 'package:ruam_mitt/TuachuayDekhor/search.dart';
 import 'package:ruam_mitt/TuachuayDekhor/story.dart';
 import 'package:ruam_mitt/TuachuayDekhor/writeblog.dart';
@@ -42,13 +44,17 @@ import 'package:ruam_mitt/global_var.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
-      child: const SuperApp(),
-    ),
-  );
-  DependencyInjection.init();
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(
+      ChangeNotifierProvider(
+        create: (context) => ThemeProvider(),
+        child: const SuperApp(),
+      ),
+    );
+    DependencyInjection.init();
+  });
 }
 
 class SuperApp extends StatefulWidget {
@@ -74,62 +80,84 @@ class _SuperAppState extends State<SuperApp> {
             const PasswordChangePage(),
         restroomPageRoute["home"]!: (context) => const RestroomRover(),
         restroomPageRoute["review"]!: (context) => RestroomRoverReview(
-              restroomData: ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>,
+              restroomData: ModalRoute.of(context)!.settings.arguments
+                  as Map<String, dynamic>,
             ),
-        restroomPageRoute["findposition"]!: (context) => const RestroomRoverFindPosition(),
-        restroomPageRoute["addrestroom"]!: (context) => const RestroomRoverAddrestroom(),
+        restroomPageRoute["findposition"]!: (context) =>
+            const RestroomRoverFindPosition(),
+        restroomPageRoute["addrestroom"]!: (context) =>
+            const RestroomRoverAddrestroom(),
         restroomPageRoute["report"]!: (context) => const RestroomRoverReport(),
         restroomPageRoute["reportpin"]!: (context) => RestroomRoverReportPin(
-            restroomData: ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>),
+            restroomData: ModalRoute.of(context)!.settings.arguments
+                as Map<String, dynamic>),
         restroomPageRoute["myrestroom"]!: (context) => const MyRestroomPage(),
         restroomPageRoute["editrestroom"]!: (context) => EditRestroomPage(
-            restroomData: ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>),
+            restroomData: ModalRoute.of(context)!.settings.arguments
+                as Map<String, dynamic>),
         dinodengzzPageRoute: (context) => const MyGame(),
-        tuachuayDekhorPageRoute["home"]!: (context) => const TuachuayDekhorHomePage(),
-        tuachuayDekhorPageRoute["profile"]!: (context) => const TuachuayDekhorProfilePage(),
-        tuachuayDekhorPageRoute["search"]!: (context) => const TuachuayDekhorSearchPage(),
+        tuachuayDekhorPageRoute["home"]!: (context) =>
+            const TuachuayDekhorHomePage(),
+        tuachuayDekhorPageRoute["profile"]!: (context) =>
+            const TuachuayDekhorProfilePage(),
+        tuachuayDekhorPageRoute["search"]!: (context) =>
+            const TuachuayDekhorSearchPage(),
         tuachuayDekhorPageRoute["blog"]!: (context) {
-          final id_post = ModalRoute.of(context)!.settings.arguments as int;
-          return TuachuayDekhorBlogPage(id_post: id_post);
+          final idPost = ModalRoute.of(context)!.settings.arguments as int;
+          return TuachuayDekhorBlogPage(id_post: idPost);
         },
-        tuachuayDekhorPageRoute["blogger"]!: (context) => const TuachuayDekhorBloggerPage(),
-        tuachuayDekhorPageRoute["writeblog"]!: (context) => const TuachuayDekhorWriteBlogPage(),
+        tuachuayDekhorPageRoute["blogger"]!: (context) =>
+            const TuachuayDekhorBloggerPage(),
+        tuachuayDekhorPageRoute["writeblog"]!: (context) =>
+            const TuachuayDekhorWriteBlogPage(),
         tuachuayDekhorPageRoute["editdraft"]!: (context) {
-          final id_draft = ModalRoute.of(context)!.settings.arguments as int;
-          return TuachuayDekhorEditDraftPage(id_draft: id_draft);
+          final idDraft = ModalRoute.of(context)!.settings.arguments as int;
+          return TuachuayDekhorEditDraftPage(id_draft: idDraft);
         },
         tuachuayDekhorPageRoute["editpost"]!: (context) {
-          final id_post = ModalRoute.of(context)!.settings.arguments as int;
-          return TuachuayDekhorEditBlogPage(id_post: id_post);
+          final idPost = ModalRoute.of(context)!.settings.arguments as int;
+          return TuachuayDekhorEditBlogPage(id_post: idPost);
         },
-        tuachuayDekhorPageRoute["draft"]!: (context) => const TuachuayDekhorDraftPage(),
-        tuachuayDekhorPageRoute["decoration"]!: (context) => const TuachuayDekhorDecorationPage(),
-        tuachuayDekhorPageRoute["story"]!: (context) => const TuachuayDekhorStoryPage(),
-        tuachuayDekhorPageRoute["cooking"]!: (context) => const TuachuayDekhorCookingPage(),
-        tuachuayDekhorPageRoute["cleaning"]!: (context) => const TuachuayDekhorCleaningPage(),
+        tuachuayDekhorPageRoute["draft"]!: (context) =>
+            const TuachuayDekhorDraftPage(),
+        tuachuayDekhorPageRoute["decoration"]!: (context) =>
+            const TuachuayDekhorDecorationPage(),
+        tuachuayDekhorPageRoute["story"]!: (context) =>
+            const TuachuayDekhorStoryPage(),
+        tuachuayDekhorPageRoute["cooking"]!: (context) =>
+            const TuachuayDekhorCookingPage(),
+        tuachuayDekhorPageRoute["cleaning"]!: (context) =>
+            const TuachuayDekhorCleaningPage(),
         tuachuayDekhorPageRoute["profileblogger"]!: (context) {
-          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
           final username = args['username'] as String;
           final avatarUrl = args['avatarUrl'] as String;
-          return TuachuayDekhorBloggerProfilePage(username: username, avatarUrl: avatarUrl);
+          return TuachuayDekhorBloggerProfilePage(
+              username: username, avatarUrl: avatarUrl);
         },
         tuachuayDekhorPageRoute["report"]!: (context) {
-
-          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
 
           final id_post = args['id_post'] as int;
           final id_blogger = args['id_blogger'] as int;
-          return TuachuayDekhorReportPage(id_post: id_post, id_blogger: id_blogger);
+          return TuachuayDekhorReportPage(
+              id_post: id_post, id_blogger: id_blogger);
         },
         tuachuayDekhorPageRoute["detailreport"]!: (context) {
-
-          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
 
           final id_post = args['id_post'] as int;
           final id_report = args['id_report'] as int;
-          return TuachuayDekhorDetailReportPage(id_post: id_post, id_report: id_report);
+          return TuachuayDekhorDetailReportPage(
+              id_post: id_post, id_report: id_report);
         },
-        tuachuayDekhorPageRoute["admin"]!: (context) => const TuachuayDekhorAdminPage(),
+        tuachuayDekhorPageRoute["reportapp"]!: (context) =>
+            const TuachuayDekhorReportAppPage(),
+        tuachuayDekhorPageRoute["admin"]!: (context) =>
+            const TuachuayDekhorAdminPage(),
         pinthebinPageRoute["home"]!: (context) => const BinPage(),
         pinthebinPageRoute["addbin"]!: (context) => const AddbinPageV2(),
         pinthebinPageRoute["editbin"]!: (context) => EditbinPage(

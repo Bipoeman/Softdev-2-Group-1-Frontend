@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
@@ -48,13 +49,21 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
+    if (pickedFile != null) {
+      var result = await FlutterImageCompress.compressAndGetFile(
+        pickedFile.path,
+        '${pickedFile.path}_compressed.jpg',
+        quality: 40,
+      );
+
+      setState(() {
+        if (result != null) {
+          _image = File(result.path);
+        } else {
+          print('Error compressing image');
+        }
+      });
+    }
   }
 
   Future<void> _loadDetail() async {
@@ -150,6 +159,73 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
       }
     } catch (error) {
       print('Error writing blog: $error');
+    }
+  }
+
+  void onBackPressed(Map<String, Color> customColors) {
+    if ((markdownTitleController.text != detailpost[0]['title']) ||
+        (markdownContentController.text != detailpost[0]['content']) ||
+        (_dropdownValue != detailpost[0]['category'])) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            surfaceTintColor: customColors["container"]!,
+            backgroundColor: customColors["container"]!,
+            iconColor: customColors["main"]!,
+            icon: Icon(
+              Icons.edit_off,
+              size: 50,
+              color: customColors["main"]!,
+            ),
+            title: Text(
+              "Discard edit?",
+              style: TextStyle(
+                color: customColors["onContainer"]!,
+              ),
+            ),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actions: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10), color: Colors.red),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    print("Discard edited post");
+                  },
+                  child: const Text(
+                    "Discard",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      Navigator.pop(context);
     }
   }
 
@@ -358,98 +434,32 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                 top: size.height * 0.12,
                                 left: size.width * 0.04,
                               ),
-                              child: GestureDetector(
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.arrow_back_outlined,
-                                      color: customColors["main"]!,
-                                      size: 20,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      "Back",
-                                      style: TextStyle(
-                                          color: customColors["main"]!),
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  if ((markdownTitleController.text !=
-                                          detailpost[0]['title']) ||
-                                      (markdownContentController.text !=
-                                          detailpost[0]['content']) ||
-                                      (_dropdownValue !=
-                                          detailpost[0]['category'])) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          surfaceTintColor:
-                                              customColors["container"]!,
-                                          backgroundColor:
-                                              customColors["container"]!,
-                                          iconColor: customColors["main"]!,
-                                          icon: Icon(
-                                            Icons.edit_off,
-                                            size: 50,
-                                            color: customColors["main"]!,
-                                          ),
-                                          title: Text(
-                                            "Discard edit?",
-                                            style: TextStyle(
-                                              color:
-                                                  customColors["onContainer"]!,
-                                            ),
-                                          ),
-                                          actionsAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          actions: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: Colors.grey,
-                                              ),
-                                              child: TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text(
-                                                  "Cancel",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Colors.red),
-                                              child: TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                  Navigator.pop(context);
-                                                  print("Discard edited post");
-                                                },
-                                                child: const Text(
-                                                  "Discard",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  } else {
-                                    Navigator.pop(context);
+                              child: PopScope(
+                                canPop: false,
+                                onPopInvoked: (bool didPop) {
+                                  if (didPop) {
+                                    return;
                                   }
+                                  onBackPressed(customColors);
                                 },
+                                child: GestureDetector(
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.arrow_back_outlined,
+                                        color: customColors["main"]!,
+                                        size: 20,
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        "Back",
+                                        style: TextStyle(
+                                            color: customColors["main"]!),
+                                      ),
+                                    ],
+                                  ),
+                                  onTap: () => onBackPressed(customColors),
+                                ),
                               ),
                             ),
                             Padding(

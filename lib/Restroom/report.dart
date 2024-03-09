@@ -4,6 +4,7 @@ import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ruam_mitt/Restroom/Component/font.dart';
+import 'package:ruam_mitt/Restroom/Component/loading_screen.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
@@ -413,7 +414,9 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                               padding: const EdgeInsets.only(left: 20.0),
                               child: ElevatedButton(
                                 onPressed: () {
+                                  showRestroomLoadingScreen(context);
                                   _sendReport().then((_) {
+                                    Navigator.pop(context);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text('Report sent'),
@@ -423,6 +426,7 @@ class _RestroomRoverReportState extends State<RestroomRoverReport> {
                                         context, restroomPageRoute["home"]!);
                                   }).onError((error, stackTrace) {
                                     debugPrint("Error: $error");
+                                    Navigator.pop(context);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(
