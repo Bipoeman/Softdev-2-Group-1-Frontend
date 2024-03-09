@@ -6,8 +6,8 @@ class LevelComplete extends StatelessWidget {
     required this.onNextPressed,
     required this.onRetryPressed,
     required this.onExitPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static const id = 'LevelComplete';
 
