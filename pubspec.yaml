@@ -50,7 +50,7 @@ dependencies:
   flame_audio: ^2.1.8
   flutter_map: ^6.1.0
   # flutter_map_location_marker: any
-  google_fonts: ^6.1.0
+  google_fonts: 6.1.0
   latlong2: ^0.9.0
   flutter_animate: ^4.5.0
   popup_menu: ^2.0.0
@@ -80,10 +80,8 @@ dependencies:
   bottom_bar_matu: ^1.3.1
   audioplayers_darwin: ^5.0.2
   flutter_launcher_icons: ^0.13.1
-
   mime:
   http_parser:
-  permission_handler: ^11.3.0
   fluttermoji: ^1.0.2
 
 flutter_icons:
