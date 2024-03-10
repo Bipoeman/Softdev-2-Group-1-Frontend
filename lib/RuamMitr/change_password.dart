@@ -30,6 +30,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
   bool sendOTPEnabled = false;
   bool waitingForOTPSendSuccess = false;
   bool isChangePasswordEnabled = false;
+  bool isOTPSendSuccess = false;
   GlobalKey<FormState> changePasswordFormKey = GlobalKey<FormState>();
   PasswordChangeData passwordChangeData =
       PasswordChangeData(["email", "OTP", "password", "confirmPassword"]);
@@ -160,6 +161,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
     var otpRes = await http.get(url);
     setState(() {
       waitingForOTPSendSuccess = false;
+      isOTPSendSuccess = true;
     });
     startTimer();
     debugPrint(otpRes.body);
@@ -187,6 +189,15 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
             Navigator.pop(context);
           }
         });
+      }
+    } else if (bodyJson['msg'] == "Invalid OTP") {
+      if (context.mounted) {
+        var snackBar = SnackBar(
+          content: Text("${bodyJson['msg']}. Please request OTP again."),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        passwordChangeData.fieldController['OTP']!.clear();
       }
     }
   }
@@ -351,7 +362,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                                 ),
                                 foregroundColor: theme.colorScheme.onPrimary,
                               ),
-                              onPressed: isChangePasswordEnabled
+                              onPressed: (isChangePasswordEnabled && isOTPSendSuccess)
                                   ? () async {
                                       changePassword(context);
                                     }
