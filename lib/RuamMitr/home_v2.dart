@@ -127,7 +127,7 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                                     );
                                   },
                                   child: selectionText(
-                                    "Contents",
+                                    "Dashboard",
                                     isContentsSelected,
                                   ),
                                 ),

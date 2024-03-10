@@ -18,17 +18,36 @@ class ContentWidget extends StatefulWidget {
 
 class _ContentWidgetState extends State<ContentWidget> {
   var dashboardContent = {};
+  late Timer timer;
   bool isLoading = true;
+  String loadingText = "Loading...";
 
   @override
   void initState() {
     super.initState();
+    timer = startDashboardTimer();
     getDashboardContent();
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer.cancel();
+  }
+
+  Timer startDashboardTimer() {
+    return Timer.periodic(
+      const Duration(seconds: 5),
+      (timer) {
+        getDashboardContent();
+      },
+    );
   }
 
   void getDashboardContent() async {
     setState(() {
-      isLoading = true;
+      loadingText = "Loading...";
     });
     var response = await http.get(
       Uri.parse("$api$userDashboardRoute"),
@@ -46,19 +65,36 @@ class _ContentWidgetState extends State<ContentWidget> {
         isLoading = false;
       });
     } else {
-      throw Exception("Failed to load dashboard content");
+      setState(() {
+        isLoading = true;
+        loadingText = "Error: ${response.statusCode}. Reloading...";
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    bool isDarkMode = ThemesPortal.getCurrent(context).isDarkMode("RuamMitr");
     CustomThemes customTheme = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
 
     return isLoading
         ? Center(
-            child: CircularProgressIndicator(
-              color: customTheme.customColors["main"],
+            child: Column(
+              children: [
+                CircularProgressIndicator(
+                  color: customTheme.customColors["main"],
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  loadingText,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: customTheme.customColors["main"],
+                  ),
+                ),
+              ],
             ),
           )
         : Padding(
@@ -68,9 +104,9 @@ class _ContentWidgetState extends State<ContentWidget> {
             ),
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(
-                horizontal: size.width * 0.02,
-                vertical: size.height * 0.02,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 30,
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
@@ -81,32 +117,26 @@ class _ContentWidgetState extends State<ContentWidget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Your Dashboard",
-                    textAlign: TextAlign.center,
+                    "Welcome, ${dashboardContent["user_info"]["username"]}",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: customTheme.customColors["onEvenContainer"],
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child: Divider(
-                      color: customTheme.customColors["onEvenContainer"]!.withOpacity(0.2),
-                      thickness: 2,
-                    ),
-                  ),
-                  Column(
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        width: 75,
-                        height: 75,
+                        width: 100,
+                        height: 100,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: customTheme.customColors["evenContainer"]!.withOpacity(0.4),
                           border: Border.all(
-                            color: customTheme.customColors["onEvenContainer"]!.withOpacity(0.6),
+                            color: customTheme.customColors["main"]!,
                             width: 5,
                           ),
                         ),
@@ -114,17 +144,25 @@ class _ContentWidgetState extends State<ContentWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "User ID",
+                              "Time Active",
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 10,
                                 fontWeight: FontWeight.bold,
                                 color: customTheme.customColors["onEvenContainer"],
                               ),
                             ),
                             Text(
-                              dashboardContent["user_info"]["id"].toString() ?? "0",
+                              currentDashboardTimer.toString(),
                               style: TextStyle(
                                 fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: customTheme.customColors["onEvenContainer"],
+                              ),
+                            ),
+                            Text(
+                              "Minutes",
+                              style: TextStyle(
+                                fontSize: 10,
                                 fontWeight: FontWeight.bold,
                                 color: customTheme.customColors["onEvenContainer"],
                               ),
@@ -132,15 +170,86 @@ class _ContentWidgetState extends State<ContentWidget> {
                           ],
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        child: Text(
-                          "Welcome, ${dashboardContent["user_info"]["username"]}",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.date_range,
                             color: customTheme.customColors["onEvenContainer"],
+                            size: 24,
                           ),
+                          Text(
+                            "Date of Creation",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: customTheme.customColors["onEvenContainer"],
+                            ),
+                          ),
+                          Text(
+                            dashboardContent["user_info"]["birthday"] ??
+                                "Do I live in the simulation?",
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                              color: customTheme.customColors["onEvenContainer"],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: Divider(
+                      color: customTheme.customColors["onEvenContainer"]!.withOpacity(0.2),
+                      thickness: 2,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 75,
+                        height: 75,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: customTheme.customColors["main"]!.withOpacity(0.03),
+                        ),
+                        child: InkWell(
+                          onTap: () {},
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.asset(
+                            "assets/images/Logo/TuachuayDekhor_${isDarkMode ? "Dark" : "Light"}.png",
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      SizedBox(
+                        height: 75,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Your Post Count",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: customTheme.customColors["onEvenContainer"],
+                              ),
+                            ),
+                            Text(
+                              dashboardContent["dekhor_post"].length.toString(),
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: customTheme.customColors["onEvenContainer"],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

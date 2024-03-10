@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
@@ -55,9 +56,15 @@ class _HomePageV2State extends State<HomePageV2> {
     // debugPrint("Home Ruammitr InitState");
     Uri uri = Uri.parse("$api$userDataRequestRoute");
     setState(() {});
-    http.get(uri, headers: {"Authorization": "Bearer $publicToken"}).then(
-        (http.Response res) {
+    http.get(uri, headers: {"Authorization": "Bearer $publicToken"}).then((http.Response res) {
       profileData = jsonDecode(res.body);
+      isDashboardTimerActive = true;
+      dashboardTimer = Timer.periodic(
+        const Duration(seconds: 60),
+        (timer) {
+          currentDashboardTimer++;
+        },
+      );
       setState(() {});
     });
   }
@@ -66,8 +73,7 @@ class _HomePageV2State extends State<HomePageV2> {
     showDialog(
       context: context,
       builder: (context) {
-        CustomThemes customTheme =
-            ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+        CustomThemes customTheme = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
         ThemeData theme = customTheme.themeData;
         Map<String, Color> customColors = customTheme.customColors;
         return AlertDialog(
@@ -175,10 +181,9 @@ class _HomePageV2State extends State<HomePageV2> {
                         curve: const Tanh(),
                       );
                     },
-                    selectedItemColor:
-                        theme.colorScheme.brightness == Brightness.light
-                            ? theme.colorScheme.primary
-                            : Colors.white,
+                    selectedItemColor: theme.colorScheme.brightness == Brightness.light
+                        ? theme.colorScheme.primary
+                        : Colors.white,
                     items: [
                       SalomonBottomBarItem(
                         icon: const Icon(Icons.person),
@@ -209,8 +214,7 @@ class _HomePageV2State extends State<HomePageV2> {
                             profileData['fullname'] == null
                                 ? const Center(
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         CircularProgressIndicator(),
                                         Divider(),
@@ -222,8 +226,7 @@ class _HomePageV2State extends State<HomePageV2> {
                             profileData['fullname'] == null
                                 ? const Center(
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         CircularProgressIndicator(),
                                         Divider(),
@@ -231,10 +234,8 @@ class _HomePageV2State extends State<HomePageV2> {
                                       ],
                                     ),
                                   )
-                                : HomeWidgetV2(
-                                    reportBoxController: reportBoxController),
-                            SettingsWidgetV2(
-                                reportBoxController: reportBoxController)
+                                : HomeWidgetV2(reportBoxController: reportBoxController),
+                            SettingsWidgetV2(reportBoxController: reportBoxController)
                           ],
                         ),
                       ),
@@ -262,12 +263,10 @@ class _HomePageV2State extends State<HomePageV2> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 20),
+                                  margin: const EdgeInsets.symmetric(vertical: 20),
                                   child: Center(
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           "Report",
@@ -276,68 +275,46 @@ class _HomePageV2State extends State<HomePageV2> {
                                                   .textTheme
                                                   .headlineSmall
                                                   ?.fontSize,
-                                              fontFamily:
-                                                  GoogleFonts.getFont("Inter")
-                                                      .fontFamily,
+                                              fontFamily: GoogleFonts.getFont("Inter").fontFamily,
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Center(
                                           child: IconButton(
                                             onPressed: () {
-                                              if (titleController.text
-                                                      .trim()
-                                                      .isNotEmpty ||
-                                                  explanationController.text
-                                                      .trim()
-                                                      .isNotEmpty ||
-                                                  imageSelectionController
-                                                      .text.isNotEmpty) {
+                                              if (titleController.text.trim().isNotEmpty ||
+                                                  explanationController.text.trim().isNotEmpty ||
+                                                  imageSelectionController.text.isNotEmpty) {
                                                 showDialog(
                                                     context: context,
                                                     builder: (context) {
                                                       return discardReportConfirm(
                                                           theme, size, context,
-                                                          onAnswer:
-                                                              (isConfirm) {
+                                                          onAnswer: (isConfirm) {
                                                         if (isConfirm) {
-                                                          if (explanationFocusNode
-                                                              .hasFocus) {
-                                                            explanationFocusNode
-                                                                .unfocus();
+                                                          if (explanationFocusNode.hasFocus) {
+                                                            explanationFocusNode.unfocus();
                                                           }
-                                                          if (titleFocusNode
-                                                              .hasFocus) {
-                                                            titleFocusNode
-                                                                .unfocus();
+                                                          if (titleFocusNode.hasFocus) {
+                                                            titleFocusNode.unfocus();
                                                           }
-                                                          reportFormKey
-                                                              .currentState
-                                                              ?.reset();
-                                                          imageSelectionController
-                                                              .clear();
-                                                          titleController
-                                                              .clear();
-                                                          explanationController
-                                                              .clear();
-                                                          reportBoxController
-                                                              .closeBox();
+                                                          reportFormKey.currentState?.reset();
+                                                          imageSelectionController.clear();
+                                                          titleController.clear();
+                                                          explanationController.clear();
+                                                          reportBoxController.closeBox();
                                                         }
                                                         Navigator.pop(context);
                                                       });
                                                     });
                                               } else {
-                                                if (explanationFocusNode
-                                                    .hasFocus) {
-                                                  explanationFocusNode
-                                                      .unfocus();
+                                                if (explanationFocusNode.hasFocus) {
+                                                  explanationFocusNode.unfocus();
                                                 }
                                                 if (titleFocusNode.hasFocus) {
                                                   titleFocusNode.unfocus();
                                                 }
-                                                reportFormKey.currentState
-                                                    ?.reset();
-                                                imageSelectionController
-                                                    .clear();
+                                                reportFormKey.currentState?.reset();
+                                                imageSelectionController.clear();
                                                 titleController.clear();
                                                 explanationController.clear();
                                                 reportBoxController.closeBox();
@@ -355,8 +332,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                   "Title",
                                   style: TextStyle(
                                     fontSize: 18,
-                                    fontFamily:
-                                        GoogleFonts.getFont("Inter").fontFamily,
+                                    fontFamily: GoogleFonts.getFont("Inter").fontFamily,
                                   ),
                                 ),
                                 SizedBox(height: size.height * 0.01),
@@ -396,8 +372,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                   "Explanation",
                                   style: TextStyle(
                                     fontSize: 18,
-                                    fontFamily:
-                                        GoogleFonts.getFont("Inter").fontFamily,
+                                    fontFamily: GoogleFonts.getFont("Inter").fontFamily,
                                   ),
                                 ),
                                 SizedBox(height: size.height * 0.01),
@@ -433,8 +408,7 @@ class _HomePageV2State extends State<HomePageV2> {
                                   "Upload Photo (Not Required)",
                                   style: TextStyle(
                                     fontSize: 18,
-                                    fontFamily:
-                                        GoogleFonts.getFont("Inter").fontFamily,
+                                    fontFamily: GoogleFonts.getFont("Inter").fontFamily,
                                   ),
                                 ),
                                 SizedBox(height: size.height * 0.01),
@@ -468,48 +442,39 @@ class _HomePageV2State extends State<HomePageV2> {
                                   height: 50,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          theme.colorScheme.primary,
+                                      backgroundColor: theme.colorScheme.primary,
                                       textStyle: TextStyle(
                                         color: theme.colorScheme.onPrimary,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20,
                                       ),
-                                      foregroundColor:
-                                          theme.colorScheme.onPrimary,
+                                      foregroundColor: theme.colorScheme.onPrimary,
                                     ),
                                     child: const Text("Send"),
                                     onPressed: () async {
                                       debugPrint("Validated");
-                                      if (reportFormKey.currentState!
-                                          .validate()) {
-                                        Uri url = Uri.parse(
-                                            "$api$userPostIssueRoute");
+                                      if (reportFormKey.currentState!.validate()) {
+                                        Uri url = Uri.parse("$api$userPostIssueRoute");
                                         http.MultipartRequest request =
                                             http.MultipartRequest('POST', url);
                                         request.headers.addAll({
-                                          "Authorization":
-                                              "Bearer $publicToken",
+                                          "Authorization": "Bearer $publicToken",
                                           "Content-Type": "application/json"
                                         });
                                         if (imageSelected != null) {
                                           request.files.add(
                                             http.MultipartFile.fromBytes(
                                               "file",
-                                              File(imageSelected!.path)
-                                                  .readAsBytesSync(),
+                                              File(imageSelected!.path).readAsBytesSync(),
                                               filename: imageSelected!.path,
                                             ),
                                           );
                                         }
                                         request.fields['type'] = "ruammitr";
-                                        request.fields['title'] =
-                                            titleController.text;
-                                        request.fields['description'] =
-                                            explanationController.text;
+                                        request.fields['title'] = titleController.text;
+                                        request.fields['description'] = explanationController.text;
                                         // debugPrint(request.files.first);
-                                        http.StreamedResponse res =
-                                            await request.send();
+                                        http.StreamedResponse res = await request.send();
                                         http.Response response =
                                             await http.Response.fromStream(res);
                                         debugPrint(response.body);
