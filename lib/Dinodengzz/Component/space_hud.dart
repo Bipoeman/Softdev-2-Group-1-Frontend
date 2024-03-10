@@ -22,14 +22,15 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
     ),
   );
 
-  double enemyHealthPercentage = 1.0; // Full health initially
+  double enemyHealthPercentage = 1.0;
 
   @override
   Future<void> onLoad() async {
     priority = 10;
     _pauseButton.position
-        .setValues(camWidth - (camWidth * 0.1), camHeight * 0.025);
-    _playerLife.position.setValues((camWidth * 0.1), camHeight * 0.025);
+        .setValues(camWidth - (camWidth * 0.12), camHeight * 0.025);
+    _pauseButton.size.setValues(camWidth * 0.1, camWidth * 0.08);
+    _playerLife.position.setValues((camWidth * 0.1), camHeight * 0.04);
 
     addAll([_playerLife, _pauseButton]);
   }
@@ -67,10 +68,10 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
 
     canvas.save();
     canvas.translate(textX, textY);
-    canvas.rotate(-90 * 3.14 / 180);
+    canvas.rotate(-270 * 3.14 / 180);
 
     const textStyle =
-        TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Kanit');
+        TextStyle(color: Colors.white, fontSize: 22, fontFamily: 'Kanit');
     final textSpan = TextSpan(
       text: '${enemyHealthPercentage * 100 ~/ 1}%',
       style: textStyle,

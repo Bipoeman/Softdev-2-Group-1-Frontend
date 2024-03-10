@@ -249,6 +249,7 @@ class GameRoutes extends FlameGame
 
   void showLevelCompleteBoss() {
     FlameAudio.bgm.stop();
+    FlameAudio.bgm.play(boss, volume: masterVolume * bgmVolume);
     _router.pushNamed(LevelCompleteBoss.id);
   }
 

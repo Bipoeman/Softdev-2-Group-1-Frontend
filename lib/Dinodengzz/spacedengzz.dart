@@ -45,6 +45,7 @@ class SpaceDengzz extends Component with HasGameRef<GameRoutes>, DragCallbacks {
     double screenHeight = game.size.y > game.size.x ? game.size.y : game.size.x;
     hud = SpaceHud(screenWidth, screenHeight);
     playerShip.position = Vector2(screenWidth * 0.469, screenHeight * 0.869);
+    playerShip.size = Vector2.all(64);
     boss.position = Vector2(screenWidth * 0.33, screenHeight * 0.069);
     bullet = BulletManager(playerShip.position, playerShip.gameOver);
     background = ParallaxComponent(
