@@ -4,12 +4,19 @@ import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_var.dart';
 
 class AvatarViewer extends StatelessWidget {
-  const AvatarViewer(
-      {super.key, this.username, this.avatarUrl, this.themeData, this.size});
+  const AvatarViewer({
+    super.key,
+    this.username,
+    this.avatarUrl,
+    this.themeData,
+    this.size,
+    this.pageIndexSetter,
+  });
   final String? username;
   final String? avatarUrl;
   final Size? size;
   final ThemeData? themeData;
+  final void Function(int)? pageIndexSetter;
 
   Widget getAvatar(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -45,6 +52,9 @@ class AvatarViewer extends StatelessWidget {
             constraints: const BoxConstraints(),
             onPressed: () {
               // Navigator.pushNamed(context, ruamMitrPageRoute["profile"]!);
+              if (pageIndexSetter != null) {
+                pageIndexSetter!(0);
+              }
             },
             child: Container(
               // margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -59,8 +69,7 @@ class AvatarViewer extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                          maxWidth: size == null ? 150 : size!.width * 0.4),
+                      constraints: BoxConstraints(maxWidth: size == null ? 150 : size!.width * 0.4),
                       child: Text(
                         profileData['fullname'] ?? "John Doe",
                         overflow: TextOverflow.ellipsis,
@@ -68,9 +77,7 @@ class AvatarViewer extends StatelessWidget {
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: themeData == null
-                                ? themes
-                                    .themeFrom("RuamMitr")!
-                                    .customColors['textInput']
+                                ? themes.themeFrom("RuamMitr")!.customColors['textInput']
                                 : themeData!.colorScheme.onPrimary),
                       ),
                     ),

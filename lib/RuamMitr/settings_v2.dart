@@ -12,8 +12,14 @@ import 'package:ruam_mitt/global_var.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsWidgetV2 extends StatefulWidget {
-  const SettingsWidgetV2({super.key, required this.reportBoxController});
+  const SettingsWidgetV2({
+    super.key,
+    required this.reportBoxController,
+    this.pageIndexSetter,
+  });
+
   final BoxController reportBoxController;
+  final void Function(int)? pageIndexSetter;
 
   @override
   State<SettingsWidgetV2> createState() => _SettingsWidgetV2State();
@@ -45,7 +51,10 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      AvatarViewer(size: size),
+                      AvatarViewer(
+                        size: size,
+                        pageIndexSetter: widget.pageIndexSetter,
+                      ),
                       reportToUs(themeProvider, widget.reportBoxController)
                     ],
                   ),

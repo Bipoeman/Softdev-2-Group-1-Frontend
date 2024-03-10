@@ -84,6 +84,7 @@ dependencies:
   http_parser:
   fluttermoji: ^1.0.2
   end_credits: ^2.0.0
+  add_2_calendar: ^3.0.1
 
 flutter_icons:
   android: true

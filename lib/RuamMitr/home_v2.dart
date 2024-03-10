@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:provider/provider.dart';
@@ -10,9 +10,14 @@ import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/Component/ruammitr_report.dart';
 
 class HomeWidgetV2 extends StatefulWidget {
-  const HomeWidgetV2({super.key, required this.reportBoxController});
+  const HomeWidgetV2({
+    super.key,
+    required this.reportBoxController,
+    this.pageIndexSetter,
+  });
 
   final BoxController reportBoxController;
+  final void Function(int)? pageIndexSetter;
 
   @override
   State<HomeWidgetV2> createState() => _HomeWidgetV2State();
@@ -22,9 +27,21 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
   bool isServicesSelected = true;
   bool isContentsSelected = false;
 
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        setState(() {
+          isServicesSelected = prefs.getBool("isServicesSelected") ?? true;
+          isContentsSelected = prefs.getBool("isContentsSelected") ?? false;
+        });
+      },
+    );
+  }
+
   Widget selectionText(String text, bool isSelected) {
     ThemeData theme = Theme.of(context);
-
     return Container(
       decoration: isSelected
           ? UnderlineTabIndicator(
@@ -63,12 +80,14 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AvatarViewer(size: size),
+                    AvatarViewer(
+                      size: size,
+                      pageIndexSetter: widget.pageIndexSetter,
+                    ),
                     reportToUs(themeProvider, widget.reportBoxController)
                   ],
                 ),
@@ -89,8 +108,7 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                             end: Alignment.bottomCenter,
                             colors: [
                               ruammitrTheme.customColors["oddContainer"]!,
-                              ruammitrTheme.customColors["oddContainer"]!
-                                  .withOpacity(0),
+                              ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(20),
@@ -107,11 +125,17 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                                       () {
                                         isServicesSelected = false;
                                         isContentsSelected = true;
+                                        SharedPreferences.getInstance().then(
+                                          (prefs) {
+                                            prefs.setBool("isContentsSelected", true);
+                                            prefs.setBool("isServicesSelected", false);
+                                          },
+                                        );
                                       },
                                     );
                                   },
                                   child: selectionText(
-                                    "Contents",
+                                    "Dashboard",
                                     isContentsSelected,
                                   ),
                                 ),
@@ -121,6 +145,12 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                                       () {
                                         isServicesSelected = true;
                                         isContentsSelected = false;
+                                        SharedPreferences.getInstance().then(
+                                          (prefs) {
+                                            prefs.setBool("isContentsSelected", true);
+                                            prefs.setBool("isServicesSelected", false);
+                                          },
+                                        );
                                       },
                                     );
                                   },
@@ -131,9 +161,7 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                                 ),
                               ],
                             ),
-                            isServicesSelected
-                                ? ServicesWidget(size: size)
-                                : ContentWidget(size: size),
+                            isServicesSelected ? ServicesWidget(size: size) : const ContentWidget(),
                           ],
                         ),
                       ),
