@@ -786,18 +786,12 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                         builder: (context) {
                           return PopScope(
                             canPop: false,
-                            child: Container(
-                              color: Colors.transparent,
-                              width: [size.width, size.height].reduce(min) * 0.5,
-                              height: [size.width, size.height].reduce(min) * 0.5,
-                              child: Lottie.asset(
-                                "assets/images/Logo/Animation_loading.json",
-                                repeat: true,
-                                controller: animationController,
-                                onLoaded: (composition) {
-                                  animationController.duration = composition.duration;
-                                  animationController.forward();
-                                },
+                            child: Dialog.fullscreen(
+                              backgroundColor: Colors.transparent,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: customColors["main"]!,
+                                ),
                               ),
                             ),
                           );
