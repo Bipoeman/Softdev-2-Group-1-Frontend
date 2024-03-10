@@ -319,7 +319,7 @@ class ClientSettingsWidget extends StatelessWidget {
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
-                color: customTheme.customColors["container"]!.withOpacity(0.2),
+                color: customTheme.customColors["container"]!.withOpacity(0.5),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Row(

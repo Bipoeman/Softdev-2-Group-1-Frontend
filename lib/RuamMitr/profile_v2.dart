@@ -61,10 +61,12 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
     CustomThemes ruammitrThemeData = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
     Map<String, Color> customColors = ruammitrThemeData.customColors;
     String globalStatus = "idle";
-    Future<File?> getImage() async {
+    Future<File?> getImage({ImageSource? source}) async {
       final ImagePicker picker = ImagePicker();
       // Pick an image
-      XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      XFile? image = await picker.pickImage(
+        source: source ?? ImageSource.gallery,
+      );
       if (image != null) {
         var result = await FlutterImageCompress.compressAndGetFile(
           image.path,
@@ -760,38 +762,183 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                   title: const Text("Choose your image"),
                   tileColor: Colors.white,
                   trailing: const Icon(Icons.image),
-                  onTap: () async {
-                    File? imageSelectedFile = await getImage();
-                    if (imageSelectedFile == null) return;
-                    Uri url = Uri.parse("$api$userImageUpdateRoute");
-                    http.MultipartRequest request = http.MultipartRequest('POST', url);
-                    request.headers.addAll({
-                      "Authorization": "Bearer $publicToken",
-                      "Content-Type": "application/json"
-                    });
-                    request.files.add(
-                      http.MultipartFile.fromBytes(
-                        "file",
-                        File(imageSelectedFile.path).readAsBytesSync(),
-                        filename: imageSelectedFile.path,
-                      ),
-                    );
-                    // print(request.files.first);
-                    http.StreamedResponse response = await request.send();
-                    http.Response res = await http.Response.fromStream(response);
-                    if (res.statusCode == 200) {
-                      dynamic responseJson = json.decode(res.body);
-                      var nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
-                      print(nowParam);
-                      profileData['imgPath'] =
-                          "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}#$nowParam";
-                      setState(() {});
-                    } else if (res.statusCode == 403) {
-                      if (context.mounted) {
+                  onTap: () {
+                    void doImage({ImageSource? source}) async {
+                      File? imageSelectedFile = await getImage(source: source);
+                      if (imageSelectedFile == null) return;
+                      Uri url = Uri.parse("$api$userImageUpdateRoute");
+                      http.MultipartRequest request = http.MultipartRequest('POST', url);
+                      request.headers.addAll({
+                        "Authorization": "Bearer $publicToken",
+                        "Content-Type": "application/json"
+                      });
+                      request.files.add(
+                        http.MultipartFile.fromBytes(
+                          "file",
+                          File(imageSelectedFile.path).readAsBytesSync(),
+                          filename: imageSelectedFile.path,
+                        ),
+                      );
+                      // print(request.files.first);
+                      if (!context.mounted) return;
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return PopScope(
+                            canPop: false,
+                            child: Container(
+                              color: Colors.transparent,
+                              width: [size.width, size.height].reduce(min) * 0.5,
+                              height: [size.width, size.height].reduce(min) * 0.5,
+                              child: Lottie.asset(
+                                "assets/images/Logo/Animation_loading.json",
+                                repeat: true,
+                                controller: animationController,
+                                onLoaded: (composition) {
+                                  animationController.duration = composition.duration;
+                                  animationController.forward();
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                      http.StreamedResponse response = await request.send();
+                      http.Response res = await http.Response.fromStream(response);
+                      if (!context.mounted) return;
+                      Navigator.pop(context);
+                      if (res.statusCode == 200) {
+                        dynamic responseJson = json.decode(res.body);
+                        var nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
+                        print(nowParam);
+                        profileData['imgPath'] =
+                            "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}#$nowParam";
+
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: customColors["main"]!,
+                            content: Text(
+                              "Image uploaded successfully. Please wait for a moment.",
+                              style: theme.textTheme.bodyMedium!.copyWith(
+                                color: customColors["onMain"]!,
+                              ),
+                            ),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                        setState(() {});
+                      } else if (res.statusCode == 403) {
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: customColors["main"]!,
+                            content: Text(
+                              "Error: 403 Forbidden, Please try again later.",
+                              style: theme.textTheme.bodyMedium!.copyWith(
+                                color: customColors["onMain"]!,
+                              ),
+                            ),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
                         // int newTokenStatusReturn =
                         await requestNewToken(context);
                       }
+                      editImageProfileBoxController.closeBox();
                     }
+
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        CustomThemes ruammitrThemeData =
+                            ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+                        ThemeData theme = ruammitrThemeData.themeData;
+                        Map<String, Color> customColors = ruammitrThemeData.customColors;
+
+                        return SimpleDialog(
+                          alignment: Alignment.center,
+                          backgroundColor: customColors["evenContainer"],
+                          surfaceTintColor: customColors["evenContainer"],
+                          shadowColor: Colors.black38,
+                          elevation: 4,
+                          title: Text(
+                            "Get Your Image From",
+                            style: theme.textTheme.headlineLarge!.copyWith(
+                              color: customColors["onEvenContainer"],
+                            ),
+                          ),
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(10),
+                                onTap: () {
+                                  doImage(source: ImageSource.camera);
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                    color: customColors["oddContainer"]!.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.camera_alt,
+                                        color: customColors["onOddContainer"]!,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        "Camera",
+                                        style: theme.textTheme.titleLarge!.copyWith(
+                                          color: customColors["onOddContainer"]!,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(10),
+                                onTap: () {
+                                  doImage(source: ImageSource.gallery);
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                    color: customColors["oddContainer"]!.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.photo_library_outlined,
+                                        color: customColors["onOddContainer"]!,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        "Gallery",
+                                        style: theme.textTheme.titleLarge!.copyWith(
+                                          color: customColors["onOddContainer"]!,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
               ],

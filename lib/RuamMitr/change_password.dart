@@ -30,6 +30,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
   bool sendOTPEnabled = false;
   bool waitingForOTPSendSuccess = false;
   bool isChangePasswordEnabled = false;
+  bool isOTPSendSuccess = false;
   GlobalKey<FormState> changePasswordFormKey = GlobalKey<FormState>();
   PasswordChangeData passwordChangeData =
       PasswordChangeData(["email", "OTP", "password", "confirmPassword"]);
@@ -160,6 +161,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
     var otpRes = await http.get(url);
     setState(() {
       waitingForOTPSendSuccess = false;
+      isOTPSendSuccess = true;
     });
     startTimer();
     debugPrint(otpRes.body);
@@ -360,7 +362,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                                 ),
                                 foregroundColor: theme.colorScheme.onPrimary,
                               ),
-                              onPressed: (isChangePasswordEnabled)
+                              onPressed: (isChangePasswordEnabled && isOTPSendSuccess)
                                   ? () async {
                                       changePassword(context);
                                     }
