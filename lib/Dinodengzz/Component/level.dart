@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:ruam_mitt/Dinodengzz/Component/background_tile.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/checkpoint.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/collision_block.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/fruit.dart';
@@ -23,8 +22,6 @@ class Level extends World with HasGameRef<GameRoutes> {
   FutureOr<void> onLoad() async {
     level = await TiledComponent.load('$levelName.tmx', Vector2.all(16));
     add(level);
-
-    _scrollingBackground();
     _spawningObject();
     player.fruitHave = fruitAmount;
     _addCollision();
@@ -32,21 +29,6 @@ class Level extends World with HasGameRef<GameRoutes> {
     player.collisionBlocks = collisionBlocks;
 
     return super.onLoad();
-  }
-
-  void _scrollingBackground() {
-    final backgroundlayer = level.tileMap.getLayer('MovingBackground');
-    priority = -5;
-    if (backgroundlayer != null) {
-      final backgroundColor =
-          backgroundlayer.properties.getValue('BackgroundColor');
-      final backgroundTile = BackgroundTile(
-        color: backgroundColor ?? 'Blue',
-        position: Vector2(0, 0),
-      );
-
-      add(backgroundTile);
-    }
   }
 
   void _spawningObject() {

@@ -5,7 +5,6 @@ import 'package:flame/components.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/space_bullet.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/space_kuayteaw.dart';
-import 'package:ruam_mitt/Dinodengzz/Component/space_player.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 enum State { run }
