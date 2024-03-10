@@ -16,7 +16,7 @@ class EnemyManager extends Component
 
   Random random = Random();
   EnemyManager() : super() {
-    damage = Timer(1, onTick: _bossHit, repeat: true, autoStart: true);
+    damage = Timer(1, onTick: _bossHit, repeat: false, autoStart: true);
     counter = Timer(1, onTick: () => count++, repeat: true);
     enemy_1 = Timer(1, onTick: _spawnEnemyPhase1, repeat: true);
     enemy_2 = Timer(0.75, onTick: () {
@@ -86,7 +86,8 @@ class EnemyManager extends Component
     Kuayteaw kuayteaw = Kuayteaw();
     add(kuayteaw);
     if (!gameOver) {
-      FlameAudio.play(game.KTSFX, volume: game.masterVolume * game.sfxVolume);
+      FlameAudio.playLongAudio(game.ktSFX,
+          volume: game.masterVolume * game.sfxVolume * 1.5);
     } else {
       damage.stop();
       counter.stop();
@@ -131,36 +132,39 @@ class EnemyManager extends Component
   @override
   void update(double dt) {
     counter.update(dt);
-    print(count);
-    if (count >= 1) {
+    if (count >= 2) {
       enemy_1.update(dt);
     }
-    if (count == 30) {
+    if (count >= 30) {
       damage.update(dt);
     }
     if (count >= 35) {
       enemy_1.stop();
       enemy_2.update(dt);
     }
-    if (count == 85) {
+    if (count >= 85) {
       damage.update(dt);
     }
     if (count >= 90) {
       enemy_2.stop();
       enemy_3.update(dt);
     }
-    if (count == 125) {
+    if (count >= 120) {
       damage.update(dt);
     }
     if (count >= 130) {
       enemy_3.stop();
       enemy_4.update(dt);
     }
-    if (count == 210) {
+    if (count >= 225) {
       damage.update(dt);
-    }
-    if (count >= 220) {
+      enemy_1.stop();
+      enemy_2.stop();
+      enemy_3.stop();
       enemy_4.stop();
+    }
+    if (count >= 230) {
+      damage.stop();
       counter.stop();
     }
     super.update(dt);

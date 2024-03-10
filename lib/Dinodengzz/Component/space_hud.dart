@@ -55,40 +55,34 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
     final double x = camWidth - (camWidth * 0.025) - barWidth;
     final double y = camHeight * 0.075;
 
-    // Draw background bar
     canvas.drawRect(Rect.fromLTWH(x, y, barWidth, game.size.y * 0.7), bgPaint);
 
-    // Draw health bar with decreasing height from top to bottom
     canvas.drawRect(
         Rect.fromLTWH(
             x, y + (game.size.y * 0.7 - barHeight), barWidth, barHeight),
         healthPaint);
 
-    // Calculate text position
     final double textX = x + barWidth / 2;
     final double textY = y + (game.size.y * 0.7 - barHeight) + barHeight / 2;
 
-    // Rotate canvas by 90 degrees
     canvas.save();
     canvas.translate(textX, textY);
     canvas.rotate(-90 * 3.14 / 180);
 
-    // Draw text
-    final textStyle = TextStyle(color: Colors.white, fontSize: 14);
+    const textStyle =
+        TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Kanit');
     final textSpan = TextSpan(
-      text: '${enemyHealthPercentage * 100 ~/ 1}%', // Display health percentage
+      text: '${enemyHealthPercentage * 100 ~/ 1}%',
       style: textStyle,
     );
     final textPainter = TextPainter(
       text: textSpan,
       textDirection: TextDirection.ltr,
     );
-    textPainter.layout(
-        minWidth: 0, maxWidth: barHeight); // Width and height swapped
+    textPainter.layout(minWidth: 0, maxWidth: barHeight);
     textPainter.paint(
         canvas, Offset(-textPainter.width / 2, -textPainter.height / 2));
 
-    // Restore canvas to its original state
     canvas.restore();
   }
 }
