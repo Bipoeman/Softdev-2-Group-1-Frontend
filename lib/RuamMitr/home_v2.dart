@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:provider/provider.dart';
@@ -22,9 +22,21 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
   bool isServicesSelected = true;
   bool isContentsSelected = false;
 
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        setState(() {
+          isServicesSelected = prefs.getBool("isServicesSelected") ?? true;
+          isContentsSelected = prefs.getBool("isContentsSelected") ?? false;
+        });
+      },
+    );
+  }
+
   Widget selectionText(String text, bool isSelected) {
     ThemeData theme = Theme.of(context);
-
     return Container(
       decoration: isSelected
           ? UnderlineTabIndicator(
@@ -63,8 +75,7 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -89,8 +100,7 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                             end: Alignment.bottomCenter,
                             colors: [
                               ruammitrTheme.customColors["oddContainer"]!,
-                              ruammitrTheme.customColors["oddContainer"]!
-                                  .withOpacity(0),
+                              ruammitrTheme.customColors["oddContainer"]!.withOpacity(0),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(20),
@@ -107,6 +117,12 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                                       () {
                                         isServicesSelected = false;
                                         isContentsSelected = true;
+                                        SharedPreferences.getInstance().then(
+                                          (prefs) {
+                                            prefs.setBool("isContentsSelected", true);
+                                            prefs.setBool("isServicesSelected", false);
+                                          },
+                                        );
                                       },
                                     );
                                   },
@@ -121,6 +137,12 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                                       () {
                                         isServicesSelected = true;
                                         isContentsSelected = false;
+                                        SharedPreferences.getInstance().then(
+                                          (prefs) {
+                                            prefs.setBool("isContentsSelected", true);
+                                            prefs.setBool("isServicesSelected", false);
+                                          },
+                                        );
                                       },
                                     );
                                   },
@@ -131,9 +153,7 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                                 ),
                               ],
                             ),
-                            isServicesSelected
-                                ? ServicesWidget(size: size)
-                                : ContentWidget(size: size),
+                            isServicesSelected ? ServicesWidget(size: size) : const ContentWidget(),
                           ],
                         ),
                       ),
