@@ -24,8 +24,7 @@ class ProfileWidgetV2 extends StatefulWidget {
   State<ProfileWidgetV2> createState() => _ProfileWidgetV2State();
 }
 
-class _ProfileWidgetV2State extends State<ProfileWidgetV2>
-    with TickerProviderStateMixin {
+class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderStateMixin {
   BoxController editProfileController = BoxController();
   BoxController editImageProfileBoxController = BoxController();
   String fieldToEditDisplayText = "";
@@ -59,14 +58,15 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
-    CustomThemes ruammitrThemeData =
-        ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+    CustomThemes ruammitrThemeData = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
     Map<String, Color> customColors = ruammitrThemeData.customColors;
     String globalStatus = "idle";
-    Future<File?> getImage() async {
+    Future<File?> getImage({ImageSource? source}) async {
       final ImagePicker picker = ImagePicker();
       // Pick an image
-      XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      XFile? image = await picker.pickImage(
+        source: source ?? ImageSource.gallery,
+      );
       if (image != null) {
         var result = await FlutterImageCompress.compressAndGetFile(
           image.path,
@@ -99,8 +99,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                   children: [
                     Positioned(
                       top: -[size.width * 0.6, 300.0].reduce(min),
-                      left: size.width * 0.5 -
-                          [size.width * 0.6, 300.0].reduce(min),
+                      left: size.width * 0.5 - [size.width * 0.6, 300.0].reduce(min),
                       child: CustomPaint(
                         painter: HalfCirclePainter(
                           color: theme.colorScheme.primary,
@@ -117,8 +116,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                           width: 175,
                           height: 175,
                           margin: EdgeInsets.only(
-                            top: [size.width * 0.6, 300.0].reduce(min) -
-                                175 * 0.6,
+                            top: [size.width * 0.6, 300.0].reduce(min) - 175 * 0.6,
                           ),
                           padding: const EdgeInsets.all(30),
                           decoration: BoxDecoration(
@@ -216,8 +214,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                           setState(() {
                             fieldToEditDisplayText = "Email";
                             fieldEditKey = "email";
-                            fieldEditController.text =
-                                profileData[fieldEditKey];
+                            fieldEditController.text = profileData[fieldEditKey];
                           });
                           if (editProfileController.isBoxOpen) {
                             editProfileController.closeBox();
@@ -242,8 +239,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                             () {
                               fieldToEditDisplayText = "Phone Number";
                               fieldEditKey = "phonenum";
-                              fieldEditController.text =
-                                  profileData[fieldEditKey] ?? "";
+                              fieldEditController.text = profileData[fieldEditKey] ?? "";
                             },
                           );
                           if (editProfileController.isBoxOpen) {
@@ -262,15 +258,13 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                       ),
                       ListTile(
                         leading: const Icon(Icons.edit_document),
-                        title: Text(profileData['description'] ??
-                            "Edit your desciption"),
+                        title: Text(profileData['description'] ?? "Edit your desciption"),
                         trailing: const Icon(Icons.edit),
                         onTap: () {
                           setState(() {
                             fieldToEditDisplayText = "Description";
                             fieldEditKey = "description";
-                            fieldEditController.text =
-                                profileData[fieldEditKey] ?? "";
+                            fieldEditController.text = profileData[fieldEditKey] ?? "";
                           });
                           if (editProfileController.isBoxOpen) {
                             editProfileController.closeBox();
@@ -291,8 +285,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                         title: const Text("********"),
                         trailing: const Icon(Icons.edit),
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, ruamMitrPageRoute["password-change"]!);
+                          Navigator.pushNamed(context, ruamMitrPageRoute["password-change"]!);
                         },
                       ),
                     ],
@@ -314,8 +307,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
           controller: editProfileController,
           body: Container(
             // margin: EdgeInsets.only(bottom: 71),
-            padding: const EdgeInsets.only(
-                left: 20.0, right: 20, top: 10, bottom: 71),
+            padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 71),
             child: SizedBox(
               height: size.height * 0.28,
               child: Column(
@@ -342,8 +334,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                       focusNode: profileEditFocusNode,
                       controller: fieldEditController,
                       decoration: InputDecoration(
-                        hintText:
-                            "Enter your ${fieldToEditDisplayText.toLowerCase()}",
+                        hintText: "Enter your ${fieldToEditDisplayText.toLowerCase()}",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide.none,
@@ -394,8 +385,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                           debugPrint("$error");
                           return http.Response("Error $error", 404);
                         }).then((value) {
-                          debugPrint(
-                              "Return status Code : ${value.statusCode}");
+                          debugPrint("Return status Code : ${value.statusCode}");
                           debugPrint("Return body : ${value.body}");
                           setState(() {});
                           if (value.statusCode == 200) {
@@ -472,8 +462,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                                         repeat: true,
                                         controller: animationController,
                                         onLoaded: (composition) {
-                                          animationController.duration =
-                                              composition.duration;
+                                          animationController.duration = composition.duration;
                                           animationController.forward();
                                         },
                                       )
@@ -483,8 +472,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                                             repeat: true,
                                             controller: animationController,
                                             onLoaded: (composition) {
-                                              animationController.duration =
-                                                  composition.duration;
+                                              animationController.duration = composition.duration;
                                               animationController.forward();
                                             },
                                           )
@@ -505,16 +493,14 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                           );
                         },
                       );
-                      final pictureInfo = await vg.loadPicture(
-                          SvgStringLoader(selectedAvatarString), context);
+                      final pictureInfo =
+                          await vg.loadPicture(SvgStringLoader(selectedAvatarString), context);
                       final image = await pictureInfo.picture.toImage(275, 275);
-                      final byteData =
-                          await image.toByteData(format: ImageByteFormat.png);
+                      final byteData = await image.toByteData(format: ImageByteFormat.png);
                       final pngBytes = byteData!.buffer.asUint8List();
                       if (context.mounted) {
                         Uri url = Uri.parse("$api$userImageUpdateRoute");
-                        http.MultipartRequest request =
-                            http.MultipartRequest('POST', url);
+                        http.MultipartRequest request = http.MultipartRequest('POST', url);
                         request.headers.addAll({
                           "Authorization": "Bearer $publicToken",
                           "Content-Type": "application/json"
@@ -531,8 +517,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                           globalStatus = "loading";
                         });
                         http.StreamedResponse response = await request.send();
-                        http.Response res =
-                            await http.Response.fromStream(response);
+                        http.Response res = await http.Response.fromStream(response);
                         if (res.statusCode == 200) {
                           dynamic responseJson = json.decode(res.body);
                           profileData['imgPath'] =
@@ -541,8 +526,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                             globalStatus = "success";
                             animationController.reset();
                           });
-                          await Future.delayed(
-                              const Duration(milliseconds: 1500));
+                          await Future.delayed(const Duration(milliseconds: 1500));
                           globalStatus = "idle";
                           if (dialogContext?.mounted ?? false) {
                             Navigator.pop(dialogContext!);
@@ -587,8 +571,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                                         repeat: true,
                                         controller: animationController,
                                         onLoaded: (composition) {
-                                          animationController.duration =
-                                              composition.duration;
+                                          animationController.duration = composition.duration;
                                           animationController.forward();
                                         },
                                       )
@@ -598,8 +581,7 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                                             repeat: true,
                                             controller: animationController,
                                             onLoaded: (composition) {
-                                              animationController.duration =
-                                                  composition.duration;
+                                              animationController.duration = composition.duration;
                                               animationController.forward();
                                             },
                                           )
@@ -615,32 +597,24 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                                                 },
                                               )
                                             : Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Image.memory(
                                                     imageRequested,
-                                                    frameBuilder: (context,
-                                                        child,
-                                                        frame,
+                                                    frameBuilder: (context, child, frame,
                                                         wasSynchronouslyLoaded) {
                                                       if (wasSynchronouslyLoaded) {
                                                         return child;
                                                       }
                                                       return AnimatedSwitcher(
-                                                        duration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    200),
+                                                        duration: const Duration(milliseconds: 200),
                                                         child: frame != null
                                                             ? child
                                                             : const SizedBox(
                                                                 height: 60,
                                                                 width: 60,
                                                                 child: CircularProgressIndicator(
-                                                                    strokeWidth:
-                                                                        6),
+                                                                    strokeWidth: 6),
                                                               ),
                                                       );
                                                     },
@@ -651,121 +625,79 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                                                         width: size.width * 0.7,
                                                         height: 50,
                                                         child: ElevatedButton(
-                                                          style: ElevatedButton
-                                                              .styleFrom(
+                                                          style: ElevatedButton.styleFrom(
                                                             backgroundColor:
-                                                                theme
-                                                                    .colorScheme
-                                                                    .primary,
-                                                            textStyle:
-                                                                TextStyle(
-                                                              color: theme
-                                                                  .colorScheme
-                                                                  .onPrimary,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                                theme.colorScheme.primary,
+                                                            textStyle: TextStyle(
+                                                              color: theme.colorScheme.onPrimary,
+                                                              fontWeight: FontWeight.bold,
                                                               fontSize: 20,
                                                             ),
                                                             foregroundColor:
-                                                                theme
-                                                                    .colorScheme
-                                                                    .onPrimary,
+                                                                theme.colorScheme.onPrimary,
                                                           ),
-                                                          child: const Text(
-                                                              "Generate"),
+                                                          child: const Text("Generate"),
                                                           onPressed: () async {
-                                                            String
-                                                                generateRandomString(
-                                                                    int len) {
+                                                            String generateRandomString(int len) {
                                                               var r = Random();
                                                               const chars =
                                                                   'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
                                                               return List.generate(
-                                                                  len,
-                                                                  (index) => chars[
-                                                                      r.nextInt(
-                                                                          chars
-                                                                              .length)]).join();
+                                                                      len,
+                                                                      (index) => chars[
+                                                                          r.nextInt(chars.length)])
+                                                                  .join();
                                                             }
 
                                                             Uri url = Uri.parse(
                                                                 "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}+${generateRandomString(10)}.png");
-                                                            setState(() =>
-                                                                (globalStatus =
-                                                                    "loading"));
-                                                            http.Response
-                                                                response =
-                                                                await http
-                                                                    .get(url);
-                                                            if (response
-                                                                    .statusCode ==
-                                                                200) {
-                                                              setState(() =>
-                                                                  (globalStatus =
-                                                                      "idle"));
+                                                            setState(
+                                                                () => (globalStatus = "loading"));
+                                                            http.Response response =
+                                                                await http.get(url);
+                                                            if (response.statusCode == 200) {
+                                                              setState(
+                                                                  () => (globalStatus = "idle"));
                                                             } else {
-                                                              setState(() =>
-                                                                  (globalStatus =
-                                                                      "fail"));
+                                                              setState(
+                                                                  () => (globalStatus = "fail"));
                                                             }
                                                             setState(() {
-                                                              imageRequested =
-                                                                  response
-                                                                      .bodyBytes;
+                                                              imageRequested = response.bodyBytes;
                                                             });
-                                                            globalStatus =
-                                                                "idle";
+                                                            globalStatus = "idle";
                                                           },
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                          height: 10),
+                                                      const SizedBox(height: 10),
                                                       SizedBox(
                                                         width: size.width * 0.7,
                                                         height: 50,
                                                         child: ElevatedButton(
-                                                          style: ElevatedButton
-                                                              .styleFrom(
+                                                          style: ElevatedButton.styleFrom(
                                                             backgroundColor:
-                                                                theme
-                                                                    .colorScheme
-                                                                    .primary,
-                                                            textStyle:
-                                                                TextStyle(
-                                                              color: theme
-                                                                  .colorScheme
-                                                                  .onPrimary,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                                theme.colorScheme.primary,
+                                                            textStyle: TextStyle(
+                                                              color: theme.colorScheme.onPrimary,
+                                                              fontWeight: FontWeight.bold,
                                                               fontSize: 20,
                                                             ),
                                                             foregroundColor:
-                                                                theme
-                                                                    .colorScheme
-                                                                    .onPrimary,
+                                                                theme.colorScheme.onPrimary,
                                                           ),
-                                                          child: const Text(
-                                                              "Save"),
+                                                          child: const Text("Save"),
                                                           onPressed: () async {
                                                             Uri url = Uri.parse(
                                                                 "$api$userImageUpdateRoute");
-                                                            http.MultipartRequest
-                                                                request =
-                                                                http.MultipartRequest(
-                                                                    'POST',
-                                                                    url);
-                                                            request.headers
-                                                                .addAll({
+                                                            http.MultipartRequest request =
+                                                                http.MultipartRequest('POST', url);
+                                                            request.headers.addAll({
                                                               "Authorization":
                                                                   "Bearer $publicToken",
-                                                              "Content-Type":
-                                                                  "application/json"
+                                                              "Content-Type": "application/json"
                                                             });
                                                             request.files.add(
-                                                              http.MultipartFile
-                                                                  .fromBytes(
+                                                              http.MultipartFile.fromBytes(
                                                                 "file",
                                                                 imageRequested,
                                                                 filename:
@@ -774,65 +706,42 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                                                             );
 
                                                             // print(request.files.first);
-                                                            setState(() =>
-                                                                (globalStatus =
-                                                                    "loading"));
-                                                            http.StreamedResponse
-                                                                response =
-                                                                await request
-                                                                    .send();
+                                                            setState(
+                                                                () => (globalStatus = "loading"));
+                                                            http.StreamedResponse response =
+                                                                await request.send();
                                                             http.Response res =
-                                                                await http
-                                                                        .Response
-                                                                    .fromStream(
-                                                                        response);
-                                                            if (res.statusCode ==
-                                                                200) {
-                                                              setState(() =>
-                                                                  (globalStatus =
-                                                                      "success"));
-                                                              animationController
-                                                                  .reset();
+                                                                await http.Response.fromStream(
+                                                                    response);
+                                                            if (res.statusCode == 200) {
+                                                              setState(
+                                                                  () => (globalStatus = "success"));
+                                                              animationController.reset();
                                                               await Future.delayed(
-                                                                  const Duration(
-                                                                      seconds:
-                                                                          1));
+                                                                  const Duration(seconds: 1));
                                                             } else {
-                                                              setState(() =>
-                                                                  (globalStatus =
-                                                                      "fail"));
+                                                              setState(
+                                                                  () => (globalStatus = "fail"));
                                                             }
-                                                            if (res.statusCode ==
-                                                                200) {
-                                                              dynamic
-                                                                  responseJson =
-                                                                  json.decode(
-                                                                      res.body);
-                                                              profileData[
-                                                                      'imgPath'] =
+                                                            if (res.statusCode == 200) {
+                                                              dynamic responseJson =
+                                                                  json.decode(res.body);
+                                                              profileData['imgPath'] =
                                                                   "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}";
                                                               setState(() {});
-                                                            } else if (res
-                                                                    .statusCode ==
-                                                                403) {
-                                                              if (context
-                                                                  .mounted) {
+                                                            } else if (res.statusCode == 403) {
+                                                              if (context.mounted) {
                                                                 // int newTokenStatusReturn =
-                                                                await requestNewToken(
-                                                                    context);
+                                                                await requestNewToken(context);
                                                               }
                                                             }
-                                                            debugPrint(
-                                                                res.body);
-                                                            if (context
-                                                                .mounted) {
+                                                            debugPrint(res.body);
+                                                            if (context.mounted) {
                                                               editImageProfileBoxController
                                                                   .closeBox();
-                                                              Navigator.pop(
-                                                                  context);
+                                                              Navigator.pop(context);
                                                             }
-                                                            globalStatus =
-                                                                "idle";
+                                                            globalStatus = "idle";
                                                           },
                                                         ),
                                                       ),
@@ -853,41 +762,183 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2>
                   title: const Text("Choose your image"),
                   tileColor: Colors.white,
                   trailing: const Icon(Icons.image),
-                  onTap: () async {
-                    File? imageSelectedFile = await getImage();
-                    if (imageSelectedFile == null) return;
-                    Uri url = Uri.parse("$api$userImageUpdateRoute");
-                    http.MultipartRequest request =
-                        http.MultipartRequest('POST', url);
-                    request.headers.addAll({
-                      "Authorization": "Bearer $publicToken",
-                      "Content-Type": "application/json"
-                    });
-                    request.files.add(
-                      http.MultipartFile.fromBytes(
-                        "file",
-                        File(imageSelectedFile.path).readAsBytesSync(),
-                        filename: imageSelectedFile.path,
-                      ),
-                    );
-                    // print(request.files.first);
-                    http.StreamedResponse response = await request.send();
-                    http.Response res =
-                        await http.Response.fromStream(response);
-                    if (res.statusCode == 200) {
-                      dynamic responseJson = json.decode(res.body);
-                      var nowParam =
-                          DateFormat('yyyyddMMHHmm').format(DateTime.now());
-                      print(nowParam);
-                      profileData['imgPath'] =
-                          "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}#$nowParam";
-                      setState(() {});
-                    } else if (res.statusCode == 403) {
-                      if (context.mounted) {
+                  onTap: () {
+                    void doImage({ImageSource? source}) async {
+                      File? imageSelectedFile = await getImage(source: source);
+                      if (imageSelectedFile == null) return;
+                      Uri url = Uri.parse("$api$userImageUpdateRoute");
+                      http.MultipartRequest request = http.MultipartRequest('POST', url);
+                      request.headers.addAll({
+                        "Authorization": "Bearer $publicToken",
+                        "Content-Type": "application/json"
+                      });
+                      request.files.add(
+                        http.MultipartFile.fromBytes(
+                          "file",
+                          File(imageSelectedFile.path).readAsBytesSync(),
+                          filename: imageSelectedFile.path,
+                        ),
+                      );
+                      // print(request.files.first);
+                      if (!context.mounted) return;
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return PopScope(
+                            canPop: false,
+                            child: Container(
+                              color: Colors.transparent,
+                              width: [size.width, size.height].reduce(min) * 0.5,
+                              height: [size.width, size.height].reduce(min) * 0.5,
+                              child: Lottie.asset(
+                                "assets/images/Logo/Animation_loading.json",
+                                repeat: true,
+                                controller: animationController,
+                                onLoaded: (composition) {
+                                  animationController.duration = composition.duration;
+                                  animationController.forward();
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                      http.StreamedResponse response = await request.send();
+                      http.Response res = await http.Response.fromStream(response);
+                      if (!context.mounted) return;
+                      Navigator.pop(context);
+                      if (res.statusCode == 200) {
+                        dynamic responseJson = json.decode(res.body);
+                        var nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
+                        print(nowParam);
+                        profileData['imgPath'] =
+                            "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}#$nowParam";
+
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: customColors["main"]!,
+                            content: Text(
+                              "Image uploaded successfully. Please wait for a moment.",
+                              style: theme.textTheme.bodyMedium!.copyWith(
+                                color: customColors["onMain"]!,
+                              ),
+                            ),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                        setState(() {});
+                      } else if (res.statusCode == 403) {
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: customColors["main"]!,
+                            content: Text(
+                              "Error: 403 Forbidden, Please try again later.",
+                              style: theme.textTheme.bodyMedium!.copyWith(
+                                color: customColors["onMain"]!,
+                              ),
+                            ),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
                         // int newTokenStatusReturn =
                         await requestNewToken(context);
                       }
+                      editImageProfileBoxController.closeBox();
                     }
+
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        CustomThemes ruammitrThemeData =
+                            ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+                        ThemeData theme = ruammitrThemeData.themeData;
+                        Map<String, Color> customColors = ruammitrThemeData.customColors;
+
+                        return SimpleDialog(
+                          alignment: Alignment.center,
+                          backgroundColor: customColors["evenContainer"],
+                          surfaceTintColor: customColors["evenContainer"],
+                          shadowColor: Colors.black38,
+                          elevation: 4,
+                          title: Text(
+                            "Get Your Image From",
+                            style: theme.textTheme.headlineLarge!.copyWith(
+                              color: customColors["onEvenContainer"],
+                            ),
+                          ),
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(10),
+                                onTap: () {
+                                  doImage(source: ImageSource.camera);
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                    color: customColors["oddContainer"]!.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.camera_alt,
+                                        color: customColors["onOddContainer"]!,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        "Camera",
+                                        style: theme.textTheme.titleLarge!.copyWith(
+                                          color: customColors["onOddContainer"]!,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(10),
+                                onTap: () {
+                                  doImage(source: ImageSource.gallery);
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                    color: customColors["oddContainer"]!.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.photo_library_outlined,
+                                        color: customColors["onOddContainer"]!,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        "Gallery",
+                                        style: theme.textTheme.titleLarge!.copyWith(
+                                          color: customColors["onOddContainer"]!,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
               ],
