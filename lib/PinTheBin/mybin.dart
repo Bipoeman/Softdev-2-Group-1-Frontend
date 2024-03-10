@@ -1,4 +1,6 @@
 import "dart:convert";
+import "package:clay_containers/widgets/clay_container.dart";
+import "package:clay_containers/widgets/clay_text.dart";
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import "package:latlong2/latlong.dart";
@@ -407,6 +409,7 @@ class MyPinTheBinAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
       height: 130,
       decoration: const BoxDecoration(
@@ -439,15 +442,49 @@ class MyPinTheBinAppBar extends StatelessWidget {
                 },
               ),
               const SizedBox(width: 10),
-              Text(
-                "MYBIN",
-                style: TextStyle(
-                  fontSize:
-                      Theme.of(context).textTheme.headlineMedium!.fontSize,
-                  fontWeight:
-                      Theme.of(context).textTheme.headlineMedium!.fontWeight,
-                  color: Theme.of(context).textTheme.headlineMedium!.color,
-                ),
+              Stack(
+                children: [
+                  ClayContainer(
+                      width: size.width * 0.7,
+                      height: size.height * 0.08,
+                      borderRadius: 30,
+                      depth: -20,
+                      color: Color(0xFFF99680),
+                      surfaceColor: Color.fromARGB(116, 109, 68, 58),
+                      child: Stack(
+                        children: [
+                          Container(
+                            alignment: Alignment.topCenter,
+                            child: const ClayText(
+                              'MY BIN',
+                              style: TextStyle(
+                                fontSize: 35,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                              ),
+                              emboss: true,
+                              color: Color(0xFFF8A88F),
+                              textColor: Color(0xFF003049),
+                              depth: -100,
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.bottomCenter,
+                            child: ClayText(
+                              'P  I  N  T  H  E  B  I  N',
+                              style: TextStyle(
+                                fontSize: 13.5,
+                                overflow: TextOverflow.fade,
+                                fontWeight: FontWeight.normal,
+                                color:
+                                    const Color(0xFF003049).withOpacity(0.45),
+                              ),
+                              color: Color(0xFF003049),
+                            ),
+                          ),
+                        ],
+                      )),
+                ],
               ),
             ],
           ),
