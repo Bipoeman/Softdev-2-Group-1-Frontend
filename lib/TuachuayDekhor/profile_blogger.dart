@@ -240,6 +240,15 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                                           ? lightColors["main"]!
                                           : customColors["backgroundEnd"]!,
                                       borderRadius: BorderRadius.circular(2.0),
+                                      boxShadow: isPostSelected
+                                          ? [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(0.2),
+                                                blurRadius: 5,
+                                                offset: const Offset(0, 3),
+                                              ),
+                                            ]
+                                          : [],
                                     ),
                                     child: Center(
                                       child: Text(
@@ -269,6 +278,15 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                                           ? lightColors["main"]!
                                           : customColors["backgroundEnd"]!,
                                       borderRadius: BorderRadius.circular(2.0),
+                                      boxShadow: isSavedSelected
+                                          ? [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(0.2),
+                                                blurRadius: 5,
+                                                offset: const Offset(0, 3),
+                                              ),
+                                            ]
+                                          : [],
                                     ),
                                     child: Center(
                                       child: Text(
