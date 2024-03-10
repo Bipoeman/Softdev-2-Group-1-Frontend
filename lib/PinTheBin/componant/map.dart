@@ -441,11 +441,15 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                     children: List.generate(
                                       displayBinInfo['bintype'].keys.length,
                                       (index) {
-                                        List<Color> binColors = [
-                                          Colors.red,
-                                          Colors.green,
-                                          Colors.yellow,
-                                          Colors.blue,
+                                        List<Image> binColors = [
+                                          Image.asset(
+                                              'assets/images/PinTheBin/warning.png'),
+                                          Image.asset(
+                                              'assets/images/PinTheBin/recycling.png'),
+                                          Image.asset(
+                                              'assets/images/PinTheBin/compost.png'),
+                                          Image.asset(
+                                              'assets/images/PinTheBin/bin.png'),
                                         ];
                                         var keys =
                                             displayBinInfo['bintype'].keys;
@@ -457,25 +461,27 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                           return Container(
                                             margin:
                                                 const EdgeInsets.only(left: 8),
-                                            width: 15,
-                                            height: 15,
+                                            width: 20,
+                                            height: 20,
                                             decoration: BoxDecoration(
-                                              color: binColors[index],
-                                              shape: BoxShape.circle,
+                                              //color: binColors[index],
+                                              //shape: BoxShape.circle,
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.black
+                                                  color: Color.fromARGB(
+                                                          255, 207, 207, 207)
                                                       .withOpacity(0.3),
                                                   offset: const Offset(0, 2),
                                                   blurRadius: 2,
                                                   spreadRadius: 1,
                                                 )
                                               ],
-                                              border: Border.all(
-                                                color: const Color(0xFFECECEC),
-                                                width: 1.5,
-                                              ),
+                                              // border: Border.all(
+                                              //   color: const Color(0xFFECECEC),
+                                              //   width: 1.5,
+                                              // ),
                                             ),
+                                            child: binColors[index],
                                           );
                                         } else {
                                           return Container();
