@@ -111,8 +111,7 @@ class ThemesPortal {
     return Provider.of<ThemeProvider>(context);
   }
 
-  static void changeThemeColor(
-      BuildContext context, String app, String appTheme) {
+  static void changeThemeColor(BuildContext context, String app, String appTheme) {
     ThemeProvider themes = Provider.of<ThemeProvider>(context, listen: false);
     themes.changeAppTheme(app, appTheme);
   }
@@ -283,6 +282,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromRGBO(0, 48, 73, 1),
           primary: const Color.fromRGBO(0, 48, 73, 1),
+          onPrimary: Colors.white,
           secondary: Colors.blue,
           background: Colors.white,
           brightness: Brightness.light,
@@ -316,6 +316,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.white,
           primary: Colors.white,
+          onPrimary: const Color.fromRGBO(0, 48, 73, 1),
           secondary: Colors.blue,
           background: const Color.fromRGBO(32, 32, 32, 1),
           brightness: Brightness.dark,
@@ -351,6 +352,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromRGBO(255, 179, 48, 1),
           primary: const Color.fromRGBO(255, 179, 48, 1),
+          onPrimary: Colors.white,
           secondary: Colors.blue,
           background: const Color(0xFFECECEC),
           brightness: Brightness.light,
@@ -383,6 +385,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromRGBO(255, 179, 48, 1),
           primary: const Color.fromRGBO(255, 179, 48, 1),
+          onPrimary: Colors.black,
           secondary: Colors.blue,
           background: const Color.fromARGB(255, 37, 37, 37),
           brightness: Brightness.dark,
