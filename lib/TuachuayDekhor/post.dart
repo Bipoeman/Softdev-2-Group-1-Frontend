@@ -554,8 +554,6 @@ class _TuachuayDekhorBlogPageState extends State<TuachuayDekhorBlogPage> {
                                                                 context);
                                                             Navigator.pop(
                                                                 context);
-                                                            Navigator.pop(
-                                                                context);
                                                             Navigator.pushNamed(
                                                                 context,
                                                                 tuachuayDekhorPageRoute[

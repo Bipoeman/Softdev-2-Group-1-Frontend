@@ -155,7 +155,8 @@ class _TuachuayDekhorWriteBlogPageState
   void onBackPressed(Map<String, Color> customColors) {
     if (markdownTitleController.text.isNotEmpty &&
         markdownContentController.text.isNotEmpty &&
-        _dropdownValue != null) {
+        _dropdownValue != null &&
+        _image != null) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
