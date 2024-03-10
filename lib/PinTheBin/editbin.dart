@@ -78,38 +78,6 @@ class _EditbinPageState extends State<EditbinPage> {
     });
   }
 
-  Future<http.Response> _updatePicture(id, File picture) async {
-    debugPrint("Updating picture");
-    final url = Uri.parse("$api$pinTheBineditbinRoute");
-    http.MultipartRequest request = http.MultipartRequest('POST', url);
-    request.headers.addAll({
-      "Authorization": "Bearer $publicToken",
-      "Content-Type": "application/json"
-    });
-    request.files.add(
-      http.MultipartFile.fromBytes(
-        "file",
-        File(picture.path).readAsBytesSync(),
-        filename: picture.path,
-        contentType:
-            MediaType.parse(lookupMimeType(picture.path) ?? "image/jpeg"),
-      ),
-    );
-    request.fields['id'] = id;
-    try {
-      http.StreamedResponse response =
-          await request.send().timeout(const Duration(seconds: 10));
-      if (response.statusCode != 200) {
-        return Future.error(response.reasonPhrase ?? "Failed to send report");
-      }
-      http.Response res = await http.Response.fromStream(response)
-          .timeout(const Duration(seconds: 10));
-      return res;
-    } catch (e) {
-      return Future.error(e);
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -148,7 +116,7 @@ class _EditbinPageState extends State<EditbinPage> {
     debugPrint("Sending data");
     final url = Uri.parse("$api$pinTheBineditbinRoute");
     var response = await http
-        .post(url, headers: {
+        .put(url, headers: {
           "Authorization": "Bearer $publicToken",
         }, body: {
           "location": _LocationstextController.text,
@@ -156,6 +124,7 @@ class _EditbinPageState extends State<EditbinPage> {
           "bintype": jsonEncode(_bintype),
           //"latitude": _position!.latitude.toString(),
           //"longitude": _position!.longitude.toString(),
+          "id": "${widget.binData['Bininfo']['id']}",
         })
         .timeout(const Duration(seconds: 10))
         .onError((error, stackTrace) {
@@ -170,23 +139,9 @@ class _EditbinPageState extends State<EditbinPage> {
     print("ID: $id");
     if (_image != null) {
       await _sendpic(id.toString(), _image).onError((error, stackTrace) async {
-        await _delPin(id);
         return Future.error(error ?? {}, stackTrace);
       });
     }
-  }
-
-  Future<http.Response> _delPin(int id) async {
-    await requestNewToken(context);
-    Uri url = Uri.parse("$api$pinTheBinDeleteBinRoute/$id");
-    http.Response res = await http.delete(url, headers: {
-      "Authorization": "Bearer $publicToken"
-    }).timeout(const Duration(seconds: 10));
-    debugPrint(res.body);
-    if (res.statusCode != 200) {
-      return Future.error(res.reasonPhrase ?? "Failed to delete bin");
-    }
-    return res;
   }
 
   Future<http.Response> _sendpic(id, picture) async {
@@ -511,8 +466,8 @@ class _EditbinPageState extends State<EditbinPage> {
                                               null
                                           ? ClipRRect(
                                               //BorderRadius.circular(15),
-                                              child: Image.network(
-                                                "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
+                                              child: Image.asset(
+                                                "assets/images/PinTheBin/bin_null.png",
                                                 fit: BoxFit.contain,
                                               ),
                                             )
@@ -933,9 +888,26 @@ class _EditbinPageState extends State<EditbinPage> {
                                         actions: [
                                           MaterialButton(
                                             onPressed: () {
-                                              _editPin();
-                                              Navigator.pushNamed(context,
-                                                  pinthebinPageRoute['home']!);
+                                              _editPin()
+                                                  .then((_) => {
+                                                        print('compelet'),
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            pinthebinPageRoute[
+                                                                'home']!)
+                                                      })
+                                                  .onError((error,
+                                                          stackTrace) =>
+                                                      {
+                                                        print('error $error'),
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                SnackBar(
+                                                          content: Text(
+                                                              "Failed to edit bin: $error"),
+                                                        ))
+                                                      });
                                             },
                                             child: const Text('Confirm'),
                                           ),
