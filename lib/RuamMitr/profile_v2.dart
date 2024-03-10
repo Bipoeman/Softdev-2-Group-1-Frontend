@@ -24,7 +24,8 @@ class ProfileWidgetV2 extends StatefulWidget {
   State<ProfileWidgetV2> createState() => _ProfileWidgetV2State();
 }
 
-class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderStateMixin {
+class _ProfileWidgetV2State extends State<ProfileWidgetV2>
+    with TickerProviderStateMixin {
   BoxController editProfileController = BoxController();
   BoxController editImageProfileBoxController = BoxController();
   String fieldToEditDisplayText = "";
@@ -58,7 +59,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
-    CustomThemes ruammitrThemeData = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+    CustomThemes ruammitrThemeData =
+        ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
     Map<String, Color> customColors = ruammitrThemeData.customColors;
     String globalStatus = "idle";
     Future<File?> getImage({ImageSource? source}) async {
@@ -99,7 +101,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                   children: [
                     Positioned(
                       top: -[size.width * 0.6, 300.0].reduce(min),
-                      left: size.width * 0.5 - [size.width * 0.6, 300.0].reduce(min),
+                      left: size.width * 0.5 -
+                          [size.width * 0.6, 300.0].reduce(min),
                       child: CustomPaint(
                         painter: HalfCirclePainter(
                           color: theme.colorScheme.primary,
@@ -116,7 +119,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                           width: 175,
                           height: 175,
                           margin: EdgeInsets.only(
-                            top: [size.width * 0.6, 300.0].reduce(min) - 175 * 0.6,
+                            top: [size.width * 0.6, 300.0].reduce(min) -
+                                175 * 0.6,
                           ),
                           padding: const EdgeInsets.all(30),
                           decoration: BoxDecoration(
@@ -214,7 +218,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                           setState(() {
                             fieldToEditDisplayText = "Email";
                             fieldEditKey = "email";
-                            fieldEditController.text = profileData[fieldEditKey];
+                            fieldEditController.text =
+                                profileData[fieldEditKey];
                           });
                           if (editProfileController.isBoxOpen) {
                             editProfileController.closeBox();
@@ -239,7 +244,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                             () {
                               fieldToEditDisplayText = "Phone Number";
                               fieldEditKey = "phonenum";
-                              fieldEditController.text = profileData[fieldEditKey] ?? "";
+                              fieldEditController.text =
+                                  profileData[fieldEditKey] ?? "";
                             },
                           );
                           if (editProfileController.isBoxOpen) {
@@ -258,13 +264,15 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                       ),
                       ListTile(
                         leading: const Icon(Icons.edit_document),
-                        title: Text(profileData['description'] ?? "Edit your desciption"),
+                        title: Text(profileData['description'] ??
+                            "Edit your desciption"),
                         trailing: const Icon(Icons.edit),
                         onTap: () {
                           setState(() {
                             fieldToEditDisplayText = "Description";
                             fieldEditKey = "description";
-                            fieldEditController.text = profileData[fieldEditKey] ?? "";
+                            fieldEditController.text =
+                                profileData[fieldEditKey] ?? "";
                           });
                           if (editProfileController.isBoxOpen) {
                             editProfileController.closeBox();
@@ -285,7 +293,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                         title: const Text("********"),
                         trailing: const Icon(Icons.edit),
                         onTap: () {
-                          Navigator.pushNamed(context, ruamMitrPageRoute["password-change"]!);
+                          Navigator.pushNamed(
+                              context, ruamMitrPageRoute["password-change"]!);
                         },
                       ),
                     ],
@@ -307,7 +316,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
           controller: editProfileController,
           body: Container(
             // margin: EdgeInsets.only(bottom: 71),
-            padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 71),
+            padding: const EdgeInsets.only(
+                left: 20.0, right: 20, top: 10, bottom: 71),
             child: SizedBox(
               height: size.height * 0.28,
               child: Column(
@@ -334,7 +344,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                       focusNode: profileEditFocusNode,
                       controller: fieldEditController,
                       decoration: InputDecoration(
-                        hintText: "Enter your ${fieldToEditDisplayText.toLowerCase()}",
+                        hintText:
+                            "Enter your ${fieldToEditDisplayText.toLowerCase()}",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide.none,
@@ -385,7 +396,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                           debugPrint("$error");
                           return http.Response("Error $error", 404);
                         }).then((value) {
-                          debugPrint("Return status Code : ${value.statusCode}");
+                          debugPrint(
+                              "Return status Code : ${value.statusCode}");
                           debugPrint("Return body : ${value.body}");
                           setState(() {});
                           if (value.statusCode == 200) {
@@ -462,7 +474,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                                         repeat: true,
                                         controller: animationController,
                                         onLoaded: (composition) {
-                                          animationController.duration = composition.duration;
+                                          animationController.duration =
+                                              composition.duration;
                                           animationController.forward();
                                         },
                                       )
@@ -472,7 +485,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                                             repeat: true,
                                             controller: animationController,
                                             onLoaded: (composition) {
-                                              animationController.duration = composition.duration;
+                                              animationController.duration =
+                                                  composition.duration;
                                               animationController.forward();
                                             },
                                           )
@@ -493,14 +507,16 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                           );
                         },
                       );
-                      final pictureInfo =
-                          await vg.loadPicture(SvgStringLoader(selectedAvatarString), context);
+                      final pictureInfo = await vg.loadPicture(
+                          SvgStringLoader(selectedAvatarString), context);
                       final image = await pictureInfo.picture.toImage(275, 275);
-                      final byteData = await image.toByteData(format: ImageByteFormat.png);
+                      final byteData =
+                          await image.toByteData(format: ImageByteFormat.png);
                       final pngBytes = byteData!.buffer.asUint8List();
                       if (context.mounted) {
                         Uri url = Uri.parse("$api$userImageUpdateRoute");
-                        http.MultipartRequest request = http.MultipartRequest('POST', url);
+                        http.MultipartRequest request =
+                            http.MultipartRequest('POST', url);
                         request.headers.addAll({
                           "Authorization": "Bearer $publicToken",
                           "Content-Type": "application/json"
@@ -517,7 +533,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                           globalStatus = "loading";
                         });
                         http.StreamedResponse response = await request.send();
-                        http.Response res = await http.Response.fromStream(response);
+                        http.Response res =
+                            await http.Response.fromStream(response);
                         if (res.statusCode == 200) {
                           dynamic responseJson = json.decode(res.body);
                           profileData['imgPath'] =
@@ -526,7 +543,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                             globalStatus = "success";
                             animationController.reset();
                           });
-                          await Future.delayed(const Duration(milliseconds: 1500));
+                          await Future.delayed(
+                              const Duration(milliseconds: 1500));
                           globalStatus = "idle";
                           if (dialogContext?.mounted ?? false) {
                             Navigator.pop(dialogContext!);
@@ -571,7 +589,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                                         repeat: true,
                                         controller: animationController,
                                         onLoaded: (composition) {
-                                          animationController.duration = composition.duration;
+                                          animationController.duration =
+                                              composition.duration;
                                           animationController.forward();
                                         },
                                       )
@@ -581,7 +600,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                                             repeat: true,
                                             controller: animationController,
                                             onLoaded: (composition) {
-                                              animationController.duration = composition.duration;
+                                              animationController.duration =
+                                                  composition.duration;
                                               animationController.forward();
                                             },
                                           )
@@ -597,24 +617,32 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                                                 },
                                               )
                                             : Column(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Image.memory(
                                                     imageRequested,
-                                                    frameBuilder: (context, child, frame,
+                                                    frameBuilder: (context,
+                                                        child,
+                                                        frame,
                                                         wasSynchronouslyLoaded) {
                                                       if (wasSynchronouslyLoaded) {
                                                         return child;
                                                       }
                                                       return AnimatedSwitcher(
-                                                        duration: const Duration(milliseconds: 200),
+                                                        duration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    200),
                                                         child: frame != null
                                                             ? child
                                                             : const SizedBox(
                                                                 height: 60,
                                                                 width: 60,
                                                                 child: CircularProgressIndicator(
-                                                                    strokeWidth: 6),
+                                                                    strokeWidth:
+                                                                        6),
                                                               ),
                                                       );
                                                     },
@@ -625,79 +653,121 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                                                         width: size.width * 0.7,
                                                         height: 50,
                                                         child: ElevatedButton(
-                                                          style: ElevatedButton.styleFrom(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
                                                             backgroundColor:
-                                                                theme.colorScheme.primary,
-                                                            textStyle: TextStyle(
-                                                              color: theme.colorScheme.onPrimary,
-                                                              fontWeight: FontWeight.bold,
+                                                                theme
+                                                                    .colorScheme
+                                                                    .primary,
+                                                            textStyle:
+                                                                TextStyle(
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .onPrimary,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
                                                               fontSize: 20,
                                                             ),
                                                             foregroundColor:
-                                                                theme.colorScheme.onPrimary,
+                                                                theme
+                                                                    .colorScheme
+                                                                    .onPrimary,
                                                           ),
-                                                          child: const Text("Generate"),
+                                                          child: const Text(
+                                                              "Generate"),
                                                           onPressed: () async {
-                                                            String generateRandomString(int len) {
+                                                            String
+                                                                generateRandomString(
+                                                                    int len) {
                                                               var r = Random();
                                                               const chars =
                                                                   'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
                                                               return List.generate(
-                                                                      len,
-                                                                      (index) => chars[
-                                                                          r.nextInt(chars.length)])
-                                                                  .join();
+                                                                  len,
+                                                                  (index) => chars[
+                                                                      r.nextInt(
+                                                                          chars
+                                                                              .length)]).join();
                                                             }
 
                                                             Uri url = Uri.parse(
                                                                 "https://api.multiavatar.com/${(profileData['fullname'] ?? "").replaceAll(" ", "+")}+${generateRandomString(10)}.png");
-                                                            setState(
-                                                                () => (globalStatus = "loading"));
-                                                            http.Response response =
-                                                                await http.get(url);
-                                                            if (response.statusCode == 200) {
-                                                              setState(
-                                                                  () => (globalStatus = "idle"));
+                                                            setState(() =>
+                                                                (globalStatus =
+                                                                    "loading"));
+                                                            http.Response
+                                                                response =
+                                                                await http
+                                                                    .get(url);
+                                                            if (response
+                                                                    .statusCode ==
+                                                                200) {
+                                                              setState(() =>
+                                                                  (globalStatus =
+                                                                      "idle"));
                                                             } else {
-                                                              setState(
-                                                                  () => (globalStatus = "fail"));
+                                                              setState(() =>
+                                                                  (globalStatus =
+                                                                      "fail"));
                                                             }
                                                             setState(() {
-                                                              imageRequested = response.bodyBytes;
+                                                              imageRequested =
+                                                                  response
+                                                                      .bodyBytes;
                                                             });
-                                                            globalStatus = "idle";
+                                                            globalStatus =
+                                                                "idle";
                                                           },
                                                         ),
                                                       ),
-                                                      const SizedBox(height: 10),
+                                                      const SizedBox(
+                                                          height: 10),
                                                       SizedBox(
                                                         width: size.width * 0.7,
                                                         height: 50,
                                                         child: ElevatedButton(
-                                                          style: ElevatedButton.styleFrom(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
                                                             backgroundColor:
-                                                                theme.colorScheme.primary,
-                                                            textStyle: TextStyle(
-                                                              color: theme.colorScheme.onPrimary,
-                                                              fontWeight: FontWeight.bold,
+                                                                theme
+                                                                    .colorScheme
+                                                                    .primary,
+                                                            textStyle:
+                                                                TextStyle(
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .onPrimary,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
                                                               fontSize: 20,
                                                             ),
                                                             foregroundColor:
-                                                                theme.colorScheme.onPrimary,
+                                                                theme
+                                                                    .colorScheme
+                                                                    .onPrimary,
                                                           ),
-                                                          child: const Text("Save"),
+                                                          child: const Text(
+                                                              "Save"),
                                                           onPressed: () async {
                                                             Uri url = Uri.parse(
                                                                 "$api$userImageUpdateRoute");
-                                                            http.MultipartRequest request =
-                                                                http.MultipartRequest('POST', url);
-                                                            request.headers.addAll({
+                                                            http.MultipartRequest
+                                                                request =
+                                                                http.MultipartRequest(
+                                                                    'POST',
+                                                                    url);
+                                                            request.headers
+                                                                .addAll({
                                                               "Authorization":
                                                                   "Bearer $publicToken",
-                                                              "Content-Type": "application/json"
+                                                              "Content-Type":
+                                                                  "application/json"
                                                             });
                                                             request.files.add(
-                                                              http.MultipartFile.fromBytes(
+                                                              http.MultipartFile
+                                                                  .fromBytes(
                                                                 "file",
                                                                 imageRequested,
                                                                 filename:
@@ -706,42 +776,65 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                                                             );
 
                                                             // print(request.files.first);
-                                                            setState(
-                                                                () => (globalStatus = "loading"));
-                                                            http.StreamedResponse response =
-                                                                await request.send();
+                                                            setState(() =>
+                                                                (globalStatus =
+                                                                    "loading"));
+                                                            http.StreamedResponse
+                                                                response =
+                                                                await request
+                                                                    .send();
                                                             http.Response res =
-                                                                await http.Response.fromStream(
-                                                                    response);
-                                                            if (res.statusCode == 200) {
-                                                              setState(
-                                                                  () => (globalStatus = "success"));
-                                                              animationController.reset();
+                                                                await http
+                                                                        .Response
+                                                                    .fromStream(
+                                                                        response);
+                                                            if (res.statusCode ==
+                                                                200) {
+                                                              setState(() =>
+                                                                  (globalStatus =
+                                                                      "success"));
+                                                              animationController
+                                                                  .reset();
                                                               await Future.delayed(
-                                                                  const Duration(seconds: 1));
+                                                                  const Duration(
+                                                                      seconds:
+                                                                          1));
                                                             } else {
-                                                              setState(
-                                                                  () => (globalStatus = "fail"));
+                                                              setState(() =>
+                                                                  (globalStatus =
+                                                                      "fail"));
                                                             }
-                                                            if (res.statusCode == 200) {
-                                                              dynamic responseJson =
-                                                                  json.decode(res.body);
-                                                              profileData['imgPath'] =
+                                                            if (res.statusCode ==
+                                                                200) {
+                                                              dynamic
+                                                                  responseJson =
+                                                                  json.decode(
+                                                                      res.body);
+                                                              profileData[
+                                                                      'imgPath'] =
                                                                   "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}";
                                                               setState(() {});
-                                                            } else if (res.statusCode == 403) {
-                                                              if (context.mounted) {
+                                                            } else if (res
+                                                                    .statusCode ==
+                                                                403) {
+                                                              if (context
+                                                                  .mounted) {
                                                                 // int newTokenStatusReturn =
-                                                                await requestNewToken(context);
+                                                                await requestNewToken(
+                                                                    context);
                                                               }
                                                             }
-                                                            debugPrint(res.body);
-                                                            if (context.mounted) {
+                                                            debugPrint(
+                                                                res.body);
+                                                            if (context
+                                                                .mounted) {
                                                               editImageProfileBoxController
                                                                   .closeBox();
-                                                              Navigator.pop(context);
+                                                              Navigator.pop(
+                                                                  context);
                                                             }
-                                                            globalStatus = "idle";
+                                                            globalStatus =
+                                                                "idle";
                                                           },
                                                         ),
                                                       ),
@@ -767,7 +860,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                       File? imageSelectedFile = await getImage(source: source);
                       if (imageSelectedFile == null) return;
                       Uri url = Uri.parse("$api$userImageUpdateRoute");
-                      http.MultipartRequest request = http.MultipartRequest('POST', url);
+                      http.MultipartRequest request =
+                          http.MultipartRequest('POST', url);
                       request.headers.addAll({
                         "Authorization": "Bearer $publicToken",
                         "Content-Type": "application/json"
@@ -798,12 +892,14 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                         },
                       );
                       http.StreamedResponse response = await request.send();
-                      http.Response res = await http.Response.fromStream(response);
+                      http.Response res =
+                          await http.Response.fromStream(response);
                       if (!context.mounted) return;
                       Navigator.pop(context);
                       if (res.statusCode == 200) {
                         dynamic responseJson = json.decode(res.body);
-                        var nowParam = DateFormat('yyyyddMMHHmm').format(DateTime.now());
+                        var nowParam =
+                            DateFormat('yyyyddMMHHmm').format(DateTime.now());
                         print(nowParam);
                         profileData['imgPath'] =
                             "https://pyygounrrwlsziojzlmu.supabase.co/storage/v1/object/public/${responseJson['fullPath']}#$nowParam";
@@ -846,9 +942,11 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                       context: context,
                       builder: (context) {
                         CustomThemes ruammitrThemeData =
-                            ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+                            ThemesPortal.appThemeFromContext(
+                                context, "RuamMitr")!;
                         ThemeData theme = ruammitrThemeData.themeData;
-                        Map<String, Color> customColors = ruammitrThemeData.customColors;
+                        Map<String, Color> customColors =
+                            ruammitrThemeData.customColors;
 
                         return SimpleDialog(
                           alignment: Alignment.center,
@@ -864,7 +962,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                           ),
                           children: [
                             Container(
-                              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 20),
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(10),
                                 onTap: () {
@@ -875,7 +974,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                                   alignment: Alignment.centerLeft,
                                   padding: const EdgeInsets.all(15),
                                   decoration: BoxDecoration(
-                                    color: customColors["oddContainer"]!.withOpacity(0.2),
+                                    color: customColors["oddContainer"]!
+                                        .withOpacity(0.2),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Row(
@@ -887,8 +987,10 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                                       const SizedBox(width: 10),
                                       Text(
                                         "Camera",
-                                        style: theme.textTheme.titleLarge!.copyWith(
-                                          color: customColors["onOddContainer"]!,
+                                        style: theme.textTheme.titleLarge!
+                                            .copyWith(
+                                          color:
+                                              customColors["onOddContainer"]!,
                                         ),
                                       ),
                                     ],
@@ -897,7 +999,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                               ),
                             ),
                             Container(
-                              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 20),
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(10),
                                 onTap: () {
@@ -908,7 +1011,8 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                                   alignment: Alignment.centerLeft,
                                   padding: const EdgeInsets.all(15),
                                   decoration: BoxDecoration(
-                                    color: customColors["oddContainer"]!.withOpacity(0.2),
+                                    color: customColors["oddContainer"]!
+                                        .withOpacity(0.2),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Row(
@@ -920,8 +1024,10 @@ class _ProfileWidgetV2State extends State<ProfileWidgetV2> with TickerProviderSt
                                       const SizedBox(width: 10),
                                       Text(
                                         "Gallery",
-                                        style: theme.textTheme.titleLarge!.copyWith(
-                                          color: customColors["onOddContainer"]!,
+                                        style: theme.textTheme.titleLarge!
+                                            .copyWith(
+                                          color:
+                                              customColors["onOddContainer"]!,
                                         ),
                                       ),
                                     ],
