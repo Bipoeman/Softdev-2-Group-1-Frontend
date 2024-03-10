@@ -5,10 +5,13 @@ import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 class BulletManager extends Component with HasGameRef<GameRoutes> {
   late Timer bullet;
+  late Timer counter;
   late Vector2 position;
+  late int count = 0;
 
   late bool gameOver = false;
   BulletManager(this.position, this.gameOver) : super() {
+    counter = Timer(1, onTick: () => count++, repeat: true);
     bullet = Timer(1.5, onTick: _shootNormal, repeat: true);
   }
 
@@ -41,5 +44,6 @@ class BulletManager extends Component with HasGameRef<GameRoutes> {
   void update(double dt) {
     super.update(dt);
     bullet.update(dt);
+    if (count >= 222) bullet.stop();
   }
 }

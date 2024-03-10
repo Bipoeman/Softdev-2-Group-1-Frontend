@@ -332,7 +332,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void gotNoodle() {
-    FlameAudio.play(game.KTSFX, volume: game.masterVolume * game.sfxVolume);
+    FlameAudio.play(game.ktSFX, volume: game.masterVolume * game.sfxVolume);
     noodleCollected = true;
   }
 }

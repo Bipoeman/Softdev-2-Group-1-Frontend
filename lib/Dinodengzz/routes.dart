@@ -3,7 +3,6 @@ import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/gameover.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/levelcomplete.dart';
@@ -11,6 +10,7 @@ import 'package:ruam_mitt/Dinodengzz/Screens/levelselect.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/pause.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/setting.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/space_gameover.dart';
+import 'package:ruam_mitt/Dinodengzz/Screens/space_levelcomplete.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/start.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/tutorial.dart';
 import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
@@ -34,8 +34,9 @@ class GameRoutes extends FlameGame
   String hitSfx = 'Hit.wav';
   String hitStarSfx = 'StarHit.wav';
   String clearSFX = 'Disappear.wav';
-  String KTSFX = 'KT.wav';
+  String ktSFX = 'KT.wav';
   bool playSounds = true;
+  late bool playDialog = true;
   late double masterVolume = 1.0;
   late double bgmVolume = 0.6;
   late double sfxVolume = 0.6;
@@ -60,6 +61,8 @@ class GameRoutes extends FlameGame
         onMasterVolumeChanged: onMasterVolumeChanged,
         onSfxVolumeChanged: onSfxVolumeChanged,
         onBackPressed: _exitToMainMenu,
+        onSkipDialogPressed: enableSkip,
+        onSkipDialogCancel: disableSkip,
         masterVolume: masterVolume,
         bgmVolume: bgmVolume,
         sfxVolume: sfxVolume,
@@ -95,12 +98,10 @@ class GameRoutes extends FlameGame
       (context, game) => SpaceGameOverScreen(
         onRetryPressed: () {
           FlameAudio.bgm.stop();
-          resumeEngine();
           startBoss();
         },
         onMainMenuPressed: () {
           FlameAudio.bgm.stop();
-          resumeEngine();
           _exitToMainMenu();
         },
       ),
@@ -110,7 +111,10 @@ class GameRoutes extends FlameGame
         onExit: _popRoute,
         onPlay: () => _startLevel(1),
       ),
-    )
+    ),
+    LevelCompleteBoss.id: OverlayRoute(
+      (context, game) => LevelCompleteBoss(onExitPressed: _exitToMainMenu),
+    ),
   };
 
   late final _routeFactories = <String, Route Function(String)>{
@@ -181,7 +185,7 @@ class GameRoutes extends FlameGame
       Route(
         () => SpaceDengzz(
           onPausePressed: pauseGame,
-          onLevelCompleted: showLevelCompleteMenu,
+          onLevelCompleted: showLevelCompleteBoss,
           onGameOver: showRetryMenuvertical,
           key: ComponentKey.named(SpaceDengzz.id),
         ),
@@ -207,7 +211,7 @@ class GameRoutes extends FlameGame
     FlameAudio.bgm.stop();
     if (gameplay != null) {
       if (gameplay.currentLevel == levelNames.length - 1) {
-        _exitToMainMenu();
+        startBoss();
       } else {
         if (gameplay.currentLevel < levelNames.length) {
           FlameAudio.bgm.play(gameBGM, volume: masterVolume * bgmVolume);
@@ -243,6 +247,12 @@ class GameRoutes extends FlameGame
     _router.pushNamed('${LevelComplete.id}/$nStars');
   }
 
+  void showLevelCompleteBoss() {
+    FlameAudio.bgm.stop();
+    FlameAudio.bgm.play(boss, volume: masterVolume * bgmVolume);
+    _router.pushNamed(LevelCompleteBoss.id);
+  }
+
   void showRetryMenu() {
     FlameAudio.bgm.play(gameOver, volume: masterVolume * bgmVolume);
     _router.pushNamed(GameOverScreen.id);
@@ -267,5 +277,13 @@ class GameRoutes extends FlameGame
 
   void stopBGMInApp() {
     FlameAudio.bgm.stop();
+  }
+
+  void enableSkip() {
+    playDialog = false;
+  }
+
+  void disableSkip() {
+    playDialog = true;
   }
 }

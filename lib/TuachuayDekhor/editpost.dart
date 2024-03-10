@@ -265,7 +265,9 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
   void onBackPressed(Map<String, Color> customColors) {
     if ((markdownTitleController.text != detailpost[0]['title']) ||
         (markdownContentController.text != detailpost[0]['content']) ||
-        (_dropdownValue != detailpost[0]['category'])) {
+        (_dropdownValue != detailpost[0]['category']) ||
+        _image.path.split('/').last !=
+            File(detailpost[0]['pathimage']).path.split('/').last) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -436,10 +438,14 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                           height: size.height,
                                           child: InteractiveViewer(
                                             maxScale: 10,
-                                            child: (_image.path.split('/').last)
-                                                        .split('_')
-                                                        .first ==
-                                                    "dekhorblog"
+                                            child: _image.path
+                                                        .split('/')
+                                                        .last ==
+                                                    File(detailpost[0]
+                                                            ['pathimage'])
+                                                        .path
+                                                        .split('/')
+                                                        .last
                                                 ? Image.network(
                                                     detailpost[0]['image_link'],
                                                   )
@@ -470,10 +476,11 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                 },
                               );
                             },
-                            child: (_image.path.split('/').last)
-                                        .split('_')
-                                        .first ==
-                                    "dekhorblog"
+                            child: _image.path.split('/').last ==
+                                    File(detailpost[0]['pathimage'])
+                                        .path
+                                        .split('/')
+                                        .last
                                 ? Image.network(
                                     detailpost[0]['image_link'],
                                     fit: BoxFit.cover,
@@ -708,6 +715,7 @@ class _TuachuayDekhorEditBlogPageState extends State<TuachuayDekhorEditBlogPage>
                                     onPressed: () {
                                       FocusManager.instance.primaryFocus
                                           ?.unfocus();
+                                      selectBarVisible = false;
                                       setState(() {
                                         markdownTitleText =
                                             markdownTitleController.text;

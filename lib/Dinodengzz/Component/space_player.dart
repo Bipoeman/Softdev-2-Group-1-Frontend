@@ -6,7 +6,6 @@ import 'package:flame/events.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/space_enemy.dart';
-import 'package:ruam_mitt/Dinodengzz/Component/space_enemy_manager.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 enum State {
@@ -17,14 +16,13 @@ enum State {
 
 class SpacePlayer extends SpriteAnimationGroupComponent
     with HasGameRef<GameRoutes>, DragCallbacks, CollisionCallbacks {
-  SpacePlayer({
-    super.position,
-  });
+  SpacePlayer({super.position, super.scale});
   Vector2 moveDirection = Vector2.zero();
 
   final double stepTime = 0.025;
   late final SpriteAnimation idleAnimation;
   late final SpriteAnimation hitAnimation;
+  late final SpriteAnimation gameOverAnimation;
   final double _speed = 200;
   int remainingLives = 3;
   bool isImmune = false;
@@ -44,6 +42,7 @@ class SpacePlayer extends SpriteAnimationGroupComponent
     add(RectangleHitbox(
       position: Vector2(hitbox.offsetX, hitbox.offsetY),
       size: Vector2(hitbox.width, hitbox.height),
+      isSolid: true,
     ));
     return super.onLoad();
   }
@@ -61,12 +60,14 @@ class SpacePlayer extends SpriteAnimationGroupComponent
   }
 
   void _loadAllAnimations() {
-    idleAnimation = _spriteAnimation('Idle', 11);
-    hitAnimation = _spriteAnimation('Hit', 7)..loop = false;
+    idleAnimation = _spriteAnimation('Idle', 6);
+    hitAnimation = _spriteAnimation('Hit', 5)..loop = false;
+    gameOverAnimation = _spriteAnimation('Died', 6)..loop = false;
 
     animations = {
       State.idle: idleAnimation,
       State.hit: hitAnimation,
+      State.gameover: gameOverAnimation,
     };
 
     current = State.idle;
@@ -75,7 +76,7 @@ class SpacePlayer extends SpriteAnimationGroupComponent
   SpriteAnimation _spriteAnimation(String state, int amount) {
     return SpriteAnimation.fromFrameData(
         gameRef.images
-            .fromCache('Main Characters/Relaxaurus/$state (32x32).png'),
+            .fromCache('Main Characters/Rocket Relaxaurus/$state 32x32.png'),
         SpriteAnimationData.sequenced(
             amount: amount, stepTime: stepTime, textureSize: Vector2.all(32)));
   }
@@ -108,15 +109,22 @@ class SpacePlayer extends SpriteAnimationGroupComponent
       FlameAudio.play(game.hitSfx, volume: game.masterVolume * game.sfxVolume);
       remainingLives--;
       current = State.hit;
+      isImmune = true;
       await animationTicker?.completed;
       animationTicker?.reset();
-      isImmune = true;
+
       if (remainingLives <= 0) {
+        current = State.gameover;
+        await animationTicker?.completed;
+        animationTicker?.reset();
         gameOver = true;
         game.showRetryMenuvertical();
       }
-      await Future.delayed(const Duration(seconds: 1));
-      isImmune = false;
+      await Future.delayed(const Duration(milliseconds: 1500));
+      //isImmune = false;
+      await animationTicker?.completed;
+      animationTicker?.reset();
+      current = State.idle;
     }
   }
 }

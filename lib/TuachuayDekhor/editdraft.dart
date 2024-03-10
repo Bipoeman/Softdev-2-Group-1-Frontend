@@ -330,7 +330,9 @@ class _TuachuayDekhorEditDraftPageState
   void onBackPressed(Map<String, Color> customColors) {
     if ((markdownTitleController.text != detaildraft[0]['title']) ||
         (markdownContentController.text != detaildraft[0]['content']) ||
-        (_dropdownValue != detaildraft[0]['category'])) {
+        (_dropdownValue != detaildraft[0]['category']) ||
+        _image.path.split('/').last !=
+            File(detaildraft[0]['pathimage']).path.split('/').last) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -543,17 +545,20 @@ class _TuachuayDekhorEditDraftPageState
                                           height: size.height,
                                           child: InteractiveViewer(
                                             maxScale: 10,
-                                            child: (_image.path.split('/').last)
-                                                        .split('_')
-                                                        .first ==
-                                                    "dekhorblog"
-                                                ? Image.network(
-                                                    detaildraft[0]
-                                                        ['image_link'],
-                                                  )
-                                                : Image.file(
-                                                    _image,
-                                                  ),
+                                            child:
+                                                _image.path.split('/').last ==
+                                                        File(detaildraft[0]
+                                                                ['pathimage'])
+                                                            .path
+                                                            .split('/')
+                                                            .last
+                                                    ? Image.network(
+                                                        detaildraft[0]
+                                                            ['image_link'],
+                                                      )
+                                                    : Image.file(
+                                                        _image,
+                                                      ),
                                           ),
                                         ),
                                       ),
@@ -578,10 +583,11 @@ class _TuachuayDekhorEditDraftPageState
                                 },
                               );
                             },
-                            child: (_image.path.split('/').last)
-                                        .split('_')
-                                        .first ==
-                                    "dekhorblog"
+                            child: _image.path.split('/').last ==
+                                    File(detaildraft[0]['pathimage'])
+                                        .path
+                                        .split('/')
+                                        .last
                                 ? Image.network(
                                     detaildraft[0]['image_link'],
                                     fit: BoxFit.cover,
@@ -839,6 +845,7 @@ class _TuachuayDekhorEditDraftPageState
                                     onPressed: () {
                                       FocusManager.instance.primaryFocus
                                           ?.unfocus();
+                                      selectBarVisible = false;
                                       setState(() {
                                         markdownTitleText =
                                             markdownTitleController.text;
