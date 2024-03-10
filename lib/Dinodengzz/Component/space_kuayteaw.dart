@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:ruam_mitt/Dinodengzz/Component/space_enemy.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/space_boss.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 enum State { shoot }
@@ -48,6 +48,7 @@ class Kuayteaw extends SpriteAnimationGroupComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
+    if (other is Boss) removeFromParent();
   }
 
   @override

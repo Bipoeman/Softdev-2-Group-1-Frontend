@@ -19,12 +19,10 @@ class TuachuayDekhorBloggerProfilePage extends StatefulWidget {
   });
 
   @override
-  State<TuachuayDekhorBloggerProfilePage> createState() =>
-      _TuachuayDekhorBloggerProfilePageState();
+  State<TuachuayDekhorBloggerProfilePage> createState() => _TuachuayDekhorBloggerProfilePageState();
 }
 
-class _TuachuayDekhorBloggerProfilePageState
-    extends State<TuachuayDekhorBloggerProfilePage> {
+class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBloggerProfilePage> {
   bool isEditing = false;
   bool showMore = false;
   bool isPostSelected = true;
@@ -103,9 +101,11 @@ class _TuachuayDekhorBloggerProfilePageState
   Widget build(BuildContext context) {
     final username = widget.username;
     Size size = MediaQuery.of(context).size;
-    CustomThemes theme =
-        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
+    ThemeProvider themeProvider = ThemesPortal.getCurrent(context);
+    Map<String, Color> lightColors = themeProvider
+        .appThemes[themeProvider.themeForApp["TuachuayDekhor"]!]!["light"]!.customColors;
 
     return Scaffold(
       backgroundColor: customColors["background"],
@@ -143,8 +143,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                   const SizedBox(width: 5),
                                   Text(
                                     "Back",
-                                    style:
-                                        TextStyle(color: customColors["main"]!),
+                                    style: TextStyle(color: customColors["main"]!),
                                   ),
                                 ],
                               ),
@@ -175,8 +174,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      EdgeInsets.only(left: size.width * 0.04),
+                                  padding: EdgeInsets.only(left: size.width * 0.04),
                                   child: Text(
                                     username,
                                     style: TextStyle(
@@ -196,8 +194,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                 right: size.width * 0.1,
                                 bottom: size.width * 0.05,
                                 top: size.width * 0.005),
-                            child: description.isNotEmpty &&
-                                    description[0]['description'] != null
+                            child: description.isNotEmpty && description[0]['description'] != null
                                 ? Text(
                                     description[0]['description'],
                                     style: TextStyle(
@@ -216,7 +213,7 @@ class _TuachuayDekhorBloggerProfilePageState
                             child: Container(
                               width: size.width * 0.8,
                               height: size.width * 0.03,
-                              color: const Color.fromRGBO(0, 48, 73, 1),
+                              color: lightColors["main"]!,
                             ),
                           ),
                           Padding(
@@ -240,20 +237,26 @@ class _TuachuayDekhorBloggerProfilePageState
                                     height: size.width * 0.1,
                                     decoration: BoxDecoration(
                                       color: isPostSelected
-                                          ? const Color.fromRGBO(0, 48, 73, 1)
-                                          : const Color.fromRGBO(
-                                              217, 217, 217, 1),
+                                          ? lightColors["main"]!
+                                          : customColors["backgroundEnd"]!,
                                       borderRadius: BorderRadius.circular(2.0),
+                                      boxShadow: isPostSelected
+                                          ? [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(0.2),
+                                                blurRadius: 5,
+                                                offset: const Offset(0, 3),
+                                              ),
+                                            ]
+                                          : [],
                                     ),
                                     child: Center(
                                       child: Text(
                                         'Post',
                                         style: TextStyle(
                                           color: isPostSelected
-                                              ? const Color.fromRGBO(
-                                                  217, 217, 217, 1)
-                                              : const Color.fromRGBO(
-                                                  0, 48, 73, 1),
+                                              ? lightColors["onMain"]!
+                                              : customColors["onContainer"]!.withOpacity(0.6),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -272,20 +275,26 @@ class _TuachuayDekhorBloggerProfilePageState
                                     height: size.width * 0.1,
                                     decoration: BoxDecoration(
                                       color: isSavedSelected
-                                          ? const Color.fromRGBO(0, 48, 73, 1)
-                                          : const Color.fromRGBO(
-                                              217, 217, 217, 1),
+                                          ? lightColors["main"]!
+                                          : customColors["backgroundEnd"]!,
                                       borderRadius: BorderRadius.circular(2.0),
+                                      boxShadow: isSavedSelected
+                                          ? [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(0.2),
+                                                blurRadius: 5,
+                                                offset: const Offset(0, 3),
+                                              ),
+                                            ]
+                                          : [],
                                     ),
                                     child: Center(
                                       child: Text(
                                         'Saved',
                                         style: TextStyle(
                                           color: isSavedSelected
-                                              ? const Color.fromRGBO(
-                                                  217, 217, 217, 1)
-                                              : const Color.fromRGBO(
-                                                  0, 48, 73, 1),
+                                              ? lightColors["onMain"]!
+                                              : customColors["onContainer"]!.withOpacity(0.6),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -307,8 +316,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                     mainAxisSpacing: 10,
                                     crossAxisSpacing: 10,
                                     itemCount: post.length,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     gridDelegate:
                                         const SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -334,8 +342,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                     mainAxisSpacing: 10,
                                     crossAxisSpacing: 10,
                                     itemCount: saved.length,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     gridDelegate:
                                         const SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -343,8 +350,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                     itemBuilder: (context, index) => BlogBox(
                                       title: saved[index]['post']['title'],
                                       name: saved[index]['fullname_blogger'],
-                                      category: saved[index]['post']
-                                          ['category'],
+                                      category: saved[index]['post']['category'],
                                       like: saved[index]['post']['save'] ?? "0",
                                       image: NetworkImage(
                                         saved[index]['post']['image_link'],
@@ -353,8 +359,7 @@ class _TuachuayDekhorBloggerProfilePageState
                                         Navigator.pushNamed(
                                           context,
                                           tuachuayDekhorPageRoute['blog']!,
-                                          arguments: saved[index]['post']
-                                              ['id_post'],
+                                          arguments: saved[index]['post']['id_post'],
                                         );
                                       },
                                     ),

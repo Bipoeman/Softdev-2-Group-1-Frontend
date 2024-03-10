@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'dart:math';
 
-import 'package:ruam_mitt/global_const.dart';
-
 class ClientSettingsWidget extends StatelessWidget {
   const ClientSettingsWidget({super.key});
 
@@ -319,7 +317,7 @@ class ClientSettingsWidget extends StatelessWidget {
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
-                color: customTheme.customColors["container"]!.withOpacity(0.2),
+                color: customTheme.customColors["container"]!.withOpacity(0.5),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Row(

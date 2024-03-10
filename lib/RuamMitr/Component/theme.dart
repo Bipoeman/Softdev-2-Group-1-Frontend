@@ -12,6 +12,7 @@ class ThemeProvider extends ChangeNotifier {
     "PinTheBin": "PinTheBin",
     "TuachuayDekhor": "TuachuayDekhor",
     "Restroom": "Restroom",
+    "Dinodengzz": "Dinodengzz",
   };
   Map<String, bool> appDarkMode = {
     "RuamMitr": false,
@@ -111,8 +112,7 @@ class ThemesPortal {
     return Provider.of<ThemeProvider>(context);
   }
 
-  static void changeThemeColor(
-      BuildContext context, String app, String appTheme) {
+  static void changeThemeColor(BuildContext context, String app, String appTheme) {
     ThemeProvider themes = Provider.of<ThemeProvider>(context, listen: false);
     themes.changeAppTheme(app, appTheme);
   }
@@ -283,6 +283,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromRGBO(0, 48, 73, 1),
           primary: const Color.fromRGBO(0, 48, 73, 1),
+          onPrimary: Colors.white,
           secondary: Colors.blue,
           background: Colors.white,
           brightness: Brightness.light,
@@ -316,6 +317,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.white,
           primary: Colors.white,
+          onPrimary: const Color.fromRGBO(0, 48, 73, 1),
           secondary: Colors.blue,
           background: const Color.fromRGBO(32, 32, 32, 1),
           brightness: Brightness.dark,
@@ -351,6 +353,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromRGBO(255, 179, 48, 1),
           primary: const Color.fromRGBO(255, 179, 48, 1),
+          onPrimary: Colors.white,
           secondary: Colors.blue,
           background: const Color(0xFFECECEC),
           brightness: Brightness.light,
@@ -383,6 +386,7 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromRGBO(255, 179, 48, 1),
           primary: const Color.fromRGBO(255, 179, 48, 1),
+          onPrimary: Colors.black,
           secondary: Colors.blue,
           background: const Color.fromARGB(255, 37, 37, 37),
           brightness: Brightness.dark,
@@ -407,6 +411,74 @@ Map<String, Map<String, CustomThemes>> _appsThemes = {
         "background": Color.fromRGBO(30, 30, 30, 1),
         "backgroundStart": Color.fromRGBO(81, 63, 43, 1),
         "backgroundEnd": Color.fromRGBO(85, 78, 67, 1),
+        "hyperlink": Color.fromRGBO(0, 200, 212, 1),
+      },
+    ),
+  },
+  "Dinodengzz": {
+    "light": CustomThemes(
+      themeData: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF0A9396),
+          primary: const Color(0xFF0A9396),
+          onPrimary: Colors.white,
+          secondary: Colors.blue,
+          background: const Color(0xFFECECEC),
+          brightness: Brightness.light,
+        ),
+        fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+      ),
+      customColors: const {
+        "main": Color(0xFF0A9396),
+        "onMain": Colors.white,
+        "container": Color.fromRGBO(228, 228, 228, 1),
+        "onContainer": Colors.black,
+        "oddContainer": Color.fromRGBO(228, 228, 228, 1),
+        "onOddContainer": Colors.black,
+        "evenContainer": Colors.white,
+        "onEvenContainer": Colors.black,
+        "textInputContainer": Color(0xFFECECEC),
+        "label": Color.fromRGBO(158, 158, 158, 1),
+        "textInput": Colors.black,
+        "icon": Color(0xFF0A9396),
+        "icon1": Color(0xFF0A9396),
+        "icon2": Colors.white,
+        "background": Color.fromRGBO(245, 245, 245, 1),
+        "backgroundStart": Color.fromARGB(255, 126, 225, 226),
+        "backgroundEnd": Color.fromRGBO(224, 224, 224, 1),
+        "hyperlink": Color.fromRGBO(0, 167, 190, 1),
+      },
+    ),
+    "dark": CustomThemes(
+      themeData: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF0A9396),
+          primary: const Color(0xFF0A9396),
+          onPrimary: Colors.white,
+          secondary: Colors.blue,
+          background: const Color.fromARGB(255, 37, 37, 37),
+          brightness: Brightness.dark,
+        ),
+        fontFamily: GoogleFonts.getFont("Inter").fontFamily,
+      ),
+      customColors: const {
+        "main": Color(0xFF0A9396),
+        "onMain": Colors.white,
+        "container": Color.fromRGBO(60, 60, 60, 1),
+        "onContainer": Colors.white,
+        "oddContainer": Color.fromRGBO(60, 60, 60, 1),
+        "onOddContainer": Colors.white,
+        "evenContainer": Color.fromRGBO(66, 66, 66, 1),
+        "onEvenContainer": Colors.white,
+        "textInputContainer": Color.fromRGBO(80, 80, 80, 1),
+        "label": Color.fromRGBO(158, 158, 158, 1),
+        "textInput": Colors.white,
+        "icon": Color(0xFF0A9396),
+        "icon1": Color(0xFF0A9396),
+        "icon2": Color.fromRGBO(219, 229, 235, 1),
+        "background": Color.fromRGBO(30, 30, 30, 1),
+        "backgroundStart": Color.fromARGB(255, 11, 48, 48),
+        "backgroundEnd": Color.fromRGBO(81, 106, 109, 1),
         "hyperlink": Color.fromRGBO(0, 200, 212, 1),
       },
     ),

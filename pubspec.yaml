@@ -86,10 +86,10 @@ dependencies:
   permission_handler: ^11.3.0
   fluttermoji: ^1.0.2
 
-
 flutter_icons:
   android: true
-  image_path: "assets/Logo/appLogoCircle.png"
+  ios: true
+  image_path: "assets/Logo/appLogo.png"
 
 dev_dependencies:
   flutter_test:
@@ -120,12 +120,14 @@ flutter:
     - assets/images/Opponent (Patrick)/
     - assets/images/Items/Fruits/
     - assets/images/Background/
+    - assets/images/Background/Space(64 x 64).png
     - assets/images/Traps/Saw/
     - assets/images/HUD/
     - assets/images/Logo/
     - assets/images/Icon/
     - assets/images/Items/Checkpoints/Checkpoint/
     - assets/images/Main Characters/Relaxaurus/
+    - assets/images/Main Characters/Patrick (Boss)/
     - assets/images/Main Characters/
     - assets/images/RestroomRover/
     - assets/images/Ruammitr/
@@ -180,7 +182,7 @@ flutter:
     - family: Kanit
       fonts:
         - asset: assets/fonts/Kanit-Regular.ttf
-      
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

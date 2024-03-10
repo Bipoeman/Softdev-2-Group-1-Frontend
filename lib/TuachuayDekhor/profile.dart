@@ -13,8 +13,7 @@ class TuachuayDekhorProfilePage extends StatefulWidget {
   const TuachuayDekhorProfilePage({super.key});
 
   @override
-  State<TuachuayDekhorProfilePage> createState() =>
-      _TuachuayDekhorProfilePageState();
+  State<TuachuayDekhorProfilePage> createState() => _TuachuayDekhorProfilePageState();
 }
 
 class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
@@ -44,8 +43,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
   }
 
   Future<void> posttoprofile() async {
-    var response = await http
-        .get(posturl, headers: {"Authorization": "Bearer $publicToken"});
+    var response = await http.get(posturl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
       setState(() {
         post = jsonDecode(response.body);
@@ -57,8 +55,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
   }
 
   Future<void> savedpost() async {
-    var response = await http
-        .get(savedurl, headers: {"Authorization": "Bearer $publicToken"});
+    var response = await http.get(savedurl, headers: {"Authorization": "Bearer $publicToken"});
     if (response.statusCode == 200) {
       setState(() {
         saved = jsonDecode(response.body);
@@ -83,9 +80,11 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CustomThemes theme =
-        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
+    ThemeProvider themeProvider = ThemesPortal.getCurrent(context);
+    Map<String, Color> lightColors = themeProvider
+        .appThemes[themeProvider.themeForApp["TuachuayDekhor"]!]!["light"]!.customColors;
 
     return Scaffold(
       backgroundColor: customColors["background"],
@@ -123,8 +122,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                   const SizedBox(width: 5),
                                   Text(
                                     "Back",
-                                    style:
-                                        TextStyle(color: customColors["main"]!),
+                                    style: TextStyle(color: customColors["main"]!),
                                   ),
                                 ],
                               ),
@@ -156,8 +154,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      EdgeInsets.only(left: size.width * 0.04),
+                                  padding: EdgeInsets.only(left: size.width * 0.04),
                                   child: Text(
                                     profileData['fullname'] ?? '',
                                     style: TextStyle(
@@ -194,7 +191,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                             child: Container(
                               width: size.width * 0.8,
                               height: size.width * 0.03,
-                              color: const Color.fromRGBO(0, 48, 73, 1),
+                              color: lightColors["main"]!,
                             ),
                           ),
                           Padding(
@@ -217,20 +214,26 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     height: size.width * 0.1,
                                     decoration: BoxDecoration(
                                       color: isPostSelected
-                                          ? const Color.fromRGBO(0, 48, 73, 1)
-                                          : const Color.fromRGBO(
-                                              217, 217, 217, 1),
+                                          ? lightColors["main"]!
+                                          : customColors["backgroundEnd"]!,
                                       borderRadius: BorderRadius.circular(2.0),
+                                      boxShadow: isPostSelected
+                                          ? [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(0.2),
+                                                blurRadius: 5,
+                                                offset: const Offset(0, 3),
+                                              ),
+                                            ]
+                                          : [],
                                     ),
                                     child: Center(
                                       child: Text(
                                         'Post',
                                         style: TextStyle(
                                           color: isPostSelected
-                                              ? const Color.fromRGBO(
-                                                  217, 217, 217, 1)
-                                              : const Color.fromRGBO(
-                                                  0, 48, 73, 1),
+                                              ? lightColors["onMain"]!
+                                              : customColors["onContainer"]!.withOpacity(0.6),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -249,20 +252,26 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     height: size.width * 0.1,
                                     decoration: BoxDecoration(
                                       color: isSavedSelected
-                                          ? const Color.fromRGBO(0, 48, 73, 1)
-                                          : const Color.fromRGBO(
-                                              217, 217, 217, 1),
+                                          ? lightColors["main"]!
+                                          : customColors["backgroundEnd"]!,
                                       borderRadius: BorderRadius.circular(2.0),
+                                      boxShadow: isSavedSelected
+                                          ? [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(0.2),
+                                                blurRadius: 5,
+                                                offset: const Offset(0, 3),
+                                              ),
+                                            ]
+                                          : [],
                                     ),
                                     child: Center(
                                       child: Text(
                                         'Saved',
                                         style: TextStyle(
                                           color: isSavedSelected
-                                              ? const Color.fromRGBO(
-                                                  217, 217, 217, 1)
-                                              : const Color.fromRGBO(
-                                                  0, 48, 73, 1),
+                                              ? lightColors["onMain"]!
+                                              : customColors["onContainer"]!.withOpacity(0.6),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -284,8 +293,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     mainAxisSpacing: 10,
                                     crossAxisSpacing: 10,
                                     itemCount: post.length,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     gridDelegate:
                                         const SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -311,8 +319,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     mainAxisSpacing: 10,
                                     crossAxisSpacing: 10,
                                     itemCount: saved.length,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     gridDelegate:
                                         const SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -320,8 +327,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     itemBuilder: (context, index) => BlogBox(
                                       title: saved[index]['post']['title'],
                                       name: saved[index]['fullname_blogger'],
-                                      category: saved[index]['post']
-                                          ['category'],
+                                      category: saved[index]['post']['category'],
                                       like: saved[index]['post']['save'] ?? "0",
                                       image: NetworkImage(
                                         saved[index]['post']['image_link'],
@@ -330,8 +336,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                         Navigator.pushNamed(
                                           context,
                                           tuachuayDekhorPageRoute['blog']!,
-                                          arguments: saved[index]['post']
-                                              ['id_post'],
+                                          arguments: saved[index]['post']['id_post'],
                                         );
                                       },
                                     ),
