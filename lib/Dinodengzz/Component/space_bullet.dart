@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/space_boss.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/space_enemy.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
@@ -15,6 +17,7 @@ class Bullet extends SpriteAnimationGroupComponent
 
   final double _speed = 250;
   late final SpriteAnimation shootAnimation;
+  bool gameOver = false;
 
   Vector2 direction = Vector2(0, -1);
 
@@ -50,7 +53,9 @@ class Bullet extends SpriteAnimationGroupComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    if (other is Enemy) {
+    if ((other is Enemy || other is Boss) && !gameOver) {
+      FlameAudio.play(game.hitStarSfx,
+          volume: game.masterVolume * game.sfxVolume);
       removeFromParent();
     }
   }
