@@ -234,8 +234,32 @@ class _HomePageV2State extends State<HomePageV2> {
                                       ],
                                     ),
                                   )
-                                : HomeWidgetV2(reportBoxController: reportBoxController),
-                            SettingsWidgetV2(reportBoxController: reportBoxController)
+                                : HomeWidgetV2(
+                                    reportBoxController: reportBoxController,
+                                    pageIndexSetter: (page) {
+                                      setState(() {
+                                        pageIndex = page;
+                                        pageController.animateToPage(
+                                          page,
+                                          duration: const Duration(seconds: 1),
+                                          curve: const Tanh(),
+                                        );
+                                      });
+                                    },
+                                  ),
+                            SettingsWidgetV2(
+                              reportBoxController: reportBoxController,
+                              pageIndexSetter: (page) {
+                                setState(() {
+                                  pageIndex = page;
+                                  pageController.animateToPage(
+                                    page,
+                                    duration: const Duration(seconds: 1),
+                                    curve: const Tanh(),
+                                  );
+                                });
+                              },
+                            )
                           ],
                         ),
                       ),

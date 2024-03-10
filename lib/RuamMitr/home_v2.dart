@@ -10,9 +10,14 @@ import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/Component/ruammitr_report.dart';
 
 class HomeWidgetV2 extends StatefulWidget {
-  const HomeWidgetV2({super.key, required this.reportBoxController});
+  const HomeWidgetV2({
+    super.key,
+    required this.reportBoxController,
+    this.pageIndexSetter,
+  });
 
   final BoxController reportBoxController;
+  final void Function(int)? pageIndexSetter;
 
   @override
   State<HomeWidgetV2> createState() => _HomeWidgetV2State();
@@ -79,7 +84,10 @@ class _HomeWidgetV2State extends State<HomeWidgetV2> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AvatarViewer(size: size),
+                    AvatarViewer(
+                      size: size,
+                      pageIndexSetter: widget.pageIndexSetter,
+                    ),
                     reportToUs(themeProvider, widget.reportBoxController)
                   ],
                 ),

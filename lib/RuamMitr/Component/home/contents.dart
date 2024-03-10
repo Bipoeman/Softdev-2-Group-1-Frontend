@@ -6,6 +6,7 @@ import 'package:ruam_mitt/global_func.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:add_2_calendar/add_2_calendar.dart';
 
 class ContentWidget extends StatefulWidget {
   const ContentWidget({
@@ -114,10 +115,6 @@ class _ContentWidgetState extends State<ContentWidget> {
                 horizontal: 20,
                 vertical: 30,
               ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: customTheme.customColors["evenContainer"]!.withOpacity(0.4),
-              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -176,34 +173,46 @@ class _ContentWidgetState extends State<ContentWidget> {
                           ],
                         ),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.date_range,
-                            color: customTheme.customColors["onEvenContainer"],
-                            size: 24,
-                          ),
-                          Text(
-                            "Date of Creation",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
+                      InkWell(
+                        onTap: () async {
+                          Event event = Event(
+                            title: "RuamMitr",
+                            description: "Time Active: $currentDashboardTimer minutes",
+                            location: "Thailand",
+                            startDate: DateTime.parse(dashboardContent["user_info"]["birthday"]),
+                            endDate: DateTime.parse(dashboardContent["user_info"]["birthday"]),
+                          );
+                          await Add2Calendar.addEvent2Cal(event);
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.date_range,
                               color: customTheme.customColors["onEvenContainer"],
+                              size: 24,
                             ),
-                          ),
-                          Text(
-                            dashboardContent["user_info"]["birthday"] ??
-                                "Do I live in the simulation?",
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              color: customTheme.customColors["onEvenContainer"],
+                            Text(
+                              "Date of Creation",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: customTheme.customColors["onEvenContainer"],
+                              ),
                             ),
-                          ),
-                        ],
+                            Text(
+                              dashboardContent["user_info"]["birthday"] ??
+                                  "Do I live in the simulation?",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                                color: customTheme.customColors["onEvenContainer"],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
