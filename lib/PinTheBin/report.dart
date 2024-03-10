@@ -522,7 +522,7 @@ class _ReportPageState extends State<ReportPage> {
                                           backgroundColor: Colors.green[300]),
                                     );
                                     Navigator.pushReplacementNamed(
-                                        context, restroomPageRoute["home"]!);
+                                        context, pinthebinPageRoute["home"]!);
                                   }).onError((error, stackTrace) {
                                     debugPrint("Error: $error");
                                     Navigator.pop(context);
