@@ -36,7 +36,9 @@ class ServicesWidget extends StatelessWidget {
             height: size.height * 0.1,
             appIconPath: "assets/Logo/restroom_home_logo.png",
             appRoute: () {
-              Navigator.popAndPushNamed(context, restroomPageRoute["home"]!);
+              Navigator.pushNamed(context, restroomPageRoute["home"]!);
+
+              // Navigator.popAndPushNamed(context, restroomPageRoute["home"]!);
             },
           ),
           AppBox(
@@ -46,8 +48,9 @@ class ServicesWidget extends StatelessWidget {
             height: size.height * 0.1,
             appIconPath: "assets/Logo/bin_portal_color.png",
             appRoute: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  pinthebinPageRoute["home"]!, (Route<dynamic> route) => false);
+              // Navigator.of(context).pushNamedAndRemoveUntil(
+              //     pinthebinPageRoute["home"]!, (Route<dynamic> route) => false);
+              Navigator.pushNamed(context, pinthebinPageRoute["home"]!);
             },
           ),
           AppBox(
