@@ -65,6 +65,12 @@ class _ContentWidgetState extends State<ContentWidget> {
         isLoading = false;
       });
     } else {
+      if (response.statusCode == 403) {
+        if (!context.mounted) {
+          return;
+        }
+        requestNewToken(context);
+      }
       setState(() {
         isLoading = true;
         loadingText = "Error: ${response.statusCode}. Reloading...";
@@ -219,7 +225,9 @@ class _ContentWidgetState extends State<ContentWidget> {
                           color: customTheme.customColors["main"]!.withOpacity(0.03),
                         ),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(context, tuachuayDekhorPageRoute["home"]!);
+                          },
                           borderRadius: BorderRadius.circular(15),
                           child: Image.asset(
                             "assets/images/Logo/TuachuayDekhor_${isDarkMode ? "Dark" : "Light"}.png",
@@ -234,7 +242,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              "Your Post Count",
+                              "Your Post",
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
@@ -243,6 +251,110 @@ class _ContentWidgetState extends State<ContentWidget> {
                             ),
                             Text(
                               dashboardContent["dekhor_post"].length.toString(),
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: customTheme.customColors["onEvenContainer"],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 75,
+                        height: 75,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: customTheme.customColors["main"]!.withOpacity(0.03),
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, restroomPageRoute["home"]!);
+                          },
+                          borderRadius: BorderRadius.circular(15),
+                          child: Padding(
+                            padding: const EdgeInsets.all(7.5),
+                            child: Image.asset(
+                              "assets/Logo/restroom_home_logo.png",
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      SizedBox(
+                        height: 75,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Your Pinned Toilets",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: customTheme.customColors["onEvenContainer"],
+                              ),
+                            ),
+                            Text(
+                              dashboardContent["toilet_info"].length.toString(),
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: customTheme.customColors["onEvenContainer"],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 75,
+                        height: 75,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: customTheme.customColors["main"]!.withOpacity(0.03),
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, pinthebinPageRoute["home"]!);
+                          },
+                          borderRadius: BorderRadius.circular(15),
+                          child: Padding(
+                            padding: const EdgeInsets.all(7.5),
+                            child: Image.asset(
+                              "assets/Logo/bin_portal_color.png",
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      SizedBox(
+                        height: 75,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Your Pinned Bin",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: customTheme.customColors["onEvenContainer"],
+                              ),
+                            ),
+                            Text(
+                              dashboardContent["bin_info"].length.toString(),
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
