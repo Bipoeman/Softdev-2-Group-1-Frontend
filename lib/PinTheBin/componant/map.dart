@@ -267,100 +267,111 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                 children: [
                                   Stack(
                                     children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: size.width * 0.46,
+                                            top: size.height * 0.013),
+                                        child: _showEdit(context,
+                                            displayBinInfo, size.width),
+                                      ),
                                       Center(
-                                        child: SizedBox(
-                                          width: size.width * 0.4,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            child: AspectRatio(
-                                              aspectRatio: 289 / 211,
-                                              child:
-                                                  // displayBinInfo['picture'] == null
-                                                  //     ? Image.asset(
-                                                  //         "assets/images/PinTheBin/bin_null.png",
-                                                  //         fit: BoxFit.contain,
-                                                  //       )
-                                                  //     : Image.network(
-                                                  //         displayBinInfo['picture'],
-                                                  //         fit: BoxFit.cover,
-                                                  //       ),
-                                                  InkWell(
-                                                      onTap: () {
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return Stack(
-                                                              children: [
-                                                                Center(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              top: size.height * 0.04),
+                                          child: SizedBox(
+                                            width: size.width * 0.4,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              child: AspectRatio(
+                                                aspectRatio: 289 / 211,
+                                                child:
+                                                    // displayBinInfo['picture'] == null
+                                                    //     ? Image.asset(
+                                                    //         "assets/images/PinTheBin/bin_null.png",
+                                                    //         fit: BoxFit.contain,
+                                                    //       )
+                                                    //     : Image.network(
+                                                    //         displayBinInfo['picture'],
+                                                    //         fit: BoxFit.cover,
+                                                    //       ),
+                                                    InkWell(
+                                                        onTap: () {
+                                                          showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return Stack(
+                                                                children: [
+                                                                  Center(
+                                                                      child:
+                                                                          SizedBox(
+                                                                    width: size
+                                                                        .width,
+                                                                    height: size
+                                                                        .height,
                                                                     child:
-                                                                        SizedBox(
-                                                                  width: size
-                                                                      .width,
-                                                                  height: size
-                                                                      .height,
-                                                                  child:
-                                                                      InteractiveViewer(
-                                                                    maxScale:
-                                                                        10,
-                                                                    child: displayBinInfo['picture'] ==
-                                                                            null
-                                                                        ? Image
-                                                                            .asset(
-                                                                            "assets/images/PinTheBin/bin_null.png",
-                                                                            fit:
-                                                                                BoxFit.contain,
-                                                                          )
-                                                                        : Image
-                                                                            .network(
-                                                                            displayBinInfo['picture'],
-                                                                          ),
-                                                                  ),
-                                                                )),
-                                                                Align(
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .topRight,
-                                                                  child:
-                                                                      IconButton(
-                                                                    icon:
-                                                                        const Icon(
-                                                                      Icons
-                                                                          .close,
-                                                                      size: 30,
-                                                                      color: Colors
-                                                                          .white,
+                                                                        InteractiveViewer(
+                                                                      maxScale:
+                                                                          10,
+                                                                      child: displayBinInfo['picture'] ==
+                                                                              null
+                                                                          ? Image
+                                                                              .asset(
+                                                                              "assets/images/PinTheBin/bin_null.png",
+                                                                              fit: BoxFit.contain,
+                                                                            )
+                                                                          : Image
+                                                                              .network(
+                                                                              displayBinInfo['picture'],
+                                                                            ),
                                                                     ),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
+                                                                  )),
+                                                                  Align(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .topRight,
+                                                                    child:
+                                                                        IconButton(
+                                                                      icon:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .close,
+                                                                        size:
+                                                                            30,
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ),
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.of(context)
+                                                                            .pop();
+                                                                      },
+                                                                    ),
                                                                   ),
+                                                                ],
+                                                              );
+                                                            },
+                                                          );
+                                                        },
+                                                        child: ClipRRect(
+                                                          child: displayBinInfo[
+                                                                      'picture'] ==
+                                                                  null
+                                                              ? Image.asset(
+                                                                  "assets/images/PinTheBin/bin_null.png",
+                                                                  fit: BoxFit
+                                                                      .contain,
+                                                                )
+                                                              : Image.network(
+                                                                  displayBinInfo[
+                                                                      'picture'],
+                                                                  fit: BoxFit
+                                                                      .cover,
                                                                 ),
-                                                              ],
-                                                            );
-                                                          },
-                                                        );
-                                                      },
-                                                      child: ClipRRect(
-                                                        child: displayBinInfo[
-                                                                    'picture'] ==
-                                                                null
-                                                            ? Image.asset(
-                                                                "assets/images/PinTheBin/bin_null.png",
-                                                                fit: BoxFit
-                                                                    .contain,
-                                                              )
-                                                            : Image.network(
-                                                                displayBinInfo[
-                                                                    'picture'],
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                      )),
+                                                        )),
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -406,7 +417,7 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                   // ),
                                   SizedBox(height: size.height * 0.013),
                                   SizedBox(
-                                    width: size.width * 0.65 * 0.5,
+                                    width: size.width * 0.65 * 0.8,
                                     child: Text(
                                       "${displayBinInfo['location']}",
                                       overflow: TextOverflow.ellipsis,
@@ -498,10 +509,22 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                       Padding(
                                         padding: EdgeInsets.only(
                                             top: size.height * 0.01,
-                                            left: size.width * 0.16,
+                                            left: size.width * 0.23,
                                             bottom: size.height * 0.025),
                                         child: Row(
                                           children: [
+                                            // ClayContainer(
+                                            //   width: size.width * 0.1,
+                                            //   height: size.height * 0.053,
+
+                                            //   color: Color.fromARGB(255, 255,
+                                            //       255, 255), //0xFFE1CFCF
+                                            //   surfaceColor: Color(0xFFE1CFCF),
+                                            //   borderRadius: 10,
+                                            //   depth: 20,
+                                            //   curveType: CurveType.convex,
+                                            // ),
+                                            SizedBox(width: size.width * 0.025),
                                             ClayContainer(
                                               width: size.width * 0.1,
                                               height: size.height * 0.053,
@@ -512,7 +535,6 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                               borderRadius: 10,
                                               depth: 20,
                                               curveType: CurveType.convex,
-
                                               child: Padding(
                                                 padding: EdgeInsets.only(
                                                   top: size.height * 0.01,
@@ -535,20 +557,9 @@ class _MapPinTheBinState extends State<MapPinTheBin>
                                                   },
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(width: size.width * 0.025),
-                                            ClayContainer(
-                                              width: size.width * 0.1,
-                                              height: size.height * 0.053,
 
-                                              color: Color.fromARGB(255, 255,
-                                                  255, 255), //0xFFE1CFCF
-                                              surfaceColor: Color(0xFFE1CFCF),
-                                              borderRadius: 10,
-                                              depth: 20,
-                                              curveType: CurveType.convex,
-                                              child: _showEdit(context,
-                                                  displayBinInfo, size.width),
+                                              // child: _showEdit(context,
+                                              //     displayBinInfo, size.width),
                                             ),
                                             SizedBox(width: size.width * 0.025),
                                             ClayContainer(
