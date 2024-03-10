@@ -4,6 +4,7 @@ import "package:clay_containers/widgets/clay_container.dart";
 import "package:clay_containers/widgets/clay_text.dart";
 import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
+import "package:flutter_map_marker_popup/flutter_map_marker_popup.dart";
 import "package:latlong2/latlong.dart";
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import "package:ruam_mitt/PinTheBin/componant/map.dart";
@@ -29,7 +30,9 @@ class BinPage extends StatefulWidget {
 class _BinPageState extends State<BinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   SearchController searchBinController = SearchController();
+  final PopupController _popupController = PopupController();
   MapController mapController = MapController();
+  List<Marker> markers = [];
   List<dynamic> binData = [];
   FocusNode focusNode = FocusNode();
   BinLocationInfo markerInfo = BinLocationInfo(info: [], markers: []);
@@ -83,6 +86,21 @@ class _BinPageState extends State<BinPage> {
           }
         },
       );
+      setState(() {
+        markers = binData.map((bin) {
+          print("Bin : $bin");
+          return Marker(
+            point: LatLng(
+              bin["latitude"].toDouble(),
+              bin["longitude"].toDouble(),
+            ),
+            width: 30,
+            height: 30,
+            rotate: true,
+            child: BinMarker(binData: bin),
+          );
+        }).toList();
+      });
       print("Array Len : ${markerInfo.info.length}");
 
       Future.delayed(const Duration(milliseconds: 500))
@@ -95,8 +113,6 @@ class _BinPageState extends State<BinPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // ThemeProvider themes = Provider.of<ThemeProvider>(context);
-    // ThemeData pinTheBinTheme = themes.themeFrom("PinTheBin")!.themeData;
     return Theme(
       data: pinTheBinThemeData,
       child: Builder(builder: (context) {
@@ -118,17 +134,11 @@ class _BinPageState extends State<BinPage> {
                                 const Text("Bin map loading...")
                               ],
                             )
-                          :
-                          //  MapPinTheBin(
-                          //     restroomData: restroomData,
-                          //     mapController: mapController,
-                          //     popupController: _popupController,
-                          //     markers: markers,
-                          //   ),
-
-                          MapPinTheBin(
+                          : MapPinTheBin(
                               mapController: mapController,
                               binInfo: markerInfo.info,
+                              markers: markers,
+                              popupController: _popupController,
                             ),
                     ),
                   ),
@@ -143,15 +153,17 @@ class _BinPageState extends State<BinPage> {
                 parentKey: widget.key,
                 onSelected: (selectedValue) {
                   log("Selected $selectedValue");
-                  for (var eachBin in markerInfo.info) {
-                    if (eachBin['location'] == selectedValue) {
+                  for (Marker eachBin in markers) {
+                    Map<String, dynamic> data =
+                        (eachBin.child as BinMarker).binData;
+                    if (data['location'] == selectedValue) {
                       log("Pin the bin");
                       setState(
                         () {
                           log("Has focus : ${focusNode.hasFocus}");
                           mapController.move(
-                              LatLng(eachBin['latitude'], eachBin['longitude']),
-                              16);
+                              LatLng(data['latitude'], data['longitude']), 16);
+                          _popupController.showPopupsOnlyFor([eachBin]);
                         },
                       );
                     }
@@ -467,6 +479,18 @@ class PinTheBinAppBar extends StatelessWidget {
           const SizedBox(height: 10)
         ],
       ),
+    );
+  }
+}
+
+class BinMarker extends StatelessWidget {
+  const BinMarker({super.key, required this.binData});
+  final dynamic binData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      "assets/images/PinTheBin/pin.png",
     );
   }
 }
