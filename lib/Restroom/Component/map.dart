@@ -7,7 +7,7 @@ import 'package:ruam_mitt/global_const.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 class MapRestroomRover extends StatelessWidget {
   const MapRestroomRover(
       {super.key,
@@ -20,6 +20,10 @@ class MapRestroomRover extends StatelessWidget {
   final List<Marker>? markers;
   final MapController? mapController;
   final PopupController? popupController;
+
+// if (await Permission.location.ServiceStatus.isEnabled) {
+
+// }
 
   @override
   Widget build(BuildContext context) {

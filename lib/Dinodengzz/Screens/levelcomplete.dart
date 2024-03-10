@@ -21,43 +21,45 @@ class LevelComplete extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
-            image: const AssetImage(
+            image: AssetImage(
               "assets/images/Background/Level cleared no bg.png",
             ),
             fit: BoxFit.fitHeight,
-            colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.5),
-              BlendMode.darken,
-            ),
           ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: MediaQuery.of(context).size.height * 0.145),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   nStars >= 1 ? Icons.star : Icons.star_border,
-                  color: nStars >= 1 ? Colors.amber : Colors.black,
-                  size: 50,
+                  color: nStars >= 1 ? Colors.amber : Colors.grey[700],
+                  size: MediaQuery.of(context).size.height * 0.2569,
                 ),
-                Icon(
-                  nStars >= 2 ? Icons.star : Icons.star_border,
-                  color: nStars >= 2 ? Colors.amber : Colors.black,
-                  size: 50,
+                Transform.translate(
+                  offset: nStars >= 2
+                      ? Offset(0, -MediaQuery.of(context).size.height * 0.0869)
+                      : Offset.zero,
+                  child: Icon(
+                    nStars >= 2 ? Icons.star : Icons.star_border,
+                    color: nStars >= 2 ? Colors.amber : Colors.grey[700],
+                    size: MediaQuery.of(context).size.height * 0.2569,
+                  ),
                 ),
                 Icon(
                   nStars >= 3 ? Icons.star : Icons.star_border,
-                  color: nStars >= 3 ? Colors.amber : Colors.black,
-                  size: 50,
+                  color: nStars >= 3 ? Colors.amber : Colors.grey[700],
+                  size: MediaQuery.of(context).size.height * 0.2569,
                 ),
               ],
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.3),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.129),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

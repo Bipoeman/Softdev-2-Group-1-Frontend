@@ -49,7 +49,7 @@ class _TuachuayDekhorEditDraftPageState
   late File _image;
   bool selectBarVisible = false;
 
-   Future<void> _getImageGallery() async {
+  Future<void> _getImageGallery() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(
       source: ImageSource.gallery,
@@ -208,6 +208,9 @@ class _TuachuayDekhorEditDraftPageState
           FocusManager.instance.primaryFocus?.unfocus();
           animationController.reset();
           Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pushNamed(context, tuachuayDekhorPageRoute["draft"]!);
           Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
         });
       }
@@ -683,6 +686,8 @@ class _TuachuayDekhorEditDraftPageState
                                       onPressed: () {
                                         deletedraft();
                                         print("Delete draft tapped");
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
                                         Navigator.pushNamed(context,
                                             tuachuayDekhorPageRoute["draft"]!);
                                       },

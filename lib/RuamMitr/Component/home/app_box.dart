@@ -92,11 +92,14 @@ class AppBox extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
-                      appDescription ?? "Description",
-                      overflow: TextOverflow.fade,
-                      textAlign: TextAlign.left,
-                      style: theme.textTheme.bodySmall,
+                    SizedBox(
+                      width: width * 0.3,
+                      child: Text(
+                        appDescription ?? "Description",
+                        overflow: TextOverflow.fade,
+                        textAlign: TextAlign.left,
+                        style: theme.textTheme.bodySmall,
+                      ),
                     ),
                   ],
                 ),

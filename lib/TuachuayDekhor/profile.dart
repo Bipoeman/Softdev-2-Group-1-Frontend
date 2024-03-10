@@ -73,7 +73,7 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
     setState(() {
       isLoading = true;
     });
-
+    await Future.delayed(const Duration(seconds: 1));
     await posttoprofile();
     setState(() {
       isLoading = false;
@@ -320,7 +320,8 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                     itemBuilder: (context, index) => BlogBox(
                                       title: saved[index]['post']['title'],
                                       name: saved[index]['fullname_blogger'],
-                                      category: saved[index]['post']['category'],
+                                      category: saved[index]['post']
+                                          ['category'],
                                       like: saved[index]['post']['save'] ?? "0",
                                       image: NetworkImage(
                                         saved[index]['post']['image_link'],

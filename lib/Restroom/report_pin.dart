@@ -2,6 +2,7 @@ import "dart:convert";
 import "dart:io";
 
 import "package:flutter/material.dart";
+import "package:flutter_image_compress/flutter_image_compress.dart";
 import "package:http/http.dart" as http;
 import "package:http_parser/http_parser.dart";
 import "package:image_picker/image_picker.dart";
@@ -100,13 +101,22 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
     if (isCamera == null) return;
     final pickedFile = await ImagePicker()
         .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        debugPrint('No image selected.');
-      }
-    });
+    if (pickedFile != null) {
+      var result = await FlutterImageCompress.compressAndGetFile(
+        pickedFile.path,
+        '${pickedFile.path}_compressed.jpg',
+        quality: 40,
+      );
+      setState(() {
+        if (result != null) {
+          _image = File(result.path);
+        } else {
+          debugPrint('Compresstion error.');
+        }
+      });
+    } else {
+      debugPrint('No image selected.');
+    }
   }
 
   @override

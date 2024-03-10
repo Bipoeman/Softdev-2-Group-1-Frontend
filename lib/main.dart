@@ -144,19 +144,19 @@ class _SuperAppState extends State<SuperApp> {
           final args = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
 
-          final id_post = args['id_post'] as int;
-          final id_blogger = args['id_blogger'] as int;
+          final idPost = args['id_post'] as int;
+          final idBlogger = args['id_blogger'] as int;
           return TuachuayDekhorReportPage(
-              id_post: id_post, id_blogger: id_blogger);
+              id_post: idPost, id_blogger: idBlogger);
         },
         tuachuayDekhorPageRoute["detailreport"]!: (context) {
           final args = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
 
-          final id_post = args['id_post'] as int;
-          final id_report = args['id_report'] as int;
+          final idPost = args['id_post'] as int;
+          final idReport = args['id_report'] as int;
           return TuachuayDekhorDetailReportPage(
-              id_post: id_post, id_report: id_report);
+              id_post: idPost, id_report: idReport);
         },
         tuachuayDekhorPageRoute["reportapp"]!: (context) =>
             const TuachuayDekhorReportAppPage(),
