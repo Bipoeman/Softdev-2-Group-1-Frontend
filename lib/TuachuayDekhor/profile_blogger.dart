@@ -238,7 +238,7 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                                     decoration: BoxDecoration(
                                       color: isPostSelected
                                           ? lightColors["main"]!
-                                          : lightColors["onMain"]!,
+                                          : customColors["backgroundEnd"]!,
                                       borderRadius: BorderRadius.circular(2.0),
                                     ),
                                     child: Center(
@@ -247,7 +247,7 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                                         style: TextStyle(
                                           color: isPostSelected
                                               ? lightColors["onMain"]!
-                                              : lightColors["main"]!,
+                                              : customColors["onContainer"]!.withOpacity(0.6),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -267,7 +267,7 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                                     decoration: BoxDecoration(
                                       color: isSavedSelected
                                           ? lightColors["main"]!
-                                          : lightColors["onMain"]!,
+                                          : customColors["backgroundEnd"]!,
                                       borderRadius: BorderRadius.circular(2.0),
                                     ),
                                     child: Center(
@@ -276,7 +276,7 @@ class _TuachuayDekhorBloggerProfilePageState extends State<TuachuayDekhorBlogger
                                         style: TextStyle(
                                           color: isSavedSelected
                                               ? lightColors["onMain"]!
-                                              : lightColors["main"]!,
+                                              : customColors["onContainer"]!.withOpacity(0.6),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
