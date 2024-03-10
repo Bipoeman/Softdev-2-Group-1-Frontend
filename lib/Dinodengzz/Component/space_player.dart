@@ -44,6 +44,7 @@ class SpacePlayer extends SpriteAnimationGroupComponent
     add(RectangleHitbox(
       position: Vector2(hitbox.offsetX, hitbox.offsetY),
       size: Vector2(hitbox.width, hitbox.height),
+      isSolid: true,
     ));
     return super.onLoad();
   }
@@ -108,15 +109,15 @@ class SpacePlayer extends SpriteAnimationGroupComponent
       FlameAudio.play(game.hitSfx, volume: game.masterVolume * game.sfxVolume);
       remainingLives--;
       current = State.hit;
-      await animationTicker?.completed;
-      animationTicker?.reset();
       isImmune = true;
       if (remainingLives <= 0) {
         gameOver = true;
         game.showRetryMenuvertical();
       }
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 1500));
       isImmune = false;
+      await animationTicker?.completed;
+      animationTicker?.reset();
     }
   }
 }

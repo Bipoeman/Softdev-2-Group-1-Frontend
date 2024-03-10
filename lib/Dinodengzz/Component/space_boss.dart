@@ -59,18 +59,12 @@ class Boss extends SpriteAnimationGroupComponent
     return super.onLoad();
   }
 
-  @override
-  void update(double dt) {
-    print(lifePoint);
-    super.update(dt);
-  }
-
   void _loadAllAnimation() {
     phase0 = _spriteAnimation('Daddy Patrick Phase 1', 1, 1);
     phase1 = _spriteAnimation('Daddy Patrick Phase 1', 8, 0.25);
     phase2 = _spriteAnimation('Daddy Patrick Phase 2', 9, 0.25);
     phase3 = _spriteAnimation('Daddy Patrick Phase 3', 3, 0.5);
-    phase4 = _spriteAnimation('Daddy Patrick Phase 3', 3, 0.5);
+    phase4 = _spriteAnimation('Patrick Final Form', 3, 0.5);
     hitAnimation = _spriteAnimation('Patrick Hit Damage', 3, 0.08)
       ..loop = false;
     transformedAnimation = _spriteAnimation('Patrick Hit Next Stage', 13, 0.08)
@@ -80,7 +74,7 @@ class Boss extends SpriteAnimationGroupComponent
     finalfinishedAnimation =
         _spriteAnimation('Patrick Final Transforming 2', 16, 0.05)
           ..loop = false;
-    dissappearingAnimation = _speacialspriteAnimation('Desappearing', 7, 0.025);
+    dissappearingAnimation = _speacialspriteAnimation('Desappearing', 8, 0.025);
     animations = {
       BossState.phase0: phase0,
       BossState.phase1: phase1,
@@ -164,15 +158,23 @@ class Boss extends SpriteAnimationGroupComponent
             current = BossState.phase4;
           }
           break;
+        case 4:
+          bossCleared = true;
+          current = BossState.dissappering;
+          await animationTicker?.completed;
+          animationTicker?.reset();
+          showDefeatDialog();
+          gameRef.showLevelCompleteBoss();
+          hitCount++;
+          break;
         default:
-          {
-            current = BossState.dissappering;
-            await animationTicker?.completed;
-            animationTicker?.reset();
-            bossCleared = true;
-          }
+          break;
       }
+      super.onCollisionStart(intersectionPoints, other);
     }
-    super.onCollisionStart(intersectionPoints, other);
+  }
+
+  void showDefeatDialog() {
+    print('hi');
   }
 }

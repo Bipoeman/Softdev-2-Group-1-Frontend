@@ -28,10 +28,12 @@ class SpaceDengzz extends Component with HasGameRef<GameRoutes>, DragCallbacks {
   final Boss boss = Boss();
   late BulletManager bullet;
   final VoidCallback? onPausePressed;
-  final ValueChanged<int>? onLevelCompleted;
+  final VoidCallback? onLevelCompleted;
   final VoidCallback? onGameOver;
   late SpaceHud hud;
   late ParallaxComponent background;
+  late int initialBossHealth = 1000;
+  late int currentBossHealth;
   bool gameOver = false;
   int time = 0;
 
@@ -66,9 +68,14 @@ class SpaceDengzz extends Component with HasGameRef<GameRoutes>, DragCallbacks {
   void update(double dt) {
     hud.updateLifeCount(playerShip.remainingLives);
     hud.updateEnemyHealth(boss.lifePoint / 1000);
-    gameOver = playerShip.gameOver;
+    gameOver = (playerShip.gameOver || boss.bossCleared);
     bullet.gameOver = gameOver;
     enemies.gameOver = gameOver;
+    currentBossHealth = boss.lifePoint;
+    if ((initialBossHealth - currentBossHealth) >= 250) {
+      playerShip.remainingLives++;
+      initialBossHealth = currentBossHealth;
+    }
     super.update(dt);
   }
 

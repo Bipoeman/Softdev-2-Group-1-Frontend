@@ -11,6 +11,7 @@ import 'package:ruam_mitt/Dinodengzz/Screens/levelselect.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/pause.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/setting.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/space_gameover.dart';
+import 'package:ruam_mitt/Dinodengzz/Screens/space_levelcomplete.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/start.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/tutorial.dart';
 import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
@@ -34,7 +35,7 @@ class GameRoutes extends FlameGame
   String hitSfx = 'Hit.wav';
   String hitStarSfx = 'StarHit.wav';
   String clearSFX = 'Disappear.wav';
-  String KTSFX = 'KT.wav';
+  String ktSFX = 'KT.wav';
   bool playSounds = true;
   late double masterVolume = 1.0;
   late double bgmVolume = 0.6;
@@ -95,12 +96,10 @@ class GameRoutes extends FlameGame
       (context, game) => SpaceGameOverScreen(
         onRetryPressed: () {
           FlameAudio.bgm.stop();
-          resumeEngine();
           startBoss();
         },
         onMainMenuPressed: () {
           FlameAudio.bgm.stop();
-          resumeEngine();
           _exitToMainMenu();
         },
       ),
@@ -110,7 +109,10 @@ class GameRoutes extends FlameGame
         onExit: _popRoute,
         onPlay: () => _startLevel(1),
       ),
-    )
+    ),
+    LevelCompleteBoss.id: OverlayRoute(
+      (context, game) => LevelCompleteBoss(onExitPressed: _exitToMainMenu),
+    ),
   };
 
   late final _routeFactories = <String, Route Function(String)>{
@@ -181,7 +183,7 @@ class GameRoutes extends FlameGame
       Route(
         () => SpaceDengzz(
           onPausePressed: pauseGame,
-          onLevelCompleted: showLevelCompleteMenu,
+          onLevelCompleted: showLevelCompleteBoss,
           onGameOver: showRetryMenuvertical,
           key: ComponentKey.named(SpaceDengzz.id),
         ),
@@ -241,6 +243,11 @@ class GameRoutes extends FlameGame
 
   void showLevelCompleteMenu(int nStars) {
     _router.pushNamed('${LevelComplete.id}/$nStars');
+  }
+
+  void showLevelCompleteBoss() {
+    FlameAudio.bgm.stop();
+    _router.pushNamed(LevelCompleteBoss.id);
   }
 
   void showRetryMenu() {

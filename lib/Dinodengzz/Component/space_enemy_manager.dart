@@ -86,7 +86,7 @@ class EnemyManager extends Component
     Kuayteaw kuayteaw = Kuayteaw();
     add(kuayteaw);
     if (!gameOver) {
-      FlameAudio.play(game.KTSFX, volume: game.masterVolume * game.sfxVolume);
+      FlameAudio.play(game.ktSFX, volume: game.masterVolume * game.sfxVolume);
     } else {
       damage.stop();
       counter.stop();
@@ -131,8 +131,7 @@ class EnemyManager extends Component
   @override
   void update(double dt) {
     counter.update(dt);
-    print(count);
-    if (count >= 1) {
+    if (count >= 2) {
       enemy_1.update(dt);
     }
     if (count == 30) {
@@ -149,18 +148,22 @@ class EnemyManager extends Component
       enemy_2.stop();
       enemy_3.update(dt);
     }
-    if (count == 125) {
+    if (count == 120) {
       damage.update(dt);
     }
     if (count >= 130) {
       enemy_3.stop();
       enemy_4.update(dt);
     }
-    if (count == 210) {
+    if (count == 225) {
       damage.update(dt);
-    }
-    if (count >= 220) {
+      enemy_1.stop();
+      enemy_2.stop();
+      enemy_3.stop();
       enemy_4.stop();
+    }
+    if (count >= 230) {
+      damage.stop();
       counter.stop();
     }
     super.update(dt);
