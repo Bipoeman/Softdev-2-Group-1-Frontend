@@ -3,7 +3,6 @@ import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/gameover.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/levelcomplete.dart';
@@ -37,6 +36,7 @@ class GameRoutes extends FlameGame
   String clearSFX = 'Disappear.wav';
   String ktSFX = 'KT.wav';
   bool playSounds = true;
+  late bool playDialog = true;
   late double masterVolume = 1.0;
   late double bgmVolume = 0.6;
   late double sfxVolume = 0.6;
@@ -61,6 +61,8 @@ class GameRoutes extends FlameGame
         onMasterVolumeChanged: onMasterVolumeChanged,
         onSfxVolumeChanged: onSfxVolumeChanged,
         onBackPressed: _exitToMainMenu,
+        onSkipDialogPressed: enableSkip,
+        onSkipDialogCancel: disableSkip,
         masterVolume: masterVolume,
         bgmVolume: bgmVolume,
         sfxVolume: sfxVolume,
@@ -209,7 +211,7 @@ class GameRoutes extends FlameGame
     FlameAudio.bgm.stop();
     if (gameplay != null) {
       if (gameplay.currentLevel == levelNames.length - 1) {
-        _exitToMainMenu();
+        startBoss();
       } else {
         if (gameplay.currentLevel < levelNames.length) {
           FlameAudio.bgm.play(gameBGM, volume: masterVolume * bgmVolume);
@@ -274,5 +276,13 @@ class GameRoutes extends FlameGame
 
   void stopBGMInApp() {
     FlameAudio.bgm.stop();
+  }
+
+  void enableSkip() {
+    playDialog = false;
+  }
+
+  void disableSkip() {
+    playDialog = true;
   }
 }

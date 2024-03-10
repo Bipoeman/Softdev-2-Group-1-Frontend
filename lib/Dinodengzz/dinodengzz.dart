@@ -42,10 +42,12 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
     await Flame.device.fullScreen();
     await Flame.device.setLandscape();
     _loadLevel();
-    if (currentLevel == 0) showFirstLevelDialog(game.buildContext);
-    if (currentLevel == 1) showSecondLevelDialog(game.buildContext);
-    if (currentLevel == 2) showThirdLevelDialog(game.buildContext);
-    if (currentLevel == 3) showFourthLevelDialog(game.buildContext);
+    if (game.playDialog) {
+      if (currentLevel == 0) showFirstLevelDialog(game.buildContext);
+      if (currentLevel == 1) showSecondLevelDialog(game.buildContext);
+      if (currentLevel == 2) showThirdLevelDialog(game.buildContext);
+      if (currentLevel == 3) showFourthLevelDialog(game.buildContext);
+    }
   }
 
   @override

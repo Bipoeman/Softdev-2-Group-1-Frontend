@@ -85,6 +85,7 @@ dependencies:
   http_parser:
   permission_handler: ^11.3.0
   fluttermoji: ^1.0.2
+  end_credits: ^2.0.0
 
 
 flutter_icons:

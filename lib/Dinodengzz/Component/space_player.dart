@@ -6,7 +6,6 @@ import 'package:flame/events.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/space_enemy.dart';
-import 'package:ruam_mitt/Dinodengzz/Component/space_enemy_manager.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
 enum State {

@@ -249,6 +249,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.17"
+  end_credits:
+    dependency: "direct main"
+    description:
+      name: end_credits
+      sha256: "4b9f3869be6a9c53f3bd0001c8916fd0089a959c3ac46e9de66690f01a04cdb6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   fake_async:
     dependency: transitive
     description:
