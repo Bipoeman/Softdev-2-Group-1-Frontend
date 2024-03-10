@@ -83,8 +83,8 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
     CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
     ThemeProvider themeProvider = ThemesPortal.getCurrent(context);
-    Map<String, Color> lightColors =
-        themeProvider.appThemes[themeProvider.themeForApp["TuachuayDekhor"]!]!["light"]!.customColors;
+    Map<String, Color> lightColors = themeProvider
+        .appThemes[themeProvider.themeForApp["TuachuayDekhor"]!]!["light"]!.customColors;
 
     return Scaffold(
       backgroundColor: customColors["background"],
@@ -217,6 +217,15 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                           ? lightColors["main"]!
                                           : customColors["backgroundEnd"]!,
                                       borderRadius: BorderRadius.circular(2.0),
+                                      boxShadow: isPostSelected
+                                          ? [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(0.2),
+                                                blurRadius: 5,
+                                                offset: const Offset(0, 3),
+                                              ),
+                                            ]
+                                          : [],
                                     ),
                                     child: Center(
                                       child: Text(
@@ -246,6 +255,15 @@ class _TuachuayDekhorProfilePageState extends State<TuachuayDekhorProfilePage> {
                                           ? lightColors["main"]!
                                           : customColors["backgroundEnd"]!,
                                       borderRadius: BorderRadius.circular(2.0),
+                                      boxShadow: isSavedSelected
+                                          ? [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(0.2),
+                                                blurRadius: 5,
+                                                offset: const Offset(0, 3),
+                                              ),
+                                            ]
+                                          : [],
                                     ),
                                     child: Center(
                                       child: Text(
