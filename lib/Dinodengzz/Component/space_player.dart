@@ -17,7 +17,7 @@ enum State {
 class SpacePlayer extends SpriteAnimationGroupComponent
     with HasGameRef<GameRoutes>, DragCallbacks, CollisionCallbacks {
   SpacePlayer({super.position, super.scale});
-  Vector2 moveDirection = Vector2.zero();
+  double direction = 0;
 
   final double stepTime = 0.025;
   late final SpriteAnimation idleAnimation;
@@ -50,13 +50,10 @@ class SpacePlayer extends SpriteAnimationGroupComponent
   @override
   void update(double dt) {
     super.update(dt);
-    position += moveDirection.normalized() * _speed * dt;
+    position.x += direction * _speed * dt;
+    onStop();
     if (position.x < 0) position.x = 0;
     if (position.x > game.size.x - 32) position.x = game.size.x - 32;
-  }
-
-  void setMoveDirection(Vector2 newMovedirection) {
-    moveDirection = newMovedirection;
   }
 
   void _loadAllAnimations() {
@@ -81,20 +78,20 @@ class SpacePlayer extends SpriteAnimationGroupComponent
             amount: amount, stepTime: stepTime, textureSize: Vector2.all(32)));
   }
 
-  @override
-  void onDragUpdate(DragUpdateEvent event) {
-    if (event.canvasDelta.r > 0) {
-      setMoveDirection(Vector2(event.canvasDelta.r, 0));
-    } else if (event.canvasDelta.r < 0) {
-      setMoveDirection(Vector2(event.canvasDelta.r, 0));
+  void onMoveRight(bool hasMoved) {
+    if (hasMoved) {
+      direction = 1;
     }
-    super.onDragUpdate(event);
   }
 
-  @override
-  void onDragEnd(DragEndEvent event) {
-    setMoveDirection(Vector2.zero());
-    super.onDragEnd(event);
+  void onMoveLeft(bool hasMoved) {
+    if (hasMoved) {
+      direction = -1;
+    }
+  }
+
+  void onStop() {
+    direction = 0;
   }
 
   @override
@@ -121,7 +118,7 @@ class SpacePlayer extends SpriteAnimationGroupComponent
         game.showRetryMenuvertical();
       }
       await Future.delayed(const Duration(milliseconds: 1500));
-      //isImmune = false;
+      isImmune = false;
       await animationTicker?.completed;
       animationTicker?.reset();
       current = State.idle;

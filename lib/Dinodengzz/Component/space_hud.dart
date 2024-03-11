@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/pause_button.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
 
@@ -10,6 +11,11 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
   final PauseButton _pauseButton = PauseButton();
   final double camWidth;
   final double camHeight;
+  late bool moveLeft = false;
+  late bool moveRight = false;
+
+  final JumpButton _jumpButtonLeft = JumpButton();
+  final JumpButton _jumpButtonRight = JumpButton();
 
   final _playerLife = TextComponent(
     text: '\u2665×3',
@@ -27,16 +33,23 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
   @override
   Future<void> onLoad() async {
     priority = 10;
+    _jumpButtonLeft.position.setValues((camWidth * 0.02), camHeight * 0.9);
+    _jumpButtonLeft.angle = 150;
+    _jumpButtonRight.position.setValues(camWidth, camHeight * 0.9);
+    _jumpButtonRight.angle = -150;
+    _jumpButtonRight.flipHorizontally();
     _pauseButton.position
         .setValues(camWidth - (camWidth * 0.12), camHeight * 0.025);
     _pauseButton.size.setValues(camWidth * 0.1, camWidth * 0.08);
     _playerLife.position.setValues((camWidth * 0.1), camHeight * 0.04);
 
-    addAll([_playerLife, _pauseButton]);
+    addAll([_playerLife, _pauseButton, _jumpButtonLeft, _jumpButtonRight]);
   }
 
   void updateLifeCount(int count) {
     _playerLife.text = '\u2665×$count';
+    moveLeft = _jumpButtonLeft.hasmove;
+    moveRight = _jumpButtonRight.hasmove;
   }
 
   void updateEnemyHealth(double percentage) {
@@ -64,11 +77,12 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
         healthPaint);
 
     final double textX = x + barWidth / 2;
-    final double textY = y + (game.size.y * 0.7 - barHeight) + barHeight / 2;
+    // Adjusting textY to position the text below the health bar
+    final double textY =
+        y + (game.size.y * 0.7) + 10; // Adjust the 10 as needed
 
     canvas.save();
     canvas.translate(textX, textY);
-    canvas.rotate(-270 * 3.14 / 180);
 
     const textStyle =
         TextStyle(color: Colors.white, fontSize: 22, fontFamily: 'Kanit');

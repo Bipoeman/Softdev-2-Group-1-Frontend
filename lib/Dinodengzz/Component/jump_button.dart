@@ -8,6 +8,7 @@ class JumpButton extends SpriteComponent
   JumpButton();
 
   bool hasJumped = false;
+  bool hasmove = false;
 
   @override
   FutureOr<void> onLoad() {
@@ -24,6 +25,13 @@ class JumpButton extends SpriteComponent
   @override
   void onTapUp(TapUpEvent event) {
     hasJumped = false;
+    hasmove = false;
     super.onTapUp(event);
+  }
+
+  @override
+  void onLongTapDown(TapDownEvent event) {
+    hasmove = true;
+    super.onLongTapDown(event);
   }
 }

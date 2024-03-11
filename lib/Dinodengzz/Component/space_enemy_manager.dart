@@ -19,13 +19,13 @@ class EnemyManager extends Component
     damage = Timer(3, onTick: _bossHit, repeat: true);
     counter = Timer(1, onTick: () => count++, repeat: true);
     enemy_1 = Timer(1, onTick: _spawnEnemyPhase1, repeat: true);
-    enemy_2 = Timer(0.75, onTick: () {
+    enemy_2 = Timer(1, onTick: () {
       _spawnEnemyPhase2();
     }, repeat: true);
-    enemy_3 = Timer(0.5, onTick: () {
+    enemy_3 = Timer(0.75, onTick: () {
       _spawnEnemyPhase3();
     }, repeat: true);
-    enemy_4 = Timer(0.5, onTick: () {
+    enemy_4 = Timer(0.75, onTick: () {
       _spawnEnemyPhase4();
     }, repeat: true);
   }
@@ -131,7 +131,6 @@ class EnemyManager extends Component
 
   @override
   void update(double dt) {
-    print(count);
     counter.update(dt);
     if (count >= 2) {
       enemy_1.update(dt);
