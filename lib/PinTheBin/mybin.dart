@@ -261,20 +261,20 @@ class _MyBinState extends State<MyBinPage> {
                                                                       Colors.green[300],
                                                                 ),
                                                               );
-
-                                                              Navigator.popUntil(
+                                                              Navigator.pushReplacementNamed(
                                                                   context,
-                                                                  ModalRoute.withName(
-                                                                      pinthebinPageRoute[
-                                                                          "mybin"]!));
-                                                            }).onError((error, stackTrace) {
-                                                              Navigator.popUntil(
+                                                                  pinthebinPageRoute[
+                                                                      "mybin"]!);
+                                                            }).onError((error,
+                                                                    stackTrace) {
+                                                              Navigator.pushReplacementNamed(
                                                                   context,
-                                                                  ModalRoute.withName(
-                                                                      pinthebinPageRoute[
-                                                                          "mybin"]!));
-                                                              debugPrint(error.toString());
-                                                              ScaffoldMessenger.of(context)
+                                                                  pinthebinPageRoute[
+                                                                      "mybin"]!);
+                                                              debugPrint(error
+                                                                  .toString());
+                                                              ScaffoldMessenger
+                                                                      .of(context)
                                                                   .showSnackBar(
                                                                 const SnackBar(
                                                                   content: Text(
