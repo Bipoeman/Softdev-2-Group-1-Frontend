@@ -29,11 +29,7 @@ class _MyBinState extends State<MyBinPage> {
     http.Response res =
         await http.get(url, headers: {"Authorization": "Bearer $publicToken"});
     print(res.body);
-    if (res.statusCode == 200) {
-      return res;
-    } else {
-      return binData;
-    }
+    return res;
   }
 
   Future<http.Response> delBin(int id) async {
