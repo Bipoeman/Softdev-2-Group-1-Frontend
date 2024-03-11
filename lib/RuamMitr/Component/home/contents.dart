@@ -236,6 +236,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                         child: InkWell(
                           onTap: () {
                             Navigator.pushNamed(context, tuachuayDekhorPageRoute["home"]!);
+                            Navigator.pushNamed(context, tuachuayDekhorPageRoute["profile"]!);
                           },
                           borderRadius: BorderRadius.circular(15),
                           child: Image.asset(
@@ -243,31 +244,56 @@ class _ContentWidgetState extends State<ContentWidget> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      SizedBox(
-                        height: 75,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "Your Post",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: customTheme.customColors["onEvenContainer"],
-                              ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 75,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.article,
+                                  color: customTheme.customColors["icon1"],
+                                  size: 24,
+                                ),
+                                Text(
+                                  dashboardContent["dekhor_post"].length.toString(),
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: customTheme.customColors["onEvenContainer"],
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              dashboardContent["dekhor_post"].length.toString(),
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: customTheme.customColors["onEvenContainer"],
-                              ),
+                          ),
+                          const SizedBox(width: 10),
+                          SizedBox(
+                            height: 75,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.bookmark,
+                                  color: customTheme.customColors["icon2"],
+                                  size: 24,
+                                ),
+                                Text(
+                                  dashboardContent["dekhor_savedpost"].length.toString(),
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: customTheme.customColors["onEvenContainer"],
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -285,6 +311,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                         child: InkWell(
                           onTap: () {
                             Navigator.pushNamed(context, restroomPageRoute["home"]!);
+                            Navigator.pushNamed(context, restroomPageRoute["myrestroom"]!);
                           },
                           borderRadius: BorderRadius.circular(15),
                           child: Padding(
@@ -337,6 +364,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                         child: InkWell(
                           onTap: () {
                             Navigator.pushNamed(context, pinthebinPageRoute["home"]!);
+                            Navigator.pushNamed(context, pinthebinPageRoute["mybin"]!);
                           },
                           borderRadius: BorderRadius.circular(15),
                           child: Padding(
