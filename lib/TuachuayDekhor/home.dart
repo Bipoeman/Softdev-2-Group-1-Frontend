@@ -18,10 +18,8 @@ class TuachuayDekhorHomePage extends StatefulWidget {
   State<TuachuayDekhorHomePage> createState() => _TuachuayDekhorHomePageState();
 }
 
-Widget nodeCatagories(
-    BuildContext context, String title, String page, String number) {
-  CustomThemes theme =
-      ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+Widget nodeCatagories(BuildContext context, String title, String page, String number) {
+  CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
   Map<String, Color> customColors = theme.customColors;
   Size size = MediaQuery.of(context).size;
 
@@ -36,8 +34,7 @@ Widget nodeCatagories(
           Navigator.pushNamed(context, tuachuayDekhorPageRoute[page]!);
         },
         child: Container(
-          margin: EdgeInsets.fromLTRB(
-              size.width * 0.0375, 10, size.width * 0.0375, 10),
+          margin: EdgeInsets.fromLTRB(size.width * 0.0375, 10, size.width * 0.0375, 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -45,8 +42,7 @@ Widget nodeCatagories(
                 height: size.width * 0.1275,
                 width: size.width * 0.1275,
                 fit: BoxFit.cover,
-                image: AssetImage(
-                    "assets/images/Icon/TuachuayDekhor_Catagories_$number.png"),
+                image: AssetImage("assets/images/Icon/TuachuayDekhor_Catagories_$number.png"),
               ),
               const SizedBox(
                 height: 5,
@@ -112,8 +108,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    CustomThemes theme =
-        ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
+    CustomThemes theme = ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
     Map<String, Color> customColors = theme.customColors;
 
     return Scaffold(
@@ -126,8 +121,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
               color: customColors["main"],
               onRefresh: randompost,
               child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics()),
+                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                       minHeight: size.height -
@@ -140,8 +134,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                         decoration: const BoxDecoration(
                           image: DecorationImage(
                             opacity: 0.3,
-                            image: AssetImage(
-                                "assets/images/Background/TuachuayDekhor_Home.jpg"),
+                            image: AssetImage("assets/images/Background/TuachuayDekhor_Home.jpg"),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -173,14 +166,10 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  nodeCatagories(
-                                      context, "Decoration", "decoration", "1"),
-                                  nodeCatagories(
-                                      context, "Cleaning", "cleaning", "2"),
-                                  nodeCatagories(
-                                      context, "Cooking", "cooking", "3"),
-                                  nodeCatagories(
-                                      context, "Story", "story", "4"),
+                                  nodeCatagories(context, "Decoration", "decoration", "1"),
+                                  nodeCatagories(context, "Cleaning", "cleaning", "2"),
+                                  nodeCatagories(context, "Cooking", "cooking", "3"),
+                                  nodeCatagories(context, "Story", "story", "4"),
                                 ],
                               ),
                             ),
@@ -211,8 +200,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                             ),
                             profileData['role'] == "User"
                                 ? Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
                                         margin: const EdgeInsets.only(left: 30),
@@ -228,21 +216,17 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                         ),
                                       ),
                                       Container(
-                                        margin:
-                                            const EdgeInsets.only(right: 10),
+                                        margin: const EdgeInsets.only(right: 10),
                                         child: RawMaterialButton(
                                           onPressed: () {
                                             Navigator.pushNamed(
                                               context,
-                                              tuachuayDekhorPageRoute[
-                                                  "writeblog"]!,
+                                              tuachuayDekhorPageRoute["writeblog"]!,
                                             );
                                           },
-                                          fillColor: const Color.fromRGBO(
-                                              217, 192, 41, 1),
+                                          fillColor: const Color.fromRGBO(217, 192, 41, 1),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
+                                            borderRadius: BorderRadius.circular(20),
                                           ),
                                           textStyle: const TextStyle(
                                             color: Colors.black,
@@ -264,8 +248,7 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                   ...List.generate(
                                     blogger.length > 6 ? 6 : blogger.length,
                                     (index) => TuachuayDekhorAvatarViewer(
-                                      username: blogger[index]['user']
-                                          ['fullname'],
+                                      username: blogger[index]['user']['fullname'],
                                       avatarUrl: blogger[index]['profile'] ??
                                           "https://api.multiavatar.com/${blogger[index]['user']['fullname'].replaceAll(" ", "+")}.png",
                                     ),
@@ -279,12 +262,12 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                     },
                                     style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
-                                      backgroundColor: Colors.grey[300],
-                                      surfaceTintColor: Colors.white,
+                                      backgroundColor: customColors["container"],
+                                      surfaceTintColor: customColors["container"],
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.arrow_forward,
-                                      color: Color.fromRGBO(0, 48, 73, 1),
+                                      color: customColors["main"],
                                       size: 16,
                                     ),
                                   ),
@@ -324,9 +307,8 @@ class _TuachuayDekhorHomePageState extends State<TuachuayDekhorHomePage> {
                                 itemCount: blog.length,
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                gridDelegate:
-                                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2),
+                                gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
                                 itemBuilder: (context, index) => BlogBox(
                                   title: blog[index]['title'],
                                   name: blog[index]['user']['fullname'],

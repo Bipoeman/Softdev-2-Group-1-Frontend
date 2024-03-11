@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class TuachuayDekhorAdminPage extends StatefulWidget {
-  const TuachuayDekhorAdminPage({Key? key}) : super(key: key);
+  const TuachuayDekhorAdminPage({super.key});
 
   @override
   State<TuachuayDekhorAdminPage> createState() =>
@@ -43,8 +43,8 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
   }
 
   Future<void> deleteReport(int index) async {
-    var id_report = report[index]['id_report'];
-    var deleteurl = Uri.parse("$api$dekhorDeleteReportRoute/$id_report");
+    var idReport = report[index]['id_report'];
+    var deleteurl = Uri.parse("$api$dekhorDeleteReportRoute/$idReport");
     await http.delete(deleteurl);
   }
 
@@ -52,7 +52,7 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
     setState(() {
       isLoading = true;
     });
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     await namereport();
     setState(() {
       isLoading = false;
@@ -64,7 +64,8 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
     Size size = MediaQuery.of(context).size;
     CustomThemes theme =
         ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
-    bool isDarkMode = ThemesPortal.getCurrent(context).isDarkMode;
+    bool isDarkMode =
+        ThemesPortal.getCurrent(context).isDarkMode("TuachuayDekhor");
     Map<String, Color> customColors = theme.customColors;
 
     return Scaffold(
@@ -132,7 +133,7 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
                                   SnackBar(
                                     backgroundColor: customColors["container"],
                                     content: Text(
-                                      "Item dismissed",
+                                      "Report dismissed",
                                       style: TextStyle(
                                         color: customColors["onContainer"],
                                       ),

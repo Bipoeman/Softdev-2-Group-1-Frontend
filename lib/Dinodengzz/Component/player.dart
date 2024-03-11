@@ -27,10 +27,10 @@ enum PlayerState {
 class Player extends SpriteAnimationGroupComponent
     with HasGameRef<GameRoutes>, KeyboardHandler, CollisionCallbacks {
   String character;
-  BuildContext? context; // Declare context as a late variable
+  BuildContext? context;
   Player({
     this.character = 'Relaxaurus',
-    position, // Add context to the constructor parameters
+    position,
   }) : super(position: position);
 
   final double stepTime = 0.025;
@@ -81,6 +81,7 @@ class Player extends SpriteAnimationGroupComponent
     add(RectangleHitbox(
       position: Vector2(hitbox.offsetX, hitbox.offsetY),
       size: Vector2(hitbox.width, hitbox.height),
+      isSolid: true,
     ));
     return super.onLoad();
   }
@@ -280,10 +281,11 @@ class Player extends SpriteAnimationGroupComponent
     FlameAudio.play(game.hitSfx, volume: game.masterVolume * game.sfxVolume);
     gotHit = true;
     current = PlayerState.hit;
-    remainingLives--;
 
     await animationTicker?.completed;
     animationTicker?.reset();
+
+    remainingLives--;
 
     if (remainingLives <= 0) {
       isGameOver = true;
@@ -330,6 +332,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void gotNoodle() {
+    FlameAudio.play(game.ktSFX, volume: game.masterVolume * game.sfxVolume);
     noodleCollected = true;
   }
 }

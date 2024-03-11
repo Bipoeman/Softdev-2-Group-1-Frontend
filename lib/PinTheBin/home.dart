@@ -1,7 +1,10 @@
 import "dart:convert";
 import "dart:developer";
+import "package:clay_containers/widgets/clay_container.dart";
+import "package:clay_containers/widgets/clay_text.dart";
 import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
+import "package:flutter_map_marker_popup/flutter_map_marker_popup.dart";
 import "package:latlong2/latlong.dart";
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
 import "package:ruam_mitt/PinTheBin/componant/map.dart";
@@ -27,7 +30,9 @@ class BinPage extends StatefulWidget {
 class _BinPageState extends State<BinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   SearchController searchBinController = SearchController();
+  final PopupController _popupController = PopupController();
   MapController mapController = MapController();
+  List<Marker> markers = [];
   List<dynamic> binData = [];
   FocusNode focusNode = FocusNode();
   BinLocationInfo markerInfo = BinLocationInfo(info: [], markers: []);
@@ -41,8 +46,8 @@ class _BinPageState extends State<BinPage> {
         "Authorization": publicToken,
       },
     );
-    if (res.statusCode == 403){
-      if (context.mounted){
+    if (res.statusCode == 403) {
+      if (context.mounted) {
         await requestNewToken(context);
         return await getBinInfo();
       }
@@ -81,6 +86,21 @@ class _BinPageState extends State<BinPage> {
           }
         },
       );
+      setState(() {
+        markers = binData.map((bin) {
+          print("Bin : $bin");
+          return Marker(
+            point: LatLng(
+              bin["latitude"].toDouble(),
+              bin["longitude"].toDouble(),
+            ),
+            width: 30,
+            height: 30,
+            rotate: true,
+            child: BinMarker(binData: bin),
+          );
+        }).toList();
+      });
       print("Array Len : ${markerInfo.info.length}");
 
       Future.delayed(const Duration(milliseconds: 500))
@@ -93,8 +113,6 @@ class _BinPageState extends State<BinPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // ThemeProvider themes = Provider.of<ThemeProvider>(context);
-    // ThemeData pinTheBinTheme = themes.themeFrom("PinTheBin")!.themeData;
     return Theme(
       data: pinTheBinThemeData,
       child: Builder(builder: (context) {
@@ -119,6 +137,8 @@ class _BinPageState extends State<BinPage> {
                           : MapPinTheBin(
                               mapController: mapController,
                               binInfo: markerInfo.info,
+                              markers: markers,
+                              popupController: _popupController,
                             ),
                     ),
                   ),
@@ -133,15 +153,17 @@ class _BinPageState extends State<BinPage> {
                 parentKey: widget.key,
                 onSelected: (selectedValue) {
                   log("Selected $selectedValue");
-                  for (var eachBin in markerInfo.info) {
-                    if (eachBin['location'] == selectedValue) {
+                  for (Marker eachBin in markers) {
+                    Map<String, dynamic> data =
+                        (eachBin.child as BinMarker).binData;
+                    if (data['location'] == selectedValue) {
                       log("Pin the bin");
                       setState(
                         () {
                           log("Has focus : ${focusNode.hasFocus}");
                           mapController.move(
-                              LatLng(eachBin['latitude'], eachBin['longitude']),
-                              16);
+                              LatLng(data['latitude'], data['longitude']), 16);
+                          _popupController.showPopupsOnlyFor([eachBin]);
                         },
                       );
                     }
@@ -214,10 +236,12 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar>
             },
           ),
           viewBuilder: (suggestions) {
-            return Container(
-              color: Colors.white,
-              child: Column(
-                children: suggestions.toList(),
+            return SingleChildScrollView(
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  children: suggestions.toList(),
+                ),
               ),
             );
           },
@@ -226,23 +250,8 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar>
               focusNode: widget.focusNode,
               controller: searchBarController,
               hintText: "Search bin...",
-              textStyle: MaterialStatePropertyAll(
-                TextStyle(
-                    fontFamily: searchBarController.text.contains(
-                      RegExp("[ก-๛]"),
-                    )
-                        ? "THSarabunPSK"
-                        : Theme.of(context).textTheme.labelMedium!.fontFamily,
-                    fontSize: searchBarController.text.contains(
-                      RegExp("[ก-๛]"),
-                    )
-                        ? 22
-                        : 18,
-                    fontWeight: searchBarController.text.contains(
-                      RegExp("[ก-๛]"),
-                    )
-                        ? FontWeight.w700
-                        : FontWeight.normal),
+              textStyle: const MaterialStatePropertyAll(
+                TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
               ),
               padding: const MaterialStatePropertyAll(
                 EdgeInsets.only(left: 15, right: 6),
@@ -345,57 +354,17 @@ class _PinTheBinSearchBarState extends State<PinTheBinSearchBar>
                             children: [
                               Text(
                                 tempBinData[index]['location'],
-                                style: TextStyle(
-                                    fontFamily:
-                                        tempBinData[index]['location'].contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? "THSarabunPSK"
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .labelMedium!
-                                                .fontFamily,
-                                    fontSize:
-                                        tempBinData[index]['location'].contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? 24
-                                            : 16,
-                                    fontWeight:
-                                        tempBinData[index]['location'].contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? FontWeight.w700
-                                            : FontWeight.normal),
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal),
                               ),
                               Text(
                                 tempBinData[index]['description'],
                                 maxLines: 1,
                                 style: TextStyle(
-                                    fontFamily: tempBinData[index]
-                                                ['description']
-                                            .contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? "THSarabunPSK"
-                                        : Theme.of(context)
-                                            .textTheme
-                                            .labelMedium!
-                                            .fontFamily,
-                                    fontSize: tempBinData[index]['description']
-                                            .contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? 22
-                                        : 16,
+                                    fontSize: 16,
                                     color: Colors.black.withOpacity(0.6),
-                                    fontWeight: tempBinData[index]
-                                                ['description']
-                                            .contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? FontWeight.w700
-                                        : FontWeight.normal),
+                                    fontWeight: FontWeight.normal),
                               ),
                               Container(
                                 margin: const EdgeInsets.only(top: 5),
@@ -428,6 +397,7 @@ class PinTheBinAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
       height: 130,
       decoration: const BoxDecoration(
@@ -460,21 +430,67 @@ class PinTheBinAppBar extends StatelessWidget {
                 },
               ),
               const SizedBox(width: 10),
-              Text(
-                "Home",
-                style: TextStyle(
-                  fontSize:
-                      Theme.of(context).textTheme.headlineMedium!.fontSize,
-                  fontWeight:
-                      Theme.of(context).textTheme.headlineMedium!.fontWeight,
-                  color: Theme.of(context).textTheme.headlineMedium!.color,
-                ),
+              Stack(
+                children: [
+                  ClayContainer(
+                      width: size.width * 0.7,
+                      height: size.height * 0.08,
+                      borderRadius: 30,
+                      depth: -20,
+                      color: Color(0xFFF99680),
+                      surfaceColor: Color.fromARGB(116, 109, 68, 58),
+                      child: Stack(
+                        children: [
+                          Container(
+                            alignment: Alignment.topCenter,
+                            child: const ClayText(
+                              'HOME',
+                              style: TextStyle(
+                                fontSize: 35,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                              ),
+                              emboss: true,
+                              color: Color(0xFFF8A88F),
+                              textColor: Color(0xFF003049),
+                              depth: -100,
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.bottomCenter,
+                            child: ClayText(
+                              'P  I  N  T  H  E  B  I  N',
+                              style: TextStyle(
+                                fontSize: 13.5,
+                                overflow: TextOverflow.fade,
+                                fontWeight: FontWeight.normal,
+                                color:
+                                    const Color(0xFF003049).withOpacity(0.45),
+                              ),
+                              color: Color(0xFF003049),
+                            ),
+                          ),
+                        ],
+                      )),
+                ],
               ),
             ],
           ),
           const SizedBox(height: 10)
         ],
       ),
+    );
+  }
+}
+
+class BinMarker extends StatelessWidget {
+  const BinMarker({super.key, required this.binData});
+  final dynamic binData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      "assets/images/PinTheBin/pin.png",
     );
   }
 }

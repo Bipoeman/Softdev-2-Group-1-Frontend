@@ -45,7 +45,7 @@ class _TuachuayDekhorDraftPageState extends State<TuachuayDekhorDraftPage> {
     setState(() {
       isLoading = true;
     });
-    await Future.delayed(Duration(seconds: 2), () {});
+    await Future.delayed(const Duration(seconds: 1), () {});
     await posttodraft();
     setState(() {
       isLoading = false;

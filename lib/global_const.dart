@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 const String baseURL = "https://ruammitr.azurewebsites.net";
-const String api = "https://ruammitr.azurewebsites.net/api";
+// const String api = "https://ruammitr.azurewebsites.net/api";
+const String api = "https://softwaredev2.ddns.net";
+// const String api = "http://172.16.1.73:3000";
 
+// const String api = "http://192.168.1.131:3000";
 // const String api = "http://10.0.2.2:3000";
 // const String api = "http://192.168.28.16:3000";
 // const String api = "http://10.0.2.2:3000";
@@ -12,7 +15,9 @@ const String api = "https://ruammitr.azurewebsites.net/api";
 
 const String loginPageRoute = "/login";
 const String registerPageRoute = "/register";
+const String clientSettingsPageRoute = "/client_settings";
 const String userDataUpdateRoute = "/user";
+const String userDashboardRoute = "/user/dashboard";
 const String userImageUpdateRoute = "/user/upload";
 const String userDataRequestRoute = "/user/id";
 const String userPasswordChangeOTPRoute = "/user/otp";
@@ -61,12 +66,12 @@ const String dekhorDescriptionRoute = "/dekhor/bloggerdescription";
 const String pinTheBinMyBinRoute = "/pinthebin/mybin";
 const String pinTheBinDeleteBinRoute = "/pinthebin/bin";
 const String pinTheBinAddpicRoute = "/pinthebin/bin/upload";
+const String pinTheBinEditpicRoute = "/pinthebin/bin/upload";
 const String pinTheBinaddbinRoute = "/pinthebin/bin";
 const String pinTheBineditbinRoute = "/pinthebin/bin";
 const String restroomRoverRestroomRoute = "/restroom";
 const String restroomRoverMyRestroomRoute = "/restroom/mytoilet";
 const String restroomRoverReviewRoute = "/restroom/review";
-const String restroomRoverReportRoute = "/restroom/report";
 const String restroomRoverUploadToiletPictureRoute = "/restroom/upload";
 const String restroomRoverUploadReviewPictureRoute = "/restroom/upload/review";
 const String pinTheBinReportBinRoute = "/pinthebin/report";
@@ -117,6 +122,7 @@ const Map<String, String> tuachuayDekhorPageRoute = {
   "cooking": "/TuachuayDekhor/cooking",
   "cleaning": "/TuachuayDekhor/cleaning",
   "report": "/TuachuayDekhor/report",
+  "reportapp": "/TuachuayDekhor/reportapp",
   "admin": "/TuachuayDekhor/admin",
   "detailreport": "/TuachuayDekhor/detailreport",
 };
@@ -130,15 +136,29 @@ const Map<String, String> pinthebinPageRoute = {
 
 BoxDecoration ruamMitrBackgroundGradient(ThemeProvider themes) {
   return BoxDecoration(
-      gradient: LinearGradient(
-    // stops: const [-0.5, 0.8],
+    gradient: LinearGradient(
+      // stops: const [-0.5, 0.8],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        themes.themeFrom("RuamMitr")!.customColors["backgroundStart"]!,
+        themes.themeFrom("RuamMitr")!.customColors["backgroundEnd"]!
+      ],
+    ),
+  );
+}
+
+LinearGradient backgroundGradient(BuildContext context, String themeName) {
+  CustomThemes customTheme =
+      ThemesPortal.appThemeFromContext(context, themeName)!;
+  return LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      themes.themeFrom("RuamMitr")!.customColors["backgroundStart"]!,
-      themes.themeFrom("RuamMitr")!.customColors["backgroundEnd"]!
+      customTheme.customColors["backgroundStart"]!,
+      customTheme.customColors["backgroundEnd"]!
     ],
-  ));
+  );
 }
 
 const Map<String, String> restroomPinImg = <String, String>{

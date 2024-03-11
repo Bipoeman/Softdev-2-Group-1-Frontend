@@ -1,16 +1,18 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:clay_containers/widgets/clay_container.dart';
+import 'package:clay_containers/widgets/clay_text.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
-import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
-import 'package:neumorphic_button/neumorphic_button.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
 import 'package:http/http.dart' as http;
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_func.dart';
 import 'package:ruam_mitt/global_var.dart';
 
 Color colorbackground = const Color(0x00000000);
@@ -35,6 +37,46 @@ class _EditbinPageState extends State<EditbinPage> {
   };
   String? _latitude;
   String? _longitude;
+  File? _image;
+
+  Future<void> _getImage() async {
+    bool? isCamera = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text("Camera"),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text("gallery "),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (isCamera == null) return;
+    final pickedFile = await ImagePicker()
+        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        debugPrint('No image selected.');
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -56,17 +98,82 @@ class _EditbinPageState extends State<EditbinPage> {
         widget.binData['Bininfo']['bintype']['bluebin'] ?? false;
   }
 
-  void _presstosend() async {
+  // void _presstosend() async {
+  //   final url = Uri.parse("$api$pinTheBineditbinRoute");
+  //   http.Response res = await http.put(url, headers: {
+  //     "Authorization": "Bearer $publicToken"
+  //   }, body: {
+  //     "location": _LocationstextController.text,
+  //     "description": _DescriptiontextController.text,
+  //     "bintype": jsonEncode(_bintype),
+  //     "id": "${widget.binData['Bininfo']['id']}"
+  //   });
+  //   print(res.body);
+  // }
+
+  Future<void> _editPin() async {
+    await requestNewToken(context);
+    debugPrint("Sending data");
     final url = Uri.parse("$api$pinTheBineditbinRoute");
-    http.Response res = await http.put(url, headers: {
-      "Authorization": "Bearer $publicToken"
-    }, body: {
-      "location": _LocationstextController.text,
-      "description": _DescriptiontextController.text,
-      "bintype": jsonEncode(_bintype),
-      "id": "${widget.binData['Bininfo']['id']}"
+    var response = await http
+        .put(url, headers: {
+          "Authorization": "Bearer $publicToken",
+        }, body: {
+          "location": _LocationstextController.text,
+          "description": _DescriptiontextController.text,
+          "bintype": jsonEncode(_bintype),
+          //"latitude": _position!.latitude.toString(),
+          //"longitude": _position!.longitude.toString(),
+          "id": "${widget.binData['Bininfo']['id']}",
+        })
+        .timeout(const Duration(seconds: 10))
+        .onError((error, stackTrace) {
+          return Future.error(error ?? {}, stackTrace);
+        });
+
+    debugPrint("Response: ${response.body}");
+    if (response.statusCode != 200) {
+      return Future.error(response.reasonPhrase ?? "Failed to add bin.");
+    }
+    int id = jsonDecode(response.body)[0]['id'];
+    print("ID: $id");
+    if (_image != null) {
+      await _sendpic(id.toString(), _image).onError((error, stackTrace) async {
+        return Future.error(error ?? {}, stackTrace);
+      });
+    }
+  }
+
+  Future<http.Response> _sendpic(id, picture) async {
+    debugPrint("Updating picture");
+    final url = Uri.parse("$api$pinTheBinEditpicRoute");
+    http.MultipartRequest request = http.MultipartRequest('POST', url);
+    request.headers.addAll({
+      "Authorization": "Bearer $publicToken",
+      "Content-Type": "application/json"
     });
-    print(res.body);
+    request.files.add(
+      http.MultipartFile.fromBytes(
+        "file",
+        File(picture.path).readAsBytesSync(),
+        filename: picture.path,
+        contentType:
+            MediaType.parse(lookupMimeType(picture.path) ?? "image/jpeg"),
+      ),
+    );
+    request.fields['id'] = id;
+    try {
+      http.StreamedResponse response =
+          await request.send().timeout(const Duration(seconds: 10));
+      if (response.statusCode != 200) {
+        return Future.error(response.reasonPhrase ?? "Failed to send report");
+      }
+      http.Response res = await http.Response.fromStream(response)
+          .timeout(const Duration(seconds: 10));
+      return res;
+    } catch (e) {
+      return Future.error(e);
+    }
   }
 
   @override
@@ -95,7 +202,7 @@ class _EditbinPageState extends State<EditbinPage> {
 
     return Theme(
       data: ThemeData(
-        fontFamily: "Sen",
+        fontFamily: "Kodchasan",
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFFF9957F),
           background: const Color(0xFFFFFFFF),
@@ -137,6 +244,12 @@ class _EditbinPageState extends State<EditbinPage> {
             fontWeight: FontWeight.normal,
             color: const Color(0xFF003049).withOpacity(0.45),
           ),
+          bodyMedium: TextStyle(
+            fontSize: 13.5,
+            overflow: TextOverflow.fade,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xFF003049),
+          ),
         ),
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(
@@ -160,7 +273,7 @@ class _EditbinPageState extends State<EditbinPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.menu_rounded),
+                        const Icon(Icons.menu_rounded),
                         SizedBox(height: size.height * 0.015),
                       ],
                     ),
@@ -184,12 +297,61 @@ class _EditbinPageState extends State<EditbinPage> {
                   ),
                   title: Column(
                     children: [
-                      Text(
-                        "EDIT",
-                        style: Theme.of(context).textTheme.headlineMedium,
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: size.height * 0.022),
+                            child: ClayContainer(
+                                width: size.width * 0.7,
+                                height: size.height * 0.08,
+                                borderRadius: 30,
+                                depth: -20,
+                                color: Color(0xFFF99680),
+                                surfaceColor: Color.fromARGB(116, 109, 68, 58),
+                                // surfaceColor: Color.fromARGB(147, 249, 150, 128),
+                                // surfaceColor:
+                                //     const Color.fromARGB(255, 138, 112, 112),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: size.height * 0.005,
+                                      left: size.width * 0.155),
+                                  child: ClayText(
+                                    'EDIT BIN',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium,
+
+                                    emboss: true,
+                                    //size: 20,
+                                    color: Color(0xFFF8A88F),
+                                    textColor: Color(0xFF003049),
+                                    //color: Color.fromARGB(255, 234, 134, 41),
+                                    depth: -100,
+                                    //spread: 5,
+                                  ),
+                                )),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: size.height * 0.075,
+                                left: size.width * 0.18),
+                            child: Container(
+                              //color: Color(0xFFF99680),
+                              child: ClayText(
+                                'P  I  N  T  H  E  B  I  N',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                color: Color(0xFF003049),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        height: size.height * 0.015,
+                      // Text(
+                      //   "ADD BIN",
+                      //   style: Theme.of(context).textTheme.headlineMedium,
+                      // ),
+                      const SizedBox(
+                        height: 15,
                       )
                     ],
                   ),
@@ -291,29 +453,90 @@ class _EditbinPageState extends State<EditbinPage> {
                       Padding(
                         padding: EdgeInsets.only(
                             left: size.width * 0.16, top: size.height * 0.085),
-                        child: SizedBox(
-                          width: size.width * 0.7,
-                          height: size.height * 0.25,
-                          //color: Colors.black,
-                          child: widget.binData['Bininfo']['picture'] == null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.asset(
-                                    fit: BoxFit.contain,
-                                    "assets/images/PinTheBin/bin_null.png",
-                                    //fit: BoxFit.fill,
-                                  ),
-                                )
-                              // : Container()
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.network(
-                                    // fit: BoxFit.contain,
-                                    widget.binData['Bininfo']['picture'],
-                                    fit: BoxFit.contain,
+                        child: GestureDetector(
+                          child: Stack(
+                            fit: StackFit.loose,
+                            //alignment: Alignment.bottomCenter,
+                            children: [
+                              SizedBox(
+                                  height: size.height * 0.25,
+                                  width: size.width * 0.7,
+                                  child: _image == null
+                                      ? widget.binData['Bininfo']['picture'] ==
+                                              null
+                                          ? ClipRRect(
+                                              //BorderRadius.circular(15),
+                                              child: Image.asset(
+                                                "assets/images/PinTheBin/bin_null.png",
+                                                fit: BoxFit.contain,
+                                              ),
+                                            )
+                                          : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: Image.network(
+                                                widget.binData['Bininfo']
+                                                    ['picture'],
+                                                fit: BoxFit.contain,
+                                              ),
+                                            )
+                                      : ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          child: Image.file(
+                                            _image!,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        )),
+                              IntrinsicWidth(
+                                child: Container(
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10)),
+                                      color: Colors.black.withOpacity(0.2)),
+                                  child: const Row(
+                                    children: [
+                                      Text('Upload',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      Icon(
+                                        Icons.upload_file,
+                                        color: Colors.white,
+                                      ),
+                                    ],
                                   ),
                                 ),
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            _getImage();
+                          },
                         ),
+                        // child: SizedBox(
+                        //   width: size.width * 0.7,
+                        //   height: size.height * 0.25,
+                        //   //color: Colors.black,
+                        //   child: widget.binData['Bininfo']['picture'] == null
+                        //       ? ClipRRect(
+                        //           borderRadius: BorderRadius.circular(15),
+                        //           child: Image.asset(
+                        //             fit: BoxFit.contain,
+                        //             "assets/images/PinTheBin/bin_null.png",
+                        //             //fit: BoxFit.fill,
+                        //           ),
+                        //         )
+                        //       // : Container()
+                        //       : ClipRRect(
+                        //           borderRadius: BorderRadius.circular(15),
+                        //           child: Image.network(
+                        //             // fit: BoxFit.contain,
+                        //             widget.binData['Bininfo']['picture'],
+                        //             fit: BoxFit.contain,
+                        //           ),
+                        //         ),
+                        // ),
                       ),
                       Column(
                         children: [
@@ -339,7 +562,7 @@ class _EditbinPageState extends State<EditbinPage> {
                           ClayContainer(
                             width: size.width * 0.8,
                             height: size.height * 0.15,
-                            color: Color.fromRGBO(239, 239, 239, 1),
+                            color: const Color.fromRGBO(239, 239, 239, 1),
                             borderRadius: 30,
                             depth: -15,
                             child: TextField(
@@ -372,7 +595,7 @@ class _EditbinPageState extends State<EditbinPage> {
                               Padding(
                                 padding: EdgeInsets.only(
                                     left: size.width * 0.05,
-                                    top: size.height * 0.57),
+                                    top: size.height * 0.58),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -383,7 +606,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   },
                                   child: Container(
                                     width: size.width * 0.2,
-                                    height: size.height * 0.13,
+                                    height: size.height * 0.1,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
                                       color: const Color.fromARGB(9, 0, 47, 73),
@@ -436,7 +659,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.only(top: size.height * 0.57),
+                                    EdgeInsets.only(top: size.height * 0.58),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -449,7 +672,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   },
                                   child: Container(
                                     width: size.width * 0.2,
-                                    height: size.height * 0.13,
+                                    height: size.height * 0.1,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
                                       color: const Color.fromARGB(9, 0, 47, 73),
@@ -497,7 +720,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.only(top: size.height * 0.57),
+                                    EdgeInsets.only(top: size.height * 0.58),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -510,7 +733,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   },
                                   child: Container(
                                     width: size.width * 0.2,
-                                    height: size.height * 0.13,
+                                    height: size.height * 0.1,
                                     //color: Colors.black,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
@@ -559,7 +782,7 @@ class _EditbinPageState extends State<EditbinPage> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.only(top: size.height * 0.57),
+                                    EdgeInsets.only(top: size.height * 0.58),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -572,7 +795,7 @@ class _EditbinPageState extends State<EditbinPage> {
                                   },
                                   child: Container(
                                     width: size.width * 0.2,
-                                    height: size.height * 0.13,
+                                    height: size.height * 0.1,
                                     //color: Colors.black,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
@@ -625,49 +848,6 @@ class _EditbinPageState extends State<EditbinPage> {
                             child: GestureDetector(
                               child: Container(
                                 alignment: Alignment.center,
-                                // padding: EdgeInsets.only(
-                                //     left: size.width * 0.025,
-                                //     top: size.height * 0.009),
-                                width: size.width * 0.25,
-                                height: size.height * 0.055,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFF9957F),
-                                  borderRadius: BorderRadius.circular(30),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      blurRadius: 5,
-                                      //offset: ,
-                                      color: Color(0xFFA7A9AF),
-                                    ),
-                                  ],
-                                ),
-                                child: Text(
-                                  'CANCEL',
-                                  style: GoogleFonts.getFont(
-                                    "Sen",
-                                    color: const Color.fromARGB(
-                                        255, 255, 255, 255),
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, pinthebinPageRoute['home']!);
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: size.width * 0.175,
-                                top: size.height * 0.76),
-                            child: GestureDetector(
-                              child: Container(
-                                alignment: Alignment.center,
-                                // padding: EdgeInsets.only(
-                                //     left: size.width * 0.018,
-                                //     top: size.height * 0.008),
                                 width: size.width * 0.25,
                                 height: size.height * 0.055,
                                 decoration: BoxDecoration(
@@ -708,9 +888,26 @@ class _EditbinPageState extends State<EditbinPage> {
                                         actions: [
                                           MaterialButton(
                                             onPressed: () {
-                                              _presstosend();
-                                              Navigator.pushNamed(context,
-                                                  pinthebinPageRoute['home']!);
+                                              _editPin()
+                                                  .then((_) => {
+                                                        print('compelet'),
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            pinthebinPageRoute[
+                                                                'home']!)
+                                                      })
+                                                  .onError((error,
+                                                          stackTrace) =>
+                                                      {
+                                                        print('error $error'),
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                SnackBar(
+                                                          content: Text(
+                                                              "Failed to edit bin: $error"),
+                                                        ))
+                                                      });
                                             },
                                             child: const Text('Confirm'),
                                           ),
@@ -742,6 +939,43 @@ class _EditbinPageState extends State<EditbinPage> {
                                         ],
                                       );
                                     });
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: size.width * 0.175,
+                                top: size.height * 0.76),
+                            child: GestureDetector(
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: size.width * 0.25,
+                                height: size.height * 0.055,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFF9957F),
+                                  borderRadius: BorderRadius.circular(30),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      blurRadius: 5,
+                                      //offset: ,
+                                      color: Color(0xFFA7A9AF),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  'CANCEL',
+                                  style: GoogleFonts.getFont(
+                                    "Sen",
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, pinthebinPageRoute['home']!);
                               },
                             ),
                           ),

@@ -1,10 +1,15 @@
+import "dart:convert";
 import "dart:io";
 
 import "package:flutter/material.dart";
+import "package:flutter_image_compress/flutter_image_compress.dart";
 import "package:http/http.dart" as http;
+import "package:http_parser/http_parser.dart";
 import "package:image_picker/image_picker.dart";
 import 'package:clay_containers/widgets/clay_container.dart';
+import "package:mime/mime.dart";
 import "package:ruam_mitt/Restroom/Component/font.dart";
+import "package:ruam_mitt/Restroom/Component/loading_screen.dart";
 import "package:ruam_mitt/Restroom/Component/navbar.dart";
 import "package:ruam_mitt/Restroom/Component/theme.dart";
 import "package:ruam_mitt/global_const.dart";
@@ -22,19 +27,12 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _reportTextController = TextEditingController();
 
-  int remainingCharacters = 0;
   File? _image;
-
-  void updateRemainingCharacters() {
-    setState(() {
-      remainingCharacters = _reportTextController.text.length;
-    });
-  }
 
   Future<void> _sendReport() async {
     await requestNewToken(context);
     debugPrint('Send report');
-    final url = Uri.parse("$api$restroomRoverReportRoute");
+    final url = Uri.parse("$api$reportRoute");
     http.MultipartRequest request = http.MultipartRequest('POST', url);
     request.headers.addAll({
       "Authorization": "Bearer $publicToken",
@@ -47,11 +45,16 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
           "file",
           _image!.readAsBytesSync(),
           filename: _image!.path,
+          contentType:
+              MediaType.parse(lookupMimeType(_image!.path) ?? "image/jpeg"),
         ),
       );
     }
-    request.fields['id'] = widget.restroomData["id"].toString();
+    request.fields['title'] =
+        "Report for Pin ${widget.restroomData["id"]} : ${widget.restroomData["name"]}";
+    request.fields['type'] = "restroom";
     request.fields['description'] = _reportTextController.text;
+    request.fields['more_info'] = jsonEncode(widget.restroomData);
     debugPrint("Request: ${request.fields}");
     try {
       http.StreamedResponse response =
@@ -69,29 +72,51 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
   }
 
   Future<void> _getImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        debugPrint('No image selected.');
-      }
-    });
-  }
+    bool? isCamera = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text("Camera"),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text("gallery "),
+            ),
+          ],
+        ),
+      ),
+    );
 
-  @override
-  void initState() {
-    super.initState();
-    debugPrint("init");
-    _reportTextController.addListener(updateRemainingCharacters);
-  }
-
-  @override
-  void dispose() {
-    _reportTextController.removeListener(updateRemainingCharacters);
-    _reportTextController.dispose();
-    super.dispose();
+    if (isCamera == null) return;
+    final pickedFile = await ImagePicker()
+        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
+    if (pickedFile != null) {
+      var result = await FlutterImageCompress.compressAndGetFile(
+        pickedFile.path,
+        '${pickedFile.path}_compressed.jpg',
+        quality: 40,
+      );
+      setState(() {
+        if (result != null) {
+          _image = File(result.path);
+        } else {
+          debugPrint('Compresstion error.');
+        }
+      });
+    } else {
+      debugPrint('No image selected.');
+    }
   }
 
   @override
@@ -168,27 +193,6 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(right: size.width * 0.1),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: size.height * 0.01),
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: AspectRatio(
-                                aspectRatio:
-                                    1 / 1, // สามารถเปลี่ยนสัดส่วนตามรูปภาพได้
-                                child: Image.network(
-                                        widget.restroomData["picture"] ?? "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
-                                        fit: BoxFit.cover,
-                                      ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
                       SizedBox(
                         height: size.height * 0.02,
                       ),
@@ -197,15 +201,11 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                         height: size.height * 0.3,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
-                          child: widget.restroomData["picture"] == null
-                              ? Image.asset(
-                                  "assets/images/PinTheBin/bin_null.png",
-                                  fit: BoxFit.contain,
-                                )
-                              : Image.network(
-                                  widget.restroomData["picture"],
-                                  fit: BoxFit.cover,
-                                ),
+                          child: Image.network(
+                            widget.restroomData["picture"] ??
+                                "https://media.discordapp.net/attachments/1033741246683942932/1213677182161920020/toilet_sign.png?ex=65f657f5&is=65e3e2f5&hm=69aa24e997ae288613645b0c45363aea72cdb7d9f0cbabacbfe7a3f04d6047ea&=&format=webp&quality=lossless&width=702&height=702",
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       SizedBox(height: size.height * 0.02),
@@ -403,7 +403,9 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                           ),
                           ElevatedButton(
                             onPressed: () {
+                              showRestroomLoadingScreen(context);
                               _sendReport().then((value) {
+                                Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Report sent"),
@@ -412,6 +414,7 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                                 Navigator.pop(context);
                               }).onError((error, stackTrace) {
                                 debugPrint("Error: $error");
+                                Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
@@ -444,7 +447,9 @@ class _RestroomRoverReportPinState extends State<RestroomRoverReportPin> {
                     ],
                   ),
                 ),
-                Builder(builder: (context) => RestroomAppBar(scaffoldKey: _scaffoldKey)),
+                Builder(
+                    builder: (context) =>
+                        RestroomAppBar(scaffoldKey: _scaffoldKey)),
               ]),
             ),
             drawerScrimColor: Colors.transparent,
@@ -464,7 +469,6 @@ class RestroomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(Theme.of(context).textTheme.headlineMedium!.color.toString());
     return Container(
       height: 130,
       decoration: const BoxDecoration(

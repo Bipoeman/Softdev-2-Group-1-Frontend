@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 TextStyle text_input(String text, BuildContext context, {double size = 1.0}) {
   return TextStyle(

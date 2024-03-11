@@ -7,7 +7,6 @@ import 'package:ruam_mitt/global_const.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
-
 class MapRestroomRover extends StatelessWidget {
   const MapRestroomRover(
       {super.key,
@@ -20,6 +19,10 @@ class MapRestroomRover extends StatelessWidget {
   final List<Marker>? markers;
   final MapController? mapController;
   final PopupController? popupController;
+
+// if (await Permission.location.ServiceStatus.isEnabled) {
+
+// }
 
   @override
   Widget build(BuildContext context) {
@@ -69,16 +72,18 @@ class MapRestroomRover extends StatelessWidget {
                 popupController: popupController,
                 markers: markers ?? defaultMarkers,
                 popupDisplayOptions: PopupDisplayOptions(
+                    animation: const PopupAnimation.fade(
+                        duration: Duration(milliseconds: 150)),
                     builder: (BuildContext context, Marker marker) {
-                  Map<String, dynamic> data = restroomData
-                      .filter((restroom) =>
-                          restroom["latitude"].toDouble() ==
-                              marker.point.latitude &&
-                          restroom["longitude"].toDouble() ==
-                              marker.point.longitude)
-                      .single;
-                  return Cardpin(marker: marker, restroomData: data);
-                }),
+                      Map<String, dynamic> data = restroomData
+                          .filter((restroom) =>
+                              restroom["latitude"].toDouble() ==
+                                  marker.point.latitude &&
+                              restroom["longitude"].toDouble() ==
+                                  marker.point.longitude)
+                          .single;
+                      return Cardpin(marker: marker, restroomData: data);
+                    }),
               ),
             ),
             RichAttributionWidget(

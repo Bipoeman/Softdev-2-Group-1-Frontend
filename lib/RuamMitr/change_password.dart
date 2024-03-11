@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:math';
-
+import 'dart:async';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ruam_mitt/RuamMitr/Component/frequent_widget/custom_text_field.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
 
 class PasswordChangeData {
@@ -27,10 +28,26 @@ class PasswordChangePage extends StatefulWidget {
 
 class _PasswordChangePageState extends State<PasswordChangePage> {
   bool sendOTPEnabled = false;
+  bool waitingForOTPSendSuccess = false;
   bool isChangePasswordEnabled = false;
+  bool isOTPSendSuccess = false;
   GlobalKey<FormState> changePasswordFormKey = GlobalKey<FormState>();
   PasswordChangeData passwordChangeData =
       PasswordChangeData(["email", "OTP", "password", "confirmPassword"]);
+
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    isOTPTimerActive = true;
+    otpTimer = Timer.periodic(oneSec, (timer) {
+      if (currentOTPTimer <= 0) {
+        timer.cancel();
+        isOTPTimerActive = false;
+        currentOTPTimer = 60;
+      } else {
+        currentOTPTimer--;
+      }
+    });
+  }
 
   void validateNewPasswordInputs(String value) {
     bool noAnyStartStates = passwordChangeData.isInitiallyBlank.values.every((element) {
@@ -135,9 +152,18 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
   }
 
   void requestOTP() async {
+    setState(() {
+      waitingForOTPSendSuccess = true;
+    });
     Uri url = Uri.parse(
-        "$api$userPasswordChangeOTPRoute?email=${passwordChangeData.fieldController['email']!.text}");
+      "$api$userPasswordChangeOTPRoute?email=${passwordChangeData.fieldController['email']!.text}",
+    );
     var otpRes = await http.get(url);
+    setState(() {
+      waitingForOTPSendSuccess = false;
+      isOTPSendSuccess = true;
+    });
+    startTimer();
     debugPrint(otpRes.body);
   }
 
@@ -164,6 +190,15 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
           }
         });
       }
+    } else if (bodyJson['msg'] == "Invalid OTP") {
+      if (context.mounted) {
+        var snackBar = SnackBar(
+          content: Text("${bodyJson['msg']}. Please request OTP again."),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        passwordChangeData.fieldController['OTP']!.clear();
+      }
     }
   }
 
@@ -186,15 +221,20 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
               leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color: theme.colorScheme.primaryContainer,
+                  color: theme.colorScheme.onPrimary,
                 ),
                 onPressed: () => Navigator.pop(context),
               ),
               title: Text(
                 "Change your password",
                 style: TextStyle(
-                  color: theme.colorScheme.primaryContainer,
+                  color: theme.colorScheme.onPrimary,
                   fontWeight: FontWeight.bold,
+                ),
+              ),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(15),
                 ),
               ),
             ),
@@ -244,13 +284,32 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                                 style: ElevatedButton.styleFrom(
                                     shape: const CircleBorder(),
                                     backgroundColor: theme.colorScheme.primary,
+                                    fixedSize: const Size(45, 45),
                                     padding: EdgeInsets.zero),
-                                onPressed: sendOTPEnabled ? requestOTP : null,
-                                child: const Icon(
-                                  Icons.send,
-                                  color: Colors.white,
-                                ),
-                              )
+                                onPressed:
+                                    (sendOTPEnabled && !isOTPTimerActive) ? requestOTP : null,
+                                child: isOTPTimerActive && !waitingForOTPSendSuccess
+                                    ? Text(
+                                        "$currentOTPTimer",
+                                        style: TextStyle(
+                                          color: theme.colorScheme.onPrimary,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      )
+                                    : waitingForOTPSendSuccess
+                                        ? SizedBox(
+                                            width: 30,
+                                            height: 30,
+                                            child: CircularProgressIndicator(
+                                              color: ruammitrTheme.customColors["onMain"]!,
+                                            ),
+                                          )
+                                        : Icon(
+                                            Icons.send,
+                                            color: ruammitrTheme.customColors["onMain"],
+                                          ),
+                              ),
                               // Icon(Icons.send)
                             ],
                           ),
@@ -303,7 +362,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                                 ),
                                 foregroundColor: theme.colorScheme.onPrimary,
                               ),
-                              onPressed: isChangePasswordEnabled
+                              onPressed: (isChangePasswordEnabled && isOTPSendSuccess)
                                   ? () async {
                                       changePassword(context);
                                     }

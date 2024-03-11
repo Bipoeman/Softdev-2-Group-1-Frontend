@@ -1,7 +1,6 @@
 import 'dart:math';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
 import 'package:http/http.dart' as http;
@@ -77,7 +76,8 @@ class _TuachuayDekhorDetailReportPageState
     Size size = MediaQuery.of(context).size;
     CustomThemes theme =
         ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
-    bool isDarkMode = ThemesPortal.getCurrent(context).isDarkMode;
+    bool isDarkMode =
+        ThemesPortal.getCurrent(context).isDarkMode("TuachuayDekhor");
     Map<String, Color> customColors = theme.customColors;
 
     return Scaffold(
@@ -106,7 +106,9 @@ class _TuachuayDekhorDetailReportPageState
                           onTap: () {
                             Navigator.popUntil(
                               context,
-                              (route) => route.settings.name == tuachuayDekhorPageRoute["home"]!,
+                              (route) =>
+                                  route.settings.name ==
+                                  tuachuayDekhorPageRoute["home"]!,
                             );
                           },
                           child: Image(
@@ -253,6 +255,9 @@ class _TuachuayDekhorDetailReportPageState
                                     deleteReport();
                                     print("delete");
                                     Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pushNamed(context,
+                                        tuachuayDekhorPageRoute["admin"]!);
                                   },
                                   child: Container(
                                     height: 35,
@@ -311,7 +316,7 @@ class _TuachuayDekhorDetailReportPageState
                                             report[0]['detail']['image_link'] !=
                                                 null)
                                         ? report[0]['detail']['image_link']
-                                        : 'no image',
+                                        : 'No image',
                                   ),
                                   fit: BoxFit.cover,
                                 ),
@@ -330,15 +335,24 @@ class _TuachuayDekhorDetailReportPageState
                                 ),
                                 const SizedBox(width: 10),
                                 Flexible(
-                                  child: Text(
-                                    (report.isNotEmpty &&
+                                  child: Markdown(
+                                    padding: EdgeInsets.zero,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    data: (report.isNotEmpty &&
                                             report[0]['detail']['content'] !=
                                                 null)
                                         ? report[0]['detail']['content']
-                                        : 'no content',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: customColors["onMain"],
+                                        : 'No content',
+                                    styleSheet: MarkdownStyleSheet.fromTheme(
+                                      Theme.of(context).copyWith(
+                                        textTheme: Theme.of(context)
+                                            .textTheme
+                                            .apply(
+                                                bodyColor:
+                                                    customColors["onMain"]),
+                                      ),
                                     ),
                                   ),
                                 ),

@@ -1,7 +1,10 @@
 import "dart:convert";
+import "package:clay_containers/widgets/clay_container.dart";
+import "package:clay_containers/widgets/clay_text.dart";
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import "package:latlong2/latlong.dart";
+import "package:ruam_mitt/PinTheBin/componant/loading.dart";
 import "package:ruam_mitt/PinTheBin/bin_drawer.dart";
 import "package:ruam_mitt/global_const.dart";
 import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
@@ -18,25 +21,36 @@ class _MyBinState extends State<MyBinPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   dynamic binData = [];
   dynamic binShow = [];
+  bool isLoading = true;
   SearchController searchBinController = SearchController();
   FocusNode focusNode = FocusNode();
   LatLng? centerMark;
-  Future<http.Response> myBinInfo() async {
+
+  void myBinInfo() async {
+    setState((){
+      isLoading = true;
+    });
     Uri url = Uri.parse("$api$pinTheBinMyBinRoute");
-    http.Response res =
-        await http.get(url, headers: {"Authorization": "Bearer $publicToken"});
+    var res = await http.get(url, headers: {"Authorization": "Bearer $publicToken"});
     print(res.body);
-    if (res.statusCode == 200)
-      return res;
-    else
-      return binData;
+    if (res.statusCode == 200) {
+      setState(() {
+        binData = jsonDecode(res.body);
+        binShow = binData;
+        print(binShow);
+      });
+    } else {
+      print("Error");
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   Future<http.Response> delBin(int id) async {
     Uri url = Uri.parse("$api$pinTheBinDeleteBinRoute/$id");
-    return await http.delete(url, headers: {
-      "Authorization": "Bearer $publicToken"
-    }).timeout(const Duration(seconds: 5));
+    return await http.delete(url,
+        headers: {"Authorization": "Bearer $publicToken"}).timeout(const Duration(seconds: 10));
   }
 
   @override
@@ -44,16 +58,7 @@ class _MyBinState extends State<MyBinPage> {
     // TODO: implement initState
     super.initState();
     print("Init Bin Page");
-    myBinInfo().then((response) {
-      print("Response");
-      print(response.body);
-      setState(() {
-        binData = jsonDecode(response.body);
-        binShow = binData;
-        print(binShow);
-      });
-      // print(binData);
-    });
+    myBinInfo();
   }
 
   @override
@@ -82,17 +87,22 @@ class _MyBinState extends State<MyBinPage> {
                 ),
               ),
             ),
+            isLoading ? const Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            ) :
             Column(
               children: binShow.isEmpty
                   ? [
                       Center(
-                          heightFactor: size.height * 0.02,
-                          child: const Text(
+                          heightFactor: size.height * 0.015,
+                          child: Text(
                             'No Bin Found!',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: Theme.of(context).textTheme.displayMedium!.fontSize,
                               fontWeight: FontWeight.bold,
-                              color: const Color(0xFFF77F00),
+                              color: Color(0xFFF77F00),
                             ),
                           ))
                     ]
@@ -110,17 +120,14 @@ class _MyBinState extends State<MyBinPage> {
                               return Container(
                                   width: size.width * 0.9,
                                   height: size.height * 0.27,
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 5.0),
+                                  margin: const EdgeInsets.symmetric(vertical: 5.0),
                                   padding: const EdgeInsets.all(10.0),
                                   decoration: BoxDecoration(
-                                    color: const Color.fromRGBO(
-                                        255, 255, 255, 0.6),
+                                    color: const Color.fromRGBO(255, 255, 255, 0.6),
                                     borderRadius: BorderRadius.circular(25.0),
                                     boxShadow: const [
                                       BoxShadow(
-                                        color: Color.fromRGBO(
-                                            126, 120, 120, 0.247),
+                                        color: Color.fromRGBO(126, 120, 120, 0.247),
                                         offset: Offset(0, 4),
                                         blurRadius: 4,
                                       ),
@@ -129,16 +136,12 @@ class _MyBinState extends State<MyBinPage> {
                                   child: Stack(
                                     children: [
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.baseline,
-                                            textBaseline:
-                                                TextBaseline.alphabetic,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                                            textBaseline: TextBaseline.alphabetic,
                                             children: [
                                               const Text(
                                                 'Name: ',
@@ -146,56 +149,28 @@ class _MyBinState extends State<MyBinPage> {
                                                   fontSize: 20,
                                                   height: 1.0,
                                                   fontWeight: FontWeight.w400,
-                                                  color: Color.fromRGBO(
-                                                      0, 30, 49, 67),
+                                                  color: Color.fromRGBO(0, 30, 49, 67),
                                                 ),
                                               ),
                                               Text(
                                                 '${data["location"]}',
-                                                style: TextStyle(
-                                                    fontFamily: data["location"]
-                                                            .contains(
-                                                      RegExp("[ก-๛]"),
-                                                    )
-                                                        ? "THSarabunPSK"
-                                                        : Theme.of(context)
-                                                            .textTheme
-                                                            .headlineMedium!
-                                                            .fontFamily,
-                                                    fontSize: data["location"]
-                                                            .contains(
-                                                      RegExp("[ก-๛]"),
-                                                    )
-                                                        ? 28
-                                                        : 20,
-                                                    height: data["location"]
-                                                            .contains(
-                                                      RegExp("[ก-๛]"),
-                                                    )
-                                                        ? 0.7
-                                                        : 1.0,
-                                                    fontWeight: data["location"]
-                                                            .contains(
-                                                      RegExp("[ก-๛]"),
-                                                    )
-                                                        ? FontWeight.w700
-                                                        : FontWeight.normal,
-                                                    color: const Color.fromRGBO(
-                                                        0, 30, 49, 67)),
+                                                style: const TextStyle(
+                                                    fontSize: 20,
+                                                    height: 1.0,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color.fromRGBO(0, 30, 49, 67)),
                                               ),
                                             ],
                                           ),
                                           Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 const Text(
                                                   'Type: ',
                                                   style: TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.w400,
-                                                    color: Color.fromRGBO(
-                                                        0, 30, 49, 67),
+                                                    color: Color.fromRGBO(0, 30, 49, 67),
                                                   ),
                                                 ),
                                                 Text(
@@ -203,8 +178,7 @@ class _MyBinState extends State<MyBinPage> {
                                                   style: const TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.w400,
-                                                    color: Color.fromRGBO(
-                                                        0, 30, 49, 67),
+                                                    color: Color.fromRGBO(0, 30, 49, 67),
                                                   ),
                                                 ),
                                               ]),
@@ -212,8 +186,7 @@ class _MyBinState extends State<MyBinPage> {
                                       ),
                                       Container(
                                         alignment: Alignment.bottomLeft,
-                                        padding: EdgeInsets.only(
-                                            top: size.height * 0.18),
+                                        padding: EdgeInsets.only(top: size.height * 0.18),
                                         child: Row(
                                           children: [
                                             IconButton(
@@ -225,8 +198,7 @@ class _MyBinState extends State<MyBinPage> {
                                               onPressed: () {
                                                 Navigator.pushNamed(
                                                   context,
-                                                  pinthebinPageRoute[
-                                                      "editbin"]!,
+                                                  pinthebinPageRoute["editbin"]!,
                                                   arguments: {
                                                     'Bininfo': data,
                                                   },
@@ -243,111 +215,86 @@ class _MyBinState extends State<MyBinPage> {
                                               onPressed: () {
                                                 showDialog(
                                                   context: context,
-                                                  builder:
-                                                      (BuildContext context) {
+                                                  builder: (BuildContext context) {
                                                     return AlertDialog(
                                                       title: const Text(
                                                         'Confirm Delete',
                                                         style: TextStyle(
                                                           fontSize: 25,
-                                                          fontWeight:
-                                                              FontWeight.w500,
+                                                          fontWeight: FontWeight.w500,
                                                           color: Colors.black,
                                                         ),
                                                       ),
                                                       actions: <Widget>[
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                          child: const Text(
-                                                            'Cancel',
-                                                            style: TextStyle(
-                                                              fontSize: 20,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              color: Color(
-                                                                  0xFF98989A),
-                                                            ),
-                                                          ),
-                                                        ),
                                                         Container(
-                                                          decoration:
-                                                              BoxDecoration(
+                                                          decoration: BoxDecoration(
                                                             color: Colors.red,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
+                                                            borderRadius: BorderRadius.circular(10),
                                                           ),
                                                           child: TextButton(
                                                             onPressed: () {
-                                                              delBin(data["id"])
-                                                                  .then(
-                                                                      (response) {
-                                                                ScaffoldMessenger.of(
-                                                                        context)
-                                                                    .showSnackBar(
-                                                                  SnackBar(
-                                                                    content:
-                                                                        const Text(
-                                                                      "Delete bin successful.",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                      ),
-                                                                    ),
-                                                                    backgroundColor:
-                                                                        Colors.green[
-                                                                            300],
-                                                                  ),
-                                                                );
-                                                                Navigator
-                                                                    .pushReplacementNamed(
-                                                                  context,
-                                                                  pinthebinPageRoute[
-                                                                      "mybin"]!,
-                                                                );
-                                                              }).onError((error,
-                                                                      stackTrace) {
-                                                                debugPrint(error
-                                                                    .toString());
-                                                                ScaffoldMessenger.of(
-                                                                        context)
-                                                                    .showSnackBar(
-                                                                  const SnackBar(
-                                                                    content:
-                                                                        Text(
-                                                                      "Delete bin failed.",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                      ),
-                                                                    ),
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .red,
-                                                                  ),
-                                                                );
-                                                                Navigator.pop(
-                                                                    context);
-                                                              });
+                                                              Navigator.of(context).pop();
                                                             },
                                                             child: const Text(
-                                                              'Delete',
+                                                              'Cancel',
                                                               style: TextStyle(
                                                                   fontSize: 20,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Colors
-                                                                      .white),
+                                                                  fontWeight: FontWeight.w400,
+                                                                  color: Colors.white),
                                                             ),
+                                                          ),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            showLoadingScreen(context);
+                                                            delBin(data["id"]).then((response) {
+                                                              ScaffoldMessenger.of(context)
+                                                                  .showSnackBar(
+                                                                SnackBar(
+                                                                  content: const Text(
+                                                                    "Delete bin successful.",
+                                                                    style: TextStyle(
+                                                                      color: Colors.black,
+                                                                    ),
+                                                                  ),
+                                                                  backgroundColor:
+                                                                      Colors.green[300],
+                                                                ),
+                                                              );
+                                                              Navigator.pushReplacementNamed(
+                                                                  context,
+                                                                  pinthebinPageRoute[
+                                                                      "mybin"]!);
+                                                            }).onError((error,
+                                                                    stackTrace) {
+                                                              Navigator.pushReplacementNamed(
+                                                                  context,
+                                                                  pinthebinPageRoute[
+                                                                      "mybin"]!);
+                                                              debugPrint(error
+                                                                  .toString());
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                const SnackBar(
+                                                                  content: Text(
+                                                                    "Delete bin failed.",
+                                                                    style: TextStyle(
+                                                                      color: Colors.black,
+                                                                    ),
+                                                                  ),
+                                                                  backgroundColor: Colors.red,
+                                                                ),
+                                                              );
+                                                              Navigator.pop(context);
+                                                            });
+                                                          },
+                                                          child: const Text(
+                                                            'Delete',
+                                                            style: TextStyle(
+                                                                fontSize: 20,
+                                                                fontWeight: FontWeight.w400,
+                                                                color: Colors.black54),
                                                           ),
                                                         )
                                                       ],
@@ -363,8 +310,7 @@ class _MyBinState extends State<MyBinPage> {
                                         width: size.width,
                                         height: size.height,
                                         padding: EdgeInsets.only(
-                                            top: size.height * 0.05,
-                                            left: size.width * 0.4),
+                                            top: size.height * 0.05, left: size.width * 0.4),
                                         child: data["picture"] == null
                                             ? Image.asset(
                                                 "assets/images/PinTheBin/bin_null.png",
@@ -419,11 +365,12 @@ class MyPinTheBinAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
       height: 130,
       decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+        borderRadius:
+            BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -451,15 +398,48 @@ class MyPinTheBinAppBar extends StatelessWidget {
                 },
               ),
               const SizedBox(width: 10),
-              Text(
-                "MYBIN",
-                style: TextStyle(
-                  fontSize:
-                      Theme.of(context).textTheme.headlineMedium!.fontSize,
-                  fontWeight:
-                      Theme.of(context).textTheme.headlineMedium!.fontWeight,
-                  color: Theme.of(context).textTheme.headlineMedium!.color,
-                ),
+              Stack(
+                children: [
+                  ClayContainer(
+                      width: size.width * 0.7,
+                      height: size.height * 0.08,
+                      borderRadius: 30,
+                      depth: -20,
+                      color: Color(0xFFF99680),
+                      surfaceColor: Color.fromARGB(116, 109, 68, 58),
+                      child: Stack(
+                        children: [
+                          Container(
+                            alignment: Alignment.topCenter,
+                            child: const ClayText(
+                              'MY BIN',
+                              style: TextStyle(
+                                fontSize: 35,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                              ),
+                              emboss: true,
+                              color: Color(0xFFF8A88F),
+                              textColor: Color(0xFF003049),
+                              depth: -100,
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.bottomCenter,
+                            child: ClayText(
+                              'P  I  N  T  H  E  B  I  N',
+                              style: TextStyle(
+                                fontSize: 13.5,
+                                overflow: TextOverflow.fade,
+                                fontWeight: FontWeight.normal,
+                                color: const Color(0xFF003049).withOpacity(0.45),
+                              ),
+                              color: Color(0xFF003049),
+                            ),
+                          ),
+                        ],
+                      )),
+                ],
               ),
             ],
           ),
@@ -492,8 +472,7 @@ class MyBinSearchBar extends StatefulWidget {
   State<MyBinSearchBar> createState() => _MyBinSearchBarState();
 }
 
-class _MyBinSearchBarState extends State<MyBinSearchBar>
-    with TickerProviderStateMixin {
+class _MyBinSearchBarState extends State<MyBinSearchBar> with TickerProviderStateMixin {
   List<dynamic> tempBinData = [];
   late Animation<double> animation;
   @override
@@ -501,8 +480,7 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
     // TODO: implement initState
 
     super.initState();
-    Future.delayed(const Duration(seconds: 1))
-        .then((value) => tempBinData = widget.binDataList);
+    Future.delayed(const Duration(seconds: 1)).then((value) => tempBinData = widget.binDataList);
   }
 
   @override
@@ -525,10 +503,12 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
             },
           ),
           viewBuilder: (suggestions) {
-            return Container(
-              color: Colors.white,
-              child: Column(
-                children: suggestions.toList(),
+            return SingleChildScrollView(
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  children: suggestions.toList(),
+                ),
               ),
             );
           },
@@ -539,21 +519,10 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
               hintText: "Search bin...",
               textStyle: MaterialStatePropertyAll(
                 TextStyle(
-                    fontFamily: searchBarController.text.contains(
-                      RegExp("[ก-๛]"),
-                    )
-                        ? "THSarabunPSK"
-                        : Theme.of(context).textTheme.labelMedium!.fontFamily,
-                    fontSize: searchBarController.text.contains(
-                      RegExp("[ก-๛]"),
-                    )
-                        ? 22
-                        : 18,
-                    fontWeight: searchBarController.text.contains(
-                      RegExp("[ก-๛]"),
-                    )
-                        ? FontWeight.w700
-                        : FontWeight.normal),
+                  fontFamily: Theme.of(context).textTheme.headlineMedium!.fontFamily,
+                  fontSize: 18,
+                  fontWeight: Theme.of(context).textTheme.displayMedium!.fontWeight,
+                ),
               ),
               padding: const MaterialStatePropertyAll(
                 EdgeInsets.only(left: 15, right: 6),
@@ -576,8 +545,7 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
                       color: const Color(0xFFF9957F),
                       shape: BoxShape.circle,
                     ),
-                    child:
-                        Image.asset("assets/images/PinTheBin/search_icon.png"),
+                    child: Image.asset("assets/images/PinTheBin/search_icon.png"),
                   ),
                   onTap: () {
                     widget.focusNode.unfocus();
@@ -585,8 +553,7 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
                   },
                 )
               ],
-              backgroundColor:
-                  const MaterialStatePropertyAll(Color(0xFFECECEC)),
+              backgroundColor: const MaterialStatePropertyAll(Color(0xFFECECEC)),
               onTap: () {
                 searchBarController.openView();
               },
@@ -622,13 +589,11 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
                 return GestureDetector(
                   onTap: () {
                     widget.onSelected(tempBinData[index]['location']);
-                    Future.delayed(const Duration(milliseconds: 500))
-                        .then((value) {
+                    Future.delayed(const Duration(milliseconds: 500)).then((value) {
                       widget.focusNode.unfocus();
                       // suggestionController.clear();
                     });
-                    suggestionController
-                        .closeView(tempBinData[index]['location']);
+                    suggestionController.closeView(tempBinData[index]['location']);
                   },
                   child: Container(
                     color: Theme.of(context).colorScheme.background,
@@ -645,56 +610,21 @@ class _MyBinSearchBarState extends State<MyBinSearchBar>
                               Text(
                                 tempBinData[index]['location'],
                                 style: TextStyle(
-                                    fontFamily:
-                                        tempBinData[index]['location'].contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? "THSarabunPSK"
-                                            : Theme.of(context)
-                                                .textTheme
-                                                .labelMedium!
-                                                .fontFamily,
-                                    fontSize:
-                                        tempBinData[index]['location'].contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? 24
-                                            : 16,
-                                    fontWeight:
-                                        tempBinData[index]['location'].contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                            ? FontWeight.w700
-                                            : FontWeight.normal),
+                                  fontFamily:
+                                      Theme.of(context).textTheme.headlineMedium!.fontFamily,
+                                  fontSize: 16,
+                                  fontWeight: Theme.of(context).textTheme.displayMedium!.fontWeight,
+                                ),
                               ),
                               Text(
                                 tempBinData[index]['description'],
                                 maxLines: 1,
                                 style: TextStyle(
-                                    fontFamily: tempBinData[index]
-                                                ['description']
-                                            .contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? "THSarabunPSK"
-                                        : Theme.of(context)
-                                            .textTheme
-                                            .labelMedium!
-                                            .fontFamily,
-                                    fontSize: tempBinData[index]['description']
-                                            .contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? 22
-                                        : 16,
-                                    color: Colors.black.withOpacity(0.6),
-                                    fontWeight: tempBinData[index]
-                                                ['description']
-                                            .contains(
-                                      RegExp("[ก-๛]"),
-                                    )
-                                        ? FontWeight.w700
-                                        : FontWeight.normal),
+                                  fontFamily:
+                                      Theme.of(context).textTheme.headlineMedium!.fontFamily,
+                                  fontSize: 16,
+                                  fontWeight: Theme.of(context).textTheme.displayMedium!.fontWeight,
+                                ),
                               ),
                               Container(
                                 margin: const EdgeInsets.only(top: 5),

@@ -1,17 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:clay_containers/widgets/clay_container.dart';
+import 'package:clay_containers/widgets/clay_text.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ruam_mitt/PinTheBin/pin_the_bin_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mime/mime.dart';
 import 'package:ruam_mitt/PinTheBin/bin_drawer.dart';
-import 'package:neumorphic_button/neumorphic_button.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:ruam_mitt/PinTheBin/componant/loading.dart';
 import 'package:ruam_mitt/PinTheBin/map_add_bin.dart';
 import 'package:http/http.dart' as http;
 import 'package:ruam_mitt/global_const.dart';
+import 'package:ruam_mitt/global_func.dart';
 import "package:ruam_mitt/global_var.dart";
 
 class AddbinPageV2 extends StatefulWidget {
@@ -37,20 +40,93 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
   File? _image;
 
   Future<void> _getImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    bool? isCamera = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text("Camera"),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text("gallery "),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (isCamera == null) return;
+    final pickedFile = await ImagePicker()
+        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
-        print('No image selected.');
+        debugPrint('No image selected.');
       }
     });
   }
 
+  Future<void> _addPin() async {
+    await requestNewToken(context);
+    debugPrint("Sending data");
+    final url = Uri.parse("$api$pinTheBinaddbinRoute");
+    var response = await http
+        .post(url, headers: {
+          "Authorization": "Bearer $publicToken",
+        }, body: {
+          "location": _NametextController.text,
+          "description": _DescriptiontextController.text,
+          "bintype": jsonEncode(_bintype),
+          "latitude": _position!.latitude.toString(),
+          "longitude": _position!.longitude.toString(),
+        })
+        .timeout(const Duration(seconds: 10))
+        .onError((error, stackTrace) {
+          return Future.error(error ?? {}, stackTrace);
+        });
+
+    debugPrint("Response: ${response.body}");
+    if (response.statusCode != 200) {
+      return Future.error(response.reasonPhrase ?? "Failed to add bin.");
+    }
+    int id = jsonDecode(response.body)[0]['id'];
+    print("ID: $id");
+    if (_image != null) {
+      await _sendpic(id.toString(), _image).onError((error, stackTrace) async {
+        await _delPin(id);
+        return Future.error(error ?? {}, stackTrace);
+      });
+    }
+  }
+
+  Future<http.Response> _delPin(int id) async {
+    await requestNewToken(context);
+    Uri url = Uri.parse("$api$pinTheBinDeleteBinRoute/$id");
+    http.Response res = await http.delete(url, headers: {
+      "Authorization": "Bearer $publicToken"
+    }).timeout(const Duration(seconds: 10));
+    debugPrint(res.body);
+    if (res.statusCode != 200) {
+      return Future.error(res.reasonPhrase ?? "Failed to delete bin");
+    }
+    return res;
+  }
+
   Future<http.Response> _sendpic(id, picture) async {
+    debugPrint("Updating picture");
     final url = Uri.parse("$api$pinTheBinAddpicRoute");
-    print("Report has been sent");
     http.MultipartRequest request = http.MultipartRequest('POST', url);
     request.headers.addAll({
       "Authorization": "Bearer $publicToken",
@@ -61,25 +137,23 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
         "file",
         File(picture.path).readAsBytesSync(),
         filename: picture.path,
+        contentType:
+            MediaType.parse(lookupMimeType(picture.path) ?? "image/jpeg"),
       ),
     );
     request.fields['id'] = id;
-    http.StreamedResponse response = await request.send();
-    http.Response res = await http.Response.fromStream(response);
-    return res;
-  }
-
-  Future<http.Response> _presstosend(LatLng position) async {
-    final url = Uri.parse("$api$pinTheBinaddbinRoute");
-    return await http.post(url, headers: {
-      "Authorization": "Bearer $publicToken"
-    }, body: {
-      "location": _NametextController.text,
-      "description": _DescriptiontextController.text,
-      "bintype": jsonEncode(_bintype),
-      "latitude": position.latitude.toString(),
-      "longitude": position.longitude.toString(),
-    });
+    try {
+      http.StreamedResponse response =
+          await request.send().timeout(const Duration(seconds: 10));
+      if (response.statusCode != 200) {
+        return Future.error(response.reasonPhrase ?? "Failed to send report");
+      }
+      http.Response res = await http.Response.fromStream(response)
+          .timeout(const Duration(seconds: 10));
+      return res;
+    } catch (e) {
+      return Future.error(e);
+    }
   }
 
   final Map<String, bool> _bintype = {
@@ -115,17 +189,17 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
     double blurRecycling = isPressedRecycling ? 5.0 : 5;
 
     Offset distanceWaste = isPressedWaste
-        ? Offset(5, 5)
+        ? const Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
     double blurWaste = isPressedWaste ? 5.0 : 5;
 
     Offset distanceGeneral = isPressedGeneral
-        ? Offset(5, 5)
+        ? const Offset(5, 5)
         : Offset(size.width * 0.008, size.height * 0.005);
     double blurGeneral = isPressedGeneral ? 5.0 : 5;
     return Theme(
       data: ThemeData(
-        fontFamily: "Sen",
+        fontFamily: "Kodchasan",
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFFF9957F),
           background: const Color(0xFFFFFFFF),
@@ -214,10 +288,56 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                   ),
                   title: Column(
                     children: [
-                      Text(
-                        "ADD BIN",
-                        style: Theme.of(context).textTheme.headlineMedium,
+                      Stack(
+                        children: [
+                          ClayContainer(
+                              width: size.width * 0.7,
+                              height: size.height * 0.08,
+                              borderRadius: 30,
+                              depth: -20,
+                              color: Color(0xFFF99680),
+                              surfaceColor: Color.fromARGB(116, 109, 68, 58),
+                              // surfaceColor: Color.fromARGB(147, 249, 150, 128),
+                              // surfaceColor:
+                              //     const Color.fromARGB(255, 138, 112, 112),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: size.height * 0.005,
+                                    left: size.width * 0.155),
+                                child: ClayText(
+                                  'ADD BIN',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
+
+                                  emboss: true,
+                                  //size: 20,
+                                  color: Color(0xFFF8A88F),
+                                  textColor: Color(0xFF003049),
+                                  //color: Color.fromARGB(255, 234, 134, 41),
+                                  depth: -100,
+                                  //spread: 5,
+                                ),
+                              )),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: size.height * 0.055,
+                                left: size.width * 0.18),
+                            child: Container(
+                              //color: Color(0xFFF99680),
+                              child: ClayText(
+                                'P  I  N  T  H  E  B  I  N',
+                                style: Theme.of(context).textTheme.displaySmall,
+                                color: Color(0xFF003049),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
+                      // Text(
+                      //   "ADD BIN",
+                      //   style: Theme.of(context).textTheme.headlineMedium,
+                      // ),
                       const SizedBox(
                         height: 15,
                       )
@@ -232,7 +352,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Align(
                           alignment: Alignment.topLeft,
                           child: Container(
-                            padding: EdgeInsets.only(left: 20),
+                            padding: const EdgeInsets.only(left: 20),
                             child: Padding(
                               padding: const EdgeInsets.only(top: 25),
                               child: Text(
@@ -569,8 +689,9 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Column(
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, top: 460),
+                              padding: EdgeInsets.only(
+                                  left: size.width * 0.05,
+                                  top: size.height * 0.6),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -581,7 +702,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
-                                  height: size.height * 0.13,
+                                  height: size.height * 0.1,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     color: const Color.fromARGB(9, 0, 47, 73),
@@ -613,9 +734,10 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 38),
+                              padding: EdgeInsets.only(left: size.width * 0.05),
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 8),
+                                padding:
+                                    EdgeInsets.only(top: size.height * 0.015),
                                 child: Text(
                                   'DANGER',
                                   style:
@@ -631,7 +753,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 460),
+                              padding: EdgeInsets.only(top: size.height * 0.6),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -643,7 +765,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
-                                  height: size.height * 0.13,
+                                  height: size.height * 0.1,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     color: const Color.fromARGB(9, 0, 47, 73),
@@ -675,7 +797,8 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 8),
+                              padding:
+                                  EdgeInsets.only(top: size.height * 0.015),
                               child: Text(
                                 'RECYCLE',
                                 style: Theme.of(context).textTheme.displaySmall,
@@ -689,7 +812,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 460),
+                              padding: EdgeInsets.only(top: size.height * 0.6),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -701,7 +824,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
-                                  height: size.height * 0.13,
+                                  height: size.height * 0.1,
                                   //color: Colors.black,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
@@ -734,7 +857,8 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 8),
+                              padding:
+                                  EdgeInsets.only(top: size.height * 0.015),
                               child: Text(
                                 'WASTE',
                                 style: Theme.of(context).textTheme.displaySmall,
@@ -748,7 +872,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 460),
+                              padding: EdgeInsets.only(top: size.height * 0.6),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -759,7 +883,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                 },
                                 child: Container(
                                   width: size.width * 0.2,
-                                  height: size.height * 0.13,
+                                  height: size.height * 0.1,
                                   //color: Colors.black,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
@@ -792,7 +916,8 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 8),
+                              padding:
+                                  EdgeInsets.only(top: size.height * 0.015),
                               child: Text(
                                 'GENERAL',
                                 style: Theme.of(context).textTheme.displaySmall,
@@ -807,46 +932,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                         Padding(
                           padding: EdgeInsets.only(
                               left: size.width * 0.175,
-                              top: size.height * 0.77),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, pinthebinPageRoute['home']!);
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              // padding: EdgeInsets.only(
-                              //     left: size.width * 0.024,
-                              //     top: size.height * 0.01),
-                              width: size.width * 0.25,
-                              height: size.height * 0.055,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF9957F),
-                                borderRadius: BorderRadius.circular(30),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    blurRadius: 5,
-                                    //offset: ,
-                                    color: Color(0xFFA7A9AF),
-                                  ),
-                                ],
-                              ),
-                              child: Text(
-                                'CANCEL',
-                                style: GoogleFonts.getFont(
-                                  "Sen",
-                                  color:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: size.width * 0.17, top: size.height * 0.77),
+                              top: size.height * 0.76),
                           child: GestureDetector(
                             onTap: () {
                               showDialog(
@@ -863,34 +949,25 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                           'Would you like to confirm to add a trash bin at this location?'),
                                       actions: [
                                         MaterialButton(
-                                          onPressed: () async {
-                                            if (_position != null) {
-                                              http.Response res =
-                                                  await _presstosend(
-                                                      _position!);
-                                              print(res.body);
-                                              if (_image != null) {
-                                                _sendpic(
-                                                    '${jsonDecode(res.body)[0]["id"]}',
-                                                    _image!);
-                                                Navigator.pushNamed(
-                                                    context,
-                                                    pinthebinPageRoute[
-                                                        'home']!);
-                                              }
-                                            } else {
+                                          onPressed: () {
+                                            if (_position == null ||
+                                                _NametextController
+                                                    .text.isEmpty) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 const SnackBar(
                                                   content: Text(
-                                                    "Please pin the position.",
+                                                    "Please pin the position and fill in the name.",
                                                     style: TextStyle(
-                                                      color: Colors.white,
+                                                      color: Colors.black,
                                                     ),
                                                   ),
                                                   backgroundColor: Colors.red,
                                                 ),
                                               );
+                                              Navigator.of(context).pop(false);
+                                            } else {
+                                              Navigator.pop(context, true);
                                             }
                                           },
                                           child: const Text('Confirm'),
@@ -898,7 +975,7 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                         MaterialButton(
                                           color: Colors.red,
                                           onPressed: () {
-                                            Navigator.of(context).pop();
+                                            Navigator.of(context).pop(false);
                                           },
                                           child: Container(
                                             padding: EdgeInsets.only(
@@ -921,6 +998,47 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                         ),
                                       ],
                                     );
+                                  }).then((confirm) => {
+                                    if (confirm)
+                                      {
+                                        showLoadingScreen(context),
+                                        _addPin().then((_) {
+                                          print("Completed");
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: const Text(
+                                                "Pin created",
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              backgroundColor:
+                                                  Colors.green[300],
+                                            ),
+                                          );
+
+                                          Navigator.pushReplacementNamed(
+                                              context,
+                                              pinthebinPageRoute["home"]!);
+                                        }).onError((error, stackTrace) {
+                                          debugPrint("Error: $error");
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                "Failed to create pin",
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
+                                        })
+                                      }
                                   });
                             },
                             child: Container(
@@ -946,7 +1064,44 @@ class _AddbinPageV2State extends State<AddbinPageV2> {
                                   "Sen",
                                   color:
                                       const Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 20,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: size.width * 0.17,
+                              top: size.height * 0.755),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, pinthebinPageRoute['home']!);
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: size.width * 0.25,
+                              height: size.height * 0.055,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF9957F),
+                                borderRadius: BorderRadius.circular(30),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    blurRadius: 5,
+                                    //offset: ,
+                                    color: Color(0xFFA7A9AF),
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                'CANCEL',
+                                style: GoogleFonts.getFont(
+                                  "Sen",
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.0.0+3
 
 environment:
   sdk: ">=3.2.3 <4.0.0"
@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_image_compress: ^2.1.0
+  path_provider: ^2.1.2
   quickalert:
   # flutter_map_location_marker: ^8.0.4
   url_launcher: ^6.2.4
@@ -48,7 +50,7 @@ dependencies:
   flame_audio: ^2.1.8
   flutter_map: ^6.1.0
   # flutter_map_location_marker: any
-  google_fonts: ^6.1.0
+  google_fonts: 6.1.0
   latlong2: ^0.9.0
   flutter_animate: ^4.5.0
   popup_menu: ^2.0.0
@@ -76,12 +78,18 @@ dependencies:
   flutter_spinkit: ^5.2.0
   salomon_bottom_bar: ^3.3.2
   bottom_bar_matu: ^1.3.1
+  audioplayers_darwin: ^5.0.2
   flutter_launcher_icons: ^0.13.1
+  mime:
+  http_parser:
+  fluttermoji: ^1.0.2
+  end_credits: ^2.0.0
+  add_2_calendar: ^3.0.1
 
 flutter_icons:
   android: true
-  image_path: "assets/Logo/appLogoCircle.png"
-
+  ios: true
+  image_path: "assets/Logo/appLogo.png"
 
 dev_dependencies:
   flutter_test:
@@ -112,16 +120,15 @@ flutter:
     - assets/images/Opponent (Patrick)/
     - assets/images/Items/Fruits/
     - assets/images/Background/
+    - assets/images/Background/Space(64 x 64).png
     - assets/images/Traps/Saw/
     - assets/images/HUD/
     - assets/images/Logo/
     - assets/images/Icon/
     - assets/images/Items/Checkpoints/Checkpoint/
-    - assets/images/Main Characters/Mask Dude/
-    - assets/images/Main Characters/Ninja Frog/
-    - assets/images/Main Characters/Pink Man/
-    - assets/images/Main Characters/Virtual Guy/
     - assets/images/Main Characters/Relaxaurus/
+    - assets/images/Main Characters/Rocket Relaxaurus/
+    - assets/images/Main Characters/Patrick (Boss)/
     - assets/images/Main Characters/
     - assets/images/RestroomRover/
     - assets/images/Ruammitr/
@@ -162,6 +169,21 @@ flutter:
           weight: 700
         - asset: assets/fonts/THSarabun-Italic.ttf
         - asset: assets/fonts/THSarabun-BoldItalic.ttf
+    - family: Kodchasan
+      fonts:
+        - asset: assets/fonts/Kodchasan-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Kodchasan-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Kodchasan-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Kodchasan-Bold.ttf
+          weight: 700
+
+    - family: Kanit
+      fonts:
+        - asset: assets/fonts/Kanit-Regular.ttf
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

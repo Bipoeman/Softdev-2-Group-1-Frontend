@@ -3,10 +3,14 @@ import "dart:io";
 import 'package:clay_containers/widgets/clay_container.dart';
 import "package:flutter/material.dart" hide BoxDecoration, BoxShadow;
 import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import "package:image_picker/image_picker.dart";
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
 import 'package:ruam_mitt/Restroom/Component/font.dart';
+import 'package:ruam_mitt/Restroom/Component/loading_screen.dart';
 import 'package:ruam_mitt/Restroom/Component/navbar.dart';
 import 'package:ruam_mitt/Restroom/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -78,7 +82,7 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
       return Future.error(response.reasonPhrase ?? "Failed to send report");
     }
     if (_image != null) {
-      await _updatePicture(widget.restroomData['id'].toString(), _image)
+      await _updatePicture(widget.restroomData['id'].toString(), _image!)
           .onError((error, stackTrace) {
         return Future.error(error ?? {}, stackTrace);
       });
@@ -86,18 +90,54 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
   }
 
   Future<void> _getImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        debugPrint('No image selected.');
-      }
-    });
+    bool? isCamera = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text("Camera"),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text("gallery "),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (isCamera == null) return;
+    final pickedFile = await ImagePicker()
+        .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
+    if (pickedFile != null) {
+      var result = await FlutterImageCompress.compressAndGetFile(
+        pickedFile.path,
+        '${pickedFile.path}_compressed.jpg',
+        quality: 40,
+      );
+      setState(() {
+        if (result != null) {
+          _image = File(result.path);
+        } else {
+          debugPrint('Compresstion error.');
+        }
+      });
+    } else {
+      debugPrint('No image selected.');
+    }
   }
 
-  Future<http.Response> _updatePicture(id, picture) async {
+  Future<http.Response> _updatePicture(id, File picture) async {
     debugPrint("Updating picture");
     final url = Uri.parse("$api$restroomRoverUploadToiletPictureRoute");
     http.MultipartRequest request = http.MultipartRequest('POST', url);
@@ -110,6 +150,8 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
         "file",
         File(picture.path).readAsBytesSync(),
         filename: picture.path,
+        contentType:
+            MediaType.parse(lookupMimeType(picture.path) ?? "image/jpeg"),
       ),
     );
     request.fields['id'] = id;
@@ -542,7 +584,10 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                             ),
                                             MaterialButton(
                                               onPressed: () {
+                                                showRestroomLoadingScreen(
+                                                    context);
                                                 _updateData().then((_) async {
+                                                  Navigator.pop(context);
                                                   Navigator
                                                       .pushReplacementNamed(
                                                           context,
@@ -551,7 +596,11 @@ class _EditRestroomPageState extends State<EditRestroomPage> {
                                                 }).onError((error, stackTrace) {
                                                   debugPrint(
                                                       "Failed to update data: $error");
-                                                  Navigator.pop(context);
+                                                  Navigator.popUntil(
+                                                      context,
+                                                      ModalRoute.withName(
+                                                          restroomPageRoute[
+                                                              "editrestroom"]!));
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                     SnackBar(

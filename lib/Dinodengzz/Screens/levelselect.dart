@@ -5,6 +5,7 @@ class LevelSelectionScreen extends StatelessWidget {
   final ValueChanged<int> onLevelSelected;
   final VoidCallback onBackPressed;
   final VoidCallback onTutorialPressed;
+  final VoidCallback onBossPressed;
 
   const LevelSelectionScreen({
     super.key,
@@ -12,6 +13,7 @@ class LevelSelectionScreen extends StatelessWidget {
     required this.onLevelSelected,
     required this.onBackPressed,
     required this.onTutorialPressed,
+    required this.onBossPressed,
   });
 
   static const id = 'LevelSelection';
@@ -47,7 +49,7 @@ class LevelSelectionScreen extends StatelessWidget {
                   onTap: onBackPressed,
                   child: CircleAvatar(
                     radius: screenWidth * 0.045,
-                    backgroundColor: Color.fromARGB(0, 0, 0, 0),
+                    backgroundColor: const Color.fromARGB(0, 0, 0, 0),
                   ),
                 ),
               ),
@@ -179,7 +181,47 @@ class LevelSelectionScreen extends StatelessWidget {
                 ),
               ),
             ),
+            Positioned(
+              top: screenHeight * 0.2,
+              right: screenWidth * 0.07,
+              width: screenWidth * 0.169,
+              height: screenWidth * 0.169,
+              child: BossButton(
+                onPressed: onBossPressed,
+                imagePath:
+                    'assets/images/DinoDengzz Icon/Boss level button enraged.png',
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class BossButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final String imagePath;
+
+  const BossButton({
+    super.key,
+    required this.onPressed,
+    required this.imagePath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius:
+            BorderRadius.circular(MediaQuery.of(context).size.width * 0.69),
+        child: ClipOval(
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
