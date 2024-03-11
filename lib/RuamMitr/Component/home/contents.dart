@@ -28,13 +28,12 @@ class _ContentWidgetState extends State<ContentWidget> {
     super.initState();
     timer = startDashboardTimer();
     getDashboardContent();
-    setState(() {});
   }
 
   @override
   void dispose() {
-    super.dispose();
     timer.cancel();
+    super.dispose();
   }
 
   Timer startDashboardTimer() {
