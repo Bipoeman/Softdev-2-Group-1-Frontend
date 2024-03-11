@@ -1,11 +1,15 @@
 import 'dart:async';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/space_bullet.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/space_kuayteaw.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
+import 'package:ruam_mitt/Restroom/Component/loading_screen.dart';
 
 enum BossState {
   phase0,
@@ -114,7 +118,7 @@ class Boss extends SpriteAnimationGroupComponent
   @override
   Future<void> onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) async {
-    if (other is Bullet) lifePoint--;
+    if (other is Bullet) lifePoint -= 3;
     if (other is Kuayteaw) {
       lifePoint -= 250;
       hitCount++;
@@ -163,9 +167,10 @@ class Boss extends SpriteAnimationGroupComponent
           current = BossState.dissappering;
           await animationTicker?.completed;
           animationTicker?.reset();
-          showDefeatDialog();
-          gameRef.showLevelCompleteBoss();
           hitCount++;
+          FlameAudio.bgm.stop;
+          showDefeatDialog(game.buildContext);
+
           break;
         default:
           break;
@@ -174,7 +179,258 @@ class Boss extends SpriteAnimationGroupComponent
     }
   }
 
-  void showDefeatDialog() {
-    print('hi');
+  void showDefeatDialog(BuildContext? context) {
+    if (context == null) {
+      return;
+    }
+
+    String title = "คนที่คุณไม่รู้ว่าใคร";
+
+    List<String> contents = [
+      "ดีใจด้วยนะในที่สุดทุกอย่างก็จะกลับมาสงบสุขอีกครั้ง",
+      "ข้าไม่รู้ ข้าไม่เคยลอง",
+      "ไม่บอก",
+      "ใช่แล้วมันจบแล้วละ.. เวลาของข้ามาถึงแล้ว เจ้าต้องเดินทางต่อไปโดยไม่มีข้า ",
+    ];
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            backgroundColor: const Color.fromARGB(219, 255, 192, 136),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              side: const BorderSide(
+                  width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            ),
+            contentPadding: const EdgeInsets.all(24.0),
+            title: Text(
+              title,
+              style: const TextStyle(
+                color: Color.fromARGB(255, 206, 63, 89),
+                fontFamily: 'Kanit',
+                fontSize: 32.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AnimatedTextKit(
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      textStyle: const TextStyle(
+                        fontFamily: 'Kanit',
+                        fontSize: 20,
+                        color: Color.fromARGB(255, 58, 52, 52),
+                      ),
+                      contents[0],
+                      speed: const Duration(milliseconds: 55),
+                    ),
+                  ],
+                  isRepeatingAnimation: false,
+                ),
+              ],
+            ),
+            actions: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    color: Colors.red.withOpacity(0.5),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        showMemeDialog(context, title, contents, 2);
+                      },
+                      child: const Text(
+                        "แล้วนายเป็นใครอะ",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Kanit',
+                            fontSize: 20),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    color: Colors.green.withOpacity(0.5),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        showMemeDialog(context, title, contents, 1);
+                      },
+                      child: const Text(
+                        "นายไม่มาสู้เองละ",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Kanit',
+                            fontSize: 20),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    color: Colors.blue.withOpacity(0.5),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        showTrueDialog(context, title, contents, 3);
+                      },
+                      child: const Text(
+                        "ทุกอย่าง... จบลงแล้วใช่มั้ย",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Kanit',
+                            fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ]);
+      },
+    );
+  }
+
+  void showMemeDialog(
+      BuildContext context, String title, List<String> contents, int index) {
+    if (index >= contents.length) {
+      return;
+    }
+
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+          ),
+          contentPadding: const EdgeInsets.all(24.0),
+          title: Text(
+            title,
+            style: const TextStyle(
+              color: Color.fromARGB(255, 206, 63, 89),
+              fontFamily: 'Kanit',
+              fontSize: 32.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedTextKit(
+                animatedTexts: [
+                  TypewriterAnimatedText(
+                    contents[index],
+                    textStyle: const TextStyle(
+                      fontFamily: 'Kanit',
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 58, 52, 52),
+                    ),
+                    speed: const Duration(milliseconds: 50),
+                  ),
+                ],
+                isRepeatingAnimation: false,
+              ),
+            ],
+          ),
+          actions: [
+            Container(
+              color: Colors.red.withOpacity(0.5),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  game.showLevelCompleteBoss();
+                },
+                child: const Text(
+                  "ห่ะ",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontFamily: 'Kanit',
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showTrueDialog(
+      BuildContext context, String title, List<String> contents, int index) {
+    if (index >= contents.length) {
+      return;
+    }
+
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color.fromARGB(219, 255, 192, 136),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            side: const BorderSide(
+                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+          ),
+          contentPadding: const EdgeInsets.all(24.0),
+          title: Text(
+            title,
+            style: const TextStyle(
+              color: Color.fromARGB(255, 206, 63, 89),
+              fontFamily: 'Kanit',
+              fontSize: 32.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedTextKit(
+                animatedTexts: [
+                  TypewriterAnimatedText(
+                    contents[index],
+                    textStyle: const TextStyle(
+                      fontFamily: 'Kanit',
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 58, 52, 52),
+                    ),
+                    speed: const Duration(milliseconds: 50),
+                  ),
+                ],
+                isRepeatingAnimation: false,
+              ),
+            ],
+          ),
+          actions: [
+            Container(
+              color: Colors.red.withOpacity(0.5),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  game.showLevelCompleteBoss();
+                },
+                child: const Text(
+                  "เดี๋ยวก่อน...",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontFamily: 'Kanit',
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

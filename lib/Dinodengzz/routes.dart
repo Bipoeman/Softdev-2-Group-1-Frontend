@@ -236,9 +236,9 @@ class GameRoutes extends FlameGame
   }
 
   Future<void> _exitToMainMenu() async {
+    await Flame.device.setLandscape();
     _resumeGame();
     FlameAudio.bgm.stop();
-    await Flame.device.setLandscape();
     _router.pushReplacementNamed(StartScreen.id);
     FlameAudio.bgm.play(startGame, volume: masterVolume * bgmVolume);
   }
@@ -247,8 +247,9 @@ class GameRoutes extends FlameGame
     _router.pushNamed('${LevelComplete.id}/$nStars');
   }
 
-  void showLevelCompleteBoss() {
+  Future<void> showLevelCompleteBoss() async {
     FlameAudio.bgm.stop();
+    await Flame.device.setLandscape();
     FlameAudio.bgm.play(boss, volume: masterVolume * bgmVolume);
     _router.pushNamed(LevelCompleteBoss.id);
   }

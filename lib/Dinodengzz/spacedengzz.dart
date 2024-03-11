@@ -69,6 +69,8 @@ class SpaceDengzz extends Component with HasGameRef<GameRoutes>, DragCallbacks {
   void update(double dt) {
     hud.updateLifeCount(playerShip.remainingLives);
     hud.updateEnemyHealth(boss.lifePoint / 1000);
+    playerShip.onMoveLeft(hud.moveLeft);
+    playerShip.onMoveRight(hud.moveRight);
     gameOver = (playerShip.gameOver || boss.bossCleared);
     bullet.gameOver = gameOver;
     enemies.gameOver = gameOver;

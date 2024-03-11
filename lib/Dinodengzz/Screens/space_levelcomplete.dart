@@ -19,35 +19,113 @@ class LevelCompleteBoss extends StatelessWidget {
           Center(
             child: EndCredits(
               [
-                Section(title: 'Developer', roles: [
-                  Role(name: 'Role 1', crew: [const Responsable('John Doe')]),
-                  Role(name: 'Role 2', crew: [const Responsable('John Doe')]),
-                  Role(name: 'Role 3', crew: [const Responsable('John Doe')]),
-                  Role(name: 'Role 4', crew: [const Responsable('John Doe')]),
-                  Role(name: 'Role 5', crew: [const Responsable('John Doe')]),
+                Section(title: '---Directors---', roles: [
+                  Role(
+                      name: 'Director',
+                      crew: [const Responsable('PUMIN SITTIWARANON')]),
+                  Role(
+                      name: 'Co Director',
+                      crew: [const Responsable('SIRAPOB CHORMPINTA')]),
                 ]),
-                Section(title: 'Producers', roles: [
-                  Role(name: 'Executive producer', crew: [
-                    const Responsable('John Doe'),
-                    const Responsable('John Doe'),
-                    const Responsable('John Doe')
+                Section(title: '---Programmer---', roles: [
+                  Role(
+                      name: 'Lead Programmer',
+                      crew: [const Responsable('PUMIN SITTIWARANON')]),
+                ]),
+                Section(title: '---Game Designers---', roles: [
+                  Role(name: 'Level Designer', crew: [
+                    const Responsable('SIRAPOB CHORMPINTA'),
                   ]),
-                  Role(name: 'Producer', crew: [
-                    const Responsable('John Doe'),
-                    const Responsable('John Doe'),
-                    const Responsable('John Doe')
+                  Role(name: 'Gameplay Designer', crew: [
+                    const Responsable('PUMIN SITTIWARANON'),
                   ])
                 ]),
-                Section(title: 'Other', roles: [
-                  Role(name: 'Role', crew: [
-                    const Responsable('John Doe'),
-                    const Responsable('John Doe'),
-                    const Responsable('John Doe'),
-                    const Responsable('John Doe')
+                Section(title: '---Graphic Artist---', roles: [
+                  Role(name: 'Character Artist', crew: [
+                    const Responsable('SIRAPOB CHORMPINTA'),
+                  ]),
+                  Role(name: 'UI Artist', crew: [
+                    const Responsable('SIRAPOB CHORMPINTA'),
+                  ]),
+                  Role(name: 'Advisor', crew: [
+                    const Responsable('THEERAPHAT CHANSOONTRAPORN'),
+                  ]),
+                ]),
+                Section(title: '---Sound Designers---', roles: [
+                  Role(name: 'Music Composer', crew: [
+                    const Responsable('NATTAKARN KHUMSUPHA'),
+                  ]),
+                  Role(name: 'Sound Effect Designer', crew: [
+                    const Responsable('PICHANMET MEETA'),
                   ])
-                ])
+                ]),
+                Section(title: '---Cast---', roles: [
+                  Role(name: 'Relax', crew: [
+                    const Responsable('THEERAPHAT CHANSOONTRAPORN'),
+                  ])
+                ]),
+                Section(title: '---Special Thank---', roles: [
+                  Role(name: 'Flame Guideline', crew: [
+                    const Responsable('Spellthorn'),
+                    const Responsable('DevKage'),
+                  ]),
+                  Role(name: 'Assets', crew: [
+                    const Responsable('Pixel Frog'),
+                    const Responsable('GrafxKid'),
+                  ]),
+                  Role(name: 'Inspiration', crew: [
+                    const Responsable('Palworld'),
+                    const Responsable('Kung Fu Panda'),
+                  ]),
+                ]),
+                Section(title: '---RuamMitr Member---', roles: [
+                  Role(name: 'RuamMitr Main', crew: [
+                    const Responsable('CHANATHIP YODKHUANG'),
+                    const Responsable('NATTAKARN KHUMSUPHA'),
+                  ]),
+                  Role(name: 'TuaChuay Dekhor', crew: [
+                    const Responsable('NICHAREE MALARAT'),
+                    const Responsable('KASIDIT CHUNPEN'),
+                  ]),
+                  Role(name: 'RestRoomRover', crew: [
+                    const Responsable('NUTPAPOP YASAWUT'),
+                    const Responsable('SAHIRUN NOIPRASERT'),
+                  ]),
+                  Role(name: 'Pin The Bin', crew: [
+                    const Responsable('NUTTAWON JITWARODOM'),
+                    const Responsable('NUTCHA PINGHAN'),
+                  ]),
+                  Role(name: 'DinoDengzz', crew: [
+                    const Responsable('PUMIN SITTIWARANON'),
+                    const Responsable('SIRAPOB CHORMPINTA'),
+                  ]),
+                  Role(name: 'Backend Developer', crew: [
+                    const Responsable('TAPANAWAT MUANGSRI'),
+                  ]),
+                  Role(name: 'Support', crew: [
+                    const Responsable('KRITTITHAD VIBOONSUNTI'),
+                  ]),
+                ]),
+                Section(title: '---THE MOST SUPPORT---', roles: [
+                  Role(name: 'YOU', crew: [const Responsable('')]),
+                ]),
               ],
               curve: Curves.linear,
+              responsableTextStyle: const TextStyle(
+                color: Colors.white,
+                fontFamily: 'Sen',
+                fontSize: 15,
+              ),
+              roleTextStyle: const TextStyle(
+                color: Colors.white,
+                fontFamily: 'Sen',
+                fontSize: 20,
+              ),
+              titleTextStyle: const TextStyle(
+                color: Colors.white,
+                fontFamily: 'Sen',
+                fontSize: 30,
+              ),
             ),
           ),
           Positioned(
@@ -56,7 +134,7 @@ class LevelCompleteBoss extends StatelessWidget {
             child: GestureDetector(
               onTap: onExitPressed,
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(8),
@@ -64,7 +142,7 @@ class LevelCompleteBoss extends StatelessWidget {
                 child: Icon(
                   Icons.skip_next,
                   color: Colors.white,
-                  size: MediaQuery.of(context).size.height * 0.04,
+                  size: MediaQuery.of(context).size.width * 0.069,
                 ),
               ),
             ),
