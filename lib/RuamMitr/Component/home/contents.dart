@@ -86,22 +86,25 @@ class _ContentWidgetState extends State<ContentWidget> {
     CustomThemes customTheme = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
 
     return isLoading
-        ? Center(
-            child: Column(
-              children: [
-                CircularProgressIndicator(
-                  color: customTheme.customColors["main"],
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  loadingText,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+        ? Container(
+            margin: const EdgeInsets.symmetric(vertical: 20),
+            child: Center(
+              child: Column(
+                children: [
+                  CircularProgressIndicator(
                     color: customTheme.customColors["main"],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  Text(
+                    loadingText,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: customTheme.customColors["main"],
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         : Padding(
