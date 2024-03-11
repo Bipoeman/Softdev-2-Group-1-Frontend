@@ -83,6 +83,8 @@ dependencies:
   mime:
   http_parser:
   fluttermoji: ^1.0.2
+  end_credits: ^2.0.0
+  add_2_calendar: ^3.0.1
 
 flutter_icons:
   android: true
@@ -125,6 +127,7 @@ flutter:
     - assets/images/Icon/
     - assets/images/Items/Checkpoints/Checkpoint/
     - assets/images/Main Characters/Relaxaurus/
+    - assets/images/Main Characters/Rocket Relaxaurus/
     - assets/images/Main Characters/Patrick (Boss)/
     - assets/images/Main Characters/
     - assets/images/RestroomRover/

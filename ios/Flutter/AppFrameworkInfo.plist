@@ -22,5 +22,9 @@
   <string>1.0</string>
   <key>MinimumOSVersion</key>
   <string>12.0</string>
+  <key>NSCalendarsUsageDescription</key>
+  <string>To Remind Events in The App</string>
+  <key>NSContactsUsageDescription</key>
+  <string>To Remind Events in The App</string>
 </dict>
 </plist>

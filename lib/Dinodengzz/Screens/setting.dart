@@ -5,6 +5,8 @@ class Settings extends StatefulWidget {
   final ValueChanged<double>? onMasterVolumeChanged;
   final ValueChanged<double>? onBgmVolumeChanged;
   final ValueChanged<double>? onSfxVolumeChanged;
+  final VoidCallback? onSkipDialogPressed;
+  final VoidCallback? onSkipDialogCancel;
   final double masterVolume;
   final double bgmVolume;
   final double sfxVolume;
@@ -18,6 +20,8 @@ class Settings extends StatefulWidget {
     required this.masterVolume,
     required this.bgmVolume,
     required this.sfxVolume,
+    this.onSkipDialogPressed,
+    this.onSkipDialogCancel,
   });
 
   static const id = 'Settings';
@@ -30,6 +34,7 @@ class _SettingsState extends State<Settings> {
   late double masterVolume;
   late double bgmVolume;
   late double sfxVolume;
+  late bool skipDialogEnabled;
 
   @override
   void initState() {
@@ -37,6 +42,7 @@ class _SettingsState extends State<Settings> {
     masterVolume = widget.masterVolume * 100;
     bgmVolume = widget.bgmVolume * 100;
     sfxVolume = widget.sfxVolume * 100;
+    skipDialogEnabled = false;
   }
 
   @override
@@ -94,6 +100,44 @@ class _SettingsState extends State<Settings> {
                         widget.onSfxVolumeChanged!(value);
                       }
                     },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            top: MediaQuery.of(context).size.height * 0.02,
+            right: MediaQuery.of(context).size.width * 0.02,
+            child: Padding(
+              padding: EdgeInsets.only(
+                  right: MediaQuery.of(context).size.width * 0.01),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Switch(
+                    value: skipDialogEnabled,
+                    onChanged: (value) {
+                      setState(() {
+                        skipDialogEnabled = value;
+                      });
+                      if (value) {
+                        widget.onSkipDialogPressed?.call();
+                      } else {
+                        widget.onSkipDialogCancel?.call();
+                      }
+                    },
+                    activeColor: Colors.white,
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.0069),
+                  const Text(
+                    'Skip Dialog',
+                    style: TextStyle(
+                      fontFamily: 'Sen',
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
                   ),
                 ],
               ),

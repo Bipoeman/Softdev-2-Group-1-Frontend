@@ -9,4 +9,8 @@ BuildContext currentContext = null as dynamic;
 
 Timer? otpTimer;
 bool isOTPTimerActive = false;
-  int currentOTPTimer = 60;
+int currentOTPTimer = 60;
+
+Timer? dashboardTimer;
+bool isDashboardTimerActive = false;
+int currentDashboardTimer = 0;
