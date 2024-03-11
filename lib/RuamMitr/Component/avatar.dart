@@ -31,7 +31,7 @@ class AvatarViewer extends StatelessWidget {
     //   }
     // }
     return CircleAvatar(
-      radius: 30,
+      radius: 24,
       backgroundColor: theme.colorScheme.primaryContainer.withOpacity(0.5),
       backgroundImage: NetworkImage(profileData['imgPath']),
     );
@@ -57,7 +57,7 @@ class AvatarViewer extends StatelessWidget {
               }
             },
             child: Container(
-              // margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -65,7 +65,7 @@ class AvatarViewer extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: getAvatar(context),
                   ),
-                  const SizedBox(width: 20),
+                  const SizedBox(width: 10),
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: ConstrainedBox(
@@ -74,7 +74,7 @@ class AvatarViewer extends StatelessWidget {
                         profileData['fullname'] ?? "John Doe",
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: themeData == null
                                 ? themes.themeFrom("RuamMitr")!.customColors['textInput']
