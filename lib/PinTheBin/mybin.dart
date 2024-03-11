@@ -289,19 +289,16 @@ class _MyBinState extends State<MyBinPage> {
                                                                           300],
                                                                 ),
                                                               );
-
-                                                              Navigator.popUntil(
+                                                              Navigator.pushReplacementNamed(
                                                                   context,
-                                                                  ModalRoute.withName(
-                                                                      pinthebinPageRoute[
-                                                                          "mybin"]!));
+                                                                  pinthebinPageRoute[
+                                                                      "mybin"]!);
                                                             }).onError((error,
                                                                     stackTrace) {
-                                                              Navigator.popUntil(
+                                                              Navigator.pushReplacementNamed(
                                                                   context,
-                                                                  ModalRoute.withName(
-                                                                      pinthebinPageRoute[
-                                                                          "mybin"]!));
+                                                                  pinthebinPageRoute[
+                                                                      "mybin"]!);
                                                               debugPrint(error
                                                                   .toString());
                                                               ScaffoldMessenger
