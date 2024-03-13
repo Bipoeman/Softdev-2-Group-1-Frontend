@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 
 Widget textField({
   required String labelText,
@@ -19,6 +20,7 @@ Widget textField({
   void Function(String?)? onSaved,
 }) {
   ThemeData theme = Theme.of(context);
+  CustomThemes customThemes = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
   return Container(
     margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
     child: TextFormField(
@@ -32,10 +34,9 @@ Widget textField({
       decoration: InputDecoration(
         counterText: "",
         isDense: true,
-        fillColor: theme.colorScheme.background.withOpacity(0.8),
+        fillColor: customThemes.customColors["textInputContainer"],
         filled: true,
-        labelStyle:
-            TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
+        labelStyle: TextStyle(color: theme.colorScheme.onBackground.withOpacity(0.5)),
         contentPadding: const EdgeInsets.fromLTRB(30, 0, 5, 0),
         labelText: labelText,
         prefixIconColor: theme.colorScheme.onBackground,

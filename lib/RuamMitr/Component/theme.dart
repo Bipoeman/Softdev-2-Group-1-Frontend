@@ -104,7 +104,7 @@ class ThemeProvider extends ChangeNotifier {
 
 class ThemesPortal {
   static CustomThemes? appThemeFromContext(BuildContext context, String app) {
-    ThemeProvider themes = Provider.of<ThemeProvider>(context);
+    ThemeProvider themes = Provider.of<ThemeProvider>(context, listen: false);
     return themes.themeFrom(app);
   }
 
