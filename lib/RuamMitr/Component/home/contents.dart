@@ -28,13 +28,12 @@ class _ContentWidgetState extends State<ContentWidget> {
     super.initState();
     timer = startDashboardTimer();
     getDashboardContent();
-    setState(() {});
   }
 
   @override
   void dispose() {
-    super.dispose();
     timer.cancel();
+    super.dispose();
   }
 
   Timer startDashboardTimer() {
@@ -179,7 +178,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                       InkWell(
                         onTap: () async {
                           Event event = Event(
-                            title: "RuamMitr",
+                            title: "RuamMitr First Time",
                             description: "Time Active: $currentDashboardTimer minutes",
                             location: "Thailand",
                             startDate: DateTime.parse(dashboardContent["user_info"]["birthday"]),
@@ -194,12 +193,12 @@ class _ContentWidgetState extends State<ContentWidget> {
                             Icon(
                               Icons.date_range,
                               color: customTheme.customColors["onEvenContainer"],
-                              size: 24,
+                              size: 20,
                             ),
                             Text(
                               "Date of Creation",
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 10,
                                 fontWeight: FontWeight.bold,
                                 color: customTheme.customColors["onEvenContainer"],
                               ),
@@ -209,7 +208,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                                   "Do I live in the simulation?",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 10,
                                 fontWeight: FontWeight.normal,
                                 color: customTheme.customColors["onEvenContainer"],
                               ),

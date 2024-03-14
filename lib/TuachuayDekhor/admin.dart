@@ -64,7 +64,8 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
     Size size = MediaQuery.of(context).size;
     CustomThemes theme =
         ThemesPortal.appThemeFromContext(context, "TuachuayDekhor")!;
-    bool isDarkMode = ThemesPortal.getCurrent(context).isDarkMode("TuachuayDekhor");
+    bool isDarkMode =
+        ThemesPortal.getCurrent(context).isDarkMode("TuachuayDekhor");
     Map<String, Color> customColors = theme.customColors;
 
     return Scaffold(
@@ -132,7 +133,7 @@ class _TuachuayDekhorAdminPageState extends State<TuachuayDekhorAdminPage> {
                                   SnackBar(
                                     backgroundColor: customColors["container"],
                                     content: Text(
-                                      "Item dismissed",
+                                      "Report dismissed",
                                       style: TextStyle(
                                         color: customColors["onContainer"],
                                       ),

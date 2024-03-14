@@ -58,13 +58,15 @@ class _HomePageV2State extends State<HomePageV2> {
     setState(() {});
     http.get(uri, headers: {"Authorization": "Bearer $publicToken"}).then((http.Response res) {
       profileData = jsonDecode(res.body);
-      isDashboardTimerActive = true;
-      dashboardTimer = Timer.periodic(
-        const Duration(seconds: 60),
-        (timer) {
-          currentDashboardTimer++;
-        },
-      );
+      if (!isDashboardTimerActive) {
+        isDashboardTimerActive = true;
+        dashboardTimer = Timer.periodic(
+          const Duration(seconds: 60),
+          (timer) {
+            currentDashboardTimer++;
+          },
+        );
+      }
       setState(() {});
     });
   }

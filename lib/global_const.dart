@@ -20,7 +20,7 @@ const String userDataUpdateRoute = "/user";
 const String userDashboardRoute = "/user/dashboard";
 const String userImageUpdateRoute = "/user/upload";
 const String userDataRequestRoute = "/user/id";
-const String userPasswordChangeOTPRoute = "/user/otp";
+const String requestOTPRoute = "/user/otp";
 const String userPasswordChangeRoute = "/user/changepassword";
 const String userPasswordResetRoute = "/user/reset";
 const String userPostIssueRoute = "/issue";
@@ -149,8 +149,7 @@ BoxDecoration ruamMitrBackgroundGradient(ThemeProvider themes) {
 }
 
 LinearGradient backgroundGradient(BuildContext context, String themeName) {
-  CustomThemes customTheme =
-      ThemesPortal.appThemeFromContext(context, themeName)!;
+  CustomThemes customTheme = ThemesPortal.appThemeFromContext(context, themeName)!;
   return LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,

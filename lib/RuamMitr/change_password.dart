@@ -156,7 +156,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
       waitingForOTPSendSuccess = true;
     });
     Uri url = Uri.parse(
-      "$api$userPasswordChangeOTPRoute?email=${passwordChangeData.fieldController['email']!.text}",
+      "$api$requestOTPRoute?email=${passwordChangeData.fieldController['email']!.text}",
     );
     var otpRes = await http.get(url);
     setState(() {
