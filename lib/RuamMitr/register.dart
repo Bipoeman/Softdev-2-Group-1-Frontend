@@ -196,7 +196,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void _registerAccount() async {
-    showLoadingScreen(context: context, message: "Logging in...");
+    showLoadingScreen(context: context, message: "Registering...");
     ThemeData theme = Theme.of(context);
     var response = await http.post(
       Uri.parse("$api$registerPageRoute"),

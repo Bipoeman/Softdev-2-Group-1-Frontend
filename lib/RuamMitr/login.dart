@@ -47,6 +47,7 @@ class _LoginPageState extends State<LoginPage> {
             backgroundColor: theme.colorScheme.primary,
           ),
         );
+        Navigator.pop(context);
       } else if (response.statusCode == 200) {
         saveuser();
         print("Body : ${response.body}");
@@ -83,8 +84,8 @@ class _LoginPageState extends State<LoginPage> {
             backgroundColor: theme.colorScheme.primary,
           ),
         );
+        Navigator.pop(context);
       }
-      Navigator.pop(context);
     }
   }
 
