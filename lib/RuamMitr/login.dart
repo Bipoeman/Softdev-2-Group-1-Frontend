@@ -26,6 +26,38 @@ class _LoginPageState extends State<LoginPage> {
   late SharedPreferences removepassword;
 
   Future<void> sendLoginRequest() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        CustomThemes customThemes = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+        ThemeData theme = customThemes.themeData;
+        return PopScope(
+          canPop: false,
+          child: AlertDialog(
+            backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            title: Text(
+              "Logging in...",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: customThemes.customColors["onContainer"],
+                fontFamily: customThemes.themeData.textTheme.bodyLarge!.fontFamily,
+                fontSize: 20,
+              ),
+            ),
+            content: SizedBox(
+              height: 50,
+              width: 50,
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
     var response = await http.post(url, body: {
       "emailoruser": usernameTextController.text,
       "password": passwordTextController.text,
@@ -34,35 +66,6 @@ class _LoginPageState extends State<LoginPage> {
     }).onError((error, stackTrace) => http.Response("Error", 404));
     if (context.mounted) {
       ThemeData theme = Theme.of(context);
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          CustomThemes customThemes = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
-          return PopScope(
-            canPop: false,
-            child: AlertDialog(
-              backgroundColor: Colors.transparent,
-              title: Text(
-                "Logging in...",
-                style: TextStyle(
-                  color: customThemes.customColors["onContainer"],
-                  fontFamily: customThemes.themeData.textTheme.bodyLarge!.fontFamily,
-                  fontSize: 20,
-                ),
-              ),
-              content: SizedBox(
-                height: 50,
-                width: 50,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      );
       if (response.statusCode == 408) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -112,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       }
+      Navigator.pop(context);
     }
   }
 
