@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:provider/provider.dart';
@@ -454,6 +453,11 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                                   isOnceLogin = true;
                                   publicToken = "";
                                   profileData = {};
+                                  if (dashboardTimer != null) {
+                                    dashboardTimer!.cancel();
+                                  }
+                                  isDashboardTimerActive = false;
+                                  currentActiveTimer = 0;
                                   if (context.mounted) {
                                     Navigator.of(context).pushNamedAndRemoveUntil(
                                       loginPageRoute,

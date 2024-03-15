@@ -38,7 +38,7 @@ class _ContentWidgetState extends State<ContentWidget> {
 
   Timer startDashboardTimer() {
     return Timer.periodic(
-      const Duration(seconds: 5),
+      const Duration(seconds: 10),
       (timer) {
         getDashboardContent();
       },
@@ -157,7 +157,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                               ),
                             ),
                             Text(
-                              currentDashboardTimer.toString(),
+                              (currentActiveTimer ~/ 12).toString(),
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -179,7 +179,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                         onTap: () async {
                           Event event = Event(
                             title: "RuamMitr First Time",
-                            description: "Time Active: $currentDashboardTimer minutes",
+                            description: "Time Active: ${currentActiveTimer ~/ 12} minutes",
                             location: "Thailand",
                             startDate: DateTime.parse(dashboardContent["user_info"]["birthday"]),
                             endDate: DateTime.parse(dashboardContent["user_info"]["birthday"]),

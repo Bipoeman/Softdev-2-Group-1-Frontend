@@ -13,4 +13,5 @@ int currentOTPTimer = 60;
 
 Timer? dashboardTimer;
 bool isDashboardTimerActive = false;
-int currentDashboardTimer = 0;
+int currentActiveTimer = 0;
+int timeoutCount = 0;
