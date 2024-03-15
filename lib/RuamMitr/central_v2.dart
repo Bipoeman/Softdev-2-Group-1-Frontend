@@ -71,24 +71,31 @@ class _HomePageV2State extends State<HomePageV2> {
             const Duration(seconds: 5),
             (timer) async {
               currentActiveTimer++;
-              http.get(
-                Uri.parse("$api$userDataRequestRoute"),
-                headers: {"Authorization": "Bearer $publicToken"},
-              ).then(
-                (res) {
-                  if (res.statusCode == 200) {
-                    profileData = jsonDecode(res.body);
-                  } else {
-                    timeoutCount++;
-                  }
-                },
-              ).onError((error, stackTrace) {
-                error.printError();
+              try {
+                await http.get(
+                  Uri.parse("$api$userDataRequestRoute"),
+                  headers: {"Authorization": "Bearer $publicToken"},
+                ).then(
+                  (res) {
+                    if (res.statusCode == 200) {
+                      profileData = jsonDecode(res.body);
+                      if (timeoutCount != 0) {
+                        Navigator.pop(context);
+                        timeoutCount = 0;
+                      }
+                    } else {
+                      timeoutCount++;
+                    }
+                  },
+                );
+              } catch (e) {
+                debugPrint(e.toString());
                 timeoutCount++;
-              });
-              if (timeoutCount > 1) {
+              }
+              if (!context.mounted) return;
+              if (timeoutCount == 2) {
                 showLoadingScreen(context: context, message: "Getting User Info.");
-              } else if (timeoutCount > 3) {
+              } else if (timeoutCount == 3) {
                 Navigator.pop(context);
                 showDialog(
                   context: context,
@@ -98,10 +105,10 @@ class _HomePageV2State extends State<HomePageV2> {
                     return PopScope(
                       canPop: false,
                       child: AlertDialog(
-                        backgroundColor: customThemes.customColors["oddContainer"],
+                        backgroundColor: customThemes.customColors["evenContainer"],
                         icon: Icon(
                           Icons.wifi_off,
-                          color: customThemes.customColors["onOddContainer"]!.withOpacity(0.75),
+                          color: customThemes.customColors["onEvenContainer"]!.withOpacity(0.75),
                           size: 24,
                         ),
                         title: Text(
@@ -109,7 +116,7 @@ class _HomePageV2State extends State<HomePageV2> {
                           overflow: TextOverflow.fade,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: customThemes.customColors["onOddContainer"],
+                            color: customThemes.customColors["onevenContainer"],
                             fontFamily: customThemes.themeData.textTheme.bodyLarge!.fontFamily,
                             fontSize: 24,
                           ),
@@ -118,7 +125,7 @@ class _HomePageV2State extends State<HomePageV2> {
                     );
                   },
                 );
-              } else if (timeoutCount > 4) {
+              } else if (timeoutCount > 3) {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 await prefs.setBool("isChecked", false);
                 isOnceLogin = true;

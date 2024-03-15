@@ -28,10 +28,12 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> sendLoginRequest() async {
     if (!context.mounted) return;
     showLoadingScreen(context: context, message: "Logging in...");
+    Future.delayed(const Duration(seconds: 2));
     var response = await http.post(url, body: {
       "emailoruser": usernameTextController.text,
       "password": passwordTextController.text,
     }).timeout(const Duration(seconds: 5), onTimeout: () {
+      Navigator.pop(context);
       return http.Response("Connection timeout", 408);
     }).onError((error, stackTrace) => http.Response("Error", 404));
     if (context.mounted) {
@@ -72,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
             backgroundColor: theme.colorScheme.primary,
           ),
         );
+        Navigator.pop(context);
       } else {
         removepassword;
         ScaffoldMessenger.of(context).showSnackBar(
@@ -299,15 +302,19 @@ class _LoginPageState extends State<LoginPage> {
                                               activeColor: theme.colorScheme.onPrimary,
                                               checkColor: theme.colorScheme.primary,
                                             ),
-                                            const Text(
+                                            Text(
                                               "Remember me",
-                                              style: TextStyle(fontSize: 11),
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                color: theme.colorScheme.onPrimaryContainer,
+                                              ),
                                             ),
                                           ],
                                         ),
                                         TextButton(
                                           child: Text(
                                             "Forgot password?",
+                                            overflow: TextOverflow.fade,
                                             style: TextStyle(
                                                 fontSize: 11, color: theme.colorScheme.secondary),
                                           ),

@@ -49,33 +49,32 @@ class _ContentWidgetState extends State<ContentWidget> {
     setState(() {
       loadingText = "Loading...";
     });
-    var response = await http.get(
+    http.get(
       Uri.parse("$api$userDashboardRoute"),
       headers: {
         "Authorization": "Bearer $publicToken",
       },
-    );
-    debugPrint(response.body);
-    debugPrint(response.statusCode.toString());
-    if (response.statusCode == 200) {
-      debugPrint("Get Success");
-      var resJson = await json.decode(response.body);
-      setState(() {
-        dashboardContent = resJson;
-        isLoading = false;
-      });
-    } else {
-      if (response.statusCode == 403) {
-        if (!context.mounted) {
-          return;
+    ).then((response) async {
+      if (response.statusCode == 200) {
+        debugPrint("Get Success");
+        var resJson = await json.decode(response.body);
+        setState(() {
+          dashboardContent = resJson;
+          isLoading = false;
+        });
+      } else {
+        if (response.statusCode == 403) {
+          if (!context.mounted) {
+            return;
+          }
+          requestNewToken(context);
         }
-        requestNewToken(context);
+        setState(() {
+          isLoading = true;
+          loadingText = "Error: ${response.statusCode}. Reloading...";
+        });
       }
-      setState(() {
-        isLoading = true;
-        loadingText = "Error: ${response.statusCode}. Reloading...";
-      });
-    }
+    }).onError((error, stackTrace) => null);
   }
 
   @override
