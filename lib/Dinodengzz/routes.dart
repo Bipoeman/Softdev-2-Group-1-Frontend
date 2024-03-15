@@ -17,24 +17,20 @@ import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 import 'package:ruam_mitt/Dinodengzz/spacedengzz.dart';
 
 class GameRoutes extends FlameGame
-    with
-        HasKeyboardHandlerComponents,
-        DragCallbacks,
-        HasCollisionDetection,
-        PanDetector {
+    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection, PanDetector {
   List<String> levelNames = ['Level-01', 'Level-02', 'Level-03', 'Level-04'];
-  String finalBoss = 'FinalBoss.wav';
-  String gameOver = 'Over.wav';
-  String startGame = 'Start_Screen.wav';
-  String boss = 'Boss.wav';
-  String gameBGM = 'Bgm.wav';
-  String jumpSfx = 'Deng_Suu.wav';
-  String collectSfx = 'Collect.wav';
-  String shootSfx = 'laserShoot.wav';
-  String hitSfx = 'Hit.wav';
-  String hitStarSfx = 'StarHit.wav';
-  String clearSFX = 'Disappear.wav';
-  String ktSFX = 'KT.wav';
+  String finalBoss = 'FinalBoss.mp3';
+  String gameOver = 'Over.mp3';
+  String startGame = 'Start_Screen.mp3';
+  String boss = 'Boss.mp3';
+  String gameBGM = 'Bgm.mp3';
+  String jumpSfx = 'Deng_Suu.mp3';
+  String collectSfx = 'Collect.mp3';
+  String shootSfx = 'laserShoot.mp3';
+  String hitSfx = 'Hit.mp3';
+  String hitStarSfx = 'StarHit.mp3';
+  String clearSFX = 'Disappear.mp3';
+  String ktSFX = 'KT.mp3';
   bool playSounds = true;
   late bool playDialog = true;
   late double masterVolume = 1.0;
@@ -68,13 +64,12 @@ class GameRoutes extends FlameGame
         sfxVolume: sfxVolume,
       ),
     ),
-    LevelSelectionScreen.id: OverlayRoute((context, game) =>
-        LevelSelectionScreen(
-            levelNames: levelNames,
-            onLevelSelected: _startLevel,
-            onBackPressed: _popRoute,
-            onTutorialPressed: () => _routeById(TutorialScreen.id),
-            onBossPressed: () => startBoss())),
+    LevelSelectionScreen.id: OverlayRoute((context, game) => LevelSelectionScreen(
+        levelNames: levelNames,
+        onLevelSelected: _startLevel,
+        onBackPressed: _popRoute,
+        onTutorialPressed: () => _routeById(TutorialScreen.id),
+        onBossPressed: () => startBoss())),
     PauseMenu.id: OverlayRoute(
       (context, game) => PauseMenu(
         onResumePressed: _resumeGame,
