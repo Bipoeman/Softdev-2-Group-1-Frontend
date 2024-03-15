@@ -109,7 +109,7 @@ class _HomePageV2State extends State<HomePageV2> {
                         icon: Icon(
                           Icons.wifi_off,
                           color: customThemes.customColors["onEvenContainer"]!.withOpacity(0.75),
-                          size: 24,
+                          size: 48,
                         ),
                         title: Text(
                           "Failed to Get User Info. Exiting...",
