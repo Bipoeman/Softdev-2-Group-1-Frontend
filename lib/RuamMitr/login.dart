@@ -26,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   late SharedPreferences removepassword;
 
   Future<void> sendLoginRequest() async {
+    if (!context.mounted) return;
     showLoadingScreen(context: context, message: "Logging in...");
     var response = await http.post(url, body: {
       "emailoruser": usernameTextController.text,
