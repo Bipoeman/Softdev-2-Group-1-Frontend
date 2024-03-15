@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:ruam_mitt/RuamMitr/Component/loading_screen.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,38 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   late SharedPreferences removepassword;
 
   Future<void> sendLoginRequest() async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        CustomThemes customThemes = ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
-        ThemeData theme = customThemes.themeData;
-        return PopScope(
-          canPop: false,
-          child: AlertDialog(
-            backgroundColor: Colors.transparent,
-            surfaceTintColor: Colors.transparent,
-            title: Text(
-              "Logging in...",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: customThemes.customColors["onContainer"],
-                fontFamily: customThemes.themeData.textTheme.bodyLarge!.fontFamily,
-                fontSize: 20,
-              ),
-            ),
-            content: SizedBox(
-              height: 50,
-              width: 50,
-              child: Center(
-                child: CircularProgressIndicator(
-                  color: theme.colorScheme.primary,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+    showLoadingScreen(context: context, message: "Logging in...");
     var response = await http.post(url, body: {
       "emailoruser": usernameTextController.text,
       "password": passwordTextController.text,
