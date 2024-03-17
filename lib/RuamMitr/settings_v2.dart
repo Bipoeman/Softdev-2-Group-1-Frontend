@@ -453,6 +453,7 @@ class _SettingsWidgetV2State extends State<SettingsWidgetV2> {
                                   isOnceLogin = true;
                                   publicToken = "";
                                   profileData = {};
+                                  timeoutCount = 0;
                                   if (dashboardTimer != null) {
                                     dashboardTimer!.cancel();
                                   }

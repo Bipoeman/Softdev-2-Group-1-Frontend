@@ -133,6 +133,7 @@ class _HomePageV2State extends State<HomePageV2> {
                 profileData = {};
                 isDashboardTimerActive = false;
                 currentActiveTimer = 0;
+                timeoutCount = 0;
                 if (context.mounted) {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     loginPageRoute,
