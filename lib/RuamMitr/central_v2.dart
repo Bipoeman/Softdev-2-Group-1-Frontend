@@ -79,7 +79,7 @@ class _HomePageV2State extends State<HomePageV2> {
                   (res) {
                     if (res.statusCode == 200) {
                       profileData = jsonDecode(res.body);
-                      if (timeoutCount != 0) {
+                      if (timeoutCount > 1) {
                         Navigator.pop(context);
                         timeoutCount = 0;
                       }
