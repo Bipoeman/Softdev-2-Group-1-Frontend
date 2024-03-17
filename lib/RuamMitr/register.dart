@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ruam_mitt/RuamMitr/Component/loading_screen.dart';
 import 'package:ruam_mitt/RuamMitr/Component/frequent_widget/custom_text_field.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/global_const.dart';
@@ -195,6 +196,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void _registerAccount() async {
+    showLoadingScreen(context: context, message: "Registering...");
     ThemeData theme = Theme.of(context);
     var response = await http.post(
       Uri.parse("$api$registerPageRoute"),
@@ -205,7 +207,6 @@ class _RegisterPageState extends State<RegisterPage> {
         'password': passwordTextController.text,
       },
     );
-
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -234,6 +235,7 @@ class _RegisterPageState extends State<RegisterPage> {
           backgroundColor: theme.colorScheme.primary,
         ),
       );
+      Navigator.pop(context);
     }
   }
 

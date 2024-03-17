@@ -5,10 +5,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:ruam_mitt/RuamMitr/Component/loading_screen.dart';
 import 'package:ruam_mitt/RuamMitr/Component/theme.dart';
 import 'package:ruam_mitt/RuamMitr/home_v2.dart';
 import 'package:ruam_mitt/RuamMitr/profile_v2.dart';
@@ -17,6 +19,7 @@ import 'package:ruam_mitt/global_const.dart';
 import 'package:ruam_mitt/global_var.dart';
 import 'package:http/http.dart' as http;
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageV2 extends StatefulWidget {
   const HomePageV2({super.key});
@@ -56,19 +59,95 @@ class _HomePageV2State extends State<HomePageV2> {
     // debugPrint("Home Ruammitr InitState");
     Uri uri = Uri.parse("$api$userDataRequestRoute");
     setState(() {});
-    http.get(uri, headers: {"Authorization": "Bearer $publicToken"}).then((http.Response res) {
-      profileData = jsonDecode(res.body);
-      if (!isDashboardTimerActive) {
-        isDashboardTimerActive = true;
-        dashboardTimer = Timer.periodic(
-          const Duration(seconds: 60),
-          (timer) {
-            currentDashboardTimer++;
-          },
-        );
-      }
-      setState(() {});
-    });
+    http.get(
+      uri,
+      headers: {"Authorization": "Bearer $publicToken"},
+    ).then(
+      (http.Response res) {
+        profileData = jsonDecode(res.body);
+        if (!isDashboardTimerActive) {
+          isDashboardTimerActive = true;
+          dashboardTimer = Timer.periodic(
+            const Duration(seconds: 5),
+            (timer) async {
+              currentActiveTimer++;
+              try {
+                await http.get(
+                  Uri.parse("$api$userDataRequestRoute"),
+                  headers: {"Authorization": "Bearer $publicToken"},
+                ).then(
+                  (res) {
+                    if (res.statusCode == 200) {
+                      profileData = jsonDecode(res.body);
+                      if (timeoutCount > 1) {
+                        Navigator.pop(context);
+                        timeoutCount = 0;
+                      }
+                    } else {
+                      timeoutCount++;
+                    }
+                  },
+                );
+              } catch (e) {
+                debugPrint(e.toString());
+                timeoutCount++;
+              }
+              if (!context.mounted) return;
+              if (timeoutCount == 2) {
+                showLoadingScreen(context: context, message: "Getting User Info.");
+              } else if (timeoutCount == 3) {
+                Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    CustomThemes customThemes =
+                        ThemesPortal.appThemeFromContext(context, "RuamMitr")!;
+                    return PopScope(
+                      canPop: false,
+                      child: AlertDialog(
+                        backgroundColor: customThemes.customColors["evenContainer"],
+                        icon: Icon(
+                          Icons.wifi_off,
+                          color: customThemes.customColors["onEvenContainer"]!.withOpacity(0.75),
+                          size: 48,
+                        ),
+                        title: Text(
+                          "Failed to Get User Info. Exiting...",
+                          overflow: TextOverflow.fade,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: customThemes.customColors["onevenContainer"],
+                            fontFamily: customThemes.themeData.textTheme.bodyLarge!.fontFamily,
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              } else if (timeoutCount > 3) {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setBool("isChecked", false);
+                isOnceLogin = true;
+                publicToken = "";
+                profileData = {};
+                isDashboardTimerActive = false;
+                currentActiveTimer = 0;
+                timeoutCount = 0;
+                if (context.mounted) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    loginPageRoute,
+                    (Route<dynamic> route) => false,
+                  );
+                }
+                timer.cancel();
+              }
+            },
+          );
+        }
+        setState(() {});
+      },
+    );
   }
 
   void _showConfirmExit() {

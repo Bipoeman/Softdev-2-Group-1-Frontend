@@ -331,6 +331,7 @@ class ClientSettingsWidget extends StatelessWidget {
                     "Reset All Settings to Default",
                     style: theme.textTheme.titleLarge!.copyWith(
                       color: customTheme.customColors["onContainer"]!,
+                      fontSize: 14,
                     ),
                   ),
                 ],

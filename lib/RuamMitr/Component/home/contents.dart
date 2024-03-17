@@ -38,7 +38,7 @@ class _ContentWidgetState extends State<ContentWidget> {
 
   Timer startDashboardTimer() {
     return Timer.periodic(
-      const Duration(seconds: 5),
+      const Duration(seconds: 10),
       (timer) {
         getDashboardContent();
       },
@@ -49,33 +49,32 @@ class _ContentWidgetState extends State<ContentWidget> {
     setState(() {
       loadingText = "Loading...";
     });
-    var response = await http.get(
+    http.get(
       Uri.parse("$api$userDashboardRoute"),
       headers: {
         "Authorization": "Bearer $publicToken",
       },
-    );
-    debugPrint(response.body);
-    debugPrint(response.statusCode.toString());
-    if (response.statusCode == 200) {
-      debugPrint("Get Success");
-      var resJson = await json.decode(response.body);
-      setState(() {
-        dashboardContent = resJson;
-        isLoading = false;
-      });
-    } else {
-      if (response.statusCode == 403) {
-        if (!context.mounted) {
-          return;
+    ).then((response) async {
+      if (response.statusCode == 200) {
+        debugPrint("Get Success");
+        var resJson = await json.decode(response.body);
+        setState(() {
+          dashboardContent = resJson;
+          isLoading = false;
+        });
+      } else {
+        if (response.statusCode == 403) {
+          if (!context.mounted) {
+            return;
+          }
+          requestNewToken(context);
         }
-        requestNewToken(context);
+        setState(() {
+          isLoading = true;
+          loadingText = "Error: ${response.statusCode}. Reloading...";
+        });
       }
-      setState(() {
-        isLoading = true;
-        loadingText = "Error: ${response.statusCode}. Reloading...";
-      });
-    }
+    }).onError((error, stackTrace) => null);
   }
 
   @override
@@ -157,7 +156,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                               ),
                             ),
                             Text(
-                              currentDashboardTimer.toString(),
+                              (currentActiveTimer ~/ 12).toString(),
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -178,8 +177,8 @@ class _ContentWidgetState extends State<ContentWidget> {
                       InkWell(
                         onTap: () async {
                           Event event = Event(
-                            title: "RuamMitr",
-                            description: "Time Active: $currentDashboardTimer minutes",
+                            title: "RuamMitr First Time",
+                            description: "Time Active: ${currentActiveTimer ~/ 12} minutes",
                             location: "Thailand",
                             startDate: DateTime.parse(dashboardContent["user_info"]["birthday"]),
                             endDate: DateTime.parse(dashboardContent["user_info"]["birthday"]),
@@ -193,12 +192,12 @@ class _ContentWidgetState extends State<ContentWidget> {
                             Icon(
                               Icons.date_range,
                               color: customTheme.customColors["onEvenContainer"],
-                              size: 24,
+                              size: 20,
                             ),
                             Text(
                               "Date of Creation",
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 10,
                                 fontWeight: FontWeight.bold,
                                 color: customTheme.customColors["onEvenContainer"],
                               ),
@@ -208,7 +207,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                                   "Do I live in the simulation?",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 10,
                                 fontWeight: FontWeight.normal,
                                 color: customTheme.customColors["onEvenContainer"],
                               ),
