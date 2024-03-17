@@ -14,7 +14,6 @@ import 'package:ruam_mitt/Restroom/review.dart';
 import 'package:ruam_mitt/Restroom/addrestroom.dart';
 import 'package:ruam_mitt/Restroom/report.dart';
 import 'package:ruam_mitt/Restroom/restroom.dart';
-import 'package:ruam_mitt/RuamMitr/InternetControl/injection.dart';
 import 'package:ruam_mitt/RuamMitr/central_v2.dart';
 import 'package:ruam_mitt/RuamMitr/change_password.dart';
 import 'package:ruam_mitt/RuamMitr/login.dart';
@@ -54,7 +53,6 @@ void main() {
         child: const SuperApp(),
       ),
     );
-    DependencyInjection.init();
   });
 }
 
