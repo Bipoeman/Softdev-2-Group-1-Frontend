@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/pause_button.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
+import 'package:flutter/services.dart';
 
 class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
   SpaceHud(this.camWidth, this.camHeight);
@@ -16,6 +17,7 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
 
   final JumpButton _jumpButtonLeft = JumpButton();
   final JumpButton _jumpButtonRight = JumpButton();
+  final keyboardInstance = HardwareKeyboard.instance;
 
   final _playerLife = TextComponent(
     text: '\u2665×3',
@@ -38,8 +40,7 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
     _jumpButtonRight.position.setValues(camWidth, camHeight * 0.9);
     _jumpButtonRight.angle = -150;
     _jumpButtonRight.flipHorizontally();
-    _pauseButton.position
-        .setValues(camWidth - (camWidth * 0.12), camHeight * 0.025);
+    _pauseButton.position.setValues(camWidth - (camWidth * 0.12), camHeight * 0.025);
     _pauseButton.size.setValues(camWidth * 0.1, camWidth * 0.08);
     _playerLife.position.setValues((camWidth * 0.1), camHeight * 0.04);
 
@@ -50,6 +51,17 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
     _playerLife.text = '\u2665×$count';
     moveLeft = _jumpButtonLeft.hasmove;
     moveRight = _jumpButtonRight.hasmove;
+
+    if (keyboardInstance.logicalKeysPressed.isNotEmpty) {
+      if (keyboardInstance.isLogicalKeyPressed(LogicalKeyboardKey.keyA)) {
+        moveLeft = true;
+      } else if (keyboardInstance.isLogicalKeyPressed(LogicalKeyboardKey.keyD)) {
+        moveRight = true;
+      } else {
+        moveLeft = false;
+        moveRight = false;
+      }
+    }
   }
 
   void updateEnemyHealth(double percentage) {
@@ -72,20 +84,16 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
     canvas.drawRect(Rect.fromLTWH(x, y, barWidth, game.size.y * 0.7), bgPaint);
 
     canvas.drawRect(
-        Rect.fromLTWH(
-            x, y + (game.size.y * 0.7 - barHeight), barWidth, barHeight),
-        healthPaint);
+        Rect.fromLTWH(x, y + (game.size.y * 0.7 - barHeight), barWidth, barHeight), healthPaint);
 
     final double textX = x + barWidth / 2;
     // Adjusting textY to position the text below the health bar
-    final double textY =
-        y + (game.size.y * 0.7) + 10; // Adjust the 10 as needed
+    final double textY = y + (game.size.y * 0.7) + 10; // Adjust the 10 as needed
 
     canvas.save();
     canvas.translate(textX, textY);
 
-    const textStyle =
-        TextStyle(color: Colors.white, fontSize: 22, fontFamily: 'Kanit');
+    const textStyle = TextStyle(color: Colors.white, fontSize: 22, fontFamily: 'Kanit');
     final textSpan = TextSpan(
       text: '${enemyHealthPercentage * 100 ~/ 1}%',
       style: textStyle,
@@ -95,8 +103,7 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
       textDirection: TextDirection.ltr,
     );
     textPainter.layout(minWidth: 0, maxWidth: barHeight);
-    textPainter.paint(
-        canvas, Offset(-textPainter.width / 2, -textPainter.height / 2));
+    textPainter.paint(canvas, Offset(-textPainter.width / 2, -textPainter.height / 2));
 
     canvas.restore();
   }
