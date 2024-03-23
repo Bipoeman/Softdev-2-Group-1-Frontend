@@ -41,10 +41,6 @@ class GameRoutes extends FlameGame
     StartScreen.id: OverlayRoute(
       (context, game) => StartScreen(
           onLevelSelectionPressed: () => _routeById(LevelSelectionScreen.id),
-          onExitPressed: () {
-            FlameAudio.bgm.stop();
-            navigator?.pop(context);
-          },
           onSettingPressed: () {
             FlameAudio.bgm.pause();
             _routeById(Settings.id);

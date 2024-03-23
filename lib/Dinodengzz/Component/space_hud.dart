@@ -40,8 +40,8 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
     _jumpButtonRight.position.setValues(camWidth, camHeight * 0.9);
     _jumpButtonRight.angle = -150;
     _jumpButtonRight.flipHorizontally();
-    _pauseButton.position.setValues(camWidth - (camWidth * 0.12), camHeight * 0.025);
-    _pauseButton.size.setValues(camWidth * 0.1, camWidth * 0.08);
+    _pauseButton.position.setValues(camWidth - 80, 24);
+    _pauseButton.size.setValues(24, 24);
     _playerLife.position.setValues((camWidth * 0.1), camHeight * 0.04);
 
     addAll([_playerLife, _pauseButton, _jumpButtonLeft, _jumpButtonRight]);
@@ -75,7 +75,7 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
     final Paint bgPaint = Paint()..color = Colors.grey;
     final Paint healthPaint = Paint()..color = Colors.red;
 
-    final double barWidth = game.size.x / 14;
+    const double barWidth = 40;
     final double barHeight = game.size.y * 0.7 * enemyHealthPercentage;
 
     final double x = camWidth - (camWidth * 0.025) - barWidth;

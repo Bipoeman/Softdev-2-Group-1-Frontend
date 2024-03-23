@@ -1,59 +1,52 @@
 import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
-  final VoidCallback onLevelSelectionPressed;
-  final VoidCallback onExitPressed;
-  final VoidCallback onSettingPressed;
+  final VoidCallback? onLevelSelectionPressed;
+  final VoidCallback? onExitPressed;
+  final VoidCallback? onSettingPressed;
 
   const StartScreen({
     super.key,
-    required this.onLevelSelectionPressed,
-    required this.onExitPressed,
-    required this.onSettingPressed,
+    this.onLevelSelectionPressed,
+    this.onExitPressed,
+    this.onSettingPressed,
   });
 
   static const id = 'StartScreen';
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: [
-          FractionallySizedBox(
-            alignment: Alignment.center,
-            widthFactor: 1,
+          SizedBox(
+            width: size.width,
+            height: size.height,
             child: Image.asset(
               "assets/images/DinoDengzz Icon/Plain background.png",
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height * 0.047),
+              padding: const EdgeInsets.only(bottom: 20),
               child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.35,
+                width: 300,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     CustomIconButton(
-                      imagePath:
-                          "assets/images/DinoDengzz Icon/Start button.png",
-                      onPressed: onLevelSelectionPressed,
+                      imagePath: "assets/images/DinoDengzz Icon/Start button.png",
+                      onPressed: onLevelSelectionPressed ?? () {},
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.06),
                     CustomIconButton(
-                      imagePath:
-                          "assets/images/DinoDengzz Icon/Setting button.png",
-                      onPressed: onSettingPressed,
+                      imagePath: "assets/images/DinoDengzz Icon/Setting button.png",
+                      onPressed: onSettingPressed ?? () {},
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-                    CustomIconButton(
-                      imagePath:
-                          "assets/images/DinoDengzz Icon/Exit button.png",
-                      onPressed: onExitPressed,
-                    ),
                   ],
                 ),
               ),

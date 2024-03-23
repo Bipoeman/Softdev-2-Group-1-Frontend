@@ -41,12 +41,12 @@ class SpaceDengzz extends Component with HasGameRef<GameRoutes>, DragCallbacks {
   FutureOr<void> onLoad() async {
     await Flame.device.fullScreen();
     await Flame.device.setPortrait();
-    double screenWidth = game.size.y > game.size.x ? game.size.x : game.size.y;
-    double screenHeight = game.size.y > game.size.x ? game.size.y : game.size.x;
+    double screenWidth = game.size.x;
+    double screenHeight = game.size.y;
     hud = SpaceHud(screenWidth, screenHeight);
     playerShip.position = Vector2(screenWidth * 0.469, screenHeight * 0.869);
     playerShip.size = Vector2.all(64);
-    boss.position = Vector2(screenWidth * 0.33, screenHeight * 0.069);
+    boss.position = Vector2(screenWidth * 0.469, screenHeight * 0.069);
     bullet = BulletManager(playerShip.position, playerShip.gameOver);
     background = ParallaxComponent(
       parallax: await gameRef.loadParallax(
