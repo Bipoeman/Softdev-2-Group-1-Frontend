@@ -43,7 +43,6 @@ class GameRoutes extends FlameGame
           onLevelSelectionPressed: () => _routeById(LevelSelectionScreen.id),
           onExitPressed: () {
             FlameAudio.bgm.stop();
-            Flame.device.setPortraitUpOnly();
             navigator?.pop(context);
           },
           onSettingPressed: () {

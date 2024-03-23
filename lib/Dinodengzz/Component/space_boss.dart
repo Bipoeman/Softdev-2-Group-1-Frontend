@@ -9,7 +9,6 @@ import 'package:ruam_mitt/Dinodengzz/Component/custom_hitbox.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/space_bullet.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/space_kuayteaw.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
-import 'package:ruam_mitt/Restroom/Component/loading_screen.dart';
 
 enum BossState {
   phase0,
@@ -24,8 +23,7 @@ enum BossState {
   dissappering,
 }
 
-class Boss extends SpriteAnimationGroupComponent
-    with HasGameRef<GameRoutes>, CollisionCallbacks {
+class Boss extends SpriteAnimationGroupComponent with HasGameRef<GameRoutes>, CollisionCallbacks {
   Boss();
 
   late final SpriteAnimation phase0;
@@ -69,15 +67,11 @@ class Boss extends SpriteAnimationGroupComponent
     phase2 = _spriteAnimation('Daddy Patrick Phase 2', 9, 0.25);
     phase3 = _spriteAnimation('Daddy Patrick Phase 3', 3, 0.5);
     phase4 = _spriteAnimation('Patrick Final Form', 3, 0.5);
-    hitAnimation = _spriteAnimation('Patrick Hit Damage', 3, 0.08)
+    hitAnimation = _spriteAnimation('Patrick Hit Damage', 3, 0.08)..loop = false;
+    transformedAnimation = _spriteAnimation('Patrick Hit Next Stage', 13, 0.08)..loop = false;
+    finalformedAnimation = _spriteAnimation('Patrick Final Transforming 1', 4, 0.05)..loop = false;
+    finalfinishedAnimation = _spriteAnimation('Patrick Final Transforming 2', 16, 0.05)
       ..loop = false;
-    transformedAnimation = _spriteAnimation('Patrick Hit Next Stage', 13, 0.08)
-      ..loop = false;
-    finalformedAnimation =
-        _spriteAnimation('Patrick Final Transforming 1', 4, 0.05)..loop = false;
-    finalfinishedAnimation =
-        _spriteAnimation('Patrick Final Transforming 2', 16, 0.05)
-          ..loop = false;
     dissappearingAnimation = _speacialspriteAnimation('Desappearing', 8, 0.025);
     animations = {
       BossState.phase0: phase0,
@@ -102,8 +96,7 @@ class Boss extends SpriteAnimationGroupComponent
             amount: amount, stepTime: stepTime, textureSize: Vector2.all(120)));
   }
 
-  SpriteAnimation _speacialspriteAnimation(
-      String state, int amount, double stepTime) {
+  SpriteAnimation _speacialspriteAnimation(String state, int amount, double stepTime) {
     return SpriteAnimation.fromFrameData(
       gameRef.images.fromCache('Main Characters/$state (96x96).png'),
       SpriteAnimationData.sequenced(
@@ -116,8 +109,7 @@ class Boss extends SpriteAnimationGroupComponent
   }
 
   @override
-  Future<void> onCollisionStart(
-      Set<Vector2> intersectionPoints, PositionComponent other) async {
+  Future<void> onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) async {
     if (other is Bullet) lifePoint -= 3;
     if (other is Kuayteaw) {
       lifePoint -= 250;
@@ -201,8 +193,7 @@ class Boss extends SpriteAnimationGroupComponent
             backgroundColor: const Color.fromARGB(219, 255, 192, 136),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
-              side: const BorderSide(
-                  width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+              side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
             ),
             contentPadding: const EdgeInsets.all(24.0),
             title: Text(
@@ -246,10 +237,7 @@ class Boss extends SpriteAnimationGroupComponent
                       },
                       child: const Text(
                         "แล้วนายเป็นใครอะ",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Kanit',
-                            fontSize: 20),
+                        style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                       ),
                     ),
                   ),
@@ -263,10 +251,7 @@ class Boss extends SpriteAnimationGroupComponent
                       },
                       child: const Text(
                         "นายไม่มาสู้เองละ",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Kanit',
-                            fontSize: 20),
+                        style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                       ),
                     ),
                   ),
@@ -280,10 +265,7 @@ class Boss extends SpriteAnimationGroupComponent
                       },
                       child: const Text(
                         "ทุกอย่าง... จบลงแล้วใช่มั้ย",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Kanit',
-                            fontSize: 20),
+                        style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                       ),
                     ),
                   ),
@@ -294,8 +276,7 @@ class Boss extends SpriteAnimationGroupComponent
     );
   }
 
-  void showMemeDialog(
-      BuildContext context, String title, List<String> contents, int index) {
+  void showMemeDialog(BuildContext context, String title, List<String> contents, int index) {
     if (index >= contents.length) {
       return;
     }
@@ -308,8 +289,7 @@ class Boss extends SpriteAnimationGroupComponent
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -364,8 +344,7 @@ class Boss extends SpriteAnimationGroupComponent
     );
   }
 
-  void showTrueDialog(
-      BuildContext context, String title, List<String> contents, int index) {
+  void showTrueDialog(BuildContext context, String title, List<String> contents, int index) {
     if (index >= contents.length) {
       return;
     }
@@ -378,8 +357,7 @@ class Boss extends SpriteAnimationGroupComponent
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
