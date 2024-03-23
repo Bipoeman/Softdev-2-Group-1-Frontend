@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/hud.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/level.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/player.dart';
@@ -102,8 +103,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -146,10 +146,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                     },
                     child: const Text(
                       "แล้วนายเป็นใคร",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Kanit',
-                          fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                     ),
                   ),
                 ),
@@ -163,10 +160,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                     },
                     child: const Text(
                       "รู้แล้วละ ขอบคุณ",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Kanit',
-                          fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                     ),
                   ),
                 ),
@@ -180,10 +174,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                     },
                     child: const Text(
                       "ไม่รู้เลย",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Kanit',
-                          fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                     ),
                   ),
                 ),
@@ -209,8 +200,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -247,8 +237,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogFirstLevel(
-                      context, title, contents, index + 1);
+                  showThirdDialogFirstLevel(context, title, contents, index + 1);
                 },
                 child: const Text(
                   "โอเค",
@@ -297,8 +286,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -338,8 +326,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 },
                 child: const Text(
                   "โอเค",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),
@@ -368,8 +355,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -410,8 +396,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 },
                 child: const Text(
                   "น่าจะนะ",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),
@@ -424,8 +409,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 },
                 child: const Text(
                   "นายเป็นใครนะ",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),
@@ -449,8 +433,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -487,13 +470,11 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogFirstLevel(
-                      context, title, contents, index + 1);
+                  showThirdDialogFirstLevel(context, title, contents, index + 1);
                 },
                 child: const Text(
                   "โอเค",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),
@@ -506,8 +487,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 },
                 child: const Text(
                   "ห่ะ! อะไรนะ",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),
@@ -538,8 +518,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -582,10 +561,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                     },
                     child: const Text(
                       "แล้วสรุปนายเป็นใครกันอะ",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Kanit',
-                          fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                     ),
                   ),
                 ),
@@ -599,10 +575,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                     },
                     child: const Text(
                       "ก็เฉยๆนะ",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Kanit',
-                          fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                     ),
                   ),
                 ),
@@ -616,10 +589,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                     },
                     child: const Text(
                       "กระจอกเกินอะบอกตรง",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Kanit',
-                          fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                     ),
                   ),
                 ),
@@ -645,8 +615,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -683,13 +652,11 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogThirdLevel(
-                      context, title, contents, index + 1);
+                  showThirdDialogThirdLevel(context, title, contents, index + 1);
                 },
                 child: const Text(
                   "จริงด้วย",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),
@@ -699,13 +666,11 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogThirdLevel(
-                      context, title, contents, index + 1);
+                  showThirdDialogThirdLevel(context, title, contents, index + 1);
                 },
                 child: const Text(
                   "กะจะให้ผ่านบ้างมั้ยห่ะ!",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),
@@ -729,8 +694,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -770,8 +734,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 },
                 child: const Text(
                   "โอเคเลย",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),
@@ -784,8 +747,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 },
                 child: const Text(
                   "ผู้พัฒนาอยากหาที่ระบายนะสิไม่ว่า",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),
@@ -817,8 +779,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -862,10 +823,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                     },
                     child: const Text(
                       "จะบอกยังว่าเป็นใคร",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Kanit',
-                          fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                     ),
                   ),
                 ),
@@ -879,10 +837,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                     },
                     child: const Text(
                       "หมายถึง 2 หรือเปล่า",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Kanit',
-                          fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                     ),
                   ),
                 ),
@@ -896,10 +851,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                     },
                     child: const Text(
                       "ง่ายเกิ้น",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Kanit',
-                          fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                     ),
                   ),
                 ),
@@ -925,8 +877,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -963,13 +914,11 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogFourthLevel(
-                      context, title, contents, index + 1);
+                  showThirdDialogFourthLevel(context, title, contents, index + 1);
                 },
                 child: const Text(
                   "ของจริง?",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),
@@ -979,13 +928,11 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogFourthLevel(
-                      context, title, contents, index + 1);
+                  showThirdDialogFourthLevel(context, title, contents, index + 1);
                 },
                 child: const Text(
                   "จิงโจ้หรือเปล่า?",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),
@@ -995,13 +942,11 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  showThirdDialogFourthLevel(
-                      context, title, contents, index + 1);
+                  showThirdDialogFourthLevel(context, title, contents, index + 1);
                 },
                 child: const Text(
                   "จริงใจได้มั้ย?",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),
@@ -1025,8 +970,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -1066,15 +1010,11 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                   child: TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      showFourthDialogFourthLevel(
-                          context, title, contents, index + 1);
+                      showFourthDialogFourthLevel(context, title, contents, index + 1);
                     },
                     child: const Text(
                       "ทำไมชื่อคุ้นๆจังนะ",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Kanit',
-                          fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                     ),
                   ),
                 ),
@@ -1084,15 +1024,11 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                   child: TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      showFourthDialogFourthLevel(
-                          context, title, contents, index + 1);
+                      showFourthDialogFourthLevel(context, title, contents, index + 1);
                     },
                     child: const Text(
                       "ไม่กลัวเลยจริงดิ",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Kanit',
-                          fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                     ),
                   ),
                 ),
@@ -1102,15 +1038,11 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                   child: TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      showFourthDialogFourthLevel(
-                          context, title, contents, index + 1);
+                      showFourthDialogFourthLevel(context, title, contents, index + 1);
                     },
                     child: const Text(
                       "โอโห้ PATRICK",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Kanit',
-                          fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                     ),
                   ),
                 ),
@@ -1136,8 +1068,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -1177,8 +1108,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 },
                 child: const Text(
                   "เข้ามาเลย!!",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),
@@ -1191,8 +1121,7 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
                 },
                 child: const Text(
                   "แล้วสู้ไงนะ",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                 ),
               ),
             ),

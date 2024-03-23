@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/jump_button.dart';
 import 'package:ruam_mitt/Dinodengzz/Component/pause_button.dart';
 import 'package:ruam_mitt/Dinodengzz/routes.dart';
+import 'package:flutter/services.dart';
 
 class Hud extends PositionComponent with HasGameReference<GameRoutes> {
   Hud(this.camWidth, this.camHeight);
@@ -12,15 +13,14 @@ class Hud extends PositionComponent with HasGameReference<GameRoutes> {
   final PauseButton _pauseButton = PauseButton();
   final double camWidth;
   final double camHeight;
+  final keyboardInstance = HardwareKeyboard.instance;
   late bool hasJumped = false;
   late double horizontalMovement = 0;
   late JoystickComponent joystick = JoystickComponent(
     knob: CircleComponent(
-        radius: 20,
-        paint: Paint()..color = const Color.fromARGB(205, 246, 241, 241)),
-    background: CircleComponent(
-        radius: 40,
-        paint: Paint()..color = const Color.fromARGB(123, 43, 41, 41)),
+        radius: 20, paint: Paint()..color = const Color.fromARGB(205, 246, 241, 241)),
+    background:
+        CircleComponent(radius: 40, paint: Paint()..color = const Color.fromARGB(123, 43, 41, 41)),
     anchor: Anchor.topCenter,
   );
 
@@ -65,6 +65,28 @@ class Hud extends PositionComponent with HasGameReference<GameRoutes> {
       default:
         horizontalMovement = 0;
         break;
+    }
+
+    if (keyboardInstance.logicalKeysPressed.isNotEmpty) {
+      if (keyboardInstance.isLogicalKeyPressed(
+        LogicalKeyboardKey.space,
+      )) {
+        hasJumped = true;
+      } else {
+        hasJumped = false;
+      }
+
+      if (keyboardInstance.isLogicalKeyPressed(
+        LogicalKeyboardKey.keyD,
+      )) {
+        horizontalMovement = 1;
+      } else if (keyboardInstance.isLogicalKeyPressed(
+        LogicalKeyboardKey.keyA,
+      )) {
+        horizontalMovement = -1;
+      } else {
+        horizontalMovement = 0;
+      }
     }
   }
 }
