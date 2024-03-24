@@ -13,6 +13,7 @@ class StartScreen extends StatelessWidget {
   });
 
   static const id = 'StartScreen';
+  final _scaleValue = 0.8;
 
   @override
   Widget build(BuildContext context) {
@@ -33,20 +34,33 @@ class StartScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: SizedBox(
-                width: 300,
+                width: 300 * _scaleValue,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    onLevelSelectionPressed == null
+                        ? const SizedBox()
+                        :
                     CustomIconButton(
                       imagePath: "assets/images/DinoDengzz Icon/Start button.png",
                       onPressed: onLevelSelectionPressed ?? () {},
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                    const SizedBox(height: 20),
+                    onSettingPressed == null
+                        ? const SizedBox()
+                        :
                     CustomIconButton(
                       imagePath: "assets/images/DinoDengzz Icon/Setting button.png",
                       onPressed: onSettingPressed ?? () {},
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                    const SizedBox(height: 20),
+                    onExitPressed == null
+                        ? const SizedBox()
+                        :
+                    CustomIconButton(
+                      imagePath: "assets/images/DinoDengzz Icon/Quit button 2.0.png",
+                      onPressed: onExitPressed ?? () {},
+                    ),
                   ],
                 ),
               ),
@@ -70,24 +84,22 @@ class CustomIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double buttonWidth = MediaQuery.of(context).size.width * 0.3;
-    double buttonHeight = MediaQuery.of(context).size.height * 0.11;
-
-    return SizedBox(
-      width: buttonWidth,
-      height: buttonHeight,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.zero,
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          shape: const BeveledRectangleBorder(),
-        ),
-        child: Image.asset(
-          imagePath,
-          fit: BoxFit.contain,
-          alignment: Alignment.center,
+    return IntrinsicWidth(
+      child: IntrinsicHeight(
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.zero,
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            shape: const BeveledRectangleBorder(),
+          ),
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.contain,
+            alignment: Alignment.center,
+          ),
         ),
       ),
     );

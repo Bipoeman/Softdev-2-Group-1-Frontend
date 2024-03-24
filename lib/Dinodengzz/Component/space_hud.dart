@@ -40,9 +40,9 @@ class SpaceHud extends PositionComponent with HasGameReference<GameRoutes> {
     _jumpButtonRight.position.setValues(camWidth, camHeight * 0.9);
     _jumpButtonRight.angle = -150;
     _jumpButtonRight.flipHorizontally();
-    _pauseButton.position.setValues(camWidth - 80, 24);
-    _pauseButton.size.setValues(24, 24);
-    _playerLife.position.setValues((camWidth * 0.1), camHeight * 0.04);
+    _pauseButton.position.setValues(camWidth - 50, 0);
+    _pauseButton.size.setValues(50, 50);
+    _playerLife.position.setValues(0, 25);
 
     addAll([_playerLife, _pauseButton, _jumpButtonLeft, _jumpButtonRight]);
   }

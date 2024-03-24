@@ -17,10 +17,6 @@ class _GameHomePageState extends State<MyGame> {
   void initState() {
     super.initState();
     game = GameRoutes();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
   }
 
   @override

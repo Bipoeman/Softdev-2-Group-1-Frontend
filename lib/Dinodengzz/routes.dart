@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart' as material;
+import 'package:flutter/services.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
-import 'package:get/get.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/gameover.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/levelcomplete.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/levelselect.dart';
@@ -15,6 +16,7 @@ import 'package:ruam_mitt/Dinodengzz/Screens/start.dart';
 import 'package:ruam_mitt/Dinodengzz/Screens/tutorial.dart';
 import 'package:ruam_mitt/Dinodengzz/dinodengzz.dart';
 import 'package:ruam_mitt/Dinodengzz/spacedengzz.dart';
+import 'package:ruam_mitt/Dinodengzz/Component/exit_dialog.dart';
 
 class GameRoutes extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection, PanDetector {
@@ -40,11 +42,23 @@ class GameRoutes extends FlameGame
   late final _routes = <String, Route>{
     StartScreen.id: OverlayRoute(
       (context, game) => StartScreen(
-          onLevelSelectionPressed: () => _routeById(LevelSelectionScreen.id),
-          onSettingPressed: () {
-            FlameAudio.bgm.pause();
-            _routeById(Settings.id);
-          }),
+        onLevelSelectionPressed: () => _routeById(LevelSelectionScreen.id),
+        onSettingPressed: () {
+          FlameAudio.bgm.pause();
+          _routeById(Settings.id);
+        },
+        onExitPressed: () {
+          material.showDialog(
+            context: context,
+            builder: (context) {
+              return ExitDialog(
+                onExitPressed: () {
+                SystemNavigator.pop();
+              }
+            );
+          });
+        },
+      ),
     ),
     Settings.id: OverlayRoute(
       (context, game) => Settings(
@@ -126,8 +140,8 @@ class GameRoutes extends FlameGame
 
   @override
   Future<void> onLoad() async {
-    await Flame.device.setLandscape();
     await Flame.device.fullScreen();
+    await Flame.device.setLandscape();
     FlameAudio.bgm.initialize();
     FlameAudio.bgm.play(startGame, volume: masterVolume * bgmVolume);
     await images.loadAllImages();
@@ -148,40 +162,44 @@ class GameRoutes extends FlameGame
   }
 
   void _startLevel(int levelIndex) {
-    _router.pop();
-    if (levelIndex < levelNames.length - 1) {
-      FlameAudio.bgm.play(gameBGM, volume: masterVolume * bgmVolume);
-    } else {
-      FlameAudio.bgm.play(boss, volume: masterVolume * bgmVolume);
-    }
-    _router.pushReplacement(
-      Route(
-        () => DinoDengzz(
-          levelIndex,
-          onPausePressed: pauseGame,
-          onLevelCompleted: showLevelCompleteMenu,
-          onGameOver: showRetryMenu,
-          key: ComponentKey.named(DinoDengzz.id),
+    Flame.device.setLandscape().then((value) {
+      _router.pop();
+      if (levelIndex < levelNames.length - 1) {
+        FlameAudio.bgm.play(gameBGM, volume: masterVolume * bgmVolume);
+      } else {
+        FlameAudio.bgm.play(boss, volume: masterVolume * bgmVolume);
+      }
+      _router.pushReplacement(
+        Route(
+          () => DinoDengzz(
+            levelIndex,
+            onPausePressed: pauseGame,
+            onLevelCompleted: showLevelCompleteMenu,
+            onGameOver: showRetryMenu,
+            key: ComponentKey.named(DinoDengzz.id),
+          ),
         ),
-      ),
-      name: DinoDengzz.id,
-    );
+        name: DinoDengzz.id,
+      );
+    });
   }
 
   void startBoss() {
-    _router.pop();
-    FlameAudio.bgm.stop();
-    _router.pushReplacement(
-      Route(
-        () => SpaceDengzz(
-          onPausePressed: pauseGame,
-          onLevelCompleted: showLevelCompleteBoss,
-          onGameOver: showRetryMenuvertical,
-          key: ComponentKey.named(SpaceDengzz.id),
+    Flame.device.setPortrait().then((value) {
+      _router.pop();
+      FlameAudio.bgm.play(finalBoss, volume: masterVolume * bgmVolume);
+      _router.pushReplacement(
+        Route(
+          () => SpaceDengzz(
+            onPausePressed: pauseGame,
+            onLevelCompleted: showLevelCompleteBoss,
+            onGameOver: showRetryMenuvertical,
+            key: ComponentKey.named(SpaceDengzz.id),
+          ),
         ),
-      ),
-      name: SpaceDengzz.id,
-    );
+        name: SpaceDengzz.id,
+      );
+    });
   }
 
   void _restartLevel() {
@@ -226,9 +244,9 @@ class GameRoutes extends FlameGame
   }
 
   Future<void> _exitToMainMenu() async {
-    await Flame.device.setLandscape();
     _resumeGame();
     FlameAudio.bgm.stop();
+    await Flame.device.setLandscape();
     _router.pushReplacementNamed(StartScreen.id);
     FlameAudio.bgm.play(startGame, volume: masterVolume * bgmVolume);
   }
@@ -239,7 +257,6 @@ class GameRoutes extends FlameGame
 
   Future<void> showLevelCompleteBoss() async {
     FlameAudio.bgm.stop();
-    await Flame.device.setLandscape();
     FlameAudio.bgm.play(boss, volume: masterVolume * bgmVolume);
     _router.pushNamed(LevelCompleteBoss.id);
   }

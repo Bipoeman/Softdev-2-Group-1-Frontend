@@ -39,14 +39,14 @@ class SpaceDengzz extends Component with HasGameRef<GameRoutes>, DragCallbacks {
 
   @override
   FutureOr<void> onLoad() async {
-    await Flame.device.fullScreen();
     await Flame.device.setPortrait();
+    await Flame.device.fullScreen();
     double screenWidth = game.size.x;
     double screenHeight = game.size.y;
     hud = SpaceHud(screenWidth, screenHeight);
-    playerShip.position = Vector2(screenWidth * 0.469, screenHeight * 0.869);
+    playerShip.position = Vector2(screenWidth * 0.5 - 16, screenHeight * 0.869);
     playerShip.size = Vector2.all(64);
-    boss.position = Vector2(screenWidth * 0.469, screenHeight * 0.069);
+    boss.position = Vector2(screenWidth * 0.5 - 60, screenHeight * 0.069);
     bullet = BulletManager(playerShip.position, playerShip.gameOver);
     background = ParallaxComponent(
       parallax: await gameRef.loadParallax(
@@ -101,8 +101,7 @@ class SpaceDengzz extends Component with HasGameRef<GameRoutes>, DragCallbacks {
           backgroundColor: const Color.fromARGB(219, 255, 192, 136),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: const BorderSide(
-                width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
+            side: const BorderSide(width: 16.0, color: Color.fromARGB(255, 70, 24, 6)),
           ),
           contentPadding: const EdgeInsets.all(24.0),
           title: Text(
@@ -143,17 +142,14 @@ class SpaceDengzz extends Component with HasGameRef<GameRoutes>, DragCallbacks {
                     onPressed: () {
                       Navigator.of(context).pop();
                       boss.current = BossState.phase1;
-                      FlameAudio.bgm.play(game.finalBoss,
-                          volume: game.masterVolume * game.bgmVolume);
+                      FlameAudio.bgm
+                          .play(game.finalBoss, volume: game.masterVolume * game.bgmVolume);
                       add(enemies);
                       add(bullet);
                     },
                     child: const Text(
                       "เข้ามาเลย!",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Kanit',
-                          fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontFamily: 'Kanit', fontSize: 20),
                     ),
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class Settings extends StatefulWidget {
   final VoidCallback? onBackPressed;
@@ -50,22 +51,30 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       body: Stack(
         children: [
-          FractionallySizedBox(
-            alignment: Alignment.center,
-            widthFactor: 1,
-            child: Image.asset(
-              "assets/images/DinoDengzz Icon/Sound setting no line and button.png",
-              fit: BoxFit.cover,
-            ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: const Color.fromARGB(255, 1, 12, 38),
           ),
           Align(
             alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 0.2),
+            child: Container(
+              padding: const EdgeInsets.only(top: 20),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.3),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                  const Text(
+                    'Master Volume',
+                    style: TextStyle(
+                      fontFamily: 'Sen',
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.06),
                   _buildSlider(
                     value: masterVolume,
                     onChanged: (value) {
@@ -77,7 +86,16 @@ class _SettingsState extends State<Settings> {
                       }
                     },
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.069),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                  const Text(
+                    'BGM Volume',
+                    style: TextStyle(
+                      fontFamily: 'Sen',
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.06),
                   _buildSlider(
                     value: bgmVolume,
                     onChanged: (value) {
@@ -89,7 +107,16 @@ class _SettingsState extends State<Settings> {
                       }
                     },
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.062),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                  const Text(
+                    'SFX Volume',
+                    style: TextStyle(
+                      fontFamily: 'Sen',
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.06),
                   _buildSlider(
                     value: sfxVolume,
                     onChanged: (value) {
@@ -101,6 +128,7 @@ class _SettingsState extends State<Settings> {
                       }
                     },
                   ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.06),
                 ],
               ),
             ),
@@ -111,8 +139,7 @@ class _SettingsState extends State<Settings> {
             top: MediaQuery.of(context).size.height * 0.02,
             right: MediaQuery.of(context).size.width * 0.02,
             child: Padding(
-              padding: EdgeInsets.only(
-                  right: MediaQuery.of(context).size.width * 0.01),
+              padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.01),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -153,10 +180,33 @@ class _SettingsState extends State<Settings> {
                   "assets/images/DinoDengzz Icon/White Back Button.png",
                 ),
                 iconSize: MediaQuery.of(context).size.width * 0.03,
-                padding:
-                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
               ),
             ],
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.all(20),
+            child: const Row(
+              children: [
+                Icon(
+                  Icons.settings,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                SizedBox(width: 10),
+                Text(
+                  'Sound Settings',
+                  style: TextStyle(
+                    fontFamily: 'Sen',
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -168,8 +218,7 @@ class _SettingsState extends State<Settings> {
     required ValueChanged<double> onChanged,
   }) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height * 0.005),
+      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.005),
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.667,
         child: SliderTheme(

@@ -40,7 +40,6 @@ class DinoDengzz extends Component with HasGameReference<GameRoutes> {
   @override
   FutureOr<void> onLoad() async {
     await Flame.device.fullScreen();
-    await Flame.device.setLandscape();
     _loadLevel();
     if (game.playDialog) {
       if (currentLevel == 0) showFirstLevelDialog(game.buildContext);
