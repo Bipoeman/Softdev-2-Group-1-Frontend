@@ -79,6 +79,7 @@ class SpaceDengzz extends Component with HasGameRef<GameRoutes>, DragCallbacks {
       playerShip.remainingLives++;
       initialBossHealth = currentBossHealth;
     }
+
     super.update(dt);
   }
 
