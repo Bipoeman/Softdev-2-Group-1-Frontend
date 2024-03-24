@@ -1,36 +1,29 @@
-name: deploy-frontend
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
-  workflow_dispatch:
-    
+    branches:
+      - DinoDengzz-only
 jobs:
-  docker_build_push_acr_frontend:
-    name: 'Docker Build and Push to ACR'
+  build-and-deploy:
     runs-on: ubuntu-latest
-    environment: production
-  
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    defaults:
-      run:
-        shell: bash
-  
+
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v4
-  
-    - name: 'Docker Login'
-      uses: azure/docker-login@v1
-      with:
-        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
-      
-    - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-        push: true
-        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/softdev2-frontend:latest
-      
+      - name: Checkout
+        uses: actions/checkout@v4.1.2
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2.14.0
+        with:
+          channel: 'DinoDengzz-only' 
+
+      - name: Build Flutter Web
+        run: |
+          flutter pub get
+          flutter build web --release
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3.9.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web/
